@@ -70,8 +70,8 @@ export const POST: APIRoute = async ({ request }) => {
       status: 302,
       headers: { Location: '/thank-you' },
     });
-  } catch (err) {
-    console.error('Form submission error:', err);
+  } catch (err: any) {
+    console.error('Form submission error:', err?.name, err?.message, err?.$metadata, err?.Code);
     return new Response(null, {
       status: 302,
       headers: { Location: '/thank-you?error=1' },
