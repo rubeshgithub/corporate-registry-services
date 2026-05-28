@@ -1,0 +1,15 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionIndex from '~/components/SectionIndex.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('articles');
+---
+<BaseLayout title="Articles — CRS Knowledge Hub">
+  <SectionIndex
+    title="Articles & Guides"
+    intro="Practical knowledge for Canadian business owners — how to file annual returns, get Corporate Profile Reports for QuickBooks Online verification, and stay compliant across every jurisdiction."
+    basePath="/articles"
+    entries={entries}
+  />
+</BaseLayout>

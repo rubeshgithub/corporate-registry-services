@@ -1,0 +1,31 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionIndex from '~/components/SectionIndex.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('incorporation');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Incorporation Service — Canada',
+  description: 'Federal and provincial incorporation service for Canadian corporations. Includes name search, Articles of Incorporation, minute book, and ongoing compliance support.',
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Incorporation',
+};
+---
+<BaseLayout
+  title="Incorporate a Company in Canada — Federal & Provincial | CRS"
+  description="Incorporate your business in Canada with CRS. We handle federal (CBCA) and all provincial incorporations — including name search, Articles of Incorporation, minute book setup, and lifetime good-standing support. Fast, professional, all-inclusive."
+  keywords="incorporate Canada, how to incorporate in Canada, federal incorporation Canada, Ontario incorporation, BC incorporation, Alberta incorporation, CBCA incorporation, incorporate a company Canada, Canadian corporation formation"
+  schema={schema}
+>
+  <SectionIndex
+    title="Incorporation Service"
+    intro="A streamlined, all-inclusive path to forming your Canadian corporation — federally or in any province or territory. Includes corporate name search, Articles of Incorporation, minute book, organizational resolutions, and lifetime good-standing support."
+    basePath="/incorporation"
+    entries={entries}
+    serviceLabel="Incorporation"
+  />
+</BaseLayout>

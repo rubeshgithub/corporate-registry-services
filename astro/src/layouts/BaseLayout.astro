@@ -1,0 +1,115 @@
+---
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import '~/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  canonical?: string;
+  schema?: object;
+}
+
+const {
+  title,
+  description = 'Corporate Registry Services — Canada\'s trusted specialists for incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports in all provinces and territories.',
+  keywords = 'corporate registry Canada, certificate of good standing Canada, annual return filing, incorporation Canada, corporate minute book, corporate profile report, CBCA, Ontario Business Registry',
+  canonical,
+  schema,
+} = Astro.props;
+
+const fullTitle =
+  title.includes('CRS') || title.includes('Corporate Registry')
+    ? title
+    : `${title} | CRS — Corporate Registry Services`;
+
+const canonicalUrl = canonical ?? Astro.url.href;
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Corporate Registry Services',
+  description: 'Canada\'s trusted corporate registry specialists providing incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports across all 13 Canadian jurisdictions.',
+  url: 'https://corporateregistryservices.ca',
+  email: 'hello@corporateregistryservices.ca',
+  openingHours: 'Mo-Su 00:00-23:59',
+  areaServed: { '@type': 'Country', name: 'Canada', identifier: 'CA' },
+  serviceType: ['Incorporation', 'Certificate of Good Standing', 'Annual Return Filing', 'Corporate Minute Book', 'Corporate Profile Report'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Corporate Registry Services',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Federal Incorporation', provider: 'CRS' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Certificate of Good Standing', provider: 'CRS' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Annual Return Filing', provider: 'CRS' } },
+    ],
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={keywords} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:site_name" content="CRS — Corporate Registry Services" />
+  <meta property="og:locale" content="en_CA" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Geo targeting (Canada) -->
+  <meta name="geo.region" content="CA" />
+  <meta name="geo.placename" content="Canada" />
+  <meta name="language" content="English" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Schema: LocalBusiness (every page) -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+  <!-- Page-specific schema (optional) -->
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+</head>
+<script is:inline>
+  // Apply saved theme before first paint to avoid flash
+  (function() {
+    const saved = localStorage.getItem('crs-theme');
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  })();
+</script>
+<body>
+  <Header />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+  <script>
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }),
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

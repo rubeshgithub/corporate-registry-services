@@ -1,0 +1,31 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionIndex from '~/components/SectionIndex.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('profile-reports');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Corporate Profile Report — Canada',
+  description: 'Official corporate profile reports for any Canadian corporation — names, status, directors, addresses, and filing history. Sourced directly from government registries.',
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Corporate Profile Report',
+};
+---
+<BaseLayout
+  title="Corporate Profile Reports Canada — Federal & All Provinces | CRS"
+  description="Order an official Canadian corporate profile report for any corporation. Includes directors, registered address, corporate status, and filing history — sourced directly from federal and provincial registries. Delivered as PDF in 3 hours. From $40."
+  keywords="corporate profile report Canada, corporate search Canada, NUANS report, Ontario corporate search, BC corporate registry search, Alberta corporate profile report, corporate status report Canada"
+  schema={schema}
+>
+  <SectionIndex
+    title="Corporate Profile Reports"
+    intro="Official, government-sourced records of any Canadian corporation — legal name, status, directors, registered address, and filing history. Used by lawyers, lenders, and due-diligence teams for banking, M&A, and cross-provincial transactions."
+    basePath="/profile-reports"
+    entries={entries}
+    serviceLabel="Corporate Profile Reports"
+  />
+</BaseLayout>

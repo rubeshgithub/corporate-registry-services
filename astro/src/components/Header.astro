@@ -1,0 +1,82 @@
+---
+const nav = [
+  { label: 'Services',    href: '/#services' },
+  { label: 'Why CRS',    href: '/#why' },
+  { label: 'Process',    href: '/#process' },
+  { label: 'Clients',    href: '/#testimonials' },
+];
+---
+
+<nav id="navbar">
+  <a href="/" class="logo">
+    <div class="logo-mark">
+      <!-- VelMark: ascending bars inside a pointed blade — logos-v4 direction -->
+      <svg viewBox="0 0 72 104" xmlns="http://www.w3.org/2000/svg" class="vel-mark">
+        <path d="M 36 2 C 60 30 68 50 68 80 L 68 100 L 4 100 L 4 80 C 4 50 12 30 36 2 Z"
+              fill="none" stroke="var(--gold)" stroke-width="3" stroke-linejoin="miter" stroke-miterlimit="6"/>
+        <line x1="36" y1="10" x2="36" y2="32" stroke="var(--gold)" stroke-width="1.4"/>
+        <rect x="18" y="78" width="6" height="14" class="vel-bar-body"/>
+        <rect x="27" y="68" width="6" height="24" class="vel-bar-body"/>
+        <rect x="36" y="56" width="6" height="36" class="vel-bar-body"/>
+        <rect x="45" y="40" width="6" height="52" fill="var(--gold)"/>
+        <line x1="10" y1="94" x2="62" y2="94" stroke="var(--gold)" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-crs">CRS</span>
+      <span class="logo-sub">Corporate Registry Services</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    {nav.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+    <li><a href="/guides">Guides</a></li>
+    <li><a href="/articles">Articles</a></li>
+    <li>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+        <!-- Sun (shown in dark mode) -->
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <!-- Moon (shown in light mode) -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </li>
+    <li><a href="/contact" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+
+  const applyTheme = (theme: string) => {
+    if (theme === 'light') {
+      html.setAttribute('data-theme', 'light');
+    } else {
+      html.removeAttribute('data-theme');
+    }
+    localStorage.setItem('crs-theme', theme);
+  };
+
+  toggle?.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  });
+</script>

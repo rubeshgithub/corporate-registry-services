@@ -1,0 +1,34 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageDetail from '~/components/PageDetail.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('profile-reports');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'profile-reports'> }
+const { entry } = Astro.props;
+
+const description = `Order your ${entry.data.title} online from CRS. Official record including directors, registered address, corporate status, and filing history — sourced directly from the government registry and delivered as PDF in 3 hours.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: entry.data.title,
+  description,
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Corporate Profile Report',
+  offers: { '@type': 'Offer', priceCurrency: 'CAD', availability: 'https://schema.org/InStock' },
+};
+---
+<BaseLayout
+  title={`${entry.data.title} | CRS — Official · 3-Hour Delivery`}
+  description={description}
+  keywords={`${entry.data.title}, corporate search, corporate registry, company search Canada`}
+  schema={schema}
+>
+  <PageDetail entry={entry} sectionLabel="Profile Reports" sectionHref="/profile-reports" />
+</BaseLayout>

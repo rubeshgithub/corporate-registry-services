@@ -1,0 +1,34 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageDetail from '~/components/PageDetail.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('incorporation');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'incorporation'> }
+const { entry } = Astro.props;
+
+const description = `Incorporate your business in Canada with CRS — ${entry.data.title}. All-inclusive service: name search, Articles of Incorporation, minute book, and organizational resolutions. Fast professional filing with lifetime good-standing support.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: entry.data.title,
+  description,
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Incorporation',
+  offers: { '@type': 'Offer', priceCurrency: 'CAD', availability: 'https://schema.org/InStock' },
+};
+---
+<BaseLayout
+  title={`${entry.data.title} | CRS — All-Inclusive · Fast Filing`}
+  description={description}
+  keywords={`${entry.data.title}, incorporate Canada, how to incorporate, corporation formation, Articles of Incorporation Canada`}
+  schema={schema}
+>
+  <PageDetail entry={entry} sectionLabel="Incorporation" sectionHref="/incorporation" />
+</BaseLayout>

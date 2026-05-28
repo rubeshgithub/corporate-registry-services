@@ -1,0 +1,31 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionIndex from '~/components/SectionIndex.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('good-standing');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Certificate of Good Standing — Canada',
+  description: 'Official Canadian certificates of good standing (certificate of status) for federal and all provincial corporations. Delivered by PDF in 3 hours.',
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Certificate of Good Standing',
+};
+---
+<BaseLayout
+  title="Certificate of Good Standing Canada — All Provinces & Federal | CRS"
+  description="Order a Certificate of Good Standing (Certificate of Status) for any Canadian corporation. CRS retrieves official certificates directly from federal and provincial registries — delivered as PDF in 3 hours. Available in all 13 jurisdictions."
+  keywords="certificate of good standing Canada, certificate of status Canada, Ontario certificate of good standing, BC certificate of good standing, Alberta certificate of status, federal certificate of good standing, CBCA good standing"
+  schema={schema}
+>
+  <SectionIndex
+    title="Certificates of Good Standing"
+    intro="Formal, government-issued proof that a corporation is legally registered, active, and compliant. Required for banking, financing, M&A transactions, extra-provincial registration, and due diligence — delivered as PDF in 3 hours."
+    basePath="/good-standing"
+    entries={entries}
+    serviceLabel="Good Standing Certificates"
+  />
+</BaseLayout>

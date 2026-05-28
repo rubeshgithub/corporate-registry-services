@@ -1,0 +1,31 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionIndex from '~/components/SectionIndex.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('minute-books');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Corporate Minute Book — Canada',
+  description: 'Corporate minute book preparation and maintenance for Canadian federal and provincial corporations. Includes all registers, share certificates, and resolutions.',
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Corporate Minute Book',
+};
+---
+<BaseLayout
+  title="Corporate Minute Books Canada — Federal & All Provinces | CRS"
+  description="Order a complete corporate minute book for your Canadian corporation. CRS delivers customised digital minute books with all required registers, share certificates, by-laws, and resolutions — compliant with CBCA and all provincial acts. From $49.99."
+  keywords="corporate minute book Canada, minute book Ontario, minute book BC, CBCA minute book, corporate records Canada, share register Canada, director register Canada, minute book preparation Canada"
+  schema={schema}
+>
+  <SectionIndex
+    title="Corporate Minute Books"
+    intro="Every Canadian corporation is legally required to maintain a complete and current minute book. CRS delivers customised digital minute books in editable Word and PDF — including all statutory registers, share certificates, by-laws, and resolutions. CBCA and provincially compliant."
+    basePath="/minute-books"
+    entries={entries}
+    serviceLabel="Minute Books"
+  />
+</BaseLayout>

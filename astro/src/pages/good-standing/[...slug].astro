@@ -1,0 +1,34 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageDetail from '~/components/PageDetail.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('good-standing');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'good-standing'> }
+const { entry } = Astro.props;
+
+const description = `Order your ${entry.data.title} online from CRS — Corporate Registry Services. Official government-sourced certificate delivered as PDF in 3 hours. Required for banking, financing, and due diligence across Canada.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: entry.data.title,
+  description,
+  provider: { '@type': 'ProfessionalService', name: 'Corporate Registry Services', url: 'https://corporateregistryservices.ca' },
+  areaServed: 'Canada',
+  serviceType: 'Certificate of Good Standing',
+  offers: { '@type': 'Offer', priceCurrency: 'CAD', availability: 'https://schema.org/InStock' },
+};
+---
+<BaseLayout
+  title={`${entry.data.title} | CRS — 3-Hour Delivery`}
+  description={description}
+  keywords={`${entry.data.title}, certificate of good standing, certificate of status Canada, corporate compliance`}
+  schema={schema}
+>
+  <PageDetail entry={entry} sectionLabel="Good Standing" sectionHref="/good-standing" />
+</BaseLayout>
