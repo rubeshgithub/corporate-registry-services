@@ -3,10 +3,10 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 
-const ses = new SESClient({ region: import.meta.env.AWS_REGION ?? 'ca-central-1' });
+const ses = new SESClient({ region: process.env.AWS_REGION ?? 'ca-central-1' });
 
-const FROM    = import.meta.env.SES_FROM    ?? 'support@corporateregistryservices.ca';
-const NOTIFY  = import.meta.env.NOTIFY_EMAIL ?? 'support@corporateregistryservices.ca';
+const FROM    = process.env.SES_FROM    ?? 'support@corporateregistryservices.ca';
+const NOTIFY  = process.env.NOTIFY_EMAIL ?? 'support@corporateregistryservices.ca';
 
 const FORM_LABELS: Record<string, string> = {
   'order-profile-report':  'Corporate Profile Report Order',
@@ -22,6 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const data   = await request.formData();
     const fields = Object.fromEntries(data.entries()) as Record<string, string>;
+    console.log('[submit] form received:', fields['form-name'], '| notify:', NOTIFY, '| from:', FROM, '| region:', process.env.AWS_REGION);
 
     const formName  = fields['form-name'] ?? 'contact';
     const label     = FORM_LABELS[formName] ?? formName;
