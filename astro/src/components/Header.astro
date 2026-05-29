@@ -4,13 +4,14 @@ const nav = [
   { label: 'Why CRS',    href: '/#why' },
   { label: 'Process',    href: '/#process' },
   { label: 'Clients',    href: '/#testimonials' },
+  { label: 'Guides',     href: '/guides' },
+  { label: 'Articles',   href: '/articles' },
 ];
 ---
 
 <nav id="navbar">
   <a href="/" class="logo">
     <div class="logo-mark">
-      <!-- VelMark: ascending bars inside a pointed blade — logos-v4 direction -->
       <svg viewBox="0 0 72 104" xmlns="http://www.w3.org/2000/svg" class="vel-mark">
         <path d="M 36 2 C 60 30 68 50 68 80 L 68 100 L 4 100 L 4 80 C 4 50 12 30 36 2 Z"
               fill="none" stroke="var(--gold)" stroke-width="3" stroke-linejoin="miter" stroke-miterlimit="6"/>
@@ -28,38 +29,48 @@ const nav = [
     </div>
   </a>
 
+  <!-- Desktop nav links -->
   <ul class="nav-links">
     {nav.map((item) => (
       <li><a href={item.href}>{item.label}</a></li>
     ))}
-    <li><a href="/guides">Guides</a></li>
-    <li><a href="/articles">Articles</a></li>
-    <li>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
-        <!-- Sun (shown in dark mode) -->
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-        </svg>
-        <!-- Moon (shown in light mode) -->
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-    </li>
     <li><a href="/contact" class="nav-cta">Get Started</a></li>
   </ul>
+
+  <!-- Right controls: theme toggle + hamburger -->
+  <div class="nav-end">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- Mobile menu panel -->
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <ul>
+    {nav.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+    <li class="mobile-cta-row">
+      <a href="/contact" class="mobile-cta">Get Started</a>
+    </li>
+  </ul>
+</div>
 
 <script>
   // Navbar scroll effect
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      navbar?.classList.add('scrolled');
-    } else {
-      navbar?.classList.remove('scrolled');
-    }
+    navbar?.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
   // Theme toggle
@@ -76,7 +87,28 @@ const nav = [
   };
 
   toggle?.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    applyTheme(current === 'light' ? 'dark' : 'light');
+    applyTheme(html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.contains('open');
+    mobileMenu?.classList.toggle('open');
+    menuToggle.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+
+  // Close menu when a link is clicked
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuToggle?.classList.remove('open');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
   });
 </script>
