@@ -1119,7 +1119,7 @@ footer {
   :root { --gutter: 20px; }
   #navbar { padding: 0 20px; }
   .nav-links { display: none; }
-  .menu-toggle { display: flex; }
+  .menu-toggle { display: flex !important; }
   .services-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .process-steps { grid-template-columns: 1fr; }
