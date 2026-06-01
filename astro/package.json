@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^8.3.4",
-    "@astrojs/react": "^5.0.6",
+    "@astrojs/react": "^4.4.2",
     "@aws-sdk/client-ses": "^3.1055.0",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
