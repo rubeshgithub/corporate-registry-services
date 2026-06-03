@@ -153,18 +153,6 @@ export default function WizardIsland() {
 
   return (
     <div className="wizard-card">
-      {/* Progress strip */}
-      <div className="wizard-progress" role="progressbar" aria-valuenow={progressIdx + 1} aria-valuemax={STEP_ORDER.length}>
-        {STEP_ORDER.map((s, i) => (
-          <div
-            key={s}
-            className={`wizard-progress-seg${i <= progressIdx ? ' done' : ''}`}
-            title={STEP_LABELS[s as number]}
-          />
-        ))}
-      </div>
-      <div className="wizard-progress-label">{STEP_LABELS[state.step as number]}</div>
-
       {/* Step content */}
       <div className="wizard-step-wrap">
         {state.step === 1 && (

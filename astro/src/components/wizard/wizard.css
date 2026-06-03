@@ -4,7 +4,7 @@
   border-radius: 20px;
   max-width: 960px;
   margin: 0 auto;
-  padding: 48px;
+  padding: 36px 40px;
   border: 1px solid var(--border);
   box-shadow: 0 24px 60px rgba(9,17,31,0.18);
 }
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 .wizard-progress-segment {
   flex: 1;
@@ -73,6 +73,7 @@
   color: var(--cream-muted);
   transition: color 0.2s ease;
   white-space: nowrap;
+  margin-bottom: 12px;
 }
 .wizard-progress-segment.active .wizard-progress-label { color: var(--gold); }
 .wizard-progress-segment.done .wizard-progress-label { color: var(--cream-muted); }
@@ -80,15 +81,15 @@
 /* ─── Step header ────────────────────────────────────────── */
 .wizard-step-title {
   font-family: var(--font-display);
-  font-size: clamp(22px, 3vw, 30px);
+  font-size: clamp(20px, 3vw, 26px);
   font-weight: 600;
   color: var(--cream);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .wizard-step-sub {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--cream-muted);
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 /* ─── Step transition ────────────────────────────────────── */
@@ -100,23 +101,75 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ─── Bucket search ──────────────────────────────────────── */
+.bucket-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.bucket-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--cream-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+.bucket-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 36px 0 40px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--cream);
+  background: var(--deep);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.2s;
+}
+.bucket-search-input::placeholder { color: var(--cream-muted); opacity: 0.55; }
+.bucket-search-input:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-color: var(--gold);
+}
+.bucket-search-clear {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--cream-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.bucket-search-clear:hover { color: var(--cream); }
+.bucket-no-results {
+  text-align: center;
+  padding: 32px 0;
+  font-size: 14px;
+  color: var(--cream-muted);
+}
+
 /* ─── Bucket tiles ───────────────────────────────────────── */
 .bucket-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 .bucket-tile {
   background: var(--deep);
   border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 24px 20px;
+  border-radius: 10px;
+  padding: 16px 14px;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s, transform 0.15s;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 .bucket-tile:hover {
   border-color: var(--gold-line);
@@ -133,19 +186,19 @@
 }
 .bucket-tile-icon {
   color: var(--gold);
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
 }
 .bucket-tile-label {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--cream);
   line-height: 1.2;
 }
 .bucket-tile-blurb {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--cream-muted);
   line-height: 1.5;
 }

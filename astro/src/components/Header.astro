@@ -1,7 +1,7 @@
 ---
 const nav = [
   { label: 'Services',    href: '/#services' },
-  { label: 'Why CRS',    href: '/#why' },
+  { label: 'Why Docu10', href: '/#why' },
   { label: 'Process',    href: '/#process' },
   { label: 'Clients',    href: '/#testimonials' },
   { label: 'Guides',     href: '/guides' },
@@ -11,20 +11,8 @@ const nav = [
 
 <nav id="navbar">
   <a href="/" class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 72 104" xmlns="http://www.w3.org/2000/svg" class="vel-mark">
-        <path d="M 36 2 C 60 30 68 50 68 80 L 68 100 L 4 100 L 4 80 C 4 50 12 30 36 2 Z"
-              fill="none" stroke="var(--gold)" stroke-width="3" stroke-linejoin="miter" stroke-miterlimit="6"/>
-        <line x1="36" y1="10" x2="36" y2="32" stroke="var(--gold)" stroke-width="1.4"/>
-        <rect x="18" y="78" width="6" height="14" class="vel-bar-body"/>
-        <rect x="27" y="68" width="6" height="24" class="vel-bar-body"/>
-        <rect x="36" y="56" width="6" height="36" class="vel-bar-body"/>
-        <rect x="45" y="40" width="6" height="52" fill="var(--gold)"/>
-        <line x1="10" y1="94" x2="62" y2="94" stroke="var(--gold)" stroke-width="1.5"/>
-      </svg>
-    </div>
     <div class="logo-text">
-      <span class="logo-crs">docu10</span>
+      <span class="logo-crs">Docu10</span>
       <span class="logo-sub">Built for Modern Corporate Compliance.</span>
     </div>
   </a>
@@ -34,7 +22,7 @@ const nav = [
     {nav.map((item) => (
       <li><a href={item.href}>{item.label}</a></li>
     ))}
-    <li><a href="/contact" class="nav-cta">Get Started</a></li>
+    <li><a href="/contact">Contact Us</a></li>
   </ul>
 
   <!-- Right controls: theme toggle + hamburger -->
@@ -61,7 +49,7 @@ const nav = [
       <li><a href={item.href}>{item.label}</a></li>
     ))}
     <li class="mobile-cta-row">
-      <a href="/contact" class="mobile-cta">Get Started</a>
+      <a href="/contact">Contact Us</a>
     </li>
   </ul>
 </div>
@@ -78,16 +66,12 @@ const nav = [
   const html = document.documentElement;
 
   const applyTheme = (theme: string) => {
-    if (theme === 'light') {
-      html.setAttribute('data-theme', 'light');
-    } else {
-      html.removeAttribute('data-theme');
-    }
+    html.setAttribute('data-theme', theme);
     localStorage.setItem('crs-theme', theme);
   };
 
   toggle?.addEventListener('click', () => {
-    applyTheme(html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
 
   // Mobile menu toggle

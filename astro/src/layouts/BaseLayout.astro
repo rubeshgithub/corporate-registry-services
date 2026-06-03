@@ -13,43 +13,43 @@ interface Props {
 
 const {
   title,
-  description = 'Corporate Registry Services — Canada\'s trusted specialists for incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports in all provinces and territories.',
+  description = 'Docu10 — Canada\'s trusted specialists for incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports in all provinces and territories.',
   keywords = 'corporate registry Canada, certificate of good standing Canada, annual return filing, incorporation Canada, corporate minute book, corporate profile report, CBCA, Ontario Business Registry',
   canonical,
   schema,
 } = Astro.props;
 
 const fullTitle =
-  title.includes('CRS') || title.includes('Corporate Registry')
+  title.includes('Docu10') || title.includes('docu10')
     ? title
-    : `${title} | CRS — Corporate Registry Services`;
+    : `${title} | Docu10`;
 
 const canonicalUrl = canonical ?? Astro.url.href;
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Corporate Registry Services',
-  description: 'Canada\'s trusted corporate registry specialists providing incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports across all 13 Canadian jurisdictions.',
+  name: 'Docu10',
+  description: 'Canada\'s trusted corporate compliance specialists providing incorporation, certificates of good standing, annual returns, minute books, and corporate profile reports across all 13 Canadian jurisdictions.',
   url: 'https://corporateregistryservices.ca',
-  email: 'hello@corporateregistryservices.ca',
+  email: 'support@corporateregistryservices.ca',
   openingHours: 'Mo-Su 00:00-23:59',
   areaServed: { '@type': 'Country', name: 'Canada', identifier: 'CA' },
   serviceType: ['Incorporation', 'Certificate of Good Standing', 'Annual Return Filing', 'Corporate Minute Book', 'Corporate Profile Report'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Corporate Registry Services',
+    name: 'Docu10 Services',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Federal Incorporation', provider: 'CRS' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Certificate of Good Standing', provider: 'CRS' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Annual Return Filing', provider: 'CRS' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Federal Incorporation', provider: 'Docu10' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Certificate of Good Standing', provider: 'Docu10' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Annual Return Filing', provider: 'Docu10' } },
     ],
   },
 };
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,7 +65,7 @@ const localBusinessSchema = {
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalUrl} />
-  <meta property="og:site_name" content="CRS — Corporate Registry Services" />
+  <meta property="og:site_name" content="Docu10" />
   <meta property="og:locale" content="en_CA" />
 
   <!-- Twitter -->
@@ -98,7 +98,7 @@ const localBusinessSchema = {
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Schema: LocalBusiness (every page) -->
   <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
@@ -110,7 +110,8 @@ const localBusinessSchema = {
   // Apply saved theme before first paint to avoid flash
   (function() {
     const saved = localStorage.getItem('crs-theme');
-    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.setAttribute('data-theme', 'light');
   })();
 </script>
 <body>

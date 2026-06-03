@@ -24,9 +24,9 @@
   --border:      rgba(201,168,76,0.22);
   --radius:      4px;
 
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
-  --font-mono:    'DM Mono', monospace;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
 
   --container:   1200px;
   --gutter:      40px;
@@ -34,10 +34,10 @@
 
 /* ─── Light Mode Tokens (must come after :root to win cascade) ── */
 [data-theme="light"] {
-  --midnight:    #F5F0E8;
-  --deep:        #EDE5D8;
-  --card:        #F9F5EE;
-  --card-hover:  #EFE9E0;
+  --midnight:    #F4EFE6;
+  --deep:        #EDE6DB;
+  --card:        #FFFFFF;
+  --card-hover:  #F8F5F0;
   --gold:        #A8732E;
   --gold-light:  #C9922A;
   --gold-dim:    rgba(168,115,46,0.12);
@@ -412,6 +412,47 @@ a:hover { color: var(--gold-light); }
   margin: 0 auto;
 }
 
+/* ─── Hero + Wizard split layout ──────────────────────────── */
+#hero.hero-split {
+  grid-template-columns: 5fr 7fr;
+  gap: 48px;
+  padding: 76px var(--gutter) 48px;
+  align-items: center;
+}
+.hero-split-left { padding-left: var(--gutter); }
+.hero-split-right { padding-right: var(--gutter); }
+#hero.hero-split .hero-eyebrow { margin-bottom: 20px; }
+#hero.hero-split .hero-headline { font-size: clamp(30px, 3.5vw, 50px); text-align: left; }
+#hero.hero-split .hero-gold-line { margin: 20px 0; }
+#hero.hero-split .hero-body { text-align: left; font-size: 16px; max-width: 400px; }
+.hero-split-right .wizard-card { max-width: none; margin: 0; }
+
+.hero-trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--gold-line);
+  background: var(--gold-dim);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  animation: fadeUp 1s ease 0.7s both;
+}
+[data-theme="light"] .hero-badge-pill {
+  border-color: rgba(168,115,46,0.25);
+  background: rgba(168,115,46,0.07);
+}
+
 .wizard-outer {
   padding: 0 24px 80px;
 }
@@ -423,6 +464,11 @@ a:hover { color: var(--gold-light); }
     radial-gradient(ellipse 60% 60% at 70% 50%, rgba(30,77,56,0.18) 0%, transparent 65%),
     radial-gradient(ellipse 40% 40% at 15% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
 }
+[data-theme="light"] #hero::before {
+  background:
+    radial-gradient(ellipse 70% 80% at 65% 40%, rgba(201,168,76,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 10% 90%, rgba(168,115,46,0.06) 0%, transparent 60%);
+}
 
 .hero-grid-bg {
   position: absolute;
@@ -432,6 +478,11 @@ a:hover { color: var(--gold-light); }
     linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 75%);
+}
+[data-theme="light"] .hero-grid-bg {
+  background-image:
+    linear-gradient(rgba(168,115,46,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,115,46,0.07) 1px, transparent 1px);
 }
 
 .hero-left {
@@ -1128,11 +1179,13 @@ footer {
 @media (max-width: 1024px) {
   :root { --gutter: 32px; }
 
-  /* Hero: stack columns */
+  /* Hero: stack columns (old layout) */
   #hero { grid-template-columns: 1fr; min-height: auto; padding: 120px 0 72px; }
   .hero-left { padding: 0 var(--gutter); }
   .hero-right { padding: 32px var(--gutter) 0; justify-content: flex-start; }
   .hero-card { width: 100%; max-width: 500px; }
+  /* Split hero: keep 2 columns at tablet landscape */
+  #hero.hero-split { grid-template-columns: 5fr 7fr; min-height: 100vh; padding: 76px var(--gutter) 48px; }
 
   /* Grids */
   .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1172,6 +1225,13 @@ footer {
   .hero-headline { font-size: clamp(38px, 7vw, 58px); }
   .hero-body { font-size: 16px; }
   .hero-card { max-width: 420px; padding: 32px; }
+  /* Split hero: collapse to single column at tablet portrait */
+  #hero.hero-split { grid-template-columns: 1fr; min-height: auto; gap: 24px; padding: 88px var(--gutter) 32px; }
+  .hero-split-left { max-width: 580px; margin: 0 auto; padding: 0; text-align: center; }
+  .hero-split-right { padding: 0; }
+  #hero.hero-split .hero-headline { text-align: center; }
+  #hero.hero-split .hero-gold-line { margin: 20px auto; }
+  #hero.hero-split .hero-body { text-align: center; max-width: 100%; }
 
   /* Stats */
   .stat-number { font-size: 52px; }

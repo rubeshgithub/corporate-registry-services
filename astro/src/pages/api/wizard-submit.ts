@@ -3,10 +3,22 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { randomBytes } from 'crypto';
+import { config as dotenvConfig } from 'dotenv';
 
-const ses = new SESClient({ region: process.env.AWS_REGION ?? 'ca-central-1' });
-const FROM   = process.env.SES_FROM    ?? 'support@corporateregistryservices.ca';
-const NOTIFY = process.env.NOTIFY_EMAIL ?? 'support@corporateregistryservices.ca';
+// Ensure .env is loaded into process.env (no-op if vars already set, e.g. on Render)
+dotenvConfig();
+
+function getSes() {
+  return new SESClient({
+    region: process.env.AWS_REGION ?? 'ca-central-1',
+    ...(process.env.AWS_ACCESS_KEY_ID && {
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    }),
+  });
+}
 
 function makeRef(): string {
   return 'D10-' + randomBytes(3).toString('hex').toUpperCase();
@@ -29,8 +41,12 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
     const { bucketKey, serviceKeys, jurisdictionKey, details, customer } = body;
     const ref = makeRef();
+    const FROM   = process.env.SES_FROM    ?? 'support@corporateregistryservices.ca';
+    const NOTIFY = process.env.NOTIFY_EMAIL ?? 'support@corporateregistryservices.ca';
+    const ses = getSes();
 
-    console.log('[wizard-submit] ref:', ref, '| bucket:', bucketKey, '| services:', serviceKeys, '| customer:', customer?.email);
+    console.log('[wizard-submit] ref:', ref, '| bucket:', bucketKey, '| customer:', customer?.email);
+    console.log('[wizard-submit] env check — KEY:', process.env.AWS_ACCESS_KEY_ID?.slice(0,8), '| REGION:', process.env.AWS_REGION);
 
     const serviceLines = (serviceKeys as string[]).map((k: string) => {
       const svcDetails = details?.[k] ?? {};

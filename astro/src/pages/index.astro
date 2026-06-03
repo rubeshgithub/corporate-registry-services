@@ -5,23 +5,37 @@ import ServiceWizard from '~/components/wizard/ServiceWizard.astro';
 
 <BaseLayout title="docu10 — Built for Modern Corporate Compliance">
 
-<!-- ─── Hero ──────────────────────────────────────────────── -->
-<section id="hero" class="hero-compact">
+<!-- ─── Hero + Wizard ──────────────────────────────────────── -->
+<section id="hero" class="hero-split">
   <div class="hero-grid-bg"></div>
-  <div class="hero-center">
-    <div class="tag hero-eyebrow">Canada's Corporate Registry Specialists</div>
+  <div class="hero-split-left">
+    <div class="tag hero-eyebrow">Canada's Corporate Compliance Specialists</div>
     <h1 class="hero-headline">Built for Modern<br /><em>Corporate Compliance.</em></h1>
     <div class="hero-gold-line"></div>
     <p class="hero-body">
       Order corporate documents, file changes, and manage compliance across all 13 Canadian
       jurisdictions — in minutes, not days.
     </p>
+    <div class="hero-trust-badges">
+      <div class="hero-badge-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        All 13 jurisdictions
+      </div>
+      <div class="hero-badge-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Response in 1 hour
+      </div>
+      <div class="hero-badge-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Government-direct
+      </div>
+      <div class="hero-badge-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        5,000+ companies
+      </div>
+    </div>
   </div>
-</section>
-
-<!-- ─── Wizard ─────────────────────────────────────────────── -->
-<section id="order" class="wizard-outer">
-  <div class="container">
+  <div class="hero-split-right">
     <ServiceWizard />
   </div>
 </section>
@@ -132,7 +146,7 @@ import ServiceWizard from '~/components/wizard/ServiceWizard.astro';
   </div>
 </section>
 
-<!-- ─── Why CRS ────────────────────────────────────────────── -->
+<!-- ─── Why Docu10 ──────────────────────────────────────────── -->
 <section id="why">
   <div class="container">
     <div class="why-layout">
@@ -237,7 +251,7 @@ import ServiceWizard from '~/components/wizard/ServiceWizard.astro';
         </h2>
         <p class="compliance-body">
           Annual returns, director changes, share issuances — missed filings carry
-          real penalties. CRS monitors your compliance calendar so nothing slips through.
+          real penalties. Docu10 monitors your compliance calendar so nothing slips through.
         </p>
       </div>
       <div class="compliance-actions">
@@ -259,11 +273,11 @@ import ServiceWizard from '~/components/wizard/ServiceWizard.astro';
     <div class="testimonials-grid">
       {[
         {
-          quote: 'CRS has become our go-to for corporate profile reports. Fast, accurate, and the team actually knows Canadian corporate law inside out.',
+          quote: 'Docu10 has become our go-to for corporate profile reports. Fast, accurate, and the team actually knows Canadian corporate law inside out.',
           name: 'Sarah M.', role: 'Corporate Lawyer, Bay Street Firm', initials: 'SM',
         },
         {
-          quote: 'We\'ve been using CRS for annual returns across 40+ client corporations. The process is seamless and we\'ve never missed a deadline.',
+          quote: 'We\'ve been using Docu10 for annual returns across 40+ client corporations. The process is seamless and we\'ve never missed a deadline.',
           name: 'James T.', role: 'CPA, Toronto Accounting Practice', initials: 'JT',
         },
         {
@@ -304,7 +318,7 @@ import ServiceWizard from '~/components/wizard/ServiceWizard.astro';
         </h2>
         <p style="font-size: 17px; color: var(--text-body); line-height: 1.8; margin-bottom: 36px; max-width: 480px;">
           Every Canadian corporation is legally required to maintain a proper minute book.
-          MinuteBook is CRS's digital platform — keep all corporate records organized,
+          MinuteBook is Docu10's digital platform — keep all corporate records organized,
           searchable, and always audit-ready. No paper, no courier, no missing documents.
         </p>
 
