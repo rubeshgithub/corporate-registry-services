@@ -105,8 +105,9 @@ info@crs.ca
       })
     );
   } catch (err) {
-    console.error("SES error:", err);
-    // Still return success so user gets confirmation — owner can check logs
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[CRS] SES send failed:", msg);
+    return NextResponse.json({ ref, emailError: msg }, { status: 200 });
   }
 
   return NextResponse.json({ ref }, { status: 200 });

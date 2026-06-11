@@ -16,6 +16,14 @@ export default function Header() {
         zIndex: 50,
       }}
     >
+      <style>{`
+        .header-nav    { display: none; }
+        .header-burger { display: flex; }
+        @media (min-width: 768px) {
+          .header-nav    { display: flex; }
+          .header-burger { display: none; }
+        }
+      `}</style>
       <div
         style={{
           maxWidth: "1200px",
@@ -56,7 +64,7 @@ export default function Header() {
         </a>
 
         {/* Desktop nav */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "2rem" }} className="hidden md:flex">
+        <nav className="header-nav" style={{ alignItems: "center", gap: "2rem" }}>
           <NavLink href="#why">Why CRS</NavLink>
           <NavLink href="#services">Services</NavLink>
           <NavLink href="/guides">Guides</NavLink>
@@ -67,13 +75,12 @@ export default function Header() {
         {/* Mobile burger */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex md:hidden"
+          className="header-burger"
           style={{
             background: "none",
             border: "none",
             cursor: "pointer",
             color: "#FFFFFF",
-            display: "flex",
             alignItems: "center",
           }}
         >
