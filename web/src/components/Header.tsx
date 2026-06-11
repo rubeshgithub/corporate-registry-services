@@ -67,6 +67,7 @@ export default function Header() {
         <nav className="header-nav" style={{ alignItems: "center", gap: "2rem" }}>
           <NavLink href="#why">Why CRS</NavLink>
           <NavLink href="#services">Services</NavLink>
+          <NavLink href="/company-search">Registry Search</NavLink>
           <NavLink href="/guides">Guides</NavLink>
           <NavLink href="/articles">Articles</NavLink>
           <NavLink href="#contact">Contact Us</NavLink>
@@ -102,6 +103,7 @@ export default function Header() {
         >
           <NavLink href="#why" onClick={() => setMenuOpen(false)}>Why CRS</NavLink>
           <NavLink href="#services" onClick={() => setMenuOpen(false)}>Services</NavLink>
+          <NavLink href="/company-search" onClick={() => setMenuOpen(false)}>Registry Search</NavLink>
           <NavLink href="/guides" onClick={() => setMenuOpen(false)}>Guides</NavLink>
           <NavLink href="/articles" onClick={() => setMenuOpen(false)}>Articles</NavLink>
           <NavLink href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink>
