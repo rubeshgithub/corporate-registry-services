@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in British Columbia"
 slug: "How-to-File-Your-Annual-Return-in-British-Columbia"
 section: "articles"
@@ -72,6 +72,6 @@ If your BC company also carries on business in Ontario, Alberta, or any other pr
 
 CRS handles BC Annual Report filings directly through BC Registry Services. We prepare, review, and submit the report on your behalf, and provide filing confirmation. Our team tracks your anniversary date and alerts you well in advance.
 
-**Price:** $49.99 plus the $43 government fee.
+**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
 
 Contact CRS to keep your BC corporation in good standing.

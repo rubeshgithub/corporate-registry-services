@@ -23,7 +23,7 @@ A **provincially incorporated corporation** is created under the law of one spec
 | **Annual filings** | Annual Return to Corporations Canada | Annual Return to provincial registry |
 | **Director residency requirement** | 25% must be Canadian residents | Varies by province (Ontario: 25%; BC: none; Alberta: none) |
 | **Registered office** | Must be in Canada | Must be in the province |
-| **Cost to incorporate** | ~$200–$250 federal fee | $300–$450 depending on province |
+| **Cost to incorporate (CRS all-in)** | $699 + GST | $699 + GST/HST |
 | **Ongoing compliance** | Federal annual return + provincial extra-provincial registration (if operating provincially) | Provincial annual return only |
 | **Name search** | NUANS report required | NUANS or provincial equivalent |
 
@@ -46,7 +46,7 @@ Provincial incorporation is the right choice if you:
 - **Operate exclusively within one province** — If your business, employees, office, and customers are all in Ontario (or BC, Alberta, etc.), there is no practical reason to incorporate federally.
 - **Want simpler ongoing compliance** — One annual return to one registry, rather than a federal return plus provincial extra-provincial filings.
 - **Are in British Columbia, Alberta, or Québec** — These provinces have particularly efficient and business-friendly incorporation processes. BC and Alberta impose no Canadian residency requirement on directors, making them popular for international entrepreneurs.
-- **Prefer lower startup costs in some provinces** — Provincial fees can be lower than the federal fee depending on jurisdiction.
+- **Want straightforward startup costs** — CRS provincial incorporation is a flat $699 + GST/HST all-in, the same as federal.
 
 ## Director Residency Requirements
 
@@ -72,14 +72,14 @@ If your founding team has no Canadian residents, incorporating in BC or Alberta 
 
 ## Cost Comparison
 
-| Stage | Federal | Ontario (as example) |
+| Service | Federal | Ontario (as example) |
 |---|---|---|
-| **Government incorporation fee** | $250 (online) | $300 |
-| **NUANS name search** | ~$75–$100 | ~$75–$100 (Ontario-only search available at lower cost) |
-| **Annual Return fee** | $12 (online) | $22 |
-| **Extra-provincial fee (if needed)** | N/A (already federal) | $80–$150 per province |
+| **Incorporation (CRS all-in fee)** | $699 + GST | $699 + HST |
+| **What's included** | NUANS search, Articles of Incorporation, Notice of Directors, By-Laws, organizational resolutions, minute book | Same package under the Ontario Business Corporations Act |
+| **Annual Return (CRS all-in fee)** | $99 + GST | $99 + HST |
+| **Extra-provincial registration (per province)** | $299 + GST | $299 + HST |
 
-Professional service fees (preparation of Articles, by-laws, resolutions) are in addition to government fees and are consistent regardless of jurisdiction.
+All CRS fees are all-inclusive: government filing fees, name search (where required), professional preparation, and submission are bundled into a single flat price — no surprise charges at checkout. Contact us for a firm quote on your specific incorporation.
 
 ## Numbered vs. Named Corporation
 

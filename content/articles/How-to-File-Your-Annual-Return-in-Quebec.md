@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Quebec"
 slug: "How-to-File-Your-Annual-Return-in-Quebec"
 section: "articles"
@@ -73,6 +73,6 @@ If your corporation is incorporated outside Quebec (e.g., Ontario or federally) 
 
 CRS handles Quebec annual declaration filings with the Registraire des entreprises. We prepare the declaration in both official languages where required, submit it before the March 31 deadline, and provide you with confirmation.
 
-**Price:** $49.99 plus the government fee.
+**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
 
 Contact CRS to keep your Quebec registration current and your corporation in good standing.

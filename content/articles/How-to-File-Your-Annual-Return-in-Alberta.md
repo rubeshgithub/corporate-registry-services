@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Alberta"
 slug: "How-to-File-Your-Annual-Return-in-Alberta"
 section: "articles"
@@ -71,6 +71,6 @@ Alberta is strict about annual return compliance. Missing the deadline results i
 
 CRS manages Alberta annual return filings through CORES on your behalf. We prepare the return, submit it before your deadline, and provide you with confirmation.
 
-**Price:** $49.99 plus the $47 government fee.
+**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
 
 Contact CRS to ensure your Alberta corporation stays compliant.

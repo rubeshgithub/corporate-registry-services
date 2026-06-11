@@ -1,4 +1,4 @@
----
+﻿---
 title: "Corporate Profile Report vs. Certificate of Good Standing — Key Differences"
 slug: "corporate-profile-report-vs-certificate-of-good-standing"
 section: "guides"
@@ -23,7 +23,7 @@ Two of the most commonly requested corporate documents in Canada are the **Corpo
 | **Typical use cases** | Due diligence, QuickBooks verification, banking KYC, legal review | Bank financing, extra-provincial registration, M&A, government contracts |
 | **How current is it** | Point-in-time snapshot as of date of retrieval | Point-in-time certification as of date of issue |
 | **Validity period** | 30–90 days (as accepted by most parties) | 30–90 days (as accepted by most parties) |
-| **Typical price (CRS)** | $40–$63 | $40–$63 |
+| **CRS price** | $79 + tax (all-in) | $99 + tax (all-in) |
 | **Delivery time (CRS)** | 3 hours | 3 hours |
 
 ## What Is a Corporate Profile Report?
@@ -89,6 +89,6 @@ Regardless of the name, CRS can obtain the correct document for any Canadian jur
 
 ## How CRS Can Help
 
-CRS retrieves both Corporate Profile Reports and Certificates of Good Standing directly from government registries across all 14 Canadian jurisdictions. Electronic PDF delivery in 3 hours. No hidden fees — the all-in price includes the government registry fee.
+CRS retrieves both Corporate Profile Reports and Certificates of Good Standing directly from government registries across all 14 Canadian jurisdictions. Electronic PDF delivery in 3 hours. No hidden fees — The all-in price includes the government registry fee — no hidden charges.
 
 If you are unsure which document you need, contact our team and describe what it is being used for — we will identify the correct document and obtain it for you.

@@ -12,7 +12,7 @@ The report includes current/historical names, registry number, registered office
 
 | | |
 |---|---|
-| **Price** | $40.00 — all government charges included |
+| **Price** | $79 + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | PDF |
 | **Payment** | Interac E-transfer, Debit, Credit |

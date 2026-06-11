@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Prince Edward Island"
 slug: "How-to-File-Your-Annual-Return-in-Prince-Edward-Island"
 section: "articles"
@@ -42,4 +42,4 @@ Missing the 30-day window results in non-compliance status. Continued non-filing
 
 ## Let CRS File for You
 
-CRS handles PEI annual return filings and tracks your anniversary date so nothing is missed. **Price:** $49.99 plus the $50 government fee. Contact CRS today.
+CRS handles PEI annual return filings and tracks your anniversary date so nothing is missed. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS today.

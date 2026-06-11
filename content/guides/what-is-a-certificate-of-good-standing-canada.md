@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is a Certificate of Good Standing in Canada?"
 slug: "what-is-a-certificate-of-good-standing-canada"
 section: "guides"
@@ -79,7 +79,7 @@ Certificates of Good Standing are a point-in-time document. They confirm good st
 
 ## How Much Does It Cost?
 
-CRS provides Certificates of Good Standing for Canadian corporations at all-in prices that include the government registry fee. Prices range from $40 to $63 depending on the province. There are no hidden fees.
+CRS provides Certificates of Good Standing for Canadian corporations at all-in prices that include the government registry fee. All-in price of $99 + applicable tax, regardless of province. The government registry fee is included — no hidden charges.
 
 ## Order Your Certificate with CRS
 

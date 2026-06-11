@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Saskatchewan"
 slug: "How-to-File-Your-Annual-Return-in-Saskatchewan"
 section: "articles"
@@ -43,4 +43,4 @@ Failure to file results in non-compliance status, followed by notice of intent t
 
 ## Let CRS File for You
 
-CRS manages Saskatchewan annual return filings through ISC. **Price:** $49.99 plus the $45 government fee. Contact CRS to keep your Saskatchewan corporation in good standing.
+CRS manages Saskatchewan annual return filings through ISC. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS to keep your Saskatchewan corporation in good standing.

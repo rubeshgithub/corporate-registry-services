@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Newfoundland and Labrador"
 slug: "How-to-File-Your-Annual-Return-in-Newfoundland"
 section: "articles"
@@ -42,4 +42,4 @@ Failure to file results in non-compliance status, followed by notice of intent t
 
 ## Let CRS File for You
 
-CRS manages Newfoundland annual return filings through the Registry of Companies. **Price:** $49.99 plus the $100 government fee. Contact CRS to keep your corporation in good standing.
+CRS manages Newfoundland annual return filings through the Registry of Companies. **Price:** $149 + applicable tax — all-in, includes the $100 government fee and professional preparation. Contact CRS to keep your corporation in good standing.

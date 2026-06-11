@@ -4,7 +4,7 @@ slug: "Yukon-certificate-of-good-standing"
 section: "good-standing"
 ---
 
-Yukon Certificate of Good Standing. Available for only $46.00 (final fee includes all government charges).
+Yukon Certificate of Good Standing. Available for $99 + applicable tax, all-in (including government charges).
 
 A Yukon Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the Government of Yukon Corporate Registry confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Business Corporations Act (Yukon).
 

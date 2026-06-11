@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is a Corporate Minute Book — And Why Canadian Corporations Need One"
 slug: "what-is-a-corporate-minute-book-canada"
 section: "guides"
@@ -103,9 +103,19 @@ A digital minute book offers several advantages:
 
 CRS provides corporate minute books delivered electronically in both Word and PDF formats, fully compliant with CBCA and all provincial corporate statutes. Every document is pre-filled with your corporation's specific information and ready for execution.
 
-## What Does a New Minute Book Cost?
+## What Does a Minute Book Cost?
 
-For a newly incorporated corporation, CRS provides complete minute books — all registers, share certificates, by-laws, and organizational resolutions — starting at $49.99 plus applicable taxes. For an existing corporation with years of corporate activity, a minute book update or reconstruction may involve additional work.
+CRS prices minute books based on the age of the corporation, because older corporations require more government document retrieval and reconstruction work.
+
+| Package | Company Age | What's Included | Price |
+|---|---|---|---|
+| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and organizational documents | $299 + applicable tax |
+| **Established** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | $749 + applicable tax |
+| **Legacy** | 5+ years | Full corporate history retrieval from government registries + comprehensive minute book reconstruction covering all years of activity | $1,399 + applicable tax |
+
+All packages include: retrieval of all available corporate filings from the relevant government registry, preparation of all required registers and share documents, director and officer resolutions, share certificates, and delivery in both Word and PDF formats.
+
+**Have some documents already?** If you can provide any filed corporate records — incorporation certificate, annual returns, director or officer change filings, share issuance documents, etc. — we can apply a discount to the Established or Legacy package. Contact us with what you have and we will provide a custom quote.
 
 ## Order Your Corporate Minute Book
 

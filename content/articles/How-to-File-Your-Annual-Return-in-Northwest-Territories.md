@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in the Northwest Territories"
 slug: "How-to-File-Your-Annual-Return-in-Northwest-Territories"
 section: "articles"
@@ -37,4 +37,4 @@ The NWT government fee is **$50**.
 
 ## Let CRS File for You
 
-CRS manages NWT annual return filings on your behalf. **Price:** $49.99 plus the $50 government fee. Contact CRS to keep your corporation in good standing.
+CRS manages NWT annual return filings on your behalf. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS to keep your corporation in good standing.

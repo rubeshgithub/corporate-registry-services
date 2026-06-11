@@ -4,7 +4,7 @@ slug: "Nova-Scotia-corporate-annual-return"
 section: "annual-return"
 ---
 
-Nova Scotia Annual Return Filing for only $49.99 plus government fees.
+Nova Scotia Annual Return Filing — $99 + applicable tax, all-in (including government fees).
 
 Every Nova Scotia corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

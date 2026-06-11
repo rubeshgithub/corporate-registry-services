@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in New Brunswick"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"
@@ -42,4 +42,4 @@ Failure to file results in the corporation being placed in non-compliance, and u
 
 ## Let CRS File for You
 
-CRS handles New Brunswick annual return filings with Service New Brunswick. **Price:** $49.99 plus the $50 government fee. Contact CRS to stay compliant.
+CRS handles New Brunswick annual return filings with Service New Brunswick. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS to stay compliant.

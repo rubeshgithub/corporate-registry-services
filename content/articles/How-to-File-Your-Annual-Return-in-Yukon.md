@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Yukon"
 slug: "How-to-File-Your-Annual-Return-in-Yukon"
 section: "articles"
@@ -41,4 +41,4 @@ Yukon corporations have no specific Canadian residency requirement for directors
 
 ## Let CRS File for You
 
-CRS manages Yukon annual return filings and tracks your anniversary date to ensure the 1-month deadline is never missed. **Price:** $49.99 plus the $50 government fee. Contact CRS today.
+CRS manages Yukon annual return filings and tracks your anniversary date to ensure the 1-month deadline is never missed. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS today.

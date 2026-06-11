@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Federal Annual Return in Canada (CBCA Corporations)"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
@@ -79,6 +79,6 @@ If the federal annual return is not filed within the 60-day window after the ann
 
 CRS manages federal annual return filings for CBCA corporations. We prepare the return, submit it to Corporations Canada within the required window, and provide you with confirmation of filing.
 
-**Price:** $49.99 plus the $12 government fee.
+**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
 
 Contact CRS to keep your federally incorporated business in good standing with Corporations Canada.

@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Ontario"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
@@ -71,6 +71,6 @@ If your Ontario corporation is also registered as an extra-provincial corporatio
 
 CRS — Corporate Registry Services manages annual return filings for Ontario corporations. We prepare the return, submit it directly to the Ontario Business Registry, and provide you with confirmation of filing. Our team monitors your filing deadline so nothing gets missed.
 
-**Price:** $49.99 plus the $22 government fee.
+**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
 
 Contact CRS today to ensure your Ontario corporation stays in good standing.

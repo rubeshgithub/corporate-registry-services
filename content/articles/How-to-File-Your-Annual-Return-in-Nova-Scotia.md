@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Nova Scotia"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
@@ -42,4 +42,4 @@ Given the strict 30-day window, administrative dissolution can follow relatively
 
 ## Let CRS File for You
 
-CRS tracks your Nova Scotia anniversary date and files your annual return well within the 30-day window. **Price:** $49.99 plus the $25 government fee. Contact CRS today.
+CRS tracks your Nova Scotia anniversary date and files your annual return well within the 30-day window. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS today.

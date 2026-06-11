@@ -4,7 +4,7 @@ slug: "Prince-Edward-Island-incorporation-service"
 section: "incorporation"
 ---
 
-Prince Edward Island Incorporation Service — $199.99 plus government fees, with company lifetime good-standing support.
+Prince Edward Island Incorporation Service — $699 + applicable tax, all-in (including government fees).
 
 Incorporate now in Prince Edward Island fast, easy, and online. A corporation is a legal entity, created by statute under the federal or provincial Business Corporations Act, that exists separately in law from its owners.
 

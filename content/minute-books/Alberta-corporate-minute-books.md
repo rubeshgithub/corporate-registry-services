@@ -4,7 +4,18 @@ slug: "Alberta-corporate-minute-books"
 section: "minute-books"
 ---
 
-Alberta Corporate Minute Book for only $49.99 plus tax.
+Alberta Corporate Minute Book
+### Minute Book Packages
+
+| Package | Company Age | What's Included | Price |
+|---|---|---|---|
+| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and all organizational documents | $299 + applicable tax |
+| **Established** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | $749 + applicable tax |
+| **Legacy** | 5+ years | Full corporate history retrieval from government registries + comprehensive minute book reconstruction covering all years of activity | $1,399 + applicable tax |
+
+**Have some documents already?** If you can supply any filed corporate records — incorporation certificate, annual returns, director or officer change filings, share issuance documents, etc. — we can apply a discount to the Established or Legacy package. Contact us with what you have and we will provide a custom quote.
+
+All packages are all-inclusive: government document retrieval fees and professional preparation are bundled into the flat price with no hidden charges.
 
 A Corporate Minute Book (or Minute Book) is a collection of all the important records of a company. Every corporation needs to keep organized, detailed paper records starting from the date the corporation is formed.
 

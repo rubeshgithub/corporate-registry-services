@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Nunavut"
 slug: "How-to-File-Your-Annual-Return-in-Nunavut"
 section: "articles"
@@ -36,4 +36,4 @@ The Nunavut government fee is **$50**.
 
 ## Let CRS File for You
 
-CRS manages Nunavut annual return filings, particularly valuable given the remote nature of the territory. **Price:** $49.99 plus the $50 government fee. Contact CRS to stay compliant.
+CRS manages Nunavut annual return filings, particularly valuable given the remote nature of the territory. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS to stay compliant.

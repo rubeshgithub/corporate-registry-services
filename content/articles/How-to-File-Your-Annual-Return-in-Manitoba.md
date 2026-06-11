@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to File Your Annual Return in Manitoba"
 slug: "How-to-File-Your-Annual-Return-in-Manitoba"
 section: "articles"
@@ -43,4 +43,4 @@ Failure to file results in a non-compliance notice, followed by administrative d
 
 ## Let CRS File for You
 
-CRS manages Manitoba annual return filings, ensuring timely submission before the March 31 deadline. **Price:** $49.99 plus the $45 government fee. Contact CRS to stay compliant.
+CRS manages Manitoba annual return filings, ensuring timely submission before the March 31 deadline. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS to stay compliant.

@@ -4,7 +4,7 @@ slug: "Nova-Scotia-certificate-of-good-standing"
 section: "good-standing"
 ---
 
-Nova Scotia Certificate of Good Standing. Available for only $80.00 (final fee includes all government charges).
+Nova Scotia Certificate of Good Standing. Available for $99 + applicable tax, all-in (including government charges).
 
 A Nova Scotia Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the Nova Scotia Registry of Joint Stock Companies confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Nova Scotia Companies Act.
 
