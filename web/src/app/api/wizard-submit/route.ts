@@ -74,7 +74,8 @@ What you ordered:
 We'll reach you via ${customer.preferredContact.toLowerCase()} at the details you provided.
 
 — The CRS Team
-info@crs.ca
+Corporate Registry Services
+support@corporateregistryservices.ca
   `.trim();
 
   const ownerEmail = process.env.NOTIFY_EMAIL ?? process.env.OWNER_EMAIL ?? "info@crs.ca";
