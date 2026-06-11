@@ -77,8 +77,8 @@ We'll reach you via ${customer.preferredContact.toLowerCase()} at the details yo
 info@crs.ca
   `.trim();
 
-  const ownerEmail = process.env.OWNER_EMAIL ?? "info@crs.ca";
-  const fromEmail = process.env.FROM_EMAIL ?? "noreply@crs.ca";
+  const ownerEmail = process.env.NOTIFY_EMAIL ?? process.env.OWNER_EMAIL ?? "info@crs.ca";
+  const fromEmail  = process.env.SES_FROM    ?? process.env.FROM_EMAIL  ?? "noreply@crs.ca";
 
   try {
     const ses = makeSes();
