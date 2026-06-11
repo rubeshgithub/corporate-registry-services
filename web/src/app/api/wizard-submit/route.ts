@@ -61,17 +61,50 @@ Contact: ${customer.preferredContact}
 ====================================
   `.trim();
 
+  const serviceNames = selectedServices.map((s) => s.label).join(", ");
+  const feeLines = selectedServices
+    .map((s) => `  ${s.label.padEnd(38)} ${s.estimatedFee}`)
+    .join("\n");
+
   const customerBody = `
 Hi ${customer.fullName},
 
-Thank you for your request. We've received your order (Ref: ${ref}) and will send you a custom quote within 1 hour.
+Thank you for reaching out to CRS — Corporate Registry Services.
+We've received your request and our team is already on it.
 
-What you ordered:
-  Category:     ${bucket?.label ?? bucketKey}
-  Jurisdiction: ${jurisdiction?.label ?? jurisdictionKey ?? "N/A"}
-  Services:     ${selectedServices.map((s) => s.label).join(", ")}
+Order Details
+${"─".repeat(58)}
+Reference:    ${ref}
+Service(s):   ${serviceNames}
+Jurisdiction: ${jurisdiction?.label ?? jurisdictionKey ?? "N/A"}
 
-We'll reach you via ${customer.preferredContact.toLowerCase()} at the details you provided.
+Estimated Fee${selectedServices.length > 1 ? "s" : ""}:
+${feeLines}
+
+All government fees are included. Final charges are confirmed
+in your custom quote before any payment is collected.
+${"─".repeat(58)}
+
+What happens next:
+
+Step 1 — Custom Quote (within 1 hour)
+   We'll review your request and send a formal quote to
+   this email address. No hidden charges — ever.
+
+Step 2 — Approve & Pay Securely
+   Reply to approve the quote. We'll send a secure payment
+   link — no work begins until you confirm.
+
+Step 3 — Government Registry Processing
+   Your order is processed directly with the${jurisdiction?.label ? ` ${jurisdiction.label}` : ""} corporate
+   registry — no third-party intermediaries.
+
+Step 4 — Documents Delivered to Your Inbox
+   Your documents arrive electronically, typically within
+   1–3 business hours of payment confirmation.
+
+${"─".repeat(58)}
+Questions? Simply reply to this email — we're here to help.
 
 — The CRS Team
 Corporate Registry Services
@@ -100,7 +133,7 @@ support@corporateregistryservices.ca
         Source: fromEmail,
         Destination: { ToAddresses: [customer.email] },
         Message: {
-          Subject: { Data: `Your CRS request has been received — ${ref}` },
+          Subject: { Data: `Your CRS request for ${serviceNames} has been received — ${ref}` },
           Body: { Text: { Data: customerBody } },
         },
       })
