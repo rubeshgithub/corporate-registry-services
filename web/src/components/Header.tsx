@@ -32,7 +32,7 @@ export default function Header() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "3.75rem",
+          height: "4rem",
         }}
       >
         {/* Logo */}
@@ -41,7 +41,7 @@ export default function Header() {
             <span
               style={{
                 fontFamily: "var(--font-display), Georgia, serif",
-                fontSize: "1.3rem",
+                fontSize: "1.65rem",
                 fontWeight: 800,
                 color: "var(--gold)",
                 letterSpacing: "-0.01em",
@@ -52,8 +52,8 @@ export default function Header() {
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
-                fontSize: "0.58rem",
-                color: "rgba(255,255,255,0.55)",
+                fontSize: "0.65rem",
+                color: "rgba(255,255,255,0.7)",
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
               }}
@@ -65,12 +65,12 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="header-nav" style={{ alignItems: "center", gap: "2rem" }}>
-          <NavLink href="#why">Why CRS</NavLink>
-          <NavLink href="#services">Services</NavLink>
-          <NavLink href="/company-search">Registry Search</NavLink>
+          <NavLink href="/#why">Why CRS</NavLink>
+          <NavLink href="/#services">Services</NavLink>
+          <NavLink href="/canada-corporations-search">Registry Search</NavLink>
           <NavLink href="/guides">Guides</NavLink>
           <NavLink href="/articles">Articles</NavLink>
-          <NavLink href="#contact">Contact Us</NavLink>
+          <NavLink href="/#contact">Contact Us</NavLink>
         </nav>
 
         {/* Mobile burger */}
@@ -101,12 +101,12 @@ export default function Header() {
             gap: "0.75rem",
           }}
         >
-          <NavLink href="#why" onClick={() => setMenuOpen(false)}>Why CRS</NavLink>
-          <NavLink href="#services" onClick={() => setMenuOpen(false)}>Services</NavLink>
-          <NavLink href="/company-search" onClick={() => setMenuOpen(false)}>Registry Search</NavLink>
+          <NavLink href="/#why" onClick={() => setMenuOpen(false)}>Why CRS</NavLink>
+          <NavLink href="/#services" onClick={() => setMenuOpen(false)}>Services</NavLink>
+          <NavLink href="/canada-corporations-search" onClick={() => setMenuOpen(false)}>Registry Search</NavLink>
           <NavLink href="/guides" onClick={() => setMenuOpen(false)}>Guides</NavLink>
           <NavLink href="/articles" onClick={() => setMenuOpen(false)}>Articles</NavLink>
-          <NavLink href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink>
+          <NavLink href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink>
         </div>
       )}
     </header>

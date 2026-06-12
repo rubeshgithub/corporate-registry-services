@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <article style={{ maxWidth: "760px", margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
           <div className="prose">
 
-            <p>CRS — Corporate Registry Services (&ldquo;we&rdquo;, &ldquo;our&rdquo;, &ldquo;us&rdquo;) is committed to protecting your personal information. This Privacy Policy explains what information we collect when you use <strong>crs.ca</strong>, how we use it, and the choices you have.</p>
+            <p>CRS — Corporate Registry Services (&ldquo;we&rdquo;, &ldquo;our&rdquo;, &ldquo;us&rdquo;) is committed to protecting your personal information. This Privacy Policy explains what information we collect when you use <strong>corporateregistryservices.ca</strong>, how we use it, and the choices you have.</p>
 
             <h2>1. Information We Collect</h2>
             <p>We collect information you provide directly when placing an order or contacting us:</p>
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
               <li>Withdraw consent for non-essential communications.</li>
               <li>Request deletion of your information, subject to our legal retention obligations.</li>
             </ul>
-            <p>To exercise any of these rights, contact us at <a href="mailto:info@crs.ca">info@crs.ca</a>.</p>
+            <p>To exercise any of these rights, contact us at <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a>.</p>
 
             <h2>6. Security</h2>
             <p>We use industry-standard security practices including encrypted data transmission (TLS/HTTPS), access controls, and secure cloud infrastructure. No method of transmission over the internet is 100% secure, but we take reasonable precautions to protect your information.</p>
@@ -86,8 +86,8 @@ export default function PrivacyPage() {
             <h2>10. Contact Us</h2>
             <p>If you have questions or concerns about this Privacy Policy, please contact us:</p>
             <ul>
-              <li><strong>Email:</strong> <a href="mailto:info@crs.ca">info@crs.ca</a></li>
-              <li><strong>Website:</strong> <a href="https://www.crs.ca">www.crs.ca</a></li>
+              <li><strong>Email:</strong> <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a></li>
+              <li><strong>Website:</strong> <a href="https://www.corporateregistryservices.ca">www.corporateregistryservices.ca</a></li>
             </ul>
 
           </div>

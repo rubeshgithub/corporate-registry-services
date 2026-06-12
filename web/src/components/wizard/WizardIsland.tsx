@@ -13,6 +13,8 @@ import StepReview from "./steps/StepReview";
 
 const STORAGE_KEY = "docu10:wizard:v1";
 
+type PreloadData = { companyName?: string; jurisdictionKey?: string };
+
 function load(): WizardState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -27,23 +29,27 @@ function save(s: WizardState) {
   } catch {}
 }
 
-export default function WizardIsland() {
+export default function WizardIsland({ preload }: { preload?: PreloadData }) {
   const [state, setState] = useState<WizardState>(INITIAL_STATE);
   const [hydrated, setHydrated] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    setState(load());
+    if (preload) {
+      setState({ ...INITIAL_STATE, jurisdictionKey: preload.jurisdictionKey ?? null });
+    } else {
+      setState(load());
+    }
     setHydrated(true);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const update = useCallback((patch: Partial<WizardState>) => {
     setState((prev) => {
       const next = { ...prev, ...patch };
-      save(next);
+      if (!preload) save(next);
       return next;
     });
-  }, []);
+  }, [preload]);
 
   const bucket = state.bucketKey ? getBucket(state.bucketKey) : null;
 
@@ -57,10 +63,11 @@ export default function WizardIsland() {
   );
 
   // Step map: 1=bucket, 2=services, 3=jurisdiction(optional), 4=details(optional), 5=contact, 6=review
+  // When opened from a search result (preload), jurisdiction is already known — skip step 3.
   const steps = [
     1, // bucket
     2, // services
-    ...(needsJurisdiction ? [3] : []),
+    ...(needsJurisdiction && !preload ? [3] : []),
     ...(hasDetailFields ? [4] : []),
     5, // contact
     6, // review
@@ -170,9 +177,10 @@ export default function WizardIsland() {
       <div style={{ padding: "1.25rem 1.25rem 0.75rem", flex: 1, overflow: "auto" }}>
         {state.step === 1 && (
           <StepBucket
-            buckets={SERVICE_BUCKETS}
+            buckets={preload ? SERVICE_BUCKETS.filter((b) => b.key !== "start-company") : SERVICE_BUCKETS}
             selected={state.bucketKey}
             onSelect={handleBucketSelect}
+            companyName={preload?.companyName}
           />
         )}
         {state.step === 2 && bucket && (

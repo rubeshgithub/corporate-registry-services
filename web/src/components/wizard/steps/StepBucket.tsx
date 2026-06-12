@@ -17,9 +17,10 @@ type Props = {
   buckets: ServiceBucket[];
   selected: string | null;
   onSelect: (key: string) => void;
+  companyName?: string;
 };
 
-export default function StepBucket({ buckets, selected, onSelect }: Props) {
+export default function StepBucket({ buckets, selected, onSelect, companyName }: Props) {
   const [query, setQuery] = useState("");
 
   const filtered = query.trim()
@@ -36,7 +37,7 @@ export default function StepBucket({ buckets, selected, onSelect }: Props) {
         Step 1 of 5
       </p>
       <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.25rem" }}>
-        What do you need?
+        {companyName ? `What do you need from ${companyName}?` : "What do you need?"}
       </h2>
       <p style={{ fontSize: "0.825rem", color: "var(--text-muted)", marginBottom: "0.875rem" }}>
         Search or pick a category below.

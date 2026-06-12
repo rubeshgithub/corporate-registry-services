@@ -2,11 +2,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WizardIsland from "@/components/wizard/WizardIsland";
 import HeroAsset from "@/components/HeroAsset";
+import ContactForm from "@/components/ContactForm";
 import {
   ShieldCheck,
   Clock,
   Building2,
-  Users,
   CheckCircle2,
   FileText,
   Search,
@@ -17,7 +17,6 @@ const TRUST_BADGES = [
   { icon: Globe,       label: "All 13 jurisdictions" },
   { icon: Clock,       label: "Response within 1 hour" },
   { icon: ShieldCheck, label: "Government-direct" },
-  { icon: Users,       label: "5,000+ companies served" },
 ];
 
 const WHY_ITEMS = [
@@ -44,13 +43,14 @@ export default function HomePage() {
           <section
             id="hero"
             style={{
+              scrollMarginTop: "4rem",
               maxWidth: "1200px",
               margin: "0 auto",
               padding: "2rem 1.5rem 2rem",
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "3rem",
-              alignItems: "center",
+              alignItems: "flex-start",
             }}
           >
             {/* Left column — with professional person image behind text */}
@@ -132,7 +132,7 @@ export default function HomePage() {
                 </p>
 
                 {/* Trust badges */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
                   {TRUST_BADGES.map(({ icon: Icon, label }) => (
                     <div key={label} className="badge-pill">
                       <Icon size={12} style={{ color: "var(--gold)", flexShrink: 0 }} />
@@ -140,6 +140,12 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
+
+                {/* Secondary CTA */}
+                <a href="/canada-corporations-search" className="btn-search-corp">
+                  <Search size={15} />
+                  Search a Corporation
+                </a>
               </div>
             </div>
 
@@ -173,6 +179,23 @@ export default function HomePage() {
           @media (max-width: 480px) {
             #hero h1 { font-size: 1.75rem !important; }
             #hero p  { font-size: 0.95rem !important; }
+          }
+          @keyframes corp-pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(12, 61, 97, 0.4); }
+            65%  { box-shadow: 0 0 0 9px rgba(12, 61, 97, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(12, 61, 97, 0); }
+          }
+          .btn-search-corp {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.6rem 1.25rem; border-radius: 0.5rem;
+            border: 1.5px solid var(--primary); color: var(--primary);
+            background: transparent; font-weight: 600; font-size: 0.875rem;
+            text-decoration: none; transition: background 0.15s, color 0.15s;
+            animation: corp-pulse 2.4s ease-out infinite;
+          }
+          .btn-search-corp:hover {
+            background: var(--primary); color: #fff;
+            animation: none; box-shadow: none;
           }
         `}</style>
 
@@ -244,20 +267,20 @@ export default function HomePage() {
         </section>
 
         {/* ── Contact CTA ── */}
-        <section id="contact" style={{ padding: "4rem 1.5rem", textAlign: "center" }}>
-          <div style={{ maxWidth: "540px", margin: "0 auto" }}>
-            <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "clamp(1.4rem, 2.5vw, 1.85rem)", fontWeight: 700, color: "var(--text)", marginBottom: "0.75rem" }}>
-              Have a question? We respond within 1 hour.
-            </h2>
-            <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "0.9rem" }}>
-              Reach us by email or use the wizard above to submit your request.
-            </p>
-            <a
-              href="mailto:info@crs.ca"
-              style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem 1.5rem", borderRadius: "0.5rem", background: "var(--primary)", color: "#fff", fontWeight: 600, textDecoration: "none", fontSize: "0.9rem" }}
-            >
-              Email info@crs.ca
-            </a>
+        <section id="contact" style={{ padding: "4rem 1.5rem" }}>
+          <div style={{ maxWidth: "620px", margin: "0 auto" }}>
+            <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "clamp(1.4rem, 2.5vw, 1.85rem)", fontWeight: 700, color: "var(--text)", marginBottom: "0.5rem" }}>
+                Have a question? We respond within 1 hour.
+              </h2>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>
+                Monday – Friday, 8 am – 8 pm ET. Or email us at{" "}
+                <a href="mailto:support@corporateregistryservices.ca" style={{ color: "var(--gold)", textDecoration: "none" }}>
+                  support@corporateregistryservices.ca
+                </a>
+              </p>
+            </div>
+            <ContactForm compact />
           </div>
         </section>
 

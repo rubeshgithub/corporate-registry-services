@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ContactForm from "@/components/ContactForm";
 import { Mail, Clock, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,8 +14,8 @@ const CONTACT_ITEMS = [
   {
     icon: Mail,
     label: "Email",
-    value: "info@crs.ca",
-    href: "mailto:info@crs.ca",
+    value: "support@corporateregistryservices.ca",
+    href: "mailto:support@corporateregistryservices.ca",
     note: "We reply within 1 hour on business days",
   },
   {
@@ -46,7 +47,7 @@ export default function ContactPage() {
             padding: "4rem 1.5rem",
           }}
         >
-          <div style={{ maxWidth: "660px", margin: "0 auto" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -70,129 +71,77 @@ export default function ContactPage() {
                 marginBottom: "1.25rem",
               }}
             >
-              We&apos;re here to help
+              Have a question? We respond within 1 hour.
             </h1>
             <div className="gold-line" style={{ marginBottom: "1.25rem" }} />
             <p style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.75 }}>
-              Have a question about a service, need a custom quote, or want to check the status of
-              an order? Reach out — we respond within 1 hour.
+              Reach us by email or use the form below. Our team is available Monday – Friday, 8 am – 8 pm ET.
             </p>
           </div>
         </section>
 
-        {/* Contact details + wizard prompt */}
-        <section style={{ maxWidth: "660px", margin: "0 auto", padding: "3.5rem 1.5rem 5rem" }}>
-          {/* Contact cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "3rem" }}>
-            {CONTACT_ITEMS.map(({ icon: Icon, label, value, href, note }) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "1rem",
-                  padding: "1.125rem 1.25rem",
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "0.75rem",
-                }}
-              >
+        <section style={{ maxWidth: "760px", margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: "2rem", alignItems: "start" }}>
+
+            {/* Left — contact details */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {CONTACT_ITEMS.map(({ icon: Icon, label, value, href, note }) => (
                 <div
+                  key={label}
                   style={{
-                    width: "2.25rem",
-                    height: "2.25rem",
-                    borderRadius: "0.5rem",
-                    background: "var(--gold-dim)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    marginTop: "0.1rem",
+                    display: "flex", alignItems: "flex-start", gap: "0.875rem",
+                    padding: "1rem", background: "var(--card)",
+                    border: "1px solid var(--border)", borderRadius: "0.75rem",
                   }}
                 >
-                  <Icon size={17} style={{ color: "var(--gold)" }} />
-                </div>
-                <div>
                   <div
                     style={{
-                      fontSize: "0.7rem",
-                      fontFamily: "var(--font-mono), monospace",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      color: "var(--text-muted)",
-                      marginBottom: "0.2rem",
+                      width: "2rem", height: "2rem", borderRadius: "0.5rem",
+                      background: "var(--gold-dim)", display: "flex",
+                      alignItems: "center", justifyContent: "center",
+                      flexShrink: 0, marginTop: "0.1rem",
                     }}
                   >
-                    {label}
+                    <Icon size={15} style={{ color: "var(--gold)" }} />
                   </div>
-                  {href ? (
-                    <a
-                      href={href}
-                      style={{
-                        fontSize: "1rem",
-                        fontWeight: 600,
-                        color: "var(--gold)",
-                        textDecoration: "none",
-                      }}
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--text)" }}>
-                      {value}
+                  <div>
+                    <div style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", marginBottom: "0.15rem" }}>
+                      {label}
                     </div>
-                  )}
-                  <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
-                    {note}
+                    {href ? (
+                      <a href={href} style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--gold)", textDecoration: "none", wordBreak: "break-all" }}>
+                        {value}
+                      </a>
+                    ) : (
+                      <div style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--text)" }}>{value}</div>
+                    )}
+                    <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>{note}</div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Right — enquiry form */}
+            <div>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display), Georgia, serif",
+                  fontSize: "1.1rem", fontWeight: 700,
+                  color: "var(--text)", marginBottom: "1rem",
+                }}
+              >
+                Send us a message
+              </h2>
+              <ContactForm />
+            </div>
           </div>
 
-          {/* Wizard prompt */}
-          <div
-            style={{
-              padding: "1.75rem",
-              background: "var(--card)",
-              border: "1px solid var(--border)",
-              borderRadius: "0.875rem",
-              borderLeft: "3px solid var(--gold)",
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-display), Georgia, serif",
-                fontSize: "1.15rem",
-                fontWeight: 600,
-                color: "var(--text)",
-                marginBottom: "0.5rem",
-              }}
-            >
-              Fastest way to get a quote
-            </h2>
-            <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.65, marginBottom: "1.25rem" }}>
-              Use the order wizard on our homepage — select your service, jurisdiction, and contact
-              details. We&apos;ll send a custom quote to your inbox within 1 hour.
-            </p>
-            <a
-              href="/#hero"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                padding: "0.625rem 1.25rem",
-                borderRadius: "0.5rem",
-                background: "var(--primary)",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                textDecoration: "none",
-              }}
-            >
-              Start your request
-            </a>
-          </div>
+          {/* Responsive: stack on mobile */}
+          <style>{`
+            @media (max-width: 640px) {
+              .contact-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </section>
       </main>
       <Footer />

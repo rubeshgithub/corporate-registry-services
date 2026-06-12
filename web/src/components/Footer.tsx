@@ -60,6 +60,7 @@ export default function Footer() {
           <FooterLink href="/contact">Contact</FooterLink>
           <FooterLink href="/privacy">Privacy</FooterLink>
           <FooterLink href="/terms">Terms</FooterLink>
+          <FooterLink href="/disclaimer">Disclaimer</FooterLink>
         </div>
         <p
           style={{

@@ -25,7 +25,7 @@ export default function TermsPage() {
         <article style={{ maxWidth: "760px", margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
           <div className="prose">
 
-            <p>Please read these Terms of Service (&ldquo;Terms&rdquo;) carefully before using <strong>crs.ca</strong> or placing an order with CRS — Corporate Registry Services. By submitting an order or using our website, you agree to be bound by these Terms.</p>
+            <p>Please read these Terms of Service (&ldquo;Terms&rdquo;) carefully before using <strong>corporateregistryservices.ca</strong> or placing an order with CRS — Corporate Registry Services. By submitting an order or using our website, you agree to be bound by these Terms.</p>
 
             <h2>1. Services</h2>
             <p>CRS — Corporate Registry Services provides corporate registry document retrieval and filing services for Canadian corporations, including but not limited to:</p>
@@ -80,16 +80,16 @@ export default function TermsPage() {
             </ul>
 
             <h2>8. Intellectual Property</h2>
-            <p>All content on crs.ca — including text, graphics, and software — is the property of CRS — Corporate Registry Services and may not be reproduced without written permission. Documents retrieved or prepared on your behalf are your property upon payment in full.</p>
+            <p>All content on corporateregistryservices.ca — including text, graphics, and software — is the property of CRS — Corporate Registry Services and may not be reproduced without written permission. Documents retrieved or prepared on your behalf are your property upon payment in full.</p>
 
             <h2>9. Governing Law</h2>
-            <p>These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein, without regard to conflict of law principles.</p>
+            <p>These Terms are governed by the laws of the Province of Alberta and the federal laws of Canada applicable therein, without regard to conflict of law principles. Any disputes shall be subject to the exclusive jurisdiction of the courts of Alberta.</p>
 
             <h2>10. Changes to These Terms</h2>
-            <p>We may update these Terms from time to time. The current version will always be posted at <a href="/terms">crs.ca/terms</a> with the &ldquo;Last updated&rdquo; date. Continued use of our services after changes constitutes acceptance.</p>
+            <p>We may update these Terms from time to time. The current version will always be posted at <a href="/terms">corporateregistryservices.ca/terms</a> with the &ldquo;Last updated&rdquo; date. Continued use of our services after changes constitutes acceptance.</p>
 
             <h2>11. Contact</h2>
-            <p>Questions about these Terms? Contact us at <a href="mailto:info@crs.ca">info@crs.ca</a>.</p>
+            <p>Questions about these Terms? Contact us at <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a>.</p>
 
           </div>
         </article>
