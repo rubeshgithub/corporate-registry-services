@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { listAllPages, SECTIONS } from "@/lib/content";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.docu10.ca";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.corporateregistryservices.ca";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = listAllPages();
