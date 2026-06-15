@@ -132,7 +132,7 @@ export default function HomePage() {
                 </p>
 
                 {/* Trust badges */}
-                <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.25rem" }}>
                   {TRUST_BADGES.map(({ icon: Icon, label }) => (
                     <div key={label} className="badge-pill">
                       <Icon size={12} style={{ color: "var(--gold)", flexShrink: 0 }} />
