@@ -71,6 +71,27 @@ export default function Header() {
           <NavLink href="/guides">Guides</NavLink>
           <NavLink href="/articles">Articles</NavLink>
           <NavLink href="/#contact">Contact Us</NavLink>
+          <a
+            href="https://minutebook.corporateregistryservices.ca"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              padding: "0.5rem 0.9rem",
+              borderRadius: "0.5rem",
+              background: "var(--gold)",
+              color: "var(--primary)",
+              fontSize: "0.82rem",
+              fontWeight: 700,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              transition: "filter 0.15s",
+            }}
+            onMouseEnter={(e) => ((e.target as HTMLElement).style.filter = "brightness(1.08)")}
+            onMouseLeave={(e) => ((e.target as HTMLElement).style.filter = "none")}
+          >
+            MinuteBook →
+          </a>
         </nav>
 
         {/* Mobile burger */}
@@ -107,6 +128,24 @@ export default function Header() {
           <NavLink href="/guides" onClick={() => setMenuOpen(false)}>Guides</NavLink>
           <NavLink href="/articles" onClick={() => setMenuOpen(false)}>Articles</NavLink>
           <NavLink href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink>
+          <a
+            href="https://minutebook.corporateregistryservices.ca"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: "inline-block",
+              marginTop: "0.5rem",
+              padding: "0.55rem 0.9rem",
+              borderRadius: "0.5rem",
+              background: "var(--gold)",
+              color: "var(--primary)",
+              fontSize: "0.85rem",
+              fontWeight: 700,
+              textDecoration: "none",
+              textAlign: "center",
+            }}
+          >
+            MinuteBook →
+          </a>
         </div>
       )}
     </header>
