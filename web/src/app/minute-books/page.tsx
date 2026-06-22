@@ -125,7 +125,7 @@ export default function MinuteBooksPage() {
                 margin: "0 auto 2rem",
               }}
             >
-              Generate a complete, court-ready Canadian corporate minute book — all organizational
+              Generate a complete, compliance-ready Canadian corporate minute book — all organizational
               resolutions, share registers, certificates, and by-laws — without a lawyer.
             </p>
             <div style={{ display: "flex", gap: "0.875rem", justifyContent: "center", flexWrap: "wrap" }}>
