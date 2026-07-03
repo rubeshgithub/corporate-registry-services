@@ -37,9 +37,36 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
   useEffect(() => {
     if (preload) {
       setState({ ...INITIAL_STATE, jurisdictionKey: preload.jurisdictionKey ?? null });
-    } else {
-      setState(load());
+      setHydrated(true);
+      return;
     }
+
+    // Deep-link support: /?service=annual-return&jurisdiction=bc&src=article-...
+    // Article CTAs land here — jump the visitor past the bucket + service pickers.
+    const params = new URLSearchParams(window.location.search);
+    const serviceParam      = params.get("service");
+    const jurisdictionParam = params.get("jurisdiction");
+    if (serviceParam) {
+      const bucket  = SERVICE_BUCKETS.find((b) => b.services.some((s) => s.key === serviceParam));
+      const service = bucket?.services.find((s) => s.key === serviceParam);
+      if (bucket && service) {
+        const hasJur   = !!jurisdictionParam;
+        const hasField = !!(service.detailFields && service.detailFields.length > 0);
+        const initialStep: WizardState["step"] =
+          service.needsJurisdiction && !hasJur ? 3 : hasField ? 4 : 5;
+        setState({
+          ...INITIAL_STATE,
+          bucketKey:       bucket.key,
+          serviceKeys:     [service.key],
+          jurisdictionKey: jurisdictionParam,
+          step:            initialStep,
+        });
+        setHydrated(true);
+        return;
+      }
+    }
+
+    setState(load());
     setHydrated(true);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -77,6 +104,49 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
   const isFirst = currentStepIndex === 0;
   const isLast = currentStepIndex === steps.length - 1;
 
+  // Fast-path: if the visitor picked exactly one service that has a dedicated
+  // order flow (annual return, incorporation) and a jurisdiction, jump straight
+  // to the checkout instead of routing them through the generic quote flow.
+  const soleService = state.serviceKeys.length === 1 ? state.serviceKeys[0] : null;
+
+  const annualReturnServices     = ["annual-return", "annual-return-multiple"];
+  const incorporationServices    = ["incorporation-numbered", "incorporation-named", "extra-provincial", "not-for-profit"];
+
+  const canFastCheckout = !!soleService && !!state.jurisdictionKey && (
+    annualReturnServices.includes(soleService) ||
+    incorporationServices.includes(soleService)
+  );
+
+  const goFastCheckout = () => {
+    if (!soleService) return;
+    const params = new URLSearchParams();
+    if (state.jurisdictionKey) params.set("jurisdiction", state.jurisdictionKey);
+    params.set("src", "wizard");
+
+    if (annualReturnServices.includes(soleService)) {
+      if (soleService === "annual-return-multiple") {
+        const yearsFromDetails = parseInt(state.details.yearsOwing ?? "", 10);
+        params.set("years", String(Number.isFinite(yearsFromDetails) && yearsFromDetails >= 2 ? yearsFromDetails : 2));
+      }
+      window.location.href = `/order/annual-return?${params.toString()}`;
+      return;
+    }
+
+    if (incorporationServices.includes(soleService)) {
+      const type =
+        soleService === "incorporation-numbered" ? "numbered"
+      : soleService === "incorporation-named"    ? "named"
+      : soleService === "extra-provincial"       ? "extra-provincial"
+      : soleService === "not-for-profit"         ? "not-for-profit"
+      : "numbered";
+      params.set("type", type);
+      // Bring across any details the wizard already collected.
+      if (state.details.proposedName) params.set("proposedName", state.details.proposedName);
+      window.location.href = `/order/incorporation?${params.toString()}`;
+      return;
+    }
+  };
+
   const canAdvance = (() => {
     switch (state.step) {
       case 1: return !!state.bucketKey;
@@ -98,6 +168,14 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
 
   const goNext = () => {
     if (!canAdvance) return;
+    // Fast-path override: the moment the visitor's selection resolves to a single
+    // service with a dedicated checkout (annual return / incorporation) and a
+    // jurisdiction is set, "Next" becomes "go pay" — no point walking them through
+    // contact + review just to email a quote for something they can buy directly.
+    if (canFastCheckout) {
+      goFastCheckout();
+      return;
+    }
     if (isLast) {
       handleSubmit();
       return;
@@ -220,6 +298,7 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
             submitting={submitting}
           />
         )}
+
       </div>
 
       {/* Nav bar */}
@@ -251,7 +330,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
           onClick={goNext}
           disabled={!canAdvance || submitting}
         >
-          {isLast ? (
+          {canFastCheckout ? (
+            <>
+              Continue to secure checkout <ArrowRight size={15} />
+            </>
+          ) : isLast ? (
             <>
               <Send size={14} /> Submit
             </>

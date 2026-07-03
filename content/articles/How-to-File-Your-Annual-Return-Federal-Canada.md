@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Federal Annual Return in Canada (CBCA Corporations)"
+title: "Federal Annual Return: How to File with Corporations Canada — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
+description: "File your federal CBCA Annual Return through Corporations Canada — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
 ---
 
 Federal corporations incorporated under the *Canada Business Corporations Act* (CBCA) must file an annual return with Corporations Canada every year. This is separate from any provincial or territorial filings and separate from your federal tax return with the Canada Revenue Agency.

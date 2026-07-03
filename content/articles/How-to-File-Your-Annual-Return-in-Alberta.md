@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in Alberta"
+title: "Alberta Annual Return: How to File with Alberta Corporate Registry — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Alberta"
 section: "articles"
+description: "File your Alberta Annual Return through Alberta Corporate Registry — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
 ---
 
 Alberta corporations incorporated under the *Business Corporations Act (Alberta)* (ABCA) must file an annual return every year with the Alberta Corporate Registry to maintain their good standing. Alberta has one of the shortest filing windows in Canada — annual returns are due within just one month of the corporation's anniversary date.

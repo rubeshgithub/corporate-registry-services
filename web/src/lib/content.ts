@@ -34,10 +34,27 @@ export type ContentPage = {
   section: Section;
   slug: string;
   title: string;
+  description?: string;
   contentHtml: string;
 };
 
 export type ContentMeta = Omit<ContentPage, "contentHtml">;
+
+// Strip markdown syntax and grab the first ~155 chars of prose as a
+// meta-description fallback for pages that don't declare their own.
+function firstParagraphPlain(md: string, maxLen = 155): string {
+  const body = md
+    .replace(/^---[\s\S]*?---\s*/m, "")  // in case caller passes raw file
+    .split(/\n\s*\n/)
+    .find((p) => p.trim() && !p.trim().startsWith("#"));
+  if (!body) return "";
+  const cleaned = body
+    .replace(/[*_`>]/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  return cleaned.length > maxLen ? cleaned.slice(0, maxLen - 1).trimEnd() + "…" : cleaned;
+}
 
 function slugify(filename: string) {
   return filename.replace(/\.md$/, "").toLowerCase();
@@ -90,10 +107,15 @@ export async function getPage(
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
   const contentHtml = processed.toString();
 
+  const description =
+    (data.description as string | undefined)?.trim() ||
+    firstParagraphPlain(content);
+
   return {
     section,
     slug,
     title: rebrand((data.title as string) ?? match.replace(".md", "")),
+    description,
     contentHtml,
   };
 }

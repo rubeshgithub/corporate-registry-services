@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in Manitoba"
+title: "Manitoba Annual Return: How to File with the Companies Office — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Manitoba"
 section: "articles"
+description: "File your Manitoba Annual Return through the Companies Office — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
 ---
 
 Manitoba corporations incorporated under *The Business Corporations Act (Manitoba)* must file an annual return with the Companies Office Manitoba every year. Like Quebec, Manitoba uses a **fixed calendar deadline** — all Manitoba corporations file by the same date.

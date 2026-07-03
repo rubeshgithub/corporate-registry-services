@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in Ontario"
+title: "Ontario Annual Return: How to File with the Ontario Business Registry — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
+description: "File your Ontario Annual Return through the Ontario Business Registry — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
 ---
 
 Every Ontario corporation incorporated under the *Business Corporations Act (Ontario)* (OBCA) must file an annual return each year to remain in good standing with the Ontario Business Registry. Missing this filing can result in a notice of intent to dissolve — and ultimately, administrative dissolution of your corporation.

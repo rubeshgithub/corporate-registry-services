@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in Nunavut"
+title: "Nunavut Annual Return: How to File with Nunavut Corporate Registries — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Nunavut"
 section: "articles"
+description: "File your Nunavut Annual Return through Nunavut Corporate Registries — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
 ---
 
 Corporations incorporated in Nunavut under the *Business Corporations Act (Nunavut)* must file an annual return with the Nunavut Department of Justice Corporate Registry within 2 months of the corporation's anniversary date.

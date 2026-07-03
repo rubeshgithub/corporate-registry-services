@@ -293,6 +293,10 @@ h1, h2, h3, h4, h5 {
   animation: step-enter 0.2s ease-out both;
 }
 
+/* Loading spinner used in the order flow */
+@keyframes crs-spin { to { transform: rotate(360deg); } }
+.crs-spin { animation: crs-spin 0.9s linear infinite; }
+
 /* ── Prose (rendered markdown) ────────────────────────────── */
 .prose {
   color: var(--text);

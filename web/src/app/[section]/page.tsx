@@ -87,6 +87,7 @@ export default async function SectionPage({
 
         {/* Cards grid */}
         <div style={{ maxWidth: "860px", margin: "0 auto", padding: "2.5rem 1.5rem 4rem" }}>
+
           <div
             style={{
               display: "grid",

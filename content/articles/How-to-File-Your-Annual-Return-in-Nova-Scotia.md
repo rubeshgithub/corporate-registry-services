@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in Nova Scotia"
+title: "Nova Scotia Annual Return: How to File with the Registry of Joint Stock Companies — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
+description: "File your Nova Scotia Annual Return through the Registry of Joint Stock Companies — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
 ---
 
 Nova Scotia corporations incorporated under the *Companies Act (Nova Scotia)* or *Corporations Registration Act* must file an annual return with the Registry of Joint Stock Companies every year within 30 days of the corporation's anniversary date — one of the tightest deadlines in Canada.

@@ -246,21 +246,31 @@ export default function HomePage() {
                 Every service comes with a custom quote — no hidden fees, no surprises.
               </p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.75rem" }}>
               {[
-                { icon: Search,       label: "Corporate Profile Reports",        href: "/profile-reports" },
-                { icon: ShieldCheck,  label: "Certificates of Good Standing",    href: "/good-standing" },
-                { icon: CheckCircle2, label: "Annual Return Filings",            href: "/annual-return" },
-                { icon: Building2,    label: "Incorporation — All Jurisdictions", href: "/incorporation" },
-                { icon: FileText,     label: "Corporate Minute Books",           href: "/minute-books" },
-                { icon: Globe,        label: "Guides &amp; Resources",           href: "/guides" },
-              ].map(({ icon: Icon, label, href }) => (
-                <a key={label} href={href} className="section-card">
-                  <span style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
+                { icon: Search,       label: "Corporate Profile Reports",         href: "/profile-reports" },
+                { icon: ShieldCheck,  label: "Certificates of Good Standing",     href: "/good-standing" },
+                { icon: CheckCircle2, label: "Annual Return Filings",             href: "/annual-return",  orderHref: "/order/annual-return?src=home-services" },
+                { icon: Building2,    label: "Incorporation — All Jurisdictions", href: "/incorporation",  orderHref: "/order/incorporation?src=home-services" },
+                { icon: FileText,     label: "Corporate Minute Books",            href: "/minute-books" },
+                { icon: Globe,        label: "Guides &amp; Resources",            href: "/guides" },
+              ].map(({ icon: Icon, label, href, orderHref }) => (
+                <div key={label} className="section-card" style={{ display: "flex", flexDirection: "column", alignItems: "stretch", padding: "0.75rem 0.9rem", gap: "0.5rem" }}>
+                  <a href={href} style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: "0.625rem", flex: 1 }}>
                     <Icon size={16} style={{ color: "var(--gold)", flexShrink: 0 }} />
                     <span dangerouslySetInnerHTML={{ __html: label }} />
-                  </span>
-                </a>
+                  </a>
+                  {orderHref && (
+                    <div style={{ display: "flex", gap: "0.75rem", borderTop: "1px solid var(--border)", paddingTop: "0.5rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace" }}>
+                      <a href={orderHref} style={{ color: "var(--gold)", fontWeight: 700, textDecoration: "none" }}>
+                        Order now →
+                      </a>
+                      <a href={href} style={{ color: "var(--text-muted)", textDecoration: "none", marginLeft: "auto" }}>
+                        Learn more
+                      </a>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>

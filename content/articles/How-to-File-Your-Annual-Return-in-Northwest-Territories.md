@@ -1,7 +1,8 @@
 ﻿---
-title: "How to File Your Annual Return in the Northwest Territories"
+title: "Northwest Territories Annual Return: How to File with NWT Corporate Registries — $99 All-In"
 slug: "How-to-File-Your-Annual-Return-in-Northwest-Territories"
 section: "articles"
+description: "File your Northwest Territories Annual Return through NWT Corporate Registries — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
 ---
 
 Corporations incorporated in the Northwest Territories under the *Business Corporations Act (Northwest Territories)* must file an annual return with the NT Corporate Registry within 2 months of the corporation's anniversary date.
