@@ -11,12 +11,26 @@ import Stripe from "stripe";
  * fulfill without a separate DB lookup.
  */
 
-const PRICE_CENTS: Record<string, number> = {
+/**
+ * Charge amount per incorporation type, in CAD cents.
+ * If ORDER_TEST_AMOUNT_CENTS is set on the server, every subtype charges
+ * that amount instead — used for one-off live-mode end-to-end tests.
+ * Unset the env var after testing to restore real prices.
+ */
+const REAL_PRICE_CENTS: Record<string, number> = {
   numbered:            69900,
   named:               74900,
   "extra-provincial":  29900,
   "not-for-profit":    69900,
 };
+const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
+const USE_TEST_PRICE = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0;
+const PRICE_CENTS: Record<string, number> = USE_TEST_PRICE
+  ? Object.fromEntries(Object.keys(REAL_PRICE_CENTS).map((k) => [k, TEST_OVERRIDE_CENTS]))
+  : REAL_PRICE_CENTS;
+if (USE_TEST_PRICE) {
+  console.warn(`[order/incorporation] TEST PRICE ACTIVE: charging ${TEST_OVERRIDE_CENTS} cents for every incorporation type.`);
+}
 
 const LABEL: Record<string, string> = {
   numbered:           "Numbered Company",

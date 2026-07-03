@@ -19,7 +19,20 @@ import Stripe from "stripe";
  * the thanks page for fulfillment.
  */
 
-const PRICE_PER_YEAR_CAD_CENTS = 9900; // $99 all-in — GST added by Stripe Tax if enabled
+/**
+ * Charge amount per year, in CAD cents. Normally $99.00.
+ * If ORDER_TEST_AMOUNT_CENTS is set on the server, we use that instead so a
+ * real card can complete a live-mode end-to-end test for cheap. Unset the
+ * env var after testing to restore the real price — no code deploy needed.
+ */
+const REAL_PRICE_PER_YEAR_CAD_CENTS = 9900;
+const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
+const PRICE_PER_YEAR_CAD_CENTS = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0
+  ? TEST_OVERRIDE_CENTS
+  : REAL_PRICE_PER_YEAR_CAD_CENTS;
+if (PRICE_PER_YEAR_CAD_CENTS !== REAL_PRICE_PER_YEAR_CAD_CENTS) {
+  console.warn(`[order/annual-return] TEST PRICE ACTIVE: charging ${PRICE_PER_YEAR_CAD_CENTS} cents per year (real price is ${REAL_PRICE_PER_YEAR_CAD_CENTS}).`);
+}
 
 type Hit = {
   name:             string;
