@@ -21,9 +21,12 @@ export async function generateMetadata({
   const page = await getPage(section as Section, slug);
   if (!page) return {};
   const fallback = `${page.title}. Official Canadian corporate registry services by CRS — all 13 jurisdictions.`;
+  // Canonical is the lowercased slug — consolidates the ~14 TitleCase URL
+  // duplicates Google has in its index into a single ranking signal.
   return {
     title: `${page.title} — CRS`,
     description: page.description || fallback,
+    alternates: { canonical: `/${section}/${slug.toLowerCase()}` },
   };
 }
 

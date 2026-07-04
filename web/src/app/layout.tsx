@@ -21,7 +21,13 @@ const ibmMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+// Same convention as sitemap.ts — this is what Next.js resolves relative
+// canonical URLs against, so we don't have to duplicate the base URL in
+// every generateMetadata function.
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.corporateregistryservices.ca";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "CRS — Canadian Corporate Registry Services",
   description:
     "Corporate profile reports, certificates of good standing, annual returns, incorporations, and minute books across all 13 Canadian jurisdictions.",
