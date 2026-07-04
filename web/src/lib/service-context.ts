@@ -43,6 +43,34 @@ export type ServiceContext = {
   ctaHeadline:    string;         // above-the-fold conversion strip headline
   ctaSubline:     string;         // supporting line
   ctaButton:      string;         // button label
+  urgency?:       UrgencyBlock;   // optional red-tinted deadline callout
+  stickyLabel?:   string;         // short label for the sticky mobile CTA
+};
+
+export type UrgencyBlock = {
+  headline:    string;   // "Alberta gives you only 1 month."
+  body:        string;   // Details on what happens if you miss the deadline.
+};
+
+/**
+ * Annual-return deadlines vary wildly by jurisdiction. We only surface an
+ * urgency callout for jurisdictions where the window is genuinely tight —
+ * elsewhere ("file with your tax return", 6 months, etc.) the urgency
+ * framing feels like scare-copy and undermines trust.
+ */
+const ANNUAL_RETURN_URGENCY: Partial<Record<string, UrgencyBlock>> = {
+  ab: {
+    headline: "Alberta gives you only 1 month after your incorporation anniversary — the shortest window in Canada.",
+    body:     "Miss it and your corporation can be struck from the registry. Reinstatement costs more, takes weeks, and blocks financing, bank changes, and CRA filings while you wait.",
+  },
+  bc: {
+    headline: "BC Annual Reports are due within 2 months of your incorporation anniversary.",
+    body:     "Continued non-compliance places your corporation in non-compliance status, and if more than a year overdue the Registrar can dissolve it.",
+  },
+  federal: {
+    headline: "Federal CBCA annual returns are due within 60 days of your anniversary.",
+    body:     "Corporations Canada can dissolve a corporation for repeated missed filings — costly to reverse and disrupts existing contracts.",
+  },
 };
 
 /**
@@ -63,6 +91,8 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       ctaHeadline:    "CRS files this for you — $99 all-in + GST.",
       ctaSubline:     "Government fee included. Filed within 24 hours. Deadline monitored every year.",
       ctaButton:      "File my annual return",
+      urgency:        jurisdictionKey ? ANNUAL_RETURN_URGENCY[jurisdictionKey] : undefined,
+      stickyLabel:    "$99 · File my annual return",
     };
   }
 
@@ -74,6 +104,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       ctaHeadline:    "CRS incorporates your company — from $699 all-in.",
       ctaSubline:     "Includes government fees, NUANS (if named), articles, and organizing resolutions. Filed within 24 hours.",
       ctaButton:      "Start incorporation",
+      stickyLabel:    "From $699 · Start incorporation",
     };
   }
 
@@ -85,6 +116,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       ctaHeadline:    "Certificate of Good Standing — $79 all-in + GST.",
       ctaSubline:     "Government-issued, filed on your behalf. Government fee included. Turnaround in hours, not weeks.",
       ctaButton:      "Order certificate",
+      stickyLabel:    "$79 · Order certificate",
     };
   }
 
@@ -96,6 +128,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       ctaHeadline:    "Corporate Profile Report — $49 all-in + GST.",
       ctaSubline:     "Direct from the government registry. Government fee included. Delivered as a PDF within one business hour.",
       ctaButton:      "Order profile report",
+      stickyLabel:    "$49 · Order profile report",
     };
   }
 
@@ -107,6 +140,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       ctaHeadline:    "Complete minute book, compliance-ready — from $299.",
       ctaSubline:     "Articles, by-laws, registers, share certificates, and resolutions. Delivered as a single PDF.",
       ctaButton:      "Get my minute book",
+      stickyLabel:    "From $299 · Get my minute book",
     };
   }
 

@@ -297,6 +297,38 @@ h1, h2, h3, h4, h5 {
 @keyframes crs-spin { to { transform: rotate(360deg); } }
 .crs-spin { animation: crs-spin 0.9s linear infinite; }
 
+/* Sticky bottom CTA — only visible on mobile so buy-intent doesn't disappear
+   as the visitor scrolls through the article. Hidden ≥768px because the
+   above-the-fold conversion strip is already fully visible on desktop. */
+.crs-sticky-cta {
+  display: none;
+}
+@media (max-width: 767px) {
+  .crs-sticky-cta {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: var(--primary);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 -3px 14px rgba(0, 0, 0, 0.18);
+  }
+  /* Give the article body enough bottom padding so the sticky bar
+     doesn't obscure the last paragraph or the bottom CTA card. */
+  main article {
+    padding-bottom: 6rem !important;
+  }
+}
+
 /* ── Prose (rendered markdown) ────────────────────────────── */
 .prose {
   color: var(--text);
