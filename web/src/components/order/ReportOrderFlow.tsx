@@ -49,9 +49,35 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
   const [paying, setPaying] = useState(false);
   const [payErr, setPayErr] = useState("");
 
+  // If ?q= is present the visitor came from the company-search page with a
+  // specific pick — auto-run the lookup and, if ?registryId= matches, jump
+  // straight to the confirm screen. Otherwise just pre-fill the input.
   useEffect(() => {
     const q = params.get("q");
-    if (q) setQuery(q);
+    if (!q) return;
+    setQuery(q);
+    const wantedRegistryId = params.get("registryId") ?? "";
+    const wantedProvince   = params.get("jurisdiction") ?? "all";
+    (async () => {
+      setSearching(true);
+      try {
+        const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${wantedProvince}`);
+        const data = await res.json();
+        const hits: RegistryHit[] = data.results ?? [];
+        setResults(hits);
+        const match = wantedRegistryId
+          ? hits.find((h) => h.registryId === wantedRegistryId)
+          : (hits.length === 1 ? hits[0] : null);
+        if (match) {
+          setPick(match);
+          setScreen("confirm");
+        }
+      } catch {
+        setSearchErr("Search is temporarily unavailable. Please try again.");
+      } finally {
+        setSearching(false);
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

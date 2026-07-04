@@ -74,7 +74,18 @@ export default function CompanySearch() {
   const [showFilters, setShowFilters] = useState(false);
   const [wizardOpen, setWizardOpen]   = useState(false);
   const [wizardPreload, setWizardPreload] = useState<{ companyName?: string; jurisdictionKey?: string } | undefined>();
+  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /** Build a deep-link into an order flow that skips the lookup step. */
+  function orderHref(service: "profile-report" | "good-standing" | "annual-return", r: Result) {
+    const params = new URLSearchParams();
+    if (r.name)        params.set("q",           r.name);
+    if (r.provinceKey) params.set("jurisdiction", r.provinceKey);
+    if (r.registryId)  params.set("registryId",  r.registryId);
+    params.set("src", "corp-search");
+    return `/order/${service}?${params.toString()}`;
+  }
 
   useEffect(() => {
     const detected = detectProvince(query);
@@ -302,30 +313,81 @@ export default function CompanySearch() {
                 <Field label="Jurisdiction"          value={r.jurisdiction   || "—"} />
               </div>
 
-              {/* CTA */}
-              <div
-                style={{
-                  borderTop: "1px solid var(--border)",
-                  paddingTop: "0.75rem",
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  flexWrap: "wrap", gap: "0.5rem",
-                }}
-              >
-                <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                  For the complete profile, request a service through our portal.
-                </span>
-                <button
-                  onClick={() => { setWizardPreload({ companyName: r.name, jurisdictionKey: r.provinceKey }); setWizardOpen(true); }}
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                    padding: "0.4rem 0.9rem", borderRadius: "0.5rem",
-                    background: "var(--primary)", color: "#fff",
-                    fontSize: "0.78rem", fontWeight: 600,
-                    border: "none", cursor: "pointer", whiteSpace: "nowrap",
-                  }}
-                >
-                  Request a service <ArrowRight size={12} />
-                </button>
+              {/* CTA: inline pricing menu → deep-link into an order flow */}
+              <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+                  <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
+                    Order a service for this company — filed within 24 hours.
+                  </span>
+                  <button
+                    onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
+                    style={{
+                      display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                      padding: "0.4rem 0.9rem", borderRadius: "0.5rem",
+                      background: expandedIdx === i ? "var(--bg-deep)" : "var(--primary)",
+                      color: expandedIdx === i ? "var(--text)" : "#fff",
+                      border: expandedIdx === i ? "1.5px solid var(--border)" : "none",
+                      fontSize: "0.78rem", fontWeight: 600,
+                      cursor: "pointer", whiteSpace: "nowrap",
+                    }}
+                  >
+                    {expandedIdx === i ? "Hide options" : "Order a service"} <ArrowRight size={12} />
+                  </button>
+                </div>
+
+                {expandedIdx === i && (
+                  <div
+                    style={{
+                      marginTop: "0.75rem",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    {[
+                      { service: "profile-report" as const, label: "Corporate Profile Report",     price: "$49" },
+                      { service: "good-standing"  as const, label: "Certificate of Good Standing", price: "$79" },
+                      { service: "annual-return"  as const, label: "Annual Return Filing",         price: "from $99/yr" },
+                    ].map(({ service, label, price }) => (
+                      <a
+                        key={service}
+                        href={orderHref(service, r)}
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "0.6rem 0.85rem",
+                          border: "1px solid var(--border)",
+                          background: "var(--card)",
+                          borderRadius: "0.5rem",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <span>
+                          <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>{label}</span>
+                          <span style={{ fontSize: "0.72rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace" }}>{price} all-in + GST</span>
+                        </span>
+                        <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+                      </a>
+                    ))}
+                    <button
+                      onClick={() => { setWizardPreload({ companyName: r.name, jurisdictionKey: r.provinceKey }); setWizardOpen(true); }}
+                      style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "0.6rem 0.85rem",
+                        border: "1.5px dashed var(--border)",
+                        background: "transparent",
+                        borderRadius: "0.5rem",
+                        cursor: "pointer",
+                        textAlign: "left",
+                      }}
+                    >
+                      <span>
+                        <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>Something else</span>
+                        <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Custom quote — 1 hour response</span>
+                      </span>
+                      <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

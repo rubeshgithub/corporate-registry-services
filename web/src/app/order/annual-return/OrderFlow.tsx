@@ -158,12 +158,38 @@ export default function OrderFlow() {
     ? "Pay $99 + GST and file"
     : `Pay $${99 * years} + GST and file ${years} years`;
 
-  // Read initial query and years from URL (?q=, ?years=).
+  // Read initial query and years from URL. If ?q= is present the visitor
+  // arrived from the company-search page with a specific pick — auto-run the
+  // lookup, and if ?registryId= matches one of the hits, jump straight to
+  // the confirm screen so they don't have to search twice.
   useEffect(() => {
     const q = params.get("q");
-    if (q) setQuery(q);
     const y = parseInt(params.get("years") ?? "", 10);
     if (Number.isFinite(y) && y >= 1 && y <= 10) setYears(y);
+    if (!q) return;
+    setQuery(q);
+    const wantedRegistryId = params.get("registryId") ?? "";
+    const wantedProvince   = params.get("jurisdiction") ?? "all";
+    (async () => {
+      setSearching(true);
+      try {
+        const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${wantedProvince}`);
+        const data = await res.json();
+        const hits: RegistryHit[] = data.results ?? [];
+        setResults(hits);
+        const match = wantedRegistryId
+          ? hits.find((h) => h.registryId === wantedRegistryId)
+          : (hits.length === 1 ? hits[0] : null);
+        if (match) {
+          setPick(match);
+          setScreen("confirm");
+        }
+      } catch {
+        setSearchErr("Search is temporarily unavailable. Please try again.");
+      } finally {
+        setSearching(false);
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
