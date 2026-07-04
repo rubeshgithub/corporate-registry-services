@@ -111,10 +111,12 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
 
   const annualReturnServices     = ["annual-return", "annual-return-multiple"];
   const incorporationServices    = ["incorporation-numbered", "incorporation-named", "extra-provincial", "not-for-profit"];
+  const reportServices           = ["profile-report", "good-standing"];
 
   const canFastCheckout = !!soleService && !!state.jurisdictionKey && (
     annualReturnServices.includes(soleService) ||
-    incorporationServices.includes(soleService)
+    incorporationServices.includes(soleService) ||
+    reportServices.includes(soleService)
   );
 
   const goFastCheckout = () => {
@@ -129,6 +131,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
         params.set("years", String(Number.isFinite(yearsFromDetails) && yearsFromDetails >= 2 ? yearsFromDetails : 2));
       }
       window.location.href = `/order/annual-return?${params.toString()}`;
+      return;
+    }
+
+    if (reportServices.includes(soleService)) {
+      window.location.href = `/order/${soleService}?${params.toString()}`;
       return;
     }
 

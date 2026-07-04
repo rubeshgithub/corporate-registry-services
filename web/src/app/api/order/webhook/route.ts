@@ -264,6 +264,79 @@ async function fulfill(session: Stripe.Checkout.Session) {
     return;
   }
 
+  if (service === "profile-report" || service === "good-standing") {
+    const m = session.metadata ?? {};
+    const label = service === "profile-report" ? "Corporate Profile Report" : "Certificate of Good Standing";
+    const ownerText = `
+NEW PAID ORDER — ${label} — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Attribution:   ${m.src ?? "—"}
+
+--- Company (from live registry lookup) ---
+Name:          ${m.company_name ?? "—"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
+Registry ID:   ${m.registry_id ?? "—"}
+BN:            ${m.business_number ?? "—"}
+Entity type:   ${m.entity_type ?? "—"}
+Status:        ${m.registry_status ?? "—"}
+Incorporated:  ${m.incorp_date ?? "—"}
+Location:      ${m.location ?? "—"}
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"}
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Action: pull the ${label.toLowerCase()} from the ${m.jurisdiction ?? "target"} registry and email PDF to the customer.
+Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+    const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+We've received your payment for a ${label} for ${m.company_name ?? "your corporation"}.
+
+We're pulling it from the ${m.jurisdiction ?? "government"} registry now and will
+email the PDF as soon as it's available — typically within one business hour.
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Company:      ${m.company_name ?? "—"}
+  Registry ID:  ${m.registry_id ?? "—"}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [ownerEmail] },
+      Message: {
+        Subject: { Data: `[CRS] Paid — ${label} ${m.jurisdiction ?? ""} — ${m.company_name ?? "—"}` },
+        Body:    { Text: { Data: ownerText } },
+      },
+    }));
+    if (customerEmail) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [customerEmail] },
+        Message: {
+          Subject: { Data: `Payment received — your ${label} is on the way` },
+          Body:    { Text: { Data: customerText } },
+        },
+      }));
+    }
+    return;
+  }
+
   if (service === "incorporation") {
     await ses.send(new SendEmailCommand({
       Source: fromEmail,
