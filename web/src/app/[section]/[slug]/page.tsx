@@ -4,7 +4,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPage, listAllPages, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
 import { inferServiceContext, wizardHref } from "@/lib/service-context";
-import { ArrowLeft, ArrowRight, Zap, AlertTriangle } from "lucide-react";
+import { getRelatedGroups } from "@/lib/related-pages";
+import { breadcrumbLd, serviceLd, jsonLdScript } from "@/lib/structured-data";
+import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 
 type Params = { section: string; slug: string };
 
@@ -47,8 +49,24 @@ export default async function ContentPage({
   const ctx = inferServiceContext(page.section, page.slug);
   const ctaHref = ctx ? wizardHref(ctx, `article-${page.slug}`) : "/#incorporate";
 
+  const relatedGroups = getRelatedGroups(page.section, page.slug);
+  const breadcrumb = breadcrumbLd([
+    { name: "Home",         url: "/" },
+    { name: sectionLabel,   url: sectionHref },
+    { name: page.title },
+  ]);
+  const service = ctx
+    ? serviceLd({ ctx, pageUrl: `/${section}/${slug.toLowerCase()}`, pageName: page.title })
+    : null;
+
   return (
     <>
+      {/* Structured data — helps SERPs render breadcrumbs and price snippets. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(breadcrumb)} />
+      {service && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(service)} />
+      )}
+
       <Header />
       <main style={{ flex: 1 }}>
         {/* Breadcrumb */}
@@ -269,6 +287,77 @@ export default async function ContentPage({
               {ctx ? ctx.ctaButton : "Get a quote"} <ArrowRight size={14} />
             </a>
           </div>
+
+          {/* Related pages — cross-links for humans, internal-link graph for
+              Google. Helps consolidate topical clusters and pushes the
+              ~15 still-unindexed pages into crawl range. */}
+          {relatedGroups.length > 0 && (
+            <div
+              style={{
+                marginTop: "3rem",
+                paddingTop: "2rem",
+                borderTop: "1px solid var(--border)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "var(--font-display), Georgia, serif",
+                  fontSize: "1.05rem",
+                  fontWeight: 700,
+                  color: "var(--text)",
+                  marginBottom: "1rem",
+                }}
+              >
+                Related on CRS
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "1.25rem",
+                }}
+              >
+                {relatedGroups.map((group) => (
+                  <div key={group.title}>
+                    <div
+                      style={{
+                        fontSize: "0.72rem",
+                        fontFamily: "var(--font-mono), monospace",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        color: "var(--text-muted)",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {group.title}
+                    </div>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                      {group.links.map((link) => (
+                        <li key={link.href}>
+                          <a
+                            href={link.href}
+                            {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            style={{
+                              color: "var(--text)",
+                              textDecoration: "none",
+                              fontSize: "0.85rem",
+                              display: "inline-flex",
+                              alignItems: "flex-start",
+                              gap: "0.35rem",
+                              lineHeight: 1.4,
+                            }}
+                          >
+                            <span style={{ borderBottom: "1px solid var(--gold)", paddingBottom: "1px" }}>{link.label}</span>
+                            {link.external && <ExternalLink size={11} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.2rem" }} />}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Back link */}
           <div style={{ marginTop: "2rem" }}>

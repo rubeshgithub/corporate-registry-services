@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { listSection, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
+import { breadcrumbLd, jsonLdScript } from "@/lib/structured-data";
 import { ArrowRight } from "lucide-react";
 
 type Params = { section: string };
@@ -70,8 +71,14 @@ export default async function SectionPage({
   const label = SECTION_LABELS[section as Section];
   const override = SECTION_OVERRIDES[section as Section];
 
+  const breadcrumb = breadcrumbLd([
+    { name: "Home",     url: "/" },
+    { name: label },
+  ]);
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(breadcrumb)} />
       <Header />
       <main style={{ flex: 1 }}>
         {/* Hero */}
