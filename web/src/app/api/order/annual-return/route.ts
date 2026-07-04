@@ -141,6 +141,11 @@ export async function POST(req: Request) {
       mode: "payment",
       payment_method_types: ["card"],
       customer_email: body.contact.email.trim(),
+      // Let Stripe compute GST/HST/PST from the billing address the customer
+      // supplies on Stripe's hosted page. Requires Stripe Tax to be enabled
+      // in the dashboard (Settings → Tax → Configure).
+      automatic_tax: { enabled: true },
+      billing_address_collection: "required",
       line_items: [
         {
           price_data: {
