@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import crypto from "node:crypto";
 
 /**
  * POST /api/order/webhook
@@ -102,6 +103,197 @@ function formatChanges(c: StoredChanges | null): string {
   }
 
   return lines.length ? lines.join("\n") : "(none reported — file with existing registry data)";
+}
+
+/* ─────────────── MinuteBook data feed (fire-and-forget) ───────────────
+   Every paid CRS order that materially changes corporate state gets pushed
+   to minutebook.corporateregistryservices.ca so customers accumulate
+   filing history worth upselling into a completed minute book. Reports
+   and name searches are skipped (no state change); incorporation is
+   skipped until Phase 3 (no registry ID at payment time). Failures here
+   are swallowed so an MB outage never causes Stripe webhook retries. */
+
+type MbEvent = { type: string; effectiveDate: string; data?: Record<string, unknown> };
+type MbFeedPayload = {
+  orderId:        string;
+  service:        string;
+  occurredAt:     string;
+  customerEmail:  string;
+  customerName?:  string;
+  company: {
+    name:            string;
+    registryId:      string;
+    businessNumber?: string;
+    jurisdiction:    string;
+    provinceKey:     string;
+    incorpDate?:     string;
+    location?:       string;
+  };
+  events?: MbEvent[];
+};
+
+/** Which services push to MB. Kept explicit so we don't accidentally leak
+    read-only orders (reports, searches) or incorporations that lack a
+    registry ID at time of payment. */
+const MB_FED_SERVICES = new Set([
+  "annual-return",
+  "annual-return-multiple",
+  "change-directors",
+  "change-address",
+  "voluntary-dissolution",
+  "revival",
+]);
+
+/** Build the MinuteBook feed payload from a Stripe session. Returns null
+    for services we don't feed, or if required metadata is missing. */
+function buildMbPayload(session: Stripe.Checkout.Session): MbFeedPayload | null {
+  const m = session.metadata ?? {};
+  const service = m.service;
+  if (!service || !MB_FED_SERVICES.has(service)) return null;
+
+  const email = session.customer_details?.email;
+  if (!email) return null;
+  if (!m.company_name || !m.registry_id || !m.province_key) return null;
+
+  const base: MbFeedPayload = {
+    orderId:       session.id,
+    service,
+    occurredAt:    new Date().toISOString(),
+    customerEmail: email,
+    customerName:  m.contact_name || undefined,
+    company: {
+      name:            m.company_name,
+      registryId:      m.registry_id,
+      businessNumber:  m.business_number || undefined,
+      jurisdiction:    m.jurisdiction    || "",
+      provinceKey:     m.province_key,
+      incorpDate:      m.incorp_date     || undefined,
+      location:        m.location        || undefined,
+    },
+    events: [],
+  };
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  if (service === "annual-return" || service === "annual-return-multiple") {
+    // 1 annual_return_filed event per year filed. If a set of changes came
+    // in on the same filing, emit those as separate events too.
+    const years = Math.max(1, parseInt(m.years_filed ?? "1", 10) || 1);
+    const currentYear = new Date().getFullYear();
+    for (let i = 0; i < years; i++) {
+      base.events!.push({
+        type:          "annual_return_filed",
+        effectiveDate: today,
+        data:          { year: currentYear - (years - 1 - i) },
+      });
+    }
+    const changes = readChunkedJson<StoredChanges>(m, "changes_json");
+    if (changes) {
+      for (const d of changes.directors ?? []) {
+        if (d.type === "added")   base.events!.push({ type: "director_appointed",       effectiveDate: d.effectiveDate || today, data: { name: d.name } });
+        if (d.type === "resigned") base.events!.push({ type: "director_resigned",       effectiveDate: d.effectiveDate || today, data: { name: d.name } });
+        if (d.type === "address")  base.events!.push({ type: "director_address_changed", effectiveDate: d.effectiveDate || today, data: { name: d.name, newAddress: d.newAddress } });
+      }
+      if (changes.registeredAddress?.changed) {
+        base.events!.push({
+          type:          "address_changed",
+          effectiveDate: changes.registeredAddress.effectiveDate || today,
+          data:          { newAddress: changes.registeredAddress.newAddress },
+        });
+      }
+    }
+    return base;
+  }
+
+  if (service === "change-directors") {
+    type Row = { type: string; role: string; name: string; effectiveDate: string; newAddress?: string; officerTitle?: string };
+    const details = readChunkedJson<{ changes: Row[] }>(m, "details_json");
+    for (const c of details?.changes ?? []) {
+      if (c.role === "director") {
+        if (c.type === "appointed")       base.events!.push({ type: "director_appointed",       effectiveDate: c.effectiveDate, data: { name: c.name } });
+        if (c.type === "resigned")        base.events!.push({ type: "director_resigned",       effectiveDate: c.effectiveDate, data: { name: c.name } });
+        if (c.type === "address-changed") base.events!.push({ type: "director_address_changed", effectiveDate: c.effectiveDate, data: { name: c.name, newAddress: c.newAddress } });
+      } else if (c.role === "officer") {
+        if (c.type === "appointed") base.events!.push({ type: "officer_appointed", effectiveDate: c.effectiveDate, data: { name: c.name, title: c.officerTitle } });
+        if (c.type === "resigned")  base.events!.push({ type: "officer_resigned", effectiveDate: c.effectiveDate, data: { name: c.name, title: c.officerTitle } });
+        // No officer_address_changed event type on MB — silently skip.
+      }
+    }
+    return base;
+  }
+
+  if (service === "change-address") {
+    const details = readChunkedJson<{ newAddress: string; effectiveDate: string }>(m, "details_json");
+    base.events!.push({
+      type:          "address_changed",
+      effectiveDate: details?.effectiveDate || today,
+      data:          { newAddress: details?.newAddress },
+    });
+    return base;
+  }
+
+  if (service === "voluntary-dissolution") {
+    const details = readChunkedJson<{ effectiveDate: string; debtsPaid: boolean; finalTaxFiled: boolean; assetsDistributed: boolean; reason: string }>(m, "details_json");
+    base.events!.push({
+      type:          "voluntary_dissolution_filed",
+      effectiveDate: details?.effectiveDate || today,
+      data: {
+        debtsPaid:         details?.debtsPaid,
+        finalTaxFiled:     details?.finalTaxFiled,
+        assetsDistributed: details?.assetsDistributed,
+        reason:            details?.reason,
+      },
+    });
+    return base;
+  }
+
+  if (service === "revival") {
+    const details = readChunkedJson<{ hasMissedFilings: boolean; reasonForRevival: string; filingsNote: string }>(m, "details_json");
+    base.events!.push({
+      type:          "revival_filed",
+      effectiveDate: today,
+      data: {
+        hasMissedFilings: details?.hasMissedFilings,
+        reasonForRevival: details?.reasonForRevival,
+        filingsNote:      details?.filingsNote,
+      },
+    });
+    return base;
+  }
+
+  return null;
+}
+
+/** POST the payload to MinuteBook, signed with HMAC-SHA256. Never throws —
+    logs on failure. MB outage should not cause Stripe webhook retries. */
+async function pushToMinuteBook(session: Stripe.Checkout.Session): Promise<void> {
+  const url    = process.env.MINUTEBOOK_FEED_URL;
+  const secret = process.env.CRS_FEED_SECRET;
+  if (!url || !secret) return; // Feature not configured yet — silent no-op.
+
+  const payload = buildMbPayload(session);
+  if (!payload) return;
+
+  const body = JSON.stringify(payload);
+  const signature = crypto.createHmac("sha256", secret).update(body).digest("hex");
+
+  try {
+    const res = await fetch(url, {
+      method:  "POST",
+      headers: {
+        "Content-Type":     "application/json",
+        "X-CRS-Signature":  `sha256=${signature}`,
+      },
+      body,
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.error("[crs→mb] non-2xx response:", res.status, text.slice(0, 400));
+    }
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Unknown MinuteBook feed error.";
+    console.error("[crs→mb] push failed:", msg);
+  }
 }
 
 /** Format the service-specific details block for the fulfillment email. */
@@ -283,6 +475,11 @@ async function fulfill(session: Stripe.Checkout.Session) {
   const fromEmail     = process.env.SES_FROM     ?? process.env.FROM_EMAIL  ?? "noreply@crs.ca";
   const customerEmail = session.customer_details?.email;
   const ses = makeSes();
+
+  // Fire the MinuteBook feed push in the background — emails and the
+  // Stripe response take priority; a MinuteBook failure must never cause
+  // a Stripe retry. pushToMinuteBook itself catches all errors.
+  void pushToMinuteBook(session);
 
   if (service === "annual-return" || service === "annual-return-multiple") {
     await ses.send(new SendEmailCommand({
