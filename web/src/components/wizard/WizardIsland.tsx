@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, ArrowRight, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, ExternalLink } from "lucide-react";
+
+// Corporate documents (minute books, by-laws, resolutions) are handled on
+// our sister product MinuteBook rather than the CRS quote flow.
+const MINUTEBOOK_URL = "https://minutebook.corporateregistryservices.ca";
 import { SERVICE_BUCKETS, getBucket } from "@/lib/service-config";
 import { INITIAL_STATE, type WizardState } from "@/lib/wizard-types";
 import StepBucket from "./steps/StepBucket";
@@ -112,12 +116,20 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
   const annualReturnServices     = ["annual-return", "annual-return-multiple"];
   const incorporationServices    = ["incorporation-numbered", "incorporation-named", "extra-provincial", "not-for-profit"];
   const reportServices           = ["profile-report", "good-standing"];
+  const nameSearchServices       = ["corporate-search", "nuans-search"];
 
-  const canFastCheckout = !!soleService && !!state.jurisdictionKey && (
-    annualReturnServices.includes(soleService) ||
-    incorporationServices.includes(soleService) ||
-    reportServices.includes(soleService)
+  const canFastCheckout = !!soleService && (
+    // These flows need a jurisdiction picked in the wizard
+    ((annualReturnServices.includes(soleService) || incorporationServices.includes(soleService) || reportServices.includes(soleService) || soleService === "corporate-search") && !!state.jurisdictionKey) ||
+    // NUANS is federal-only, no jurisdiction needed
+    (soleService === "nuans-search")
   );
+
+  // Corporate documents bucket routes off-site to MinuteBook. The Next button
+  // adapts label + destination; a short info panel explains the redirect so
+  // the visitor isn't surprised when the tab changes.
+  const isCorporateDocsBucket = state.step === 1 && state.bucketKey === "corporate-docs";
+  const goMinuteBook = () => { window.location.href = MINUTEBOOK_URL; };
 
   const goFastCheckout = () => {
     if (!soleService) return;
@@ -135,6 +147,14 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
     }
 
     if (reportServices.includes(soleService)) {
+      window.location.href = `/order/${soleService}?${params.toString()}`;
+      return;
+    }
+
+    if (nameSearchServices.includes(soleService)) {
+      // Bring across proposed name if the visitor typed one in the wizard.
+      const proposedName = state.details.proposedName ?? state.details.searchName;
+      if (proposedName) params.set("q", proposedName);
       window.location.href = `/order/${soleService}?${params.toString()}`;
       return;
     }
@@ -175,6 +195,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
 
   const goNext = () => {
     if (!canAdvance) return;
+    // Corporate documents don't live on CRS — send the visitor to MinuteBook.
+    if (isCorporateDocsBucket) {
+      goMinuteBook();
+      return;
+    }
     // Fast-path override: the moment the visitor's selection resolves to a single
     // service with a dedicated checkout (annual return / incorporation) and a
     // jurisdiction is set, "Next" becomes "go pay" — no point walking them through
@@ -306,6 +331,35 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
           />
         )}
 
+        {/* Corporate Documents lives on MinuteBook — surface a small notice
+            immediately after bucket selection so the redirect on Next isn't
+            surprising. */}
+        {isCorporateDocsBucket && (
+          <div
+            style={{
+              marginTop: "1rem",
+              padding: "0.85rem 1rem",
+              borderRadius: "0.5rem",
+              border: "1px solid var(--gold)",
+              background: "var(--gold-dim)",
+              display: "flex",
+              gap: "0.6rem",
+              alignItems: "flex-start",
+              fontSize: "0.82rem",
+              lineHeight: 1.5,
+            }}
+          >
+            <ExternalLink size={15} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.1rem" }} />
+            <div>
+              <span style={{ fontWeight: 700, color: "var(--text)" }}>Corporate documents live on MinuteBook.</span>{" "}
+              <span style={{ color: "var(--text-muted)" }}>
+                Minute books, by-laws, share certificates, and resolutions are handled by our sister product.
+                Continue to open MinuteBook.
+              </span>
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Nav bar */}
@@ -337,7 +391,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
           onClick={goNext}
           disabled={!canAdvance || submitting}
         >
-          {canFastCheckout ? (
+          {isCorporateDocsBucket ? (
+            <>
+              Open MinuteBook <ExternalLink size={14} />
+            </>
+          ) : canFastCheckout ? (
             <>
               Continue to secure checkout <ArrowRight size={15} />
             </>

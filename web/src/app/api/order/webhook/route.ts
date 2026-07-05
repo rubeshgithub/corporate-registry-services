@@ -264,6 +264,73 @@ async function fulfill(session: Stripe.Checkout.Session) {
     return;
   }
 
+  if (service === "corporate-search" || service === "nuans-search") {
+    const m = session.metadata ?? {};
+    const label = service === "corporate-search" ? "Corporate Name Search" : "NUANS Name Search";
+    const ownerText = `
+NEW PAID ORDER — ${label} — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Attribution:   ${m.src ?? "—"}
+
+--- Name search ---
+Proposed name: ${m.proposed_name ?? "—"}
+Fallback:      ${m.alt_name || "(none)"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key || "federal"})
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"}
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Action: run the ${label.toLowerCase()} and email the report PDF to the customer.
+Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+    const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+We've received your payment for a ${label} for the proposed name
+"${m.proposed_name ?? "—"}"${m.alt_name ? ` (fallback "${m.alt_name}")` : ""}.
+
+We're running the search now and will email your report as soon as it
+completes — typically within one business hour.
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [ownerEmail] },
+      Message: {
+        Subject: { Data: `[CRS] Paid — ${label} — ${m.proposed_name ?? "—"}` },
+        Body:    { Text: { Data: ownerText } },
+      },
+    }));
+    if (customerEmail) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [customerEmail] },
+        Message: {
+          Subject: { Data: `Payment received — your ${label} is on the way` },
+          Body:    { Text: { Data: customerText } },
+        },
+      }));
+    }
+    return;
+  }
+
   if (service === "profile-report" || service === "good-standing") {
     const m = session.metadata ?? {};
     const label = service === "profile-report" ? "Corporate Profile Report" : "Certificate of Good Standing";

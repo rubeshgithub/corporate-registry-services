@@ -167,6 +167,12 @@ export function wizardHref(ctx: ServiceContext, src: string): string {
   if (ctx.serviceKey === "good-standing") {
     return `/order/good-standing?${params.toString()}`;
   }
+  if (ctx.serviceKey === "corporate-search") {
+    return `/order/corporate-search?${params.toString()}`;
+  }
+  if (ctx.serviceKey === "nuans-search") {
+    return `/order/nuans-search?${params.toString()}`;
+  }
   if (ctx.serviceKey.startsWith("incorporation-")) {
     // All incorporation subtypes route to the same page; the type is a query param.
     const type =
