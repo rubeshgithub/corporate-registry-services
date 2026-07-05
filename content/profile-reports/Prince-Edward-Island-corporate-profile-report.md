@@ -23,7 +23,7 @@ The Prince Edward Island Corporate Profile Report is retrieved directly from the
 
 | | |
 |---|---|
-| **Price** | $79 + applicable tax — all government charges included |
+| **Price** | $49 + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | PDF |
 | **Payment** | Interac E-transfer, Debit, Credit |

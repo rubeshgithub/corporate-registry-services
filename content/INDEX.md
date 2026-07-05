@@ -1,24 +1,35 @@
-# BizFile Canada — Content Index
+# CRS Content Index
 
-92 markdown files organized in 7 sections, mirroring the live site at https://bizfile.ca
+Markdown source for the CRS marketing site. Rendered by `web/src/app/[section]/[slug]/page.tsx` via `web/src/lib/content.ts`.
 
 ## Folders
 
-- `core/` — 9 files: homepage, About, Contact, Articles hub, and 5 Canada-level hub pages
-- `profile-reports/` — 14 files: one per Canadian jurisdiction
+- `annual-return/` — 14 files: one per Canadian jurisdiction (federal + 13 provinces/territories)
+- `articles/` — how-to and educational articles (per-jurisdiction annual return guides + more)
 - `good-standing/` — 14 files: one per Canadian jurisdiction
-- `annual-return/` — 14 files: one per Canadian jurisdiction
-- `minute-books/` — 14 files: one per Canadian jurisdiction
+- `guides/` — evergreen explainer content shared across services
 - `incorporation/` — 14 files: one per Canadian jurisdiction
-- `articles/` — 13 files: QuickBooks Online articles (one per province, no Federal article exists on the live site)
+- `minute-books/` — 14 files: one per Canadian jurisdiction
+- `profile-reports/` — 14 files: one per Canadian jurisdiction
 
 ## File format
 
-Each `.md` file has YAML frontmatter (`title`, `source_url`, `slug`, `section`) followed by an H1 and the page body. The `source_url` always points to the live `.html` page on bizfile.ca — handy for re-scraping or fact-checking as you edit.
+Each `.md` file has YAML frontmatter followed by the page body:
 
-## Notes on content
+```yaml
+---
+title: "Alberta Annual Return: How to File with Alberta Corporate Registry — $99 All-In"
+slug: "How-to-File-Your-Annual-Return-in-Alberta"
+section: "articles"
+description: "Meta description used by generateMetadata(). Falls back to first paragraph if omitted."
+---
+```
 
-- Files corresponding to pages that were directly scraped contain the live body text verbatim, with paragraph breaks restored.
-- Per-jurisdiction pages (profile-reports / good-standing / annual-return / minute-books / incorporation) follow the live site's template-driven copy — the jurisdiction name, registry, governing Act, and fees vary; the structure is identical.
-- `annual-return/Canada-federal-corporate-annual-return.md` corresponds to a URL that is broken on the live site (returns 404). The content is templated to the same pattern as the provincial files.
-- The 13 QuickBooks articles follow a templated structure on the live site; jurisdiction-specific details vary.
+- `title` — page H1 and `<title>` prefix
+- `slug` — must match the filename (without `.md`); routing is case-insensitive and lowercased
+- `section` — must be one of the `SECTIONS` constants in `content.ts`
+- `description` (optional) — meta description; if absent, first paragraph is used as a fallback
+
+## Pricing
+
+The single source of truth for CRS pricing is [`web/src/lib/service-config.ts`](../web/src/lib/service-config.ts). If a content page names a price, it must match. Government fees are always bundled into the all-in CRS price — never advertise them separately.

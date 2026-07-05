@@ -23,7 +23,7 @@ Two of the most commonly requested corporate documents in Canada are the **Corpo
 | **Typical use cases** | Due diligence, QuickBooks verification, banking KYC, legal review | Bank financing, extra-provincial registration, M&A, government contracts |
 | **How current is it** | Point-in-time snapshot as of date of retrieval | Point-in-time certification as of date of issue |
 | **Validity period** | 30–90 days (as accepted by most parties) | 30–90 days (as accepted by most parties) |
-| **CRS price** | $79 + tax (all-in) | $99 + tax (all-in) |
+| **CRS price** | $49 + tax (all-in) | $79 + tax (all-in) |
 | **Delivery time (CRS)** | 3 hours | 3 hours |
 
 ## What Is a Corporate Profile Report?

@@ -25,7 +25,7 @@ The New Brunswick Corporate Profile Report is retrieved directly from the New Br
 
 | | |
 |---|---|
-| **Price** | $79 + applicable tax — all government charges included |
+| **Price** | $49 + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |
