@@ -117,10 +117,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
   const incorporationServices    = ["incorporation-numbered", "incorporation-named", "extra-provincial", "not-for-profit"];
   const reportServices           = ["profile-report", "good-standing"];
   const nameSearchServices       = ["corporate-search", "nuans-search"];
+  const changeServices           = ["change-directors", "change-address", "voluntary-dissolution", "revival"];
 
   const canFastCheckout = !!soleService && (
     // These flows need a jurisdiction picked in the wizard
-    ((annualReturnServices.includes(soleService) || incorporationServices.includes(soleService) || reportServices.includes(soleService) || soleService === "corporate-search") && !!state.jurisdictionKey) ||
+    ((annualReturnServices.includes(soleService) || incorporationServices.includes(soleService) || reportServices.includes(soleService) || soleService === "corporate-search" || changeServices.includes(soleService)) && !!state.jurisdictionKey) ||
     // NUANS is federal-only, no jurisdiction needed
     (soleService === "nuans-search")
   );
@@ -155,6 +156,11 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
       // Bring across proposed name if the visitor typed one in the wizard.
       const proposedName = state.details.proposedName ?? state.details.searchName;
       if (proposedName) params.set("q", proposedName);
+      window.location.href = `/order/${soleService}?${params.toString()}`;
+      return;
+    }
+
+    if (changeServices.includes(soleService)) {
       window.location.href = `/order/${soleService}?${params.toString()}`;
       return;
     }

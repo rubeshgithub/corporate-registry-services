@@ -104,6 +104,48 @@ function formatChanges(c: StoredChanges | null): string {
   return lines.length ? lines.join("\n") : "(none reported — file with existing registry data)";
 }
 
+/** Format the service-specific details block for the fulfillment email. */
+function formatChangeDetails(service: string, d: Record<string, unknown> | null): string {
+  if (!d) return "(no structured details payload)";
+
+  if (service === "change-directors") {
+    const changes = (d.changes as Array<Record<string, string>>) ?? [];
+    if (!changes.length) return "(no changes recorded)";
+    return changes.map((c, i) => {
+      const role  = c.role === "officer" ? `Officer (${c.officerTitle || "no title"})` : "Director";
+      const kind  = c.type === "appointed" ? "Appointed"
+                 : c.type === "resigned"  ? "Resigned"
+                 : "Address changed";
+      const extra = c.type === "address-changed" && c.newAddress ? ` → ${c.newAddress}` : "";
+      return `  ${i + 1}. ${role} · ${kind} · ${c.name} (effective ${c.effectiveDate})${extra}`;
+    }).join("\n");
+  }
+
+  if (service === "change-address") {
+    return `New address: ${d.newAddress ?? "—"}\nEffective:   ${d.effectiveDate ?? "—"}`;
+  }
+
+  if (service === "voluntary-dissolution") {
+    return [
+      `Effective dissolution date: ${d.effectiveDate ?? "—"}`,
+      `All debts paid:             ${d.debtsPaid ? "YES" : "no"}`,
+      `Final T2 tax return filed:  ${d.finalTaxFiled ? "YES" : "no"}`,
+      `Assets distributed:         ${d.assetsDistributed ? "YES" : "no"}`,
+      `Reason:                     ${(d.reason as string)?.trim() || "(not stated)"}`,
+    ].join("\n");
+  }
+
+  if (service === "revival") {
+    return [
+      `Missed annual returns: ${d.hasMissedFilings ? "YES — customer aware they'll be quoted separately" : "no"}`,
+      d.hasMissedFilings ? `Filings note:          ${(d.filingsNote as string)?.trim() || "(no detail)"}` : "",
+      `Reason for revival:    ${(d.reasonForRevival as string)?.trim() || "(not stated)"}`,
+    ].filter(Boolean).join("\n");
+  }
+
+  return JSON.stringify(d, null, 2);
+}
+
 function ownerBody(s: Stripe.Checkout.Session): string {
   const m = s.metadata ?? {};
   const changes = readChunkedJson<StoredChanges>(m, "changes_json");
@@ -258,6 +300,89 @@ async function fulfill(session: Stripe.Checkout.Session) {
         Message: {
           Subject: { Data: `Payment received — we're filing your annual return` },
           Body:    { Text: { Data: customerBody(session) } },
+        },
+      }));
+    }
+    return;
+  }
+
+  if (service === "change-directors" || service === "change-address" || service === "voluntary-dissolution" || service === "revival") {
+    const m = session.metadata ?? {};
+    const details = readChunkedJson<Record<string, unknown>>(m, "details_json");
+    const label =
+      service === "change-directors"       ? "Director / Officer Change" :
+      service === "change-address"         ? "Registered Address Change" :
+      service === "voluntary-dissolution"  ? "Voluntary Dissolution"     :
+                                             "Corporate Revival";
+
+    const detailsBlock = formatChangeDetails(service, details);
+
+    const ownerText = `
+NEW PAID ORDER — ${label} — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Attribution:   ${m.src ?? "—"}
+
+--- Company (from live registry lookup) ---
+Name:          ${m.company_name ?? "—"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
+Registry ID:   ${m.registry_id ?? "—"}
+BN:            ${m.business_number ?? "—"}
+Entity type:   ${m.entity_type ?? "—"}
+Status:        ${m.registry_status ?? "—"}
+Incorporated:  ${m.incorp_date ?? "—"}
+Location:      ${m.location ?? "—"}
+
+--- ${label} ---
+${detailsBlock}
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"}
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Action: file with the ${m.jurisdiction ?? "target"} registry within 24 hours.
+Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+    const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+We've received your payment for a ${label} for ${m.company_name ?? "your corporation"}.
+
+We're filing the paperwork with the ${m.jurisdiction ?? "government"} registry within
+24 hours. You'll receive a filing confirmation and receipt by email.
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Company:      ${m.company_name ?? "—"}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [ownerEmail] },
+      Message: {
+        Subject: { Data: `[CRS] Paid — ${label} ${m.jurisdiction ?? ""} — ${m.company_name ?? "—"}` },
+        Body:    { Text: { Data: ownerText } },
+      },
+    }));
+    if (customerEmail) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [customerEmail] },
+        Message: {
+          Subject: { Data: `Payment received — we're filing your ${label.toLowerCase()}` },
+          Body:    { Text: { Data: customerText } },
         },
       }));
     }

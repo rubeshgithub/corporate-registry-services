@@ -300,14 +300,14 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         label: "Voluntary Dissolution",
         description: "Formally wind up and dissolve the corporation with the government registry.",
         needsJurisdiction: true,
-        estimatedFee: "$299 + GST",
+        estimatedFee: "$399 + GST",
       },
       {
         key: "revival",
         label: "Corporate Revival",
         description: "Restore a dissolved or struck-off corporation back to active status.",
         needsJurisdiction: true,
-        estimatedFee: "$299 + GST",
+        estimatedFee: "$399 + GST",
       },
       {
         key: "amalgamation",
