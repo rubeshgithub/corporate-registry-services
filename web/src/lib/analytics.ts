@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { pageviews, clicks } from "./mongo";
+import { pageviews, clicks, searches } from "./mongo";
 
 /**
  * Aggregate paid Stripe checkout sessions into the shapes the admin
@@ -190,6 +190,12 @@ export type TrafficData = {
   topPages:         Array<{ path: string; views: number; sessions: number }>;
   orderPageFunnel:  Array<{ path: string; views: number; sessions: number; clicksToPay: number }>;
   articleCtr:       Array<{ path: string; views: number; ctaClicks: number; ctr: number }>;
+  // Registry search intelligence — what people type into /canada-corporations-search
+  totalSearches:     number;
+  zeroResultRate:    number;   // % of searches that returned 0 results
+  topSearches:       Array<{ query: string; count: number; avgResults: number; provinces: string[] }>;
+  zeroResultSearches: Array<{ query: string; count: number; provinces: string[] }>;
+  searchesByProvince: Array<{ province: string; count: number; zeroResults: number }>;
   fetchedAt:        string;
 };
 
@@ -292,6 +298,76 @@ export async function getTrafficData(windowDays = 30): Promise<TrafficData> {
     ctr:       v.views ? Math.round(((clickCountsByPath.get(v._id) ?? 0) / v.views) * 1000) / 10 : 0,
   }));
 
+  /* Registry search intelligence — what visitors type into /canada-corporations-search */
+  const sr = await searches();
+  const searchTotals = await sr.aggregate<{ total: number; zero: number }>([
+    { $match: { ts: { $gte: since } } },
+    {
+      $group: {
+        _id:   null,
+        total: { $sum: 1 },
+        zero:  { $sum: { $cond: [{ $eq: ["$resultCount", 0] }, 1, 0] } },
+      },
+    },
+  ]).toArray();
+  const totalSearches  = searchTotals[0]?.total ?? 0;
+  const zeroResultRate = totalSearches ? Math.round((searchTotals[0]!.zero / totalSearches) * 1000) / 10 : 0;
+
+  const topSearchesRaw = await sr.aggregate<{ _id: string; count: number; avg: number; provinces: string[] }>([
+    { $match: { ts: { $gte: since } } },
+    {
+      $group: {
+        _id:       "$queryLower",
+        count:     { $sum: 1 },
+        avg:       { $avg: "$resultCount" },
+        provinces: { $addToSet: "$province" },
+      },
+    },
+    { $sort: { count: -1 } },
+    { $limit: 25 },
+  ]).toArray();
+  const topSearches = topSearchesRaw.map((r) => ({
+    query:      r._id,
+    count:      r.count,
+    avgResults: Math.round(r.avg * 10) / 10,
+    provinces:  r.provinces.filter((p) => p).sort(),
+  }));
+
+  const zeroResultRaw = await sr.aggregate<{ _id: string; count: number; provinces: string[] }>([
+    { $match: { ts: { $gte: since }, resultCount: 0 } },
+    {
+      $group: {
+        _id:       "$queryLower",
+        count:     { $sum: 1 },
+        provinces: { $addToSet: "$province" },
+      },
+    },
+    { $sort: { count: -1 } },
+    { $limit: 25 },
+  ]).toArray();
+  const zeroResultSearches = zeroResultRaw.map((r) => ({
+    query:     r._id,
+    count:     r.count,
+    provinces: r.provinces.filter((p) => p).sort(),
+  }));
+
+  const byProvinceRaw = await sr.aggregate<{ _id: string; count: number; zero: number }>([
+    { $match: { ts: { $gte: since } } },
+    {
+      $group: {
+        _id:   "$province",
+        count: { $sum: 1 },
+        zero:  { $sum: { $cond: [{ $eq: ["$resultCount", 0] }, 1, 0] } },
+      },
+    },
+    { $sort: { count: -1 } },
+  ]).toArray();
+  const searchesByProvince = byProvinceRaw.map((r) => ({
+    province:    r._id || "all",
+    count:       r.count,
+    zeroResults: r.zero,
+  }));
+
   return {
     windowDays,
     totalPageviews,
@@ -299,6 +375,11 @@ export async function getTrafficData(windowDays = 30): Promise<TrafficData> {
     topPages,
     orderPageFunnel,
     articleCtr,
+    totalSearches,
+    zeroResultRate,
+    topSearches,
+    zeroResultSearches,
+    searchesByProvince,
     fetchedAt: new Date().toISOString(),
   };
 }
@@ -306,12 +387,17 @@ export async function getTrafficData(windowDays = 30): Promise<TrafficData> {
 function emptyTraffic(windowDays: number): TrafficData {
   return {
     windowDays,
-    totalPageviews:  0,
-    uniqueSessions:  0,
-    topPages:        [],
-    orderPageFunnel: [],
-    articleCtr:      [],
-    fetchedAt:       new Date().toISOString(),
+    totalPageviews:     0,
+    uniqueSessions:     0,
+    topPages:           [],
+    orderPageFunnel:    [],
+    articleCtr:         [],
+    totalSearches:      0,
+    zeroResultRate:     0,
+    topSearches:        [],
+    zeroResultSearches: [],
+    searchesByProvince: [],
+    fetchedAt:          new Date().toISOString(),
   };
 }
 

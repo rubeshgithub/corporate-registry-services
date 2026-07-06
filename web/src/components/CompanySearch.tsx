@@ -92,7 +92,30 @@ export default function CompanySearch() {
     if (detected) setProvince(detected);
   }, [query]);
 
-  async function doSearch(q: string, prov: string) {
+  /** Fire an intentional-search analytics beacon. Debounced auto-searches
+      skip this; only explicit submits and filter changes call it, so the
+      signal reflects real user queries rather than every keystroke. */
+  function trackSearch(q: string, prov: string, resultCount: number) {
+    try {
+      const sessionId = document.cookie.match(/(?:^|; )crs_session_id=([^;]+)/)?.[1] ?? "";
+      if (!sessionId || q.trim().length < 2) return;
+      const body = JSON.stringify({
+        type:        "search",
+        query:       q.trim(),
+        province:    prov,
+        resultCount,
+        path:        window.location.pathname,
+        sessionId:   decodeURIComponent(sessionId),
+      });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/api/track", new Blob([body], { type: "application/json" }));
+      } else {
+        fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body, keepalive: true }).catch(() => {});
+      }
+    } catch { /* analytics failures never break search */ }
+  }
+
+  async function doSearch(q: string, prov: string, opts: { track?: boolean } = {}) {
     if (q.trim().length < 2) return;
     setLoading(true);
     setSearched(true);
@@ -103,9 +126,11 @@ export default function CompanySearch() {
       if (data.error) throw new Error(data.error);
       setResults(data.results ?? []);
       setTotal(data.total ?? 0);
+      if (opts.track) trackSearch(q, prov, data.total ?? data.results?.length ?? 0);
     } catch {
       setError("Search temporarily unavailable. Please try again.");
       setResults([]);
+      if (opts.track) trackSearch(q, prov, 0);
     } finally {
       setLoading(false);
     }
@@ -125,13 +150,13 @@ export default function CompanySearch() {
 
   function handleProvinceChange(key: string) {
     setProvince(key);
-    if (query.trim().length >= 2) doSearch(query, key);
+    if (query.trim().length >= 2) doSearch(query, key, { track: true });
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (debounce.current) clearTimeout(debounce.current);
-    doSearch(query, province);
+    doSearch(query, province, { track: true });
   }
 
   return (

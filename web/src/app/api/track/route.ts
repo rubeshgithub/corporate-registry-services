@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { pageviews, clicks, ensureIndexes } from "@/lib/mongo";
+import { pageviews, clicks, searches, ensureIndexes } from "@/lib/mongo";
 
 /**
  * POST /api/track
@@ -38,7 +38,16 @@ type ClickBody = {
   sessionId: string;
 };
 
-type Body = PageviewBody | ClickBody;
+type SearchBody = {
+  type:        "search";
+  query:       string;
+  province?:   string;
+  resultCount: number;
+  path:        string;
+  sessionId:   string;
+};
+
+type Body = PageviewBody | ClickBody | SearchBody;
 
 const MAX_STR = 400;
 
@@ -89,6 +98,22 @@ export async function POST(req: Request) {
       label:     trunc(body.label, 120),
       sessionId: trunc(body.sessionId, 64),
       ts:        new Date(),
+    });
+    return NextResponse.json({ ok: true });
+  }
+
+  if (body.type === "search") {
+    const q = trunc(body.query, 200).trim();
+    if (q.length < 2) return NextResponse.json({ ok: true, ignored: true });
+    const sr = await searches();
+    await sr.insertOne({
+      query:       q,
+      queryLower:  q.toLowerCase(),
+      province:    trunc(body.province, 20) || "all",
+      resultCount: Math.max(0, Math.floor(Number(body.resultCount) || 0)),
+      path:        trunc(body.path),
+      sessionId:   trunc(body.sessionId, 64),
+      ts:          new Date(),
     });
     return NextResponse.json({ ok: true });
   }

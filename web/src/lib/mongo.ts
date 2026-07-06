@@ -52,12 +52,26 @@ export type ClickDoc = {
   ts:        Date;
 };
 
+export type SearchDoc = {
+  query:       string;    // raw text the user typed
+  queryLower:  string;    // lowercased for grouping in aggregation
+  province:    string;    // "all" or a JURISDICTIONS key
+  resultCount: number;    // 0 signals demand we can't fulfill — highest-value bucket
+  path:        string;    // where the search happened (usually /canada-corporations-search)
+  sessionId:   string;
+  ts:          Date;
+};
+
 export async function pageviews(): Promise<Collection<PageviewDoc>> {
   return (await db()).collection<PageviewDoc>("pageviews");
 }
 
 export async function clicks(): Promise<Collection<ClickDoc>> {
   return (await db()).collection<ClickDoc>("clicks");
+}
+
+export async function searches(): Promise<Collection<SearchDoc>> {
+  return (await db()).collection<SearchDoc>("searches");
 }
 
 /** Best-effort index setup. Called from the /api/track route on first use. */
@@ -74,6 +88,10 @@ export async function ensureIndexes(): Promise<void> {
     await cl.createIndex({ ts: -1 });
     await cl.createIndex({ path: 1, ts: -1 });
     await cl.createIndex({ sessionId: 1 });
+    const sr = await searches();
+    await sr.createIndex({ ts: -1 });
+    await sr.createIndex({ queryLower: 1, ts: -1 });
+    await sr.createIndex({ resultCount: 1, ts: -1 });
   } catch (e) {
     indexesEnsured = false;
     console.error("[analytics] failed to ensure indexes:", e);

@@ -38,6 +38,7 @@ export default async function AnalyticsPage({
         </div>
         <TrendCard data={data} />
         <TrafficSection traffic={traffic} />
+        <SearchIntelligence traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -295,6 +296,130 @@ function RecentOrdersTable({ rows, currency }: { rows: OrderRow[]; currency: str
           </table>
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Search intelligence — surfaces what visitors are actually typing into the
+ * Canada Corporations Search box on /canada-corporations-search. Three
+ * views: overall volume, top queries, and the highest-value bucket for
+ * product signal: zero-result queries (unmet demand).
+ */
+function SearchIntelligence({ traffic }: { traffic: TrafficData }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+      {/* Overall search volume + zero-result rate */}
+      <div style={{ ...cardStyle, gridColumn: "1 / -1" }}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Canada Corporations Search intent
+        </div>
+        {traffic.totalSearches === 0 ? (
+          <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
+            No searches recorded yet in this window. Fire a few from{" "}
+            <code style={{ fontFamily: "var(--font-mono), monospace" }}>/canada-corporations-search</code> to populate this section.
+          </div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem" }}>
+            <div>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Total searches</div>
+              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: "var(--text)" }}>
+                {traffic.totalSearches.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Zero-result rate</div>
+              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: traffic.zeroResultRate >= 25 ? "#B45309" : "var(--text)" }}>
+                {traffic.zeroResultRate}%
+              </div>
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>By jurisdiction</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+                {traffic.searchesByProvince.slice(0, 12).map((p) => (
+                  <span key={p.province} title={`${p.count} searches · ${p.zeroResults} zero-result`} style={{
+                    padding: "0.15rem 0.55rem",
+                    background: "var(--bg-deep)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "0.5rem",
+                    fontSize: "0.72rem",
+                    fontFamily: "var(--font-mono), monospace",
+                    color: "var(--text)",
+                  }}>
+                    {p.province} · <strong>{p.count}</strong>
+                    {p.zeroResults > 0 && <span style={{ color: "#B45309" }}> · {p.zeroResults}0R</span>}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Top searches */}
+      <div style={cardStyle}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Top queries
+        </div>
+        {traffic.topSearches.length === 0 && <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>No search data.</div>}
+        {traffic.topSearches.length > 0 && (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+              <thead>
+                <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                  <th style={thStyle}>Query</th>
+                  <th style={thStyle}>Count</th>
+                  <th style={thStyle}>Avg results</th>
+                </tr>
+              </thead>
+              <tbody>
+                {traffic.topSearches.slice(0, 15).map((r) => (
+                  <tr key={r.query} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.query}>{r.query}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700 }}>{r.count}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: r.avgResults === 0 ? "#B45309" : "var(--text-muted)" }}>
+                      {r.avgResults}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Zero-result queries — HIGH SIGNAL */}
+      <div style={{ ...cardStyle, borderColor: traffic.zeroResultSearches.length > 0 ? "rgba(180, 83, 9, 0.5)" : "var(--border)" }}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: traffic.zeroResultSearches.length > 0 ? "#B45309" : "var(--text-muted)", marginBottom: "0.35rem" }}>
+          Zero-result queries · unmet demand
+        </div>
+        <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.75rem" }}>
+          Searches that returned nothing. Often the highest-signal bucket — jurisdictions we don&apos;t cover, typos, or companies the government registry doesn&apos;t expose.
+        </div>
+        {traffic.zeroResultSearches.length === 0 && <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>None yet — every recorded search returned at least one hit.</div>}
+        {traffic.zeroResultSearches.length > 0 && (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+              <thead>
+                <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                  <th style={thStyle}>Query</th>
+                  <th style={thStyle}>Count</th>
+                  <th style={thStyle}>Provinces</th>
+                </tr>
+              </thead>
+              <tbody>
+                {traffic.zeroResultSearches.slice(0, 15).map((r) => (
+                  <tr key={r.query} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.query}>{r.query}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700 }}>{r.count}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "var(--text-muted)" }}>{r.provinces.join(", ") || "all"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
