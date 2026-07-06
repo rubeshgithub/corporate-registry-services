@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Playfair_Display, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import { organizationLd, jsonLdScript } from "@/lib/structured-data";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -54,6 +56,9 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(organizationLd())} />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)]">
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         {children}
       </body>
     </html>

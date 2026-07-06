@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { getAnalyticsData, type Bucket, type AnalyticsData, type OrderRow } from "@/lib/analytics";
+import { getAnalyticsData, getTrafficData, type Bucket, type AnalyticsData, type OrderRow, type TrafficData } from "@/lib/analytics";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -21,19 +21,23 @@ export default async function AnalyticsPage({
 
   const params      = await searchParams;
   const windowDays  = Math.min(365, Math.max(7, parseInt(params.window ?? "30", 10) || 30));
-  const data        = await getAnalyticsData(windowDays);
+  const [data, traffic] = await Promise.all([
+    getAnalyticsData(windowDays),
+    getTrafficData(windowDays),
+  ]);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg-deep)", padding: "2rem 1.5rem" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
         <TopBar windowDays={windowDays} fetchedAt={data.fetchedAt} />
-        <SummaryCards data={data} />
+        <SummaryCards data={data} traffic={traffic} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
           <BreakdownCard title="Orders by service"          buckets={data.byService}      totalOrders={data.totalOrders} />
           <BreakdownCard title="Orders by attribution source" buckets={data.bySrc}          totalOrders={data.totalOrders} />
           <BreakdownCard title="Orders by jurisdiction"      buckets={data.byJurisdiction} totalOrders={data.totalOrders} />
         </div>
         <TrendCard data={data} />
+        <TrafficSection traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -85,22 +89,108 @@ function TopBar({ windowDays, fetchedAt }: { windowDays: number; fetchedAt: stri
   );
 }
 
-function SummaryCards({ data }: { data: AnalyticsData }) {
+function SummaryCards({ data, traffic }: { data: AnalyticsData; traffic: TrafficData }) {
   const topService = data.byService[0];
+  const conversionRate = traffic.uniqueSessions ? Math.round((data.totalOrders / traffic.uniqueSessions) * 1000) / 10 : 0;
   const cards = [
-    { label: "Orders",         value: data.totalOrders.toLocaleString() },
+    { label: "Orders",                     value: data.totalOrders.toLocaleString() },
     { label: `Revenue (${data.currency})`, value: `$${data.totalRevenue.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
-    { label: "Average order",  value: `$${data.avgOrderValue.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
-    { label: "Top service",    value: topService ? `${topService.label} (${topService.count})` : "—" },
+    { label: "Average order",              value: `$${data.avgOrderValue.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
+    { label: "Pageviews",                  value: traffic.totalPageviews.toLocaleString() },
+    { label: "Unique sessions",            value: traffic.uniqueSessions.toLocaleString() },
+    { label: "Session → paid",             value: traffic.uniqueSessions ? `${conversionRate}%` : "—" },
   ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.75rem", marginBottom: "1rem" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.75rem", marginBottom: "1rem" }}>
       {cards.map((c) => (
         <div key={c.label} style={cardStyle}>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{c.label}</div>
-          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.7rem", fontWeight: 700, color: "var(--text)", marginTop: "0.4rem" }}>{c.value}</div>
+          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.55rem", fontWeight: 700, color: "var(--text)", marginTop: "0.4rem" }}>{c.value}</div>
         </div>
       ))}
+      {/* Top service card kept full-width on last row so it doesn't crowd the numbers */}
+      <div style={{ ...cardStyle, gridColumn: "1 / -1" }}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Top service in this window</div>
+        <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.35rem", fontWeight: 700, color: "var(--text)", marginTop: "0.4rem" }}>
+          {topService ? `${topService.label} · ${topService.count} orders · $${topService.amount.toLocaleString("en-CA", { maximumFractionDigits: 0 })}` : "—"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TrafficSection({ traffic }: { traffic: TrafficData }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+      <div style={cardStyle}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Top pages
+        </div>
+        {traffic.topPages.length === 0 && <TrafficEmptyState />}
+        {traffic.topPages.slice(0, 10).map((p) => (
+          <PathRow key={p.path} path={p.path} primary={`${p.views}`} secondary={`${p.sessions} sessions`} />
+        ))}
+      </div>
+
+      <div style={cardStyle}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Order pages funnel
+        </div>
+        {traffic.orderPageFunnel.length === 0 && <TrafficEmptyState />}
+        {traffic.orderPageFunnel.slice(0, 10).map((p) => (
+          <PathRow key={p.path} path={p.path} primary={`${p.views}`} secondary={`${p.sessions} sessions`} />
+        ))}
+      </div>
+
+      <div style={{ ...cardStyle, gridColumn: "1 / -1" }}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Article click-through rate — content that drives visitors to checkout
+        </div>
+        {traffic.articleCtr.length === 0 && <TrafficEmptyState />}
+        {traffic.articleCtr.length > 0 && (
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+              <thead>
+                <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                  <th style={thStyle}>Page</th>
+                  <th style={thStyle}>Views</th>
+                  <th style={thStyle}>CTA clicks</th>
+                  <th style={thStyle}>CTR</th>
+                </tr>
+              </thead>
+              <tbody>
+                {traffic.articleCtr.slice(0, 20).map((r) => (
+                  <tr key={r.path} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 480, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.path}>{r.path}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{r.views}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{r.ctaClicks}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: r.ctr >= 5 ? "var(--gold)" : "var(--text)" }}>{r.ctr}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PathRow({ path, primary, secondary }: { path: string; primary: string; secondary: string }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "0.75rem", marginBottom: "0.45rem", borderBottom: "1px dotted var(--border)", paddingBottom: "0.35rem" }}>
+      <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }} title={path}>{path}</span>
+      <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", color: "var(--text-muted)", flexShrink: 0 }}>
+        <strong style={{ color: "var(--text)" }}>{primary}</strong> · {secondary}
+      </span>
+    </div>
+  );
+}
+
+function TrafficEmptyState() {
+  return (
+    <div style={{ fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+      No pageview data yet in this window. If you just deployed Phase B, browse the site in a new tab and give the beacons a minute to write. Or check that MONGODB_URI is set on this environment.
     </div>
   );
 }
