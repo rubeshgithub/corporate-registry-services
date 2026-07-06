@@ -5,18 +5,18 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Disclaimer — CRS — Corporate Registry Services",
   description:
-    "Important disclaimer regarding the accuracy, completeness, and use of information provided through CRS — Corporate Registry Services and its Canadian business registry search tool.",
+    "Important disclaimer regarding the accuracy, completeness, and use of the publicly available Canadian corporate registry information presented through CRS — Corporate Registry Services.",
 };
 
-const LAST_UPDATED = "June 11, 2026";
+const LAST_UPDATED = "July 6, 2026";
 
 const SECTIONS = [
   {
     number: "1",
     title: "Data Accuracy and Currency",
     body: [
-      "The business registry search results displayed on this website are drawn from third-party government APIs, specifically the BC OrgBook (operated by the Province of British Columbia) and Canada's Business Registries operated by Innovation, Science and Economic Development Canada (ISED). CRS — Corporate Registry Services does not own, operate, or control these data sources.",
-      "While we make reasonable efforts to present the information accurately, we cannot guarantee that the data returned is complete, current, or free from error. Registry records may be delayed by hours or days relative to the underlying government database. Corporate status, director information, registered addresses, and other details can change without notice.",
+      "The business registry search results displayed on this website reflect information that is available to the public as published by the provincial, territorial, and federal corporate registries in Canada. CRS — Corporate Registry Services does not own, operate, or control any of these registries or their underlying records.",
+      "While we make reasonable efforts to present the information accurately, we cannot guarantee that the data returned is complete, current, or free from error. Registry records may be delayed by hours or days relative to the underlying government records. Corporate status, director information, registered addresses, and other details can change without notice.",
       "You should not rely on search results displayed on this website as definitive proof of a corporation's legal status, good standing, or any other corporate attribute.",
     ],
   },
@@ -24,16 +24,8 @@ const SECTIONS = [
     number: "2",
     title: "Official Documents for Legal Purposes",
     body: [
-      "For any legally binding or official purpose — including due diligence, financing transactions, legal proceedings, regulatory filings, or compliance requirements — you must obtain certified documents directly from the relevant government registry. Examples include:",
-      null, // signals a list follows
-      "A corporate profile report or certificate of good standing issued directly by the relevant provincial or federal registry is the only authoritative confirmation of a corporation's status. CRS — Corporate Registry Services can obtain these official documents on your behalf — please use our order form to request them.",
-    ],
-    list: [
-      "Corporations Canada (federal)",
-      "BC Registry Services (British Columbia)",
-      "Service Alberta (Alberta)",
-      "Ontario Business Registry (Ontario)",
-      "Other provincial and territorial registries as applicable",
+      "For any legally binding or official purpose — including due diligence, financing transactions, legal proceedings, regulatory filings, or compliance requirements — you must obtain certified documents from the relevant provincial, territorial, or federal corporate registry.",
+      "A corporate profile report or certificate of good standing issued directly by the applicable registry is the only authoritative confirmation of a corporation's status. CRS — Corporate Registry Services can obtain these official documents on your behalf — please use our order form to request them.",
     ],
   },
   {
@@ -47,16 +39,10 @@ const SECTIONS = [
   },
   {
     number: "4",
-    title: "Data Sources and Attribution",
+    title: "Source of Registry Information",
     body: [
-      "The registry search feature on this website uses the following publicly available APIs:",
-    ],
-    list: [
-      "BC OrgBook API — provided by the Province of British Columbia at orgbook.gov.bc.ca. Used for British Columbia corporate registry searches.",
-      "Canada's Business Registries API — provided by Innovation, Science and Economic Development Canada (ISED) at ised-isde.canada.ca. Used for federal, Alberta, Ontario, Manitoba, Saskatchewan, Nova Scotia, New Brunswick, Newfoundland & Labrador, Prince Edward Island, Northwest Territories, Yukon, and Nunavut searches.",
-    ],
-    bodyAfterList: [
-      "These APIs are provided under their respective government terms of use. CRS — Corporate Registry Services accesses this data in good faith for informational purposes and does not represent that the data is endorsed or certified by any government authority.",
+      "The registry search feature on this website presents information that is made available to the public by Canada's provincial, territorial, and federal corporate registries.",
+      "This information is accessed in good faith and presented for general informational purposes only. Its presentation on this website is not endorsed, certified, or otherwise sanctioned by any government authority, and all rights in the underlying data remain with the respective registry authorities.",
     ],
   },
   {
@@ -64,8 +50,8 @@ const SECTIONS = [
     title: "No Affiliation with Government Registries",
     body: [
       "CRS — Corporate Registry Services is an independent, privately operated service. We are not affiliated with, endorsed by, sponsored by, or an official agent of any federal, provincial, or territorial government or registry authority in Canada.",
-      "Use of the terms 'Corporate Registry Services', references to government registries, or display of registry data on this website does not imply any official relationship with any government body.",
-      "The official government registries can be accessed directly at their respective websites. CRS — Corporate Registry Services provides a convenience search and document-retrieval service to help Canadians navigate these registries more efficiently.",
+      "Use of the name 'Corporate Registry Services', references to publicly available registry information, or display of registry data on this website does not imply any official relationship with any government body.",
+      "The official corporate registries can be accessed directly through each province, territory, or the federal government's respective official channels. CRS — Corporate Registry Services provides a convenience search and document-retrieval service to help Canadians navigate corporate registry information more efficiently.",
     ],
   },
   {
@@ -73,14 +59,14 @@ const SECTIONS = [
     title: "Limitation of Liability",
     body: [
       "To the maximum extent permitted by applicable law, CRS — Corporate Registry Services shall not be liable for any loss, damage, or expense — direct, indirect, or consequential — arising from your reliance on registry search results or other information displayed on this website.",
-      "This includes, without limitation, losses arising from: decisions made on the basis of inaccurate or out-of-date registry data; failure to obtain certified documents for legal or regulatory purposes; or any errors, omissions, or interruptions in third-party government data feeds.",
+      "This includes, without limitation, losses arising from: decisions made on the basis of inaccurate or out-of-date registry information; failure to obtain certified documents for legal or regulatory purposes; or any errors, omissions, delays, or interruptions in the information published by the underlying registries.",
     ],
   },
   {
     number: "7",
     title: "Changes to This Disclaimer",
     body: [
-      "We may update this Disclaimer from time to time to reflect changes in data sources, applicable law, or our services. The current version will always be posted at corporateregistryservices.ca/disclaimer with the 'Last updated' date shown above.",
+      "We may update this Disclaimer from time to time to reflect changes in our services or applicable law. The current version will always be posted at corporateregistryservices.ca/disclaimer with the “Last updated” date shown above.",
     ],
   },
   {
@@ -144,7 +130,7 @@ export default function DisclaimerPage() {
             <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: 1.7, maxWidth: "54ch" }}>
               This Disclaimer applies to all information provided through{" "}
               <strong>corporateregistryservices.ca</strong>, including the
-              Canadian business registry search tool and all related content.
+              Canadian corporate registry search tool and all related content.
               Please read it carefully before using our services.
             </p>
           </div>
@@ -175,10 +161,10 @@ export default function DisclaimerPage() {
             </p>
             <ul style={{ margin: 0, paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
               {[
-                "Registry data is sourced from third-party government APIs and may not be current.",
-                "Always obtain certified government documents for any legal or official purpose.",
+                "Registry information reflects data made publicly available by provincial, territorial, and federal corporate registries and may not be current.",
+                "Always obtain certified documents from the relevant registry for any legal or official purpose.",
                 "Nothing on this website constitutes legal, corporate, or professional advice.",
-                "CRS is an independent service — not affiliated with any government registry.",
+                "CRS is an independent service — not affiliated with any government registry or authority.",
                 "Governed by Alberta law. Contact: support@corporateregistryservices.ca",
               ].map((point) => (
                 <li key={point} style={{ fontSize: "0.83rem", color: "var(--text)", lineHeight: 1.6 }}>
@@ -195,20 +181,8 @@ export default function DisclaimerPage() {
             {SECTIONS.map((s) => (
               <div key={s.number}>
                 <h2>{s.number}. {s.title}</h2>
-                {s.body.map((para, i) =>
-                  para === null ? null : (
-                    <p key={i}>{para}</p>
-                  )
-                )}
-                {"list" in s && s.list && (
-                  <ul>
-                    {s.list.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                )}
-                {"bodyAfterList" in s && s.bodyAfterList && s.bodyAfterList.map((para, i) => (
-                  <p key={`after-${i}`}>{para}</p>
+                {s.body.map((para, i) => (
+                  <p key={i}>{para}</p>
                 ))}
                 {"contact" in s && s.contact && (
                   <ul>
