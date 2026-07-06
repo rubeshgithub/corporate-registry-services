@@ -6,6 +6,7 @@ import { getPage, listAllPages, SECTION_LABELS, type Section, SECTIONS } from "@
 import { inferServiceContext, wizardHref } from "@/lib/service-context";
 import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, jsonLdScript } from "@/lib/structured-data";
+import InlineLookupOrder from "@/components/InlineLookupOrder";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 
 type Params = { section: string; slug: string };
@@ -152,6 +153,19 @@ export default async function ContentPage({
                 </p>
               </div>
             </div>
+          )}
+
+          {/* Inline lookup + order widget — for the two services with real
+              GSC impressions today (annual return, profile report), give
+              high-intent visitors a way to search their company and pay
+              without leaving this page. Other service articles still see
+              only the conversion strip below. */}
+          {ctx && (ctx.serviceKey === "annual-return" || ctx.serviceKey === "profile-report") && (
+            <InlineLookupOrder
+              service={ctx.serviceKey === "annual-return" ? "annual-return" : "profile-report"}
+              provinceKey={ctx.jurisdictionKey}
+              srcTag={`inline-article-${page.slug}`}
+            />
           )}
 
           {/* Above-the-fold conversion strip — visitors from Google must see
