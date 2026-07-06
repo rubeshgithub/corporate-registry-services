@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { getAnalyticsData, getTrafficData, type Bucket, type AnalyticsData, type OrderRow, type TrafficData } from "@/lib/analytics";
+import { getAnalyticsData, getTrafficData, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData } from "@/lib/analytics";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -20,7 +20,7 @@ export default async function AnalyticsPage({
   if (!authed) redirect("/admin/login?next=/admin/analytics");
 
   const params      = await searchParams;
-  const windowDays  = Math.min(365, Math.max(7, parseInt(params.window ?? "30", 10) || 30));
+  const windowDays  = Math.min(365, Math.max(1, parseInt(params.window ?? "30", 10) || 30));
   const [data, traffic] = await Promise.all([
     getAnalyticsData(windowDays),
     getTrafficData(windowDays),
@@ -55,14 +55,20 @@ function TopBar({ windowDays, fetchedAt }: { windowDays: number; fetchedAt: stri
           CRS Admin
         </div>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0 0" }}>
-          Analytics · Last {windowDays} days
+          Analytics · {windowDays === 1 ? "Last 24 hours" : `Last ${windowDays} days`}
         </h1>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem" }}>
-          Fetched {new Date(fetchedAt).toLocaleString("en-CA")} · cache 5 min
+          Fetched {new Date(fetchedAt).toLocaleString("en-CA", { timeZone: OPERATOR_TZ, timeZoneName: "short" })} · cache 5 min
         </div>
       </div>
       <div style={{ display: "flex", gap: "0.35rem" }}>
-        {[7, 30, 90, 365].map((n) => (
+        {[
+          { n: 1,   label: "24h" },
+          { n: 7,   label: "7d"  },
+          { n: 30,  label: "30d" },
+          { n: 90,  label: "90d" },
+          { n: 365, label: "1y"  },
+        ].map(({ n, label }) => (
           <a
             key={n}
             href={`/admin/analytics?window=${n}`}
@@ -77,7 +83,7 @@ function TopBar({ windowDays, fetchedAt }: { windowDays: number; fetchedAt: stri
               textDecoration: "none",
             }}
           >
-            {n}d
+            {label}
           </a>
         ))}
         <form action="/api/admin/logout" method="POST" style={{ display: "inline" }}>
@@ -223,6 +229,7 @@ function BreakdownCard({ title, buckets, totalOrders }: { title: string; buckets
 function TrendCard({ data }: { data: AnalyticsData }) {
   const series = data.dailyRevenue;
   const maxAmount = Math.max(1, ...series.map((d) => d.amount));
+  const hourly   = data.windowDays <= 1;
   const width  = 1100;
   const height = 160;
   const paddingX = 24;
@@ -238,7 +245,7 @@ function TrendCard({ data }: { data: AnalyticsData }) {
   return (
     <div style={{ ...cardStyle, marginBottom: "1rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.75rem" }}>
-        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Daily revenue</div>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{hourly ? "Hourly revenue · Mountain Time" : "Daily revenue · Mountain Time"}</div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Peak: ${maxAmount.toLocaleString("en-CA", { maximumFractionDigits: 0 })}</div>
       </div>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" preserveAspectRatio="none" style={{ display: "block", height: 160 }}>
@@ -283,7 +290,7 @@ function RecentOrdersTable({ rows, currency }: { rows: OrderRow[]; currency: str
             <tbody>
               {rows.map((r) => (
                 <tr key={r.sessionId} style={{ borderTop: "1px solid var(--border)" }}>
-                  <td style={tdStyle}>{new Date(r.createdAt).toLocaleString("en-CA", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td>
+                  <td style={tdStyle}>{new Date(r.createdAt).toLocaleString("en-CA", { timeZone: OPERATOR_TZ, month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td>
                   <td style={tdStyle}>{r.serviceLabel}</td>
                   <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>${r.amount.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currency}</td>
                   <td style={{ ...tdStyle, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.companyName}>{r.companyName}</td>

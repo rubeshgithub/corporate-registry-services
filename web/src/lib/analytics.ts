@@ -61,13 +61,39 @@ function centsToDollars(cents: number | null | undefined): number {
   return Math.round(cents) / 100;
 }
 
-/** Local YYYY-MM-DD for a Date, in the site's canonical Canadian time zone.
- *  Kept naive on purpose — dashboard shows local business days, not UTC. */
+/**
+ * Alberta (Mountain Time) is the operator's timezone — governed-by-Alberta-law
+ * per the disclaimer. Daily and hourly buckets need to align with Alberta
+ * business days, not the Render/UTC server clock, otherwise "today" would
+ * appear to end at 5pm local time in the winter.
+ */
+export const OPERATOR_TZ = "America/Edmonton";
+
+/** Break a Date into Mountain Time parts. Uses Intl.DateTimeFormat so DST
+    transitions are handled automatically. */
+function inOperatorTime(d: Date): { yyyy: string; mm: string; dd: string; hh: string } {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: OPERATOR_TZ,
+    year:     "numeric",
+    month:    "2-digit",
+    day:      "2-digit",
+    hour:     "2-digit",
+    hour12:   false,
+  }).formatToParts(d);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return { yyyy: get("year"), mm: get("month"), dd: get("day"), hh: get("hour") };
+}
+
+/** YYYY-MM-DD in Mountain Time. */
 function localDate(d: Date): string {
-  const yyyy = d.getFullYear();
-  const mm   = String(d.getMonth() + 1).padStart(2, "0");
-  const dd   = String(d.getDate()).padStart(2, "0");
+  const { yyyy, mm, dd } = inOperatorTime(d);
   return `${yyyy}-${mm}-${dd}`;
+}
+
+/** YYYY-MM-DD HH in Mountain Time — used for hourly buckets in the 24h view. */
+function localHour(d: Date): string {
+  const { yyyy, mm, dd, hh } = inOperatorTime(d);
+  return `${yyyy}-${mm}-${dd} ${hh}`;
 }
 
 /** Get every paid Stripe checkout session in the window. Paginates until
@@ -133,22 +159,34 @@ export async function getAnalyticsData(windowDays = 30): Promise<AnalyticsData> 
   const totalRevenue = rows.reduce((sum, r) => sum + r.amount, 0);
   const currency     = rows[0]?.currency ?? "CAD";
 
-  // Build day buckets so the trend line has a point for every day in the
-  // window, not just days that had orders (keeps sparklines honest).
-  const dailyMap = new Map<string, { count: number; amount: number }>();
-  for (let i = windowDays - 1; i >= 0; i--) {
-    const d = new Date(Date.now() - i * 24 * 3600 * 1000);
-    dailyMap.set(localDate(d), { count: 0, amount: 0 });
-  }
-  for (const r of rows) {
-    const d = localDate(new Date(r.createdAt));
-    const bucket = dailyMap.get(d);
-    if (bucket) {
-      bucket.count  += 1;
-      bucket.amount += r.amount;
+  // Build time buckets so the trend line has a point for every unit in the
+  // window, not just units that had orders. For the 24h view we switch to
+  // hourly buckets in Mountain Time (24 points); for anything longer we
+  // keep daily buckets.
+  const bucketByHour = windowDays <= 1;
+  const bucketMap = new Map<string, { count: number; amount: number }>();
+  if (bucketByHour) {
+    for (let i = 23; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 3600 * 1000);
+      bucketMap.set(localHour(d), { count: 0, amount: 0 });
+    }
+    for (const r of rows) {
+      const key = localHour(new Date(r.createdAt));
+      const bucket = bucketMap.get(key);
+      if (bucket) { bucket.count += 1; bucket.amount += r.amount; }
+    }
+  } else {
+    for (let i = windowDays - 1; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 24 * 3600 * 1000);
+      bucketMap.set(localDate(d), { count: 0, amount: 0 });
+    }
+    for (const r of rows) {
+      const key = localDate(new Date(r.createdAt));
+      const bucket = bucketMap.get(key);
+      if (bucket) { bucket.count += 1; bucket.amount += r.amount; }
     }
   }
-  const dailyRevenue = [...dailyMap.entries()].map(([date, v]) => ({ date, ...v }));
+  const dailyRevenue = [...bucketMap.entries()].map(([date, v]) => ({ date, ...v }));
 
   return {
     windowDays,
