@@ -1,5 +1,5 @@
 ﻿---
-title: "Nunavut Annual Return: How to File with Nunavut Corporate Registries — $99 All-In"
+title: "Nunavut Annual Return: How to File with Nunavut Corporate Registries — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Nunavut"
 section: "articles"
 description: "File your Nunavut Annual Return through Nunavut Corporate Registries — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."

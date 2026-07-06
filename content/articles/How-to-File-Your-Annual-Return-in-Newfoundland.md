@@ -1,5 +1,5 @@
 ﻿---
-title: "Newfoundland & Labrador Annual Return: How to File with the Registry of Companies — $99 All-In"
+title: "Newfoundland & Labrador Annual Return: How to File with the Registry of Companies — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Newfoundland"
 section: "articles"
 description: "File your Newfoundland & Labrador Annual Return through the Registry of Companies — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."

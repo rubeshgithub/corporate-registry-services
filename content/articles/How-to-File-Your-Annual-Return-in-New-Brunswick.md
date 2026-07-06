@@ -1,5 +1,5 @@
 ﻿---
-title: "New Brunswick Annual Return: How to File with the Corporate Registry — $99 All-In"
+title: "New Brunswick Annual Return: How to File with the Corporate Registry — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"
 description: "File your New Brunswick Annual Return through the Corporate Registry (Service New Brunswick) — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."

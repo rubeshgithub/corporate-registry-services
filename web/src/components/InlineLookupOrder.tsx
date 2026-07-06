@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-return-deadlines";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -244,30 +245,12 @@ export default function InlineLookupOrder({
           {results.length > 0 && (
             <div style={{ marginTop: "0.85rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               {results.slice(0, 3).map((hit, i) => (
-                <button
+                <ResultCard
                   key={`${hit.provinceKey}-${hit.registryId}-${i}`}
-                  onClick={() => setPick(hit)}
-                  style={{
-                    textAlign:    "left",
-                    background:   "var(--bg-deep)",
-                    border:       "1px solid var(--border)",
-                    borderRadius: "0.5rem",
-                    padding:      "0.7rem 0.9rem",
-                    cursor:       "pointer",
-                    display:      "flex",
-                    gap:          "0.75rem",
-                    alignItems:   "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{hit.name}</div>
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.74rem", marginTop: "0.15rem" }}>
-                      {hit.jurisdiction} · {hit.registryId || "—"} · {hit.status}
-                    </div>
-                  </div>
-                  <ArrowRight size={15} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
-                </button>
+                  hit={hit}
+                  service={service}
+                  onSelect={() => setPick(hit)}
+                />
               ))}
             </div>
           )}
@@ -378,4 +361,119 @@ export default function InlineLookupOrder({
       )}
     </div>
   );
+}
+
+/* ─────────────────────── Enriched result card ─────────────────────── */
+
+function ResultCard({
+  hit,
+  service,
+  onSelect,
+}: {
+  hit:     RegistryHit;
+  service: Service;
+  onSelect: () => void;
+}) {
+  const isAnnualReturn = service === "annual-return";
+  const deadline = isAnnualReturn
+    ? calculateAnnualReturnDeadline(hit.registrationDate, hit.provinceKey)
+    : null;
+
+  const incorpLabel = hit.registrationDate
+    ? new Date(hit.registrationDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })
+    : null;
+
+  const buttonLabel = isAnnualReturn ? "File Annual Return" : "Order Profile Report";
+
+  return (
+    <div
+      style={{
+        background:   "var(--bg-deep)",
+        border:       `1px solid ${deadline?.status === "overdue" ? "rgba(220, 38, 38, 0.55)" : "var(--border)"}`,
+        borderRadius: "0.5rem",
+        padding:      "0.75rem 0.9rem",
+        display:      "flex",
+        flexDirection: "column",
+        gap:          "0.35rem",
+      }}
+    >
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <div style={{ minWidth: 0, flex: "1 1 auto" }}>
+          <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.92rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {hit.name}
+          </div>
+          <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.15rem" }}>
+            {hit.jurisdiction} · {hit.registryId || "—"} · {hit.status}
+          </div>
+          {incorpLabel && (
+            <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.1rem" }}>
+              Incorporated {incorpLabel}
+            </div>
+          )}
+          {deadline && deadline.status !== "unknown" && (
+            <div
+              style={{
+                fontSize:    "0.78rem",
+                marginTop:   "0.35rem",
+                display:     "flex",
+                alignItems:  "center",
+                gap:         "0.45rem",
+                color:       deadlineColorText(deadline.status),
+                fontWeight:  deadline.status === "overdue" ? 700 : 500,
+              }}
+            >
+              <StatusDot status={deadline.status} />
+              <span>{deadline.label}</span>
+            </div>
+          )}
+          {deadline?.explanation && deadline.status !== "unknown" && (
+            <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+              {deadline.explanation}
+            </div>
+          )}
+          {deadline && deadline.status === "unknown" && (
+            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem", fontStyle: "italic" }}>
+              {deadline.label}
+            </div>
+          )}
+        </div>
+        <button
+          onClick={onSelect}
+          style={{
+            flexShrink:   0,
+            padding:      "0.5rem 0.85rem",
+            background:   "var(--primary)",
+            color:        "#FFFFFF",
+            fontWeight:   700,
+            fontSize:     "0.78rem",
+            border:       "none",
+            borderRadius: "0.4rem",
+            cursor:       "pointer",
+            display:      "inline-flex",
+            alignItems:   "center",
+            gap:          "0.3rem",
+            whiteSpace:   "nowrap",
+            alignSelf:    "flex-start",
+          }}
+        >
+          {buttonLabel} <ArrowRight size={13} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function deadlineColorText(status: DueStatus): string {
+  if (status === "overdue")  return "#B91C1C";
+  if (status === "due_soon") return "#B45309";
+  if (status === "on_track") return "var(--text)";
+  return "var(--text-muted)";
+}
+
+function StatusDot({ status }: { status: DueStatus }) {
+  if (status === "overdue") {
+    return <span className="crs-pulse-red" style={{ width: 8, height: 8, borderRadius: "50%", background: "#DC2626", flexShrink: 0 }} />;
+  }
+  const color = status === "due_soon" ? "#B45309" : status === "on_track" ? "#16A34A" : "var(--text-muted)";
+  return <span style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />;
 }

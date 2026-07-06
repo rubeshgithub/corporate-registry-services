@@ -1,5 +1,5 @@
 ﻿---
-title: "Yukon Annual Return: How to File with Corporate Affairs Yukon — $99 All-In"
+title: "Yukon Annual Return: How to File with Corporate Affairs Yukon — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Yukon"
 section: "articles"
 description: "File your Yukon Annual Return through Corporate Affairs Yukon — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."

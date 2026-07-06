@@ -1,5 +1,5 @@
 ﻿---
-title: "Nova Scotia Annual Return: How to File with the Registry of Joint Stock Companies — $99 All-In"
+title: "Nova Scotia Annual Return: How to File with the Registry of Joint Stock Companies — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
 description: "File your Nova Scotia Annual Return through the Registry of Joint Stock Companies — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."

@@ -1,5 +1,5 @@
 ﻿---
-title: "Manitoba Annual Return: How to File with the Companies Office — $99 All-In"
+title: "Manitoba Annual Return: How to File with the Companies Office — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Manitoba"
 section: "articles"
 description: "File your Manitoba Annual Return through the Companies Office — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."

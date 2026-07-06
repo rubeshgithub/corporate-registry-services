@@ -1,5 +1,5 @@
 ﻿---
-title: "Alberta Annual Return: How to File with Alberta Corporate Registry — $99 All-In"
+title: "Alberta Annual Return: How to File with Alberta Corporate Registry — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Alberta"
 section: "articles"
 description: "File your Alberta Annual Return through Alberta Corporate Registry — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."

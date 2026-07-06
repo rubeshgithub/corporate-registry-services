@@ -297,6 +297,15 @@ h1, h2, h3, h4, h5 {
 @keyframes crs-spin { to { transform: rotate(360deg); } }
 .crs-spin { animation: crs-spin 0.9s linear infinite; }
 
+/* Overdue alert dot — draws attention without being seizure-inducing.
+   Used on inline widget result cards when a corporation's annual return
+   deadline has passed. */
+@keyframes crs-pulse-red {
+  0%, 100% { transform: scale(1);    opacity: 1;   box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55); }
+  50%      { transform: scale(1.15); opacity: 0.75; box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+.crs-pulse-red { animation: crs-pulse-red 1.2s ease-in-out infinite; }
+
 /* Sticky bottom CTA — only visible on mobile so buy-intent doesn't disappear
    as the visitor scrolls through the article. Hidden ≥768px because the
    above-the-fold conversion strip is already fully visible on desktop. */

@@ -1,5 +1,5 @@
 ﻿---
-title: "BC Annual Report: How to File with BC Registries — $99 All-In"
+title: "BC Annual Report: How to File with BC Registries — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-British-Columbia"
 section: "articles"
 description: "File your BC Annual Report through BC Registries — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."

@@ -168,85 +168,103 @@ export default async function ContentPage({
             />
           )}
 
-          {/* Above-the-fold conversion strip — visitors from Google must see
-              price + offer + one-click order before scrolling past the H1. */}
-          {ctx && (
-            <div
-              style={{
-                marginBottom: "2rem",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "0.75rem",
-                border: "1px solid var(--gold)",
-                background:
-                  "linear-gradient(135deg, rgba(212,175,55,0.10) 0%, rgba(212,175,55,0.04) 100%)",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "1rem",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flex: "1 1 300px" }}>
-                <span
-                  style={{
-                    width: "2rem",
-                    height: "2rem",
-                    borderRadius: "0.5rem",
-                    background: "var(--gold-dim)",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                  aria-hidden
-                >
-                  <Zap size={16} style={{ color: "var(--gold)" }} />
-                </span>
-                <div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display), Georgia, serif",
-                      fontSize: "1.05rem",
-                      fontWeight: 700,
-                      color: "var(--text)",
-                      marginBottom: "0.25rem",
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {ctx.ctaHeadline}
-                  </div>
-                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: 0, lineHeight: 1.55 }}>
-                    {ctx.ctaSubline}
-                  </p>
-                </div>
-              </div>
-              <a
-                href={ctaHref}
+          {/* Split the article body around the conversion strip.
+              After the first 2 paragraphs the reader has enough context to
+              understand the offer — that's where we drop the strip.
+              If there are fewer than 2 paragraphs, the strip stays at the
+              top of the body. */}
+          {(() => {
+            const strip = ctx ? (
+              <div
                 style={{
-                  display: "inline-flex",
+                  margin: "2rem 0",
+                  padding: "1.25rem 1.5rem",
+                  borderRadius: "0.75rem",
+                  border: "1px solid var(--gold)",
+                  background:
+                    "linear-gradient(135deg, rgba(212,175,55,0.10) 0%, rgba(212,175,55,0.04) 100%)",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "1rem",
                   alignItems: "center",
-                  gap: "0.375rem",
-                  padding: "0.75rem 1.25rem",
-                  borderRadius: "0.5rem",
-                  background: "var(--primary)",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontSize: "0.9rem",
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                  flexShrink: 0,
+                  justifyContent: "space-between",
                 }}
               >
-                {ctx.ctaButton} <ArrowRight size={14} />
-              </a>
-            </div>
-          )}
+                <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flex: "1 1 300px" }}>
+                  <span
+                    style={{
+                      width: "2rem",
+                      height: "2rem",
+                      borderRadius: "0.5rem",
+                      background: "var(--gold-dim)",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                    aria-hidden
+                  >
+                    <Zap size={16} style={{ color: "var(--gold)" }} />
+                  </span>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-display), Georgia, serif",
+                        fontSize: "1.05rem",
+                        fontWeight: 700,
+                        color: "var(--text)",
+                        marginBottom: "0.25rem",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {ctx.ctaHeadline}
+                    </div>
+                    <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: 0, lineHeight: 1.55 }}>
+                      {ctx.ctaSubline}
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href={ctaHref}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.375rem",
+                    padding: "0.75rem 1.25rem",
+                    borderRadius: "0.5rem",
+                    background: "var(--primary)",
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    fontSize: "0.9rem",
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                >
+                  {ctx.ctaButton} <ArrowRight size={14} />
+                </a>
+              </div>
+            ) : null;
 
-          {/* Rendered markdown */}
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: page.contentHtml }}
-          />
+            const parts = page.contentHtml.split("</p>");
+            if (!ctx || parts.length <= 2) {
+              return (
+                <>
+                  {strip}
+                  <div className="prose" dangerouslySetInnerHTML={{ __html: page.contentHtml }} />
+                </>
+              );
+            }
+            const first = parts.slice(0, 2).join("</p>") + "</p>";
+            const rest  = parts.slice(2).join("</p>");
+            return (
+              <>
+                <div className="prose" dangerouslySetInnerHTML={{ __html: first }} />
+                {strip}
+                <div className="prose" dangerouslySetInnerHTML={{ __html: rest }} />
+              </>
+            );
+          })()}
 
           {/* Bottom CTA card — same deep link so we don't drop the visitor
               back into the generic homepage wizard. */}

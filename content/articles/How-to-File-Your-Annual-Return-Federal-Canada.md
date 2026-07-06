@@ -1,5 +1,5 @@
 ﻿---
-title: "Federal Annual Return: How to File with Corporations Canada — $99 All-In"
+title: "Federal Annual Return: How to File with Corporations Canada — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
 description: "File your federal CBCA Annual Return through Corporations Canada — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
