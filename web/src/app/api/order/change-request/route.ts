@@ -82,8 +82,9 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: "cad",
-            unit_amount: unitAmount,
+            currency:     "cad",
+            unit_amount:  unitAmount,
+            tax_behavior: "exclusive",
             product_data: {
               name:        `${config.productName} — ${body.hit.jurisdiction}`,
               description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. ${config.productBlurb}`,

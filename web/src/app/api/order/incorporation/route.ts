@@ -129,8 +129,9 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: "cad",
-            unit_amount: PRICE_CENTS[f.companyType],
+            currency:     "cad",
+            unit_amount:  PRICE_CENTS[f.companyType],
+            tax_behavior: "exclusive",
             product_data: {
               name: `Incorporation — ${LABEL[f.companyType]} — ${f.jurisdictionKey.toUpperCase()}`,
               description: f.companyType === "named"

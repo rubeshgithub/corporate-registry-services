@@ -65,6 +65,8 @@ export default function InlineLookupOrder({
 
   const [pick, setPick]           = useState<RegistryHit | null>(null);
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
+  const [hasChanges, setHasChanges]   = useState(false);
+  const [changesNote, setChangesNote] = useState("");
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
 
@@ -134,14 +136,16 @@ export default function InlineLookupOrder({
           ? {
               hit:     pick,
               years:   1,
-              // No structured changes captured inline — the fulfillment team
-              // follows up with the customer if anything needs updating.
+              // Only 'other' is captured inline — structured director /
+              // shareholder / address changes stay on the full /order flow.
+              // The customer's freeform note flows into the fulfillment
+              // email so the CRS team files with the correct updates.
               changes: {
                 directors: [], shareholders: [],
                 registeredAddress: { changed: false, newAddress: "", effectiveDate: "" },
                 recordsAddress:    { changed: false, newAddress: "", effectiveDate: "" },
                 authorizedAgent:   { changed: false, newAgent:    "", effectiveDate: "" },
-                other:             "",
+                other:             hasChanges ? changesNote.trim() : "",
               },
               contact,
               src: srcTag,
@@ -320,6 +324,48 @@ export default function InlineLookupOrder({
               />
             </div>
           ))}
+
+          {/* Optional 'any changes?' capture — only for annual return.
+              Skips the full structured director / address form (that
+              stays on the dedicated /order/annual-return page); a
+              freeform note is enough for the fulfillment team to know
+              they need to follow up before filing. */}
+          {service === "annual-return" && (
+            <div style={{ marginTop: "0.5rem", padding: "0.55rem 0.75rem", border: "1px solid var(--border)", borderRadius: "0.4rem", background: "var(--bg-deep)" }}>
+              <label style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={hasChanges}
+                  onChange={(e) => setHasChanges(e.target.checked)}
+                  style={{ marginTop: "0.2rem" }}
+                />
+                <span style={{ fontSize: "0.82rem", color: "var(--text)" }}>
+                  <strong>Anything changed since last year?</strong>{" "}
+                  <span style={{ color: "var(--text-muted)" }}>Directors, registered address, share structure — anything the registry should be updated with.</span>
+                </span>
+              </label>
+              {hasChanges && (
+                <textarea
+                  value={changesNote}
+                  onChange={(e) => setChangesNote(e.target.value)}
+                  rows={3}
+                  placeholder="e.g. Jane Doe resigned Oct 1, 2025. John Smith appointed Oct 15, 2025. New registered office: 123 Main St, Calgary AB T2P 1J9."
+                  style={{
+                    width:        "100%",
+                    marginTop:    "0.5rem",
+                    padding:      "0.5rem 0.7rem",
+                    border:       "1px solid var(--border)",
+                    borderRadius: "0.4rem",
+                    fontSize:     "0.82rem",
+                    background:   "var(--bg)",
+                    color:        "var(--text)",
+                    fontFamily:   "inherit",
+                    resize:       "vertical",
+                  }}
+                />
+              )}
+            </div>
+          )}
 
           {payErr && (
             <div style={{ padding: "0.55rem 0.8rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.8rem", borderRadius: "0.4rem", marginTop: "0.6rem", display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>

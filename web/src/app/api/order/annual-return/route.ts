@@ -149,8 +149,11 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: "cad",
-            unit_amount: PRICE_PER_YEAR_CAD_CENTS,
+            currency:     "cad",
+            unit_amount:  PRICE_PER_YEAR_CAD_CENTS,
+            // "exclusive" — GST is added on top of the $99 all-in price,
+            // matching the "$99 all-in + GST" messaging on every surface.
+            tax_behavior: "exclusive",
             product_data: {
               name: years === 1
                 ? `Annual Return — ${body.hit.jurisdiction}`

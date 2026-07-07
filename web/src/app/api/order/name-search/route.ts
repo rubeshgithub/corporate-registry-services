@@ -71,8 +71,9 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: "cad",
-            unit_amount: unitAmount,
+            currency:     "cad",
+            unit_amount:  unitAmount,
+            tax_behavior: "exclusive",
             product_data: {
               name:        `${config.productName} — ${jurisdictionLabel}`,
               description: `Proposed name: ${body.proposedName.trim()}${body.altName ? ` (fallback: ${body.altName.trim()})` : ""}. ${config.productBlurb}`,
