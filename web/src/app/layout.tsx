@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Playfair_Display, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import { organizationLd, jsonLdScript } from "@/lib/structured-data";
 import Analytics from "@/components/Analytics";
+import TawkLoader from "@/components/TawkLoader";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -59,6 +60,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>
+        <TawkLoader />
         {children}
       </body>
     </html>
