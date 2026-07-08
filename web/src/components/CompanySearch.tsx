@@ -63,6 +63,41 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
+type PillTone = "teal" | "gold" | "navy";
+const PILL_TONES: Record<PillTone, { bg: string; color: string; border: string }> = {
+  teal: { bg: "rgba(42,125,143,0.10)", color: "var(--secondary)", border: "rgba(42,125,143,0.35)" },
+  gold: { bg: "var(--gold-dim)",       color: "var(--gold)",      border: "rgba(249,172,0,0.45)"  },
+  navy: { bg: "rgba(0,61,91,0.08)",    color: "var(--primary)",   border: "rgba(0,61,91,0.25)"    },
+};
+
+function MetaPill({ label, value, tone }: { label: string; value: string; tone: PillTone }) {
+  if (!value || value === "—") return null;
+  const t = PILL_TONES[tone];
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "baseline",
+        gap: "0.35rem",
+        padding: "0.22rem 0.6rem",
+        borderRadius: "9999px",
+        background: t.bg,
+        border: `1px solid ${t.border}`,
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.7rem",
+        lineHeight: 1.4,
+      }}
+    >
+      <span style={{ color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontSize: "0.62rem" }}>
+        {label}
+      </span>
+      <span style={{ color: t.color, fontWeight: 700 }}>
+        {value}
+      </span>
+    </span>
+  );
+}
+
 export default function CompanySearch() {
   const [query, setQuery]             = useState("");
   const [province, setProvince]       = useState("all");
@@ -291,16 +326,17 @@ export default function CompanySearch() {
                 background: "var(--card)",
                 border: "1px solid var(--border)",
                 borderLeft: `3px solid ${r.status === "Active" ? "var(--secondary)" : "var(--border)"}`,
-                borderRadius: "0.75rem",
-                padding: "1.125rem 1.25rem",
+                borderRadius: "var(--radius-card)",
+                padding: "1.5rem 1.6rem",
+                boxShadow: "var(--shadow-card)",
               }}
             >
               {/* Company name + status badge */}
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
                 <span
+                  className="card-heading"
                   style={{
-                    fontFamily: "var(--font-display), Georgia, serif",
-                    fontSize: "1.05rem", fontWeight: 700,
+                    fontSize: "1.1rem",
                     color: "var(--primary)",
                   }}
                 >
@@ -319,7 +355,14 @@ export default function CompanySearch() {
                 </span>
               </div>
 
-              {/* Details grid */}
+              {/* Meta pills — Registry ID / Type / Jurisdiction */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "0.85rem" }}>
+                <MetaPill label="Registry ID"  value={r.registryId}   tone="teal" />
+                <MetaPill label="Type"         value={r.entityType}   tone="gold" />
+                <MetaPill label="Jurisdiction" value={r.jurisdiction} tone="navy" />
+              </div>
+
+              {/* Remaining details (long-form) */}
               <div
                 style={{
                   display: "grid",
@@ -328,14 +371,10 @@ export default function CompanySearch() {
                   marginBottom: "1rem",
                 }}
               >
-                <Field label="Business Number (BN)" value={r.businessNumber || "—"} />
-                <Field label="Registry ID"           value={r.registryId     || "—"} />
-                <Field label="Registered Office"     value={r.location       || "—"} />
-                <Field label="Status"                value={r.status} />
-                <Field label="Status Notes"          value={r.statusNotes    || "—"} />
-                <Field label="Business Type"         value={r.entityType     || "—"} />
-                <Field label="Created"               value={r.registrationDate || "—"} />
-                <Field label="Jurisdiction"          value={r.jurisdiction   || "—"} />
+                <Field label="Business Number (BN)" value={r.businessNumber   || "—"} />
+                <Field label="Registered Office"    value={r.location         || "—"} />
+                <Field label="Created"              value={r.registrationDate || "—"} />
+                <Field label="Status Notes"         value={r.statusNotes      || "—"} />
               </div>
 
               {/* CTA: inline pricing menu → deep-link into an order flow */}
@@ -425,7 +464,8 @@ export default function CompanySearch() {
           style={{
             textAlign: "center", padding: "3rem 1.5rem",
             background: "var(--card)", border: "1px solid var(--border)",
-            borderRadius: "0.75rem",
+            borderRadius: "var(--radius-card)",
+            boxShadow: "var(--shadow-card)",
           }}
         >
           <div style={{ fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.5rem", fontWeight: 500 }}>

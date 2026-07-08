@@ -61,6 +61,7 @@ type Body = {
   changes:  Changes;
   contact:  { name: string; email: string; phone: string };
   src:      string;
+  ref?:     string;   // outreach token from /o/<token> — used to attribute conversions
 };
 
 function isValid(body: Body): string | null {
@@ -170,6 +171,7 @@ export async function POST(req: Request) {
         service:            years === 1 ? "annual-return" : "annual-return-multiple",
         years_filed:        String(years),
         src:                body.src.slice(0, 100),
+        outreach_ref:       (body.ref ?? "").slice(0, 32),
         company_name:       body.hit.name.slice(0, 100),
         registry_id:        (body.hit.registryId || "").slice(0, 100),
         business_number:    (body.hit.businessNumber || "").slice(0, 100),

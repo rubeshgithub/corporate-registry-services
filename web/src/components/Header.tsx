@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight, CircleCheck } from "lucide-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,11 +17,14 @@ export default function Header() {
       }}
     >
       <style>{`
-        .header-nav    { display: none; }
-        .header-burger { display: flex; }
+        .header-nav      { display: none; }
+        .header-actions  { display: flex; }
+        .header-burger   { display: flex; }
+        .header-check    { display: none; }
         @media (min-width: 768px) {
           .header-nav    { display: flex; }
           .header-burger { display: none; }
+          .header-check  { display: inline-flex; }
         }
       `}</style>
       <div
@@ -32,11 +35,12 @@ export default function Header() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: "1.5rem",
           height: "4rem",
         }}
       >
         {/* Logo */}
-        <a href="/" style={{ textDecoration: "none" }}>
+        <a href="/" style={{ textDecoration: "none", flexShrink: 0 }}>
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
             <span
               style={{
@@ -64,20 +68,54 @@ export default function Header() {
         </a>
 
         {/* Desktop nav */}
-        <nav className="header-nav" style={{ alignItems: "center", gap: "2rem" }}>
+        <nav className="header-nav" style={{ alignItems: "center", gap: "1.75rem", flex: "1 1 auto", justifyContent: "center" }}>
           <NavLink href="/#why">Why CRS</NavLink>
           <NavLink href="/#services">Services</NavLink>
           <NavLink href="/canada-corporations-search">Registry Search</NavLink>
           <NavLink href="/guides">Guides</NavLink>
           <NavLink href="/articles">Articles</NavLink>
-          <NavLink href="/#contact">Contact Us</NavLink>
+          <NavLink href="https://minutebook.corporateregistryservices.ca">MinuteBook</NavLink>
+          <NavLink href="/#contact">Contact</NavLink>
+        </nav>
+
+        {/* Right-side actions */}
+        <div className="header-actions" style={{ alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
           <a
-            href="https://minutebook.corporateregistryservices.ca"
+            href="/order/status"
+            className="header-check"
+            style={{
+              alignItems: "center",
+              gap: "0.35rem",
+              padding: "0.45rem 0.85rem",
+              borderRadius: "0.5rem",
+              background: "transparent",
+              color: "#FFFFFF",
+              fontSize: "0.82rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              border: "1.5px solid rgba(255,255,255,0.35)",
+              whiteSpace: "nowrap",
+              transition: "border-color 0.15s, color 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--gold)";
+              (e.currentTarget as HTMLElement).style.color = "var(--gold)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.35)";
+              (e.currentTarget as HTMLElement).style.color = "#FFFFFF";
+            }}
+          >
+            <CircleCheck size={14} />
+            Check Status
+          </a>
+          <a
+            href="/#services"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.4rem",
-              padding: "0.5rem 0.9rem",
+              gap: "0.35rem",
+              padding: "0.5rem 0.95rem",
               borderRadius: "0.5rem",
               background: "var(--gold)",
               color: "var(--primary)",
@@ -87,27 +125,30 @@ export default function Header() {
               whiteSpace: "nowrap",
               transition: "filter 0.15s",
             }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.filter = "brightness(1.08)")}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.filter = "none")}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.filter = "brightness(1.08)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.filter = "none")}
           >
-            MinuteBook →
+            Start Filing
+            <ArrowRight size={14} />
           </a>
-        </nav>
 
-        {/* Mobile burger */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="header-burger"
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "#FFFFFF",
-            alignItems: "center",
-          }}
-        >
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+          {/* Mobile burger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="header-burger"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#FFFFFF",
+              alignItems: "center",
+              padding: "0.35rem",
+              marginLeft: "0.15rem",
+            }}
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}
@@ -127,24 +168,29 @@ export default function Header() {
           <NavLink href="/canada-corporations-search" onClick={() => setMenuOpen(false)}>Registry Search</NavLink>
           <NavLink href="/guides" onClick={() => setMenuOpen(false)}>Guides</NavLink>
           <NavLink href="/articles" onClick={() => setMenuOpen(false)}>Articles</NavLink>
-          <NavLink href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink>
+          <NavLink href="https://minutebook.corporateregistryservices.ca" onClick={() => setMenuOpen(false)}>MinuteBook</NavLink>
+          <NavLink href="/#contact" onClick={() => setMenuOpen(false)}>Contact</NavLink>
           <a
-            href="https://minutebook.corporateregistryservices.ca"
+            href="/order/status"
             onClick={() => setMenuOpen(false)}
             style={{
-              display: "inline-block",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
               marginTop: "0.5rem",
               padding: "0.55rem 0.9rem",
               borderRadius: "0.5rem",
-              background: "var(--gold)",
-              color: "var(--primary)",
+              background: "transparent",
+              color: "#FFFFFF",
               fontSize: "0.85rem",
-              fontWeight: 700,
+              fontWeight: 600,
               textDecoration: "none",
-              textAlign: "center",
+              border: "1.5px solid rgba(255,255,255,0.35)",
+              justifyContent: "center",
             }}
           >
-            MinuteBook →
+            <CircleCheck size={14} />
+            Check Status
           </a>
         </div>
       )}
@@ -166,14 +212,15 @@ function NavLink({
       href={href}
       onClick={onClick}
       style={{
-        color: "rgba(255,255,255,0.75)",
+        color: "rgba(255,255,255,0.78)",
         textDecoration: "none",
         fontSize: "0.875rem",
         fontWeight: 500,
         transition: "color 0.15s",
+        whiteSpace: "nowrap",
       }}
       onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--gold)")}
-      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.75)")}
+      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.78)")}
     >
       {children}
     </a>

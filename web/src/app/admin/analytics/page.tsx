@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { getAnalyticsData, getTrafficData, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData } from "@/lib/analytics";
+import { getAnalyticsData, getTrafficData, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken } from "@/lib/analytics";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -20,16 +20,16 @@ export default async function AnalyticsPage({
   if (!authed) redirect("/admin/login?next=/admin/analytics");
 
   const params      = await searchParams;
-  const windowDays  = Math.min(365, Math.max(1, parseInt(params.window ?? "30", 10) || 30));
+  const token       = parseWindowToken(params.window);
   const [data, traffic] = await Promise.all([
-    getAnalyticsData(windowDays),
-    getTrafficData(windowDays),
+    getAnalyticsData(token),
+    getTrafficData(token),
   ]);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg-deep)", padding: "2rem 1.5rem" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-        <TopBar windowDays={windowDays} fetchedAt={data.fetchedAt} />
+        <TopBar token={token} label={data.windowLabel} fetchedAt={data.fetchedAt} />
         <SummaryCards data={data} traffic={traffic} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
           <BreakdownCard title="Orders by service"          buckets={data.byService}      totalOrders={data.totalOrders} />
@@ -47,7 +47,15 @@ export default async function AnalyticsPage({
 
 /* ─────────────────────────── Sub-components ─────────────────────────── */
 
-function TopBar({ windowDays, fetchedAt }: { windowDays: number; fetchedAt: string }) {
+function TopBar({ token, label, fetchedAt }: { token: WindowToken; label: string; fetchedAt: string }) {
+  const tabs: Array<{ t: WindowToken; label: string }> = [
+    { t: "1h",    label: "Past 1h"    },
+    { t: "today", label: "Today (MST)" },
+    { t: "7d",    label: "7d"          },
+    { t: "30d",   label: "30d"         },
+    { t: "90d",   label: "90d"         },
+    { t: "1y",    label: "1y"          },
+  ];
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.75rem" }}>
       <div>
@@ -55,35 +63,34 @@ function TopBar({ windowDays, fetchedAt }: { windowDays: number; fetchedAt: stri
           CRS Admin
         </div>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0 0" }}>
-          Analytics · {windowDays === 1 ? "Last 24 hours" : `Last ${windowDays} days`}
+          Analytics · {label}
         </h1>
+        <div style={{ display: "flex", gap: "0.35rem", marginTop: "0.5rem" }}>
+          <span style={{ padding: "0.3rem 0.7rem", border: "1px solid var(--primary)", background: "var(--primary)", color: "#fff", borderRadius: "0.35rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace" }}>Analytics</span>
+          <a href="/admin/outreach" style={{ padding: "0.3rem 0.7rem", border: "1px solid var(--border)", background: "var(--card)", color: "var(--text-muted)", borderRadius: "0.35rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace", textDecoration: "none" }}>Outreach</a>
+        </div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem" }}>
           Fetched {new Date(fetchedAt).toLocaleString("en-CA", { timeZone: OPERATOR_TZ, timeZoneName: "short" })} · cache 5 min
         </div>
       </div>
-      <div style={{ display: "flex", gap: "0.35rem" }}>
-        {[
-          { n: 1,   label: "24h" },
-          { n: 7,   label: "7d"  },
-          { n: 30,  label: "30d" },
-          { n: 90,  label: "90d" },
-          { n: 365, label: "1y"  },
-        ].map(({ n, label }) => (
+      <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
+        {tabs.map(({ t, label: tabLabel }) => (
           <a
-            key={n}
-            href={`/admin/analytics?window=${n}`}
+            key={t}
+            href={`/admin/analytics?window=${t}`}
             style={{
               padding:      "0.35rem 0.75rem",
               border:       "1px solid var(--border)",
               borderRadius: "0.4rem",
               fontSize:     "0.78rem",
               fontFamily:   "var(--font-mono), monospace",
-              background:   n === windowDays ? "var(--primary)" : "transparent",
-              color:        n === windowDays ? "#fff"           : "var(--text-muted)",
+              background:   t === token ? "var(--primary)" : "transparent",
+              color:        t === token ? "#fff"           : "var(--text-muted)",
               textDecoration: "none",
+              whiteSpace:   "nowrap",
             }}
           >
-            {label}
+            {tabLabel}
           </a>
         ))}
         <form action="/api/admin/logout" method="POST" style={{ display: "inline" }}>
@@ -227,9 +234,12 @@ function BreakdownCard({ title, buckets, totalOrders }: { title: string; buckets
 }
 
 function TrendCard({ data }: { data: AnalyticsData }) {
-  const series = data.dailyRevenue;
+  const series = data.trend;
   const maxAmount = Math.max(1, ...series.map((d) => d.amount));
-  const hourly   = data.windowDays <= 1;
+  const trendTitle =
+    data.bucketMode === "5min" ? "5-minute revenue · Mountain Time" :
+    data.bucketMode === "hour" ? "Hourly revenue · Mountain Time"   :
+                                 "Daily revenue · Mountain Time";
   const width  = 1100;
   const height = 160;
   const paddingX = 24;
@@ -245,7 +255,7 @@ function TrendCard({ data }: { data: AnalyticsData }) {
   return (
     <div style={{ ...cardStyle, marginBottom: "1rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.75rem" }}>
-        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{hourly ? "Hourly revenue · Mountain Time" : "Daily revenue · Mountain Time"}</div>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{trendTitle}</div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Peak: ${maxAmount.toLocaleString("en-CA", { maximumFractionDigits: 0 })}</div>
       </div>
       <svg viewBox={`0 0 ${width} ${height}`} width="100%" preserveAspectRatio="none" style={{ display: "block", height: 160 }}>
@@ -259,8 +269,8 @@ function TrendCard({ data }: { data: AnalyticsData }) {
         <line x1={paddingX} x2={width - paddingX} y1={height - paddingY} y2={height - paddingY} stroke="var(--border)" strokeWidth="1" />
       </svg>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.7rem", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", marginTop: "0.4rem" }}>
-        <span>{series[0]?.date}</span>
-        <span>{series[series.length - 1]?.date}</span>
+        <span>{series[0]?.label}</span>
+        <span>{series[series.length - 1]?.label}</span>
       </div>
     </div>
   );

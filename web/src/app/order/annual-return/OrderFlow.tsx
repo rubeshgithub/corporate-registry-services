@@ -133,6 +133,7 @@ export default function OrderFlow() {
   const params = useSearchParams();
   const initialJurisdiction = params.get("jurisdiction") ?? "all";
   const attributionSrc      = params.get("src") ?? "direct";
+  const outreachRef         = params.get("ref") ?? "";
 
   const [screen, setScreen] = useState<Screen>("lookup");
 
@@ -240,6 +241,7 @@ export default function OrderFlow() {
           changes,
           contact,
           src: attributionSrc,
+          ref: outreachRef,
         }),
       });
       const data = await res.json();
@@ -294,7 +296,7 @@ export default function OrderFlow() {
           style={{
             background: "var(--card)",
             border: "1px solid var(--border)",
-            borderRadius: "0.75rem",
+            borderRadius: "var(--radius-card)",
             padding: "1.25rem",
             boxShadow: "var(--shadow)",
           }}
@@ -430,7 +432,7 @@ export default function OrderFlow() {
           style={{
             background: "var(--card)",
             border: "1px solid var(--gold)",
-            borderRadius: "0.75rem",
+            borderRadius: "var(--radius-card)",
             padding: "1.25rem 1.5rem",
             marginBottom: "1.25rem",
             boxShadow: "var(--shadow)",
@@ -439,7 +441,7 @@ export default function OrderFlow() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", marginBottom: "0.85rem" }}>
             <CheckCircle2 size={20} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.15rem" }} />
             <div>
-              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)" }}>
+              <div className="card-heading" style={{ fontSize: "1.15rem" }}>
                 {pick.name}
               </div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "0.15rem" }}>
@@ -494,7 +496,7 @@ export default function OrderFlow() {
         style={{
           background: "var(--card)",
           border: "1px solid var(--border)",
-          borderRadius: "0.75rem",
+          borderRadius: "var(--radius-card)",
           padding: "1.25rem 1.5rem",
           marginBottom: "1.25rem",
         }}
@@ -561,7 +563,7 @@ export default function OrderFlow() {
         style={{
           background: "var(--card)",
           border: "1px solid var(--border)",
-          borderRadius: "0.75rem",
+          borderRadius: "var(--radius-card)",
           padding: "1.25rem 1.5rem",
           marginBottom: "1.25rem",
         }}
@@ -658,7 +660,7 @@ const SHAREHOLDER_TYPES: Array<{ v: ShareholderChangeType; l: string }> = [
 const cardStyle: React.CSSProperties = {
   background:    "var(--card)",
   border:        "1px solid var(--border)",
-  borderRadius:  "0.75rem",
+  borderRadius:  "var(--radius-card)",
   padding:       "1.25rem 1.5rem",
   marginBottom:  "1.25rem",
 };

@@ -158,7 +158,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
           </p>
         </div>
 
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.25rem", boxShadow: "var(--shadow)" }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem", boxShadow: "var(--shadow-card)" }}>
           <label htmlFor="rep-q" style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.5rem" }}>
             Company name, Corporate Access Number, or Business Number
           </label>
@@ -234,11 +234,11 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       </div>
 
       {pick && (
-        <div style={{ background: "var(--card)", border: "1px solid var(--gold)", borderRadius: "0.75rem", padding: "1.25rem 1.5rem", marginBottom: "1.25rem", boxShadow: "var(--shadow)" }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--gold)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", marginBottom: "0.85rem" }}>
             <CheckCircle2 size={20} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.15rem" }} />
             <div>
-              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)" }}>
+              <div className="card-heading" style={{ fontSize: "1.15rem" }}>
                 {pick.name}
               </div>
               <div style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "0.15rem" }}>
@@ -273,7 +273,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       )}
 
       {/* Contact */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.25rem 1.5rem", marginBottom: "1.25rem" }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>
         <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.75rem" }}>
           Where do we send the report?
         </div>

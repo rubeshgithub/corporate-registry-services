@@ -16,7 +16,7 @@ export default function StepServices({ bucket, selected, onToggle }: Props) {
         Step 2 of 5
       </p>
       <div style={{ marginBottom: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>
+        <h2 className="card-heading" style={{ fontSize: "1.25rem" }}>
           {bucket.label}
         </h2>
         <span className="category-chip">{bucket.label}</span>

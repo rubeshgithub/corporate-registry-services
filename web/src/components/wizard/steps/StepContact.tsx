@@ -15,7 +15,7 @@ export default function StepContact({ customer, onChange }: Props) {
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: "0.75rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.06em" }}>
         Step 4 of 5 — Your info
       </p>
-      <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.25rem" }}>
+      <h2 className="card-heading" style={{ fontSize: "1.25rem", marginBottom: "0.25rem" }}>
         How do we reach you?
       </h2>
       <p style={{ fontSize: "0.825rem", color: "var(--text-muted)", marginBottom: "1rem" }}>

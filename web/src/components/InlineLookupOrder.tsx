@@ -180,22 +180,20 @@ export default function InlineLookupOrder({
         margin:       "0 0 2rem",
         border:       "1px solid var(--border)",
         borderLeft:   "4px solid var(--gold)",
-        borderRadius: "0.75rem",
+        borderRadius: "var(--radius-card)",
         background:   "var(--card)",
-        padding:      "1.25rem 1.5rem",
+        padding:      "1.5rem 1.75rem",
+        boxShadow:    "var(--shadow-card)",
       }}
     >
       <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
         Do it right here · {copy.priceLabel}
       </div>
       <div
+        className="card-heading"
         style={{
-          fontFamily: "var(--font-display), Georgia, serif",
-          fontSize:   "1.15rem",
-          fontWeight: 700,
-          color:      "var(--text)",
+          fontSize:   "1.18rem",
           margin:     "0.35rem 0 0.5rem",
-          lineHeight: 1.3,
         }}
       >
         {copy.title}
@@ -275,10 +273,12 @@ export default function InlineLookupOrder({
           >
             <div style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
               <CheckCircle2 size={18} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.15rem" }} />
-              <div style={{ minWidth: 0 }}>
+              <div style={{ minWidth: 0, flex: "1 1 auto" }}>
                 <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.95rem" }}>{pick.name}</div>
-                <div style={{ color: "var(--text-muted)", fontSize: "0.76rem", marginTop: "0.15rem" }}>
-                  {pick.jurisdiction} · {pick.registryId || "—"} · {pick.status}{pick.entityType ? ` · ${pick.entityType}` : ""}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginTop: "0.35rem" }}>
+                  <MetaPill label="Registry ID"  value={pick.registryId}   tone="teal" />
+                  <MetaPill label="Type"         value={pick.entityType}   tone="gold" />
+                  <MetaPill label="Jurisdiction" value={pick.jurisdiction} tone="navy" />
                 </div>
               </div>
             </div>
@@ -448,14 +448,14 @@ function ResultCard({
           <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.92rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {hit.name}
           </div>
-          <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.15rem" }}>
-            {hit.jurisdiction} · {hit.registryId || "—"} · {hit.status}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.35rem" }}>
+            <MetaPill label="Registry ID"  value={hit.registryId}   tone="teal" />
+            <MetaPill label="Type"         value={hit.entityType}   tone="gold" />
+            <MetaPill label="Jurisdiction" value={hit.jurisdiction} tone="navy" />
           </div>
-          {incorpLabel && (
-            <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.1rem" }}>
-              Incorporated {incorpLabel}
-            </div>
-          )}
+          <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.4rem" }}>
+            {incorpLabel ? `Incorporated ${incorpLabel} · ` : ""}Status: {hit.status}
+          </div>
           {deadline && deadline.status !== "unknown" && (
             <div
               style={{
@@ -514,6 +514,41 @@ function deadlineColorText(status: DueStatus): string {
   if (status === "due_soon") return "#B45309";
   if (status === "on_track") return "var(--text)";
   return "var(--text-muted)";
+}
+
+type PillTone = "teal" | "gold" | "navy";
+const PILL_TONES: Record<PillTone, { bg: string; color: string; border: string }> = {
+  teal: { bg: "rgba(42,125,143,0.10)", color: "var(--secondary)", border: "rgba(42,125,143,0.35)" },
+  gold: { bg: "var(--gold-dim)",       color: "var(--gold)",      border: "rgba(249,172,0,0.45)"  },
+  navy: { bg: "rgba(0,61,91,0.08)",    color: "var(--primary)",   border: "rgba(0,61,91,0.25)"    },
+};
+
+function MetaPill({ label, value, tone }: { label: string; value: string; tone: PillTone }) {
+  if (!value || value === "—") return null;
+  const t = PILL_TONES[tone];
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "baseline",
+        gap: "0.3rem",
+        padding: "0.18rem 0.5rem",
+        borderRadius: "9999px",
+        background: t.bg,
+        border: `1px solid ${t.border}`,
+        fontFamily: "var(--font-mono), monospace",
+        fontSize: "0.66rem",
+        lineHeight: 1.4,
+      }}
+    >
+      <span style={{ color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontSize: "0.58rem" }}>
+        {label}
+      </span>
+      <span style={{ color: t.color, fontWeight: 700 }}>
+        {value}
+      </span>
+    </span>
+  );
 }
 
 function StatusDot({ status }: { status: DueStatus }) {

@@ -82,7 +82,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       </div>
 
       {/* Name inputs */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.25rem 1.5rem", marginBottom: "1.25rem", boxShadow: "var(--shadow)" }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>
         <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.35rem" }}>
           Proposed name
         </label>
@@ -130,7 +130,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       </div>
 
       {/* Contact */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.25rem 1.5rem", marginBottom: "1.25rem" }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>
         <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.75rem" }}>
           Where do we send the report?
         </div>

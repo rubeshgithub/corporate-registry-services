@@ -218,7 +218,7 @@ export default function IncorporationOrderFlow() {
       <Stepper current={step} />
 
       {/* Step content */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.5rem", boxShadow: "var(--shadow)", marginBottom: "1rem" }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.75rem", boxShadow: "var(--shadow-card)", marginBottom: "1rem" }}>
         {step === 0 && (
           <StepCompany
             state={state}
@@ -722,7 +722,7 @@ function fmtAddr(a: Address) {
 function SectionHeading({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div style={{ marginBottom: "1rem" }}>
-      <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)" }}>{title}</div>
+      <div className="card-heading" style={{ fontSize: "1.15rem" }}>{title}</div>
       {subtitle && <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", margin: "0.2rem 0 0" }}>{subtitle}</p>}
     </div>
   );

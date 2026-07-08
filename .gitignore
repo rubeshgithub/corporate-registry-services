@@ -4,6 +4,16 @@ dist/
 .env
 .env.production
 .env.development
+.env.local
 npm-debug.log*
 .DS_Store
 Thumbs.db
+
+# Local-only data pipeline (Alberta registry archive + delta CSVs) — 200MB+, private
+data/
+scripts/
+__pycache__/
+
+# Local planning docs — not part of the shipped repo
+ALBERTA-REGISTRY-DATA-PIPELINE.md
+CRS-GSC-CONVERSION-BRIEF.md

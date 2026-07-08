@@ -229,8 +229,9 @@ export default function MinuteBooksPage() {
                   style={{
                     background: "var(--card)",
                     border: "1px solid var(--border)",
-                    borderRadius: "0.75rem",
-                    padding: "1.25rem",
+                    borderRadius: "var(--radius-card)",
+                    padding: "1.5rem",
+                    boxShadow: "var(--shadow-card)",
                   }}
                 >
                   <div
@@ -242,7 +243,7 @@ export default function MinuteBooksPage() {
                   >
                     <Icon size={17} style={{ color: "var(--gold)" }} />
                   </div>
-                  <h3 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "0.975rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.375rem" }}>
+                  <h3 className="card-heading" style={{ fontSize: "1rem", marginBottom: "0.4rem" }}>
                     {title}
                   </h3>
                   <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.65, margin: 0 }}>

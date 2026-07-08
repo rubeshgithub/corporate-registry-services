@@ -204,17 +204,16 @@ export default function FaqPage() {
               marginTop: "3rem",
               padding:   "1.75rem 1.75rem",
               border:    "1px solid var(--gold)",
-              borderRadius: "0.75rem",
+              borderRadius: "var(--radius-card)",
               background:   "linear-gradient(135deg, rgba(212,175,55,0.10) 0%, rgba(212,175,55,0.02) 100%)",
               textAlign:    "center",
+              boxShadow:    "var(--shadow-card)",
             }}
           >
             <h2
+              className="card-heading"
               style={{
-                fontFamily: "var(--font-display),Georgia,serif",
                 fontSize:   "1.2rem",
-                fontWeight: 700,
-                color:      "var(--text)",
                 marginBottom: "0.4rem",
               }}
             >

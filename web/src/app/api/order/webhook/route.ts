@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import crypto from "node:crypto";
+import { markTokenConverted } from "@/lib/outreach-mongo";
 
 /**
  * POST /api/order/webhook
@@ -480,6 +481,11 @@ async function fulfill(session: Stripe.Checkout.Session) {
   // Stripe response take priority; a MinuteBook failure must never cause
   // a Stripe retry. pushToMinuteBook itself catches all errors.
   void pushToMinuteBook(session);
+
+  // Attribute the paid conversion back to the outreach token that drove it,
+  // if any. Fire-and-forget — failure here never blocks fulfillment.
+  const outreachRef = session.metadata?.outreach_ref;
+  if (outreachRef) void markTokenConverted(outreachRef, session.id);
 
   if (service === "annual-return" || service === "annual-return-multiple") {
     await ses.send(new SendEmailCommand({

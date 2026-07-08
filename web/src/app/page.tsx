@@ -218,11 +218,11 @@ export default function HomePage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
               {WHY_ITEMS.map(({ icon: Icon, title, body }) => (
-                <div key={title} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.25rem", boxShadow: "var(--shadow)" }}>
+                <div key={title} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem", boxShadow: "var(--shadow-card)" }}>
                   <div style={{ width: "2.25rem", height: "2.25rem", borderRadius: "0.5rem", background: "var(--gold-dim)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "0.875rem" }}>
                     <Icon size={18} style={{ color: "var(--gold)" }} />
                   </div>
-                  <h3 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.375rem" }}>
+                  <h3 className="card-heading" style={{ fontSize: "1.02rem", marginBottom: "0.4rem" }}>
                     {title}
                   </h3>
                   <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.6 }}>{body}</p>
