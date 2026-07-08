@@ -39,6 +39,7 @@ export default async function AnalyticsPage({
         <TrendCard data={data} />
         <TrafficSection traffic={traffic} />
         <SearchIntelligence traffic={traffic} />
+        <ContentPageSearchIntent traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -168,6 +169,7 @@ function TrafficSection({ traffic }: { traffic: TrafficData }) {
                 <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
                   <th style={thStyle}>Page</th>
                   <th style={thStyle}>Views</th>
+                  <th style={thStyle} title="Searches performed on the embedded lookup widget">Searches</th>
                   <th style={thStyle}>CTA clicks</th>
                   <th style={thStyle}>CTR</th>
                 </tr>
@@ -177,6 +179,7 @@ function TrafficSection({ traffic }: { traffic: TrafficData }) {
                   <tr key={r.path} style={{ borderTop: "1px solid var(--border)" }}>
                     <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 480, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.path}>{r.path}</td>
                     <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{r.views}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: r.searches > 0 ? 700 : 400, color: r.searches > 0 ? "var(--secondary)" : "var(--text-muted)" }}>{r.searches}</td>
                     <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{r.ctaClicks}</td>
                     <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: r.ctr >= 5 ? "var(--gold)" : "var(--text)" }}>{r.ctr}%</td>
                   </tr>
@@ -328,8 +331,11 @@ function SearchIntelligence({ traffic }: { traffic: TrafficData }) {
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
       {/* Overall search volume + zero-result rate */}
       <div style={{ ...cardStyle, gridColumn: "1 / -1" }}>
-        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
-          Canada Corporations Search intent
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.35rem" }}>
+          Canada Corporations Search intent · <span style={{ color: "var(--text)" }}>/canada-corporations-search</span>
+        </div>
+        <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Searches performed on the standalone registry search page — the &ldquo;cold&rdquo; landing page indexed by Google.
         </div>
         {traffic.totalSearches === 0 ? (
           <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
@@ -408,7 +414,7 @@ function SearchIntelligence({ traffic }: { traffic: TrafficData }) {
       {/* Zero-result queries — HIGH SIGNAL */}
       <div style={{ ...cardStyle, borderColor: traffic.zeroResultSearches.length > 0 ? "rgba(180, 83, 9, 0.5)" : "var(--border)" }}>
         <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: traffic.zeroResultSearches.length > 0 ? "#B45309" : "var(--text-muted)", marginBottom: "0.35rem" }}>
-          Zero-result queries · unmet demand
+          Zero-result queries · unmet demand · /canada-corporations-search
         </div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.75rem" }}>
           Searches that returned nothing. Often the highest-signal bucket — jurisdictions we don&apos;t cover, typos, or companies the government registry doesn&apos;t expose.
@@ -435,6 +441,99 @@ function SearchIntelligence({ traffic }: { traffic: TrafficData }) {
               </tbody>
             </table>
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Content-page widget searches — visitors landing on Annual Return / Profile
+ * Report / Good Standing / other content pages and using the embedded lookup
+ * widget. Higher intent than the standalone Registry Search page because the
+ * visitor already picked a service context by landing on that article.
+ */
+function ContentPageSearchIntent({ traffic }: { traffic: TrafficData }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1rem", marginBottom: "1rem" }}>
+      <div style={cardStyle}>
+        <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.35rem" }}>
+          Content-page search intent · <span style={{ color: "var(--text)" }}>article + service pages</span>
+        </div>
+        <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+          Searches performed on the lookup widget embedded in article and service pages (Annual Return, Profile Report, Good Standing, guides). These visitors already picked a service context — highest-intent search bucket.
+        </div>
+
+        {traffic.articleSearchesTotal === 0 ? (
+          <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
+            No content-page searches recorded yet in this window.
+          </div>
+        ) : (
+          <>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+              <div>
+                <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Total searches</div>
+                <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: "var(--text)" }}>
+                  {traffic.articleSearchesTotal.toLocaleString()}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Zero-result rate</div>
+                <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: traffic.articleZeroResultRate >= 25 ? "#B45309" : "var(--text)" }}>
+                  {traffic.articleZeroResultRate}%
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Pages with searches</div>
+                <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: "var(--text)" }}>
+                  {traffic.articleSearchesByPage.length}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+                <thead>
+                  <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                    <th style={thStyle}>Page</th>
+                    <th style={thStyle}>Searches</th>
+                    <th style={thStyle}>0-result</th>
+                    <th style={thStyle}>Top queries on this page</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {traffic.articleSearchesByPage.slice(0, 25).map((r) => (
+                    <tr key={r.path} style={{ borderTop: "1px solid var(--border)", verticalAlign: "top" }}>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 340, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.path}>
+                        {r.path}
+                      </td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: "var(--secondary)" }}>{r.count}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: r.zeroResults > 0 ? "#B45309" : "var(--text-muted)" }}>{r.zeroResults}</td>
+                      <td style={tdStyle}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+                          {r.topQueries.map((q) => (
+                            <span key={q.query} title={`${q.count} search${q.count === 1 ? "" : "es"} · avg ${q.avgResults} result${q.avgResults === 1 ? "" : "s"}`} style={{
+                              padding: "0.15rem 0.55rem",
+                              background: q.avgResults === 0 ? "rgba(180,83,9,0.08)" : "var(--bg-deep)",
+                              border: `1px solid ${q.avgResults === 0 ? "rgba(180,83,9,0.35)" : "var(--border)"}`,
+                              borderRadius: "9999px",
+                              fontSize: "0.7rem",
+                              fontFamily: "var(--font-mono), monospace",
+                              color: q.avgResults === 0 ? "#B45309" : "var(--text)",
+                              whiteSpace: "nowrap",
+                            }}>
+                              {q.query}
+                              {q.count > 1 && <span style={{ color: "var(--text-muted)" }}> ×{q.count}</span>}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>

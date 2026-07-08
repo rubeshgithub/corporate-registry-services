@@ -351,13 +351,31 @@ export type TrafficData = {
   uniqueSessions:   number;
   topPages:         Array<{ path: string; views: number; sessions: number }>;
   orderPageFunnel:  Array<{ path: string; views: number; sessions: number; clicksToPay: number }>;
-  articleCtr:       Array<{ path: string; views: number; ctaClicks: number; ctr: number }>;
-  // Registry search intelligence — what people type into /canada-corporations-search
+  /** Article/content-page engagement funnel. `searches` counts searches
+   *  performed on the InlineLookupOrder widget embedded on the page. */
+  articleCtr:       Array<{ path: string; views: number; ctaClicks: number; ctr: number; searches: number }>;
+
+  /** Standalone Registry Search page (/canada-corporations-search) — the
+   *  "cold" search intent surface indexed by Google. */
   totalSearches:     number;
-  zeroResultRate:    number;   // % of searches that returned 0 results
+  zeroResultRate:    number;
   topSearches:       Array<{ query: string; count: number; avgResults: number; provinces: string[] }>;
   zeroResultSearches: Array<{ query: string; count: number; provinces: string[] }>;
   searchesByProvince: Array<{ province: string; count: number; zeroResults: number }>;
+
+  /** Content-page widget searches — visitors landing on Annual Return / Profile
+   *  Report / Good Standing / other content pages and using the embedded
+   *  lookup. Higher intent than the standalone page because the visitor
+   *  already picked a service context. */
+  articleSearchesTotal:      number;
+  articleZeroResultRate:     number;
+  articleSearchesByPage:     Array<{
+    path:        string;
+    count:       number;
+    zeroResults: number;
+    topQueries:  Array<{ query: string; count: number; avgResults: number }>;
+  }>;
+
   fetchedAt:        string;
 };
 
@@ -454,17 +472,25 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     ]).toArray();
     for (const r of clicksRaw) clickCountsByPath.set(r._id, r.count);
   }
-  const articleCtr = articleViews.map((v) => ({
+  const articleCtrBase = articleViews.map((v) => ({
     path:      v._id,
     views:     v.views,
     ctaClicks: clickCountsByPath.get(v._id) ?? 0,
     ctr:       v.views ? Math.round(((clickCountsByPath.get(v._id) ?? 0) / v.views) * 1000) / 10 : 0,
   }));
 
-  /* Registry search intelligence — what visitors type into /canada-corporations-search */
+  /* ── Search intelligence ──────────────────────────────────────────
+     We split searches by source page:
+       - Standalone Registry Search  → path === "/canada-corporations-search"
+       - Content-page widget search  → path matches CONTENT_SECTIONS_RE
+     Everything else is captured but not shown in either bucket. */
   const sr = await searches();
+  const STANDALONE_PATH = "/canada-corporations-search";
+  const CONTENT_SECTIONS_RE = /^\/(articles|annual-return|incorporation|profile-reports|good-standing|minute-books|guides)\//;
+
+  /* ── Standalone Registry Search page ── */
   const searchTotals = await sr.aggregate<{ total: number; zero: number }>([
-    { $match: { ts: { $gte: since } } },
+    { $match: { ts: { $gte: since }, path: STANDALONE_PATH } },
     {
       $group: {
         _id:   null,
@@ -477,7 +503,7 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
   const zeroResultRate = totalSearches ? Math.round((searchTotals[0]!.zero / totalSearches) * 1000) / 10 : 0;
 
   const topSearchesRaw = await sr.aggregate<{ _id: string; count: number; avg: number; provinces: string[] }>([
-    { $match: { ts: { $gte: since } } },
+    { $match: { ts: { $gte: since }, path: STANDALONE_PATH } },
     {
       $group: {
         _id:       "$queryLower",
@@ -497,7 +523,7 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
   }));
 
   const zeroResultRaw = await sr.aggregate<{ _id: string; count: number; provinces: string[] }>([
-    { $match: { ts: { $gte: since }, resultCount: 0 } },
+    { $match: { ts: { $gte: since }, path: STANDALONE_PATH, resultCount: 0 } },
     {
       $group: {
         _id:       "$queryLower",
@@ -515,7 +541,7 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
   }));
 
   const byProvinceRaw = await sr.aggregate<{ _id: string; count: number; zero: number }>([
-    { $match: { ts: { $gte: since } } },
+    { $match: { ts: { $gte: since }, path: STANDALONE_PATH } },
     {
       $group: {
         _id:   "$province",
@@ -529,6 +555,72 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     province:    r._id || "all",
     count:       r.count,
     zeroResults: r.zero,
+  }));
+
+  /* ── Content-page widget searches ── */
+  const articleSearchAgg = await sr.aggregate<{
+    _id: { path: string; queryLower: string };
+    count: number;
+    zero: number;
+    avg: number;
+  }>([
+    {
+      $match: {
+        ts:   { $gte: since },
+        path: { $regex: CONTENT_SECTIONS_RE },
+      },
+    },
+    {
+      $group: {
+        _id:   { path: "$path", queryLower: "$queryLower" },
+        count: { $sum: 1 },
+        zero:  { $sum: { $cond: [{ $eq: ["$resultCount", 0] }, 1, 0] } },
+        avg:   { $avg: "$resultCount" },
+      },
+    },
+    { $sort: { count: -1 } },
+  ]).toArray();
+
+  /* Fold path+query rows into per-path buckets with top N queries each. */
+  const perPathMap = new Map<string, {
+    path:        string;
+    count:       number;
+    zeroResults: number;
+    topQueries:  Array<{ query: string; count: number; avgResults: number }>;
+  }>();
+  for (const r of articleSearchAgg) {
+    const path = r._id.path;
+    if (!perPathMap.has(path)) {
+      perPathMap.set(path, { path, count: 0, zeroResults: 0, topQueries: [] });
+    }
+    const bucket = perPathMap.get(path)!;
+    bucket.count       += r.count;
+    bucket.zeroResults += r.zero;
+    if (bucket.topQueries.length < 5) {
+      bucket.topQueries.push({
+        query:      r._id.queryLower,
+        count:      r.count,
+        avgResults: Math.round(r.avg * 10) / 10,
+      });
+    }
+  }
+  const articleSearchesByPage = [...perPathMap.values()].sort((a, b) => b.count - a.count);
+  const articleSearchesTotal  = articleSearchesByPage.reduce((sum, r) => sum + r.count, 0);
+  const articleZeroTotal      = articleSearchesByPage.reduce((sum, r) => sum + r.zeroResults, 0);
+  const articleZeroResultRate = articleSearchesTotal
+    ? Math.round((articleZeroTotal / articleSearchesTotal) * 1000) / 10
+    : 0;
+
+  /* Join per-path search counts into the existing articleCtr rows. */
+  const searchesByPath = new Map<string, number>(
+    articleSearchesByPage.map((r) => [r.path, r.count]),
+  );
+
+  /* Enrich the article-CTR rows with the per-path search count so the
+     dashboard can show views/searches/CTA-clicks side-by-side. */
+  const articleCtr = articleCtrBase.map((r) => ({
+    ...r,
+    searches: searchesByPath.get(r.path) ?? 0,
   }));
 
   return {
@@ -545,6 +637,9 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     topSearches,
     zeroResultSearches,
     searchesByProvince,
+    articleSearchesTotal,
+    articleZeroResultRate,
+    articleSearchesByPage,
     fetchedAt: new Date().toISOString(),
   };
 }
@@ -554,17 +649,20 @@ function emptyTraffic(cfg: WindowConfig): TrafficData {
     windowToken:  cfg.token,
     windowLabel:  cfg.label,
     windowDays:   cfg.windowDays,
-    totalPageviews:     0,
-    uniqueSessions:     0,
-    topPages:           [],
-    orderPageFunnel:    [],
-    articleCtr:         [],
-    totalSearches:      0,
-    zeroResultRate:     0,
-    topSearches:        [],
-    zeroResultSearches: [],
-    searchesByProvince: [],
-    fetchedAt:          new Date().toISOString(),
+    totalPageviews:        0,
+    uniqueSessions:        0,
+    topPages:              [],
+    orderPageFunnel:       [],
+    articleCtr:            [],
+    totalSearches:         0,
+    zeroResultRate:        0,
+    topSearches:           [],
+    zeroResultSearches:    [],
+    searchesByProvince:    [],
+    articleSearchesTotal:  0,
+    articleZeroResultRate: 0,
+    articleSearchesByPage: [],
+    fetchedAt:             new Date().toISOString(),
   };
 }
 
