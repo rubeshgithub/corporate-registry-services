@@ -19,7 +19,8 @@ export type OutreachService =
   | "profile-report"
   | "dissolution"
   | "revival"
-  | "good-standing";
+  | "good-standing"
+  | "general";        // service-agnostic intro — has multi-CTA grid
 
 export type OutreachCompany = {
   name:           string;
@@ -44,6 +45,15 @@ export type OutreachTokenDoc = {
   sentAt:           Date;
   firstClickedAt?:  Date;
   clickCount:       number;
+  /** Which services the recipient actually clicked on. Only populated by
+   *  general-template emails where the CTA carries a ?s=<service> param;
+   *  single-service templates don't need this. Stored as unique array. */
+  clickedServices?: string[];
+  /** Timestamp when the recipient clicked an "already handled this" anti-CTA
+   *  (e.g. "I've already filed my annual return"). Signals the recipient is
+   *  not a filing prospect on this service anymore — future outreach on the
+   *  same service should be skipped. */
+  ackFiled?:        Date;
   convertedAt?:     Date;
   convertedSessionId?: string;              // Stripe cs_… once/if the recipient pays
 };

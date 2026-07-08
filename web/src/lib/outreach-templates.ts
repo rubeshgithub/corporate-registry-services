@@ -302,10 +302,17 @@ const annualReturnTemplate: TemplateDef = {
         </table>
 
         <!-- Secondary CTA -->
-        <p style="margin:0;font-size:13px;color:#5A6B7A;text-align:center;">
+        <p style="margin:0 0 18px;font-size:13px;color:#5A6B7A;text-align:center;">
           Prefer to file it yourself?
           <a href="${SITE_URL}/articles/how-to-file-your-annual-return-in-${esc(provinceSlug)}?src=email-ar" style="color:#0C3D61;">Here&rsquo;s our free step-by-step guide</a>
           &mdash; no purchase needed.
+        </p>
+
+        <!-- Anti-CTA: already filed -->
+        <p style="margin:0;font-size:12px;color:#8A99A8;text-align:center;line-height:1.6;">
+          Already filed your ${new Date().getFullYear()} annual return?
+          <a href="${SITE_URL}/o/${ctx.token}?ack=filed" style="color:#8A99A8;text-decoration:underline;">Click here to let us know</a>
+          &mdash; we&rsquo;ll stop the reminders for this corporation.
         </p>
 
       </td>
@@ -344,7 +351,11 @@ How it works:
   3. We file with the ${registryName} within 24 hours
 
 Prefer to file it yourself? Our free step-by-step guide:
-  ${SITE_URL}/articles/how-to-file-your-annual-return-in-${provinceSlug}?src=email-ar`;
+  ${SITE_URL}/articles/how-to-file-your-annual-return-in-${provinceSlug}?src=email-ar
+
+Already filed your ${new Date().getFullYear()} annual return? Let us know and
+we'll stop the reminders for this corporation:
+  ${SITE_URL}/o/${ctx.token}?ack=filed`;
 
     return shell({ subject, innerHtml, textBody, ctx });
   },
@@ -446,10 +457,178 @@ Source: ${registryName} public record.`;
   };
 }
 
+/* ─────────────────────── General intro template ─────────────────────── */
+
+/** Multi-CTA template used when we don't know the recipient's specific need.
+ *  Each service tile links back through /o/<token>?s=<service> so we can see
+ *  which service actually caught their attention.
+ */
+const generalTemplate: TemplateDef = {
+  key:   "general",
+  label: "General — introduction to CRS services",
+  render(ctx) {
+    const tokenUrl = (svc: string) => `${SITE_URL}/o/${ctx.token}?s=${svc}`;
+    const registryName = REGISTRY_NAME[ctx.company.provinceKey] ?? `${ctx.company.jurisdiction} Corporate Registry`;
+
+    const subject = `${ctx.company.name} — services from CRS Compliance`;
+    const introDefault = `You may have come across CRS while looking up ${ctx.company.name} on the ${ctx.company.jurisdiction} registry — here's a quick summary of what we handle for Canadian corporations.`;
+    const intro = ctx.customIntro?.trim() || introDefault;
+
+    const serviceTile = ({
+      href, title, price, blurb, cta,
+    }: { href: string; title: string; price: string; blurb: string; cta: string }) => `
+      <tr>
+        <td style="padding:12px 16px;border:1px solid #DCE4EA;border-radius:6px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <p style="margin:0 0 3px;font-size:14px;font-weight:bold;color:#1A2B3A;">${esc(title)}</p>
+                <p style="margin:0 0 6px;font-size:12px;color:#B7791F;font-weight:bold;">${esc(price)}</p>
+                <p style="margin:0 0 10px;font-size:13px;color:#5A6B7A;line-height:1.5;">${esc(blurb)}</p>
+                <a href="${href}" style="display:inline-block;background-color:#0C3D61;color:#FFFFFF;font-size:13px;font-weight:bold;text-decoration:none;padding:8px 18px;border-radius:5px;">
+                  ${esc(cta)} &rarr;
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td style="height:10px;"></td></tr>`;
+
+    const services = [
+      {
+        href:  tokenUrl("annual-return"),
+        title: "Annual Return Filing",
+        price: "$99 all-in + gst",
+        blurb: "Mandatory every year, even if the corporation had no activity. Miss it and the registry can dissolve you.",
+        cta:   "File annual return",
+      },
+      {
+        href:  tokenUrl("profile-report"),
+        title: "Corporate Profile Report",
+        price: "$49 all-in + gst",
+        blurb: "Official registry snapshot: directors, addresses, status, incorporation history. Delivered by email within one business hour.",
+        cta:   "Order profile report",
+      },
+      {
+        href:  tokenUrl("good-standing"),
+        title: "Certificate of Good Standing",
+        price: "$79 all-in + gst",
+        blurb: "Official certificate for financing, corporate transactions, or foreign registrations. Pulled directly from the registry.",
+        cta:   "Order certificate",
+      },
+      {
+        href:  tokenUrl("revival"),
+        title: "Corporate Revival",
+        price: "Custom quote — 1 hour response",
+        blurb: "If your corporation has been struck for missed filings, we bring it back to active status — back-year annual returns included in the quote.",
+        cta:   "Start revival",
+      },
+      {
+        href:  tokenUrl("dissolution"),
+        title: "Voluntary Dissolution",
+        price: "Custom quote — 1 hour response",
+        blurb: "Cleanly close a corporation that's no longer operating. Stops future annual return fees and ends the CRA filing obligation.",
+        cta:   "Start dissolution",
+      },
+    ];
+
+    const innerHtml = `
+    <tr>
+      <td style="background-color:#0C3D61;padding:18px 32px;">
+        <span style="font-size:18px;font-weight:bold;color:#FFFFFF;letter-spacing:0.5px;">CRS</span>
+        <span style="font-size:12px;color:#CBE2EF;">&nbsp;|&nbsp; Corporate Registry Services</span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:32px;">
+        <h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;color:#1A2B3A;font-family:Georgia,serif;">
+          What CRS can handle for ${esc(ctx.company.name)}
+        </h1>
+        <p style="margin:0 0 22px;font-size:14px;color:#5A6B7A;">
+          Hi ${esc(firstName(ctx))},
+        </p>
+
+        <p style="margin:0 0 20px;font-size:14px;line-height:1.65;color:#1A2B3A;">
+          ${esc(intro)}
+        </p>
+
+        <!-- Company we looked up -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F1F5F8;border-radius:6px;margin-bottom:24px;">
+          <tr>
+            <td style="padding:12px 16px;">
+              <p style="margin:0 0 4px;font-size:11px;font-weight:bold;color:#0C3D61;text-transform:uppercase;letter-spacing:1px;">On file</p>
+              <p style="margin:0 0 2px;font-size:14px;font-weight:bold;color:#1A2B3A;">${esc(ctx.company.name)}</p>
+              <p style="margin:0;font-size:12px;color:#5A6B7A;">
+                ${esc(ctx.company.registryId || "—")} &middot; ${esc(ctx.company.jurisdiction)} &middot; ${esc(ctx.company.entityType || "—")}
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Services grid -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+          ${services.map(serviceTile).join("")}
+        </table>
+
+        <p style="margin:24px 0 0;font-size:12px;color:#8A99A8;text-align:center;line-height:1.6;">
+          All services filed within 24 hours &middot; Every price is all-in with the government fee included &middot; Custom quotes returned within one business hour.
+        </p>
+
+        <p style="margin:14px 0 0;font-size:12px;color:#5A6B7A;text-align:center;">
+          Not sure which service you need? Reply directly to this email &mdash; ${esc(PERSONA_NAME)} responds within one business hour.
+        </p>
+      </td>
+    </tr>`;
+
+    const textBody = `What CRS can handle for ${ctx.company.name}
+
+Hi ${firstName(ctx)},
+
+${intro}
+
+On file:
+  ${ctx.company.name}
+  ${ctx.company.registryId || "—"} · ${ctx.company.jurisdiction} · ${ctx.company.entityType || "—"}
+  Source: ${registryName}
+
+Services:
+
+* Annual Return Filing — $99 all-in + gst
+    Mandatory every year, even if inactive. Miss it → registry dissolution.
+    File: ${tokenUrl("annual-return")}
+
+* Corporate Profile Report — $49 all-in + gst
+    Official registry snapshot delivered within one business hour.
+    Order: ${tokenUrl("profile-report")}
+
+* Certificate of Good Standing — $79 all-in + gst
+    For financing, transactions, or foreign registrations.
+    Order: ${tokenUrl("good-standing")}
+
+* Corporate Revival — Custom quote (1 hour response)
+    Bring a struck corporation back to active status.
+    Start: ${tokenUrl("revival")}
+
+* Voluntary Dissolution — Custom quote (1 hour response)
+    Cleanly close a corporation that's no longer operating.
+    Start: ${tokenUrl("dissolution")}
+
+All services filed within 24 hours. Every price is all-in with the
+government fee included.
+
+Not sure which service you need? Reply directly to this email — ${PERSONA_NAME}
+responds within one business hour.`;
+
+    return shell({ subject, innerHtml, textBody, ctx });
+  },
+};
+
 /* ────────────────────────── Registry ────────────────────────── */
 
 export const TEMPLATES: Record<OutreachService, TemplateDef> = {
   "annual-return":  annualReturnTemplate,
+  "general":        generalTemplate,
   "profile-report": genericTemplate(
     "profile-report",
     "Corporate Profile Report",

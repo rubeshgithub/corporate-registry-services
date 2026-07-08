@@ -33,10 +33,12 @@ type Service =
   | "profile-report"
   | "good-standing"
   | "dissolution"
-  | "revival";
+  | "revival"
+  | "general";
 
 const SERVICES: Array<{ key: Service; label: string }> = [
   { key: "annual-return",  label: "Annual Return — filing reminder" },
+  { key: "general",        label: "General — intro to CRS services (multi-CTA)" },
   { key: "profile-report", label: "Corporate Profile Report" },
   { key: "good-standing",  label: "Certificate of Good Standing" },
   { key: "dissolution",    label: "Voluntary Dissolution" },
@@ -61,16 +63,18 @@ const REGISTRIES = [
 ];
 
 type SentRow = {
-  tokenId:       string;
-  service:       string;
-  companyName:   string;
-  registryId:    string;
-  to:            string[];
-  subject:       string;
-  sentAt:        string;
-  clickCount:    number;
-  firstClickAt:  string | null;
-  convertedAt:   string | null;
+  tokenId:         string;
+  service:         string;
+  companyName:     string;
+  registryId:      string;
+  to:              string[];
+  subject:         string;
+  sentAt:          string;
+  clickCount:      number;
+  firstClickAt:    string | null;
+  convertedAt:     string | null;
+  ackFiled:        string | null;
+  clickedServices: string[];
 };
 
 export default function OutreachConsole() {
@@ -730,7 +734,7 @@ function SentLog({ rows, loading }: { rows: SentRow[]; loading: boolean }) {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8rem" }}>
             <thead>
               <tr style={{ background: "var(--bg-deep)" }}>
-                {["Sent", "Company", "Template", "To", "Subject", "Clicks", "Converted", "Link"].map((h) => (
+                {["Sent", "Company", "Template", "To", "Subject", "Clicks", "Filed?", "Converted", "Link"].map((h) => (
                   <th key={h} style={thStyle}>{h}</th>
                 ))}
               </tr>
@@ -750,7 +754,21 @@ function SentLog({ rows, loading }: { rows: SentRow[]; loading: boolean }) {
                     {r.to.join(", ")}
                   </td>
                   <td style={{ ...tdStyle, maxWidth: 280, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={r.subject}>{r.subject}</td>
-                  <td style={{ ...tdStyle, textAlign: "center" }}>{r.clickCount || 0}</td>
+                  <td style={{ ...tdStyle, textAlign: "center" }}>
+                    <div>{r.clickCount || 0}</div>
+                    {r.clickedServices.length > 0 && (
+                      <div style={{ fontSize: "0.62rem", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", marginTop: "0.15rem" }} title={r.clickedServices.join(", ")}>
+                        {r.clickedServices.slice(0, 2).join(", ")}{r.clickedServices.length > 2 ? "…" : ""}
+                      </div>
+                    )}
+                  </td>
+                  <td style={{ ...tdStyle, textAlign: "center" }} title={r.ackFiled ? new Date(r.ackFiled).toLocaleString("en-CA") : ""}>
+                    {r.ackFiled ? (
+                      <span style={{ fontSize: "0.7rem", padding: "0.15rem 0.5rem", borderRadius: "9999px", background: "rgba(180,83,9,0.12)", color: "#B45309", border: "1px solid #B45309", fontFamily: "var(--font-mono), monospace", fontWeight: 600 }}>
+                        FILED
+                      </span>
+                    ) : <span style={{ color: "var(--text-muted)" }}>—</span>}
+                  </td>
                   <td style={{ ...tdStyle, textAlign: "center" }}>
                     {r.convertedAt ? <CheckCircle2 size={14} style={{ color: "var(--secondary)" }} /> : <span style={{ color: "var(--text-muted)" }}>—</span>}
                   </td>

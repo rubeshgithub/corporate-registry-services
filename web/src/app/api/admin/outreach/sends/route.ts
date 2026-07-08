@@ -35,16 +35,18 @@ export async function GET(req: Request) {
   const rows = sends.map((s) => {
     const t = tokenMap.get(s.tokenId);
     return {
-      tokenId:       s.tokenId,
-      service:       s.service,
-      companyName:   s.companyName,
-      registryId:    s.registryId,
-      to:            s.to,
-      subject:       s.subject,
-      sentAt:        s.sentAt,
-      clickCount:    t?.clickCount ?? 0,
-      firstClickAt:  t?.firstClickedAt ?? null,
-      convertedAt:   t?.convertedAt ?? null,
+      tokenId:         s.tokenId,
+      service:         s.service,
+      companyName:     s.companyName,
+      registryId:      s.registryId,
+      to:              s.to,
+      subject:         s.subject,
+      sentAt:          s.sentAt,
+      clickCount:      t?.clickCount      ?? 0,
+      firstClickAt:    t?.firstClickedAt  ?? null,
+      convertedAt:     t?.convertedAt     ?? null,
+      ackFiled:        t?.ackFiled        ?? null,
+      clickedServices: t?.clickedServices ?? [],
     };
   });
 
