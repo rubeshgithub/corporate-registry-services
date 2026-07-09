@@ -40,6 +40,7 @@ export default async function AnalyticsPage({
         <TrafficSection traffic={traffic} />
         <SearchIntelligence traffic={traffic} />
         <ContentPageSearchIntent traffic={traffic} />
+        <GovExitLeaks traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -536,6 +537,101 @@ function ContentPageSearchIntent({ traffic }: { traffic: TrafficData }) {
           </>
         )}
       </div>
+    </div>
+  );
+}
+
+/**
+ * Government-registry exits — visitors clicking outbound gov links to file
+ * directly with the registry instead of ordering from CRS. This is the "DIY
+ * leak" signal. High exits + low CTA clicks on the same article means the
+ * content is being read as a free guide rather than a lead-in to purchase.
+ */
+function GovExitLeaks({ traffic }: { traffic: TrafficData }) {
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem", borderColor: traffic.totalGovExits > 0 ? "rgba(180, 83, 9, 0.35)" : "var(--border)" }}>
+      <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: traffic.totalGovExits > 0 ? "#B45309" : "var(--text-muted)", marginBottom: "0.35rem" }}>
+        Government registry exits · DIY leak
+      </div>
+      <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
+        Visitors clicking an outbound link to a Canadian government registry (Alberta / Ontario / ISED / etc.) — a signal they intend to file directly rather than order. Compare against the same article&apos;s CTA clicks: high exits + low CTAs = the content is being read as a free guide.
+      </div>
+
+      {traffic.totalGovExits === 0 ? (
+        <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
+          No government-registry exits recorded in this window. Either visitors aren&apos;t leaking to DIY, or the anchor click tracking hasn&apos;t captured any gov-domain hrefs yet.
+        </div>
+      ) : (
+        <>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+            <div>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Total gov exits</div>
+              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: "#B45309" }}>
+                {traffic.totalGovExits.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.25rem" }}>Pages leaking</div>
+              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.4rem", fontWeight: 700, color: "var(--text)" }}>
+                {traffic.govExitsByPage.length}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+              <thead>
+                <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                  <th style={thStyle}>Page</th>
+                  <th style={thStyle}>Exits</th>
+                  <th style={thStyle}>Sessions</th>
+                  <th style={thStyle}>Views</th>
+                  <th style={thStyle} title="Gov exits divided by page views — the raw DIY leak rate">Leak %</th>
+                  <th style={thStyle}>Target hosts</th>
+                </tr>
+              </thead>
+              <tbody>
+                {traffic.govExitsByPage.slice(0, 20).map((r) => {
+                  const views = traffic.articleCtr.find((a) => a.path === r.path)?.views ?? 0;
+                  const leakPct = views > 0 ? Math.round((r.count / views) * 1000) / 10 : null;
+                  return (
+                    <tr key={r.path} style={{ borderTop: "1px solid var(--border)", verticalAlign: "top" }}>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 340, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.path}>
+                        {r.path}
+                      </td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: "#B45309" }}>{r.count}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{r.uniqueSessions}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "var(--text-muted)" }}>{views || "—"}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: leakPct !== null && leakPct >= 15 ? "#B45309" : "var(--text)" }}>
+                        {leakPct !== null ? `${leakPct}%` : "—"}
+                      </td>
+                      <td style={tdStyle}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+                          {r.topTargets.map((t) => (
+                            <span key={t.host} style={{
+                              padding: "0.15rem 0.55rem",
+                              background: "rgba(180,83,9,0.08)",
+                              border: "1px solid rgba(180,83,9,0.35)",
+                              borderRadius: "9999px",
+                              fontSize: "0.7rem",
+                              fontFamily: "var(--font-mono), monospace",
+                              color: "#B45309",
+                              whiteSpace: "nowrap",
+                            }}>
+                              {t.host}
+                              {t.count > 1 && <span style={{ color: "var(--text-muted)" }}> ×{t.count}</span>}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </div>
   );
 }

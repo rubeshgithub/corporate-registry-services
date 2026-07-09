@@ -376,6 +376,17 @@ export type TrafficData = {
     topQueries:  Array<{ query: string; count: number; avgResults: number }>;
   }>;
 
+  /** Government-registry exits — clicks on outbound links to Canadian gov
+   *  filing portals (Alberta, Ontario, ISED, etc.). Signals visitors leaking
+   *  to DIY instead of ordering. Higher exit rate = weaker widget positioning. */
+  totalGovExits:   number;
+  govExitsByPage:  Array<{
+    path:           string;
+    count:          number;
+    uniqueSessions: number;
+    topTargets:     Array<{ host: string; count: number }>;
+  }>;
+
   fetchedAt:        string;
 };
 
@@ -623,6 +634,63 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     searches: searchesByPath.get(r.path) ?? 0,
   }));
 
+  /* ── Government-registry exits ──────────────────────────────────
+     Any anchor click whose href matches a Canadian government filing
+     portal. Captures the "DIY leak" — visitors reading our guide and then
+     clicking through to file directly with the registry. Data comes from
+     the existing clicks collection; no page instrumentation needed. */
+  const GOV_HOST_RE =
+    /(?:\.|\/\/)(?:[a-z0-9-]+\.)?(gc\.ca|canada\.ca|alberta\.ca|ontario\.ca|quebec\.ca|novascotia\.ca|gnb\.ca|princeedwardisland\.ca|gov\.[a-z]{2}\.ca|ised-isde\.canada\.ca|orgbook\.gov\.bc\.ca)(?:\/|$|[?#])/i;
+
+  const govExitsAgg = await cl.aggregate<{
+    _id: string;
+    count: number;
+    sessions: string[];
+    targets: string[];
+  }>([
+    {
+      $match: {
+        ts: { $gte: since },
+        // Solr-flavored regex, but Mongo also accepts POSIX. Cast to string
+        // pattern to avoid the driver interpreting `RegExp` flags oddly.
+        target: { $regex: GOV_HOST_RE },
+      },
+    },
+    {
+      $group: {
+        _id: { $arrayElemAt: [{ $split: ["$path", "?"] }, 0] }, // strip query
+        count: { $sum: 1 },
+        sessions: { $addToSet: "$sessionId" },
+        targets: { $push: "$target" },
+      },
+    },
+    { $sort: { count: -1 } },
+    { $limit: 25 },
+  ]).toArray();
+
+  const govExitsByPage = govExitsAgg.map((r) => {
+    const hostCounts = new Map<string, number>();
+    for (const url of r.targets) {
+      try {
+        const host = new URL(url).host.toLowerCase().replace(/^www\./, "");
+        hostCounts.set(host, (hostCounts.get(host) ?? 0) + 1);
+      } catch {
+        /* malformed URL — ignore */
+      }
+    }
+    const topTargets = [...hostCounts.entries()]
+      .map(([host, count]) => ({ host, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 4);
+    return {
+      path:           r._id,
+      count:          r.count,
+      uniqueSessions: r.sessions.length,
+      topTargets,
+    };
+  });
+  const totalGovExits = govExitsByPage.reduce((sum, r) => sum + r.count, 0);
+
   return {
     windowToken:  cfg.token,
     windowLabel:  cfg.label,
@@ -640,6 +708,8 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     articleSearchesTotal,
     articleZeroResultRate,
     articleSearchesByPage,
+    totalGovExits,
+    govExitsByPage,
     fetchedAt: new Date().toISOString(),
   };
 }
@@ -662,6 +732,8 @@ function emptyTraffic(cfg: WindowConfig): TrafficData {
     articleSearchesTotal:  0,
     articleZeroResultRate: 0,
     articleSearchesByPage: [],
+    totalGovExits:         0,
+    govExitsByPage:        [],
     fetchedAt:             new Date().toISOString(),
   };
 }
