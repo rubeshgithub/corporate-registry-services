@@ -282,10 +282,28 @@ export default function InlineLookupOrder({
                 </div>
               </div>
             </div>
+            {/* Alberta-only: link to the enriched profile page */}
+            {pick.provinceKey === "ab" && pick.registryId && (
+              <a
+                href={`/corporation/${pick.registryId}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.3rem",
+                  marginTop: "0.6rem",
+                  fontSize: "0.75rem",
+                  color: "var(--secondary)",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                }}
+              >
+                ✨ See historical timeline + live status →
+              </a>
+            )}
             <button
               type="button"
               onClick={() => setPick(null)}
-              style={{ marginTop: "0.4rem", background: "none", border: "none", color: "var(--text-muted)", fontSize: "0.72rem", cursor: "pointer", padding: 0 }}
+              style={{ marginTop: "0.4rem", background: "none", border: "none", color: "var(--text-muted)", fontSize: "0.72rem", cursor: "pointer", padding: 0, display: "block" }}
             >
               ← Pick a different company
             </button>

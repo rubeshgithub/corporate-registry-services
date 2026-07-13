@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Script from "next/script";
 import { Playfair_Display, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import { organizationLd, jsonLdScript } from "@/lib/structured-data";
 import Analytics from "@/components/Analytics";
 import CrispLoader from "@/components/CrispLoader";
 import "./globals.css";
+
+/* Google Analytics 4 measurement ID. Override in env if you rotate the
+ * property; empty string disables the tag entirely (e.g., preview builds). */
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-G7J1GGNNRV";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
@@ -57,6 +62,20 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(organizationLd())} />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)]">
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>

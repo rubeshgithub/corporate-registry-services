@@ -340,6 +340,23 @@ h1, h2, h3, h4, h5 {
 }
 .crs-pulse-red { animation: crs-pulse-red 1.2s ease-in-out infinite; }
 
+/* "Live" (active) indicator — teal pulse. Used on the profile page when the
+   live registry status is Active / Incorporated / Registered to signal a
+   real-time verification just happened. */
+@keyframes crs-pulse-live {
+  0%, 100% { transform: scale(1);    opacity: 1;   box-shadow: 0 0 0 0 rgba(42, 125, 143, 0.55); }
+  50%      { transform: scale(1.2);  opacity: 0.75; box-shadow: 0 0 0 6px rgba(42, 125, 143, 0); }
+}
+.crs-pulse-live { animation: crs-pulse-live 1.8s ease-in-out infinite; }
+
+/* Amber pulse — used for Liable-for-Dissolution status, drawing attention
+   without the alarm of the red variant. */
+@keyframes crs-pulse-alert {
+  0%, 100% { transform: scale(1);    opacity: 1;   box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.55); }
+  50%      { transform: scale(1.2);  opacity: 0.8;  box-shadow: 0 0 0 6px rgba(180, 83, 9, 0); }
+}
+.crs-pulse-alert { animation: crs-pulse-alert 1.4s ease-in-out infinite; }
+
 /* Sticky bottom CTA — only visible on mobile so buy-intent doesn't disappear
    as the visitor scrolls through the article. Hidden ≥768px because the
    above-the-fold conversion strip is already fully visible on desktop. */

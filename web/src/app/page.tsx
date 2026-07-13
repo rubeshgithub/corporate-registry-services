@@ -250,7 +250,7 @@ export default function HomePage() {
               {[
                 { icon: Search,       label: "Corporate Profile Reports",         href: "/profile-reports", orderHref: "/order/profile-report?src=home-services" },
                 { icon: ShieldCheck,  label: "Certificates of Good Standing",     href: "/good-standing",   orderHref: "/order/good-standing?src=home-services" },
-                { icon: CheckCircle2, label: "Annual Return Filings",             href: "/annual-return",   orderHref: "/order/annual-return?src=home-services" },
+                { icon: CheckCircle2, label: "Annual Return Filings",             href: "/annual-return",   orderHref: "/file-annual-return/alberta" },
                 { icon: Building2,    label: "Incorporation — All Jurisdictions", href: "/incorporation",   orderHref: "/order/incorporation?src=home-services" },
                 { icon: FileText,     label: "Corporate Minute Books",            href: "/minute-books" },
                 { icon: Globe,        label: "Guides &amp; Resources",            href: "/guides" },

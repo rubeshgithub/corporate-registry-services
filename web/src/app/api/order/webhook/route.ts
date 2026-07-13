@@ -376,6 +376,50 @@ Stripe: https://dashboard.stripe.com/payments/${s.payment_intent}
 `.trim();
 }
 
+/** Customer-facing summary of changes captured on the order form. Only
+ *  the details we want to echo back — kept concise so the confirmation
+ *  email doesn't turn into a wall of text. */
+function customerChangesSection(m: Record<string, string>): string {
+  const summary = (m.changes_summary ?? "").trim();
+  if (!summary || summary === "no changes reported") return "";
+
+  const changes = readChunkedJson<StoredChanges>(m, "changes_json");
+  const lines: string[] = ["", "Changes you asked us to file:", `  ${summary}`, ""];
+
+  if (changes) {
+    for (const d of changes.directors ?? []) {
+      const detail = d.type === "address" ? ` → new address: ${d.newAddress}` : "";
+      lines.push(`  • Director ${d.type}: ${d.name} (effective ${d.effectiveDate})${detail}`);
+    }
+    for (const s of changes.shareholders ?? []) {
+      const detail =
+        s.type === "address" ? ` → new address: ${s.newAddress}` :
+        s.type === "voting"  ? ` → voting ${s.oldPercent}% → ${s.newPercent}%` : "";
+      lines.push(`  • Shareholder ${s.type}: ${s.name} (effective ${s.effectiveDate})${detail}`);
+    }
+    if (changes.registeredAddress?.changed) {
+      lines.push(`  • New registered address (effective ${changes.registeredAddress.effectiveDate}):`);
+      lines.push(`      ${changes.registeredAddress.newAddress}`);
+    }
+    if (changes.recordsAddress?.changed) {
+      lines.push(`  • New records address (effective ${changes.recordsAddress.effectiveDate}):`);
+      lines.push(`      ${changes.recordsAddress.newAddress}`);
+    }
+    if (changes.authorizedAgent?.changed) {
+      lines.push(`  • New authorized agent (effective ${changes.authorizedAgent.effectiveDate}):`);
+      lines.push(`      ${changes.authorizedAgent.newAgent}`);
+    }
+    if (changes.other?.trim()) {
+      lines.push(`  • Your note:`);
+      lines.push(`      ${changes.other.trim().split(/\r?\n/).join("\n      ")}`);
+    }
+  }
+
+  lines.push("");
+  lines.push("We've captured all of the above and our team will file the return with these updates.");
+  return lines.join("\n");
+}
+
 function customerBody(s: Stripe.Checkout.Session): string {
   const m = s.metadata ?? {};
   return `
@@ -397,6 +441,7 @@ Order summary:
   Company:      ${m.company_name ?? "—"}
   Registry ID:  ${m.registry_id ?? "—"}
   Jurisdiction: ${m.jurisdiction ?? "—"}
+${customerChangesSection(m)}
 
 Questions? Reply to this email — we'll respond within one business hour.
 

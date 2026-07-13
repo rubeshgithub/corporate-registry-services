@@ -377,6 +377,28 @@ export default function CompanySearch() {
                 <Field label="Status Notes"         value={r.statusNotes      || "—"} />
               </div>
 
+              {/* Alberta-only: link to the enriched profile page with full history + live status */}
+              {r.provinceKey === "ab" && r.registryId && (
+                <a
+                  href={`/corporation/${r.registryId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                    marginBottom: "0.75rem",
+                    padding: "0.5rem 0.85rem",
+                    background: "rgba(42,125,143,0.08)",
+                    color: "var(--secondary)",
+                    border: "1px solid var(--secondary)",
+                    borderRadius: "0.4rem",
+                    fontSize: "0.8rem", fontWeight: 600,
+                    textDecoration: "none",
+                  }}
+                >
+                  ✨ View full profile · timeline + live status →
+                </a>
+              )}
+
               {/* CTA: inline pricing menu → deep-link into an order flow */}
               <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
