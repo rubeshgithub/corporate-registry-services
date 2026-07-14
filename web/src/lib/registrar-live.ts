@@ -224,33 +224,25 @@ async function callPlaces(name: string, city: string): Promise<PlacesHit | null>
   return null;
 }
 
-/** Full enrichment: Places lookup → crawl website homepage + /contact →
- *  extract emails → MX check → write back to `contact.*` on the company doc.
- *
- *  Always writes SOMETHING back so `enrichedAt` gets set, preventing
- *  repeat re-enrichment for stale-nothing corps.  */
-export async function enrichCompany(company: CompanyDoc): Promise<EnrichmentResult> {
+/** Core enrichment logic: Places lookup → crawl website → extract email
+ *  → MX-verify. Pure function — no DB writes. Callers decide whether to
+ *  persist the result (see `enrichCompany` for the persist-to-companies
+ *  wrapper). Returns null if the company name is numbered (Places is near-
+ *  useless for those). */
+export async function runPlacesEnrichment(name: string, city: string): Promise<EnrichmentResult | null> {
   const now = new Date();
-  const skipEmpty: EnrichmentResult = {
-    email: null, emailSourceUrl: null, website: null, phone: null,
-    enrichedAt: now, enrichStatus: "not_found",
-  };
 
-  if (NUMBERED_RE.test(company.name)) {
-    const skip: EnrichmentResult = { ...skipEmpty, enrichStatus: "skip_numbered" };
-    await (await companies()).updateOne({ _id: company._id }, { $set: { contact: skip } });
-    return skip;
+  if (NUMBERED_RE.test(name)) {
+    return { email: null, emailSourceUrl: null, website: null, phone: null,
+             enrichedAt: now, enrichStatus: "skip_numbered" };
   }
 
-  const city = company.address?.city ?? "";
-  const place = await callPlaces(company.name, city);
+  const place = await callPlaces(name, city);
 
   let email: string | null = null;
   let sourceUrl: string | null = null;
 
   if (place?.website) {
-    /* Crawl homepage + /contact + /contact-us + /about — first email that
-       passes junk filter + MX check wins. */
     const siteHost = new URL(place.website.startsWith("http") ? place.website : `http://${place.website}`).host.toLowerCase();
     const paths = ["", "/contact", "/contact-us", "/about"];
     for (const p of paths) {
@@ -266,7 +258,7 @@ export async function enrichCompany(company: CompanyDoc): Promise<EnrichmentResu
         }
       }
       if (email) break;
-      await sleep(400); // be polite between fetches
+      await sleep(400);
     }
   }
 
@@ -275,7 +267,7 @@ export async function enrichCompany(company: CompanyDoc): Promise<EnrichmentResu
     (place?.phone || place?.website) ? "phone_or_web_only" :
                                  "not_found";
 
-  const result: EnrichmentResult = {
+  return {
     email,
     emailSourceUrl: sourceUrl,
     website:        place?.website ?? null,
@@ -283,11 +275,85 @@ export async function enrichCompany(company: CompanyDoc): Promise<EnrichmentResu
     enrichedAt:     now,
     enrichStatus:   status,
   };
+}
 
+/** Original companies-collection persist wrapper — kept for the profile-page
+ *  path where the caller already has a CompanyDoc from our Alberta DB. */
+export async function enrichCompany(company: CompanyDoc): Promise<EnrichmentResult> {
+  const result = await runPlacesEnrichment(company.name, company.address?.city ?? "");
+  if (!result) throw new Error("enrichment returned no result");
   await (await companies()).updateOne(
     { _id: company._id },
     { $set: { contact: result } },
   );
-
   return result;
+}
+
+/** On-demand enrichment for the outreach console. Cached in `lookups`
+ *  with 90-day TTL keyed by corpNumber so repeat lookups of the same corp
+ *  don't burn Places API. Also persists back to `companies.contact` if
+ *  the corp exists in our Alberta DB. */
+export async function enrichForOutreach(params: {
+  name:        string;
+  city:        string;
+  corpNumber?: string;
+}): Promise<{ result: EnrichmentResult | null; cached: boolean; source: "lookups" | "companies" | "fresh" }> {
+  await ensureLookupsIndex();
+  const cache = await lookups();
+  const cacheKey = params.corpNumber ? `places:${params.corpNumber}` : null;
+
+  /* 1. Check TTL-cache for this exact corp. */
+  if (cacheKey) {
+    const cached = await cache.findOne({ _id: cacheKey });
+    if (cached && (Date.now() - cached.fetchedAt.getTime()) < PLACES_FRESH_MS) {
+      return {
+        result: { ...(cached.payload as EnrichmentResult),
+                  enrichedAt: cached.fetchedAt },
+        cached: true,
+        source: "lookups",
+      };
+    }
+  }
+
+  /* 2. For Alberta corps, check the companies collection — it's the source
+     of truth for our enriched Alberta corpus. */
+  if (params.corpNumber) {
+    const company = await (await companies()).findOne({ _id: params.corpNumber });
+    if (company?.contact?.enrichedAt) {
+      const enrichedAt = company.contact.enrichedAt instanceof Date
+        ? company.contact.enrichedAt
+        : new Date(company.contact.enrichedAt);
+      if (!Number.isNaN(enrichedAt.getTime()) && (Date.now() - enrichedAt.getTime()) < PLACES_FRESH_MS) {
+        return {
+          result: { ...(company.contact as EnrichmentResult), enrichedAt },
+          cached: true,
+          source: "companies",
+        };
+      }
+    }
+  }
+
+  /* 3. Fresh enrichment. */
+  const result = await runPlacesEnrichment(params.name, params.city);
+  if (!result) {
+    return { result: null, cached: false, source: "fresh" };
+  }
+
+  /* 4. Cache in lookups (TTL-swept) and, if this corp is in our Alberta
+     DB, also persist to companies.contact so the profile page benefits. */
+  if (cacheKey) {
+    await cache.replaceOne(
+      { _id: cacheKey },
+      { source: "places", payload: result, fetchedAt: result.enrichedAt },
+      { upsert: true },
+    );
+  }
+  if (params.corpNumber) {
+    await (await companies()).updateOne(
+      { _id: params.corpNumber },
+      { $set: { contact: result } },
+    );
+  }
+
+  return { result, cached: false, source: "fresh" };
 }

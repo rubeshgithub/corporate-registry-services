@@ -77,6 +77,17 @@ type SentRow = {
   clickedServices: string[];
 };
 
+type EnrichmentPayload = {
+  email:          string | null;
+  emailSourceUrl: string | null;
+  website:        string | null;
+  phone:          string | null;
+  enrichedAt:     string;
+  enrichStatus:   "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "pending";
+  cached:         boolean;
+  source:         "lookups" | "companies" | "fresh";
+};
+
 export default function OutreachConsole() {
   /* ── Search state ──────────────────────────────────────────── */
   const [query, setQuery]       = useState("");
@@ -111,6 +122,11 @@ export default function OutreachConsole() {
   /* ── Sent log ──────────────────────────────────────────────── */
   const [sent, setSent]           = useState<SentRow[]>([]);
   const [logLoading, setLogLoading] = useState(false);
+
+  /* ── Enrichment state (Places + web crawl for the picked corp) ─ */
+  const [enrichLoading, setEnrichLoading] = useState(false);
+  const [enrichData, setEnrichData]       = useState<EnrichmentPayload | null>(null);
+  const [enrichNote, setEnrichNote]       = useState("");
 
   const previewDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -175,6 +191,36 @@ export default function OutreachConsole() {
   }, [pick, service, recipientName, customIntro, subject, subjectTouched, to]);
 
   /* ── Draft helpers ─────────────────────────────────────────── */
+
+  /** Fires the Places-backed enrichment endpoint for the picked corp. Cached
+   *  hits are instant; fresh calls take 2–5 sec (Places + website crawl). */
+  const fetchEnrichment = useCallback(async (r: Result) => {
+    setEnrichLoading(true);
+    setEnrichData(null);
+    setEnrichNote("");
+    try {
+      /* The company-search result's `location` field is a "City, Province"
+         one-liner. Places wants the city on its own — take the first comma-
+         separated segment as a best-effort city extract. */
+      const city = (r.location.split(",")[0] || "").trim();
+      const res = await fetch("/api/admin/outreach/enrich", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ name: r.name, city, corpNumber: r.registryId }),
+      });
+      const data = await res.json();
+      if (!data.enriched) {
+        setEnrichNote(data.reason || "No enrichment found.");
+      } else {
+        setEnrichData({ ...data.contact, cached: data.cached, source: data.source });
+      }
+    } catch (e) {
+      setEnrichNote(e instanceof Error ? e.message : "Enrichment request failed.");
+    } finally {
+      setEnrichLoading(false);
+    }
+  }, []);
+
   const openDrafter = (r: Result) => {
     setPick(r);
     setSentOk(null);
@@ -185,6 +231,9 @@ export default function OutreachConsole() {
     setRecipientName("");
     // Leave To/CC/BCC as the operator entered them so the same batch can
     // reuse addresses when appropriate — reset only on explicit close.
+    /* Fire enrichment in the background — the drawer renders immediately;
+       the contact-info panel appears when this resolves. */
+    void fetchEnrichment(r);
   };
 
   const closeDrafter = () => {
@@ -194,6 +243,8 @@ export default function OutreachConsole() {
     setSubjectTouched(false);
     setSentOk(null);
     setSendErr("");
+    setEnrichData(null);
+    setEnrichNote("");
   };
 
   /* ── Send ──────────────────────────────────────────────────── */
@@ -381,6 +432,10 @@ export default function OutreachConsole() {
               sendErr={sendErr}
               sentOk={sentOk}
               canSend={canSend}
+              enrichLoading={enrichLoading}
+              enrichData={enrichData}
+              enrichNote={enrichNote}
+              onRefreshEnrich={() => fetchEnrichment(pick)}
             />
           </aside>
         </>
@@ -526,6 +581,7 @@ function Drafter({
   customIntro, setCustomIntro,
   previewHtml, previewText, previewLoading,
   onClose, onSend, sending, sendErr, sentOk, canSend,
+  enrichLoading, enrichData, enrichNote, onRefreshEnrich,
 }: {
   pick: Result;
   service: Service; setService: (v: Service) => void;
@@ -541,6 +597,10 @@ function Drafter({
   sending: boolean; sendErr: string;
   sentOk: { token: string; landingUrl: string } | null;
   canSend: boolean;
+  enrichLoading:   boolean;
+  enrichData:      EnrichmentPayload | null;
+  enrichNote:      string;
+  onRefreshEnrich: () => void;
 }) {
   return (
     <div style={{ padding: "1.25rem 1.5rem" }}>
@@ -574,6 +634,16 @@ function Drafter({
           {pick.jurisdiction} · {pick.registryId || "—"} · {pick.entityType || "—"}
         </div>
       </div>
+
+      {/* Contact info panel — registered office from the registry + web-search
+          enrichment (Places API + website crawl). Click a value to copy. */}
+      <ContactPanel
+        pick={pick}
+        enrichLoading={enrichLoading}
+        enrichData={enrichData}
+        enrichNote={enrichNote}
+        onRefresh={onRefreshEnrich}
+      />
 
       {sentOk && (
         <div style={{ padding: "0.85rem 1rem", background: "rgba(42,125,143,0.08)", border: "1px solid var(--secondary)", borderRadius: "0.5rem", marginBottom: "1rem", fontSize: "0.85rem" }}>
@@ -783,6 +853,173 @@ function SentLog({ rows, loading }: { rows: SentRow[]; loading: boolean }) {
           </table>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════ ContactPanel ═══════════════════════════ */
+
+/** Web-verified contact info for the selected corp — surfaces registered
+ *  office (from the registry) alongside email / phone / website (from
+ *  Places API + website crawl). Every value is click-to-copy so the
+ *  operator can paste into the To: field, the email body, or elsewhere. */
+function ContactPanel({
+  pick, enrichLoading, enrichData, enrichNote, onRefresh,
+}: {
+  pick: Result;
+  enrichLoading: boolean;
+  enrichData:    EnrichmentPayload | null;
+  enrichNote:    string;
+  onRefresh:     () => void;
+}) {
+  return (
+    <div style={{
+      background: "var(--bg-deep)",
+      border: "1px solid var(--border)",
+      borderLeft: "3px solid var(--secondary)",
+      borderRadius: "0.5rem",
+      padding: "0.85rem 1rem",
+      marginBottom: "1rem",
+    }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+        <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.66rem", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)", fontWeight: 700 }}>
+          Contact info (registry + web search)
+        </div>
+        <button
+          onClick={onRefresh}
+          disabled={enrichLoading}
+          style={{
+            background: "none", border: "none", cursor: enrichLoading ? "wait" : "pointer",
+            fontSize: "0.68rem", color: "var(--secondary)", fontFamily: "var(--font-mono), monospace",
+            padding: "0.1rem 0.35rem",
+          }}
+          title="Re-fetch (bypasses cache if >90d, otherwise no-op)"
+        >
+          {enrichLoading ? "…" : "↻ Refresh"}
+        </button>
+      </div>
+
+      {/* Registered office — always available from the registry result */}
+      <CopyRow icon="📍" label="Registered office" value={pick.location || "—"} />
+
+      {/* Enrichment fields — website / phone / email */}
+      {enrichLoading ? (
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.78rem", color: "var(--text-muted)", padding: "0.4rem 0", fontStyle: "italic" }}>
+          <Loader2 size={12} className="crs-spin" />
+          Searching Google Places + crawling website for contact info…
+        </div>
+      ) : enrichData ? (
+        <>
+          {enrichData.website && (
+            <CopyRow icon="🌐" label="Website" value={enrichData.website} link={enrichData.website} />
+          )}
+          {enrichData.phone && (
+            <CopyRow icon="☎" label="Phone" value={enrichData.phone} link={`tel:${enrichData.phone.replace(/[^\d+]/g, "")}`} />
+          )}
+          {enrichData.email && (
+            <CopyRow
+              icon="✉"
+              label="Email"
+              value={enrichData.email}
+              link={`mailto:${enrichData.email}`}
+              action={
+                <button
+                  onClick={() => {/* Fill this handled by parent via prop if wanted; kept simple */}}
+                  style={{
+                    fontSize: "0.62rem", padding: "0.1rem 0.35rem",
+                    background: "var(--secondary)", color: "#fff",
+                    border: "none", borderRadius: "0.25rem", cursor: "pointer",
+                    marginLeft: "0.35rem",
+                  }}
+                  title="Use as To: recipient"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    const toInput = document.querySelector<HTMLInputElement>('input[placeholder="jane@company.ca"]');
+                    if (toInput && enrichData.email) {
+                      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+                      setter?.call(toInput, enrichData.email);
+                      toInput.dispatchEvent(new Event("input", { bubbles: true }));
+                    }
+                  }}
+                >
+                  → To
+                </button>
+              }
+            />
+          )}
+          {!enrichData.website && !enrichData.phone && !enrichData.email && (
+            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.3rem 0", fontStyle: "italic" }}>
+              No public contact info found in Google Places or the crawled website.
+            </div>
+          )}
+          <div style={{ fontSize: "0.62rem", color: "var(--text-muted)", marginTop: "0.5rem", fontStyle: "italic" }}>
+            {enrichData.cached
+              ? `Cached (${enrichData.source}) · enriched ${new Date(enrichData.enrichedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })}`
+              : `Freshly fetched · ${new Date(enrichData.enrichedAt).toLocaleTimeString("en-CA", { hour: "2-digit", minute: "2-digit" })}`}
+            {enrichData.emailSourceUrl && (
+              <>
+                {" · "}
+                <a href={enrichData.emailSourceUrl} target="_blank" rel="noreferrer" style={{ color: "var(--text-muted)" }}>
+                  email source URL
+                </a>
+              </>
+            )}
+          </div>
+        </>
+      ) : enrichNote ? (
+        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.3rem 0", fontStyle: "italic" }}>
+          {enrichNote}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function CopyRow({
+  icon, label, value, link, action,
+}: {
+  icon:   string;
+  label:  string;
+  value:  string;
+  link?:  string;
+  action?: React.ReactNode;
+}) {
+  const [copied, setCopied] = useState(false);
+  const doCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch { /* clipboard blocked — ignore */ }
+  };
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.3rem 0", borderTop: "1px dotted var(--border)" }}>
+      <span style={{ fontSize: "0.85rem", opacity: 0.7, width: "1.2rem", textAlign: "center" }}>{icon}</span>
+      <div style={{ minWidth: 0, flex: "1 1 auto" }}>
+        <div style={{ fontSize: "0.6rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontFamily: "var(--font-mono), monospace" }}>{label}</div>
+        {link ? (
+          <a href={link} target={link.startsWith("http") ? "_blank" : undefined} rel="noreferrer" style={{ fontSize: "0.82rem", color: "var(--text)", textDecoration: "none", wordBreak: "break-all", display: "block" }}>
+            {value}
+          </a>
+        ) : (
+          <div style={{ fontSize: "0.82rem", color: "var(--text)", wordBreak: "break-all" }}>{value}</div>
+        )}
+      </div>
+      <button
+        onClick={doCopy}
+        style={{
+          background: copied ? "var(--secondary)" : "var(--card)",
+          color: copied ? "#fff" : "var(--text-muted)",
+          border: "1px solid var(--border)", borderRadius: "0.3rem", cursor: "pointer",
+          padding: "0.25rem 0.45rem", fontSize: "0.7rem",
+          display: "inline-flex", alignItems: "center", gap: "0.2rem",
+          flexShrink: 0,
+        }}
+        title="Copy to clipboard"
+      >
+        {copied ? "✓ Copied" : <><Copy size={11} /> Copy</>}
+      </button>
+      {action}
     </div>
   );
 }
