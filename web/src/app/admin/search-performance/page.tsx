@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { latestSnapshot, previousSnapshot, type GscSnapshot, type PageRow, type QueryRow, type PageQueryRow } from "@/lib/gsc-mongo";
+import { latestSnapshot, previousSnapshot, type GscSnapshot, type PageRow } from "@/lib/gsc-mongo";
 import RefreshButton from "./RefreshButton";
+import PagesTable from "./PagesTable";
 
 /**
  * /admin/search-performance
@@ -148,36 +149,11 @@ function UnderperformingPages({ snap }: { snap: GscSnapshot }) {
           Nothing below threshold — all pages with meaningful impressions are converting.
         </div>
       ) : (
-        <TableBase>
-          <thead>
-            <tr style={{ background: "var(--bg-deep)" }}>
-              {["Page", "Impr", "Clicks", "CTR", "Avg pos", "Opportunity"].map((h) => (
-                <th key={h} style={thStyle}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {candidates.map((p) => (
-              <tr key={p.path} style={{ borderTop: "1px solid var(--border)" }}>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", maxWidth: 460, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={p.path}>
-                  <a href={p.path} target="_blank" rel="noreferrer" style={{ color: "var(--text)", textDecoration: "none" }}>
-                    {shortenUrl(p.path)}
-                  </a>
-                </td>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700 }}>{p.impressions.toLocaleString()}</td>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace" }}>{p.clicks}</td>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "#B45309", fontWeight: 700 }}>{(p.ctr * 100).toFixed(2)}%</td>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "var(--text-muted)" }}>{p.position.toFixed(1)}</td>
-                <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "var(--gold)", fontWeight: 700 }}>+{p.opportunity} clicks</td>
-              </tr>
-            ))}
-          </tbody>
-        </TableBase>
-      )}
-      {candidates.length > 0 && (
-        <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.75rem", fontStyle: "italic" }}>
-          Tip: click a row to open the page. Then check the drill-down below for the queries actually driving impressions — write your new title around those.
-        </div>
+        <PagesTable
+          pages={candidates}
+          pageQueries={snap.pageQueries}
+          ctrThresholdPct={CTR_THRESHOLD_UNDER * 100}
+        />
       )}
     </div>
   );
@@ -333,13 +309,6 @@ function totals(pages: PageRow[]): { impressions: number; clicks: number; ctr: n
   };
 }
 
-function shortenUrl(url: string): string {
-  try {
-    const u = new URL(url);
-    return u.pathname + u.search;
-  } catch { return url; }
-}
-
 function SectionHeader({ title, subtitle, accent }: { title: string; subtitle?: string; accent?: string }) {
   return (
     <div style={{ marginBottom: "0.75rem" }}>
@@ -360,10 +329,6 @@ function TableBase({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-/* Suppress unused warning for imported type — used by imports elsewhere */
-type _PQ = PageQueryRow;
-void ({} as _PQ);
 
 const cardStyle: React.CSSProperties = {
   background:    "var(--card)",
