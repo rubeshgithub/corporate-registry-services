@@ -493,6 +493,7 @@ function TopBar() {
       <div style={{ display: "flex", gap: "0.35rem" }}>
         <a href="/admin/analytics" style={tabLinkStyle}>Analytics</a>
         <span style={{ ...tabLinkStyle, background: "var(--primary)", color: "#fff", borderColor: "var(--primary)" }}>Outreach</span>
+        <a href="/admin/search-performance" style={tabLinkStyle}>Search performance</a>
       </div>
     </div>
   );

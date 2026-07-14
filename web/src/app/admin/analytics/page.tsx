@@ -70,6 +70,7 @@ function TopBar({ token, label, fetchedAt }: { token: WindowToken; label: string
         <div style={{ display: "flex", gap: "0.35rem", marginTop: "0.5rem" }}>
           <span style={{ padding: "0.3rem 0.7rem", border: "1px solid var(--primary)", background: "var(--primary)", color: "#fff", borderRadius: "0.35rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace" }}>Analytics</span>
           <a href="/admin/outreach" style={{ padding: "0.3rem 0.7rem", border: "1px solid var(--border)", background: "var(--card)", color: "var(--text-muted)", borderRadius: "0.35rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace", textDecoration: "none" }}>Outreach</a>
+          <a href="/admin/search-performance" style={{ padding: "0.3rem 0.7rem", border: "1px solid var(--border)", background: "var(--card)", color: "var(--text-muted)", borderRadius: "0.35rem", fontSize: "0.75rem", fontFamily: "var(--font-mono), monospace", textDecoration: "none" }}>Search performance</a>
         </div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem" }}>
           Fetched {new Date(fetchedAt).toLocaleString("en-CA", { timeZone: OPERATOR_TZ, timeZoneName: "short" })} · cache 5 min
