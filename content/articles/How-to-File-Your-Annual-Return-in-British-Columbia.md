@@ -1,8 +1,8 @@
 ﻿---
-title: "BC Annual Report: How to File with BC Registries — File it to avoid dissolution of your Corporation"
-slug: "How-to-File-Your-Annual-Return-in-British-Columbia"
+title: "File Your BC Annual Report — BC Registries · $99 all-in"
+slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
-description: "File your BC Annual Report through BC Registries — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
+description: "File your BC Annual Report with BC Registries in minutes — $99 all-in, GST included, filed within 24 hours. Skip the BCeID login and confusing forms."
 ---
 
 Every corporation incorporated under British Columbia's *Business Corporations Act* (BCA) must file an annual report each year to maintain its good standing with BC Registry Services. In British Columbia, the annual filing is called an **Annual Report** (not an "annual return" as in other provinces), but the requirement and purpose are the same.
