@@ -84,9 +84,23 @@ type EnrichmentPayload = {
   phone:          string | null;
   enrichedAt:     string;
   enrichStatus:   "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "pending";
-  cached:         boolean;
-  source:         "lookups" | "companies" | "fresh";
 };
+
+type PlaceCandidate = {
+  displayName:      string;
+  formattedAddress: string;
+  phone:            string | null;
+  website:          string | null;
+  similarity:       number;
+};
+
+type EnrichmentState =
+  | { mode: "idle" }
+  | { mode: "loading" }
+  | { mode: "candidates"; candidates: PlaceCandidate[] }
+  | { mode: "picking";    candidates: PlaceCandidate[]; picking: PlaceCandidate }
+  | { mode: "resolved";   contact: EnrichmentPayload; note?: string }
+  | { mode: "error";      message: string };
 
 export default function OutreachConsole() {
   /* ── Search state ──────────────────────────────────────────── */
@@ -123,10 +137,8 @@ export default function OutreachConsole() {
   const [sent, setSent]           = useState<SentRow[]>([]);
   const [logLoading, setLogLoading] = useState(false);
 
-  /* ── Enrichment state (Places + web crawl for the picked corp) ─ */
-  const [enrichLoading, setEnrichLoading] = useState(false);
-  const [enrichData, setEnrichData]       = useState<EnrichmentPayload | null>(null);
-  const [enrichNote, setEnrichNote]       = useState("");
+  /* ── Enrichment state — three-mode: candidates list, resolved pick, or loading */
+  const [enrich, setEnrich] = useState<EnrichmentState>({ mode: "idle" });
 
   const previewDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -192,32 +204,51 @@ export default function OutreachConsole() {
 
   /* ── Draft helpers ─────────────────────────────────────────── */
 
-  /** Fires the Places-backed enrichment endpoint for the picked corp. Cached
-   *  hits are instant; fresh calls take 2–5 sec (Places + website crawl). */
-  const fetchEnrichment = useCallback(async (r: Result) => {
-    setEnrichLoading(true);
-    setEnrichData(null);
-    setEnrichNote("");
+  /** Fetches enrichment for a corp. Three-mode response:
+   *   - cached    → we already have a picked+crawled contact, use it
+   *   - candidates → operator picks the right business from Places results
+   *   - picked    → operator's picked candidate got crawled + persisted */
+  const fetchEnrichment = useCallback(async (r: Result, forceRefresh = false) => {
+    setEnrich({ mode: "loading" });
     try {
       /* The company-search result's `location` field is a "City, Province"
-         one-liner. Places wants the city on its own — take the first comma-
-         separated segment as a best-effort city extract. */
+         one-liner. Places wants the city on its own. */
       const city = (r.location.split(",")[0] || "").trim();
       const res = await fetch("/api/admin/outreach/enrich", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ name: r.name, city, corpNumber: r.registryId }),
+        body:    JSON.stringify({ name: r.name, city, corpNumber: r.registryId, forceRefresh }),
       });
       const data = await res.json();
-      if (!data.enriched) {
-        setEnrichNote(data.reason || "No enrichment found.");
-      } else {
-        setEnrichData({ ...data.contact, cached: data.cached, source: data.source });
+      if (data.mode === "cached") {
+        setEnrich({ mode: "resolved", contact: data.contact, note: data.note });
+      } else if (data.mode === "candidates") {
+        setEnrich({ mode: "candidates", candidates: data.candidates ?? [] });
+      } else if (data.error) {
+        setEnrich({ mode: "error", message: data.error });
       }
     } catch (e) {
-      setEnrichNote(e instanceof Error ? e.message : "Enrichment request failed.");
-    } finally {
-      setEnrichLoading(false);
+      setEnrich({ mode: "error", message: e instanceof Error ? e.message : "Enrichment request failed." });
+    }
+  }, []);
+
+  /** Operator picked a candidate — crawl its website for an email and persist. */
+  const pickCandidate = useCallback(async (r: Result, candidate: PlaceCandidate) => {
+    setEnrich((prev) => (prev.mode === "candidates"
+      ? { mode: "picking", candidates: prev.candidates, picking: candidate }
+      : { mode: "loading" }));
+    try {
+      const city = (r.location.split(",")[0] || "").trim();
+      const res = await fetch("/api/admin/outreach/enrich", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ name: r.name, city, corpNumber: r.registryId, picked: candidate }),
+      });
+      const data = await res.json();
+      if (data.contact) setEnrich({ mode: "resolved", contact: data.contact });
+      else if (data.error) setEnrich({ mode: "error", message: data.error });
+    } catch (e) {
+      setEnrich({ mode: "error", message: e instanceof Error ? e.message : "Pick failed." });
     }
   }, []);
 
@@ -243,8 +274,7 @@ export default function OutreachConsole() {
     setSubjectTouched(false);
     setSentOk(null);
     setSendErr("");
-    setEnrichData(null);
-    setEnrichNote("");
+    setEnrich({ mode: "idle" });
   };
 
   /* ── Send ──────────────────────────────────────────────────── */
@@ -432,10 +462,10 @@ export default function OutreachConsole() {
               sendErr={sendErr}
               sentOk={sentOk}
               canSend={canSend}
-              enrichLoading={enrichLoading}
-              enrichData={enrichData}
-              enrichNote={enrichNote}
-              onRefreshEnrich={() => fetchEnrichment(pick)}
+              enrich={enrich}
+              onPickCandidate={(c) => pickCandidate(pick, c)}
+              onRefreshEnrich={() => fetchEnrichment(pick, /* forceRefresh */ true)}
+              onFillTo={(email) => setTo(email)}
             />
           </aside>
         </>
@@ -581,7 +611,7 @@ function Drafter({
   customIntro, setCustomIntro,
   previewHtml, previewText, previewLoading,
   onClose, onSend, sending, sendErr, sentOk, canSend,
-  enrichLoading, enrichData, enrichNote, onRefreshEnrich,
+  enrich, onPickCandidate, onRefreshEnrich, onFillTo,
 }: {
   pick: Result;
   service: Service; setService: (v: Service) => void;
@@ -597,10 +627,10 @@ function Drafter({
   sending: boolean; sendErr: string;
   sentOk: { token: string; landingUrl: string } | null;
   canSend: boolean;
-  enrichLoading:   boolean;
-  enrichData:      EnrichmentPayload | null;
-  enrichNote:      string;
-  onRefreshEnrich: () => void;
+  enrich:           EnrichmentState;
+  onPickCandidate:  (c: PlaceCandidate) => void;
+  onRefreshEnrich:  () => void;
+  onFillTo:         (email: string) => void;
 }) {
   return (
     <div style={{ padding: "1.25rem 1.5rem" }}>
@@ -636,13 +666,15 @@ function Drafter({
       </div>
 
       {/* Contact info panel — registered office from the registry + web-search
-          enrichment (Places API + website crawl). Click a value to copy. */}
+          enrichment. Three modes: candidates (operator picks the right
+          business), resolved (final contact info with copy buttons), or
+          loading. */}
       <ContactPanel
         pick={pick}
-        enrichLoading={enrichLoading}
-        enrichData={enrichData}
-        enrichNote={enrichNote}
+        enrich={enrich}
+        onPickCandidate={onPickCandidate}
         onRefresh={onRefreshEnrich}
+        onFillTo={onFillTo}
       />
 
       {sentOk && (
@@ -859,18 +891,19 @@ function SentLog({ rows, loading }: { rows: SentRow[]; loading: boolean }) {
 
 /* ═══════════════════════════ ContactPanel ═══════════════════════════ */
 
-/** Web-verified contact info for the selected corp — surfaces registered
- *  office (from the registry) alongside email / phone / website (from
- *  Places API + website crawl). Every value is click-to-copy so the
- *  operator can paste into the To: field, the email body, or elsewhere. */
+/** Web-verified contact info for the selected corp. Three states:
+ *   - loading   → spinner
+ *   - candidates → 2-3 Places matches, operator picks the right business
+ *   - resolved  → final contact (registered office + website/phone/email)
+ *                 with click-to-copy on every value */
 function ContactPanel({
-  pick, enrichLoading, enrichData, enrichNote, onRefresh,
+  pick, enrich, onPickCandidate, onRefresh, onFillTo,
 }: {
-  pick: Result;
-  enrichLoading: boolean;
-  enrichData:    EnrichmentPayload | null;
-  enrichNote:    string;
-  onRefresh:     () => void;
+  pick:            Result;
+  enrich:          EnrichmentState;
+  onPickCandidate: (c: PlaceCandidate) => void;
+  onRefresh:       () => void;
+  onFillTo:        (email: string) => void;
 }) {
   return (
     <div style={{
@@ -887,91 +920,193 @@ function ContactPanel({
         </div>
         <button
           onClick={onRefresh}
-          disabled={enrichLoading}
+          disabled={enrich.mode === "loading" || enrich.mode === "picking"}
           style={{
-            background: "none", border: "none", cursor: enrichLoading ? "wait" : "pointer",
+            background: "none", border: "none",
+            cursor: (enrich.mode === "loading" || enrich.mode === "picking") ? "wait" : "pointer",
             fontSize: "0.68rem", color: "var(--secondary)", fontFamily: "var(--font-mono), monospace",
             padding: "0.1rem 0.35rem",
           }}
-          title="Re-fetch (bypasses cache if >90d, otherwise no-op)"
+          title="Re-fetch fresh candidates from Google Places (bypasses cache)"
         >
-          {enrichLoading ? "…" : "↻ Refresh"}
+          {enrich.mode === "loading" ? "…" : "↻ Fresh search"}
         </button>
       </div>
 
-      {/* Registered office — always available from the registry result */}
+      {/* Registered office — always visible, straight from the registry */}
       <CopyRow icon="📍" label="Registered office" value={pick.location || "—"} />
 
-      {/* Enrichment fields — website / phone / email */}
-      {enrichLoading ? (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.78rem", color: "var(--text-muted)", padding: "0.4rem 0", fontStyle: "italic" }}>
+      {/* Mode-specific body */}
+      {enrich.mode === "loading" && (
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.78rem", color: "var(--text-muted)", padding: "0.5rem 0", fontStyle: "italic" }}>
           <Loader2 size={12} className="crs-spin" />
-          Searching Google Places + crawling website for contact info…
+          Searching Google Places for matching businesses…
         </div>
-      ) : enrichData ? (
-        <>
-          {enrichData.website && (
-            <CopyRow icon="🌐" label="Website" value={enrichData.website} link={enrichData.website} />
-          )}
-          {enrichData.phone && (
-            <CopyRow icon="☎" label="Phone" value={enrichData.phone} link={`tel:${enrichData.phone.replace(/[^\d+]/g, "")}`} />
-          )}
-          {enrichData.email && (
-            <CopyRow
-              icon="✉"
-              label="Email"
-              value={enrichData.email}
-              link={`mailto:${enrichData.email}`}
-              action={
+      )}
+
+      {enrich.mode === "candidates" && (
+        <CandidatePicker
+          candidates={enrich.candidates}
+          picking={null}
+          onPick={onPickCandidate}
+        />
+      )}
+
+      {enrich.mode === "picking" && (
+        <CandidatePicker
+          candidates={enrich.candidates}
+          picking={enrich.picking}
+          onPick={onPickCandidate}
+        />
+      )}
+
+      {enrich.mode === "resolved" && (
+        <ResolvedContact contact={enrich.contact} note={enrich.note} onFillTo={onFillTo} />
+      )}
+
+      {enrich.mode === "error" && (
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.75rem", color: "#B45309", padding: "0.4rem 0" }}>
+          <AlertCircle size={12} />
+          {enrich.message}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Candidate cards for operator to pick from — each shows Google's business
+ *  name, address, phone, website with a "Use this →" button. When operator
+ *  clicks, that card enters "picking" state (spinner) while the website
+ *  gets crawled for an email. */
+function CandidatePicker({
+  candidates, picking, onPick,
+}: {
+  candidates: PlaceCandidate[];
+  picking:    PlaceCandidate | null;
+  onPick:     (c: PlaceCandidate) => void;
+}) {
+  if (!candidates.length) {
+    return (
+      <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", padding: "0.5rem 0", fontStyle: "italic" }}>
+        No matches in Google Places for this business name.
+      </div>
+    );
+  }
+  return (
+    <div style={{ marginTop: "0.35rem" }}>
+      <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginBottom: "0.5rem", fontStyle: "italic" }}>
+        {candidates.length} candidate{candidates.length === 1 ? "" : "s"} from Google Places · pick the right one:
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        {candidates.map((c, i) => {
+          const isPicking = picking?.displayName === c.displayName && picking?.formattedAddress === c.formattedAddress;
+          return (
+            <div key={i} style={{
+              background: isPicking ? "rgba(42,125,143,0.10)" : "var(--card)",
+              border: `1px solid ${isPicking ? "var(--secondary)" : "var(--border)"}`,
+              borderRadius: "0.4rem",
+              padding: "0.6rem 0.75rem",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem", alignItems: "flex-start" }}>
+                <div style={{ minWidth: 0, flex: "1 1 auto" }}>
+                  <div style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.3 }}>
+                    {c.displayName}
+                  </div>
+                  <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+                    {c.formattedAddress || "no address on file"}
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", marginTop: "0.3rem", fontSize: "0.72rem", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace" }}>
+                    {c.website && <span>🌐 {new URL(c.website.startsWith("http") ? c.website : `https://${c.website}`).host}</span>}
+                    {c.phone   && <span>☎ {c.phone}</span>}
+                    <span title="Name-similarity vs the corp legal name">
+                      sim {(c.similarity * 100).toFixed(0)}%
+                    </span>
+                  </div>
+                </div>
                 <button
-                  onClick={() => {/* Fill this handled by parent via prop if wanted; kept simple */}}
+                  onClick={() => onPick(c)}
+                  disabled={!!picking}
                   style={{
-                    fontSize: "0.62rem", padding: "0.1rem 0.35rem",
-                    background: "var(--secondary)", color: "#fff",
-                    border: "none", borderRadius: "0.25rem", cursor: "pointer",
-                    marginLeft: "0.35rem",
-                  }}
-                  title="Use as To: recipient"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    const toInput = document.querySelector<HTMLInputElement>('input[placeholder="jane@company.ca"]');
-                    if (toInput && enrichData.email) {
-                      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
-                      setter?.call(toInput, enrichData.email);
-                      toInput.dispatchEvent(new Event("input", { bubbles: true }));
-                    }
+                    padding: "0.4rem 0.7rem",
+                    background: isPicking ? "var(--secondary)" : "var(--primary)",
+                    color: "#fff", border: "none", borderRadius: "0.35rem",
+                    fontSize: "0.72rem", fontWeight: 700,
+                    cursor: picking ? "wait" : "pointer",
+                    whiteSpace: "nowrap", flexShrink: 0,
                   }}
                 >
-                  → To
+                  {isPicking ? (
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
+                      <Loader2 size={11} className="crs-spin" /> crawling…
+                    </span>
+                  ) : "Use this →"}
                 </button>
-              }
-            />
-          )}
-          {!enrichData.website && !enrichData.phone && !enrichData.email && (
-            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.3rem 0", fontStyle: "italic" }}>
-              No public contact info found in Google Places or the crawled website.
+              </div>
             </div>
-          )}
-          <div style={{ fontSize: "0.62rem", color: "var(--text-muted)", marginTop: "0.5rem", fontStyle: "italic" }}>
-            {enrichData.cached
-              ? `Cached (${enrichData.source}) · enriched ${new Date(enrichData.enrichedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })}`
-              : `Freshly fetched · ${new Date(enrichData.enrichedAt).toLocaleTimeString("en-CA", { hour: "2-digit", minute: "2-digit" })}`}
-            {enrichData.emailSourceUrl && (
-              <>
-                {" · "}
-                <a href={enrichData.emailSourceUrl} target="_blank" rel="noreferrer" style={{ color: "var(--text-muted)" }}>
-                  email source URL
-                </a>
-              </>
-            )}
-          </div>
-        </>
-      ) : enrichNote ? (
-        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.3rem 0", fontStyle: "italic" }}>
-          {enrichNote}
-        </div>
-      ) : null}
+          );
+        })}
+      </div>
     </div>
+  );
+}
+
+/** Resolved (picked) contact — final email/phone/website with copy buttons. */
+function ResolvedContact({
+  contact, note, onFillTo,
+}: {
+  contact:  EnrichmentPayload;
+  note?:    string;
+  onFillTo: (email: string) => void;
+}) {
+  const anyValue = contact.website || contact.phone || contact.email;
+  return (
+    <>
+      {contact.website && (
+        <CopyRow icon="🌐" label="Website" value={contact.website} link={contact.website} />
+      )}
+      {contact.phone && (
+        <CopyRow icon="☎" label="Phone" value={contact.phone} link={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} />
+      )}
+      {contact.email && (
+        <CopyRow
+          icon="✉"
+          label="Email"
+          value={contact.email}
+          link={`mailto:${contact.email}`}
+          action={
+            <button
+              onClick={() => onFillTo(contact.email!)}
+              style={{
+                fontSize: "0.62rem", padding: "0.1rem 0.4rem",
+                background: "var(--secondary)", color: "#fff",
+                border: "none", borderRadius: "0.25rem", cursor: "pointer",
+                marginLeft: "0.35rem",
+                whiteSpace: "nowrap",
+              }}
+              title="Use as To: recipient"
+            >
+              → To
+            </button>
+          }
+        />
+      )}
+      {!anyValue && (
+        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "0.3rem 0", fontStyle: "italic" }}>
+          {note || "No public contact info found for this business."}
+        </div>
+      )}
+      <div style={{ fontSize: "0.62rem", color: "var(--text-muted)", marginTop: "0.5rem", fontStyle: "italic" }}>
+        Enriched {new Date(contact.enrichedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })}
+        {contact.emailSourceUrl && (
+          <>
+            {" · "}
+            <a href={contact.emailSourceUrl} target="_blank" rel="noreferrer" style={{ color: "var(--text-muted)" }}>
+              email source URL
+            </a>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

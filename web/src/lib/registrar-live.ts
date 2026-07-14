@@ -183,13 +183,25 @@ async function hasMx(email: string): Promise<boolean> {
 
 type PlacesHit = { website?: string; phone?: string; matchedName?: string; similarity?: number };
 
-async function callPlaces(name: string, city: string): Promise<PlacesHit | null> {
+export type PlaceCandidate = {
+  displayName:      string;
+  formattedAddress: string;
+  phone:            string | null;
+  website:          string | null;
+  similarity:       number;   // 0..1 against the source corp name
+};
+
+/** Query Places for a business name in a city. Postal code is included in
+ *  the text query when provided — it strongly disambiguates same-name
+ *  businesses across cities/provinces. Returns raw candidates without
+ *  picking one. */
+export async function getPlacesCandidates(name: string, city: string, postalCode?: string): Promise<PlaceCandidate[]> {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   if (!key) {
     console.warn("[places] GOOGLE_PLACES_API_KEY not set — enrichment skipped");
-    return null;
+    return [];
   }
-  const q = `${name} ${city}`.trim();
+  const q = [name, city, postalCode].map((s) => (s ?? "").trim()).filter(Boolean).join(" ");
   try {
     const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
       method: "POST",
@@ -203,33 +215,76 @@ async function callPlaces(name: string, city: string): Promise<PlacesHit | null>
     if (!res.ok) {
       const text = await res.text().catch(() => "");
       console.warn(`[places] ${res.status}: ${text.slice(0, 200)}`);
-      return null;
+      return [];
     }
-    const data = await res.json() as { places?: Array<{ displayName?: { text?: string }; websiteUri?: string; internationalPhoneNumber?: string }> };
-    for (const p of data.places ?? []) {
-      const matched = p.displayName?.text ?? "";
-      const sim = nameSimilarity(name, matched);
-      if (sim >= 0.5) {
-        return {
-          website:     p.websiteUri ?? "",
-          phone:       p.internationalPhoneNumber ?? "",
-          matchedName: matched,
-          similarity:  sim,
-        };
-      }
-    }
+    const data = await res.json() as { places?: Array<{
+      displayName?: { text?: string };
+      websiteUri?: string;
+      internationalPhoneNumber?: string;
+      formattedAddress?: string;
+    }>};
+    return (data.places ?? []).map((p) => ({
+      displayName:      p.displayName?.text ?? "",
+      formattedAddress: p.formattedAddress ?? "",
+      phone:            p.internationalPhoneNumber ?? null,
+      website:          p.websiteUri ?? null,
+      similarity:       nameSimilarity(name, p.displayName?.text ?? ""),
+    }));
   } catch (e) {
     console.error("[places] error:", e);
+    return [];
+  }
+}
+
+/** Legacy auto-pick wrapper — first candidate with similarity ≥ 0.5.
+ *  Used by the profile-page and bulk-enrichment paths where there's no
+ *  human to disambiguate. */
+async function callPlaces(name: string, city: string, postalCode?: string): Promise<PlacesHit | null> {
+  const candidates = await getPlacesCandidates(name, city, postalCode);
+  for (const c of candidates) {
+    if (c.similarity >= 0.5) {
+      return {
+        website:     c.website ?? "",
+        phone:       c.phone ?? "",
+        matchedName: c.displayName,
+        similarity:  c.similarity,
+      };
+    }
   }
   return null;
 }
 
-/** Core enrichment logic: Places lookup → crawl website → extract email
- *  → MX-verify. Pure function — no DB writes. Callers decide whether to
- *  persist the result (see `enrichCompany` for the persist-to-companies
- *  wrapper). Returns null if the company name is numbered (Places is near-
- *  useless for those). */
-export async function runPlacesEnrichment(name: string, city: string): Promise<EnrichmentResult | null> {
+/** Crawl a business website's homepage + common contact-page paths, extract
+ *  the highest-confidence public email, and MX-verify it. Returns null on
+ *  no match. Extracted from runPlacesEnrichment so it can be called
+ *  standalone once the operator picks a Place. */
+export async function crawlForEmail(website: string): Promise<{ email: string; sourceUrl: string } | null> {
+  let siteHost = "";
+  try {
+    siteHost = new URL(website.startsWith("http") ? website : `http://${website}`).host.toLowerCase();
+  } catch {
+    return null;
+  }
+  const base = website.replace(/\/+$/, "");
+  const paths = ["", "/contact", "/contact-us", "/about"];
+  for (const p of paths) {
+    const url = base + p;
+    const html = await fetchTextWithTimeout(url);
+    if (!html) continue;
+    const candidates = extractEmails(html, siteHost);
+    for (const e of candidates) {
+      if (await hasMx(e)) return { email: e, sourceUrl: url };
+    }
+    await sleep(400);
+  }
+  return null;
+}
+
+/** Core enrichment logic (auto path): Places lookup → auto-pick best match
+ *  → crawl website for email → MX-verify. Used by the profile page and
+ *  bulk enrichment where there's no human to disambiguate. Postal code
+ *  when supplied strongly narrows same-name matches across cities. */
+export async function runPlacesEnrichment(name: string, city: string, postalCode?: string): Promise<EnrichmentResult | null> {
   const now = new Date();
 
   if (NUMBERED_RE.test(name)) {
@@ -237,39 +292,17 @@ export async function runPlacesEnrichment(name: string, city: string): Promise<E
              enrichedAt: now, enrichStatus: "skip_numbered" };
   }
 
-  const place = await callPlaces(name, city);
-
-  let email: string | null = null;
-  let sourceUrl: string | null = null;
-
-  if (place?.website) {
-    const siteHost = new URL(place.website.startsWith("http") ? place.website : `http://${place.website}`).host.toLowerCase();
-    const paths = ["", "/contact", "/contact-us", "/about"];
-    for (const p of paths) {
-      const url = place.website.replace(/\/+$/, "") + p;
-      const html = await fetchTextWithTimeout(url);
-      if (!html) continue;
-      const candidates = extractEmails(html, siteHost);
-      for (const e of candidates) {
-        if (await hasMx(e)) {
-          email = e;
-          sourceUrl = url;
-          break;
-        }
-      }
-      if (email) break;
-      await sleep(400);
-    }
-  }
+  const place = await callPlaces(name, city, postalCode);
+  const crawled = place?.website ? await crawlForEmail(place.website) : null;
 
   const status: EnrichmentResult["enrichStatus"] =
-    email                    ? "found" :
+    crawled?.email               ? "found" :
     (place?.phone || place?.website) ? "phone_or_web_only" :
                                  "not_found";
 
   return {
-    email,
-    emailSourceUrl: sourceUrl,
+    email:          crawled?.email ?? null,
+    emailSourceUrl: crawled?.sourceUrl ?? null,
     website:        place?.website ?? null,
     phone:          place?.phone   ?? null,
     enrichedAt:     now,
