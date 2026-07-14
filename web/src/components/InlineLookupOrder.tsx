@@ -251,7 +251,17 @@ export default function InlineLookupOrder({
                   key={`${hit.provinceKey}-${hit.registryId}-${i}`}
                   hit={hit}
                   service={service}
-                  onSelect={() => setPick(hit)}
+                  onSelect={() => {
+                    /* Alberta corps go straight to the enriched profile page —
+                       it owns the CTA + shows live status + history, no reason
+                       to duplicate the mini form. Other provinces still get
+                       the inline mini-form flow. */
+                    if (hit.provinceKey === "ab" && hit.registryId) {
+                      window.location.href = `/corporation/${hit.registryId}?src=article-${srcTag}`;
+                      return;
+                    }
+                    setPick(hit);
+                  }}
                 />
               ))}
             </div>
@@ -282,24 +292,10 @@ export default function InlineLookupOrder({
                 </div>
               </div>
             </div>
-            {/* Alberta-only: link to the enriched profile page */}
-            {pick.provinceKey === "ab" && pick.registryId && (
-              <a
-                href={`/corporation/${pick.registryId}`}
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: "0.3rem",
-                  marginTop: "0.6rem",
-                  fontSize: "0.75rem",
-                  color: "var(--secondary)",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                }}
-              >
-                ✨ See historical timeline + live status →
-              </a>
-            )}
+            {/* Alberta corps skip this panel entirely — the ResultCard onSelect
+                redirects them to /corporation/[slug] directly. So this panel
+                only renders for non-Alberta jurisdictions where the mini-form
+                order flow is still the fastest path. */}
             <button
               type="button"
               onClick={() => setPick(null)}
