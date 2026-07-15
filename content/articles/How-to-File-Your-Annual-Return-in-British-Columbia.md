@@ -1,5 +1,6 @@
 ﻿---
 title: "File Your BC Annual Report — BC Registries · $99 all-in"
+h1: "File Your BC Annual Report"
 slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
 description: "File your BC Annual Report with BC Registries in minutes — $99 all-in, GST included, filed within 24 hours. Skip the BCeID login and confusing forms."

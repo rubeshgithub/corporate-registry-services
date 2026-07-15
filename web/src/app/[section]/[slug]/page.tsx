@@ -120,16 +120,33 @@ export default async function ContentPage({
               marginBottom: "1.5rem",
             }}
           >
-            {page.title}
+            {page.h1 ?? page.title}
           </h1>
 
           <div className="gold-line" style={{ marginBottom: "2rem" }} />
 
-          {/* Deadline urgency callout — only rendered for jurisdictions with
-              a genuinely short filing window (Alberta 1 mo, BC 2 mo, federal
-              60 days). Placed above the conversion strip so the urgency →
-              offer → click sequence lands in a single glance. */}
-          {ctx?.urgency && (
+          {/* Inline lookup + order widget — for the two services with real
+              GSC impressions today (annual return, profile report), give
+              high-intent visitors a way to search their company and pay
+              without leaving this page. The urgency line is folded into the
+              card (subtle, below the search input) so the fold isn't a
+              wall of price + warning before the visitor has done anything.
+              Other service articles still see the conversion strip below. */}
+          {ctx && (ctx.serviceKey === "annual-return" || ctx.serviceKey === "profile-report") && (
+            <InlineLookupOrder
+              service={ctx.serviceKey === "annual-return" ? "annual-return" : "profile-report"}
+              provinceKey={ctx.jurisdictionKey}
+              srcTag={`inline-article-${page.slug}`}
+              urgency={ctx.urgency ?? null}
+            />
+          )}
+
+          {/* Deadline urgency callout — for articles WITHOUT the inline widget
+              (good-standing, minute-books, etc.), the urgency still lives here
+              as a standalone red-tinted block. */}
+          {ctx?.urgency &&
+            ctx.serviceKey !== "annual-return" &&
+            ctx.serviceKey !== "profile-report" && (
             <div
               style={{
                 marginBottom: "1.25rem",
@@ -153,19 +170,6 @@ export default async function ContentPage({
                 </p>
               </div>
             </div>
-          )}
-
-          {/* Inline lookup + order widget — for the two services with real
-              GSC impressions today (annual return, profile report), give
-              high-intent visitors a way to search their company and pay
-              without leaving this page. Other service articles still see
-              only the conversion strip below. */}
-          {ctx && (ctx.serviceKey === "annual-return" || ctx.serviceKey === "profile-report") && (
-            <InlineLookupOrder
-              service={ctx.serviceKey === "annual-return" ? "annual-return" : "profile-report"}
-              provinceKey={ctx.jurisdictionKey}
-              srcTag={`inline-article-${page.slug}`}
-            />
           )}
 
           {/* Split the article body around the conversion strip.

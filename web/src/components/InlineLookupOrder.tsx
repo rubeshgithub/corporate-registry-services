@@ -30,31 +30,46 @@ type RegistryHit = {
   provinceKey:      string;
 };
 
-const HEADLINES: Record<Service, { title: string; sub: string; priceLabel: string; buttonLabel: string; ctaSubline: string }> = {
+/**
+ * Copy is intentionally search-first: no price mentions in the eyebrow,
+ * title, or sub until the visitor has picked a corporation. Price appears
+ * with the "Pay $X + GST and file" button, once they've seen their own
+ * corp name — that framing makes the number feel earned instead of
+ * sticker-shock, and lets us capture their search intent even if they
+ * bounce at price.
+ */
+const HEADLINES: Record<Service, { eyebrow: string; title: string; sub: string; buttonLabel: string; ctaSubline: string }> = {
   "annual-return": {
+    eyebrow:    "File your annual return",
     title:      "Check your company's annual return status and due date",
-    sub:        "Look up your Canadian corporation and file its annual return without leaving this page — $99 all-in + GST, filed within 24 hours.",
-    priceLabel: "$99 all-in + GST",
+    sub:        "Enter your company name, Corporate Access Number, or Business Number to see its status, due date, and file in one step.",
     buttonLabel: "Pay $99 + GST and file",
     ctaSubline: "Government fee included. Filed within 24 hours.",
   },
   "profile-report": {
+    eyebrow:    "Order a profile report",
     title:      "Check if your company is active and order a profile report",
-    sub:        "Look up your Canadian corporation and get its official profile report — $49 all-in + GST, delivered as a PDF within one business hour.",
-    priceLabel: "$49 all-in + GST",
+    sub:        "Enter your company name, Corporate Access Number, or Business Number to see its registry status and order its official profile report.",
     buttonLabel: "Pay $49 + GST and order",
     ctaSubline: "Government fee included. Delivered by email within one business hour.",
   },
+};
+
+export type InlineUrgency = {
+  headline: string;
+  body:     string;
 };
 
 export default function InlineLookupOrder({
   service,
   provinceKey,
   srcTag,
+  urgency,
 }: {
   service:     Service;
   provinceKey: string | null;   // from inferServiceContext.jurisdictionKey
   srcTag:      string;          // e.g. "inline-article-how-to-file-...-alberta"
+  urgency?:    InlineUrgency | null; // subtle deadline reminder inside the card
 }) {
   const copy = HEADLINES[service];
 
@@ -187,7 +202,7 @@ export default function InlineLookupOrder({
       }}
     >
       <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-        Do it right here · {copy.priceLabel}
+        {copy.eyebrow}
       </div>
       <div
         className="card-heading"
@@ -243,6 +258,22 @@ export default function InlineLookupOrder({
             </button>
           </div>
           {searchErr && <p style={{ color: "#B45309", fontSize: "0.8rem", margin: "0.5rem 0 0" }}>{searchErr}</p>}
+
+          {urgency && results.length === 0 && (
+            <div
+              style={{
+                marginTop:    "0.85rem",
+                paddingTop:   "0.75rem",
+                borderTop:    "1px dashed var(--border)",
+                fontSize:     "0.76rem",
+                lineHeight:   1.55,
+                color:        "var(--text-muted)",
+              }}
+            >
+              <span style={{ color: "#B45309", fontWeight: 600 }}>{urgency.headline}</span>{" "}
+              {urgency.body}
+            </div>
+          )}
 
           {results.length > 0 && (
             <div style={{ marginTop: "0.85rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>

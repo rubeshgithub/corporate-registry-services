@@ -34,6 +34,7 @@ export type ContentPage = {
   section: Section;
   slug: string;
   title: string;
+  h1?: string;
   description?: string;
   contentHtml: string;
 };
@@ -115,6 +116,7 @@ export async function getPage(
     section,
     slug,
     title: rebrand((data.title as string) ?? match.replace(".md", "")),
+    h1: typeof data.h1 === "string" ? rebrand(data.h1) : undefined,
     description,
     contentHtml,
   };
