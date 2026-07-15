@@ -28,6 +28,9 @@ type PageviewBody = {
   utmSource?:  string;
   utmMedium?:  string;
   utmCampaign?: string;
+  fbclid?:     string;   // Facebook / Instagram click ID
+  gclid?:      string;   // Google Ads click ID
+  msclkid?:    string;   // Microsoft (Bing) Ads click ID
 };
 
 type ClickBody = {
@@ -64,6 +67,16 @@ function shouldIgnore(path: string): boolean {
   return false;
 }
 
+/**
+ * Defensive: even though the client now sends only `pathname`, historical
+ * callers or third-party pings might arrive with `?fbclid=...` etc. still
+ * attached. Strip everything after `?` so the path dimension stays clean.
+ */
+function normalizePath(path: string): string {
+  const q = path.indexOf("?");
+  return q >= 0 ? path.slice(0, q) : path;
+}
+
 export async function POST(req: Request) {
   let body: Body;
   try { body = await req.json(); } catch { return NextResponse.json({ error: "bad json" }, { status: 400 }); }
@@ -78,13 +91,16 @@ export async function POST(req: Request) {
   if (body.type === "pageview") {
     const pv = await pageviews();
     await pv.insertOne({
-      path:        trunc(body.path),
+      path:        normalizePath(trunc(body.path)),
       referrer:    trunc(body.referrer),
       sessionId:   trunc(body.sessionId, 64),
       userAgent:   trunc(body.userAgent, 200),
       utmSource:   trunc(body.utmSource,  100),
       utmMedium:   trunc(body.utmMedium,  100),
       utmCampaign: trunc(body.utmCampaign, 100),
+      fbclid:      trunc(body.fbclid,     200),
+      gclid:       trunc(body.gclid,      200),
+      msclkid:     trunc(body.msclkid,    200),
       ts:          new Date(),
     });
     return NextResponse.json({ ok: true });
@@ -93,7 +109,7 @@ export async function POST(req: Request) {
   if (body.type === "click") {
     const cl = await clicks();
     await cl.insertOne({
-      path:      trunc(body.path),
+      path:      normalizePath(trunc(body.path)),
       target:    trunc(body.target),
       label:     trunc(body.label, 120),
       sessionId: trunc(body.sessionId, 64),
@@ -111,7 +127,7 @@ export async function POST(req: Request) {
       queryLower:  q.toLowerCase(),
       province:    trunc(body.province, 20) || "all",
       resultCount: Math.max(0, Math.floor(Number(body.resultCount) || 0)),
-      path:        trunc(body.path),
+      path:        normalizePath(trunc(body.path)),
       sessionId:   trunc(body.sessionId, 64),
       ts:          new Date(),
     });

@@ -58,7 +58,11 @@ export default function Analytics() {
   const pathname = usePathname();
   const search   = useSearchParams();
 
-  /* Fire pageview on route change. */
+  /* Fire pageview on route change. Path is deliberately query-stripped
+     so /?fbclid=... rolls up with / instead of fragmenting the metric.
+     Attribution (utm_*, fbclid, gclid, msclkid) is captured as
+     dedicated fields so the "came from Facebook/Google/Bing" signal
+     survives without polluting the path dimension. */
   useEffect(() => {
     if (!pathname) return;
     if (pathname.startsWith("/admin") || pathname.startsWith("/api")) return;
@@ -66,13 +70,16 @@ export default function Analytics() {
     if (!sessionId) return;
     send({
       type:         "pageview",
-      path:         pathname + (search.toString() ? `?${search.toString()}` : ""),
+      path:         pathname,
       referrer:     typeof document !== "undefined" ? document.referrer : "",
       sessionId,
       userAgent:    typeof navigator !== "undefined" ? navigator.userAgent : "",
       utmSource:    search.get("utm_source")   ?? undefined,
       utmMedium:    search.get("utm_medium")   ?? undefined,
       utmCampaign:  search.get("utm_campaign") ?? undefined,
+      fbclid:       search.get("fbclid")       ?? undefined,
+      gclid:        search.get("gclid")        ?? undefined,
+      msclkid:      search.get("msclkid")      ?? undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, search.toString()]);
@@ -90,7 +97,7 @@ export default function Analytics() {
       if (!sessionId) return;
       send({
         type:      "click",
-        path:      window.location.pathname + window.location.search,
+        path:      window.location.pathname,
         target:    href,
         label:     (anchor.innerText || anchor.getAttribute("aria-label") || "").trim().slice(0, 120),
         sessionId,

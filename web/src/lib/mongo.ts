@@ -41,6 +41,9 @@ export type PageviewDoc = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  fbclid?:    string;       // Facebook / Instagram click ID
+  gclid?:     string;       // Google Ads click ID
+  msclkid?:   string;       // Microsoft (Bing) Ads click ID
   ts:         Date;
 };
 
