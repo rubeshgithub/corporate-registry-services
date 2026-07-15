@@ -138,6 +138,9 @@ export default async function ContentPage({
               provinceKey={ctx.jurisdictionKey}
               srcTag={`inline-article-${page.slug}`}
               urgency={ctx.urgency ?? null}
+              eyebrowOverride={page.widgetEyebrow ?? null}
+              titleOverride={page.widgetTitle ?? null}
+              subOverride={page.widgetSub ?? null}
             />
           )}
 

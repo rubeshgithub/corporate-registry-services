@@ -37,6 +37,9 @@ export type ContentPage = {
   h1?: string;
   description?: string;
   contentHtml: string;
+  widgetEyebrow?: string;
+  widgetTitle?:   string;
+  widgetSub?:     string;
 };
 
 export type ContentMeta = Omit<ContentPage, "contentHtml">;
@@ -63,6 +66,17 @@ function slugify(filename: string) {
 
 function rebrand(text: string) {
   return text; // Content already uses CRS branding
+}
+
+/**
+ * The article template already renders the frontmatter `title` (or `h1`)
+ * as the page H1. When the markdown body also opens with `# ...`, the
+ * visitor sees two identical H1s stacked and Google discounts the page
+ * for H1 spam. Strip a leading H1 from the body so authors don't need
+ * to remember not to write one.
+ */
+function stripLeadingH1(md: string): string {
+  return md.replace(/^\s*#\s+[^\n]*\n+/, "");
 }
 
 export function listSection(section: Section): ContentMeta[] {
@@ -103,7 +117,7 @@ export async function getPage(
   const raw = fs.readFileSync(path.join(dir, match), "utf8");
   const { data, content } = matter(raw);
 
-  const rebranded = rebrand(content);
+  const rebranded = stripLeadingH1(rebrand(content));
 
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
   const contentHtml = processed.toString();
@@ -119,5 +133,8 @@ export async function getPage(
     h1: typeof data.h1 === "string" ? rebrand(data.h1) : undefined,
     description,
     contentHtml,
+    widgetEyebrow: typeof data.widgetEyebrow === "string" ? data.widgetEyebrow : undefined,
+    widgetTitle:   typeof data.widgetTitle   === "string" ? data.widgetTitle   : undefined,
+    widgetSub:     typeof data.widgetSub     === "string" ? data.widgetSub     : undefined,
   };
 }

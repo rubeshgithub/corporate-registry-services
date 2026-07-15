@@ -65,13 +65,25 @@ export default function InlineLookupOrder({
   provinceKey,
   srcTag,
   urgency,
+  eyebrowOverride,
+  titleOverride,
+  subOverride,
 }: {
   service:     Service;
   provinceKey: string | null;   // from inferServiceContext.jurisdictionKey
   srcTag:      string;          // e.g. "inline-article-how-to-file-...-alberta"
   urgency?:    InlineUrgency | null; // subtle deadline reminder inside the card
+  eyebrowOverride?: string | null;   // per-article mono chip override
+  titleOverride?:   string | null;   // per-article headline override
+  subOverride?:     string | null;   // per-article sub-line override
 }) {
-  const copy = HEADLINES[service];
+  const base = HEADLINES[service];
+  const copy = {
+    ...base,
+    eyebrow: eyebrowOverride ?? base.eyebrow,
+    title:   titleOverride   ?? base.title,
+    sub:     subOverride     ?? base.sub,
+  };
 
   const [query, setQuery]         = useState("");
   const [results, setResults]     = useState<RegistryHit[]>([]);
@@ -191,6 +203,7 @@ export default function InlineLookupOrder({
 
   return (
     <div
+      id="crs-inline-lookup"
       style={{
         margin:       "0 0 2rem",
         border:       "1px solid var(--border)",
@@ -199,6 +212,7 @@ export default function InlineLookupOrder({
         background:   "var(--card)",
         padding:      "1.5rem 1.75rem",
         boxShadow:    "var(--shadow-card)",
+        scrollMarginTop: "100px",
       }}
     >
       <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
