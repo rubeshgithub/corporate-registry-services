@@ -738,6 +738,119 @@ function emptyTraffic(cfg: WindowConfig): TrafficData {
   };
 }
 
+/* ─────────────────── Secondary trends (weekly + attribution) ───────────────────
+   These live outside the window-token axis on purpose — the business-manager
+   view answers "am I growing?" and "what pays the bills?" over a longer,
+   stable horizon (12 weeks), independent of whichever tab the operator has
+   selected up top. Cached via the page-level Next revalidate. */
+
+export type WeeklyBucket = {
+  weekStart:  string;   // ISO "YYYY-MM-DD" of the Monday
+  label:      string;   // "Jul 6"
+  count:      number;
+  amount:     number;
+};
+
+export type ArticleRevenue = {
+  slug:   string;
+  label:  string;
+  count:  number;
+  amount: number;
+};
+
+export type SecondaryTrends = {
+  weekly:            WeeklyBucket[];   // last 12 weeks, oldest first
+  revenueByArticle:  ArticleRevenue[]; // last 90 days
+  windowDays:        number;           // always 90 for the article rollup
+  fetchedAt:         string;
+};
+
+/** Mountain-Time YYYY-MM-DD → Monday-of-that-week YYYY-MM-DD (UTC epoch dates). */
+function mondayOf(mtDateStr: string): string {
+  const d   = new Date(mtDateStr + "T00:00:00Z");
+  const dow = d.getUTCDay();                    // 0=Sun … 6=Sat
+  const back = (dow + 6) % 7;                   // Mon=0 … Sun=6
+  const monday = new Date(d.getTime() - back * 24 * 3600 * 1000);
+  return monday.toISOString().slice(0, 10);
+}
+
+function weekLabelFromISO(isoDate: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: OPERATOR_TZ,
+    month:    "short",
+    day:      "numeric",
+  }).format(new Date(isoDate + "T12:00:00Z"));
+}
+
+/** Extract the article slug from an attribution src tag, or null if not an
+ *  article-attributed order. Handles both the standalone article CTAs
+ *  (`article-<slug>`) and the inline widget on article pages
+ *  (`inline-article-<slug>`). */
+function articleSlugFromSrc(src: string): string | null {
+  if (src.startsWith("inline-article-")) return src.slice("inline-article-".length);
+  if (src.startsWith("article-"))        return src.slice("article-".length);
+  return null;
+}
+
+export async function getSecondaryTrends(): Promise<SecondaryTrends> {
+  const key = process.env.STRIPE_SECRET_KEY;
+  const emptyResult: SecondaryTrends = {
+    weekly: [], revenueByArticle: [], windowDays: 90, fetchedAt: new Date().toISOString(),
+  };
+  if (!key) return emptyResult;
+
+  const stripe   = new Stripe(key);
+  const NINETY_D = 90 * 24 * 3600 * 1000;
+  const sinceUnix = Math.floor((Date.now() - NINETY_D) / 1000);
+  const sessions  = await listPaidSessions(stripe, sinceUnix);
+
+  /* Weekly bars — always 12 weeks ending this week's Monday. */
+  const nowMondayISO = mondayOf(localDate(new Date()));
+  const weekMap = new Map<string, { count: number; amount: number }>();
+  const weekOrder: string[] = [];
+  for (let i = 11; i >= 0; i--) {
+    const iso = new Date(new Date(nowMondayISO + "T00:00:00Z").getTime() - i * 7 * 24 * 3600 * 1000)
+      .toISOString().slice(0, 10);
+    weekMap.set(iso, { count: 0, amount: 0 });
+    weekOrder.push(iso);
+  }
+  for (const s of sessions) {
+    const when   = new Date(s.created * 1000);
+    const iso    = mondayOf(localDate(when));
+    const bucket = weekMap.get(iso);
+    if (!bucket) continue;
+    bucket.count  += 1;
+    bucket.amount += centsToDollars(s.amount_total);
+  }
+  const weekly: WeeklyBucket[] = weekOrder.map((iso) => ({
+    weekStart: iso,
+    label:     weekLabelFromISO(iso),
+    ...weekMap.get(iso)!,
+  }));
+
+  /* Revenue by landing article — 90-day rollup grouped by article slug. */
+  const articleMap = new Map<string, { count: number; amount: number }>();
+  for (const s of sessions) {
+    const src  = s.metadata?.src ?? "";
+    const slug = articleSlugFromSrc(src);
+    if (!slug) continue;
+    const cur = articleMap.get(slug) ?? { count: 0, amount: 0 };
+    cur.count  += 1;
+    cur.amount += centsToDollars(s.amount_total);
+    articleMap.set(slug, cur);
+  }
+  const revenueByArticle: ArticleRevenue[] = [...articleMap.entries()]
+    .map(([slug, v]) => ({
+      slug,
+      label:  slug.replace(/-/g, " "),
+      count:  v.count,
+      amount: Math.round(v.amount * 100) / 100,
+    }))
+    .sort((a, b) => b.amount - a.amount);
+
+  return { weekly, revenueByArticle, windowDays: 90, fetchedAt: new Date().toISOString() };
+}
+
 /** Turn compact attribution codes into human labels. article-<slug>,
  *  home-services, wizard, corp-search, direct, section-annual-return. */
 function prettySrc(src: string): string {

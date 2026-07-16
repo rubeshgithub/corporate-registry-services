@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { getAnalyticsData, getTrafficData, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken } from "@/lib/analytics";
+import { getAnalyticsData, getTrafficData, getSecondaryTrends, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken, type SecondaryTrends } from "@/lib/analytics";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -21,9 +21,10 @@ export default async function AnalyticsPage({
 
   const params      = await searchParams;
   const token       = parseWindowToken(params.window);
-  const [data, traffic] = await Promise.all([
+  const [data, traffic, secondary] = await Promise.all([
     getAnalyticsData(token),
     getTrafficData(token),
+    getSecondaryTrends(),
   ]);
 
   return (
@@ -37,12 +38,174 @@ export default async function AnalyticsPage({
           <BreakdownCard title="Orders by jurisdiction"      buckets={data.byJurisdiction} totalOrders={data.totalOrders} />
         </div>
         <TrendCard data={data} />
+        <WeeklyRollupCard secondary={secondary} currency={data.currency} />
+        <RevenueByArticleCard secondary={secondary} currency={data.currency} />
         <TrafficSection traffic={traffic} />
         <SearchIntelligence traffic={traffic} />
         <ContentPageSearchIntent traffic={traffic} />
         <GovExitLeaks traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Weekly rollup ─────────────────────────── */
+
+/**
+ * 12-week bars. Independent of the window-token tab up top — this view
+ * always shows the same 12 calendar weeks so week-over-week comparisons
+ * stay stable when the operator switches tabs. Revenue as filled gold
+ * bars, order count printed above each bar for context.
+ */
+function WeeklyRollupCard({ secondary, currency }: { secondary: SecondaryTrends; currency: string }) {
+  const weeks   = secondary.weekly;
+  const maxAmt  = Math.max(1, ...weeks.map((w) => w.amount));
+  const totalR  = weeks.reduce((s, w) => s + w.amount, 0);
+  const totalO  = weeks.reduce((s, w) => s + w.count,  0);
+  const currentWk = weeks[weeks.length - 1];
+  const priorWk   = weeks[weeks.length - 2];
+  const wow       = priorWk && priorWk.amount > 0
+    ? Math.round(((currentWk.amount - priorWk.amount) / priorWk.amount) * 100)
+    : null;
+
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
+            Weekly revenue rollup · last 12 weeks
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Independent of the window tabs above — always the last 12 calendar weeks (Mon–Sun, Mountain Time). Best view for &ldquo;am I growing?&rdquo;
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.75rem", color: "var(--text-muted)" }}>
+          <div>90d: ${totalR.toLocaleString("en-CA", { maximumFractionDigits: 0 })} · {totalO} orders</div>
+          {wow !== null && (
+            <div style={{ marginTop: "0.15rem", color: wow >= 0 ? "#16A34A" : "#B91C1C", fontWeight: 700 }}>
+              This wk vs last: {wow >= 0 ? "▲" : "▼"} {Math.abs(wow)}%
+            </div>
+          )}
+        </div>
+      </div>
+
+      {weeks.every((w) => w.amount === 0 && w.count === 0) ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "1.5rem 0" }}>
+          No paid orders in the last 12 weeks. Bars will start showing up once Stripe sessions land.
+        </div>
+      ) : (
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "0.4rem", height: 140, marginTop: "1rem", padding: "0 0.15rem" }}>
+          {weeks.map((w) => {
+            const barPct = (w.amount / maxAmt) * 100;
+            const isThis = w === weeks[weeks.length - 1];
+            return (
+              <div key={w.weekStart} style={{ flex: "1 1 0", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
+                <div style={{ fontSize: "0.62rem", fontFamily: "var(--font-mono), monospace", color: "var(--text-muted)", height: 12 }}>
+                  {w.count > 0 ? w.count : ""}
+                </div>
+                <div style={{ width: "100%", height: 90, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      width:  "100%",
+                      height: `${Math.max(barPct, w.amount > 0 ? 4 : 0)}%`,
+                      background: isThis ? "var(--gold)" : "var(--gold-dim)",
+                      border: isThis ? "1px solid var(--gold)" : "1px solid rgba(212,175,55,0.35)",
+                      borderRadius: "0.25rem 0.25rem 0 0",
+                      transition: "background 0.2s",
+                    }}
+                    title={`${w.label}: $${w.amount.toLocaleString("en-CA", { maximumFractionDigits: 0 })} · ${w.count} orders`}
+                  />
+                </div>
+                <div style={{ fontSize: "0.62rem", fontFamily: "var(--font-mono), monospace", color: isThis ? "var(--text)" : "var(--text-muted)", fontWeight: isThis ? 700 : 400, textAlign: "center", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "100%" }} title={w.label}>
+                  {w.label}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginTop: "0.85rem", fontFamily: "var(--font-mono), monospace" }}>
+        Bar height = revenue ({currency}) · number above = order count · current week highlighted
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────── Revenue by landing article ─────────────────── */
+
+/**
+ * Every Stripe checkout carries a `src` metadata tag; article-attributed
+ * orders arrive as `article-<slug>` (top-of-page CTAs) or
+ * `inline-article-<slug>` (inline widget). This panel rolls those up so
+ * the operator can rank content by revenue, not just pageviews — answers
+ * "which articles pay the bills?"
+ */
+function RevenueByArticleCard({ secondary, currency }: { secondary: SecondaryTrends; currency: string }) {
+  const rows      = secondary.revenueByArticle;
+  const totalR    = rows.reduce((s, r) => s + r.amount, 0);
+  const totalO    = rows.reduce((s, r) => s + r.count,  0);
+
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.85rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
+            Revenue by landing article · last 90 days
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Paid orders attributed to a specific article via the <code style={{ fontFamily: "var(--font-mono), monospace" }}>src=article-*</code> / <code style={{ fontFamily: "var(--font-mono), monospace" }}>inline-article-*</code> tag — ranks content by dollars, not pageviews.
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.75rem", color: "var(--text-muted)" }}>
+          ${totalR.toLocaleString("en-CA", { maximumFractionDigits: 0 })} · {totalO} orders · {rows.length} articles
+        </div>
+      </div>
+
+      {rows.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.5rem 0" }}>
+          No article-attributed orders in the last 90 days yet. Every Stripe checkout that carries <code style={{ fontFamily: "var(--font-mono), monospace" }}>src=article-*</code> or <code style={{ fontFamily: "var(--font-mono), monospace" }}>inline-article-*</code> in its metadata will show up here.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Article</th>
+                <th style={thStyle}>Orders</th>
+                <th style={thStyle}>Revenue ({currency})</th>
+                <th style={thStyle} title="Share of total article-attributed revenue">Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.slice(0, 20).map((r) => {
+                const pct = totalR > 0 ? Math.round((r.amount / totalR) * 1000) / 10 : 0;
+                return (
+                  <tr key={r.slug} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td style={{ ...tdStyle, maxWidth: 460 }}>
+                      <a
+                        href={`/articles/${r.slug}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ color: "var(--text)", textDecoration: "none", fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", borderBottom: "1px dotted var(--border)" }}
+                        title={`/articles/${r.slug}`}
+                      >
+                        {r.slug}
+                      </a>
+                    </td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700 }}>{r.count}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: "var(--gold)" }}>
+                      ${r.amount.toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", color: "var(--text-muted)" }}>{pct}%</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
