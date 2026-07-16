@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-return-deadlines";
 
@@ -120,12 +120,19 @@ export default function InlineLookupOrder({
     } catch { /* analytics never breaks UX */ }
   }
 
-  const runSearch = async () => {
+  /** Track the last query we actually fired so we don't re-request when a
+      user types then clicks Find with the same value already in-flight. */
+  const lastFiredRef = useRef<string>("");
+
+  const runSearch = async (opts?: { silent?: boolean }) => {
     const q = query.trim();
     if (q.length < 2) {
-      setSearchErr("Enter at least 2 characters — a company name, Corporate Access Number, or Business Number.");
+      if (!opts?.silent) {
+        setSearchErr("Enter at least 2 characters — a company name, Corporate Access Number, or Business Number.");
+      }
       return;
     }
+    lastFiredRef.current = q;
     setSearchErr("");
     setSearching(true);
     setPick(null);
@@ -136,15 +143,37 @@ export default function InlineLookupOrder({
       const hits: RegistryHit[] = data.results ?? [];
       setResults(hits);
       trackSearch(q, prov, data.total ?? hits.length);
-      if (!hits.length) setSearchErr("No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+      // Silent (debounced) fires don't surface the "no matches" copy — that
+      // fires only when the user explicitly clicks Find, so we're not
+      // chastising them mid-type when they're still assembling the query.
+      if (!hits.length && !opts?.silent) {
+        setSearchErr("No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+      }
     } catch {
-      setSearchErr("Search is temporarily unavailable. Please try again.");
+      if (!opts?.silent) {
+        setSearchErr("Search is temporarily unavailable. Please try again.");
+      }
       setResults([]);
       trackSearch(q, provinceKey ?? "all", 0);
     } finally {
       setSearching(false);
     }
   };
+
+  /** Debounced auto-search matches the standalone /canada-corporations-search
+      UX — the visitor doesn't have to hit Find; results start appearing 450ms
+      after they stop typing. Skipped once they've picked a company (the
+      picked-company confirm panel takes over) and once the query is too
+      short. */
+  useEffect(() => {
+    if (pick) return;                          // frozen once a company is picked
+    const q = query.trim();
+    if (q.length < 2) return;                  // wait for a real query
+    if (q === lastFiredRef.current) return;    // avoid re-firing the same query
+    const t = setTimeout(() => { void runSearch({ silent: true }); }, 450);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, pick]);
 
   const canPay =
     !!pick &&
@@ -251,7 +280,7 @@ export default function InlineLookupOrder({
               }}
             />
             <button
-              onClick={runSearch}
+              onClick={() => { void runSearch(); }}
               disabled={searching}
               style={{
                 flex:        "0 0 auto",
