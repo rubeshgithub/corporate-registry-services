@@ -6,16 +6,16 @@ import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-retu
 
 /**
  * Inline "look up your company + order right here" widget dropped into
- * article pages so high-intent visitors don't have to click through to a
- * separate order page. Two supported services for now — annual return and
- * profile report — the two article families with real GSC impressions.
+ * article + service pages so high-intent visitors don't have to click
+ * through to a separate order page. Three supported services — annual
+ * return, profile report, and certificate of good standing.
  *
  * Deliberately simpler than the dedicated /order/* flows: no "what changed"
  * capture, no multi-year selector. If a visitor needs those, the article's
  * conversion strip below still deep-links to the full flow.
  */
 
-type Service = "annual-return" | "profile-report";
+type Service = "annual-return" | "profile-report" | "good-standing";
 
 type RegistryHit = {
   name:             string;
@@ -52,6 +52,13 @@ const HEADLINES: Record<Service, { eyebrow: string; title: string; sub: string; 
     sub:        "Enter your company name, Corporate Access Number, or Business Number to see its registry status and order its official profile report.",
     buttonLabel: "Pay $49 + GST and order",
     ctaSubline: "Government fee included. Delivered by email within one business hour.",
+  },
+  "good-standing": {
+    eyebrow:    "Order a Certificate of Good Standing",
+    title:      "Look up your company and order its Certificate of Good Standing",
+    sub:        "Enter your company name, Corporate Access Number, or Business Number to confirm the corporation is active and order its government-issued Certificate of Good Standing.",
+    buttonLabel: "Pay $79 + GST and order",
+    ctaSubline: "Government fee included. Delivered by email within hours.",
   },
 };
 
@@ -186,6 +193,9 @@ export default function InlineLookupOrder({
     setPayErr("");
     setPaying(true);
     try {
+      // annual-return has its own dedicated endpoint (multi-year, changes
+      // payload). profile-report and good-standing share /api/order/report
+      // and are differentiated by the `service` field in the body.
       const endpoint = service === "annual-return" ? "/api/order/annual-return" : "/api/order/report";
       const body =
         service === "annual-return"
@@ -207,7 +217,7 @@ export default function InlineLookupOrder({
               src: srcTag,
             }
           : {
-              service: "profile-report",
+              service, // "profile-report" | "good-standing"
               hit:     pick,
               contact,
               src:     srcTag,
@@ -385,6 +395,12 @@ export default function InlineLookupOrder({
             </div>
           )}
 
+          {service === "good-standing" && pick.status !== "Active" && (
+            <div style={{ padding: "0.6rem 0.85rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.78rem", borderRadius: "0.4rem", marginBottom: "0.75rem" }}>
+              Heads-up — this corporation is not currently active. The registry generally will not issue a Certificate of Good Standing for an inactive corporation. Consider filing missing annual returns first, or order a Corporate Profile Report instead to see the current status.
+            </div>
+          )}
+
           {/* Contact form */}
           {[
             { key: "name",  label: "Full name",  type: "text",  placeholder: "Jane Doe" },
@@ -517,7 +533,10 @@ function ResultCard({
     ? new Date(hit.registrationDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })
     : null;
 
-  const buttonLabel = isAnnualReturn ? "File Annual Return" : "Order Profile Report";
+  const buttonLabel =
+    service === "annual-return"  ? "File Annual Return" :
+    service === "good-standing"  ? "Order Certificate" :
+                                   "Order Profile Report";
 
   return (
     <div

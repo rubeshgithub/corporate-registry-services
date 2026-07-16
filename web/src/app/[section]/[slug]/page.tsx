@@ -129,16 +129,20 @@ export default async function ContentPage({
 
           <div className="gold-line" style={{ marginBottom: "2rem" }} />
 
-          {/* Inline lookup + order widget — for the two services with real
-              GSC impressions today (annual return, profile report), give
+          {/* Inline lookup + order widget — for the three lookup-first
+              services (annual return, profile report, good standing), give
               high-intent visitors a way to search their company and pay
               without leaving this page. The urgency line is folded into the
               card (subtle, below the search input) so the fold isn't a
               wall of price + warning before the visitor has done anything.
               Other service articles still see the conversion strip below. */}
-          {ctx && (ctx.serviceKey === "annual-return" || ctx.serviceKey === "profile-report") && (
+          {ctx && (
+            ctx.serviceKey === "annual-return"  ||
+            ctx.serviceKey === "profile-report" ||
+            ctx.serviceKey === "good-standing"
+          ) && (
             <InlineLookupOrder
-              service={ctx.serviceKey === "annual-return" ? "annual-return" : "profile-report"}
+              service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
               provinceKey={ctx.jurisdictionKey}
               srcTag={`inline-article-${page.slug}`}
               urgency={ctx.urgency ?? null}
@@ -149,11 +153,12 @@ export default async function ContentPage({
           )}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
-              (good-standing, minute-books, etc.), the urgency still lives here
+              (minute-books, incorporation, etc.), the urgency still lives here
               as a standalone red-tinted block. */}
           {ctx?.urgency &&
-            ctx.serviceKey !== "annual-return" &&
-            ctx.serviceKey !== "profile-report" && (
+            ctx.serviceKey !== "annual-return"  &&
+            ctx.serviceKey !== "profile-report" &&
+            ctx.serviceKey !== "good-standing"  && (
             <div
               style={{
                 marginBottom: "1.25rem",
