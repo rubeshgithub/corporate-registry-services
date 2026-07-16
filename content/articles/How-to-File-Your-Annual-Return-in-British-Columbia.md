@@ -37,11 +37,11 @@ The BC Annual Report requires:
 - Names, addresses, and occupations of all current directors
 - Prescribed information about share structure (if any changes occurred)
 
-## How to File
+## How to File a BC Annual Report with BC Registry Services
 
-BC Annual Reports are filed through **BC Registry Services** at [bcregistry.gov.bc.ca](https://www.bcregistry.gov.bc.ca).
+BC Annual Reports are filed through **BC Registry Services** at [bcregistry.gov.bc.ca](https://www.bcregistry.gov.bc.ca) — the government portal for all BC corporate filings, including annual report filing.
 
-**Steps:**
+**Steps to file your BC annual report:**
 1. Log in to BC Registry Services using a BC Services Card or BCeID
 2. Search for and access your company's dashboard
 3. Select "File Annual Report" when the filing becomes due
@@ -49,9 +49,11 @@ BC Annual Reports are filed through **BC Registry Services** at [bcregistry.gov.
 5. Review and submit
 6. Pay the $43 government filing fee
 
-## Government Fee
+Prefer to skip the BCeID login and the portal entirely? CRS files your BC Annual Report directly with BC Registry Services on your behalf — see [Let CRS File Your BC Annual Report](#let-crs-file-your-bc-annual-report) below.
 
-The BC government fee for an annual report is **$43**, payable online through the BC Registry Services portal.
+## BC Annual Report Filing Fee
+
+The BC government charges **$43** to file a BC Annual Report, payable online through the BC Registry Services portal at the time of filing. There is no separate BC Registry Services surcharge on top — the $43 is the total government fee. Corporations that file more than 60 days after their anniversary date incur no late filing fee, but continued non-compliance leads to dissolution (see below).
 
 ## Consequences of Not Filing
 
