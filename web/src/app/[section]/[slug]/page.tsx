@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { getPage, listAllPages, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
 import { inferServiceContext, wizardHref } from "@/lib/service-context";
 import { getRelatedGroups } from "@/lib/related-pages";
-import { breadcrumbLd, serviceLd, jsonLdScript } from "@/lib/structured-data";
+import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 
@@ -62,10 +62,14 @@ export default async function ContentPage({
 
   return (
     <>
-      {/* Structured data — helps SERPs render breadcrumbs and price snippets. */}
+      {/* Structured data — helps SERPs render breadcrumbs, price snippets,
+          and FAQ rich results / AI Overview answers. */}
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(breadcrumb)} />
       {service && (
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(service)} />
+      )}
+      {page.faq && page.faq.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(page.faq))} />
       )}
 
       <Header />
@@ -272,6 +276,51 @@ export default async function ContentPage({
               </>
             );
           })()}
+
+          {/* FAQ section — rendered from frontmatter `faq: [{q, a}]` and
+              paired with FAQPage JSON-LD above so Google can source it
+              for rich results and AI Overviews. */}
+          {page.faq && page.faq.length > 0 && (
+            <section
+              style={{
+                marginTop: "3rem",
+                paddingTop: "2rem",
+                borderTop: "1px solid var(--border)",
+              }}
+            >
+              <h2
+                style={{
+                  fontFamily: "var(--font-display), Georgia, serif",
+                  fontSize: "1.4rem",
+                  fontWeight: 700,
+                  color: "var(--text)",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                Frequently asked questions
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                {page.faq.map((item, i) => (
+                  <div key={i}>
+                    <h3
+                      style={{
+                        fontSize: "1rem",
+                        fontWeight: 700,
+                        color: "var(--text)",
+                        marginBottom: "0.4rem",
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {item.q}
+                    </h3>
+                    <p style={{ fontSize: "0.92rem", color: "var(--text)", lineHeight: 1.6, margin: 0 }}>
+                      {item.a}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Bottom CTA card — same deep link so we don't drop the visitor
               back into the generic homepage wizard. */}

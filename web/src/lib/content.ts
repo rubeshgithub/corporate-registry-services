@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
+import type { FaqItem } from "./structured-data";
 
 // Content lives one level above the Next.js project root
 const CONTENT_DIR = path.join(process.cwd(), "..", "content");
@@ -40,7 +41,24 @@ export type ContentPage = {
   widgetEyebrow?: string;
   widgetTitle?:   string;
   widgetSub?:     string;
+  faq?:           FaqItem[];  // parsed from frontmatter `faq: [{q, a}]`
 };
+
+/** Coerce a parsed frontmatter value into a FaqItem[] or undefined. Silently
+ *  drops malformed entries so a single typo doesn't break the whole page. */
+function parseFaq(raw: unknown): FaqItem[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const items: FaqItem[] = [];
+  for (const entry of raw) {
+    if (entry && typeof entry === "object") {
+      const rec = entry as Record<string, unknown>;
+      const q = typeof rec.q === "string" ? rec.q.trim() : "";
+      const a = typeof rec.a === "string" ? rec.a.trim() : "";
+      if (q && a) items.push({ q, a });
+    }
+  }
+  return items.length > 0 ? items : undefined;
+}
 
 export type ContentMeta = Omit<ContentPage, "contentHtml">;
 
@@ -136,5 +154,6 @@ export async function getPage(
     widgetEyebrow: typeof data.widgetEyebrow === "string" ? data.widgetEyebrow : undefined,
     widgetTitle:   typeof data.widgetTitle   === "string" ? data.widgetTitle   : undefined,
     widgetSub:     typeof data.widgetSub     === "string" ? data.widgetSub     : undefined,
+    faq:           parseFaq(data.faq),
   };
 }

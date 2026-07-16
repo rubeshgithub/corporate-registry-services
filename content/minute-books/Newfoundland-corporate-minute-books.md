@@ -49,3 +49,7 @@ A Corporate Minute Book (or Minute Book) is a collection of all the important re
 - Notice to Directors of Regular Board Meeting
 - Minutes Shareholders Annual Meeting
 - Minutes Regular Board Meeting
+
+---
+
+**Looking at Canadian corporate minute books more broadly?** Read our [complete guide to digital minute books in Canada](/minute-books/digital-minute-book-canada) — packages, pricing, jurisdictions, and FAQ.

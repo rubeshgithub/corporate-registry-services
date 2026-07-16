@@ -94,6 +94,30 @@ export function serviceLd({
   };
 }
 
+/**
+ * FAQPage schema for question-and-answer blocks at the bottom of a page.
+ * Google uses these to render FAQ rich results in SERPs and to source
+ * AI Overview / Search Generative Experience answers. Answer text should
+ * be plain (no markdown links) and ideally 40–55 words per question for
+ * best snippet extraction.
+ */
+export type FaqItem = { q: string; a: string };
+
+export function faqLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type":    "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name:    item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:    item.a,
+      },
+    })),
+  };
+}
+
 /** Render helper — turns a JSON-LD object into a <script> tag string via JSX. */
 export function jsonLdScript(data: object) {
   return {
