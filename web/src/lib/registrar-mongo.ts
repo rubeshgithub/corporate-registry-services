@@ -51,6 +51,11 @@ export type CompanyDoc = {
     liveNotes?:     string | null;
     liveCheckedAt?: Date | null;
   };
+  /** Earliest event date we've ever recorded for this corp — treated as
+   *  its incorporation / registration date for filtering + anniversary
+   *  computation. Set by scripts/backfill_first_event_date.mjs (one-time)
+   *  and preserved / narrowed by import_registrar.mjs on future ingests. */
+  firstEventDate?: Date | null;
   address?: {
     full:   string;
     city:   string;
@@ -63,6 +68,11 @@ export type CompanyDoc = {
     phone:          string | null;
     enrichedAt:     Date | null;
     enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed";
+    /** Set by the unsubscribe flow — denormalized from the source-of-
+     *  truth outreach_suppression collection so the /admin/companies
+     *  filter can badge without a join. */
+    suppressed?:    boolean;
+    suppressedAt?:  Date | null;
   };
   outreach?: {
     lastEmailAt:  Date | null;
