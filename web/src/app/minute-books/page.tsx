@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MinuteBookPilotWidget from "@/components/MinuteBookPilotWidget";
+import { faqLd, jsonLdScript } from "@/lib/structured-data";
 import {
   BookOpen, ShieldCheck, Clock, FileText, CheckCircle2,
   ArrowRight, Building2, AlertCircle, Users, Scale,
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Corporate Minute Book Generator — CRS",
+  title: "AI Minute Book Generator · Virtual Minute Book Canada · Free 30-Day Pilot",
   description:
-    "Generate a complete, legally compliant Canadian corporate minute book in minutes. Includes all organizational resolutions, share registers, certificates, and by-laws. All 13 jurisdictions.",
+    "Generate a complete Canadian corporate minute book with AI — articles, by-laws, resolutions, registers, share certificates. Virtual minute book, free 30-day pilot, no credit card. Also available done-for-you from $299.",
   keywords: [
+    "AI minute book generator",
+    "virtual minute book",
+    "free minute book",
     "corporate minute book Canada",
     "minute book generator",
     "Ontario minute book",
@@ -20,6 +25,25 @@ export const metadata: Metadata = {
     "minute book preparation",
   ],
 };
+
+const MINUTE_BOOK_FAQ = [
+  {
+    q: "Is a virtual minute book legal in Canada?",
+    a: "Yes. The Canada Business Corporations Act and every provincial corporate statute permit electronic minute books, provided the records are organized, accessible, and can be produced in readable form for inspection at the registered office.",
+  },
+  {
+    q: "How does the free 30-day pilot work?",
+    a: "Search your Canadian corporation, enter your email, and within one business day you receive login access to a MinuteBook workspace with your complete minute book already generated. No credit card required. Cancel any time during the 30-day pilot.",
+  },
+  {
+    q: "What's the difference between the AI minute book generator and the done-for-you service?",
+    a: "The AI generator produces your full minute book automatically from your registry record — you self-serve inside the MinuteBook app. The done-for-you service ($299 all-in) has a CRS specialist prepare, review, and deliver the minute book to your email, with human sign-off.",
+  },
+  {
+    q: "Do I need to be an Alberta corporation for the pilot?",
+    a: "The free pilot currently works fastest for Alberta corporations because our registry corpus is Alberta-first. Other provinces are supported via the done-for-you service — contact us to request early access to the pilot for your jurisdiction.",
+  },
+];
 
 const WHEN_NEEDED = [
   { icon: Building2,    title: "At Incorporation",       body: "Every corporation must establish its minute book at the time of incorporation. This is a legal requirement under federal and all provincial corporate statutes." },
@@ -74,6 +98,7 @@ const PACKAGES = [
 export default function MinuteBooksPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(MINUTE_BOOK_FAQ))} />
       <Header />
       <main style={{ flex: 1 }}>
 
@@ -112,8 +137,8 @@ export default function MinuteBooksPage() {
                 marginBottom: "1.25rem",
               }}
             >
-              Your Corporate Minute Book,{" "}
-              <span style={{ color: "var(--gold)" }}>Ready in Minutes</span>
+              AI Minute Book Generator{" "}
+              <span style={{ color: "var(--gold)" }}>Free 30-Day Pilot</span>
             </h1>
             <div className="gold-line" style={{ margin: "0 auto 1.25rem" }} />
             <p
@@ -121,44 +146,27 @@ export default function MinuteBooksPage() {
                 fontSize: "1.05rem",
                 color: "var(--text-muted)",
                 lineHeight: 1.75,
-                maxWidth: "52ch",
+                maxWidth: "56ch",
                 margin: "0 auto 2rem",
               }}
             >
-              Generate a complete, compliance-ready Canadian corporate minute book — all organizational
-              resolutions, share registers, certificates, and by-laws — without a lawyer.
+              Generate a complete, compliance-ready Canadian corporate minute book — organizational resolutions, share registers, certificates, by-laws — <strong>free for 30 days, no credit card, no lawyer.</strong> Search your corporation to start.
             </p>
-            <div style={{ display: "flex", gap: "0.875rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <a
-                href="https://minutebook.corporateregistryservices.ca"
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                  padding: "0.875rem 1.75rem", borderRadius: "0.5rem",
-                  background: "var(--primary)", color: "#fff",
-                  fontWeight: 700, fontSize: "1rem", textDecoration: "none",
-                }}
-              >
-                Generate My Minute Book <ArrowRight size={18} />
-              </a>
-              <a
-                href="#what-is"
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                  padding: "0.875rem 1.5rem", borderRadius: "0.5rem",
-                  border: "1.5px solid var(--primary)", color: "var(--primary)",
-                  fontWeight: 600, fontSize: "0.95rem", textDecoration: "none",
-                  background: "transparent",
-                }}
-              >
-                Learn more
-              </a>
+
+            {/* Pilot lead-capture widget — replaces the old "Generate My
+                Minute Book" hero buttons that used to send visitors straight
+                to the app without capturing them. Now the corp + email land
+                as a lead before the visitor gets an access link. */}
+            <div id="pilot" style={{ textAlign: "left", maxWidth: "640px", margin: "0 auto 1rem" }}>
+              <MinuteBookPilotWidget />
             </div>
+
             {/* Trust row */}
-            <div style={{ display: "flex", gap: "1.5rem", justifyContent: "center", flexWrap: "wrap", marginTop: "2rem" }}>
+            <div style={{ display: "flex", gap: "1.5rem", justifyContent: "center", flexWrap: "wrap", marginTop: "1.5rem" }}>
               {[
-                { icon: Clock,        label: "Ready same day" },
-                { icon: ShieldCheck,  label: "Legally compliant" },
-                { icon: BookOpen,     label: "All 13 jurisdictions" },
+                { icon: Clock,        label: "Ready in 1 business day" },
+                { icon: ShieldCheck,  label: "Legally compliant · all Canada" },
+                { icon: BookOpen,     label: "No credit card · cancel any time" },
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="badge-pill">
                   <Icon size={12} style={{ color: "var(--gold)", flexShrink: 0 }} />
@@ -199,6 +207,35 @@ export default function MinuteBooksPage() {
             </p>
             <p style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.8 }}>
               Failing to maintain one doesn&apos;t just create legal risk — it can block your ability to get financing, sell your business, add shareholders, or file accurate tax returns.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Virtual / AI Minute Book Generator SEO section ── */}
+        <section style={{ padding: "3.5rem 1.5rem", background: "var(--bg-deep)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+            <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
+              Virtual minute book
+            </span>
+            <h2
+              style={{
+                fontFamily: "var(--font-display), Georgia, serif",
+                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                fontWeight: 700,
+                color: "var(--text)",
+                marginTop: "0.5rem",
+                marginBottom: "1rem",
+              }}
+            >
+              The AI minute book generator, built for Canadian corporations
+            </h2>
+            <div className="gold-line" style={{ marginBottom: "1.25rem" }} />
+            <p style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.8, marginBottom: "1rem" }}>
+              A <strong>virtual minute book</strong> is your corporation&apos;s official record book kept electronically instead of in a physical binder — legally equivalent under the <em>Canada Business Corporations Act</em> and every provincial statute. Our <strong>AI minute book generator</strong> assembles the complete document set from your registry record so you don&apos;t manually retype anything: articles, by-laws, resolutions, registers, share certificates.
+            </p>
+            <p style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.8 }}>
+              A <strong>free minute book</strong> pilot lets you try the whole thing for 30 days without paying anything. No credit card, no auto-renew. If the workspace doesn&apos;t fit how you already run compliance, you don&apos;t hear from us again.{" "}
+              <a href="#pilot" style={{ color: "var(--gold)", textDecoration: "none", fontWeight: 600 }}>Start your pilot ↑</a>
             </p>
           </div>
         </section>
@@ -389,8 +426,37 @@ export default function MinuteBooksPage() {
           </div>
         </section>
 
+        {/* ── FAQ ── */}
+        <section style={{ padding: "4rem 1.5rem" }}>
+          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+            <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
+              Frequently asked
+            </span>
+            <h2
+              style={{
+                fontFamily: "var(--font-display), Georgia, serif",
+                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                fontWeight: 700,
+                color: "var(--text)",
+                marginTop: "0.5rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Common questions about the free pilot + AI generator
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              {MINUTE_BOOK_FAQ.map((item, i) => (
+                <div key={i}>
+                  <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.4rem" }}>{item.q}</h3>
+                  <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: 1.65, margin: 0 }}>{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA ── */}
-        <section style={{ padding: "5rem 1.5rem", textAlign: "center" }}>
+        <section style={{ padding: "5rem 1.5rem", textAlign: "center", background: "var(--bg-deep)", borderTop: "1px solid var(--border)" }}>
           <div style={{ maxWidth: "580px", margin: "0 auto" }}>
             <h2
               style={{
@@ -404,10 +470,10 @@ export default function MinuteBooksPage() {
               Ready to get your minute book in order?
             </h2>
             <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: 1.75, marginBottom: "2rem" }}>
-              Enter your company details once and generate a complete, professional minute book package — same day. No lawyer required.
+              Start the free 30-day pilot — search your corporation, enter your email, we handle the rest.
             </p>
             <a
-              href="https://minutebook.corporateregistryservices.ca"
+              href="#pilot"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "0.5rem",
                 padding: "1rem 2rem", borderRadius: "0.5rem",
@@ -415,10 +481,10 @@ export default function MinuteBooksPage() {
                 fontWeight: 700, fontSize: "1rem", textDecoration: "none",
               }}
             >
-              Generate My Minute Book <ArrowRight size={18} />
+              Start free 30-day pilot <ArrowRight size={18} />
             </a>
             <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "1rem" }}>
-              Available for all 13 Canadian jurisdictions · Federal, all provinces &amp; territories
+              Prefer done-for-you? <a href="/minute-books/digital-minute-book-canada" style={{ color: "var(--gold)", textDecoration: "none" }}>See our $299 all-in service</a>.
             </p>
           </div>
         </section>
