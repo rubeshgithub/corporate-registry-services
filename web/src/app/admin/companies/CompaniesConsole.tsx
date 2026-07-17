@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Search, ArrowUpDown, Sparkles } from "lucide-react";
+import CompanyDetailDrawer from "./CompanyDetailDrawer";
 
 /**
  * /admin/companies — filtered view of the crs.companies collection.
@@ -190,6 +191,12 @@ export default function CompaniesConsole() {
   const [loading,    setLoading]  = useState(false);
   const [err,        setErr]      = useState("");
 
+  /* Drawer selection — URL-synced via ?selected= so the drawer state is
+     part of the bookmarkable filter view. Hydrated from URL on mount. */
+  const [selectedCorp, setSelectedCorp] = useState<string | null>(
+    searchParams?.get("selected") ?? null,
+  );
+
   const fetchPage = useCallback(async (skipOverride?: number) => {
     setLoading(true);
     setErr("");
@@ -251,10 +258,11 @@ export default function CompaniesConsole() {
     if (enriched)  sp.set("enriched",  enriched);
     if (sort !== "lastEvent") sp.set("sort", sort);
     if (dir  !== "desc")      sp.set("dir",  dir);
+    if (selectedCorp) sp.set("selected", selectedCorp);
     const qs = sp.toString();
     router.replace(qs ? `/admin/companies?${qs}` : "/admin/companies", { scroll: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, entity, firstFrom, firstTo, lastFrom, lastTo, city, q, emailed, enriched, sort, dir]);
+  }, [status, entity, firstFrom, firstTo, lastFrom, lastTo, city, q, emailed, enriched, sort, dir, selectedCorp]);
 
   const applyFilters = () => { void fetchPage(0); };
   const nextPage     = () => { const s = skip + PAGE_SIZE; void fetchPage(s); };
@@ -319,9 +327,18 @@ export default function CompaniesConsole() {
             err={err}
             onNext={nextPage}
             onPrev={prevPage}
+            selected={selectedCorp}
+            onSelect={setSelectedCorp}
           />
         </div>
       </div>
+
+      {selectedCorp && (
+        <CompanyDetailDrawer
+          corpNumber={selectedCorp}
+          onClose={() => setSelectedCorp(null)}
+        />
+      )}
     </div>
   );
 }
@@ -593,7 +610,7 @@ function DateRange({ from, setFrom, to, setTo }: {
   );
 }
 
-function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev }: {
+function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev, selected, onSelect }: {
   rows:    CompanyRow[];
   total:   number;
   skip:    number;
@@ -602,6 +619,8 @@ function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev
   err:     string;
   onNext:  () => void;
   onPrev:  () => void;
+  selected: string | null;
+  onSelect: (corp: string) => void;
 }) {
   return (
     <div style={cardStyle}>
@@ -617,6 +636,9 @@ function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev
             </>
           )}
         </div>
+      </div>
+      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginBottom: "0.5rem", fontStyle: "italic" }}>
+        Click any row to open detail — event timeline, outreach history, and inline actions.
       </div>
 
       {err && (
@@ -642,7 +664,14 @@ function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => <ResultRow key={r.corpNumber} row={r} />)}
+              {rows.map((r) => (
+                <ResultRow
+                  key={r.corpNumber}
+                  row={r}
+                  selected={selected === r.corpNumber}
+                  onSelect={() => onSelect(r.corpNumber)}
+                />
+              ))}
             </tbody>
           </table>
         </div>
@@ -671,7 +700,11 @@ function ResultsPanel({ rows, total, skip, hasMore, loading, err, onNext, onPrev
   );
 }
 
-function ResultRow({ row }: { row: CompanyRow }) {
+function ResultRow({ row, selected, onSelect }: {
+  row:      CompanyRow;
+  selected: boolean;
+  onSelect: () => void;
+}) {
   const isNumbered  = row.entityType.includes("Numbered");
   const typeShort   =
     row.entityType.includes("Named Alberta")    ? "Named AB"  :
@@ -689,11 +722,16 @@ function ResultRow({ row }: { row: CompanyRow }) {
                                                                                     "var(--text-muted)";
 
   return (
-    <tr style={{ borderTop: "1px solid var(--border)" }}>
+    <tr
+      onClick={onSelect}
+      style={{
+        borderTop: "1px solid var(--border)",
+        cursor:     "pointer",
+        background: selected ? "var(--card-hover, rgba(212,175,55,0.10))" : undefined,
+      }}
+    >
       <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontWeight: 700, color: "var(--secondary)" }}>
-        <a href={`/corporation/${row.corpNumber}`} target="_blank" rel="noreferrer" style={{ color: "var(--secondary)", textDecoration: "none", borderBottom: "1px dotted var(--border)" }}>
-          {row.corpNumber}
-        </a>
+        {row.corpNumber}
       </td>
       <td style={{ ...tdStyle, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={row.name}>
         {row.name}
@@ -717,13 +755,9 @@ function ResultRow({ row }: { row: CompanyRow }) {
         <ContactCell row={row} />
       </td>
       <td style={{ ...tdStyle, textAlign: "right", whiteSpace: "nowrap" }}>
-        <a
-          href={`/admin/outreach?corp=${encodeURIComponent(row.corpNumber)}`}
-          style={{ fontSize: "0.7rem", color: "var(--secondary)", fontFamily: "var(--font-mono), monospace", textDecoration: "none" }}
-          title="Open in outreach console"
-        >
-          outreach →
-        </a>
+        <span style={{ fontSize: "0.66rem", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace" }}>
+          drill →
+        </span>
       </td>
     </tr>
   );
