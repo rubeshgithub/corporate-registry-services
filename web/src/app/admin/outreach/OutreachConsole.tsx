@@ -84,6 +84,9 @@ type EnrichmentPayload = {
   phone:          string | null;
   enrichedAt:     string;
   enrichStatus:   "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "pending";
+  /** True when this email is on the outreach suppression list —
+   *  operator should NOT send further outreach to it. */
+  suppressed?:    boolean;
 };
 
 type PlaceCandidate = {
@@ -1062,6 +1065,28 @@ function ResolvedContact({
   const anyValue = contact.website || contact.phone || contact.email;
   return (
     <>
+      {contact.suppressed && contact.email && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(180,83,9,0.10)",
+            border:       "1px solid rgba(180,83,9,0.45)",
+            color:        "#B45309",
+            fontSize:     "0.78rem",
+            fontWeight:   700,
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+            display:      "flex",
+            gap:          "0.4rem",
+            alignItems:   "flex-start",
+          }}
+        >
+          🚫 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Unsubscribed — do not email. The send API will block this address. Reach out by phone or postal address instead.
+          </span>
+        </div>
+      )}
       {contact.website && (
         <CopyRow icon="🌐" label="Website" value={contact.website} link={contact.website} />
       )}
@@ -1075,19 +1100,21 @@ function ResolvedContact({
           value={contact.email}
           link={`mailto:${contact.email}`}
           action={
-            <button
-              onClick={() => onFillTo(contact.email!)}
-              style={{
-                fontSize: "0.62rem", padding: "0.1rem 0.4rem",
-                background: "var(--secondary)", color: "#fff",
-                border: "none", borderRadius: "0.25rem", cursor: "pointer",
-                marginLeft: "0.35rem",
-                whiteSpace: "nowrap",
-              }}
-              title="Use as To: recipient"
-            >
-              → To
-            </button>
+            contact.suppressed ? null : (
+              <button
+                onClick={() => onFillTo(contact.email!)}
+                style={{
+                  fontSize: "0.62rem", padding: "0.1rem 0.4rem",
+                  background: "var(--secondary)", color: "#fff",
+                  border: "none", borderRadius: "0.25rem", cursor: "pointer",
+                  marginLeft: "0.35rem",
+                  whiteSpace: "nowrap",
+                }}
+                title="Use as To: recipient"
+              >
+                → To
+              </button>
+            )
           }
         />
       )}

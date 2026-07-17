@@ -78,7 +78,10 @@ export async function POST(req: Request) {
 
   const token = newToken();
   const primaryTo = to[0];
-  const unsubscribeUrl = `${SITE_URL}/api/outreach/unsubscribe?e=${encodeURIComponent(primaryTo)}&s=${signUnsubscribe(primaryTo)}&t=${token}`;
+  // Two-click unsubscribe — link lands on a confirmation page, which POSTs
+  // the actual action. Blocks Gmail/Outlook/Proofpoint pre-fetchers from
+  // silently auto-unsubscribing every recipient on delivery.
+  const unsubscribeUrl = `${SITE_URL}/o/unsubscribe?e=${encodeURIComponent(primaryTo)}&s=${signUnsubscribe(primaryTo)}&t=${token}`;
 
   const rendered = template.render({
     token,

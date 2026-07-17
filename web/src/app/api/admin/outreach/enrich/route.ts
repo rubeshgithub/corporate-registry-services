@@ -7,6 +7,7 @@ import {
   type PlaceCandidate,
 } from "@/lib/registrar-live";
 import { companies, lookups, ensureLookupsIndex } from "@/lib/registrar-mongo";
+import { isSuppressed } from "@/lib/outreach-mongo";
 
 /**
  * POST /api/admin/outreach/enrich
@@ -67,14 +68,14 @@ export async function POST(req: Request) {
                     : "not_found",
     };
     await persistPick(corpNumber, result);
-    return NextResponse.json({ mode: "picked", contact: serializeContact(result), matched: body.picked });
+    return NextResponse.json({ mode: "picked", contact: await serializeContact(result), matched: body.picked });
   }
 
   /* Mode 1 — return cached contact if we have a fresh one, unless the
      operator explicitly requested refresh. */
   if (!body.forceRefresh && corpNumber) {
     const cached = await findCachedContact(corpNumber);
-    if (cached) return NextResponse.json({ mode: "cached", contact: serializeContact(cached) });
+    if (cached) return NextResponse.json({ mode: "cached", contact: await serializeContact(cached) });
   }
 
   /* Mode 2 — fresh candidates from Places, no crawl yet. Skip for numbered
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
       enrichedAt: new Date(), enrichStatus: "skip_numbered",
     };
     await persistPick(corpNumber, skip);
-    return NextResponse.json({ mode: "cached", contact: serializeContact(skip),
+    return NextResponse.json({ mode: "cached", contact: await serializeContact(skip),
       note: "Numbered corporation — no meaningful public web presence to enrich from." });
   }
 
@@ -130,7 +131,11 @@ async function persistPick(corpNumber: string | undefined, result: EnrichmentRes
   );
 }
 
-function serializeContact(r: EnrichmentResult) {
+async function serializeContact(r: EnrichmentResult) {
+  // Cross-reference the outreach suppression list so the console can
+  // surface "unsubscribed" state before the operator drafts an email.
+  // Send-time check is still the last-line-of-defense; this is UX.
+  const suppressed = r.email ? await isSuppressed(r.email) : false;
   return {
     email:          r.email,
     emailSourceUrl: r.emailSourceUrl,
@@ -138,6 +143,7 @@ function serializeContact(r: EnrichmentResult) {
     phone:          r.phone,
     enrichedAt:     r.enrichedAt.toISOString(),
     enrichStatus:   r.enrichStatus,
+    suppressed,
   };
 }
 
