@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { companies } from "@/lib/registrar-mongo";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
 
@@ -165,6 +166,142 @@ async function searchCBR(q: string, status: StatusFilter, provinceCode?: string)
   };
 }
 
+// ── Local gazette-DB (Alberta corps + Alberta Societies) ────────────────────
+//
+// The upstream CBR API only exposes corporations under the Alberta Business
+// Corporations Act — Alberta Societies (registered under the Societies Act)
+// are NOT there. Our gazette-ingested `crs.companies` collection DOES have
+// them (~18k Society docs). We merge local hits into every Alberta / all-
+// province search so society docs like "EMPIRE FIELD HOCKEY CLUB" surface
+// alongside corporations.
+//
+// The local search runs in parallel with CBR — its added latency is bounded
+// by two indexed queries against Atlas.
+
+type ResultShape = {
+  name:             string;
+  businessNumber:   string;
+  registryId:       string;
+  location:         string;
+  status:           string;
+  statusNotes:      string;
+  entityType:       string;
+  registrationDate: string;
+  jurisdiction:     string;
+  provinceKey:      string;
+};
+
+const LOCAL_ACTIVE_STATUSES = new Set(["Incorporated", "Registered", "Revived", "Renamed"]);
+const LOCAL_STRUCK_STATUSES = new Set(["Dissolved/Struck Off"]);
+const LOCAL_PENDING_STATUSES = new Set(["Liable For Dissolution", "Intent To Dissolve"]);
+
+function escRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+async function searchLocalAB(q: string, status: StatusFilter, limit = 20): Promise<ResultShape[]> {
+  const col = await companies();
+  const isNumeric = /^\d+$/.test(q);
+  const upper = q.toUpperCase();
+  const projection = { name: 1, entityType: 1, status: 1, address: 1, firstEventDate: 1 } as const;
+
+  /* Assemble candidate _ids from the same two-strategy pattern as
+     /api/registrar/search. Order matters — earlier hits take precedence
+     via the Map deduping on _id. */
+  const found = new Map<string, Record<string, unknown>>();
+
+  if (isNumeric) {
+    const exact = await col.findOne({ _id: q }, { projection });
+    if (exact) found.set(String(exact._id), exact);
+    if (found.size < limit) {
+      const prefix = await col.find(
+        { _id: { $regex: `^${escRegex(q)}` } },
+        { projection },
+      ).limit(limit).toArray();
+      for (const h of prefix) if (!found.has(String(h._id))) found.set(String(h._id), h);
+    }
+  } else {
+    const prefix = await col.find(
+      { nameNorm: { $regex: `^${escRegex(upper)}` } },
+      { projection },
+    ).limit(limit).toArray();
+    for (const h of prefix) if (!found.has(String(h._id))) found.set(String(h._id), h);
+
+    if (found.size < limit) {
+      try {
+        const textHits = await col.find(
+          { $text: { $search: q } },
+          { projection: { ...projection, score: { $meta: "textScore" } } },
+        )
+          .sort({ score: { $meta: "textScore" } })
+          .limit(limit)
+          .toArray();
+        for (const h of textHits) if (!found.has(String(h._id))) found.set(String(h._id), h);
+      } catch {
+        /* text index unavailable — prefix already gave us results */
+      }
+    }
+  }
+
+  /* Map to the shared ResultShape + apply the status filter using the
+     gazette-derived state.derived field. Skip name-only shell docs (no
+     corp number = no way for the operator to place an order downstream). */
+  const rows: ResultShape[] = [];
+  for (const doc of found.values()) {
+    const id = String(doc._id ?? "");
+    if (id.startsWith("name:")) continue;
+
+    const d = doc as {
+      _id: string; name?: string; entityType?: string;
+      status?: { derived?: string };
+      address?: { city?: string };
+      firstEventDate?: Date | string | null;
+    };
+
+    const derived = d.status?.derived ?? "";
+    const statusState =
+      LOCAL_ACTIVE_STATUSES.has(derived)  ? "Active"   :
+      LOCAL_STRUCK_STATUSES.has(derived)  ? "Inactive" :
+      LOCAL_PENDING_STATUSES.has(derived) ? "Active"   :   // still on registry but pending
+                                            "Active";       // Amalgamated etc.
+
+    if (!matchesStatus(statusState, derived, status)) continue;
+
+    const regDate = d.firstEventDate
+      ? (d.firstEventDate instanceof Date ? d.firstEventDate.toISOString() : String(d.firstEventDate)).slice(0, 10)
+      : "";
+
+    rows.push({
+      name:             d.name ?? "Unknown",
+      businessNumber:   "",                        // Societies + gazette-only corps don't carry a BN
+      registryId:       id,
+      location:         d.address?.city ?? "",
+      status:           statusState,
+      statusNotes:      derived,
+      entityType:       d.entityType ?? "",
+      registrationDate: regDate,
+      jurisdiction:     "Alberta",
+      provinceKey:      "ab",
+    });
+  }
+  return rows.slice(0, limit);
+}
+
+/** Merge local Mongo results into CBR results. CBR is the source of truth
+ *  for corporations (fresher status), so we keep CBR docs when both sources
+ *  have the same registryId. Local-only hits (societies + brand-new corps
+ *  the gazette caught before CBR) get appended. */
+function mergeResults(cbr: ResultShape[], local: ResultShape[], cap: number): ResultShape[] {
+  const seen = new Set(cbr.map((r) => r.registryId).filter(Boolean));
+  const merged = [...cbr];
+  for (const l of local) {
+    if (l.registryId && seen.has(l.registryId)) continue;
+    merged.push(l);
+    if (merged.length >= cap) break;
+  }
+  return merged;
+}
+
 // ── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(request: Request) {
@@ -182,7 +319,32 @@ export async function GET(request: Request) {
       return NextResponse.json(await searchBC(q, status));
     }
     const cbrCode = province === "all" ? undefined : PROVINCE_CBR[province];
-    return NextResponse.json(await searchCBR(q, status, cbrCode));
+
+    /* For Alberta and all-province searches, merge local gazette DB results
+       in so Alberta Societies (and other entity types CBR doesn't expose)
+       surface. Runs in parallel with the CBR fetch — added latency is
+       ~50-150ms against Atlas. */
+    const includeLocalAB = province === "ab" || province === "all";
+    const [cbrResp, localAB] = await Promise.all([
+      searchCBR(q, status, cbrCode),
+      includeLocalAB ? searchLocalAB(q, status, 12).catch((e) => {
+        console.warn("[CRS] local AB search failed (non-fatal):", e);
+        return [] as ResultShape[];
+      }) : Promise.resolve([] as ResultShape[]),
+    ]);
+
+    if (!includeLocalAB || localAB.length === 0) {
+      return NextResponse.json(cbrResp);
+    }
+
+    const merged = mergeResults(cbrResp.results, localAB, 20);
+    return NextResponse.json({
+      ...cbrResp,
+      results:       merged,
+      total:         merged.length,
+      source:        "cbr+gazette",
+      localMatches:  localAB.length,
+    });
   } catch (err) {
     console.error("[CRS] company-search error:", err);
     return NextResponse.json({ error: "Search temporarily unavailable" }, { status: 502 });
