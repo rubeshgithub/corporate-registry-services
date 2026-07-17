@@ -54,7 +54,7 @@ Every Canadian corporation — even a one-person corporation — must pass **ann
 
 Law firms sometimes call this the "change the dates" package — but skipping it means your corporation has no legally elected directors and no valid auditor waiver, which surfaces at the worst possible time: during a financing, a sale, or a CRA review.
 
-**Annual resolutions are not your annual return.** The annual return is a government filing (we file those — see our [annual return service](/annual-return)); annual resolutions are internal documents that go in the minute book. You need both, every year. Our [Shareholder Resolutions](/#services) and [Director Resolutions](/#services) services prepare the full annual package for $79 + GST per resolution set.
+**Annual resolutions are not your annual return.** The annual return is a government filing (we file those — see our [annual return service](/annual-return)); annual resolutions are internal documents that go in the minute book. You need both, every year. Our [Shareholder Resolutions](/articles/shareholder-resolutions-in-canada) and [Director Resolutions](/articles/director-resolutions-in-canada) services prepare the full annual package for $79 + GST per resolution set.
 
 ## Share issuance: subscription, resolution, certificate, register — in that order
 
@@ -65,7 +65,7 @@ Issuing shares generates more minute book paperwork than any other routine event
 3. **Share certificate** — issued to the shareholder, numbered sequentially, signed. The shareholder keeps the original; a copy (and the certificate stub) stays in the minute book.
 4. **Register updates** — the register of shareholders, the **securities register** (the running record of every issuance and transfer by certificate number), and, where shares change who controls the corporation, the **register of individuals with significant control (ISC register)** must all be updated.
 
-If any link in that chain is missing, the share issuance is legally questionable — which is precisely what due-diligence lawyers look for. Our [Share Certificates service](/#services) prepares professionally formatted certificates for $49 + GST, and a [Minute Book Update](/#services) (from $299 + GST) reconstructs missing subscriptions, resolutions, and registers.
+If any link in that chain is missing, the share issuance is legally questionable — which is precisely what due-diligence lawyers look for. Our [Share Certificates service](/articles/share-certificates-in-canada) prepares professionally formatted certificates for $49 + GST, and a [Minute Book Update](/#services) (from $299 + GST) reconstructs missing subscriptions, resolutions, and registers.
 
 ## Registers: the part of the minute book that must always be current
 
@@ -81,7 +81,7 @@ Quebec corporations should note the QBCA's equivalent requirements and the *Regi
 
 ## By-laws and incorporation documents
 
-Your **certificate and articles of incorporation** open the minute book — they are its first tab. Your **by-laws** (the corporation's internal operating rules) follow, together with the directors' and shareholders' resolutions that enacted them. If you incorporated online and were never given by-laws, your corporation is running without them — a gap we can fix with our [Corporate By-Laws service](/#services) for $99 + GST.
+Your **certificate and articles of incorporation** open the minute book — they are its first tab. Your **by-laws** (the corporation's internal operating rules) follow, together with the directors' and shareholders' resolutions that enacted them. If you incorporated online and were never given by-laws, your corporation is running without them — a gap we can fix with our [Corporate By-Laws service](/articles/corporate-by-laws-canada) for $99 + GST.
 
 ## Digital minute books are fully legal
 

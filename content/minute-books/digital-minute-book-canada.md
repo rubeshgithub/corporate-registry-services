@@ -45,10 +45,10 @@ Don't need the full package? We prepare single documents on demand:
 
 | Service | Price |
 |---|---|
-| [Director Resolutions](/#services) — any corporate decision, including the annual package | $79 + GST |
-| [Shareholder Resolutions](/#services) — annual or special | $79 + GST |
-| [Share Certificates](/#services) — professionally formatted, sequentially numbered | $49 + GST |
-| [Corporate By-Laws](/#services) — drafted or updated | $99 + GST |
+| [Director Resolutions](/articles/director-resolutions-in-canada) — any corporate decision, including the annual package | $79 + GST |
+| [Shareholder Resolutions](/articles/shareholder-resolutions-in-canada) — annual or special | $79 + GST |
+| [Share Certificates](/articles/share-certificates-in-canada) — professionally formatted, sequentially numbered | $49 + GST |
+| [Corporate By-Laws](/articles/corporate-by-laws-canada) — drafted or updated | $99 + GST |
 | [Minute Book Update](/#services) — bring an existing book current | from $299 + GST |
 
 ## What's inside your minute book
