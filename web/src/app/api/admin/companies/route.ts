@@ -20,6 +20,10 @@ import type { CompanyDoc } from "@/lib/registrar-mongo";
  *   lastTo       ISO date; status.lastEventDate <= this
  *   city         substring match on address.city (case-insensitive)
  *   q            substring match on name / corp number
+ *   emailed      "false" → only corps that have a contact email but no
+ *                outreach.lastEmailAt (never-emailed prospects)
+ *   enriched     "false" → only corps whose contact.enrichStatus is
+ *                "pending" (not-yet-enriched — enrichment queue)
  *   sort         one of: lastEvent | firstEvent | name           (default: lastEvent)
  *   dir          one of: asc | desc                              (default: desc)
  *   limit        1..200 (default: 50)
@@ -108,6 +112,8 @@ export async function GET(req: Request) {
   const lastTo    = parseDate(url.searchParams.get("lastTo"));
   const city      = (url.searchParams.get("city") ?? "").trim();
   const q         = (url.searchParams.get("q") ?? "").trim();
+  const emailed   = (url.searchParams.get("emailed") ?? "").trim();
+  const enriched  = (url.searchParams.get("enriched") ?? "").trim();
   const sort      = (url.searchParams.get("sort") ?? "lastEvent").trim();
   const dir       = (url.searchParams.get("dir")  ?? "desc").trim();
   const limit     = Math.max(1,  Math.min(MAX_LIMIT, parseInt(url.searchParams.get("limit") ?? "50", 10) || 50));
@@ -145,6 +151,21 @@ export async function GET(req: Request) {
       { name:       rx },
       { _id:        rx },        // matches by corp number
     ];
+  }
+
+  /* "Never-emailed prospects" — has a contact email but no outreach
+     lastEmailAt. Best combined with a status filter to narrow the working
+     set first (e.g. status=Incorporated + emailed=false). */
+  if (emailed === "false") {
+    filter["contact.email"]        = { $ne: null };
+    filter["outreach.lastEmailAt"] = null;
+  }
+
+  /* "Not yet enriched" — enrichment queue. contact.enrichStatus is
+     $ifNull-initialized to "pending" by the ingest, so this is a
+     single-key equality that uses the enrich_queue index. */
+  if (enriched === "false") {
+    filter["contact.enrichStatus"] = "pending";
   }
 
   const sortSpec: Record<string, 1 | -1> = {};

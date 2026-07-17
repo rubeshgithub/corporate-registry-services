@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Loader2, Search, ArrowUpDown } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Loader2, Search, ArrowUpDown, Sparkles } from "lucide-react";
 
 /**
  * /admin/companies — filtered view of the crs.companies collection.
@@ -78,22 +79,108 @@ const SORT_OPTIONS: Array<{ key: string; label: string }> = [
   { key: "name",       label: "Name" },
 ];
 
+/* ── Preset segments ───────────────────────────────────────────── */
+
+/** Each preset is a URL query-param bag. Clicking a preset button
+ *  navigates to /admin/companies?<params>, which resets the state and
+ *  re-fetches. Keeps presets composable with URL bookmarking — a preset
+ *  URL is just a filter combo the operator can also build by hand. */
+type PresetKey = "fresh" | "struck" | "revived" | "not-emailed" | "not-enriched";
+
+type PresetSpec = {
+  key:     PresetKey;
+  label:   string;
+  hint:    string;
+  params:  () => Record<string, string>;
+};
+
+/** ISO YYYY-MM-DD for N days ago (computed at click time so presets
+ *  always mean "today minus N", not "the day the page loaded"). */
+function daysAgo(n: number): string {
+  return new Date(Date.now() - n * 86_400_000).toISOString().slice(0, 10);
+}
+
+const PRESETS: PresetSpec[] = [
+  {
+    key:    "fresh",
+    label:  "Fresh registrations (90d)",
+    hint:   "Corps incorporated / registered in the last 90 days — their first annual return is coming up.",
+    params: () => ({
+      status:    "Incorporated,Registered",
+      firstFrom: daysAgo(90),
+      sort:      "firstEvent",
+      dir:       "desc",
+    }),
+  },
+  {
+    key:    "struck",
+    label:  "Recently struck (90d)",
+    hint:   "Corps dissolved or struck off in the last 90 days — reactivation / revival leads. Wider than 30d because the Alberta gazette publishes struck notices with a 30–45 day lag.",
+    params: () => ({
+      status:   "Dissolved/Struck Off",
+      lastFrom: daysAgo(90),
+      sort:     "lastEvent",
+      dir:      "desc",
+    }),
+  },
+  {
+    key:    "revived",
+    label:  "Revived (90d)",
+    hint:   "Corps that just came back from struck-off in the last 90 days — high-intent (they paid the gov to revive).",
+    params: () => ({
+      status:   "Revived",
+      lastFrom: daysAgo(90),
+      sort:     "lastEvent",
+      dir:      "desc",
+    }),
+  },
+  {
+    key:    "not-emailed",
+    label:  "Never emailed",
+    hint:   "Corps with a contact email that we've never sent outreach to.",
+    params: () => ({
+      emailed: "false",
+      sort:    "lastEvent",
+      dir:     "desc",
+    }),
+  },
+  {
+    key:    "not-enriched",
+    label:  "Not yet enriched",
+    hint:   "Corps whose contact.enrichStatus is pending — enrichment queue.",
+    params: () => ({
+      enriched: "false",
+      sort:     "lastEvent",
+      dir:      "desc",
+    }),
+  },
+];
+
 /* ── Component ─────────────────────────────────────────────────── */
 
 const PAGE_SIZE = 50;
 
 export default function CompaniesConsole() {
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+
+  /* Hydrate filter state from URL on first mount so bookmarked / preset
+     URLs work + operators can share filter combos. */
+  const initial = readParams(searchParams);
+
   /* Filter state */
-  const [status,    setStatus]    = useState<string[]>([]);
-  const [entity,    setEntity]    = useState<string[]>([]);
-  const [firstFrom, setFirstFrom] = useState("");
-  const [firstTo,   setFirstTo]   = useState("");
-  const [lastFrom,  setLastFrom]  = useState("");
-  const [lastTo,    setLastTo]    = useState("");
-  const [city,      setCity]      = useState("");
-  const [q,         setQ]         = useState("");
-  const [sort,      setSort]      = useState("lastEvent");
-  const [dir,       setDir]       = useState<"asc" | "desc">("desc");
+  const [status,    setStatus]    = useState<string[]>(initial.status);
+  const [entity,    setEntity]    = useState<string[]>(initial.entity);
+  const [firstFrom, setFirstFrom] = useState(initial.firstFrom);
+  const [firstTo,   setFirstTo]   = useState(initial.firstTo);
+  const [lastFrom,  setLastFrom]  = useState(initial.lastFrom);
+  const [lastTo,    setLastTo]    = useState(initial.lastTo);
+  const [city,      setCity]      = useState(initial.city);
+  const [q,         setQ]         = useState(initial.q);
+  const [emailed,   setEmailed]   = useState<"" | "false">(initial.emailed);
+  const [enriched,  setEnriched]  = useState<"" | "false">(initial.enriched);
+  const [sort,      setSort]      = useState(initial.sort);
+  const [dir,       setDir]       = useState<"asc" | "desc">(initial.dir);
 
   /* Data state */
   const [rows,       setRows]     = useState<CompanyRow[]>([]);
@@ -117,6 +204,8 @@ export default function CompaniesConsole() {
       if (lastTo)    url.searchParams.set("lastTo",    lastTo);
       if (city)      url.searchParams.set("city",      city);
       if (q)         url.searchParams.set("q",         q);
+      if (emailed)   url.searchParams.set("emailed",   emailed);
+      if (enriched)  url.searchParams.set("enriched",  enriched);
       url.searchParams.set("sort",  sort);
       url.searchParams.set("dir",   dir);
       url.searchParams.set("limit", String(PAGE_SIZE));
@@ -135,10 +224,37 @@ export default function CompaniesConsole() {
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, entity, firstFrom, firstTo, lastFrom, lastTo, city, q, sort, dir, skip]);
+  }, [status, entity, firstFrom, firstTo, lastFrom, lastTo, city, q, emailed, enriched, sort, dir, skip]);
 
-  /* Auto-load the first page on mount. */
+  /* Auto-load the first page on mount. Reads use the state hydrated
+     from the URL so bookmarks / preset URLs produce the right first
+     fetch. */
   useEffect(() => { void fetchPage(0); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
+
+  /* URL sync — reflect current filter state into the URL so the current
+     view is bookmarkable + shareable. router.replace (not push) so
+     back-button behaviour stays sane; we don't want each filter change to
+     stack a browser history entry. */
+  const firstSyncRef = useRef(true);
+  useEffect(() => {
+    if (firstSyncRef.current) { firstSyncRef.current = false; return; }
+    const sp = new URLSearchParams();
+    if (status.length) sp.set("status", status.join(","));
+    if (entity.length) sp.set("entity", entity.join(","));
+    if (firstFrom) sp.set("firstFrom", firstFrom);
+    if (firstTo)   sp.set("firstTo",   firstTo);
+    if (lastFrom)  sp.set("lastFrom",  lastFrom);
+    if (lastTo)    sp.set("lastTo",    lastTo);
+    if (city)      sp.set("city",      city);
+    if (q)         sp.set("q",         q);
+    if (emailed)   sp.set("emailed",   emailed);
+    if (enriched)  sp.set("enriched",  enriched);
+    if (sort !== "lastEvent") sp.set("sort", sort);
+    if (dir  !== "desc")      sp.set("dir",  dir);
+    const qs = sp.toString();
+    router.replace(qs ? `/admin/companies?${qs}` : "/admin/companies", { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, entity, firstFrom, firstTo, lastFrom, lastTo, city, q, emailed, enriched, sort, dir]);
 
   const applyFilters = () => { void fetchPage(0); };
   const nextPage     = () => { const s = skip + PAGE_SIZE; void fetchPage(s); };
@@ -148,7 +264,28 @@ export default function CompaniesConsole() {
     setStatus([]); setEntity([]);
     setFirstFrom(""); setFirstTo(""); setLastFrom(""); setLastTo("");
     setCity(""); setQ("");
+    setEmailed(""); setEnriched("");
     setSort("lastEvent"); setDir("desc");
+    setTimeout(() => void fetchPage(0), 0);
+  };
+
+  /** Preset click — set every filter state at once from a preset spec.
+   *  Clears the manual filters we're not overriding so the preset gives a
+   *  clean, opinionated view. Then fetches. */
+  const applyPreset = (spec: PresetSpec) => {
+    const p = spec.params();
+    setStatus   (p.status    ? p.status.split(",")    : []);
+    setEntity   (p.entity    ? p.entity.split(",")    : []);
+    setFirstFrom(p.firstFrom ?? "");
+    setFirstTo  (p.firstTo   ?? "");
+    setLastFrom (p.lastFrom  ?? "");
+    setLastTo   (p.lastTo    ?? "");
+    setCity     (p.city      ?? "");
+    setQ        (p.q         ?? "");
+    setEmailed  ((p.emailed  as "false" | undefined) ?? "");
+    setEnriched ((p.enriched as "false" | undefined) ?? "");
+    setSort     (p.sort      ?? "lastEvent");
+    setDir      ((p.dir      as "asc" | "desc" | undefined) ?? "desc");
     setTimeout(() => void fetchPage(0), 0);
   };
 
@@ -156,6 +293,7 @@ export default function CompaniesConsole() {
     <div style={{ minHeight: "100vh", background: "var(--bg-deep)", padding: "2rem 1.5rem" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto" }}>
         <TopBar />
+        <PresetBar onApply={applyPreset} loading={loading} />
         <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "1.25rem", alignItems: "start" }}>
           <FilterPanel
             status={status} setStatus={setStatus}
@@ -188,7 +326,92 @@ export default function CompaniesConsole() {
   );
 }
 
+/* ── URL param hydration ───────────────────────────────────────── */
+
+/** Read the current URL into an initial state bag. Runs once on mount so
+ *  bookmarked / preset URLs produce the right initial view. */
+function readParams(sp: ReturnType<typeof useSearchParams>) {
+  const get = (k: string) => sp?.get(k) ?? "";
+  const csv = (k: string) => {
+    const v = get(k);
+    return v ? v.split(",").map((x) => x.trim()).filter(Boolean) : [];
+  };
+  const emailedRaw  = get("emailed");
+  const enrichedRaw = get("enriched");
+  const dirRaw      = get("dir");
+  return {
+    status:    csv("status"),
+    entity:    csv("entity"),
+    firstFrom: get("firstFrom"),
+    firstTo:   get("firstTo"),
+    lastFrom:  get("lastFrom"),
+    lastTo:    get("lastTo"),
+    city:      get("city"),
+    q:         get("q"),
+    emailed:   (emailedRaw  === "false" ? "false" : "") as "" | "false",
+    enriched:  (enrichedRaw === "false" ? "false" : "") as "" | "false",
+    sort:      get("sort") || "lastEvent",
+    dir:       (dirRaw === "asc" ? "asc" : "desc") as "asc" | "desc",
+  };
+}
+
 /* ── Sub-components ────────────────────────────────────────────── */
+
+function PresetBar({ onApply, loading }: {
+  onApply: (spec: PresetSpec) => void;
+  loading: boolean;
+}) {
+  return (
+    <div
+      style={{
+        ...cardStyle,
+        marginBottom: "1rem",
+        display:      "flex",
+        flexWrap:     "wrap",
+        gap:          "0.4rem",
+        alignItems:   "center",
+      }}
+    >
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.66rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)", marginRight: "0.4rem" }}>
+        <Sparkles size={12} />
+        Presets
+      </span>
+      {PRESETS.map((p) => (
+        <button
+          key={p.key}
+          type="button"
+          disabled={loading}
+          onClick={() => onApply(p)}
+          title={p.hint}
+          style={{
+            padding:      "0.32rem 0.65rem",
+            fontSize:     "0.75rem",
+            background:   "var(--bg-deep)",
+            color:        "var(--text)",
+            border:       "1px solid var(--border)",
+            borderRadius: "9999px",
+            cursor:       loading ? "wait" : "pointer",
+            fontWeight:   500,
+            transition:   "background 0.12s, border-color 0.12s",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.background   = "var(--gold-dim)";
+            (e.currentTarget as HTMLElement).style.borderColor  = "var(--gold)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.background  = "var(--bg-deep)";
+            (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+          }}
+        >
+          {p.label}
+        </button>
+      ))}
+      <span style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginLeft: "auto", fontStyle: "italic" }}>
+        Click to apply · URL updates so you can bookmark
+      </span>
+    </div>
+  );
+}
 
 function TopBar() {
   return (
