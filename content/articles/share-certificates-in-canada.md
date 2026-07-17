@@ -87,4 +87,6 @@ The four most common errors in Canadian share certificates — all of which come
 
 Corporate Registry Services prepares professionally formatted, sequentially numbered share certificates for **$49 all-in + GST**. The service includes any required transfer restrictions, matching entries for the share register and securities register, and delivery as ready-to-sign PDFs. Perfect for one-off share issuances, new shareholder onboarding, or catching up on gaps in an existing minute book.
 
+**[Order a share certificate now →](/order/share-certificate?src=article-share-certificates-in-canada)** · Search your corp, enter the details, pay $49 + GST.
+
 Need certificates as part of a complete minute book? See the [Digital Minute Book service](/minute-books/digital-minute-book-canada) — $299 all-in for a fresh minute book with all documents included, or [start a free 30-day pilot](/minute-books) of the MinuteBook app to self-serve.

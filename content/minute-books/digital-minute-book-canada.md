@@ -43,13 +43,13 @@ Already have some documents? Send us what you have — filed annual returns, sha
 
 Don't need the full package? We prepare single documents on demand:
 
-| Service | Price |
-|---|---|
-| [Director Resolutions](/articles/director-resolutions-in-canada) — any corporate decision, including the annual package | $79 + GST |
-| [Shareholder Resolutions](/articles/shareholder-resolutions-in-canada) — annual or special | $79 + GST |
-| [Share Certificates](/articles/share-certificates-in-canada) — professionally formatted, sequentially numbered | $49 + GST |
-| [Corporate By-Laws](/articles/corporate-by-laws-canada) — drafted or updated | $99 + GST |
-| [Minute Book Update](/#services) — bring an existing book current | from $299 + GST |
+| Service | Price | Order |
+|---|---|---|
+| Director Resolutions — any corporate decision, including the annual package. [Read the guide](/articles/director-resolutions-in-canada) | $79 + GST | [Order →](/order/director-resolution?src=service-page-digital-minute-book) |
+| Shareholder Resolutions — annual or special. [Read the guide](/articles/shareholder-resolutions-in-canada) | $79 + GST | [Order →](/order/shareholder-resolution?src=service-page-digital-minute-book) |
+| Share Certificates — professionally formatted, sequentially numbered. [Read the guide](/articles/share-certificates-in-canada) | $49 + GST | [Order →](/order/share-certificate?src=service-page-digital-minute-book) |
+| Corporate By-Laws — drafted or updated. [Read the guide](/articles/corporate-by-laws-canada) | $99 + GST | [Order →](/order/bylaws?src=service-page-digital-minute-book) |
+| Minute Book Update — bring an existing book current | from $299 + GST | [Contact us](/contact) |
 
 ## What's inside your minute book
 

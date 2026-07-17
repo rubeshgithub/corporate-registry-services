@@ -101,4 +101,6 @@ The fix is a **retroactive annual package** — director and shareholder resolut
 
 Corporate Registry Services prepares director resolutions for **$79 all-in + GST** per resolution set — including the annual directors' package, standalone resolutions for specific decisions (approving a share issuance, appointing an officer, declaring a dividend), and consent-to-act forms. Delivered as ready-to-sign PDFs, professionally formatted, with any required register updates included.
 
+**[Order a director resolution now →](/order/director-resolution?src=article-director-resolutions-in-canada)** · Search your corp, pick the resolution type, pay $79 + GST.
+
 Related: [Share Certificates](/articles/share-certificates-in-canada) covers the certificate side of the share issuance flow (which is authorized by a directors' resolution); [Shareholder Resolutions](/articles/shareholder-resolutions-in-canada) covers the shareholder half of the annual package.

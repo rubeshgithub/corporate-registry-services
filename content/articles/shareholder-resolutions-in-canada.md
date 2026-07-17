@@ -88,4 +88,6 @@ The fix is a **retroactive annual package** — shareholder resolutions dated an
 
 Corporate Registry Services prepares shareholder resolutions for **$79 all-in + GST** per resolution set — including the annual shareholders' package, one-off special resolutions (amending the articles, approving a fundamental change), and unanimous written resolutions for single- or multi-shareholder corporations. Delivered as ready-to-sign PDFs, professionally formatted, with any accompanying register or filing forms.
 
+**[Order a shareholder resolution now →](/order/shareholder-resolution?src=article-shareholder-resolutions-in-canada)** · Search your corp, pick the resolution type, pay $79 + GST.
+
 Related: [Director Resolutions](/articles/director-resolutions-in-canada) covers the board-side equivalent, [Share Certificates](/articles/share-certificates-in-canada) covers the share issuance paper trail, and [Corporate By-Laws](/articles/corporate-by-laws-canada) covers the by-laws that shareholders confirm at each annual meeting.

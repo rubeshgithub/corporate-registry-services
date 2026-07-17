@@ -139,6 +139,10 @@ Corporate Registry Services drafts **By-Law No. 1 (general by-laws)** for **$99 
 - The shareholders' resolution confirming the by-law
 - Delivery as ready-to-sign PDFs
 
-Amendments to existing by-laws are also $99 per by-law amendment. Bundled with a fresh minute book, by-laws are included in the **$299 Standard package** — see the [Digital Minute Book service](/minute-books/digital-minute-book-canada) for the full breakdown.
+Amendments to existing by-laws are also $99 per by-law amendment.
+
+**[Order by-laws now →](/order/bylaws?src=article-corporate-by-laws-canada)** · Search your corp, pick standard or custom, pay $99 + GST.
+
+Bundled with a fresh minute book, by-laws are included in the **$299 Standard package** — see the [Digital Minute Book service](/minute-books/digital-minute-book-canada) for the full breakdown.
 
 Related: [Share Certificates](/articles/share-certificates-in-canada) covers the share-issuance paper trail authorized by resolutions passed under your by-laws; [Director Resolutions](/articles/director-resolutions-in-canada) covers the board-side decision mechanics that by-laws govern.
