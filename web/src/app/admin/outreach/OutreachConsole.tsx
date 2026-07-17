@@ -87,6 +87,13 @@ type EnrichmentPayload = {
   /** True when this email is on the outreach suppression list —
    *  operator should NOT send further outreach to it. */
   suppressed?:    boolean;
+  /* Places signal-quality — populated when the enrichment picked a
+   *  Google Places candidate. Used by the outreach console to spot
+   *  low-signal or closed businesses before drafting. */
+  rating?:         number | null;
+  reviewCount?:    number | null;
+  businessStatus?: string | null;   // OPERATIONAL / CLOSED_TEMPORARILY / CLOSED_PERMANENTLY
+  mapsUrl?:        string | null;
 };
 
 type PlaceCandidate = {
@@ -1086,6 +1093,73 @@ function ResolvedContact({
           🚫 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
             Unsubscribed — do not email. The send API will block this address. Reach out by phone or postal address instead.
           </span>
+        </div>
+      )}
+      {contact.businessStatus === "CLOSED_PERMANENTLY" && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(220,38,38,0.10)",
+            border:       "1px solid rgba(220,38,38,0.45)",
+            color:        "#B91C1C",
+            fontSize:     "0.78rem",
+            fontWeight:   700,
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+            display:      "flex",
+            gap:          "0.4rem",
+            alignItems:   "flex-start",
+          }}
+        >
+          ⚠ <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Google marks this business CLOSED PERMANENTLY. Skip outreach — email likely stale.
+          </span>
+        </div>
+      )}
+      {contact.businessStatus === "CLOSED_TEMPORARILY" && (
+        <div style={{ padding: "0.4rem 0.65rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.72rem", borderRadius: "0.35rem", marginBottom: "0.4rem", fontWeight: 600 }}>
+          Google marks this business closed temporarily.
+        </div>
+      )}
+      {(contact.rating != null || contact.mapsUrl) && (
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap", marginBottom: "0.45rem", fontSize: "0.72rem", color: "var(--text-muted)" }}>
+          {contact.rating != null && (
+            <span
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "0.2rem",
+                padding: "0.15rem 0.45rem",
+                background: contact.rating >= 4 ? "rgba(22,163,74,0.10)" : contact.rating >= 3 ? "rgba(212,175,55,0.15)" : "rgba(180,83,9,0.10)",
+                border:     `1px solid ${contact.rating >= 4 ? "rgba(22,163,74,0.35)" : contact.rating >= 3 ? "rgba(212,175,55,0.35)" : "rgba(180,83,9,0.35)"}`,
+                color:      contact.rating >= 4 ? "#166534" : contact.rating >= 3 ? "var(--gold)" : "#B45309",
+                fontWeight: 700, borderRadius: "0.35rem", fontSize: "0.72rem",
+              }}
+              title={`Google rating: ${contact.rating}/5 (${contact.reviewCount ?? 0} reviews)`}
+            >
+              ★ {contact.rating.toFixed(1)}
+              {contact.reviewCount != null && (
+                <span style={{ marginLeft: "0.15rem", color: "var(--text-muted)", fontWeight: 500 }}>
+                  ({contact.reviewCount.toLocaleString()})
+                </span>
+              )}
+            </span>
+          )}
+          {contact.rating == null && contact.reviewCount == null && (contact.businessStatus === "OPERATIONAL" || contact.businessStatus === null) && (
+            <span style={{ padding: "0.15rem 0.45rem", background: "var(--bg-deep)", border: "1px dashed var(--border)", borderRadius: "0.35rem", fontSize: "0.68rem", fontStyle: "italic" }}>
+              no reviews on Google
+            </span>
+          )}
+          {contact.mapsUrl && (
+            <a
+              href={contact.mapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{ fontSize: "0.7rem", color: "var(--secondary)", textDecoration: "none", borderBottom: "1px dotted var(--border)" }}
+              title="Open in Google Maps"
+            >
+              🗺 Google Maps →
+            </a>
+          )}
         </div>
       )}
       {contact.website && (

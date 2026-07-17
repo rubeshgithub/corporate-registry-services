@@ -112,6 +112,13 @@ export type EnrichmentResult = {
   phone:          string | null;
   enrichedAt:     Date;
   enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed";
+  /* Places signal-quality — filled from getPlacesCandidates when the
+     operator picks a candidate. Optional / nullable to keep older cached
+     enrichments valid without a schema migration. */
+  rating?:         number | null;
+  reviewCount?:    number | null;
+  businessStatus?: string | null;   // OPERATIONAL / CLOSED_TEMPORARILY / CLOSED_PERMANENTLY
+  mapsUrl?:        string | null;
 };
 
 /** True if this company is stale/pending and should be re-enriched now. */
@@ -188,7 +195,14 @@ export type PlaceCandidate = {
   formattedAddress: string;
   phone:            string | null;
   website:          string | null;
-  similarity:       number;   // 0..1 against the source corp name
+  similarity:       number;              // 0..1 against the source corp name
+  /* Signal-quality fields — see the field-mask below. Cheap addition
+     (~$0.005/lookup atmosphere-tier surcharge) that lets the outreach
+     console spot dead / low-signal businesses before wasting a send. */
+  rating:           number | null;       // 1.0..5.0 or null if unrated
+  reviewCount:      number | null;       // total user ratings
+  businessStatus:   string | null;       // OPERATIONAL / CLOSED_TEMPORARILY / CLOSED_PERMANENTLY
+  mapsUrl:          string | null;       // canonical Google Maps deep-link to the business
 };
 
 /** Query Places for a business name in a city. Postal code is included in
@@ -208,7 +222,10 @@ export async function getPlacesCandidates(name: string, city: string, postalCode
       headers: {
         "Content-Type":       "application/json",
         "X-Goog-Api-Key":      key,
-        "X-Goog-FieldMask":    "places.displayName,places.websiteUri,places.internationalPhoneNumber,places.formattedAddress",
+        // Includes atmosphere-tier fields (rating, userRatingCount) — small
+        // cost bump per request (~$0.005), pays back by letting the outreach
+        // console skip dead businesses before drafting.
+        "X-Goog-FieldMask":    "places.displayName,places.websiteUri,places.internationalPhoneNumber,places.formattedAddress,places.rating,places.userRatingCount,places.businessStatus,places.googleMapsUri",
       },
       body: JSON.stringify({ textQuery: q, maxResultCount: 3 }),
     });
@@ -222,6 +239,10 @@ export async function getPlacesCandidates(name: string, city: string, postalCode
       websiteUri?: string;
       internationalPhoneNumber?: string;
       formattedAddress?: string;
+      rating?: number;
+      userRatingCount?: number;
+      businessStatus?: string;
+      googleMapsUri?: string;
     }>};
     return (data.places ?? []).map((p) => ({
       displayName:      p.displayName?.text ?? "",
@@ -229,6 +250,10 @@ export async function getPlacesCandidates(name: string, city: string, postalCode
       phone:            p.internationalPhoneNumber ?? null,
       website:          p.websiteUri ?? null,
       similarity:       nameSimilarity(name, p.displayName?.text ?? ""),
+      rating:           typeof p.rating === "number" ? p.rating : null,
+      reviewCount:      typeof p.userRatingCount === "number" ? p.userRatingCount : null,
+      businessStatus:   p.businessStatus ?? null,
+      mapsUrl:          p.googleMapsUri ?? null,
     }));
   } catch (e) {
     console.error("[places] error:", e);

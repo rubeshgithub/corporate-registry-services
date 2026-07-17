@@ -86,6 +86,32 @@ export type OutreachSuppressionDoc = {
   note?:      string;
 };
 
+/**
+ * Inbound minute-book pilot lead. Captured when a visitor searches their
+ * corporation on the /minute-books hub page and clicks "Generate Free
+ * Pilot", then enters their email. Owner (CRS) follows up manually
+ * within 24 hours to grant MinuteBook subdomain access. Distinct from
+ * paid orders (Stripe) — no charge, no auto-provisioning yet.
+ */
+export type MinuteBookPilotDoc = {
+  email:          string;                   // lowercased
+  companyName:    string;
+  registryId:     string;                   // "" if unnumbered / name-only
+  jurisdictionKey: string;                  // "ab" / "bc" / "on" / ... / "unknown"
+  entityType:     string;
+  status:         string;                   // registry status at time of request
+  requesterName?: string;                   // optional — form doesn't require
+  requesterPhone?: string;                  // optional
+  ipHash?:        string;                   // for dedupe / abuse gating
+  userAgent?:     string;
+  path:           string;                   // where the pilot was requested from
+  sessionId?:     string;                   // ties to analytics pageviews
+  createdAt:      Date;
+  ackedAt?:       Date;                     // owner marked "handed to MinuteBook" — Phase 2
+  ackedBy?:       string;
+  ackedNote?:     string;
+};
+
 export async function outreachTokens(): Promise<Collection<OutreachTokenDoc>> {
   return (await db()).collection<OutreachTokenDoc>("outreach_tokens");
 }
@@ -96,6 +122,10 @@ export async function outreachSends(): Promise<Collection<OutreachSendDoc>> {
 
 export async function outreachSuppression(): Promise<Collection<OutreachSuppressionDoc>> {
   return (await db()).collection<OutreachSuppressionDoc>("outreach_suppression");
+}
+
+export async function minuteBookPilots(): Promise<Collection<MinuteBookPilotDoc>> {
+  return (await db()).collection<MinuteBookPilotDoc>("minutebook_pilot_requests");
 }
 
 let indexesEnsured = false;
@@ -116,6 +146,11 @@ export async function ensureOutreachIndexes(): Promise<void> {
     const sup = await outreachSuppression();
     await sup.createIndex({ email: 1 }, { unique: true });
     await sup.createIndex({ addedAt: -1 });
+
+    const mb = await minuteBookPilots();
+    await mb.createIndex({ createdAt: -1 });
+    await mb.createIndex({ email: 1, createdAt: -1 });
+    await mb.createIndex({ registryId: 1 }, { sparse: true });
   } catch (e) {
     indexesEnsured = false;
     console.error("[outreach] failed to ensure indexes:", e);

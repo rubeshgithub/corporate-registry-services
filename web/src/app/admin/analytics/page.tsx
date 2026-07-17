@@ -44,6 +44,7 @@ export default async function AnalyticsPage({
         <SearchIntelligence traffic={traffic} />
         <ContentPageSearchIntent traffic={traffic} />
         <GovExitLeaks traffic={traffic} />
+        <PilotRequestsCard traffic={traffic} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -796,6 +797,78 @@ function GovExitLeaks({ traffic }: { traffic: TrafficData }) {
             </table>
           </div>
         </>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────── MinuteBook pilot requests ─────────────────── */
+
+/**
+ * Inbound MinuteBook pilot leads captured by /api/minute-book-pilot from
+ * the /minute-books landing hero. Owner (CRS) provisions the workspace
+ * manually — this card is where they see the queue.
+ */
+function PilotRequestsCard({ traffic }: { traffic: TrafficData }) {
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem", borderColor: traffic.pilotRequestsTotal > 0 ? "var(--gold)" : "var(--border)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.85rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--gold)" }}>
+            MinuteBook pilot requests
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Inbound leads from the /minute-books hero widget. Provision a workspace on minutebook.corporateregistryservices.ca and email the requester with a login link (SLA: one business day).
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: traffic.pilotRequestsTotal > 0 ? "var(--gold)" : "var(--text-muted)", fontWeight: 700 }}>
+          {traffic.pilotRequestsTotal.toLocaleString()} in window
+        </div>
+      </div>
+
+      {traffic.pilotRequestsRecent.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.5rem 0", fontStyle: "italic" }}>
+          No pilot requests in this window yet.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Received</th>
+                <th style={thStyle}>Email</th>
+                <th style={thStyle}>Company</th>
+                <th style={thStyle}>Corp #</th>
+                <th style={thStyle}>Jurisdiction</th>
+                <th style={thStyle}>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {traffic.pilotRequestsRecent.map((r, i) => (
+                <tr key={`${r.email}-${r.registryId}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+                    {new Date(r.createdAt).toLocaleString("en-CA", { timeZone: OPERATOR_TZ, month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                  </td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.8rem" }}>
+                    <a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a>
+                  </td>
+                  <td style={{ ...tdStyle, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.companyName}>
+                    {r.companyName}
+                  </td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", color: "var(--text-muted)" }}>
+                    {r.registryId ? (
+                      <a href={`/corporation/${r.registryId}`} target="_blank" rel="noreferrer" style={{ color: "var(--secondary)", textDecoration: "none", borderBottom: "1px dotted var(--border)" }}>
+                        {r.registryId}
+                      </a>
+                    ) : "—"}
+                  </td>
+                  <td style={{ ...tdStyle, fontSize: "0.78rem" }}>{r.jurisdictionKey.toUpperCase()}</td>
+                  <td style={{ ...tdStyle, fontSize: "0.72rem", color: "var(--text-muted)" }}>{r.entityType || "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

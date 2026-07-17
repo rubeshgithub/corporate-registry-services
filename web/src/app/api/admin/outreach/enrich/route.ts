@@ -66,6 +66,10 @@ export async function POST(req: Request) {
       enrichStatus:   crawled?.email ? "found"
                     : (body.picked.website || body.picked.phone) ? "phone_or_web_only"
                     : "not_found",
+      rating:         body.picked.rating         ?? null,
+      reviewCount:    body.picked.reviewCount    ?? null,
+      businessStatus: body.picked.businessStatus ?? null,
+      mapsUrl:        body.picked.mapsUrl        ?? null,
     };
     await persistPick(corpNumber, result);
     return NextResponse.json({ mode: "picked", contact: await serializeContact(result), matched: body.picked });
@@ -144,6 +148,10 @@ async function serializeContact(r: EnrichmentResult) {
     enrichedAt:     r.enrichedAt.toISOString(),
     enrichStatus:   r.enrichStatus,
     suppressed,
+    rating:         r.rating         ?? null,
+    reviewCount:    r.reviewCount    ?? null,
+    businessStatus: r.businessStatus ?? null,
+    mapsUrl:        r.mapsUrl        ?? null,
   };
 }
 

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { pageviews, clicks, searches } from "./mongo";
+import { minuteBookPilots } from "./outreach-mongo";
 
 /**
  * Aggregate paid Stripe checkout sessions into the shapes the admin
@@ -387,6 +388,18 @@ export type TrafficData = {
     topTargets:     Array<{ host: string; count: number }>;
   }>;
 
+  /** MinuteBook free-pilot lead capture from /minute-books — captured by
+   *  /api/minute-book-pilot into crs_analytics.minutebook_pilot_requests. */
+  pilotRequestsTotal:   number;
+  pilotRequestsRecent:  Array<{
+    email:           string;
+    companyName:     string;
+    registryId:      string;
+    jurisdictionKey: string;
+    entityType:      string;
+    createdAt:       string;   // ISO
+  }>;
+
   fetchedAt:        string;
 };
 
@@ -691,6 +704,23 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
   });
   const totalGovExits = govExitsByPage.reduce((sum, r) => sum + r.count, 0);
 
+  /* MinuteBook pilot requests in-window + latest 20 for the recent-list view. */
+  const mb = await minuteBookPilots();
+  const [pilotTotal, pilotRecentRaw] = await Promise.all([
+    mb.countDocuments({ createdAt: { $gte: since } }),
+    mb.find({ createdAt: { $gte: since } }, {
+      projection: { email: 1, companyName: 1, registryId: 1, jurisdictionKey: 1, entityType: 1, createdAt: 1 },
+    }).sort({ createdAt: -1 }).limit(20).toArray(),
+  ]);
+  const pilotRequestsRecent = pilotRecentRaw.map((r) => ({
+    email:           String(r.email ?? ""),
+    companyName:     String(r.companyName ?? ""),
+    registryId:      String(r.registryId ?? ""),
+    jurisdictionKey: String(r.jurisdictionKey ?? ""),
+    entityType:      String(r.entityType ?? ""),
+    createdAt:       r.createdAt instanceof Date ? r.createdAt.toISOString() : String(r.createdAt ?? ""),
+  }));
+
   return {
     windowToken:  cfg.token,
     windowLabel:  cfg.label,
@@ -710,6 +740,8 @@ export async function getTrafficData(token: WindowToken = "30d"): Promise<Traffi
     articleSearchesByPage,
     totalGovExits,
     govExitsByPage,
+    pilotRequestsTotal:  pilotTotal,
+    pilotRequestsRecent,
     fetchedAt: new Date().toISOString(),
   };
 }
@@ -734,6 +766,8 @@ function emptyTraffic(cfg: WindowConfig): TrafficData {
     articleSearchesByPage: [],
     totalGovExits:         0,
     govExitsByPage:        [],
+    pilotRequestsTotal:    0,
+    pilotRequestsRecent:   [],
     fetchedAt:             new Date().toISOString(),
   };
 }
