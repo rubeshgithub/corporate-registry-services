@@ -111,7 +111,7 @@ export type EnrichmentResult = {
   website:        string | null;
   phone:          string | null;
   enrichedAt:     Date;
-  enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed";
+  enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed" | "needs_review";
   /* Places signal-quality — filled from getPlacesCandidates when the
      operator picks a candidate. Optional / nullable to keep older cached
      enrichments valid without a schema migration. */
@@ -133,18 +133,111 @@ export function needsEnrichment(company: CompanyDoc): boolean {
   return (Date.now() - enrichedAt.getTime()) >= PLACES_FRESH_MS;
 }
 
-/* -- Name similarity gate (same as scripts/enrich_contacts.mjs) -- */
+/* ─── Name-matching gate ────────────────────────────────────────────────
+ * Previous version returned `hit / min(|a|,|b|)` which forgave extra
+ * tokens — "AL-AKKAD CONSULTING SERVICES" vs "KAD CONSULTING SERVICES"
+ * scored 0.667 (2/3) purely on shared industry suffix. Google Places
+ * fell through to KAD's website + email as AL-AKKAD's contact.
+ *
+ * New gate = three checks (all must pass):
+ *   1. Jaccard(tokens) >= 0.55  — symmetric, extra tokens hurt the score.
+ *   2. Brand-token match        — first significant token of the source
+ *                                  name must appear in the candidate's
+ *                                  tokens (with tolerant prefix handling
+ *                                  for AL-/MC-/ST-/DE-/EL-/LA-/LE-).
+ *   3. Postal FSA match         — when the source corp has a postal, the
+ *                                  candidate's formattedAddress must
+ *                                  contain the same 3-char forward
+ *                                  sortation area (T2P, T5J, etc.).
+ * Same rule set is used by the auto-pick fallback in callPlaces below. */
+
 function normTokens(s: string): string[] {
   return s.toUpperCase().replace(/[^A-Z0-9 ]/g, " ")
     .replace(/\b(LTD|LIMITED|INC|INCORPORATED|CORP|CORPORATION|CO|COMPANY|LLP|LP|ULC|PROFESSIONAL|HOLDINGS?)\b/g, "")
     .split(/\s+/).filter((t) => t.length > 1);
 }
+
+/** Symmetric name similarity — Jaccard over the normalized token sets. */
 function nameSimilarity(a: string, b: string): number {
   const ta = new Set(normTokens(a)), tb = new Set(normTokens(b));
   if (!ta.size || !tb.size) return 0;
   let hit = 0;
   for (const t of ta) if (tb.has(t)) hit++;
-  return hit / Math.min(ta.size, tb.size);
+  const unionSize = ta.size + tb.size - hit;
+  return unionSize > 0 ? hit / unionSize : 0;
+}
+
+/** Prefixes we strip when computing the "brand" token so that "AL-AKKAD"
+ *  → brand "AKKAD", "MCDONALD" → brand "DONALD", "DELUCA" → "LUCA", etc.
+ *  Only applied to the FIRST token because these prefixes are article- or
+ *  patronymic-style and don't reliably survive re-tokenization on the
+ *  Google side (Places often normalizes them out or joins them). */
+const BRAND_PREFIX_RE = /^(AL|EL|LA|LE|LES|LOS|DE|DEL|DA|DAS|DI|DO|MC|MAC|ST|SAINTE?)$/;
+
+/** Return the first "distinctive" token of a name — the brand identifier
+ *  the SERP algorithm actually needs to see in a Places result to consider
+ *  them the same business. Strips corporate suffixes AND leading
+ *  article-style prefixes. Returns "" for numbered or all-suffix names. */
+function brandToken(name: string): string {
+  const tokens = normTokens(name);
+  if (!tokens.length) return "";
+  // Strip the leading prefix by splitting on the hyphen/space and picking
+  // the tail if the head matches BRAND_PREFIX_RE. Handles both "AL-AKKAD"
+  // (already split by normTokens into ["AL","AKKAD"]) and "AL AKKAD".
+  const head = tokens[0];
+  if (BRAND_PREFIX_RE.test(head) && tokens.length > 1) return tokens[1];
+  return head;
+}
+
+/** True if the candidate's tokens contain the source corp's brand token,
+ *  OR its brand token contains the source's (accommodates "AKKAD" ↔
+ *  "AKKAD-HAJDU" and similar sub-brand variants). */
+function brandTokenMatches(sourceName: string, candidateName: string): boolean {
+  const source = brandToken(sourceName);
+  if (!source) return true;                       // no brand to check — don't reject
+  const candTokens = new Set(normTokens(candidateName));
+  const candBrand  = brandToken(candidateName);
+  return candTokens.has(source) || (!!candBrand && (candBrand.includes(source) || source.includes(candBrand)));
+}
+
+/** Match a Canadian FSA (Forward Sortation Area — 3-char postal code
+ *  prefix, e.g. "T2P" for downtown Calgary). Returns "" when no FSA is
+ *  detectable. */
+function fsa(postal: string | undefined | null): string {
+  if (!postal) return "";
+  const m = postal.replace(/\s+/g, "").toUpperCase().match(/^([A-Z]\d[A-Z])/);
+  return m ? m[1] : "";
+}
+
+/** True if either (a) we have no source postal to check against, or
+ *  (b) the candidate's formattedAddress contains the same FSA. */
+function postalMatches(sourcePostal: string | undefined, candidateAddress: string): boolean {
+  const src = fsa(sourcePostal);
+  if (!src) return true;                          // don't reject when we can't check
+  const cand = candidateAddress.toUpperCase().replace(/\s+/g, "");
+  // Match the exact 3-char FSA as a whole token — bounded by non-alphanumeric
+  // or string edges — so "T2P" doesn't match "T2P0X6" only via a partial
+  // substring elsewhere in the address.
+  return new RegExp(`(?:^|[^A-Z0-9])${src}(?:[^A-Z0-9]|$|\\d[A-Z]\\d)`).test(cand);
+}
+
+/** Match threshold + composite gate. All three must pass for an auto-pick
+ *  candidate to be accepted. The manual "picked" flow in the outreach API
+ *  still lets the operator override this via visual confirmation, but the
+ *  auto-pick backfill / delta paths use this as their hard rule. */
+const MIN_JACCARD = 0.55;
+
+function candidatePassesGate(
+  sourceName:      string,
+  sourcePostal:    string | undefined,
+  candidateName:   string,
+  candidateAddress: string,
+): { pass: boolean; reason?: string } {
+  const j = nameSimilarity(sourceName, candidateName);
+  if (j < MIN_JACCARD)                        return { pass: false, reason: `jaccard ${j.toFixed(2)} < ${MIN_JACCARD}` };
+  if (!brandTokenMatches(sourceName, candidateName)) return { pass: false, reason: `brand "${brandToken(sourceName)}" missing from candidate tokens` };
+  if (!postalMatches(sourcePostal, candidateAddress)) return { pass: false, reason: `FSA "${fsa(sourcePostal)}" not in candidate address` };
+  return { pass: true };
 }
 
 /* -- Email extraction from a fetched page -- */
@@ -261,20 +354,22 @@ export async function getPlacesCandidates(name: string, city: string, postalCode
   }
 }
 
-/** Legacy auto-pick wrapper — first candidate with similarity ≥ 0.5.
- *  Used by the profile-page and bulk-enrichment paths where there's no
- *  human to disambiguate. */
+/** Auto-pick wrapper — first candidate that passes the composite gate
+ *  (Jaccard ≥ 0.55 + brand-token match + postal FSA match). Used by the
+ *  profile-page and bulk-enrichment paths where there's no human to
+ *  disambiguate. The manual /admin/outreach flow still lets the operator
+ *  override with visual confirmation. */
 async function callPlaces(name: string, city: string, postalCode?: string): Promise<PlacesHit | null> {
   const candidates = await getPlacesCandidates(name, city, postalCode);
   for (const c of candidates) {
-    if (c.similarity >= 0.5) {
-      return {
-        website:     c.website ?? "",
-        phone:       c.phone ?? "",
-        matchedName: c.displayName,
-        similarity:  c.similarity,
-      };
-    }
+    const gate = candidatePassesGate(name, postalCode, c.displayName, c.formattedAddress);
+    if (!gate.pass) continue;
+    return {
+      website:     c.website ?? "",
+      phone:       c.phone ?? "",
+      matchedName: c.displayName,
+      similarity:  c.similarity,
+    };
   }
   return null;
 }

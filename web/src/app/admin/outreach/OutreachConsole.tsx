@@ -83,7 +83,7 @@ type EnrichmentPayload = {
   website:        string | null;
   phone:          string | null;
   enrichedAt:     string;
-  enrichStatus:   "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "pending";
+  enrichStatus:   "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "pending" | "needs_review";
   /** True when this email is on the outreach suppression list —
    *  operator should NOT send further outreach to it. */
   suppressed?:    boolean;
@@ -973,7 +973,7 @@ function ContactPanel({
       )}
 
       {enrich.mode === "resolved" && (
-        <ResolvedContact contact={enrich.contact} note={enrich.note} onFillTo={onFillTo} />
+        <ResolvedContact contact={enrich.contact} note={enrich.note} onFillTo={onFillTo} corpStatus={pick.status} />
       )}
 
       {enrich.mode === "error" && (
@@ -1062,17 +1062,51 @@ function CandidatePicker({
   );
 }
 
+/** Corp statuses where the registry itself considers the corporation
+ *  defunct or on the way out. A CLOSED_PERMANENTLY Places match for any
+ *  of these is a POSITIVE signal — it corroborates that this corp really
+ *  did stop trading, which makes them a good revival-service lead. */
+const DEFUNCT_REGISTRY_STATUSES = new Set([
+  "Dissolved/Struck Off",
+  "Liable For Dissolution",
+  "Intent To Dissolve",
+]);
+
 /** Resolved (picked) contact — final email/phone/website with copy buttons. */
 function ResolvedContact({
-  contact, note, onFillTo,
+  contact, note, onFillTo, corpStatus,
 }: {
-  contact:  EnrichmentPayload;
-  note?:    string;
-  onFillTo: (email: string) => void;
+  contact:    EnrichmentPayload;
+  note?:      string;
+  onFillTo:   (email: string) => void;
+  corpStatus?: string;
 }) {
   const anyValue = contact.website || contact.phone || contact.email;
+  const isDefunctCorp = !!corpStatus && DEFUNCT_REGISTRY_STATUSES.has(corpStatus);
   return (
     <>
+      {contact.enrichStatus === "needs_review" && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(212,175,55,0.14)",
+            border:       "1px solid rgba(212,175,55,0.55)",
+            color:        "var(--gold)",
+            fontSize:     "0.78rem",
+            fontWeight:   700,
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+            display:      "flex",
+            gap:          "0.4rem",
+            alignItems:   "flex-start",
+          }}
+        >
+          ⚠ <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Flagged for review — this contact is shared with another corporation on our list. Verify it belongs to <em>this</em> corp before sending outreach, or click ↻ Fresh search to re-enrich.
+          </span>
+        </div>
+      )}
       {contact.suppressed && contact.email && (
         <div
           role="status"
@@ -1095,7 +1129,13 @@ function ResolvedContact({
           </span>
         </div>
       )}
-      {contact.businessStatus === "CLOSED_PERMANENTLY" && (
+      {/* CLOSED_PERMANENTLY reads differently depending on the corp's
+          own registry status. For an ACTIVE corp we assume the Places
+          entry is stale or a false-positive match → skip. For a
+          Dissolved / Liable / Intent-To-Dissolve corp, it CORROBORATES
+          the registry — this is a genuine revival lead where the former
+          director may still be reachable via the historical website. */}
+      {contact.businessStatus === "CLOSED_PERMANENTLY" && !isDefunctCorp && (
         <div
           role="status"
           style={{
@@ -1113,7 +1153,29 @@ function ResolvedContact({
           }}
         >
           ⚠ <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
-            Google marks this business CLOSED PERMANENTLY. Skip outreach — email likely stale.
+            Google marks this business CLOSED PERMANENTLY, but the registry still lists it as active. Likely a stale match — verify before emailing.
+          </span>
+        </div>
+      )}
+      {contact.businessStatus === "CLOSED_PERMANENTLY" && isDefunctCorp && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(212,175,55,0.14)",
+            border:       "1px solid rgba(212,175,55,0.55)",
+            color:        "var(--gold)",
+            fontSize:     "0.78rem",
+            fontWeight:   700,
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+            display:      "flex",
+            gap:          "0.4rem",
+            alignItems:   "flex-start",
+          }}
+        >
+          🎯 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Good revival lead — Google confirms the business is closed, matching the registry status. The former director may still be reachable via the historical website / email; pitch a revival filing.
           </span>
         </div>
       )}

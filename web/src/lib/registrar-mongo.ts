@@ -67,7 +67,13 @@ export type CompanyDoc = {
     website:        string | null;
     phone:          string | null;
     enrichedAt:     Date | null;
-    enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed";
+    enrichStatus:   "pending" | "found" | "phone_or_web_only" | "not_found" | "skip_numbered" | "bounced" | "unsubscribed"
+                    /** Automated remediation sweep flagged this enrichment as
+                     *  likely a false-positive Places match (typically because
+                     *  the same email/phone is shared by 2+ corps). Contact
+                     *  fields are retained but the operator should verify or
+                     *  clear before using this record for outreach. */
+                    | "needs_review";
     /** Set by the unsubscribe flow — denormalized from the source-of-
      *  truth outreach_suppression collection so the /admin/companies
      *  filter can badge without a join. */

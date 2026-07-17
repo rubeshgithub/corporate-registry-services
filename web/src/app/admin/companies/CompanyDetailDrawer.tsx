@@ -330,11 +330,32 @@ function StatusBlock({ company }: { company: CompanyDetail }) {
 
 /* ── Contact ────────────────────────────────────────────────────── */
 
+/** Registry statuses where the corp is defunct or on the way out — a
+ *  CLOSED_PERMANENTLY Places match on one of these is a POSITIVE
+ *  revival-lead signal, not a "skip outreach" warning. */
+const DEFUNCT_REGISTRY_STATUSES_DRAWER = new Set([
+  "Dissolved/Struck Off",
+  "Liable For Dissolution",
+  "Intent To Dissolve",
+]);
+
 function ContactBlock({ company }: { company: CompanyDetail }) {
   const c = company.contact;
+  const isDefunct = DEFUNCT_REGISTRY_STATUSES_DRAWER.has(company.status.derived);
   return (
     <section style={sectionStyle}>
       <SectionHeader>Contact + enrichment</SectionHeader>
+      {c.enrichStatus === "needs_review" && (
+        <div style={{
+          padding: "0.55rem 0.75rem", background: "rgba(212,175,55,0.14)", border: "1px solid rgba(212,175,55,0.55)",
+          color: "var(--gold)", fontSize: "0.78rem", fontWeight: 700, borderRadius: "0.35rem", marginBottom: "0.65rem",
+          display: "flex", gap: "0.4rem", alignItems: "flex-start",
+        }}>
+          ⚠ <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Flagged for review — this contact is shared with another corporation on our list. Re-enrich to confirm.
+          </span>
+        </div>
+      )}
       {c.suppressed && (
         <div style={{
           padding: "0.55rem 0.75rem", background: "rgba(180,83,9,0.10)", border: "1px solid rgba(180,83,9,0.45)",
@@ -344,14 +365,27 @@ function ContactBlock({ company }: { company: CompanyDetail }) {
           🚫 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>Unsubscribed — do not email. Send API will block this address.</span>
         </div>
       )}
-      {c.businessStatus === "CLOSED_PERMANENTLY" && (
+      {c.businessStatus === "CLOSED_PERMANENTLY" && !isDefunct && (
         <div style={{
           padding: "0.55rem 0.75rem", background: "rgba(220,38,38,0.10)", border: "1px solid rgba(220,38,38,0.45)",
           color: "#B91C1C", fontSize: "0.78rem", fontWeight: 700, borderRadius: "0.35rem", marginBottom: "0.65rem",
           display: "flex", gap: "0.4rem", alignItems: "flex-start",
         }}>
           <AlertTriangle size={14} style={{ marginTop: "0.1rem", flexShrink: 0 }} />
-          <span style={{ fontWeight: 600, lineHeight: 1.4 }}>Google marks this business CLOSED PERMANENTLY. Skip outreach.</span>
+          <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Google marks this business CLOSED PERMANENTLY, but the registry still lists it as {company.status.derived || "active"}. Likely a stale match — verify before emailing.
+          </span>
+        </div>
+      )}
+      {c.businessStatus === "CLOSED_PERMANENTLY" && isDefunct && (
+        <div style={{
+          padding: "0.55rem 0.75rem", background: "rgba(212,175,55,0.14)", border: "1px solid rgba(212,175,55,0.55)",
+          color: "var(--gold)", fontSize: "0.78rem", fontWeight: 700, borderRadius: "0.35rem", marginBottom: "0.65rem",
+          display: "flex", gap: "0.4rem", alignItems: "flex-start",
+        }}>
+          🎯 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Revival lead — Google confirms the business is closed, matching the registry status. Former director may still be reachable via the historical website; pitch a revival filing.
+          </span>
         </div>
       )}
 
