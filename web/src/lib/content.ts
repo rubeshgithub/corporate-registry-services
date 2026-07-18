@@ -17,6 +17,8 @@ export const SECTIONS = [
   "profile-reports",
   "articles",
   "guides",
+  "not-for-profit",
+  "nfp-grants",
 ] as const;
 
 export type Section = (typeof SECTIONS)[number];
@@ -29,6 +31,8 @@ export const SECTION_LABELS: Record<Section, string> = {
   "profile-reports": "Corporate Profile Reports",
   "articles":        "Articles",
   "guides":          "Guides",
+  "not-for-profit":  "Not-for-Profit Incorporation",
+  "nfp-grants":      "Grants for Not-for-Profits",
 };
 
 export type ContentPage = {
@@ -41,7 +45,14 @@ export type ContentPage = {
   widgetEyebrow?: string;
   widgetTitle?:   string;
   widgetSub?:     string;
-  faq?:           FaqItem[];  // parsed from frontmatter `faq: [{q, a}]`
+  faq?:           FaqItem[];  // parsed from frontmatter `faq: [{q, a}]` OR auto-extracted from body H3s
+  /** From frontmatter `lastUpdated`. Rendered visibly as "Reviewed <Month YYYY>"
+   *  on the NFP cluster pages per the source-content spec — the pages are
+   *  fact-checked against government sources and freshness is a trust signal. */
+  lastUpdated?:   string;
+  /** Optional jurisdiction hint from frontmatter — used by the NFP cluster
+   *  to render a small chip on the page. */
+  jurisdiction?:  string;
 };
 
 /** Coerce a parsed frontmatter value into a FaqItem[] or undefined. Silently
@@ -97,6 +108,47 @@ function stripLeadingH1(md: string): string {
   return md.replace(/^\s*#\s+[^\n]*\n+/, "");
 }
 
+/**
+ * Extract a FAQ list from the body by parsing the "## Frequently asked
+ * questions" section — each H3 becomes a question, its following
+ * paragraph the answer. Used by the NFP cluster pages so authors can
+ * write FAQs in prose (with markdown formatting, links, etc.) instead
+ * of stuffing them into frontmatter YAML.
+ *
+ * Frontmatter `faq: [{q, a}]` still wins when present — this only runs
+ * when frontmatter FAQ is absent. Answers are trimmed of markdown link
+ * syntax before being fed into FAQPage JSON-LD (Google prefers plain
+ * text in schema), while the visible body keeps full formatting.
+ */
+function extractFaqFromBody(md: string): FaqItem[] | undefined {
+  // Find the FAQ heading (case-insensitive, either "Frequently asked
+  // questions" or "FAQ"). Capture everything from there until the next H2
+  // or end of document.
+  const match = md.match(/^##\s+(?:Frequently asked questions|FAQ)\s*\n([\s\S]*?)(?=^##\s|\z)/im);
+  if (!match) return undefined;
+  const section = match[1];
+
+  // Split on H3s — each H3 is a question. The regex captures the H3 text
+  // and everything up to the next H3 (or end of section).
+  const items: FaqItem[] = [];
+  const qRe = /^###\s+([^\n]+)\n+([\s\S]*?)(?=^###\s|\z)/gm;
+  let m: RegExpExecArray | null;
+  while ((m = qRe.exec(section)) !== null) {
+    const q = m[1].trim();
+    // Take the first paragraph of the answer for the schema — collapse
+    // links, strip markdown syntax, single-line. This matches Google's
+    // preference for plain-text FAQ answers.
+    const rawAnswer = m[2].trim().split(/\n\s*\n/)[0] ?? "";
+    const a = rawAnswer
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")   // links → text
+      .replace(/[*_`>]/g, "")                     // strip emphasis + code marks
+      .replace(/\s+/g, " ")
+      .trim();
+    if (q && a) items.push({ q, a });
+  }
+  return items.length > 0 ? items : undefined;
+}
+
 export function listSection(section: Section): ContentMeta[] {
   const dir = path.join(CONTENT_DIR, section);
   if (!fs.existsSync(dir)) return [];
@@ -104,6 +156,9 @@ export function listSection(section: Section): ContentMeta[] {
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".md"))
+    // Skip _index.md — it holds pillar (section-index) content, not a
+    // regular routed slug. Handled separately via getPillar().
+    .filter((f) => !f.startsWith("_"))
     .map((filename) => {
       const raw = fs.readFileSync(path.join(dir, filename), "utf8");
       const { data } = matter(raw);
@@ -114,6 +169,36 @@ export function listSection(section: Section): ContentMeta[] {
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** Read the pillar (section-index) content from `_index.md` if present.
+ *  Returns null for sections that don't ship a pillar file — the section
+ *  page renders the standard card grid in that case. */
+export async function getPillar(section: Section): Promise<ContentPage | null> {
+  const dir = path.join(CONTENT_DIR, section);
+  const file = path.join(dir, "_index.md");
+  if (!fs.existsSync(file)) return null;
+
+  const raw = fs.readFileSync(file, "utf8");
+  const { data, content } = matter(raw);
+  const rebranded = stripLeadingH1(rebrand(content));
+  const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
+  const contentHtml = processed.toString();
+
+  const description = ((data.description as string | undefined) ?? (data.metaDescription as string | undefined))?.trim()
+    || firstParagraphPlain(content);
+
+  return {
+    section,
+    slug: "",   // pillar has no slug — it's the section index
+    title: rebrand((data.title as string) ?? section),
+    h1: typeof data.h1 === "string" ? rebrand(data.h1) : undefined,
+    description,
+    contentHtml,
+    faq:          parseFaq(data.faq) ?? extractFaqFromBody(content),
+    lastUpdated:  typeof data.lastUpdated === "string" ? data.lastUpdated : undefined,
+    jurisdiction: typeof data.jurisdiction === "string" ? data.jurisdiction : undefined,
+  };
 }
 
 export function listAllPages(): ContentMeta[] {
@@ -140,8 +225,10 @@ export async function getPage(
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
   const contentHtml = processed.toString();
 
+  // NFP cluster uses `metaDescription` in frontmatter; existing content uses
+  // `description`. Accept either — the field feeds the same <meta> tag.
   const description =
-    (data.description as string | undefined)?.trim() ||
+    ((data.description as string | undefined)?.trim() || (data.metaDescription as string | undefined)?.trim()) ||
     firstParagraphPlain(content);
 
   return {
@@ -154,6 +241,11 @@ export async function getPage(
     widgetEyebrow: typeof data.widgetEyebrow === "string" ? data.widgetEyebrow : undefined,
     widgetTitle:   typeof data.widgetTitle   === "string" ? data.widgetTitle   : undefined,
     widgetSub:     typeof data.widgetSub     === "string" ? data.widgetSub     : undefined,
-    faq:           parseFaq(data.faq),
+    // Frontmatter `faq` wins when present. Otherwise auto-extract from a
+    // "## Frequently asked questions" body section — the NFP cluster
+    // writes FAQs in prose rather than YAML.
+    faq:           parseFaq(data.faq) ?? extractFaqFromBody(content),
+    lastUpdated:   typeof data.lastUpdated === "string" ? data.lastUpdated : undefined,
+    jurisdiction:  typeof data.jurisdiction === "string" ? data.jurisdiction : undefined,
   };
 }

@@ -112,6 +112,63 @@ export type MinuteBookPilotDoc = {
   ackedNote?:     string;
 };
 
+/**
+ * Inbound NFP consultation booking. Captured when a visitor completes the
+ * multi-step form at /not-for-profit/book-free-consultation. Owner follows
+ * up manually within one business day. No charge — this is a lead form,
+ * not a paid order.
+ *
+ * The payload is intentionally denormalised: names, addresses, and roles
+ * are stored as-typed so the specialist has the exact form data available
+ * without stitching from other collections.
+ */
+export type NfpConsultationDoc = {
+  contact: {
+    fullName:      string;
+    email:         string;
+    phone:         string;
+    contactMethod: string;
+    timeWindow:    string;
+  };
+  organization: {
+    jurisdictionKey:   string;
+    jurisdictionLabel: string;
+    name1:             string;
+    name2:             string;
+    name3:             string;
+    office: {
+      street: string; city: string; province: string; postal: string;
+    };
+    nature:      string;
+    natureOther?: string;
+    purpose:     string;
+    serves:      string;
+  };
+  board: Array<{
+    fullName: string;
+    role:     string;
+    email:    string;
+    phone?:   string;
+    address:  { street: string; city: string; province: string; postal: string };
+    ageOk:    boolean;
+  }>;
+  activities: {
+    donations:     string;
+    charity:       string;
+    eventsPerYear: string;
+    annualRevenue: string;
+    grants:        string;
+  };
+  notes?:      string;
+  sourcePath:  string;
+  ipHash?:     string;
+  userAgent?:  string;
+  createdAt:   Date;
+  ackedAt?:    Date;
+  ackedBy?:    string;
+  ackedNote?:  string;
+};
+
 export async function outreachTokens(): Promise<Collection<OutreachTokenDoc>> {
   return (await db()).collection<OutreachTokenDoc>("outreach_tokens");
 }
@@ -126,6 +183,10 @@ export async function outreachSuppression(): Promise<Collection<OutreachSuppress
 
 export async function minuteBookPilots(): Promise<Collection<MinuteBookPilotDoc>> {
   return (await db()).collection<MinuteBookPilotDoc>("minutebook_pilot_requests");
+}
+
+export async function nfpConsultations(): Promise<Collection<NfpConsultationDoc>> {
+  return (await db()).collection<NfpConsultationDoc>("nfp_consultation_requests");
 }
 
 let indexesEnsured = false;
@@ -151,6 +212,10 @@ export async function ensureOutreachIndexes(): Promise<void> {
     await mb.createIndex({ createdAt: -1 });
     await mb.createIndex({ email: 1, createdAt: -1 });
     await mb.createIndex({ registryId: 1 }, { sparse: true });
+
+    const nfp = await nfpConsultations();
+    await nfp.createIndex({ createdAt: -1 });
+    await nfp.createIndex({ "contact.email": 1, createdAt: -1 });
   } catch (e) {
     indexesEnsured = false;
     console.error("[outreach] failed to ensure indexes:", e);

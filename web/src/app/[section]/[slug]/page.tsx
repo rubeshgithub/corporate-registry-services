@@ -7,6 +7,8 @@ import { inferServiceContext, wizardHref } from "@/lib/service-context";
 import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
+import NfpConsultationCTA from "@/components/NfpConsultationCTA";
+import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 
 type Params = { section: string; slug: string };
@@ -127,7 +129,23 @@ export default async function ContentPage({
             {page.h1 ?? page.title}
           </h1>
 
-          <div className="gold-line" style={{ marginBottom: "2rem" }} />
+          {page.lastUpdated && (
+            <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", marginTop: "-0.75rem", marginBottom: "1.5rem" }}>
+              {formatReviewedDate(page.lastUpdated)}
+            </div>
+          )}
+
+          <div className="gold-line" style={{ marginBottom: "1rem" }} />
+
+          {/* NFP consultation CTA — replaces the paid-order strip for the
+              two not-for-profit clusters, where the primary action is a free
+              specialist call, not a checkout. Sits at the top so the
+              consultation isn't buried under 2,500 words of jurisdictional
+              detail. Excludes the booking form page itself. */}
+          {(page.section === "not-for-profit" || page.section === "nfp-grants") &&
+           page.slug !== "book-free-consultation" && (
+            <NfpConsultationCTA src={`article-${page.section}-${page.slug}`} />
+          )}
 
           {/* Inline lookup + order widget — for the three lookup-first
               services (annual return, profile report, good standing), give
