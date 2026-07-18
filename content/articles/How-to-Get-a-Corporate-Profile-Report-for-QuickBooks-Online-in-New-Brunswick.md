@@ -1,12 +1,15 @@
-﻿---
-title: "How to Get a Corporate Profile Report for QuickBooks Online in New Brunswick"
-slug: "How-to-Get-a-Corporate-Profile-Report-for-QuickBooks-Online-in-New-Brunswick"
+---
+title: "QuickBooks Profile Report — NB · $49 all-in + GST"
+h1: "Corporate Profile Report for QuickBooks (NB)"
+slug: "how-to-get-a-corporate-profile-report-for-quickbooks-online-in-new-brunswick"
 section: "articles"
+description: "Get the New Brunswick Corporate Profile Report Intuit accepts for FINTRAC, payroll, and QuickBooks Payments verification. $49 all-in + GST, PDF within one business hour."
+widgetEyebrow: "For QuickBooks Online verification"
+widgetTitle: "Get the Corporate Profile Report QuickBooks accepts"
+widgetSub: "The exact PDF Intuit needs for FINTRAC, payroll, and QuickBooks Payments verification. Delivered by email in one business hour — upload directly to your QuickBooks Online account."
 ---
 
-# How to Get a Corporate Profile Report for QuickBooks Online in New Brunswick
-
-Running a small business or managing entrepreneurial ventures in New Brunswick comes with administrative tasks, especially when setting up and maintaining services like QuickBooks Online. One critical requirement for QuickBooks Online — particularly for payroll, FINTRAC verification, or enabling payments — is a Corporate Profile Report. CRS Canada makes it fast, reliable, and affordable for New Brunswick-based businesses to obtain this document.
+QuickBooks Online asks for a Corporate Profile Report when you're setting up payroll, enabling QuickBooks Payments, or completing FINTRAC verification. Intuit needs a current, government-issued record proving your New Brunswick corporation is real and active. This page will get you that PDF in one business hour — no NB Corporate Registry visit, no mail-in copies.
 
 ## Why You Need a Corporate Profile Report for QuickBooks Online
 
@@ -26,18 +29,17 @@ QuickBooks Online requires a Corporate Profile Report to verify your business an
 ## Why Choose CRS Canada
 
 - **Affordable pricing** including government fees
-- **Lightning-fast delivery** — PDF in 3 hours
+- **Lightning-fast delivery** — PDF in one business hour
 - **Hassle-free** ordering on a user-friendly website
 - **Trusted service** with province-specific expertise
 
 ## How to Order
 
-1. Navigate to the New Brunswick Corporate Profile Report page
-2. Select the report for QuickBooks Online verification
-3. Provide your corporation's name or incorporation number
-4. Complete payment securely
-5. Receive your PDF within 3 hours
-6. Upload to QuickBooks Online to complete verification
+1. **[Search your New Brunswick corporation in the card at the top of this page](#crs-inline-lookup)** — company name, Corporate Access Number, or Business Number all work
+2. Pick your corporation from the results
+3. Enter your name, email, and phone; pay $49 + GST securely via Stripe
+4. Receive the government-issued PDF by email within one business hour
+5. Upload it in QuickBooks Online to complete FINTRAC / payroll / Payments verification
 
 ## Common Use Cases
 
