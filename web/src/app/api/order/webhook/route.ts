@@ -297,6 +297,126 @@ async function pushToMinuteBook(session: Stripe.Checkout.Session): Promise<void>
   }
 }
 
+/** Format the service-specific details block for corp-doc fulfillment
+ *  emails (share-certificate, director-resolution, shareholder-resolution,
+ *  bylaws). Progressive-disclosure sub-forms serialize into a single
+ *  details JSON — this reads whatever fields are present for the specific
+ *  resolution / flavour and formats them for the ops mailbox. */
+function formatCorpDocDetails(service: string, d: Record<string, unknown> | null): string {
+  if (!d) return "(no structured details payload)";
+
+  if (service === "share-certificate") {
+    return [
+      `Shareholder:              ${d.shareholderName ?? "—"}`,
+      `Address:                  ${d.shareholderAddress ?? "—"}`,
+      `Class:                    ${d.shareClass ?? "—"}`,
+      `Number of shares:         ${d.numShares ?? "—"}`,
+      `Issue date:               ${d.issueDate ?? "—"}`,
+      `Certificates to prepare:  ${d.numCertificates ?? 1}`,
+      `Signing officer:          ${d.signingOfficerName ?? "—"} (${d.signingOfficerRole ?? "—"})`,
+      `Consideration ($ paid):   ${d.consideration != null ? `$${d.consideration}` : "not provided — email customer if needed for the securities register"}`,
+      `Transfer restrictions:    ${d.transferRestrictions === "custom" ? "CUSTOM (see notes / customRestrictionText)" : "standard"}`,
+      (d.customRestrictionText as string)?.trim() ? `Custom restrictions:      ${(d.customRestrictionText as string).trim()}` : "",
+      (d.notes as string)?.trim() ? `Notes:                    ${(d.notes as string).trim()}` : "",
+    ].filter(Boolean).join("\n");
+  }
+
+  if (service === "director-resolution") {
+    const t = String(d.resolutionType ?? "");
+    const lines: string[] = [
+      `Resolution type:   ${t || "—"}`,
+      `Effective date:    ${d.effectiveDate ?? "—"}`,
+      `Directors:         ${d.directorsNames ?? "—"}`,
+    ];
+    if (t === "annual-package") {
+      lines.push(`Fiscal year end:   ${d.fiscalYearEnd ?? "—"}`);
+      lines.push(`Officer changes?:  ${d.hasOfficerChanges ? "YES" : "no"}`);
+      lines.push(`Dividends this yr: ${d.hasDividendsThisYear ? "YES" : "no"}`);
+    } else if (t === "share-issuance") {
+      lines.push(`New shareholder:   ${d.newShareholderName ?? "—"}`);
+      lines.push(`Class + count:     ${d.shareIssueClass ?? "—"} · ${d.shareIssueCount ?? "—"}`);
+      lines.push(`Consideration:     $${d.shareIssueConsideration ?? "—"}`);
+    } else if (t === "officer-appointment") {
+      lines.push(`Officer:           ${d.officerName ?? "—"} (${d.officerPosition ?? "—"})`);
+      lines.push(`Action:            ${d.officerAction === "remove" ? "REMOVE" : "APPOINT"}`);
+    } else if (t === "banking") {
+      lines.push(`Bank:              ${d.bankName ?? "—"}`);
+      lines.push(`Purpose:           ${d.bankPurpose ?? "—"}`);
+      lines.push(`Signing officers:  ${d.bankSigningOfficers ?? "—"}`);
+      lines.push(`Signature rule:    ${d.bankSignatureRule ?? "—"}`);
+    } else if (t === "dividend") {
+      lines.push(`Class:             ${d.dividendShareClass ?? "—"}`);
+      lines.push(`Per share:         $${d.dividendPerShare ?? "—"}`);
+      lines.push(`Record date:       ${d.dividendRecordDate ?? "—"}`);
+      lines.push(`Payment date:      ${d.dividendPaymentDate ?? "—"}`);
+    } else if (t === "other") {
+      lines.push(`Description:       ${d.otherDescription ?? "—"}`);
+    }
+    if ((d.notes as string)?.trim()) lines.push(`Notes:             ${(d.notes as string).trim()}`);
+    return lines.join("\n");
+  }
+
+  if (service === "shareholder-resolution") {
+    const t = String(d.resolutionType ?? "");
+    const lines: string[] = [
+      `Resolution type:   ${t || "—"}`,
+      `Ordinary/Special:  ${d.isSpecial ? "SPECIAL (two-thirds threshold)" : "Ordinary (simple majority)"}`,
+      `Effective date:    ${d.effectiveDate ?? "—"}`,
+      `Shareholders:      ${d.shareholdersNames ?? "—"}`,
+    ];
+    if (t === "annual-package") {
+      lines.push(`Fiscal year end:   ${d.fiscalYearEnd ?? "—"}`);
+      lines.push(`Directors elected: ${d.directorsBeingElected ?? "—"}`);
+      lines.push(`Waive auditor?:    ${d.waiveAuditor !== false ? "YES" : "no"}`);
+      lines.push(`Approve financials?: ${d.approveFinancials !== false ? "YES" : "no"}`);
+    } else if (t === "article-amendment") {
+      lines.push(`Nature:            ${d.amendmentNature ?? "—"}`);
+      lines.push(`Detail:            ${d.amendmentDetail ?? "—"}`);
+    } else if (t === "bylaw-confirmation") {
+      lines.push(`By-law:            ${d.bylawNumber ?? "—"}`);
+      lines.push(`Enacted date:      ${d.bylawEnactedDate ?? "—"}`);
+    } else if (t === "fundamental-change") {
+      lines.push(`Type:              ${d.fundamentalChangeType ?? "—"}`);
+      lines.push(`Detail:            ${d.fundamentalChangeDetail ?? "—"}`);
+    } else if (t === "other") {
+      lines.push(`Description:       ${d.otherDescription ?? "—"}`);
+    }
+    if ((d.notes as string)?.trim()) lines.push(`Notes:             ${(d.notes as string).trim()}`);
+    return lines.join("\n");
+  }
+
+  if (service === "bylaws") {
+    const f = String(d.flavour ?? "");
+    const lines: string[] = [
+      `Flavour:                  ${f === "new-standard" ? "NEW · Standard By-Law No. 1" :
+                                    f === "new-custom"   ? "NEW · CUSTOM (email customer to gather provisions before drafting)" :
+                                    f === "amendment"    ? "AMENDMENT to existing by-law" : "—"}`,
+    ];
+    if (f === "new-standard" || f === "new-custom") {
+      lines.push(`Officer positions:        ${d.officerPositions ?? "—"}`);
+      lines.push(`Fiscal year end:          ${d.fiscalYearEnd ?? "—"}`);
+      lines.push(`Director count range:     ${d.minDirectors ?? "—"}–${d.maxDirectors ?? "—"}`);
+      lines.push(`Signing authority:        ${d.signingAuthority ?? "—"}`);
+      lines.push(`Corporate seal:           ${d.usesCorporateSeal ? "YES" : "no"}`);
+      lines.push(`Transfer restrictions:    ${d.transferRestrictions === "custom" ? "CUSTOM (see notes)" : "standard"}`);
+      if (f === "new-custom" && (d.customProvisionsNote as string)?.trim()) {
+        lines.push("");
+        lines.push(`CUSTOM PROVISIONS (customer will be emailed for full detail):`);
+        lines.push(`  ${(d.customProvisionsNote as string).trim()}`);
+      }
+    } else if (f === "amendment") {
+      lines.push(`By-law being amended:     ${d.bylawNumber ?? "—"}`);
+      lines.push(`Effective date:           ${d.effectiveDate ?? "—"}`);
+      lines.push(`Amendment detail:`);
+      lines.push(`  ${(d.amendmentDetail as string)?.trim() ?? "—"}`);
+    }
+    if ((d.notes as string)?.trim()) lines.push(`Notes:                    ${(d.notes as string).trim()}`);
+    return lines.join("\n");
+  }
+
+  return JSON.stringify(d, null, 2);
+}
+
 /** Format the service-specific details block for the fulfillment email. */
 function formatChangeDetails(service: string, d: Record<string, unknown> | null): string {
   if (!d) return "(no structured details payload)";
@@ -770,6 +890,104 @@ support@corporateregistryservices.ca
         Destination: { ToAddresses: [customerEmail] },
         Message: {
           Subject: { Data: `Payment received — your ${label} is on the way` },
+          Body:    { Text: { Data: customerText } },
+        },
+      }));
+    }
+    return;
+  }
+
+  /* Corp-doc family — document preparation services (not gov filings).
+     share-certificate, director-resolution, shareholder-resolution, bylaws.
+     Customer email language reflects "prepare" not "file" and the
+     1-business-day SLA. */
+  if (service === "share-certificate" || service === "director-resolution" || service === "shareholder-resolution" || service === "bylaws") {
+    const m = session.metadata ?? {};
+    const details = readChunkedJson<Record<string, unknown>>(m, "details_json");
+    const label =
+      service === "share-certificate"       ? "Share Certificate"        :
+      service === "director-resolution"     ? "Director Resolution"      :
+      service === "shareholder-resolution"  ? "Shareholder Resolution"   :
+                                              "Corporate By-Laws";
+
+    // For custom by-laws, ops needs a very visible flag at the top of the
+    // email because they must email the customer BEFORE drafting — the
+    // form only captured a short note.
+    const isCustomBylaws = service === "bylaws" && details?.flavour === "new-custom";
+    const detailsBlock = formatCorpDocDetails(service, details);
+    const opsFlag = isCustomBylaws
+      ? "\n⚠ CUSTOM BY-LAWS — email the customer first to gather full custom provisions before drafting.\n"
+      : "";
+
+    const ownerText = `
+NEW PAID ORDER — ${label} — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Attribution:   ${m.src ?? "—"}
+${opsFlag}
+--- Company (from registry lookup) ---
+Name:          ${m.company_name ?? "—"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
+Registry ID:   ${m.registry_id ?? "—"}
+BN:            ${m.business_number ?? "—"}
+Entity type:   ${m.entity_type ?? "—"}
+Status:        ${m.registry_status ?? "—"}
+Incorporated:  ${m.incorp_date ?? "—"}
+Location:      ${m.location ?? "—"}
+
+--- ${label} details ---
+${detailsBlock}
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"}
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Action: prepare the ${label.toLowerCase()} and email PDFs to the customer within 1 business day.
+${isCustomBylaws ? "First step for custom by-laws: reply to the customer to gather full custom provisions.\n" : ""}Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+    const customerNextStep = isCustomBylaws
+      ? "Because you selected custom by-laws, we'll email you first to gather your custom provisions — reply with any specifics (share transfer restrictions, class-of-shares rules, non-standard voting, etc.). Turnaround is 3-5 business days from that reply."
+      : `We're preparing your ${label.toLowerCase()} now. You'll receive the ready-to-sign PDFs by email within one business day.`;
+
+    const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+We've received your payment for a ${label} for ${m.company_name ?? "your corporation"}.
+
+${customerNextStep}
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Company:      ${m.company_name ?? "—"}
+  Registry ID:  ${m.registry_id ?? "—"}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [ownerEmail] },
+      Message: {
+        Subject: { Data: `[CRS] Paid — ${label} — ${m.company_name ?? "—"}${isCustomBylaws ? " · CUSTOM" : ""}` },
+        Body:    { Text: { Data: ownerText } },
+      },
+    }));
+    if (customerEmail) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [customerEmail] },
+        Message: {
+          Subject: { Data: `Payment received — we're preparing your ${label.toLowerCase()}` },
           Body:    { Text: { Data: customerText } },
         },
       }));
