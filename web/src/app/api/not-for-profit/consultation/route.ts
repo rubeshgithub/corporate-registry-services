@@ -33,14 +33,18 @@ type Body = {
   contact?: {
     fullName?: string; email?: string; phone?: string;
     contactMethod?: string; timeWindow?: string;
+    justExploring?: boolean;
   };
+  /** True when the visitor ticked "I just want to talk first" — API skips
+   *  org/board/activities validation and stores null for those fields. */
+  explorationMode?: boolean;
   organization?: {
     jurisdictionKey?: string; jurisdictionLabel?: string;
     name1?: string; name2?: string; name3?: string;
     office?: { street?: string; city?: string; province?: string; postal?: string };
     nature?: string; natureOther?: string;
     purpose?: string; serves?: string;
-  };
+  } | null;
   board?: Array<{
     fullName?: string; role?: string; email?: string; phone?: string;
     address?: { street?: string; city?: string; province?: string; postal?: string };
@@ -49,7 +53,7 @@ type Body = {
   activities?: {
     donations?: string; charity?: string; eventsPerYear?: string;
     annualRevenue?: string; grants?: string;
-  };
+  } | null;
   notes?:      string;
   sourcePath?: string;
 };
@@ -64,7 +68,7 @@ export async function POST(req: Request) {
   let body: Body;
   try { body = await req.json(); } catch { return NextResponse.json({ error: "Invalid JSON." }, { status: 400 }); }
 
-  // Contact — hard-required fields
+  // Contact — hard-required fields (always required, regardless of mode)
   const email    = String(body.contact?.email ?? "").trim().toLowerCase();
   const fullName = String(body.contact?.fullName ?? "").trim();
   const phone    = String(body.contact?.phone ?? "").trim();
@@ -72,34 +76,44 @@ export async function POST(req: Request) {
   if (!email || !EMAIL_RE.test(email))      return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
   if (phone.replace(/\D/g, "").length !== 10) return NextResponse.json({ error: "Please enter a valid 10-digit Canadian phone number." }, { status: 400 });
 
-  // Organization + names
-  const org = body.organization ?? {};
-  if (!org.jurisdictionKey)             return NextResponse.json({ error: "Please select a jurisdiction." }, { status: 400 });
-  if (!org.name1 || !org.name2 || !org.name3) return NextResponse.json({ error: "Please provide three intended name options." }, { status: 400 });
-  const office = org.office ?? {};
-  if (!office.street || !office.city || !office.province || !office.postal) {
-    return NextResponse.json({ error: "Please provide a complete registered office address." }, { status: 400 });
-  }
-  if (!org.nature)                             return NextResponse.json({ error: "Please pick the nature of the organization." }, { status: 400 });
-  if ((org.purpose ?? "").trim().length < 50)  return NextResponse.json({ error: "Please describe what the organization will do (minimum 50 characters)." }, { status: 400 });
-  if ((org.serves ?? "").trim().length < 30)   return NextResponse.json({ error: "Please describe who the organization will serve (minimum 30 characters)." }, { status: 400 });
+  // Exploration mode — visitor hasn't decided on names / board / activities
+  // yet and just wants a preliminary call. Skip all the detailed validation
+  // and store null for those fields.
+  const exploring = body.explorationMode === true || body.contact?.justExploring === true;
 
-  // Board — at least 3 filled members, with President/Secretary/Treasurer covered
-  const boardIn = Array.isArray(body.board) ? body.board : [];
+  const org       = exploring ? null : (body.organization ?? {});
+  const boardIn   = exploring ? [] : (Array.isArray(body.board) ? body.board : []);
+  const act       = exploring ? null : (body.activities ?? {});
+  const office    = org?.office ?? {};
+
+  if (!exploring) {
+    if (!org!.jurisdictionKey)             return NextResponse.json({ error: "Please select a jurisdiction." }, { status: 400 });
+    if (!org!.name1 || !org!.name2 || !org!.name3) return NextResponse.json({ error: "Please provide three intended name options." }, { status: 400 });
+    if (!office.street || !office.city || !office.province || !office.postal) {
+      return NextResponse.json({ error: "Please provide a complete registered office address." }, { status: 400 });
+    }
+    if (!org!.nature)                             return NextResponse.json({ error: "Please pick the nature of the organization." }, { status: 400 });
+    if ((org!.purpose ?? "").trim().length < 50)  return NextResponse.json({ error: "Please describe what the organization will do (minimum 50 characters)." }, { status: 400 });
+    if ((org!.serves ?? "").trim().length < 30)   return NextResponse.json({ error: "Please describe who the organization will serve (minimum 30 characters)." }, { status: 400 });
+  }
+
+  // Board — at least 3 filled members, with President/Secretary/Treasurer covered (skipped in exploration mode)
   const filledBoard = boardIn.filter((b) => (b.fullName ?? "").trim() && EMAIL_RE.test((b.email ?? "").trim()));
-  if (filledBoard.length < 3) return NextResponse.json({ error: "Please add at least three board members with name and email." }, { status: 400 });
-  const roles = filledBoard.map((b) => b.role ?? "");
-  if (!roles.includes("President") || !roles.includes("Secretary") || !roles.includes("Treasurer")) {
-    return NextResponse.json({ error: "Board must include one President, one Secretary and one Treasurer." }, { status: 400 });
-  }
-  if (!filledBoard.every((b) => b.ageOk === true)) {
-    return NextResponse.json({ error: "Please confirm the age of each board member." }, { status: 400 });
+  if (!exploring) {
+    if (filledBoard.length < 3) return NextResponse.json({ error: "Please add at least three board members with name and email." }, { status: 400 });
+    const roles = filledBoard.map((b) => b.role ?? "");
+    if (!roles.includes("President") || !roles.includes("Secretary") || !roles.includes("Treasurer")) {
+      return NextResponse.json({ error: "Board must include one President, one Secretary and one Treasurer." }, { status: 400 });
+    }
+    if (!filledBoard.every((b) => b.ageOk === true)) {
+      return NextResponse.json({ error: "Please confirm the age of each board member." }, { status: 400 });
+    }
   }
 
-  // Activities — all required
-  const act = body.activities ?? {};
-  if (!act.donations || !act.charity || !act.eventsPerYear || !act.annualRevenue || !act.grants) {
-    return NextResponse.json({ error: "Please answer all the activities and funding questions." }, { status: 400 });
+  if (!exploring) {
+    if (!act!.donations || !act!.charity || !act!.eventsPerYear || !act!.annualRevenue || !act!.grants) {
+      return NextResponse.json({ error: "Please answer all the activities and funding questions." }, { status: 400 });
+    }
   }
 
   // Respect the outreach suppression list.
@@ -111,11 +125,11 @@ export async function POST(req: Request) {
   const col = await nfpConsultations();
   const now = new Date();
 
-  // Idempotency — same email + same first-name pair within 1h counts as one.
+  // Idempotency — same email within 1h counts as one. (In exploration mode
+  // we don't have a name1 to key on, so email-only works uniformly.)
   const existing = await col.findOne({
-    "contact.email":         email,
-    "organization.name1":    org.name1,
-    createdAt:               { $gte: new Date(now.getTime() - DEDUPE_MS) },
+    "contact.email": email,
+    createdAt:       { $gte: new Date(now.getTime() - DEDUPE_MS) },
   });
   if (existing) {
     return NextResponse.json({
@@ -133,22 +147,23 @@ export async function POST(req: Request) {
       contactMethod: String(body.contact?.contactMethod ?? "Email"),
       timeWindow:    String(body.contact?.timeWindow    ?? "Morning"),
     },
-    organization: {
-      jurisdictionKey:   String(org.jurisdictionKey ?? ""),
-      jurisdictionLabel: String(org.jurisdictionLabel ?? org.jurisdictionKey ?? ""),
-      name1:             String(org.name1 ?? "").trim(),
-      name2:             String(org.name2 ?? "").trim(),
-      name3:             String(org.name3 ?? "").trim(),
+    explorationMode: exploring,
+    organization: exploring ? null : {
+      jurisdictionKey:   String(org!.jurisdictionKey ?? ""),
+      jurisdictionLabel: String(org!.jurisdictionLabel ?? org!.jurisdictionKey ?? ""),
+      name1:             String(org!.name1 ?? "").trim(),
+      name2:             String(org!.name2 ?? "").trim(),
+      name3:             String(org!.name3 ?? "").trim(),
       office: {
         street:   String(office.street ?? "").trim(),
         city:     String(office.city ?? "").trim(),
         province: String(office.province ?? "").trim(),
         postal:   String(office.postal ?? "").trim(),
       },
-      nature:      String(org.nature ?? ""),
-      natureOther: org.natureOther?.trim() || undefined,
-      purpose:     String(org.purpose ?? "").trim(),
-      serves:      String(org.serves ?? "").trim(),
+      nature:      String(org!.nature ?? ""),
+      natureOther: org!.natureOther?.trim() || undefined,
+      purpose:     String(org!.purpose ?? "").trim(),
+      serves:      String(org!.serves ?? "").trim(),
     },
     board: filledBoard.map((b) => ({
       fullName: String(b.fullName ?? "").trim(),
@@ -163,12 +178,12 @@ export async function POST(req: Request) {
       },
       ageOk: b.ageOk === true,
     })),
-    activities: {
-      donations:     String(act.donations ?? ""),
-      charity:       String(act.charity ?? ""),
-      eventsPerYear: String(act.eventsPerYear ?? ""),
-      annualRevenue: String(act.annualRevenue ?? ""),
-      grants:        String(act.grants ?? ""),
+    activities: exploring ? null : {
+      donations:     String(act!.donations ?? ""),
+      charity:       String(act!.charity ?? ""),
+      eventsPerYear: String(act!.eventsPerYear ?? ""),
+      annualRevenue: String(act!.annualRevenue ?? ""),
+      grants:        String(act!.grants ?? ""),
     },
     notes:      body.notes?.trim() || undefined,
     sourcePath: String(body.sourcePath ?? "/not-for-profit/book-free-consultation"),
@@ -195,6 +210,41 @@ export async function POST(req: Request) {
 
 async function sendRequesterConfirmation(d: NfpConsultationDoc) {
   const subject = "Free NFP consultation — request received";
+
+  if (d.explorationMode) {
+    // "Just want to talk" mode — visitor hasn't picked names / board /
+    // activities yet. Skip the pre-screen preview and set a broader agenda.
+    const text = [
+      `Hi ${d.contact.fullName},`,
+      ``,
+      `Thanks for booking a free preliminary call about your not-for-profit.`,
+      ``,
+      `Here's what happens next:`,
+      `  1. Within one business day, a CRS incorporation specialist will contact you at ${d.contact.email} (or by ${d.contact.contactMethod.toLowerCase()} if you preferred) to schedule the 30-minute call.`,
+      `  2. The call is an open conversation — we'll help you figure out whether federal or provincial incorporation fits, what kind of board you'll need, and how names and purposes get chosen.`,
+      `  3. You leave with a written checklist tailored to what your organisation actually looks like — yours to keep with no obligation.`,
+      ``,
+      `Reply to this email with any questions in the meantime.`,
+      ``,
+      `— Corporate Registry Services`,
+      SITE_URL,
+    ].join("\n");
+    const html = `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#1D2A35;">
+      <p>Hi ${escapeHtml(d.contact.fullName)},</p>
+      <p>Thanks for booking a <strong>free preliminary call</strong> about your not-for-profit.</p>
+      <p><strong>Here's what happens next:</strong></p>
+      <ol>
+        <li>Within <strong>one business day</strong>, a CRS incorporation specialist will contact you at <strong>${escapeHtml(d.contact.email)}</strong> (or by ${escapeHtml(d.contact.contactMethod.toLowerCase())} if you preferred) to schedule the 30-minute call.</li>
+        <li>The call is an open conversation — we'll help you figure out whether federal or provincial incorporation fits, what kind of board you'll need, and how names and purposes get chosen.</li>
+        <li>You leave with a written checklist tailored to what your organisation actually looks like — yours to keep with no obligation.</li>
+      </ol>
+      <p>Reply to this email with any questions in the meantime.</p>
+      <p style="color:#8A99A8;">— Corporate Registry Services · <a href="${SITE_URL}">${SITE_URL}</a></p>
+    </body></html>`;
+    await sendOutreach({ to: [d.contact.email], cc: [], bcc: [], subject, html, text });
+    return;
+  }
+
   const text = [
     `Hi ${d.contact.fullName},`,
     ``,
@@ -202,11 +252,11 @@ async function sendRequesterConfirmation(d: NfpConsultationDoc) {
     ``,
     `Here's what happens next:`,
     `  1. Within one business day, a CRS incorporation specialist will contact you at ${d.contact.email} (or by ${d.contact.contactMethod.toLowerCase()} if you preferred) to schedule the 30-minute call.`,
-    `  2. Before the call, we pre-screen your three proposed names against ${d.organization.jurisdictionLabel} registry and NUANS:`,
-    `       • ${d.organization.name1}`,
-    `       • ${d.organization.name2}`,
-    `       • ${d.organization.name3}`,
-    `  3. We check your ${d.board.length}-person board against ${d.organization.jurisdictionLabel} minimums.`,
+    `  2. Before the call, we pre-screen your three proposed names against ${d.organization!.jurisdictionLabel} registry and NUANS:`,
+    `       • ${d.organization!.name1}`,
+    `       • ${d.organization!.name2}`,
+    `       • ${d.organization!.name3}`,
+    `  3. We check your ${d.board.length}-person board against ${d.organization!.jurisdictionLabel} minimums.`,
     `  4. You leave the call with a written checklist of every form, fee and deadline — yours to keep even if you decide not to file with us.`,
     ``,
     `There's no obligation. Reply to this email with any questions in the meantime.`,
@@ -220,14 +270,14 @@ async function sendRequesterConfirmation(d: NfpConsultationDoc) {
     <p><strong>Here's what happens next:</strong></p>
     <ol>
       <li>Within <strong>one business day</strong>, a CRS incorporation specialist will contact you at <strong>${escapeHtml(d.contact.email)}</strong> (or by ${escapeHtml(d.contact.contactMethod.toLowerCase())} if you preferred) to schedule the 30-minute call.</li>
-      <li>Before the call, we pre-screen your three proposed names against ${escapeHtml(d.organization.jurisdictionLabel)} registry and NUANS:
+      <li>Before the call, we pre-screen your three proposed names against ${escapeHtml(d.organization!.jurisdictionLabel)} registry and NUANS:
         <ul style="margin-top:0.35rem;">
-          <li>${escapeHtml(d.organization.name1)}</li>
-          <li>${escapeHtml(d.organization.name2)}</li>
-          <li>${escapeHtml(d.organization.name3)}</li>
+          <li>${escapeHtml(d.organization!.name1)}</li>
+          <li>${escapeHtml(d.organization!.name2)}</li>
+          <li>${escapeHtml(d.organization!.name3)}</li>
         </ul>
       </li>
-      <li>We check your ${d.board.length}-person board against ${escapeHtml(d.organization.jurisdictionLabel)} minimums.</li>
+      <li>We check your ${d.board.length}-person board against ${escapeHtml(d.organization!.jurisdictionLabel)} minimums.</li>
       <li>You leave the call with a written checklist of every form, fee and deadline — yours to keep even if you decide not to file with us.</li>
     </ol>
     <p>There's no obligation. Reply to this email with any questions in the meantime.</p>
@@ -238,48 +288,62 @@ async function sendRequesterConfirmation(d: NfpConsultationDoc) {
 }
 
 async function sendOpsNotification(d: NfpConsultationDoc) {
-  const subject = `[NFP Consult] ${d.contact.fullName} — ${d.organization.jurisdictionLabel} — ${d.organization.name1}`;
+  const tag     = d.explorationMode ? "[NFP Consult · EXPLORE]" : "[NFP Consult]";
+  const org     = d.organization;
+  const summary = org ? `${org.jurisdictionLabel} — ${org.name1}` : `preliminary call — hasn't picked names yet`;
+  const subject = `${tag} ${d.contact.fullName} — ${summary}`;
+
   const lines: string[] = [
-    `New NFP incorporation consultation request:`,
+    d.explorationMode
+      ? `⚠ EXPLORATION MODE — visitor hasn't finalised names, board or activities yet. Preliminary call requested.`
+      : `New NFP incorporation consultation request:`,
     ``,
     `── Contact ─────────────────────`,
     `  Name:            ${d.contact.fullName}`,
     `  Email:           ${d.contact.email}`,
     `  Phone:           ${d.contact.phone}`,
     `  Prefers:         ${d.contact.contactMethod} · ${d.contact.timeWindow}`,
-    ``,
-    `── Organization ────────────────`,
-    `  Jurisdiction:    ${d.organization.jurisdictionLabel}`,
-    `  Name option 1:   ${d.organization.name1}`,
-    `  Name option 2:   ${d.organization.name2}`,
-    `  Name option 3:   ${d.organization.name3}`,
-    `  Registered office: ${d.organization.office.street}, ${d.organization.office.city}, ${d.organization.office.province} ${d.organization.office.postal}`,
-    `  Nature:          ${d.organization.nature}${d.organization.natureOther ? ` (${d.organization.natureOther})` : ""}`,
-    ``,
-    `  Purpose:`,
-    ...indent(d.organization.purpose, "    "),
-    ``,
-    `  Serves:`,
-    ...indent(d.organization.serves, "    "),
-    ``,
-    `── Board (${d.board.length}) ────────────────`,
   ];
-  d.board.forEach((b, i) => {
+
+  if (org) {
     lines.push(
-      `  ${i + 1}. ${b.fullName} — ${b.role}`,
-      `     ${b.email}${b.phone ? ` · ${b.phone}` : ""}`,
-      `     ${b.address.street}, ${b.address.city}, ${b.address.province} ${b.address.postal}`,
+      ``,
+      `── Organization ────────────────`,
+      `  Jurisdiction:    ${org.jurisdictionLabel}`,
+      `  Name option 1:   ${org.name1}`,
+      `  Name option 2:   ${org.name2}`,
+      `  Name option 3:   ${org.name3}`,
+      `  Registered office: ${org.office.street}, ${org.office.city}, ${org.office.province} ${org.office.postal}`,
+      `  Nature:          ${org.nature}${org.natureOther ? ` (${org.natureOther})` : ""}`,
+      ``,
+      `  Purpose:`,
+      ...indent(org.purpose, "    "),
+      ``,
+      `  Serves:`,
+      ...indent(org.serves, "    "),
+      ``,
+      `── Board (${d.board.length}) ────────────────`,
     );
-  });
-  lines.push(
-    ``,
-    `── Activities ──────────────────`,
-    `  Donations:            ${d.activities.donations}`,
-    `  CRA charity plan:     ${d.activities.charity}`,
-    `  Events/year:          ${d.activities.eventsPerYear}`,
-    `  First-year revenue:   ${d.activities.annualRevenue}`,
-    `  Government grants:    ${d.activities.grants}`,
-  );
+    d.board.forEach((b, i) => {
+      lines.push(
+        `  ${i + 1}. ${b.fullName} — ${b.role}`,
+        `     ${b.email}${b.phone ? ` · ${b.phone}` : ""}`,
+        `     ${b.address.street}, ${b.address.city}, ${b.address.province} ${b.address.postal}`,
+      );
+    });
+  }
+
+  if (d.activities) {
+    lines.push(
+      ``,
+      `── Activities ──────────────────`,
+      `  Donations:            ${d.activities.donations}`,
+      `  CRA charity plan:     ${d.activities.charity}`,
+      `  Events/year:          ${d.activities.eventsPerYear}`,
+      `  First-year revenue:   ${d.activities.annualRevenue}`,
+      `  Government grants:    ${d.activities.grants}`,
+    );
+  }
   if (d.notes) {
     lines.push(``, `── Notes ───────────────────────`, ...indent(d.notes, "  "));
   }

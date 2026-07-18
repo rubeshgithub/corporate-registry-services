@@ -130,6 +130,10 @@ export type NfpConsultationDoc = {
     contactMethod: string;
     timeWindow:    string;
   };
+  /** True when the visitor ticked "I just want to talk first" — they
+   *  haven't decided on names / board / activities yet. In that mode
+   *  the organization, board, and activities fields are null. */
+  explorationMode: boolean;
   organization: {
     jurisdictionKey:   string;
     jurisdictionLabel: string;
@@ -143,7 +147,7 @@ export type NfpConsultationDoc = {
     natureOther?: string;
     purpose:     string;
     serves:      string;
-  };
+  } | null;
   board: Array<{
     fullName: string;
     role:     string;
@@ -158,7 +162,7 @@ export type NfpConsultationDoc = {
     eventsPerYear: string;
     annualRevenue: string;
     grants:        string;
-  };
+  } | null;
   notes?:      string;
   sourcePath:  string;
   ipHash?:     string;

@@ -53,6 +53,10 @@ type ContactInfo = {
   phone:    string;
   contactMethod: "Email" | "Phone" | "Video call";
   timeWindow:    "Morning" | "Afternoon" | "Evening";
+  /** "Just want to talk" mode — skips Organization/Board/Activities steps
+   *  and goes straight from Contact to Review. For visitors who haven't
+   *  decided on names, board, or activities yet. */
+  justExploring: boolean;
 };
 
 type Address = {
@@ -123,6 +127,7 @@ export default function NfpConsultationForm() {
 
   const [contact, setContact] = useState<ContactInfo>({
     fullName: "", email: "", phone: "", contactMethod: "Email", timeWindow: "Morning",
+    justExploring: false,
   });
 
   const [org, setOrg] = useState<Organization>({
@@ -147,6 +152,17 @@ export default function NfpConsultationForm() {
   const [success, setSuccess]       = useState(false);
 
   const jurisdiction = JURISDICTIONS.find((j) => j.key === org.jurisdictionKey);
+
+  /* Skip the Organization/Board/Activities steps for visitors who tick
+     "I just want to talk". Contact → Review directly. */
+  const nextStep = (from: number): number => {
+    if (contact.justExploring && from === 0) return 4;
+    return Math.min(STEPS.length - 1, from + 1);
+  };
+  const prevStep = (from: number): number => {
+    if (contact.justExploring && from === 4) return 0;
+    return Math.max(0, from - 1);
+  };
 
   /* ─── Validation per step ─── */
   const canContinue = useMemo(() => {
@@ -189,17 +205,19 @@ export default function NfpConsultationForm() {
     setSubmitting(true);
     setSubmitErr("");
     try {
+      const exploring = contact.justExploring;
       const res = await fetch("/api/not-for-profit/consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contact,
-          organization: {
+          explorationMode: exploring,
+          organization: exploring ? null : {
             ...org,
             jurisdictionLabel: jurisdiction?.label ?? org.jurisdictionKey,
           },
-          board: board.filter((b) => b.fullName.trim()),
-          activities,
+          board:      exploring ? [] : board.filter((b) => b.fullName.trim()),
+          activities: exploring ? null : activities,
           notes: notes.trim() || undefined,
           sourcePath: typeof window !== "undefined" ? window.location.pathname : "/not-for-profit/book-free-consultation",
         }),
@@ -243,27 +261,33 @@ export default function NfpConsultationForm() {
 
   return (
     <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 1.5rem 2rem" }}>
-      {/* Stepper */}
+      {/* Stepper — middle steps grey out when the visitor is in
+          "just want to talk" mode so they can see the shortcut. */}
       <div style={{ display: "flex", gap: "0.4rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
-        {STEPS.map((label, i) => (
-          <div
-            key={label}
-            style={{
-              flex: "1 1 100px",
-              padding: "0.5rem 0.6rem",
-              borderRadius: "0.4rem",
-              background: i === step ? "var(--primary)" : i < step ? "rgba(22,163,74,0.15)" : "var(--card)",
-              color:      i === step ? "#FFFFFF" : i < step ? "#166534" : "var(--text-muted)",
-              border:     "1px solid var(--border)",
-              fontSize:   "0.72rem",
-              fontFamily: "var(--font-mono), monospace",
-              textAlign:  "center",
-              fontWeight: 600,
-            }}
-          >
-            {i + 1}. {label}
-          </div>
-        ))}
+        {STEPS.map((label, i) => {
+          const skipped = contact.justExploring && i > 0 && i < 4;
+          return (
+            <div
+              key={label}
+              style={{
+                flex: "1 1 100px",
+                padding: "0.5rem 0.6rem",
+                borderRadius: "0.4rem",
+                background: skipped ? "var(--bg-deep)" : i === step ? "var(--primary)" : i < step ? "rgba(22,163,74,0.15)" : "var(--card)",
+                color:      skipped ? "var(--text-muted)" : i === step ? "#FFFFFF" : i < step ? "#166534" : "var(--text-muted)",
+                border:     "1px solid var(--border)",
+                fontSize:   "0.72rem",
+                fontFamily: "var(--font-mono), monospace",
+                textAlign:  "center",
+                fontWeight: 600,
+                opacity:    skipped ? 0.5 : 1,
+                textDecoration: skipped ? "line-through" : "none",
+              }}
+            >
+              {i + 1}. {label}
+            </div>
+          );
+        })}
       </div>
 
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.6rem", padding: "1.5rem 1.75rem" }}>
@@ -289,7 +313,7 @@ export default function NfpConsultationForm() {
 
         <div style={{ marginTop: "1.75rem", display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
           <button
-            onClick={() => setStep((s) => Math.max(0, s - 1))}
+            onClick={() => setStep((s) => prevStep(s))}
             disabled={step === 0 || submitting}
             style={{
               padding: "0.7rem 1.1rem",
@@ -308,7 +332,7 @@ export default function NfpConsultationForm() {
 
           {step < STEPS.length - 1 ? (
             <button
-              onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}
+              onClick={() => setStep((s) => nextStep(s))}
               disabled={!canContinue}
               style={{
                 padding: "0.7rem 1.4rem",
@@ -406,6 +430,36 @@ function StepContact({ contact, setContact }: { contact: ContactInfo; setContact
           </select>
         </Field>
       </div>
+
+      {/* Escape hatch for early-stage visitors — skips the org/board/
+          activities steps and goes straight to Review. */}
+      <label
+        style={{
+          display: "flex",
+          gap: "0.6rem",
+          alignItems: "flex-start",
+          padding: "0.9rem 1rem",
+          marginTop: "0.5rem",
+          background: contact.justExploring ? "rgba(196,158,90,0.10)" : "var(--bg-deep)",
+          border: contact.justExploring ? "1px solid var(--gold)" : "1px solid var(--border)",
+          borderRadius: "0.5rem",
+          cursor: "pointer",
+          transition: "background 0.15s, border-color 0.15s",
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={contact.justExploring}
+          onChange={(e) => set({ justExploring: e.target.checked })}
+          style={{ marginTop: "0.2rem", flexShrink: 0 }}
+        />
+        <span style={{ fontSize: "0.88rem", color: "var(--text)", lineHeight: 1.55 }}>
+          <strong>I just want to talk first.</strong> I haven't finalised names, a board, or activities yet — I'd like a preliminary call to figure out what my organisation actually needs.
+          <span style={{ display: "block", fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Skips the organization, board, and activities steps.
+          </span>
+        </span>
+      </label>
     </>
   );
 }
@@ -615,34 +669,59 @@ function StepReview({
   jurisdiction: Jurisdiction | undefined;
 }) {
   const filledBoard = board.filter((b) => b.fullName.trim());
+  const exploring = contact.justExploring;
   return (
     <>
-      <StepHeading title="Review and consent" sub="Confirm everything looks right, then submit — we'll be in touch within one business day." />
+      <StepHeading
+        title={exploring ? "One more step" : "Review and consent"}
+        sub={exploring
+          ? "You've asked for a preliminary call to figure things out. Tell us anything else you'd like the specialist to know, then submit — we'll reach out within one business day."
+          : "Confirm everything looks right, then submit — we'll be in touch within one business day."}
+      />
 
       <ReviewBlock title="Contact">
         {contact.fullName} · {contact.email} · {contact.phone} · Prefers {contact.contactMethod.toLowerCase()} in the {contact.timeWindow.toLowerCase()}
       </ReviewBlock>
 
+      {exploring && (
+        <div style={{ padding: "0.85rem 1rem", background: "rgba(196,158,90,0.10)", borderLeft: "3px solid var(--gold)", borderRadius: "0.3rem", marginBottom: "0.75rem", fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.55 }}>
+          <strong>Preliminary consultation:</strong> we understand you haven't finalised names, board, or activities yet. The specialist will help you scope those on the call.
+        </div>
+      )}
+
+      {!exploring && (
       <ReviewBlock title="Organization">
         <div>Jurisdiction: <strong>{jurisdiction?.label ?? "—"}</strong></div>
         <div>Names: {org.name1} · {org.name2} · {org.name3}</div>
         <div>Registered office: {org.office.street}, {org.office.city}, {org.office.province} {org.office.postal}</div>
         <div>Nature: {org.nature === "Other" ? org.natureOther : org.nature}</div>
       </ReviewBlock>
+      )}
 
+      {!exploring && (
       <ReviewBlock title={`Board (${filledBoard.length} member${filledBoard.length === 1 ? "" : "s"})`}>
         {filledBoard.map((m, i) => (
           <div key={i}>{i + 1}. {m.fullName} — {m.role} · {m.email}</div>
         ))}
       </ReviewBlock>
+      )}
 
+      {!exploring && (
       <ReviewBlock title="Activities">
         <div>Donations: {activities.donations} · Charity registration: {activities.charity}</div>
         <div>Events/year: {activities.eventsPerYear} · First-year revenue: {activities.annualRevenue} · Government grants: {activities.grants}</div>
       </ReviewBlock>
+      )}
 
-      <Field label="Anything else we should know? (optional)">
-        <textarea style={{ ...inputStyle, minHeight: "4rem", resize: "vertical" }} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Deadlines, prior filings, questions for the specialist…" />
+      <Field label={exploring ? "What would you like to discuss on the call? (optional)" : "Anything else we should know? (optional)"}>
+        <textarea
+          style={{ ...inputStyle, minHeight: "4rem", resize: "vertical" }}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder={exploring
+            ? "Rough idea of what your organisation will do, questions you'd like answered, anything you're stuck on…"
+            : "Deadlines, prior filings, questions for the specialist…"}
+        />
       </Field>
 
       <label style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", fontSize: "0.85rem", color: "var(--text)", padding: "0.85rem 1rem", background: "var(--bg-deep)", border: "1px solid var(--border)", borderRadius: "0.4rem", lineHeight: 1.55 }}>
