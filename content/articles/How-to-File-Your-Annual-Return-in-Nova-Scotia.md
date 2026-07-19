@@ -1,8 +1,9 @@
 ﻿---
-title: "Nova Scotia Annual Return: How to File with the Registry of Joint Stock Companies — File it to avoid dissolution of your Corporation"
+title: "File Your NS Annual Return — RJSC (Joint Stock) · $99 all-in"
+h1: "File Your Nova Scotia Annual Return (RJSC)"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
-description: "File your Nova Scotia Annual Return through the Registry of Joint Stock Companies — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
+description: "File your Nova Scotia annual return with the Registry of Joint Stock Companies (RJSC) in 24 hours. $99 all-in, government fee included. Nova Scotia's 30-day anniversary deadline is one of Canada's tightest — miss it and dissolution starts."
 ---
 
 Nova Scotia corporations incorporated under the *Companies Act (Nova Scotia)* or *Corporations Registration Act* must file an annual return with the Registry of Joint Stock Companies every year within 30 days of the corporation's anniversary date — one of the tightest deadlines in Canada.

@@ -1,8 +1,9 @@
 ﻿---
-title: "Yukon Annual Return: How to File with Corporate Affairs Yukon — File it to avoid dissolution of your Corporation"
+title: "File Your Yukon Annual Return — Corporate Affairs Yukon · $99"
+h1: "File Your Yukon Annual Return (Corporate Affairs Yukon)"
 slug: "How-to-File-Your-Annual-Return-in-Yukon"
 section: "articles"
-description: "File your Yukon Annual Return through Corporate Affairs Yukon — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
+description: "File your Yukon annual return with Corporate Affairs Yukon in 24 hours. $99 all-in, government fee included. Yukon has one of Canada's shortest deadlines — just 1 month from your anniversary. File same day, no login."
 ---
 
 Yukon corporations incorporated under the *Business Corporations Act (Yukon)* must file an annual return with Corporate Affairs Yukon within 1 month of the corporation's anniversary date — one of the shortest deadlines in Canada alongside Alberta.

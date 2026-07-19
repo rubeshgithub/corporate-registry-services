@@ -1,8 +1,9 @@
 ﻿---
-title: "New Brunswick Annual Return: How to File with the Corporate Registry — File it to avoid dissolution of your Corporation"
+title: "File Your NB Annual Return — Service New Brunswick · $99 all-in"
+h1: "File Your New Brunswick Annual Return"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"
-description: "File your New Brunswick Annual Return through the Corporate Registry (Service New Brunswick) — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
+description: "File your New Brunswick annual return with Service New Brunswick's Corporate Registry in 24 hours. $99 all-in, government fee included. Missed anniversary or calendar deadline? File same day and stay in good standing."
 ---
 
 New Brunswick corporations incorporated under the *Business Corporations Act (New Brunswick)* must file an annual return with Service New Brunswick every year. New Brunswick operates on a combined anniversary-and-calendar system for its annual return deadlines.

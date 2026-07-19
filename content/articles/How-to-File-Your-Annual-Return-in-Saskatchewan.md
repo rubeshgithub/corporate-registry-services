@@ -1,8 +1,9 @@
 ﻿---
-title: "Saskatchewan Annual Return: How to File with ISC — File it to avoid dissolution of your Corporation"
+title: "File Your Saskatchewan Annual Return — ISC · $99 all-in"
+h1: "File Your Saskatchewan Annual Return (ISC)"
 slug: "How-to-File-Your-Annual-Return-in-Saskatchewan"
 section: "articles"
-description: "File your Saskatchewan Annual Return through ISC (Information Services Corporation) — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
+description: "File your Saskatchewan annual return with ISC (Information Services Corporation) in 24 hours. $99 all-in, government fee included. Deadline is 3 months from your anniversary — skip the ISC portal and file same day."
 ---
 
 Saskatchewan corporations incorporated under *The Business Corporations Act (Saskatchewan)* must file an annual return with ISC (Information Services Corporation) — Saskatchewan's corporate registry — every year within 3 months of the corporation's anniversary date.
