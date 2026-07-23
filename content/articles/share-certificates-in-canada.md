@@ -1,9 +1,9 @@
 ---
-title: "Share Certificates in Canada: What They Are and How to Issue Them"
-h1: "Share Certificates in Canada: A Complete Guide"
+title: "Canada Share Certificate + Register Update | $49, 1 Day"
+h1: "Canada Share Certificate: Prepared by CRS in 1 Business Day"
 slug: "share-certificates-in-canada"
 section: "articles"
-description: "Everything about corporate share certificates in Canada — legal requirements, the share issuance paper trail, digital certificates, and the $49 CRS professional service."
+description: "Search your Canada corporation → share certificate + register updates in 1 business day. $49 all-in + GST. Bundle banks, lawyers, and CRA auditors accept."
 faq:
   - q: "Are share certificates legally required in Canada?"
     a: "Under the Canada Business Corporations Act and every provincial equivalent, corporations must maintain records of share ownership, but the physical share certificate is not strictly mandatory. In practice, issuing certificates is standard because banks, buyers, and auditors expect them, and a share transfer without a corresponding certificate is legally questionable."
@@ -14,8 +14,14 @@ faq:
   - q: "Are digital share certificates legal in Canada?"
     a: "Yes. Federal and provincial corporate statutes permit share certificates to be issued and stored electronically, provided they contain the same information as a paper certificate and can be produced in readable form for inspection. Digital certificates are equally admissible in due diligence and audits."
   - q: "How much does a professionally prepared share certificate cost?"
-    a: "Corporate Registry Services prepares professionally formatted, sequentially numbered share certificates for $49 all-in + GST — including any required transfer restrictions and delivered as signable PDFs. The service also produces the accompanying share register and securities register updates when needed."
+    a: "$49 all-in + GST for the certificate plus share-register and securities-register updates, delivered as signable PDFs in 1 business day. That price assumes you have your corporation's current profile report and articles of incorporation on hand for us to confirm share classes and legal name. If we need to pull those from the registry for you, we quote the additional filing fees before starting."
 ---
+
+> **Skip to the fast lane.**
+>
+> [**Search your corporation →**](/order/share-certificate?src=article-share-certificates-in-canada) — takes 30 seconds. If your corp comes up, you'll see your share classes on-screen. Confirm the shareholder details, pay $49, and receive signable PDFs (share certificate + matching share register + securities register entries) back in **1 business day**.
+>
+> **No CORES login, no NUANS search, no account required.** Bring your latest profile report and articles of incorporation on hand — [see what $49 covers](#what-crs-covers).
 
 You've incorporated your Canadian corporation, and now it's time to actually issue shares. Or you're bringing in a new shareholder, or transferring existing shares. Somewhere along the line, someone is going to ask for a **share certificate** — the bank, the buyer's lawyer, your accountant, or the corporation's own auditor.
 
@@ -40,6 +46,8 @@ Practically every time shares change hands, someone will ask for a certificate:
 - **Estate planning and wills** — a will that gifts shares to beneficiaries relies on certificates as evidence of the specific shares gifted.
 - **CRA audit or dispute** — the tax authority will ask for share ownership records when reviewing shareholder loans, dividends, or capital gains.
 
+> **Any of these coming up?** [**Search your corporation →**](/order/share-certificate?src=article-share-certificates-in-canada) — 30 seconds. See your share classes on-screen, confirm the shareholder details, pay $49 all-in, get signable PDFs back in 1 business day.
+
 ## The share issuance paper trail
 
 Issuing shares in Canada generates more minute book paperwork than any other routine event. Here is the complete four-step sequence, in order:
@@ -50,6 +58,8 @@ Issuing shares in Canada generates more minute book paperwork than any other rou
 4. **Register updates.** The register of shareholders, the securities register (the running record of every issuance and transfer by certificate number), and — where control of the corporation shifts — the register of individuals with significant control (ISC register) all need to be updated at the same time.
 
 If any link in this chain is missing, the share issuance is legally questionable. Buyer's-side lawyers routinely find gaps in the subscription-resolution-certificate-register sequence during due diligence, and those gaps become renegotiation levers on the sale price or hold-back on the closing funds.
+
+> **Steps 3 and 4 are what CRS handles.** You (or your lawyer) draft the subscription agreement and directors' resolution; we produce the certificate and both register entries — matching, sequentially numbered, ready to sign. [**Search your corp to start →**](/order/share-certificate?src=article-share-certificates-in-canada)
 
 **Related reading:** [Director Resolutions in Canada](/articles/director-resolutions-in-canada) covers the resolution portion of this flow in depth, including the annual package every corporation must pass.
 
@@ -83,10 +93,21 @@ The four most common errors in Canadian share certificates — all of which come
 - **Names don't match the register.** The certificate lists "John A. Smith" while the register lists "John Andrew Smith"; the mismatch is a technical failure that may need to be corrected retroactively.
 - **Transfer restrictions missing.** Private corporations that omit the transfer-restriction legend can inadvertently lose their "private" status for regulatory purposes.
 
-## Have CRS prepare your share certificates
+> **Every one of these mistakes disappears when a specialist prepares the certificate.** Sequential numbering, matching register entries, legal name cross-checked against your registry documents. [**Search your corp — $49 all-in, 1 business day →**](/order/share-certificate?src=article-share-certificates-in-canada)
 
-Corporate Registry Services prepares professionally formatted, sequentially numbered share certificates for **$49 all-in + GST**. The service includes any required transfer restrictions, matching entries for the share register and securities register, and delivery as ready-to-sign PDFs. Perfect for one-off share issuances, new shareholder onboarding, or catching up on gaps in an existing minute book.
+## Have CRS prepare your share certificates {#what-crs-covers}
 
-**[Order a share certificate now →](/order/share-certificate?src=article-share-certificates-in-canada)** · Search your corp, enter the details, pay $49 + GST.
+Corporate Registry Services prepares professionally formatted, sequentially numbered share certificates for **$49 all-in + GST**, delivered as ready-to-sign PDFs within one business day. Perfect for one-off share issuances, new shareholder onboarding, or catching up on gaps in an existing minute book.
+
+**What $49 covers:**
+- Professionally formatted, sequentially numbered share certificate
+- Required transfer-restriction legend (for private corporations)
+- Matching entry in the share register
+- Matching entry in the securities register
+- Delivered as signable PDFs within 1 business day
+
+**What $49 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those documents to confirm the corporation's full legal name, jurisdiction, share classes, and authorized capital. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start work (typically $49–$99 depending on the jurisdiction).
+
+**[Search your corporation now →](/order/share-certificate?src=article-share-certificates-in-canada)** · See your share classes on-screen, confirm the shareholder details, pay $49 + GST — signable PDFs back in 1 business day.
 
 Need certificates as part of a complete minute book? See the [Digital Minute Book service](/minute-books/digital-minute-book-canada) — $299 all-in for a fresh minute book with all documents included, or [start a free 30-day pilot](/minute-books) of the MinuteBook app to self-serve.
