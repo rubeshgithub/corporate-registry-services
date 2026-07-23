@@ -1,10 +1,12 @@
 ﻿---
-title: "File Your Federal Annual Return — Corporations Canada · $99 all-in"
-h1: "File Your Federal Annual Return (Corporations Canada)"
+title: "CBCA Annual Return | Corporations Canada | $99, 24 Hrs"
+h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 24 Hours"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
-description: "File your CBCA annual return with Corporations Canada in 24 hours. $99 all-in, government fee included. Miss the 60-day deadline and your corporation heads to dissolution — file same day, no CBCA online login required."
+description: "CBCA annual return filed with Corporations Canada in 24 hours — $99 all-in, government fee included. It's not your CRA T2. Beat the 60-day deadline."
 ---
+
+**Deadline coming up?** [File your federal (CBCA) annual return in 24 hours →](/order/annual-return) · $99 all-in, filed with Corporations Canada — not your CRA T2 return.
 
 Federal corporations incorporated under the *Canada Business Corporations Act* (CBCA) must file an annual return with Corporations Canada every year. This is separate from any provincial or territorial filings and separate from your federal tax return with the Canada Revenue Agency.
 
@@ -77,10 +79,11 @@ If the federal annual return is not filed within the 60-day window after the ann
 3. After a further waiting period, Corporations Canada can **dissolve the corporation** by administrative action
 4. Dissolution means the corporation ceases to exist legally; revival is possible but involves additional cost and processing
 
-## Let CRS Handle Your Federal Annual Return
+## File Your CBCA Annual Return Without Building a Corporations Canada Login
 
-CRS manages federal annual return filings for CBCA corporations. We prepare the return, submit it to Corporations Canada within the required window, and provide you with confirmation of filing.
+CRS files CBCA annual returns directly with Corporations Canada on your behalf. You don't need a GCKey, Sign-In Partner, or corporation access code — we handle the Online Filing Centre, submit the return before your 60-day deadline, and email you the Corporations Canada confirmation for your records.
 
-**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
+**Turnaround:** 24 hours from order.
+**Price:** $99 + applicable tax — all-in, including the $12 government fee.
 
-Contact CRS to keep your federally incorporated business in good standing with Corporations Canada.
+[File your federal (CBCA) annual return now →](/order/annual-return)

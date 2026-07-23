@@ -193,6 +193,67 @@ export async function nfpConsultations(): Promise<Collection<NfpConsultationDoc>
   return (await db()).collection<NfpConsultationDoc>("nfp_consultation_requests");
 }
 
+/**
+ * Inbound for-profit incorporation consultation booking. Captured when a
+ * visitor completes the multi-step form at /incorporation/book-free-consultation.
+ * Owner follows up manually within one business day. No charge — this is a
+ * lead form, not a paid order. Parallels NfpConsultationDoc but with
+ * for-profit corporate-structure fields (share classes, named vs numbered,
+ * director residency) instead of NFP board/activities.
+ */
+export type IncorporationConsultationDoc = {
+  contact: {
+    fullName:      string;
+    email:         string;
+    phone:         string;
+    contactMethod: string;
+    timeWindow:    string;
+  };
+  /** True when the visitor ticked "I just want to talk first" — they
+   *  haven't decided on jurisdiction / name / directors / share structure
+   *  yet. Corporation, directors, and shareStructure fields are null. */
+  explorationMode: boolean;
+  corporation: {
+    jurisdictionKey:   string;
+    jurisdictionLabel: string;
+    nameType:          "named" | "numbered";
+    name1?:            string;
+    name2?:            string;
+    name3?:            string;
+    office: {
+      street: string; city: string; province: string; postal: string;
+    };
+    nature:      string;
+    natureOther?: string;
+    activity:    string;
+  } | null;
+  directors: Array<{
+    fullName:          string;
+    email:             string;
+    phone?:            string;
+    address:           { street: string; city: string; province: string; postal: string };
+    canadianResident:  boolean;
+    ageOk:             boolean;
+  }>;
+  shareStructure: {
+    structureType:  string;         // "simple" | "multiple" | "unsure"
+    shareholders:   string;         // "1" | "2" | "3-5" | "6-10" | "10+"
+    specialRights:  string;         // "yes" | "no" | "unsure"
+  } | null;
+  notes?:      string;
+  sourcePath:  string;
+  ipHash?:     string;
+  userAgent?:  string;
+  createdAt:   Date;
+  ackedAt?:    Date;
+  ackedBy?:    string;
+  ackedNote?:  string;
+};
+
+export async function incorporationConsultations(): Promise<Collection<IncorporationConsultationDoc>> {
+  return (await db()).collection<IncorporationConsultationDoc>("incorporation_consultation_requests");
+}
+
 let indexesEnsured = false;
 export async function ensureOutreachIndexes(): Promise<void> {
   if (indexesEnsured) return;
@@ -220,6 +281,10 @@ export async function ensureOutreachIndexes(): Promise<void> {
     const nfp = await nfpConsultations();
     await nfp.createIndex({ createdAt: -1 });
     await nfp.createIndex({ "contact.email": 1, createdAt: -1 });
+
+    const inc = await incorporationConsultations();
+    await inc.createIndex({ createdAt: -1 });
+    await inc.createIndex({ "contact.email": 1, createdAt: -1 });
   } catch (e) {
     indexesEnsured = false;
     console.error("[outreach] failed to ensure indexes:", e);

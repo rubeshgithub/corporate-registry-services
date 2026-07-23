@@ -1,12 +1,12 @@
 ﻿---
-title: "Alberta Annual Return: Guide to Deadlines, CORES Fees & Rules"
-h1: "Alberta Annual Return: A Complete Guide"
+title: "CORES Alberta Annual Return | Certified Agent | $99, 24 Hrs"
+h1: "Alberta Annual Return: Filed via CORES in 24 Hours"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
-description: "Complete guide to Alberta annual returns — deadlines (1 month rule), CORES fee ($47), forms, non-profit/society variants, and late-filing consequences. Filed by CRS in 24 hours for $99 all-in."
+description: "Certified CORES Registry Agent files your Alberta annual return in 24 hours — $99 all-in, no CORES account needed. Beat your 1-month deadline."
 ---
 
-**Ready to file already?** [Skip to our fast-file page for Alberta annual returns →](/file-annual-return/alberta) · Search your corp, confirm, pay $99 all-in, done in minutes.
+**Deadline coming up?** [File your Alberta annual return in 24 hours →](/file-annual-return/alberta) · $99 all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
 
 Alberta corporations incorporated under the *Business Corporations Act (Alberta)* (ABCA) must file an annual return every year with the Alberta Corporate Registry to maintain their good standing. Alberta has one of the shortest filing windows in Canada — annual returns are due within just one month of the corporation's anniversary date. This guide covers the rules, deadlines, fees, forms, and late-filing consequences — with a jump-off point to file when you're ready.
 
@@ -79,10 +79,11 @@ Alberta is strict about annual return compliance. Missing the 1-month deadline r
 
 Note: Alberta corporate annual returns are separate from **GST returns** (filed with CRA) and **T2 corporate income tax returns** (also with CRA). Late CORES filing does not directly trigger CRA penalties — but a dissolved corporation cannot legally operate, which cascades into GST/T2 compliance problems very quickly. If you have late CORES *and* late GST filings, address the CORES filing first — you cannot file GST on a corporation the registry has dissolved.
 
-## Let CRS Handle Your Alberta Annual Return
+## File Your Alberta Annual Return Through a CORES Certified Registry Agent
 
-CRS manages Alberta annual return filings through CORES on your behalf. We prepare the return, submit it before your deadline, and provide you with confirmation.
+CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.
 
-**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
+**Turnaround:** 24 hours from order.
+**Price:** $99 + applicable tax — all-in, including the $47 government fee.
 
-Contact CRS to ensure your Alberta corporation stays compliant.
+[File your Alberta annual return now →](/file-annual-return/alberta)

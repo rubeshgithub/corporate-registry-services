@@ -1,8 +1,19 @@
 ---
 title: "Federal vs. Provincial Incorporation in Canada — Which Is Right for You?"
+h1: "Federal vs. Provincial Incorporation in Canada: How to Choose"
 slug: "federal-vs-provincial-incorporation-canada"
 section: "guides"
+description: "Federal or provincial incorporation? Decision rules for cost, name protection, director residency, and cross-province operations. Same $699 all-in either way — pick on business needs, not budget."
 ---
+
+> ### Short version — the decision in 30 seconds
+>
+> - **Operating in one province only, no expansion plans?** → **Provincial.** Simpler and cheaper long-term (one annual return, not two).
+> - **Operating in 2+ provinces, raising national capital, or want cross-Canada name protection?** → **Federal (CBCA).**
+> - **All founders live outside Canada?** → **Provincial BC, Alberta, or Quebec** — no director residency requirement.
+> - **Still not sure?** → [Book a free 15-min incorporation consultation →](/incorporation/book-free-consultation) — a specialist walks through your situation and recommends the right jurisdiction.
+
+**Ready to file?** [Start incorporation — $699 all-in →](/order/incorporation) · Named or numbered · Federal or any province.
 
 One of the first decisions every Canadian entrepreneur faces when incorporating is whether to incorporate federally under the *Canada Business Corporations Act* (CBCA) or provincially under a provincial business corporations act. Both options create a valid, limited-liability corporation — but they differ significantly in scope, cost, name protection, and compliance obligations.
 
@@ -72,6 +83,8 @@ If your founding team has no Canadian residents, incorporating in BC or Alberta 
 
 ## Cost Comparison
 
+**Federal and provincial CRS incorporation cost the same — $699 all-in either way.** That means budget shouldn't drive this decision; pick on business needs (where you operate, name protection scope, director residency) and let the price be neutral. Where costs diverge is *after* incorporation: a federal corporation operating in provinces will pay extra-provincial registration in each of those provinces, so if you're staying in one province, provincial ends up cheaper long-term.
+
 | Service | Federal | Ontario (as example) |
 |---|---|---|
 | **Incorporation (CRS all-in fee)** | $699 + GST | $699 + HST |
@@ -79,7 +92,7 @@ If your founding team has no Canadian residents, incorporating in BC or Alberta 
 | **Annual Return (CRS all-in fee)** | $99 + GST | $99 + HST |
 | **Extra-provincial registration (per province)** | $299 + GST | $299 + HST |
 
-All CRS fees are all-inclusive: government filing fees, name search (where required), professional preparation, and submission are bundled into a single flat price — no surprise charges at checkout. Contact us for a firm quote on your specific incorporation.
+All CRS fees are all-inclusive: government filing fees, name search (where required), professional preparation, and submission are bundled into a single flat price — no surprise charges at checkout.
 
 ## Numbered vs. Named Corporation
 
@@ -87,8 +100,30 @@ This decision applies to both federal and provincial incorporation. A **named co
 
 Many businesses start with a numbered corporation and later file Articles of Amendment to add a name — a common and cost-effective approach.
 
+## Common Scenarios — Which One Fits You?
+
+Pick the description that sounds most like you. If none quite fit, jump to the consultation option at the bottom.
+
+- **Solo consultant, working in one province** → **Provincial.** Skip the extra-provincial hassle. One annual return, one registry to deal with.
+- **SaaS or tech startup planning to raise VC** → **Federal (CBCA).** Most Canadian investors and US-based VCs default to CBCA for portfolio companies; it makes term sheets and cap-table paperwork smoother.
+- **E-commerce shipping across Canada** → **Federal.** One legal entity, national name protection, no extra-provincial filings for online sales alone (physical operations still trigger provincial registration).
+- **Family-owned Ontario business, no expansion plans** → **Provincial (Ontario).** No director residency requirement anymore, and you avoid the federal + Ontario dual-annual-return burden.
+- **Two US founders, no Canadian residents** → **Provincial BC, Alberta, or Quebec.** These provinces have no director residency requirement. Federal requires 25% Canadian residents; Ontario removed its rule in 2023 too.
+- **Professional practice (accounting, legal, medical)** → **Provincial**, almost always, because provincial regulators licence the corporation and often require provincial incorporation.
+- **Real-estate holding company** → **Provincial**, in the province where the property sits.
+- **National franchise or multi-province retail** → **Federal**, then register extra-provincially where you operate.
+- **Not sure any of these describe you?** → [Book a free 15-min consultation →](/incorporation/book-free-consultation) — the specialist maps your situation to the right jurisdiction.
+
 ## Our Recommendation
 
 For most small and medium businesses operating in a single province, **provincial incorporation is simpler, cheaper, and easier to maintain**. For businesses with national ambitions, non-Canadian founders, or those raising institutional capital, **federal incorporation offers more flexibility and stronger name protection**.
 
 CRS offers all-inclusive incorporation services for every Canadian jurisdiction — federal and all 13 provinces and territories. Our packages include name search, Articles of Incorporation, Notice of Directors, personalized By-Laws, organizational resolutions, and a full corporate minute book.
+
+## Ready to Move Forward?
+
+Pick the path that matches where you're at:
+
+- **You've decided on federal (CBCA).** → [Start CBCA incorporation — $699 all-in →](/order/incorporation)
+- **You've decided on a province.** → [Browse provincial incorporation services →](/incorporation)
+- **You're still weighing it.** → [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation. Same specialist who files it can help you decide.
