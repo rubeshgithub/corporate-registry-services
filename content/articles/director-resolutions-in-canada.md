@@ -1,9 +1,9 @@
 ---
-title: "Director Resolutions in Canada: Templates, Rules & the Annual Package"
-h1: "Director Resolutions in Canada: A Complete Guide"
+title: "Canada Director Resolutions | $79 per Set, 1 Business Day"
+h1: "Canada Director Resolutions: Prepared by CRS in 1 Business Day"
 slug: "director-resolutions-in-canada"
 section: "articles"
-description: "Everything about director resolutions in Canada — organizational, annual, and ad-hoc resolutions, consent to act, resolution-in-writing vs meeting minutes, and the CRS $79 professional service."
+description: "Search your Canada corporation → director resolutions + register updates in 1 business day. $79 all-in + GST. Annual package, ad-hoc, or catch-up sets."
 faq:
   - q: "Do director resolutions have to be filed with the government in Canada?"
     a: "No. Directors' resolutions are internal corporate records signed, dated, and kept in the corporation's minute book at the registered office. Only the consequences of some resolutions — such as a director change or registered address change — are filed with the corporate registry, through separate government forms."
@@ -14,8 +14,14 @@ faq:
   - q: "What are annual director resolutions?"
     a: "Annual director resolutions are yearly board decisions that every Canadian corporation must pass — typically approving the financial statements, appointing or reappointing officers, and authorizing bank signing arrangements. They form the directors' half of the annual package alongside annual shareholder resolutions."
   - q: "How much does a professionally prepared director resolution cost?"
-    a: "Corporate Registry Services prepares director resolutions for $79 all-in + GST per resolution set. This includes the resolution document, any accompanying registers or forms, and delivery as ready-to-sign PDFs. The annual package covering all yearly directors' business is a single $79 service."
+    a: "$79 all-in + GST per resolution set, delivered as ready-to-sign PDFs in 1 business day — includes the resolution document, any accompanying register-of-directors or register-of-officers updates, and consent to act (when appointing new directors). Assumes you have your corporation's current profile report and articles of incorporation on hand. If we need to pull them from the registry for you, additional fetch fees are quoted upfront (typically $49–$99 depending on the jurisdiction)."
 ---
+
+> **Skip to the fast lane.**
+>
+> [**Search your corporation →**](/order/director-resolution?src=article-director-resolutions-in-canada) — takes 30 seconds. If your corp comes up, you'll see your current directors and officers on-screen. Pick the resolution type (annual package, share issuance, appointment, dividend, or ad-hoc), pay $79, and receive signable PDFs back in **1 business day**.
+>
+> **No portal login, no scheduling a meeting, no legal drafting.** Bring your latest profile report and articles of incorporation — [see what $79 covers](#what-crs-covers).
 
 You've been running your Canadian corporation for a while, and you've heard you need to keep director resolutions in the minute book. But what exactly is a director resolution? When do you need one? Who signs it? And what happens if you skip a few years?
 
@@ -78,6 +84,8 @@ Every director appointed to a Canadian corporation must sign a **Consent to Act 
 
 Skipping the consent is a common gap in DIY minute books. It typically surfaces during due diligence when the buyer's lawyer asks for the consent form and finds nothing.
 
+> **Have a director appointment coming up?** [**Search your corp →**](/order/director-resolution?src=article-director-resolutions-in-canada) — 30 seconds. We prepare the appointment resolution + consent to act + register-of-directors update as a single $79 bundle, delivered as PDFs in 1 business day.
+
 ## Annual director resolutions: the yearly package
 
 Every Canadian corporation — even a one-person corporation where the sole director is also the sole shareholder — must pass **annual director resolutions** each year. The typical package covers:
@@ -89,6 +97,8 @@ Every Canadian corporation — even a one-person corporation where the sole dire
 
 **Important:** annual director resolutions are not the same as your annual return. The annual return is a government filing that keeps your corporation active on the public registry (we file those — see our [annual return service](/annual-return)). Annual director resolutions are internal minute-book documents. You need both, every year.
 
+> **This year's directors' annual package due?** [**Search your corp →**](/order/director-resolution?src=article-director-resolutions-in-canada) — we produce the full annual set (financial statement approval, officer appointments, banking, dividends) as signable PDFs for $79 all-in, in 1 business day.
+
 The other half of the yearly package is the shareholders' annual resolutions — see [Shareholder Resolutions in Canada](/articles/shareholder-resolutions-in-canada) for the shareholder-side equivalents.
 
 ## What if you missed a few years?
@@ -97,10 +107,18 @@ Corporations that have skipped their annual director resolutions for several yea
 
 The fix is a **retroactive annual package** — director and shareholder resolutions dated and signed to cover the missed years. Our [Minute Book Update service](/#services) reconstructs missing annual packages from the corporation's registry record and financial history, filing gaps of 1 to 15+ years.
 
-## Have CRS prepare your director resolutions
+## Have CRS prepare your director resolutions {#what-crs-covers}
 
-Corporate Registry Services prepares director resolutions for **$79 all-in + GST** per resolution set — including the annual directors' package, standalone resolutions for specific decisions (approving a share issuance, appointing an officer, declaring a dividend), and consent-to-act forms. Delivered as ready-to-sign PDFs, professionally formatted, with any required register updates included.
+Corporate Registry Services prepares director resolutions for **$79 all-in + GST** per resolution set, delivered as ready-to-sign PDFs within one business day. Perfect for the annual directors' package, standalone resolutions (share issuance, officer appointment, dividend), or catching up on missed years.
 
-**[Order a director resolution now →](/order/director-resolution?src=article-director-resolutions-in-canada)** · Search your corp, pick the resolution type, pay $79 + GST.
+**What $79 covers:**
+- Professionally formatted, dated resolution document
+- Consent to act as director (when appointing new directors)
+- Matching register-of-directors or register-of-officers update
+- Delivered as signable PDFs within 1 business day
+
+**What $79 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those to confirm the corporation's full legal name, jurisdiction, and current director/officer list. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start (typically $49–$99 depending on the jurisdiction).
+
+**[Search your corporation now →](/order/director-resolution?src=article-director-resolutions-in-canada)** · See your current directors and officers on-screen, pick the resolution type, pay $79 + GST — signable PDFs back in 1 business day.
 
 Related: [Share Certificates](/articles/share-certificates-in-canada) covers the certificate side of the share issuance flow (which is authorized by a directors' resolution); [Shareholder Resolutions](/articles/shareholder-resolutions-in-canada) covers the shareholder half of the annual package.
