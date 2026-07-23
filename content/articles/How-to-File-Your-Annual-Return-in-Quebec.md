@@ -5,6 +5,8 @@ section: "articles"
 description: "File your Quebec annual declaration through the Registraire des entreprises (REQ) — $99 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
 ---
 
+**March 31 deadline?** [File your Quebec annual declaration in 24 hours →](/order/annual-return) · $99 all-in, filed directly with the Registraire des entreprises (REQ) — no clicSÉQUR authentication required, bilingual filing prepared.
+
 Corporations incorporated under Quebec's *Business Corporations Act* (Loi sur les sociétés par actions) and companies registered in Quebec under the *Act respecting the legal publicity of enterprises* must file an **annual declaration** (déclaration annuelle) with the Registraire des entreprises du Québec (REQ) every year.
 
 ## What Is a Quebec Annual Declaration?
@@ -70,10 +72,11 @@ Failure to file the annual declaration by March 31 results in:
 
 If your corporation is incorporated outside Quebec (e.g., Ontario or federally) but carries on business in Quebec, it must register with the REQ as an extra-provincial entity and file an annual declaration each year. This is in addition to the annual filing required in your home jurisdiction.
 
-## Let CRS Handle Your Quebec Annual Declaration
+## File Your Quebec Annual Declaration Without clicSÉQUR
 
-CRS handles Quebec annual declaration filings with the Registraire des entreprises. We prepare the declaration in both official languages where required, submit it before the March 31 deadline, and provide you with confirmation.
+CRS files Quebec annual declarations (déclarations annuelles) directly through the Registraire des entreprises du Québec (REQ) on your behalf. You don't need clicSÉQUR authentication, and you don't need to navigate the REQ portal yourself — we prepare the declaration in the language required, file it before the March 31 deadline, and email you the REQ confirmation.
 
-**Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation.
+**Turnaround:** 24 hours from order.
+**Price:** $99 + applicable tax — all-in, including the ~$35 government fee.
 
-Contact CRS to keep your Quebec registration current and your corporation in good standing.
+[File your Quebec annual declaration now →](/order/annual-return)

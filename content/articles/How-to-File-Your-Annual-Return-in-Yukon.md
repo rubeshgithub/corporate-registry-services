@@ -6,6 +6,8 @@ section: "articles"
 description: "File your Yukon annual return with Corporate Affairs Yukon in 24 hours. $99 all-in, government fee included. Yukon has one of Canada's shortest deadlines — just 1 month from your anniversary. File same day, no login."
 ---
 
+**1-month deadline?** [File your Yukon annual return in 24 hours →](/order/annual-return) · $99 all-in, filed directly through Corporate Affairs Yukon — one of Canada's tightest deadlines, handled.
+
 Yukon corporations incorporated under the *Business Corporations Act (Yukon)* must file an annual return with Corporate Affairs Yukon within 1 month of the corporation's anniversary date — one of the shortest deadlines in Canada alongside Alberta.
 
 ## When Is the Yukon Annual Return Due?
@@ -41,6 +43,11 @@ The Yukon government fee is **$50**.
 
 Yukon corporations have no specific Canadian residency requirement for directors beyond general CBCA-equivalent provisions, making Yukon attractive for international incorporations.
 
-## Let CRS File for You
+## File Your Yukon Annual Return Before the 1-Month Window Closes
 
-CRS manages Yukon annual return filings and tracks your anniversary date to ensure the 1-month deadline is never missed. **Price:** $99 + applicable tax — all-in, includes the government fee and professional preparation. Contact CRS today.
+CRS files Yukon annual returns directly through Corporate Affairs Yukon on your behalf. You don't need to navigate the territorial portal yourself — we prepare the return, file it well within Yukon's tight 1-month anniversary deadline (matching Alberta as one of the shortest in Canada), and email you the confirmation.
+
+**Turnaround:** 24 hours from order.
+**Price:** $99 + applicable tax — all-in, including the $50 government fee.
+
+[File your Yukon annual return now →](/order/annual-return)
