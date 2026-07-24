@@ -133,6 +133,16 @@ export default async function CorporationProfilePage({ params }: { params: Promi
               : new Date(c.contact.enrichedAt).toISOString())
           : null,
       } : null,
+      otherData: (c.otherData && c.otherData.matched) ? {
+        name:         c.otherData.name         ?? null,
+        address:      c.otherData.address      ?? null,
+        city:         c.otherData.city         ?? null,
+        region:       c.otherData.region       ?? null,
+        country:      c.otherData.country      ?? null,
+        postalCode:   c.otherData.postalCode   ?? null,
+        industry:     c.otherData.industry     ?? null,
+        locationType: c.otherData.locationType ?? null,
+      } : null,
     },
     events: data.events.map((e) => {
       /* Strip the auto-generated ObjectId (has toJSON — Turbopack RSC rejects
@@ -210,6 +220,16 @@ export type SerializedProfileData = {
     };
     address?: { full: string; city: string; postal: string };
     contact: (Omit<NonNullable<EnrichmentResult>, "enrichedAt"> & { enrichedAt: string | null }) | null;
+    otherData: {
+      name:         string | null;
+      address:      string | null;
+      city:         string | null;
+      region:       string | null;
+      country:      string | null;
+      postalCode:   string | null;
+      industry:     string | null;
+      locationType: string | null;
+    } | null;
   };
   events: Array<{
     event: string;

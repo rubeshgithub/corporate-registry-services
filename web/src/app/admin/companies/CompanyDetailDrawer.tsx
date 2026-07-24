@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, ExternalLink, MapPin, Mail, Phone, Globe, RefreshCcw, Send, AlertTriangle, ArrowUpRight, Loader2 } from "lucide-react";
+import { X, ExternalLink, MapPin, Mail, Phone, Globe, RefreshCcw, Send, AlertTriangle, ArrowUpRight, Loader2, Info, Check } from "lucide-react";
 
 /**
  * Right-side detail drawer for /admin/companies.
@@ -54,6 +54,32 @@ type CompanyDetail = {
     replied:      boolean;
     orderId:      string | null;
   };
+  otherData: OtherData | null;
+};
+
+type OtherData = {
+  matched:      boolean;
+  name:         string | null;
+  address:      string | null;
+  city:         string | null;
+  region:       string | null;
+  country:      string | null;
+  postalCode:   string | null;
+  industry:     string | null;
+  locationType: string | null;
+  fetchedAt:    string | null;
+};
+
+type OtherDataCandidate = {
+  name:          string;
+  address:       string;
+  city:          string;
+  region:        string;
+  country:       string;
+  postalCode:    string;
+  industry:      string;
+  locationType:  string;
+  matchStrength: "identical" | "substring";
 };
 
 type TimelineEvent = {
@@ -98,6 +124,9 @@ export default function CompanyDetailDrawer({ corpNumber, onClose }: {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
   const [reEnriching, setReEnriching] = useState(false);
+  const [otherDataLoading, setOtherDataLoading] = useState(false);
+  const [otherDataCandidates, setOtherDataCandidates] = useState<OtherDataCandidate[] | null>(null);
+  const [otherDataErr, setOtherDataErr] = useState("");
 
   /* Fetch detail whenever corpNumber changes. */
   useEffect(() => {
@@ -157,6 +186,66 @@ export default function CompanyDetailDrawer({ corpNumber, onClose }: {
     }
   };
 
+  const fetchOtherData = async (forceRefresh: boolean) => {
+    if (!data) return;
+    setOtherDataLoading(true);
+    setOtherDataErr("");
+    setOtherDataCandidates(null);
+    try {
+      const res = await fetch("/api/admin/companies/other-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:       data.company.name,
+          corpNumber: data.company.corpNumber,
+          forceRefresh,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+
+      if (json.mode === "candidates") {
+        setOtherDataCandidates(json.candidates as OtherDataCandidate[]);
+      } else {
+        /* Modes "cached", "picked", "no_match" all persisted server-side —
+         *  refetch the drawer detail so otherData shows up in the section. */
+        const refetch = await fetch(`/api/admin/companies/${encodeURIComponent(corpNumber)}`);
+        if (refetch.ok) setData(await refetch.json());
+      }
+    } catch (e) {
+      setOtherDataErr(e instanceof Error ? e.message : "Fetch failed.");
+    } finally {
+      setOtherDataLoading(false);
+    }
+  };
+
+  const pickOtherDataCandidate = async (picked: OtherDataCandidate | null) => {
+    if (!data) return;
+    setOtherDataLoading(true);
+    setOtherDataErr("");
+    try {
+      const res = await fetch("/api/admin/companies/other-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:       data.company.name,
+          corpNumber: data.company.corpNumber,
+          picked:     picked ?? undefined,
+          noMatch:    picked === null,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+      setOtherDataCandidates(null);
+      const refetch = await fetch(`/api/admin/companies/${encodeURIComponent(corpNumber)}`);
+      if (refetch.ok) setData(await refetch.json());
+    } catch (e) {
+      setOtherDataErr(e instanceof Error ? e.message : "Save failed.");
+    } finally {
+      setOtherDataLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Backdrop */}
@@ -207,6 +296,8 @@ export default function CompanyDetailDrawer({ corpNumber, onClose }: {
                 company={data.company}
                 reEnriching={reEnriching}
                 onReEnrich={reEnrich}
+                otherDataLoading={otherDataLoading}
+                onFetchOtherData={() => fetchOtherData(false)}
               />
 
               <StatusBlock company={data.company} />
@@ -214,6 +305,15 @@ export default function CompanyDetailDrawer({ corpNumber, onClose }: {
               <ContactBlock company={data.company} />
 
               <AddressBlock company={data.company} />
+
+              <OtherDataBlock
+                otherData={data.company.otherData}
+                candidates={otherDataCandidates}
+                loading={otherDataLoading}
+                err={otherDataErr}
+                onPick={pickOtherDataCandidate}
+                onRefresh={() => fetchOtherData(true)}
+              />
 
               <EventTimeline events={data.events} />
 
@@ -270,10 +370,12 @@ function StickyHeader({ company, onClose }: { company: CompanyDetail; onClose: (
 
 /* ── Actions bar ───────────────────────────────────────────────── */
 
-function ActionsBar({ company, reEnriching, onReEnrich }: {
-  company:     CompanyDetail;
-  reEnriching: boolean;
-  onReEnrich:  () => void;
+function ActionsBar({ company, reEnriching, onReEnrich, otherDataLoading, onFetchOtherData }: {
+  company:          CompanyDetail;
+  reEnriching:      boolean;
+  onReEnrich:       () => void;
+  otherDataLoading: boolean;
+  onFetchOtherData: () => void;
 }) {
   return (
     <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", padding: "1rem 0", borderBottom: "1px dotted var(--border)", marginBottom: "1rem" }}>
@@ -292,6 +394,17 @@ function ActionsBar({ company, reEnriching, onReEnrich }: {
       >
         {reEnriching ? <Loader2 size={13} className="crs-spin" /> : <RefreshCcw size={13} />}
         Re-enrich
+      </button>
+      <button
+        onClick={onFetchOtherData}
+        disabled={otherDataLoading || !!company.otherData}
+        style={pillBtn(false)}
+        title={company.otherData
+          ? "Already fetched — see Other Data section below (use refresh to re-check)"
+          : "Look up additional public-directory data for this corporation"}
+      >
+        {otherDataLoading ? <Loader2 size={13} className="crs-spin" /> : <Info size={13} />}
+        Fetch other data
       </button>
       <a
         href={`/corporation/${encodeURIComponent(company.corpNumber)}`}
@@ -441,6 +554,145 @@ function AddressBlock({ company }: { company: CompanyDetail }) {
           {a.full || `${a.city}${a.postal ? " · " + a.postal : ""}`}
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ── Other data (public-directory enrichment) ──────────────────── */
+
+function OtherDataBlock({ otherData, candidates, loading, err, onPick, onRefresh }: {
+  otherData:  OtherData | null;
+  candidates: OtherDataCandidate[] | null;
+  loading:    boolean;
+  err:        string;
+  onPick:     (picked: OtherDataCandidate | null) => void;
+  onRefresh:  () => void;
+}) {
+  /* Nothing fetched yet AND no candidates on screen — hide the section.
+     The "Fetch other data" button in the actions bar is the entry point. */
+  if (!otherData && !candidates && !err && !loading) return null;
+
+  return (
+    <section style={sectionStyle}>
+      <SectionHeader>Other Data</SectionHeader>
+
+      {err && (
+        <div style={{
+          padding: "0.55rem 0.75rem", background: "rgba(220,38,38,0.10)", border: "1px solid rgba(220,38,38,0.45)",
+          color: "#B91C1C", fontSize: "0.78rem", borderRadius: "0.35rem", marginBottom: "0.65rem",
+        }}>
+          {err}
+        </div>
+      )}
+
+      {loading && !candidates && (
+        <div style={{ display: "flex", gap: "0.4rem", alignItems: "center", color: "var(--text-muted)", fontSize: "0.82rem", padding: "0.5rem 0" }}>
+          <Loader2 size={13} className="crs-spin" /> Looking up…
+        </div>
+      )}
+
+      {candidates && candidates.length > 0 && (
+        <div>
+          <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "0.65rem", lineHeight: 1.5 }}>
+            {candidates.length === 1 ? "1 Canadian match found." : `${candidates.length} Canadian matches found.`} Pick the one that matches this corporation, or dismiss if none apply.
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            {candidates.map((c, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "0.75rem 0.85rem",
+                  background: "var(--bg-deep)",
+                  border: c.matchStrength === "identical"
+                    ? "1.5px solid rgba(22,163,74,0.55)"
+                    : "1px solid var(--border)",
+                  borderRadius: "0.4rem",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.35rem" }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--text)", lineHeight: 1.3 }}>{c.name}</div>
+                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.15rem" }}>
+                      {[c.city, c.region, c.country].filter(Boolean).join(", ")}
+                    </div>
+                  </div>
+                  {c.matchStrength === "identical" && (
+                    <span style={{
+                      padding: "0.15rem 0.45rem", background: "rgba(22,163,74,0.14)", color: "#166534",
+                      fontSize: "0.66rem", fontWeight: 700, borderRadius: "0.35rem", whiteSpace: "nowrap",
+                      fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.05em",
+                    }}>
+                      Strong match
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: "0.78rem", color: "var(--text)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+                  {c.address && <>{c.address}<br /></>}
+                  {c.industry && <span style={{ color: "var(--text-muted)" }}>{c.industry}</span>}
+                </div>
+                <button
+                  onClick={() => onPick(c)}
+                  disabled={loading}
+                  style={pillBtn(true)}
+                >
+                  <Check size={13} /> Use this
+                </button>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: "0.75rem", display: "flex", gap: "0.4rem" }}>
+            <button onClick={() => onPick(null)} disabled={loading} style={pillBtn(false)}>
+              None of these match
+            </button>
+          </div>
+        </div>
+      )}
+
+      {otherData && !candidates && (
+        <>
+          {otherData.matched ? (
+            <>
+              <div style={{ fontSize: "0.9rem", color: "var(--text)", lineHeight: 1.55, marginBottom: "0.5rem" }}>
+                <strong>{otherData.name}</strong>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.5rem 1rem", fontSize: "0.85rem", color: "var(--text)" }}>
+                {otherData.address && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>Location</span>
+                    <span>
+                      {otherData.address}<br />
+                      {[otherData.city, otherData.region, otherData.postalCode].filter(Boolean).join(", ")}<br />
+                      {otherData.country}
+                    </span>
+                  </>
+                )}
+                {otherData.industry && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>Industry</span>
+                    <span>{otherData.industry}</span>
+                  </>
+                )}
+                {otherData.locationType && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>Type</span>
+                    <span>{otherData.locationType}</span>
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontStyle: "italic", padding: "0.35rem 0" }}>
+              No relevant Canadian match found. Sourced from public business directories.
+            </div>
+          )}
+          <div style={{ marginTop: "0.75rem", display: "flex", gap: "0.4rem", alignItems: "center", fontSize: "0.72rem", color: "var(--text-muted)" }}>
+            {otherData.fetchedAt && <span>Checked {fmtDate(otherData.fetchedAt)}</span>}
+            <button onClick={onRefresh} disabled={loading} style={{ ...pillBtn(false), padding: "0.25rem 0.55rem", fontSize: "0.72rem" }}>
+              {loading ? <Loader2 size={11} className="crs-spin" /> : <RefreshCcw size={11} />} Refresh
+            </button>
+          </div>
+        </>
+      )}
     </section>
   );
 }

@@ -213,6 +213,45 @@ export default function ProfileView({ data }: { data: SerializedProfileData }) {
               </>
             )}
           </InfoCard>
+
+          {company.otherData && (
+            <InfoCard title="Other Data" icon={<MapPin size={14} />}>
+              {company.otherData.name && (
+                <div style={{ fontWeight: 700, fontSize: "0.92rem", color: "var(--text)", marginBottom: "0.5rem" }}>
+                  {company.otherData.name}
+                </div>
+              )}
+              <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.35rem 0.85rem", fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.55 }}>
+                {company.otherData.address && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.04em" }}>Location</span>
+                    <span>
+                      {company.otherData.address}
+                      {(company.otherData.city || company.otherData.region || company.otherData.postalCode) && (
+                        <><br />{[company.otherData.city, company.otherData.region, company.otherData.postalCode].filter(Boolean).join(", ")}</>
+                      )}
+                      {company.otherData.country && <><br />{company.otherData.country}</>}
+                    </span>
+                  </>
+                )}
+                {company.otherData.industry && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.04em" }}>Industry</span>
+                    <span>{company.otherData.industry}</span>
+                  </>
+                )}
+                {company.otherData.locationType && (
+                  <>
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.04em" }}>Type</span>
+                    <span>{company.otherData.locationType}</span>
+                  </>
+                )}
+              </div>
+              <p style={{ fontSize: "0.7rem", color: "var(--text-muted)", margin: "0.75rem 0 0", fontStyle: "italic" }}>
+                Sourced from public business directories.
+              </p>
+            </InfoCard>
+          )}
         </div>
 
         {/* Right column — history timeline */}

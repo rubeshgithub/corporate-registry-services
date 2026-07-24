@@ -104,6 +104,18 @@ type CompanyDocLike = {
     replied?:      boolean;
     orderId?:      string | null;
   };
+  otherData?: {
+    matched:       boolean;
+    name?:         string;
+    address?:      string;
+    city?:         string;
+    region?:       string;
+    country?:      string;
+    postalCode?:   string;
+    industry?:     string;
+    locationType?: string;
+    fetchedAt?:    Date | null;
+  };
 };
 
 function serializeCompany(doc: CompanyDocLike, suppressed: boolean) {
@@ -148,6 +160,18 @@ function serializeCompany(doc: CompanyDocLike, suppressed: boolean) {
       replied:      !!doc.outreach?.replied,
       orderId:      doc.outreach?.orderId ?? null,
     },
+    otherData: doc.otherData ? {
+      matched:      !!doc.otherData.matched,
+      name:         doc.otherData.name         ?? null,
+      address:      doc.otherData.address      ?? null,
+      city:         doc.otherData.city         ?? null,
+      region:       doc.otherData.region       ?? null,
+      country:      doc.otherData.country      ?? null,
+      postalCode:   doc.otherData.postalCode   ?? null,
+      industry:     doc.otherData.industry     ?? null,
+      locationType: doc.otherData.locationType ?? null,
+      fetchedAt:    doc.otherData.fetchedAt ? new Date(doc.otherData.fetchedAt).toISOString() : null,
+    } : null,
   };
 }
 

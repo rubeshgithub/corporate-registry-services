@@ -86,6 +86,24 @@ export type CompanyDoc = {
     replied:      boolean;
     orderId:      string | null;
   };
+  /** Additional public-directory metadata (address, industry, location
+   *  type) sourced from a third-party business directory. Populated by
+   *  admin-triggered lookups only — never on public visitor requests.
+   *  `matched: false` means the admin checked and no relevant Canadian
+   *  match was found, so the public profile page suppresses the block. */
+  otherData?: {
+    matched:      boolean;
+    name?:        string;
+    address?:     string;
+    city?:        string;
+    region?:      string;
+    country?:     string;
+    postalCode?:  string;
+    industry?:    string;
+    locationType?: string;
+    fetchedAt:    Date;
+    fetchedBy?:   string;
+  };
 };
 
 export type EventDoc = {
@@ -109,7 +127,7 @@ export type EventDoc = {
  *  _id format: "<source>:<corpNumber>", e.g., "cbr:2028192736" or "places:2028192736"  */
 export type LookupDoc = {
   _id:       string;
-  source:    "cbr" | "places" | "crawl";
+  source:    "cbr" | "places" | "crawl" | "otherdata";
   payload:   unknown;
   fetchedAt: Date;
 };
