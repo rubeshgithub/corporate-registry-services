@@ -197,7 +197,7 @@ export default function OrderFlow() {
   const runSearch = async () => {
     const q = query.trim();
     if (q.length < 2) {
-      setSearchErr("Enter at least 2 characters — a company name, Corporate Access Number, or Business Number.");
+      setSearchErr("Enter at least 2 characters — a company name, corporation number, or Business Number.");
       return;
     }
     setSearchErr("");
@@ -305,7 +305,7 @@ export default function OrderFlow() {
             htmlFor="ar-q"
             style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.5rem" }}
           >
-            Company name, Corporate Access Number, or Business Number
+            Company name, corporation number, or Business Number
           </label>
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
             <input
@@ -313,7 +313,7 @@ export default function OrderFlow() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); runSearch(); } }}
-              placeholder="e.g. Acme Holdings, 2094832, or 123456789RC0001"
+              placeholder="e.g. Acme Holdings, 2094832 (AB), BC1234567, or 123456789RC0001"
               style={{
                 flex: "3 1 260px",
                 padding: "0.65rem 0.85rem",

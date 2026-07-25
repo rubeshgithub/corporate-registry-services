@@ -57,14 +57,42 @@ function matchesStatus(
   return true;
 }
 
-async function searchBC(q: string, status: StatusFilter) {
+/**
+ * BC ID-like detection. OrgBook's `q` full-text search is strong on names
+ * but doesn't reliably index Business Numbers or letter-prefixed BC corp
+ * numbers (BC1234567, S1234567, ULC1234567, etc.). When we detect either
+ * pattern, we run CBR in parallel — CBR's `keyword` filter searches BN,
+ * MRAS_ID, and Juri_ID together, filling the gap.
+ */
+function looksLikeBCCorpNumber(q: string): boolean {
+  /* Modern BC corp numbers: 1-4 letter prefix + 5-10 digits.
+   *  Prefixes cover BC, A, S, ULC, LLC, CP, LP, LL, BEN, C, XS, XP, PA. */
+  return /^[A-Z]{1,4}[\s-]?\d{5,10}$/i.test(q.trim());
+}
+function looksLikeBusinessNumber(q: string): boolean {
+  /* 9-digit BN, optionally followed by 2-letter + 4-digit program
+   *  identifier (BC0001, RC0001, etc.). Whitespace-tolerant. */
+  return /^\d{9}([A-Z]{2}\d{4})?$/i.test(q.trim().replace(/\s/g, ""));
+}
+function normalizeBCId(q: string): string {
+  /* "bc 1234567" / "bc-1234567" / "BC1234567" → "BC1234567" */
+  return q.trim().replace(/[\s-]/g, "").toUpperCase();
+}
+function bnForCBRKeyword(q: string): string {
+  /* Strip program identifier — CBR keyword filter matches on the 9-digit
+   *  BN, not on the full 15-char program-scoped BN. */
+  const compact = q.trim().replace(/\s/g, "");
+  return compact.length >= 9 ? compact.slice(0, 9) : compact;
+}
+
+async function searchOrgBookOnly(q: string, status: StatusFilter): Promise<{ results: ResultShape[]; source: string }> {
   // Bump upstream limit to widen the filterable window. OrgBook typically
   // returns what we ask for (unlike CBR which hard-caps at ~29).
   const url = `https://orgbook.gov.bc.ca/api/v4/search/credential?q=${encodeURIComponent(q)}&page=1&limit=40&format=json`;
   const res = await fetch(url, { next: { revalidate: 30 } });
   if (!res.ok) throw new Error(`OrgBook ${res.status}`);
   const data: OrgBookResp = await res.json();
-  const mapped = data.results.map((r) => {
+  const mapped: ResultShape[] = data.results.map((r) => {
     const typeCode  = oAttr(r.attributes, "entity_type");
     const rawStatus = oAttr(r.attributes, "entity_status");
     return {
@@ -81,10 +109,43 @@ async function searchBC(q: string, status: StatusFilter) {
     };
   });
   const filtered = mapped.filter((r) => matchesStatus(r.status, r.statusNotes, status));
+  return { source: "orgbook", results: filtered };
+}
+
+async function searchBC(q: string, status: StatusFilter) {
+  const trimmed = q.trim();
+  const isBCId  = looksLikeBCCorpNumber(trimmed);
+  const isBN    = looksLikeBusinessNumber(trimmed);
+  const idLike  = isBCId || isBN;
+
+  /* Normalize BC IDs so OrgBook full-text has the best chance of matching. */
+  const orgbookQuery = isBCId ? normalizeBCId(trimmed) : trimmed;
+  const cbrQuery     = isBN   ? bnForCBRKeyword(trimmed) : (isBCId ? normalizeBCId(trimmed) : trimmed);
+
+  const [orgbook, cbrHits] = await Promise.all([
+    searchOrgBookOnly(orgbookQuery, status).catch((e) => {
+      console.warn("[CRS] BC OrgBook search failed (non-fatal):", e);
+      return { source: "orgbook", results: [] as ResultShape[] };
+    }),
+    /* Only call CBR when we have a real chance of it helping — otherwise
+     *  we're paying ~150ms of latency for nothing on a plain name search. */
+    idLike
+      ? searchCBR(cbrQuery, status, "BC").catch((e) => {
+          console.warn("[CRS] BC CBR fallback search failed (non-fatal):", e);
+          return { total: 0, source: "cbr", results: [] as ResultShape[] };
+        })
+      : Promise.resolve({ total: 0, source: "cbr", results: [] as ResultShape[] }),
+  ]);
+
+  /* OrgBook wins on registryId conflict — it has fresher BC status data
+   *  than CBR's mirror. CBR-only hits (typical for BN lookups) get
+   *  appended. */
+  const merged = mergeResults(orgbook.results, cbrHits.results, 12);
+
   return {
-    total:  filtered.length,
-    source: "orgbook",
-    results: filtered.slice(0, 12),
+    total:  merged.length,
+    source: idLike && cbrHits.results.length > 0 ? "orgbook+cbr" : "orgbook",
+    results: merged,
   };
 }
 
