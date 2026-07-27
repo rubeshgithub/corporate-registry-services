@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WizardIsland from "@/components/wizard/WizardIsland";
@@ -12,6 +13,18 @@ import {
   Search,
   Globe,
 } from "lucide-react";
+
+/**
+ * Homepage canonical — consolidates every ?jurisdiction=X&src=Y&service=Z
+ * query-param variant back to the base `/` URL. Without this tag GSC
+ * reported 14 homepage variants as "Duplicate without user-selected
+ * canonical" because article-page CTAs deep-link to the homepage with
+ * pre-fill params for the wizard, producing many URLs with identical
+ * HTML. The canonical tells Google they all consolidate to `/`.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const TRUST_BADGES = [
   { icon: Globe,       label: "All 13 jurisdictions" },
