@@ -1,4 +1,5 @@
 import { companies } from "./registrar-mongo";
+import { searchPei } from "./pei-registry";
 
 /**
  * Free "Instant Availability Check" — best-effort search across the
@@ -25,7 +26,7 @@ const REQUEST_TIMEOUT_MS = 8_000;
 /** Strength classification threshold — flip to weak when we cross this. */
 const WEAK_THRESHOLD = 5;
 
-export type Scope = "all" | "federal" | "bc" | "ab";
+export type Scope = "all" | "federal" | "bc" | "ab" | "pe";
 
 export type NameMatch = {
   name:         string;
@@ -50,14 +51,20 @@ export async function checkNameAvailability(name: string, scope: Scope): Promise
     return { strength: "strong", matchCount: 0, matches: [], scopeLabel: scopeToLabel(scope) };
   }
 
-  const [cbrHits, abHits] = await Promise.all([
-    fetchCbr(name, scope).catch(() => [] as NameMatch[]),
+  const [cbrHits, abHits, peiHits] = await Promise.all([
+    /* CBR doesn't include PE — skip when scope is pe-only. */
+    scope === "pe"
+      ? Promise.resolve([] as NameMatch[])
+      : fetchCbr(name, scope).catch(() => [] as NameMatch[]),
     (scope === "all" || scope === "ab")
       ? fetchLocalAlberta(name).catch(() => [] as NameMatch[])
       : Promise.resolve([] as NameMatch[]),
+    (scope === "all" || scope === "pe")
+      ? fetchPei(name).catch(() => [] as NameMatch[])
+      : Promise.resolve([] as NameMatch[]),
   ]);
 
-  const relevant = dedupe([...cbrHits, ...abHits])
+  const relevant = dedupe([...cbrHits, ...abHits, ...peiHits])
     .filter((m) => isDistinctiveOverlap(m.name, norm));
 
   const matchCount = relevant.length;
@@ -125,6 +132,7 @@ function scopeToCbrRegistrySource(scope: Scope): string | null {
     case "federal": return "CD";
     case "bc":      return "BC";
     case "ab":      return "AB";
+    case "pe":      return null;    // CBR doesn't include PE — this branch is guarded upstream and never called
   }
 }
 
@@ -154,12 +162,31 @@ function scopeToLabel(scope: Scope): string {
     case "federal": return "Federal (Corporations Canada)";
     case "bc":      return "British Columbia";
     case "ab":      return "Alberta";
+    case "pe":      return "Prince Edward Island";
   }
 }
 
 function coverageNoteFor(scope: Scope): string | undefined {
   if (scope !== "all") return undefined;
-  return "Instant check covers federal + BC + Alberta live registries. For the full national coverage (all 13 provinces + territories + trademarks + phonetic similarity), order the paid NUANS report below.";
+  return "Instant check covers federal + BC + Alberta + PEI live registries. For the full national coverage (all 13 provinces + territories + trademarks + phonetic similarity), order the paid NUANS report below.";
+}
+
+/* ═══════════════════════════ PEI search ═══════════════════════════ */
+
+async function fetchPei(name: string): Promise<NameMatch[]> {
+  try {
+    const { results } = await searchPei(name);
+    return results
+      .filter((r) => !!r.name)
+      .map((r) => ({
+        name:         r.name ?? "",
+        jurisdiction: "Prince Edward Island",
+        registryId:   r.entityId ?? "",
+        status:       r.status ?? "",
+      }));
+  } catch {
+    return [];
+  }
 }
 
 /* ═══════════════════════════ Local AB search ═══════════════════════════ */

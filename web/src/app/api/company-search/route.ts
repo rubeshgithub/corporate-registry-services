@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { companies } from "@/lib/registrar-mongo";
+import { searchPei } from "@/lib/pei-registry";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
 
@@ -146,6 +147,50 @@ async function searchBC(q: string, status: StatusFilter) {
     total:  merged.length,
     source: idLike && cbrHits.results.length > 0 ? "orgbook+cbr" : "orgbook",
     results: merged,
+  };
+}
+
+// ── PEI (Prince Edward Island) ──────────────────────────────────────────────
+//
+// PEI publishes a public JSON API at wdf.princeedwardisland.ca/api/workflow
+// that fronts its OCBR corporate registry. Preflight confirms it as unsecured
+// (see web/src/lib/pei-registry.ts for the full contract). Different upstream
+// shape than CBR/OrgBook, so we normalize the response to the shared
+// ResultShape.
+//
+// PEI status codes come as words ("Active", "Inactive", etc.) — we normalize
+// to the "Active"/"Inactive" pair the shared filter expects.
+
+const PEI_ACTIVE_STATUSES = new Set([
+  "Active", "Reserved", "Pending Dissolution", "Transitioning",
+]);
+
+async function searchPEI(q: string, status: StatusFilter) {
+  const { results: raw, totalHint } = await searchPei(q);
+
+  const mapped: ResultShape[] = raw.map((r) => {
+    const rawStatus = r.status ?? "";
+    const normalized = PEI_ACTIVE_STATUSES.has(rawStatus) ? "Active" : "Inactive";
+    return {
+      name:             r.name ?? "Unknown",
+      businessNumber:   r.businessNumber ?? "",
+      registryId:       r.entityId ?? "",   // PEI's internal entity ID
+      location:         "Prince Edward Island",
+      status:           normalized,
+      statusNotes:      rawStatus,
+      entityType:       r.companyType ?? "",
+      registrationDate: "",                 // only in getEntity, not search
+      jurisdiction:     "Prince Edward Island",
+      provinceKey:      "pe",
+    };
+  });
+
+  const filtered = mapped.filter((r) => matchesStatus(r.status, r.statusNotes, status));
+
+  return {
+    total:  status === "all" ? (totalHint ?? filtered.length) : filtered.length,
+    source: "pei",
+    results: filtered.slice(0, 12),
   };
 }
 
@@ -378,6 +423,9 @@ export async function GET(request: Request) {
   try {
     if (province === "bc") {
       return NextResponse.json(await searchBC(q, status));
+    }
+    if (province === "pe") {
+      return NextResponse.json(await searchPEI(q, status));
     }
     const cbrCode = province === "all" ? undefined : PROVINCE_CBR[province];
 

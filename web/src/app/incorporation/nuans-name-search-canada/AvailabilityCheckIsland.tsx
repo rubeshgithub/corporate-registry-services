@@ -19,7 +19,7 @@ import { Search, Loader2, ArrowRight, CheckCircle2, AlertTriangle, XOctagon } fr
  * The name is pre-filled in the existing NUANS order wizard.
  */
 
-type Scope = "all" | "federal" | "bc" | "ab";
+type Scope = "all" | "federal" | "bc" | "ab" | "pe";
 
 type Match = {
   name:         string;
@@ -37,10 +37,11 @@ type Result = {
 };
 
 const SCOPES: Array<{ key: Scope; label: string; help: string }> = [
-  { key: "all",     label: "All Canada",         help: "Federal + BC + Alberta live registries" },
+  { key: "all",     label: "All Canada",         help: "Federal + BC + Alberta + PEI live registries" },
   { key: "federal", label: "Federal (CBCA)",     help: "Corporations Canada only" },
   { key: "bc",      label: "British Columbia",   help: "BC Registry Services" },
   { key: "ab",      label: "Alberta",            help: "Alberta Registry" },
+  { key: "pe",      label: "Prince Edward Island", help: "PEI Corporate Registry" },
 ];
 
 export default function AvailabilityCheckIsland() {

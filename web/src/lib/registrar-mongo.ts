@@ -127,7 +127,7 @@ export type EventDoc = {
  *  _id format: "<source>:<corpNumber>", e.g., "cbr:2028192736" or "places:2028192736"  */
 export type LookupDoc = {
   _id:       string;
-  source:    "cbr" | "places" | "crawl" | "otherdata";
+  source:    "cbr" | "places" | "crawl" | "otherdata" | "pei";
   payload:   unknown;
   fetchedAt: Date;
 };
