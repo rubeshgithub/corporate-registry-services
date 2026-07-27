@@ -1,10 +1,22 @@
 import { NextResponse } from "next/server";
-import { isCmsAuthenticated } from "@/lib/cms-auth";
+import { isCmsAuthorized } from "@/lib/cms-auth";
 import { cmsArticles, ensureCmsIndexes, SECTIONS, type Section, type CmsArticleDoc } from "@/lib/cms-mongo";
 
 /**
  * GET  /api/cms/articles       — list drafts + published
+ *                                (cookie OR bearer token — external automation
+ *                                 can query "does this slug exist?" before
+ *                                 deciding create vs update)
  * POST /api/cms/articles       — create a new draft
+ *                                (cookie OR bearer — the primary automation
+ *                                 entry point; drafts appear in the CMS
+ *                                 review UI for human publish)
+ *
+ * Query params on GET:
+ *   ?status=draft|published
+ *   ?section=<section>
+ *   ?slug=<exact-slug>         — exact match, useful for automation idempotency
+ *   ?q=<substring>             — regex substring across title/slug/description
  */
 
 export const runtime = "nodejs";
@@ -13,18 +25,20 @@ export const dynamic = "force-dynamic";
 const KEBAB_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(req: Request) {
-  if (!(await isCmsAuthenticated())) {
+  if (!(await isCmsAuthorized(req, { allowBearer: true }))) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 401 });
   }
   await ensureCmsIndexes();
   const url = new URL(req.url);
   const status = url.searchParams.get("status");   // draft | published | (all)
   const section = url.searchParams.get("section"); // filter
+  const slug = url.searchParams.get("slug")?.trim();
   const q = url.searchParams.get("q")?.trim();
 
   const filter: Record<string, unknown> = {};
   if (status === "draft" || status === "published") filter.status = status;
   if (section && (SECTIONS as string[]).includes(section)) filter.section = section;
+  if (slug) filter.slug = slug;                 // exact-match — powers automation "does this exist?" checks
   if (q && q.length >= 2) {
     const regex = { $regex: q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" };
     filter.$or = [{ title: regex }, { slug: regex }, { description: regex }];
@@ -42,7 +56,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  if (!(await isCmsAuthenticated())) {
+  if (!(await isCmsAuthorized(req, { allowBearer: true }))) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 401 });
   }
   await ensureCmsIndexes();

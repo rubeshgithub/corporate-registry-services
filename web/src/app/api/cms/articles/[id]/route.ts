@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { isCmsAuthenticated } from "@/lib/cms-auth";
+import { isCmsAuthorized, isCmsAuthenticated } from "@/lib/cms-auth";
 import { cmsArticles, ensureCmsIndexes, SECTIONS, type Section, type CmsArticleDoc, type CmsFaq } from "@/lib/cms-mongo";
 
 /**
- * GET    /api/cms/articles/[id]  — fetch a single article (draft or published)
- * PUT    /api/cms/articles/[id]  — save changes (stays a draft; publish is a separate route)
- * DELETE /api/cms/articles/[id]  — delete from Mongo (does NOT remove the git-published file)
+ * GET    /api/cms/articles/[id]  — fetch a single article
+ *                                  (cookie OR bearer)
+ * PUT    /api/cms/articles/[id]  — save changes (stays a draft)
+ *                                  (cookie OR bearer — automation can update
+ *                                   its own previously-created drafts by id)
+ * DELETE /api/cms/articles/[id]  — delete from Mongo
+ *                                  (cookie only — humans only, so automation
+ *                                   bugs can't wipe drafts)
+ *                                  Does NOT remove the git-published file.
  */
 
 export const runtime = "nodejs";
@@ -20,8 +26,8 @@ function idFrom(raw: string): ObjectId | null {
   try { return new ObjectId(raw); } catch { return null; }
 }
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!(await isCmsAuthenticated())) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  if (!(await isCmsAuthorized(req, { allowBearer: true }))) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 401 });
   }
   const { id } = await params;
@@ -36,7 +42,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 }
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!(await isCmsAuthenticated())) {
+  if (!(await isCmsAuthorized(req, { allowBearer: true }))) {
     return NextResponse.json({ ok: false, error: "Not authorized." }, { status: 401 });
   }
   await ensureCmsIndexes();

@@ -63,3 +63,43 @@ export async function isCmsAuthenticated(): Promise<boolean> {
 
 export const CMS_COOKIE_NAME = COOKIE_NAME;
 export const CMS_COOKIE_TTL_SEC = COOKIE_TTL_HOURS * 3600;
+
+/**
+ * Bearer-token auth for external automation. Adds an alternate path to
+ * cookie auth so a scheduled Claude cowork (or any external script) can
+ * POST drafts to the CMS API and have them appear in the review UI a
+ * human uses.
+ *
+ * ENV: CMS_API_TOKEN — separate from CMS_PASSWORD so the automation
+ * credential can be rotated independently. Fail closed: no token in env
+ * → bearer path is disabled entirely (cookie still works).
+ *
+ * Not every route allows bearer — DELETE + Publish stay cookie-only so
+ * only a human can destroy or ship content. Callers opt in per-route by
+ * passing `{ allowBearer: true }`.
+ */
+export async function isCmsAuthorized(req: Request, opts: { allowBearer?: boolean } = {}): Promise<boolean> {
+  /* Cookie session — always the primary path */
+  if (await isCmsAuthenticated()) return true;
+
+  /* Bearer token — only if this route allows it AND env is configured */
+  if (opts.allowBearer) {
+    const header = req.headers.get("authorization") ?? "";
+    const presented = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+    const expected = process.env.CMS_API_TOKEN?.trim();
+    if (presented && expected && timingSafeStrEq(presented, expected)) return true;
+  }
+
+  return false;
+}
+
+function timingSafeStrEq(a: string, b: string): boolean {
+  const ba = Buffer.from(a, "utf8");
+  const bb = Buffer.from(b, "utf8");
+  if (ba.length !== bb.length) return false;
+  try {
+    return crypto.timingSafeEqual(ba, bb);
+  } catch {
+    return false;
+  }
+}
