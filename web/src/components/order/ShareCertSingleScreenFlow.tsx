@@ -36,6 +36,7 @@ type RegistryHit = {
 
 const DEBOUNCE_MS = 400;
 const MIN_QUERY   = 2;
+const HANDOFF_KEY = "crs.shareCert.pickedCorp";
 
 export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocServiceConfig }) {
   const params         = useSearchParams();
@@ -72,6 +73,21 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
   /* Payment */
   const [paying, setPaying] = useState(false);
   const [payErr, setPayErr] = useState("");
+
+  /* Consume the sessionStorage handoff from the article-page lookup widget.
+   *  If ShareCertLookupIsland stashed a picked corp before redirecting here,
+   *  read it and auto-verify so the visitor doesn't have to search twice. */
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(HANDOFF_KEY);
+      if (!raw) return;
+      sessionStorage.removeItem(HANDOFF_KEY);
+      const hit = JSON.parse(raw) as RegistryHit;
+      if (hit && typeof hit.name === "string") setPick(hit);
+    } catch {
+      /* Malformed handoff — visitor searches manually. */
+    }
+  }, []);
 
   /* Debounced auto-lookup — fires whenever q changes and no corp is picked. */
   const searchToken = useRef(0);

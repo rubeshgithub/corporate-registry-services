@@ -8,6 +8,7 @@ import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
 import NfpConsultationCTA from "@/components/NfpConsultationCTA";
+import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
 import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 
@@ -168,6 +169,18 @@ export default async function ContentPage({
               titleOverride={page.widgetTitle ?? null}
               subOverride={page.widgetSub ?? null}
             />
+          )}
+
+          {/* Share-certificate lookup widget — different flow shape than the
+              AR/PR/GS inline widget above because a share cert needs
+              shareholder + share details AFTER the corp is picked. So this
+              widget only handles the corp search; the visitor is redirected
+              to /order/share-certificate with the picked corp stashed in
+              sessionStorage, where ShareCertSingleScreenFlow auto-verifies
+              on mount. Single share-cert article for now — extend the
+              condition if we add more share-cert-adjacent articles. */}
+          {page.section === "articles" && page.slug === "share-certificates-in-canada" && (
+            <ShareCertLookupIsland src={`article-${page.slug}`} />
           )}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
