@@ -1,3 +1,4 @@
+import { request as httpsRequest } from "node:https";
 import { lookups, ensureLookupsIndex } from "./registrar-mongo";
 
 /**
@@ -34,7 +35,11 @@ import { lookups, ensureLookupsIndex } from "./registrar-mongo";
  */
 
 const API_URL      = "https://wdf.princeedwardisland.ca/api/workflow";
-const UA           = "CRS-PEI/1.0 (+https://www.corporateregistryservices.ca; support@corporateregistryservices.ca)";
+/* UA kept minimal — a semicolon in the header value is technically allowed
+ *  per RFC 7231 but some WAFs (including this one, empirically) treat it as
+ *  a subparameter delimiter and reject the request with 500. Contact address
+ *  documented in the source instead. */
+const UA           = "CRS-PEI/1.0 (+https://www.corporateregistryservices.ca)";
 const TIMEOUT_MS   = 15_000;
 const MAX_RETRIES  = 2;
 const CACHE_TTL_MS = 15 * 60 * 1000;
@@ -194,41 +199,82 @@ function buildBody({ activity, vars }: { activity: string; vars: FormVars }): Re
   };
 }
 
+/**
+ * Post to PEI's workflow endpoint using Node's built-in `https` module.
+ *
+ * Undici (Node's default fetch implementation) sends requests that PEI's WAF
+ * rejects with HTTP 500 + null body, even though curl with the same headers
+ * returns 20KB of valid JSON. The rejection is likely triggered by TLS
+ * ClientHello fingerprint or a header undici auto-adds that we can't
+ * override via the fetch API.
+ *
+ * Node's built-in `https` module has a different TLS stack + fingerprint,
+ * only speaks HTTP/1.1, and doesn't auto-add Accept-Encoding — behaviour
+ * that matches curl. Empirically this gets past PEI's WAF.
+ */
 async function postWorkflow(body: unknown): Promise<unknown> {
+  const payload = JSON.stringify(body);
   let lastErr: unknown;
+
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (attempt > 0) await sleep(300 * 2 ** (attempt - 1));
-    const ac    = new AbortController();
-    const timer = setTimeout(() => ac.abort(), TIMEOUT_MS);
     try {
-      const res = await fetch(API_URL, {
-        method:  "POST",
+      const res = await httpsPost(API_URL, payload);
+      if (res.status >= 500) {
+        console.warn(`[pei] upstream ${res.status} body preview:`, res.body.slice(0, 400));
+        lastErr = new PeiRegistryError(`upstream ${res.status}: ${res.body.slice(0, 200)}`, { status: res.status });
+        continue;
+      }
+      if (res.status >= 400) {
+        console.warn(`[pei] upstream ${res.status} body preview:`, res.body.slice(0, 400));
+        throw new PeiRegistryError(`upstream ${res.status}: ${res.body.slice(0, 200)}`, { status: res.status });
+      }
+      try {
+        return JSON.parse(res.body);
+      } catch (e) {
+        throw new PeiRegistryError("upstream returned non-JSON body", { cause: e });
+      }
+    } catch (e) {
+      if (e instanceof PeiRegistryError && e.status && e.status < 500) throw e;
+      lastErr = e;
+    }
+  }
+  throw new PeiRegistryError("upstream unreachable", { cause: lastErr });
+}
+
+/** POST helper using Node's built-in https module — matches curl's HTTP/1.1
+ *  behaviour and TLS fingerprint more closely than undici, avoiding PEI's
+ *  WAF false-positive on undici requests. */
+function httpsPost(url: string, body: string): Promise<{ status: number; body: string }> {
+  return new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const req = httpsRequest(
+      {
+        hostname: u.hostname,
+        port:     u.port ? Number(u.port) : 443,
+        path:     u.pathname + u.search,
+        method:   "POST",
         headers: {
           "Content-Type":       "application/json",
           "Accept":             "application/json",
           "Client-Show-Status": "true",
           "User-Agent":         UA,
+          "Content-Length":     Buffer.byteLength(body).toString(),
         },
-        body:   JSON.stringify(body),
-        signal: ac.signal,
-        cache:  "no-store",
-      });
-      if (res.status >= 500) {
-        lastErr = new PeiRegistryError(`upstream ${res.status}`, { status: res.status });
-        continue;
-      }
-      if (!res.ok) {
-        throw new PeiRegistryError(`upstream ${res.status}`, { status: res.status });
-      }
-      return await res.json();
-    } catch (e) {
-      if (e instanceof PeiRegistryError && e.status && e.status < 500) throw e;
-      lastErr = e;
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-  throw new PeiRegistryError("upstream unreachable", { cause: lastErr });
+        timeout:  TIMEOUT_MS,
+      },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on("data", (c) => chunks.push(Buffer.isBuffer(c) ? c : Buffer.from(c)));
+        res.on("end",  () => resolve({ status: res.statusCode ?? 0, body: Buffer.concat(chunks).toString("utf8") }));
+        res.on("error", reject);
+      },
+    );
+    req.on("error",   reject);
+    req.on("timeout", () => req.destroy(new Error("PEI request timeout")));
+    req.write(body);
+    req.end();
+  });
 }
 
 /* ─── Parsers (verified against real probes) ──────────────── */
