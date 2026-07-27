@@ -165,8 +165,24 @@ const PEI_ACTIVE_STATUSES = new Set([
   "Active", "Reserved", "Pending Dissolution", "Transitioning",
 ]);
 
+/** PEI BN formats:
+ *   - Bare 9-digit BN                  e.g. 759372865
+ *   - 9-digit BN + '-' + 6-digit reg   e.g. 832815864-141006
+ *   - 9-digit BN + program identifier  e.g. 832815864RC0001 (rare in PEI but tolerated)
+ *  Whitespace/dash tolerant on input. */
+function looksLikePeiBusinessNumber(q: string): boolean {
+  const compact = q.trim().replace(/\s/g, "");
+  return /^\d{9}(?:-?\d{4,6}|[A-Z]{2}\d{4})?$/i.test(compact);
+}
+
 async function searchPEI(q: string, status: StatusFilter) {
-  const { results: raw, totalHint } = await searchPei(q);
+  /* If the query looks like a BN, route to PEI's business_number field
+   *  instead of the name field. PEI's fuzzy name matcher doesn't hit BN
+   *  columns, so a BN passed as a name returns no matches. */
+  const isBN = looksLikePeiBusinessNumber(q);
+  const { results: raw, totalHint } = isBN
+    ? await searchPei("", { businessNumber: q.trim() })
+    : await searchPei(q);
 
   const mapped: ResultShape[] = raw.map((r) => {
     const rawStatus = r.status ?? "";
@@ -431,28 +447,46 @@ export async function GET(request: Request) {
 
     /* For Alberta and all-province searches, merge local gazette DB results
        in so Alberta Societies (and other entity types CBR doesn't expose)
-       surface. Runs in parallel with the CBR fetch — added latency is
-       ~50-150ms against Atlas. */
+       surface. For all-province searches, also fold in PEI — CBR doesn't
+       cover PEI at all, so without this the "All Canada" scope would
+       silently exclude PEI corps. Both extras run in parallel with the
+       CBR fetch. Added latency: ~50-150ms Atlas + ~200-400ms PEI. */
     const includeLocalAB = province === "ab" || province === "all";
-    const [cbrResp, localAB] = await Promise.all([
+    const includePEI     = province === "all";
+    const [cbrResp, localAB, peiResp] = await Promise.all([
       searchCBR(q, status, cbrCode),
       includeLocalAB ? searchLocalAB(q, status, 12).catch((e) => {
         console.warn("[CRS] local AB search failed (non-fatal):", e);
         return [] as ResultShape[];
       }) : Promise.resolve([] as ResultShape[]),
+      includePEI ? searchPEI(q, status).catch((e) => {
+        console.warn("[CRS] parallel PEI search failed (non-fatal):", e);
+        return { total: 0, source: "pei", results: [] as ResultShape[] };
+      }) : Promise.resolve({ total: 0, source: "pei", results: [] as ResultShape[] }),
     ]);
 
-    if (!includeLocalAB || localAB.length === 0) {
+    const hasLocalAB = includeLocalAB && localAB.length > 0;
+    const hasPEI     = includePEI     && peiResp.results.length > 0;
+
+    if (!hasLocalAB && !hasPEI) {
       return NextResponse.json(cbrResp);
     }
 
-    const merged = mergeResults(cbrResp.results, localAB, 20);
+    let merged = cbrResp.results;
+    if (hasLocalAB) merged = mergeResults(merged, localAB, 20);
+    if (hasPEI)     merged = mergeResults(merged, peiResp.results, 20);
+
+    const sourceParts: string[] = ["cbr"];
+    if (hasLocalAB) sourceParts.push("gazette");
+    if (hasPEI)     sourceParts.push("pei");
+
     return NextResponse.json({
       ...cbrResp,
-      results:       merged,
-      total:         merged.length,
-      source:        "cbr+gazette",
-      localMatches:  localAB.length,
+      results:      merged,
+      total:        merged.length,
+      source:       sourceParts.join("+"),
+      localMatches: hasLocalAB ? localAB.length : undefined,
+      peiMatches:   hasPEI ? peiResp.results.length : undefined,
     });
   } catch (err) {
     console.error("[CRS] company-search error:", err);

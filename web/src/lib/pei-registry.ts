@@ -93,6 +93,10 @@ export class PeiRegistryError extends Error {
 /* ─── Public entrypoints ──────────────────────────────────── */
 
 export type SearchOpts = {
+  /** Pass a business number to search by BN instead of name. PEI accepts
+   *  either bare 9-digit BN (`759372865`) or the 9+6 registration form
+   *  (`832815864-141006`). When set, `name` is ignored. */
+  businessNumber?: string;
   status?:      string | null;
   companyType?: string | null;
   page?:        number;
@@ -101,8 +105,9 @@ export type SearchOpts = {
 };
 
 /**
- * Search the PEI corporate registry by name. Cached 15 min in `lookups` per
- * (name, status, companyType, page) tuple.
+ * Search the PEI corporate registry by name (or by business number if
+ * `opts.businessNumber` is set). Cached 15 min in `lookups` per
+ * (name/BN, status, companyType, page) tuple.
  */
 export async function searchPei(name: string, opts: SearchOpts = {}): Promise<{
   results: PeiSearchResult[];
@@ -110,7 +115,9 @@ export async function searchPei(name: string, opts: SearchOpts = {}): Promise<{
   cached: boolean;
   source: "pei";
 }> {
-  const key = `pei-search:${normKey(name)}|${opts.status ?? ""}|${opts.companyType ?? ""}|${opts.page ?? 1}`;
+  const bn = opts.businessNumber?.trim() || null;
+  const cacheKeyPart = bn ? `bn:${bn}` : normKey(name);
+  const key = `pei-search:${cacheKeyPart}|${opts.status ?? ""}|${opts.companyType ?? ""}|${opts.page ?? 1}`;
 
   if (!opts.forceRefresh) {
     const cached = await readCache<{ results: PeiSearchResult[]; totalHint: number | null }>(key);
@@ -120,10 +127,13 @@ export async function searchPei(name: string, opts: SearchOpts = {}): Promise<{
   const body = buildBody({
     activity: "BusinessSearch",
     vars: {
-      name,
-      business_number: null,
-      company_type: opts.companyType ?? null,
-      status: opts.status ?? null,
+      /* When BN is provided, send only BN (matches how PEI's own form
+       *  behaves — name field empty, BN field populated). Otherwise send
+       *  only name. */
+      name:            bn ? null : name,
+      business_number: bn,
+      company_type:    opts.companyType ?? null,
+      status:          opts.status ?? null,
       ...(opts.page     != null ? { page_number: String(opts.page) } : {}),
       ...(opts.pageSize != null ? { page_size:   String(opts.pageSize) } : {}),
     },

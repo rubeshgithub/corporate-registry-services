@@ -370,9 +370,10 @@ export default function InlineLookupOrder({
               <div style={{ minWidth: 0, flex: "1 1 auto" }}>
                 <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.95rem" }}>{pick.name}</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginTop: "0.35rem" }}>
-                  <MetaPill label="Registry ID"  value={pick.registryId}   tone="teal" />
-                  <MetaPill label="Type"         value={pick.entityType}   tone="gold" />
-                  <MetaPill label="Jurisdiction" value={pick.jurisdiction} tone="navy" />
+                  <MetaPill label="Registry ID"    value={pick.registryId}     tone="teal"  />
+                  <MetaPill label="Business #"     value={pick.businessNumber} tone="slate" />
+                  <MetaPill label="Type"           value={pick.entityType}     tone="gold"  />
+                  <MetaPill label="Jurisdiction"   value={pick.jurisdiction}   tone="navy"  />
                 </div>
               </div>
             </div>
@@ -556,9 +557,10 @@ function ResultCard({
             {hit.name}
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.35rem" }}>
-            <MetaPill label="Registry ID"  value={hit.registryId}   tone="teal" />
-            <MetaPill label="Type"         value={hit.entityType}   tone="gold" />
-            <MetaPill label="Jurisdiction" value={hit.jurisdiction} tone="navy" />
+            <MetaPill label="Registry ID"  value={hit.registryId}     tone="teal"  />
+            <MetaPill label="Business #"   value={hit.businessNumber} tone="slate" />
+            <MetaPill label="Type"         value={hit.entityType}     tone="gold"  />
+            <MetaPill label="Jurisdiction" value={hit.jurisdiction}   tone="navy"  />
           </div>
           <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.4rem" }}>
             {incorpLabel ? `Incorporated ${incorpLabel} · ` : ""}Status: {hit.status}
@@ -623,11 +625,12 @@ function deadlineColorText(status: DueStatus): string {
   return "var(--text-muted)";
 }
 
-type PillTone = "teal" | "gold" | "navy";
+type PillTone = "teal" | "gold" | "navy" | "slate";
 const PILL_TONES: Record<PillTone, { bg: string; color: string; border: string }> = {
-  teal: { bg: "rgba(42,125,143,0.10)", color: "var(--secondary)", border: "rgba(42,125,143,0.35)" },
-  gold: { bg: "var(--gold-dim)",       color: "var(--gold)",      border: "rgba(249,172,0,0.45)"  },
-  navy: { bg: "rgba(0,61,91,0.08)",    color: "var(--primary)",   border: "rgba(0,61,91,0.25)"    },
+  teal:  { bg: "rgba(42,125,143,0.10)", color: "var(--secondary)", border: "rgba(42,125,143,0.35)" },
+  gold:  { bg: "var(--gold-dim)",       color: "var(--gold)",      border: "rgba(249,172,0,0.45)"  },
+  navy:  { bg: "rgba(0,61,91,0.08)",    color: "var(--primary)",   border: "rgba(0,61,91,0.25)"    },
+  slate: { bg: "rgba(100,116,139,0.10)", color: "#475569",         border: "rgba(100,116,139,0.35)" },
 };
 
 function MetaPill({ label, value, tone }: { label: string; value: string; tone: PillTone }) {

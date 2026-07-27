@@ -17,12 +17,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type Body = {
-  name?:         string;
-  status?:       string | null;
-  companyType?:  string | null;
-  page?:         number;
-  pageSize?:     number;
-  forceRefresh?: boolean;
+  name?:           string;
+  businessNumber?: string;
+  status?:         string | null;
+  companyType?:    string | null;
+  page?:           number;
+  pageSize?:       number;
+  forceRefresh?:   boolean;
 };
 
 export async function POST(req: Request) {
@@ -32,8 +33,13 @@ export async function POST(req: Request) {
   }
 
   const name = String(body.name ?? "").trim();
-  if (name.length < 2) {
-    return NextResponse.json({ ok: false, error: "Please enter at least 2 characters." }, { status: 400 });
+  const bn   = String(body.businessNumber ?? "").trim();
+
+  if (!name && !bn) {
+    return NextResponse.json({ ok: false, error: "Please enter a company name or business number." }, { status: 400 });
+  }
+  if (name && name.length < 2 && !bn) {
+    return NextResponse.json({ ok: false, error: "Name must be at least 2 characters." }, { status: 400 });
   }
   if (name.length > 200) {
     return NextResponse.json({ ok: false, error: "Name is too long." }, { status: 400 });
@@ -41,6 +47,7 @@ export async function POST(req: Request) {
 
   try {
     const result = await searchPei(name, {
+      businessNumber: bn || undefined,
       status:       body.status ?? null,
       companyType:  body.companyType ?? null,
       page:         body.page,
