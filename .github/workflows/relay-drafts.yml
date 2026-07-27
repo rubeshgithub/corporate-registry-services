@@ -1,0 +1,69 @@
+name: Relay automation drafts to CMS
+
+# Fires when the Claude cloud automation commits a JSON draft under
+# automation/drafts/. Reads each JSON, POSTs (or PUTs, or skips) to the
+# CMS API per CMS-API-BRIEF.md, then deletes the file so the folder
+# stays clean. Drafts show up in the /cms review queue for a human to
+# publish manually.
+#
+# Never publishes automatically — the CMS bearer scope excludes publish
+# on purpose. This action only creates/updates drafts.
+
+on:
+  push:
+    branches: [main]
+    paths: ["automation/drafts/*.json"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: relay-drafts
+  cancel-in-progress: false
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Relay each pending draft to the CMS API
+        env:
+          CMS_API_TOKEN: ${{ secrets.CMS_API_TOKEN }}
+          BASE: https://www.corporateregistryservices.ca
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for f in automation/drafts/*.json; do
+            slug=$(jq -r '.slug' "$f")
+            section=$(jq -r '.section' "$f")
+            echo "Relaying $section/$slug"
+
+            existing=$(curl -sf -H "Authorization: Bearer $CMS_API_TOKEN" \
+              "$BASE/api/cms/articles?slug=$slug&section=$section")
+            status=$(echo "$existing" | jq -r '.articles[0].status // "none"')
+            id=$(echo "$existing" | jq -r '.articles[0].id // ""')
+
+            if [ "$status" = "published" ]; then
+              echo "::warning::$slug already published — skipping"
+            elif [ "$status" = "draft" ]; then
+              curl -sf -X PUT -H "Authorization: Bearer $CMS_API_TOKEN" \
+                -H "Content-Type: application/json" \
+                --data @"$f" "$BASE/api/cms/articles/$id" > /dev/null
+              echo "Updated existing draft $id"
+            else
+              curl -sf -X POST -H "Authorization: Bearer $CMS_API_TOKEN" \
+                -H "Content-Type: application/json" \
+                --data @"$f" "$BASE/api/cms/articles" > /dev/null
+              echo "Created new draft"
+            fi
+
+            git rm -q "$f"
+          done
+
+          if ! git diff --cached --quiet; then
+            git config user.name  "draft-relay[bot]"
+            git config user.email "actions@users.noreply.github.com"
+            git commit -m "chore: relay automation drafts to CMS [skip ci]"
+            git push
+          fi
