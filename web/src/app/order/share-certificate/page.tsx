@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CorpDocOrderFlow from "@/components/order/CorpDocOrderFlow";
+import ShareCertSingleScreenFlow from "@/components/order/ShareCertSingleScreenFlow";
 import { CORP_DOC_CONFIGS } from "@/lib/corp-doc-config";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function ShareCertificateOrderPage() {
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
         <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
-          <CorpDocOrderFlow config={CORP_DOC_CONFIGS["share-certificate"]} />
+          <ShareCertSingleScreenFlow config={CORP_DOC_CONFIGS["share-certificate"]} />
         </Suspense>
       </main>
       <Footer />
