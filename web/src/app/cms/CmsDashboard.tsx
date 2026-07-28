@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Loader2, Edit2, ExternalLink, LogOut, FileText, Search, CheckCircle2, Clock } from "lucide-react";
+import { Plus, Loader2, Edit2, ExternalLink, LogOut, FileText, Search, CheckCircle2, Clock, Trash2 } from "lucide-react";
 
 type Article = {
   id:              string;
@@ -38,7 +38,9 @@ export default function CmsDashboard() {
   const [q, setQ]               = useState("");
   const [status, setStatus]     = useState<"" | "draft" | "published">("");
   const [section, setSection]   = useState<string>("");
-  const [creating, setCreating] = useState(false);
+  const [creating, setCreating]         = useState(false);
+  const [confirmDeleteId, setConfirmId] = useState<string | null>(null);
+  const [deletingId, setDeletingId]     = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -78,6 +80,22 @@ export default function CmsDashboard() {
       setErr(e instanceof Error ? e.message : "Create failed.");
     } finally {
       setCreating(false);
+    }
+  };
+
+  const deleteArticle = async (id: string) => {
+    setDeletingId(id);
+    setErr("");
+    try {
+      const res  = await fetch(`/api/cms/articles/${id}`, { method: "DELETE" });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.ok) throw new Error(json.error || `HTTP ${res.status}`);
+      setArticles((prev) => prev.filter((a) => a.id !== id));
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Delete failed.");
+    } finally {
+      setDeletingId(null);
+      setConfirmId(null);
     }
   };
 
@@ -191,13 +209,41 @@ export default function CmsDashboard() {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-                  <a href={`/cms/edit/${a.id}`} style={ghostBtn}>
-                    <Edit2 size={12} /> Edit
-                  </a>
-                  {a.status === "published" && a.publishedUrl && (
-                    <a href={a.publishedUrl} target="_blank" rel="noreferrer" style={ghostBtn}>
-                      <ExternalLink size={12} /> View
-                    </a>
+                  {confirmDeleteId === a.id ? (
+                    <>
+                      <span style={{ fontSize: "0.72rem", color: "#B91C1C", fontWeight: 600 }}>
+                        {a.status === "published" ? "Delete + take offline?" : "Delete draft?"}
+                      </span>
+                      <button
+                        onClick={() => deleteArticle(a.id)}
+                        disabled={deletingId === a.id}
+                        style={dangerBtn}
+                      >
+                        {deletingId === a.id ? <Loader2 size={12} className="crs-spin" /> : <Trash2 size={12} />}
+                        Yes, delete
+                      </button>
+                      <button
+                        onClick={() => setConfirmId(null)}
+                        disabled={deletingId === a.id}
+                        style={ghostBtn}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <a href={`/cms/edit/${a.id}`} style={ghostBtn}>
+                        <Edit2 size={12} /> Edit
+                      </a>
+                      {a.status === "published" && a.publishedUrl && (
+                        <a href={a.publishedUrl} target="_blank" rel="noreferrer" style={ghostBtn}>
+                          <ExternalLink size={12} /> View
+                        </a>
+                      )}
+                      <button onClick={() => setConfirmId(a.id)} style={ghostDangerBtn} title="Delete article">
+                        <Trash2 size={12} />
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -263,4 +309,21 @@ const ghostBtn: React.CSSProperties = {
   cursor: "pointer",
   display: "inline-flex", alignItems: "center", gap: "0.3rem",
   textDecoration: "none",
+};
+
+const ghostDangerBtn: React.CSSProperties = {
+  ...ghostBtn,
+  padding: "0.4rem 0.55rem",
+  color: "#B91C1C",
+};
+
+const dangerBtn: React.CSSProperties = {
+  padding: "0.4rem 0.75rem",
+  background: "#B91C1C",
+  border: "1px solid #B91C1C",
+  color: "#FFFFFF",
+  borderRadius: "0.35rem",
+  fontSize: "0.78rem", fontWeight: 700,
+  cursor: "pointer",
+  display: "inline-flex", alignItems: "center", gap: "0.3rem",
 };
