@@ -1,0 +1,85 @@
+name: Daily GSC sync
+
+# Pulls last 28 days of Google Search Console data (query, page, and
+# page×query dimensions) and commits automation/gsc/latest.json. The
+# Claude cloud automation that writes weekly SEO articles clones this
+# repo on every run — Google APIs are blocked from its sandbox, but
+# GitHub Actions has full egress, so this bridges the gap.
+#
+# Only latest.json is kept — each sync overwrites — so the repo stays
+# small. Site build ignores automation/** (established in the
+# relay-drafts workflow), so this commit's [skip ci] tag also prevents
+# Render redeploys as long as the operator has enabled the "Skip
+# commits with [skip ci]" setting on the Render service.
+
+on:
+  schedule:
+    - cron: "30 9 * * *"   # 09:30 UTC daily (~3:30am Edmonton), after GSC's data day closes
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gsc-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip -q install google-api-python-client google-auth
+
+      - name: Pull last 28 days of query + page data
+        env:
+          GSC_SA_KEY: ${{ secrets.GSC_SA_KEY }}
+          SITE: "sc-domain:corporateregistryservices.ca"   # or "https://www.corporateregistryservices.ca/" if URL-prefix property
+        run: |
+          python - <<'PY'
+          import json, os, datetime
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+
+          creds = service_account.Credentials.from_service_account_info(
+              json.loads(os.environ["GSC_SA_KEY"]),
+              scopes=["https://www.googleapis.com/auth/webmasters.readonly"])
+          svc = build("searchconsole", "v1", credentials=creds)
+
+          end = datetime.date.today() - datetime.timedelta(days=2)   # GSC lags ~2 days
+          start = end - datetime.timedelta(days=27)
+
+          out = {
+              "site": os.environ["SITE"],
+              "start": str(start),
+              "end": str(end),
+              "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+          }
+
+          for dim in (["query"], ["page"], ["page", "query"]):
+              rows = svc.searchanalytics().query(
+                  siteUrl=os.environ["SITE"],
+                  body={
+                      "startDate": str(start),
+                      "endDate": str(end),
+                      "dimensions": dim,
+                      "rowLimit": 1000,
+                  },
+              ).execute().get("rows", [])
+              out["_".join(dim)] = rows
+
+          os.makedirs("automation/gsc", exist_ok=True)
+          json.dump(out, open("automation/gsc/latest.json", "w"), indent=1)
+          print(f"queries:{len(out.get('query',[]))} pages:{len(out.get('page',[]))}")
+          PY
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "gsc-sync[bot]"
+          git config user.email "actions@users.noreply.github.com"
+          git add automation/gsc/latest.json
+          git diff --cached --quiet || { git commit -m "chore: daily GSC sync [skip ci]"; git push; }
