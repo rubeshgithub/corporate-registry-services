@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { isCmsAuthorized, isCmsAuthenticated } from "@/lib/cms-auth";
 import { cmsArticles, ensureCmsIndexes, SECTIONS, type Section, type CmsArticleDoc, type CmsFaq } from "@/lib/cms-mongo";
+import { deleteFromGitHub } from "@/lib/cms-publish";
 
 /**
  * GET    /api/cms/articles/[id]  — fetch a single article
@@ -113,11 +114,35 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   const oid = idFrom(id);
   if (!oid) return NextResponse.json({ ok: false, error: "Invalid id." }, { status: 400 });
   const col = await cmsArticles();
+  const doc = await col.findOne({ _id: oid });
+  if (!doc) return NextResponse.json({ ok: false, error: "Not found." }, { status: 404 });
+
+  /* If the article was published, remove the git-committed .md too so
+   *  the live URL stops resolving. Do git first — if it fails, leave the
+   *  Mongo record intact so ops can see the delete didn't fully happen. */
+  let gitRemoved: { path: string; commitSha?: string; commitUrl?: string; alreadyGone?: boolean } | null = null;
+  if (doc.status === "published" && doc.slug && doc.section) {
+    try {
+      const result = await deleteFromGitHub({
+        section: doc.section,
+        slug:    doc.slug,
+        message: `CMS delete: ${doc.section}/${doc.slug}${doc.title ? ` — ${doc.title.slice(0, 60)}` : ""}`,
+      });
+      gitRemoved = "notFound" in result
+        ? { path: result.path, alreadyGone: true }
+        : { path: result.path, commitSha: result.sha, commitUrl: result.htmlUrl };
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "unknown error";
+      console.error("[cms/articles] git delete failed:", msg);
+      return NextResponse.json({ ok: false, error: `Live file remove failed: ${msg}` }, { status: 502 });
+    }
+  }
+
   const res = await col.deleteOne({ _id: oid });
   if (res.deletedCount === 0) {
     return NextResponse.json({ ok: false, error: "Not found." }, { status: 404 });
   }
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, gitRemoved });
 }
 
 function sanitizeFaq(raw: unknown): CmsFaq[] | null {

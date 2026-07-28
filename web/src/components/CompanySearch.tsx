@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, SlidersHorizontal, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 
 const WizardModal = dynamic(() => import("./WizardModal"), { ssr: false });
@@ -112,6 +112,14 @@ export default function CompanySearch() {
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  /* Soft email capture at the bottom of the results — "save this search"
+     rather than a hard signup. Local-only state; success is remembered per
+     (query, province) tuple so it doesn't reappear on the same search. */
+  const [leadEmail,   setLeadEmail]   = useState("");
+  const [leadState,   setLeadState]   = useState<"idle" | "sending" | "saved" | "error">("idle");
+  const [leadMessage, setLeadMessage] = useState("");
+  const savedSearchesRef = useRef<Set<string>>(new Set());
+
   /** Build a deep-link into an order flow that skips the lookup step. */
   function orderHref(service: "profile-report" | "good-standing" | "annual-return", r: Result) {
     const params = new URLSearchParams();
@@ -192,6 +200,62 @@ export default function CompanySearch() {
     e.preventDefault();
     if (debounce.current) clearTimeout(debounce.current);
     doSearch(query, province, { track: true });
+  }
+
+  /* Reset the lead capture state whenever the (query, province) tuple
+     changes, so the input isn't stuck showing "Saved" for a different
+     search. Success state is remembered per-tuple via savedSearchesRef. */
+  useEffect(() => {
+    const key = `${query.trim().toLowerCase()}|${province}`;
+    if (savedSearchesRef.current.has(key)) {
+      setLeadState("saved");
+      setLeadMessage("Saved. Check your inbox.");
+    } else {
+      setLeadState("idle");
+      setLeadMessage("");
+    }
+  }, [query, province]);
+
+  async function submitSearchLead(e: React.FormEvent) {
+    e.preventDefault();
+    if (leadState === "sending") return;
+    const email = leadEmail.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setLeadState("error");
+      setLeadMessage("Enter a valid email.");
+      return;
+    }
+    setLeadState("sending");
+    setLeadMessage("");
+    try {
+      const sessionId = document.cookie.match(/(?:^|; )crs_session_id=([^;]+)/)?.[1] ?? "";
+      const res = await fetch("/api/notify/search-lead", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          query,
+          province,
+          resultCount: total,
+          path:      typeof window !== "undefined" ? window.location.pathname : "",
+          sessionId: sessionId ? decodeURIComponent(sessionId) : undefined,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setLeadState("error");
+        setLeadMessage(data.error || "Could not save — try again.");
+        return;
+      }
+      const key = `${query.trim().toLowerCase()}|${province}`;
+      savedSearchesRef.current.add(key);
+      setLeadState("saved");
+      setLeadMessage(data.message || "Saved. Check your inbox.");
+      setLeadEmail("");
+    } catch {
+      setLeadState("error");
+      setLeadMessage("Network error — try again.");
+    }
   }
 
   return (
@@ -478,6 +542,74 @@ export default function CompanySearch() {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Soft email capture — sits below the results grid. Only shows on
+          a successful search with results, so it never fights the primary
+          per-result "Order a service" CTA for attention. */}
+      {!loading && !error && searched && results.length > 0 && (
+        <form
+          onSubmit={submitSearchLead}
+          style={{
+            marginTop: "1.25rem",
+            padding: "1rem 1.15rem",
+            background: "var(--card)",
+            border: "1px dashed var(--border)",
+            borderRadius: "var(--radius-card)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.6rem",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <Bookmark size={14} style={{ color: "var(--secondary)" }} />
+            <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>
+              Not ready to file? Save this search.
+            </span>
+          </div>
+          <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: 0 }}>
+            One email with a link to re-run the search and current pricing. No newsletter, no follow-up.
+          </p>
+          {leadState === "saved" ? (
+            <div
+              style={{
+                display: "flex", alignItems: "center", gap: "0.4rem",
+                fontSize: "0.82rem", color: "var(--secondary)", fontWeight: 500,
+              }}
+            >
+              <CheckCircle2 size={14} /> {leadMessage}
+            </div>
+          ) : (
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              <input
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                value={leadEmail}
+                onChange={(e) => { setLeadEmail(e.target.value); if (leadState === "error") setLeadState("idle"); }}
+                placeholder="you@company.ca"
+                className="field-input"
+                style={{ flex: "1 1 220px", minWidth: "180px", height: "2.4rem", fontSize: "0.88rem" }}
+                required
+              />
+              <button
+                type="submit"
+                disabled={leadState === "sending"}
+                className="btn-primary"
+                style={{
+                  height: "2.4rem", fontSize: "0.82rem",
+                  display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                  opacity: leadState === "sending" ? 0.7 : 1,
+                }}
+              >
+                {leadState === "sending" ? <><Loader2 size={13} className="crs-spin" /> Saving…</> : <>Save search <ArrowRight size={12} /></>}
+              </button>
+            </div>
+          )}
+          {leadState === "error" && (
+            <span style={{ fontSize: "0.76rem", color: "var(--gold)" }}>{leadMessage}</span>
+          )}
+        </form>
       )}
 
       {/* No results */}

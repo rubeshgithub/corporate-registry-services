@@ -68,6 +68,44 @@ export async function publishToGitHub(args: {
   };
 }
 
+export type DeleteResult =
+  | { ok: true; sha: string; htmlUrl: string; path: string }
+  | { ok: true; notFound: true; path: string };
+
+/** Companion to publishToGitHub — removes the .md at content/{section}/{slug}.md
+ *  on main so the live URL stops resolving. Idempotent: if the file isn't
+ *  there (never published, or already removed), returns notFound without
+ *  raising. */
+export async function deleteFromGitHub(args: {
+  section: string;
+  slug:    string;
+  message: string;
+}): Promise<DeleteResult> {
+  const repo = process.env.GITHUB_REPO?.trim() || DEFAULT_REPO;
+  const [owner, repoName] = repo.split("/", 2);
+  if (!owner || !repoName) throw new Error("GITHUB_REPO env var is malformed (expected owner/repo).");
+
+  const path = `${CONTENT_ROOT}/${args.section}/${args.slug}.md`;
+  const sha  = await getFileShaOnMain(owner, repoName, path);
+  if (!sha) return { ok: true, notFound: true, path };
+
+  const delRes = await fetch(`${GITHUB_API}/repos/${owner}/${repoName}/contents/${encodePath(path)}`, {
+    method:  "DELETE",
+    headers: ghHeaders(),
+    body: JSON.stringify({ message: args.message, sha, branch: "main" }),
+  });
+  if (!delRes.ok) {
+    throw new Error(`GitHub delete failed (${delRes.status}): ${await delRes.text()}`);
+  }
+  const json = (await delRes.json()) as { commit?: { sha?: string; html_url?: string } };
+  return {
+    ok:      true,
+    path,
+    sha:     json.commit?.sha ?? "",
+    htmlUrl: json.commit?.html_url ?? `https://github.com/${owner}/${repoName}`,
+  };
+}
+
 function ghHeaders(): Record<string, string> {
   const token = process.env.GITHUB_TOKEN?.trim();
   if (!token) throw new Error("GITHUB_TOKEN env var is not set.");
