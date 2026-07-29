@@ -1,8 +1,8 @@
 {
  "site": "sc-domain:corporateregistryservices.ca",
- "start": "2026-06-29",
- "end": "2026-07-26",
- "generated_at": "2026-07-28T11:36:20.410830Z",
+ "start": "2026-06-30",
+ "end": "2026-07-27",
+ "generated_at": "2026-07-29T11:40:56.523391Z",
  "query": [
   {
    "keys": [
@@ -12,15 +12,6 @@
    "impressions": 19,
    "ctr": 0.10526315789473684,
    "position": 31.105263157894736
-  },
-  {
-   "keys": [
-    "alberta annual return due date"
-   ],
-   "clicks": 1,
-   "impressions": 7,
-   "ctr": 0.14285714285714285,
-   "position": 16.42857142857143
   },
   {
    "keys": [
@@ -54,9 +45,9 @@
     "\"share subscription\" \"minute book\" canada"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 6,
    "ctr": 0,
-   "position": 4.333333333333334
+   "position": 4.166666666666666
   },
   {
    "keys": [
@@ -74,7 +65,7 @@
    "clicks": 0,
    "impressions": 14,
    "ctr": 0,
-   "position": 51.285714285714285
+   "position": 50.214285714285715
   },
   {
    "keys": [
@@ -123,6 +114,15 @@
   },
   {
    "keys": [
+    "alberta annual return due date"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
     "alberta annual return form"
    ],
    "clicks": 0,
@@ -144,9 +144,9 @@
     "alberta cores"
    ],
    "clicks": 0,
-   "impressions": 18,
+   "impressions": 19,
    "ctr": 0,
-   "position": 8.61111111111111
+   "position": 8.68421052631579
   },
   {
    "keys": [
@@ -186,6 +186,15 @@
   },
   {
    "keys": [
+    "alberta corporate registry fee schedule"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
     "alberta corporate registry fees"
    ],
    "clicks": 0,
@@ -200,16 +209,7 @@
    "clicks": 0,
    "impressions": 10,
    "ctr": 0,
-   "position": 24.9
-  },
-  {
-   "keys": [
-    "alberta corporation"
-   ],
-   "clicks": 0,
-   "impressions": 1,
-   "ctr": 0,
-   "position": 19
+   "position": 26.5
   },
   {
    "keys": [
@@ -270,9 +270,9 @@
     "alberta societies annual return"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 19.5
+   "position": 10
   },
   {
    "keys": [
@@ -290,7 +290,7 @@
    "clicks": 0,
    "impressions": 14,
    "ctr": 0,
-   "position": 27.5
+   "position": 28.714285714285715
   },
   {
    "keys": [
@@ -339,6 +339,24 @@
   },
   {
    "keys": [
+    "annual filing fee"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "annual filing report"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
     "annual filing status"
    ],
    "clicks": 0,
@@ -351,18 +369,18 @@
     "annual information return ontario"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 6,
    "ctr": 0,
-   "position": 56.857142857142854
+   "position": 55.166666666666664
   },
   {
    "keys": [
     "annual report bc"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 13,
    "ctr": 0,
-   "position": 14.083333333333334
+   "position": 14.538461538461538
   },
   {
    "keys": [
@@ -378,9 +396,18 @@
     "annual report bc registry"
    ],
    "clicks": 0,
-   "impressions": 11,
+   "impressions": 12,
    "ctr": 0,
-   "position": 13.181818181818182
+   "position": 12.916666666666666
+  },
+  {
+   "keys": [
+    "annual report corporation"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
   },
   {
    "keys": [
@@ -396,18 +423,18 @@
     "annual report filing"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 22,
    "ctr": 0,
-   "position": 22.85
+   "position": 22.227272727272727
   },
   {
    "keys": [
     "annual report filing bc"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 10,
    "ctr": 0,
-   "position": 14.625
+   "position": 14.5
   },
   {
    "keys": [
@@ -495,9 +522,9 @@
     "annual return calgary"
    ],
    "clicks": 0,
-   "impressions": 26,
+   "impressions": 27,
    "ctr": 0,
-   "position": 30.615384615384617
+   "position": 31.703703703703702
   },
   {
    "keys": [
@@ -558,18 +585,18 @@
     "annual return filing"
    ],
    "clicks": 0,
-   "impressions": 58,
+   "impressions": 57,
    "ctr": 0,
-   "position": 48.03448275862069
+   "position": 47.64912280701754
   },
   {
    "keys": [
     "annual return filing deadline"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 17
+   "position": 13
   },
   {
    "keys": [
@@ -612,9 +639,9 @@
     "annual return for corporation"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 46.5
+   "position": 34.333333333333336
   },
   {
    "keys": [
@@ -774,45 +801,45 @@
     "bc annual filing"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 9.75
+   "position": 9.666666666666666
   },
   {
    "keys": [
     "bc annual report"
    ],
    "clicks": 0,
-   "impressions": 71,
+   "impressions": 85,
    "ctr": 0,
-   "position": 10
+   "position": 9.976470588235294
   },
   {
    "keys": [
     "bc annual report filing"
    ],
    "clicks": 0,
-   "impressions": 15,
+   "impressions": 16,
    "ctr": 0,
-   "position": 9.666666666666666
+   "position": 9.625
   },
   {
    "keys": [
     "bc annual report filing deadline"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 10
+   "position": 5.5
   },
   {
    "keys": [
     "bc annual report online"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 6,
    "ctr": 0,
-   "position": 8
+   "position": 8.333333333333332
   },
   {
    "keys": [
@@ -864,9 +891,9 @@
     "bc corporate annual report"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 17,
    "ctr": 0,
-   "position": 9.166666666666666
+   "position": 9.294117647058824
   },
   {
    "keys": [
@@ -936,9 +963,9 @@
     "bc online annual report"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 8.75
+   "position": 9.2
   },
   {
    "keys": [
@@ -978,6 +1005,15 @@
   },
   {
    "keys": [
+    "bc registries forms"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
     "bc registry"
    ],
    "clicks": 0,
@@ -1008,9 +1044,9 @@
     "bc registry annual reports"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 14.25
+   "position": 14.166666666666666
   },
   {
    "keys": [
@@ -1026,9 +1062,9 @@
     "bc registry file annual report"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 11,
    "ctr": 0,
-   "position": 10.222222222222221
+   "position": 10.272727272727273
   },
   {
    "keys": [
@@ -1044,9 +1080,18 @@
     "bc registry services annual report"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 15,
    "ctr": 0,
-   "position": 9
+   "position": 8.866666666666667
+  },
+  {
+   "keys": [
+    "bc registry services forms"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
   },
   {
    "keys": [
@@ -1188,18 +1233,18 @@
     "business incorporation new brunswick"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 8,
    "ctr": 0,
-   "position": 61.142857142857146
+   "position": 60.625
   },
   {
    "keys": [
     "business incorporation nova scotia"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 22,
    "ctr": 0,
-   "position": 52.714285714285715
+   "position": 52.90909090909091
   },
   {
    "keys": [
@@ -1242,18 +1287,18 @@
     "business number lookup canada"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 29.444444444444443
+   "position": 29
   },
   {
    "keys": [
     "business number search canada"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 30
+   "position": 28
   },
   {
    "keys": [
@@ -1263,6 +1308,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 32
+  },
+  {
+   "keys": [
+    "business registration lookup canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
   },
   {
    "keys": [
@@ -1359,9 +1413,9 @@
     "bylaws in canada"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 30
+   "position": 24.5
   },
   {
    "keys": [
@@ -1419,6 +1473,15 @@
   },
   {
    "keys": [
+    "canada busines registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
     "canada business corporation search"
    ],
    "clicks": 0,
@@ -1458,9 +1521,9 @@
     "canada business entity search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 28.5
+   "position": 27.666666666666668
   },
   {
    "keys": [
@@ -1521,18 +1584,18 @@
     "canada business registry"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 13,
    "ctr": 0,
-   "position": 23.083333333333332
+   "position": 22.615384615384617
   },
   {
    "keys": [
     "canada business search"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 28.25
+   "position": 24.2
   },
   {
    "keys": [
@@ -1629,18 +1692,18 @@
     "canada company registration search"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 20.166666666666668
+   "position": 20.142857142857142
   },
   {
    "keys": [
     "canada company registry"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 17,
    "ctr": 0,
-   "position": 23.5
+   "position": 23.41176470588235
   },
   {
    "keys": [
@@ -1656,9 +1719,9 @@
     "canada company search"
    ],
    "clicks": 0,
-   "impressions": 19,
+   "impressions": 17,
    "ctr": 0,
-   "position": 30.42105263157895
+   "position": 31.235294117647058
   },
   {
    "keys": [
@@ -1668,6 +1731,15 @@
    "impressions": 2,
    "ctr": 0,
    "position": 17.5
+  },
+  {
+   "keys": [
+    "canada company verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
   },
   {
    "keys": [
@@ -1725,15 +1797,6 @@
   },
   {
    "keys": [
-    "canada corporate minute book where to keep directors resolutions share issuance"
-   ],
-   "clicks": 0,
-   "impressions": 1,
-   "ctr": 0,
-   "position": 9
-  },
-  {
-   "keys": [
     "canada corporate minute book where to keep directors resolutions share issuance resolution"
    ],
    "clicks": 0,
@@ -1776,6 +1839,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 32
+  },
+  {
+   "keys": [
+    "canada corporate records"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
   },
   {
    "keys": [
@@ -2106,9 +2178,9 @@
     "canada registry of companies"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 19
+   "position": 17.5
   },
   {
    "keys": [
@@ -2124,9 +2196,9 @@
     "canada secretary of state business search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 36
+   "position": 33
   },
   {
    "keys": [
@@ -2142,9 +2214,9 @@
     "canada's business registries search"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 24
+   "position": 21.5
   },
   {
    "keys": [
@@ -2259,9 +2331,9 @@
     "canadian business registry search"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 7,
    "ctr": 0,
-   "position": 24.4
+   "position": 25
   },
   {
    "keys": [
@@ -2331,9 +2403,9 @@
     "canadian company registry"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 24.5
+   "position": 23.4
   },
   {
    "keys": [
@@ -2412,9 +2484,9 @@
     "canadian corporation search"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 28.5
+   "position": 27.714285714285715
   },
   {
    "keys": [
@@ -2424,6 +2496,15 @@
    "impressions": 3,
    "ctr": 0,
    "position": 26.333333333333332
+  },
+  {
+   "keys": [
+    "canadian entity search"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
   },
   {
    "keys": [
@@ -2493,9 +2574,9 @@
     "canadian secretary of state business search"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 3,
    "ctr": 0,
-   "position": 43.75
+   "position": 43.666666666666664
   },
   {
    "keys": [
@@ -2511,9 +2592,9 @@
     "cbca annual return"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 11,
    "ctr": 0,
-   "position": 10.333333333333334
+   "position": 10.090909090909092
   },
   {
    "keys": [
@@ -2556,9 +2637,9 @@
     "certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 12,
    "ctr": 0,
-   "position": 30.666666666666668
+   "position": 32.33333333333333
   },
   {
    "keys": [
@@ -2601,18 +2682,18 @@
     "certificate of good standing canada"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 6,
    "ctr": 0,
-   "position": 44
+   "position": 43.666666666666664
   },
   {
    "keys": [
     "certificate of good standing ontario"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 43.333333333333336
+   "position": 42.42857142857143
   },
   {
    "keys": [
@@ -2691,7 +2772,7 @@
     "check directors of company"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
    "position": 7
   },
@@ -2700,9 +2781,9 @@
     "cidreq reports"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 8,
    "ctr": 0,
-   "position": 14
+   "position": 13.875
   },
   {
    "keys": [
@@ -2742,6 +2823,15 @@
   },
   {
    "keys": [
+    "company database canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
     "company lookup canada"
    ],
    "clicks": 0,
@@ -2757,6 +2847,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 26
+  },
+  {
+   "keys": [
+    "company registration verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
   },
   {
    "keys": [
@@ -2781,9 +2880,9 @@
     "company search canada"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
-   "position": 29
+   "position": 28.5
   },
   {
    "keys": [
@@ -2841,12 +2940,21 @@
   },
   {
    "keys": [
+    "cores"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
     "cores alberta"
    ],
    "clicks": 0,
-   "impressions": 82,
+   "impressions": 93,
    "ctr": 0,
-   "position": 8.536585365853657
+   "position": 8.634408602150538
   },
   {
    "keys": [
@@ -2859,21 +2967,30 @@
   },
   {
    "keys": [
+    "cores online"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
     "cores registry"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 7.75
+   "position": 7.6
   },
   {
    "keys": [
     "corp canada $12"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 9
+   "position": 9.666666666666666
   },
   {
    "keys": [
@@ -2925,9 +3042,9 @@
     "corporate annual return"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 10,
    "ctr": 0,
-   "position": 50.625
+   "position": 49.6
   },
   {
    "keys": [
@@ -2943,9 +3060,9 @@
     "corporate annual return ontario"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 34.25
+   "position": 26.5
   },
   {
    "keys": [
@@ -2988,9 +3105,9 @@
     "corporate company law"
    ],
    "clicks": 0,
-   "impressions": 27,
+   "impressions": 31,
    "ctr": 0,
-   "position": 72.62962962962963
+   "position": 72.83870967741936
   },
   {
    "keys": [
@@ -3006,9 +3123,27 @@
     "corporate law canada"
    ],
    "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "corporate law in canada"
+   ],
+   "clicks": 0,
    "impressions": 1,
    "ctr": 0,
-   "position": 72
+   "position": 69
+  },
+  {
+   "keys": [
+    "corporate lookup canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
   },
   {
    "keys": [
@@ -3062,7 +3197,7 @@
    "clicks": 0,
    "impressions": 28,
    "ctr": 0,
-   "position": 64.03571428571428
+   "position": 64.10714285714286
   },
   {
    "keys": [
@@ -3093,6 +3228,15 @@
   },
   {
    "keys": [
+    "corporate name search canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
     "corporate online annual report"
    ],
    "clicks": 0,
@@ -3105,9 +3249,9 @@
     "corporate profile report"
    ],
    "clicks": 0,
-   "impressions": 10,
+   "impressions": 13,
    "ctr": 0,
-   "position": 15.9
+   "position": 15.692307692307692
   },
   {
    "keys": [
@@ -3117,6 +3261,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 17
+  },
+  {
+   "keys": [
+    "corporate profile report bc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
   },
   {
    "keys": [
@@ -3141,18 +3294,27 @@
     "corporate profile report new brunswick"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 5,
    "ctr": 0,
-   "position": 21.666666666666668
+   "position": 23
+  },
+  {
+   "keys": [
+    "corporate profile report nova scotia"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
   },
   {
    "keys": [
     "corporate profile report saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 18.5
+   "position": 20.166666666666668
   },
   {
    "keys": [
@@ -3213,9 +3375,9 @@
     "corporate registry bc"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 11.125
+   "position": 11.777777777777779
   },
   {
    "keys": [
@@ -3249,9 +3411,9 @@
     "corporate registry pei"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 9,
    "ctr": 0,
-   "position": 9.6
+   "position": 10.333333333333334
   },
   {
    "keys": [
@@ -3276,9 +3438,9 @@
     "corporate registry service alberta"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 18,
    "ctr": 0,
-   "position": 35.9
+   "position": 36.666666666666664
   },
   {
    "keys": [
@@ -3321,9 +3483,9 @@
     "corporate services"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 5,
    "ctr": 0,
-   "position": 83
+   "position": 83.6
   },
   {
    "keys": [
@@ -3492,9 +3654,9 @@
     "corporations canada annual filing"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 17.076923076923077
+   "position": 16.714285714285715
   },
   {
    "keys": [
@@ -3513,6 +3675,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 10
+  },
+  {
+   "keys": [
+    "corporations canada annual return fee official"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
   },
   {
    "keys": [
@@ -3573,9 +3744,9 @@
     "cost to incorporate bc"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 8,
    "ctr": 0,
-   "position": 39.714285714285715
+   "position": 39.875
   },
   {
    "keys": [
@@ -3719,7 +3890,7 @@
    "clicks": 0,
    "impressions": 33,
    "ctr": 0,
-   "position": 71.9090909090909
+   "position": 71.93939393939394
   },
   {
    "keys": [
@@ -3742,6 +3913,15 @@
   {
    "keys": [
     "director's resolution"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "directors check"
    ],
    "clicks": 0,
    "impressions": 1,
@@ -3783,6 +3963,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 37
+  },
+  {
+   "keys": [
+    "dissolving a corporation in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
   },
   {
    "keys": [
@@ -3879,9 +4068,9 @@
     "federal corporation annual return"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 9,
    "ctr": 0,
-   "position": 11
+   "position": 10.88888888888889
   },
   {
    "keys": [
@@ -4059,9 +4248,9 @@
     "file annual return"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 39.23076923076923
+   "position": 37
   },
   {
    "keys": [
@@ -4095,9 +4284,9 @@
     "file annual return ontario"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 24,
    "ctr": 0,
-   "position": 32.19047619047619
+   "position": 30.833333333333332
   },
   {
    "keys": [
@@ -4128,12 +4317,21 @@
   },
   {
    "keys": [
+    "file anual report"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
     "file bc annual report"
    ],
    "clicks": 0,
-   "impressions": 19,
+   "impressions": 21,
    "ctr": 0,
-   "position": 10.842105263157896
+   "position": 10.619047619047619
   },
   {
    "keys": [
@@ -4194,9 +4392,9 @@
     "filing annual report bc"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 13.384615384615385
+   "position": 12.642857142857142
   },
   {
    "keys": [
@@ -4230,9 +4428,9 @@
     "filing fees"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 2
+   "position": 3
   },
   {
    "keys": [
@@ -4242,6 +4440,24 @@
    "impressions": 5,
    "ctr": 0,
    "position": 44.8
+  },
+  {
+   "keys": [
+    "find a business canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "find business in canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
   },
   {
    "keys": [
@@ -4428,9 +4644,9 @@
     "how much does it cost to incorporate in bc"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 46
+   "position": 67
   },
   {
    "keys": [
@@ -4470,12 +4686,21 @@
   },
   {
    "keys": [
-    "how to check if a company is legally registered"
+    "how to check if a company is in good standing"
    ],
    "clicks": 0,
    "impressions": 2,
    "ctr": 0,
-   "position": 11
+   "position": 10
+  },
+  {
+   "keys": [
+    "how to check if a company is legally registered"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10.75
   },
   {
    "keys": [
@@ -4506,6 +4731,15 @@
   },
   {
    "keys": [
+    "how to close a business in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
     "how to close a corporation in ontario"
    ],
    "clicks": 0,
@@ -4521,6 +4755,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 67
+  },
+  {
+   "keys": [
+    "how to close an incorporated business in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
   },
   {
    "keys": [
@@ -4590,18 +4833,18 @@
     "how to file ontario annual return"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 12.5
+   "position": 12
   },
   {
    "keys": [
     "how to get a certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 9,
    "ctr": 0,
-   "position": 35.6
+   "position": 34.333333333333336
   },
   {
    "keys": [
@@ -4617,18 +4860,18 @@
     "how to incorporate a business in new brunswick"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 71.44444444444444
+   "position": 71
   },
   {
    "keys": [
     "how to incorporate a business in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 21,
    "ctr": 0,
-   "position": 56.9
+   "position": 56.76190476190476
   },
   {
    "keys": [
@@ -4647,6 +4890,15 @@
    "impressions": 2,
    "ctr": 0,
    "position": 48
+  },
+  {
+   "keys": [
+    "how to know a company is registered or not"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
   },
   {
    "keys": [
@@ -4704,6 +4956,24 @@
   },
   {
    "keys": [
+    "how to sue a company in canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "how to verify a business"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
     "how to verify company"
    ],
    "clicks": 0,
@@ -4740,12 +5010,21 @@
   },
   {
    "keys": [
+    "incorporate in new brunswick"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
     "incorporate in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 26,
    "ctr": 0,
-   "position": 39.92
+   "position": 40.11538461538461
   },
   {
    "keys": [
@@ -4770,27 +5049,27 @@
     "incorporate in yukon"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 4,
    "ctr": 0,
-   "position": 19.666666666666668
+   "position": 17
   },
   {
    "keys": [
     "incorporate nova scotia"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 24,
    "ctr": 0,
-   "position": 34.76190476190476
+   "position": 35
   },
   {
    "keys": [
     "incorporate saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 18,
+   "impressions": 19,
    "ctr": 0,
-   "position": 54.166666666666664
+   "position": 54
   },
   {
    "keys": [
@@ -4806,36 +5085,36 @@
     "incorporating a business in new brunswick"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 63.375
+   "position": 63.333333333333336
   },
   {
    "keys": [
     "incorporating a business in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 21,
    "ctr": 0,
-   "position": 53.15
+   "position": 53.095238095238095
   },
   {
    "keys": [
     "incorporating in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 23,
+   "impressions": 25,
    "ctr": 0,
-   "position": 45.43478260869565
+   "position": 45.6
   },
   {
    "keys": [
     "incorporating nova scotia"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 53.875
+   "position": 54.56
   },
   {
    "keys": [
@@ -4851,45 +5130,45 @@
     "incorporation in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 43.083333333333336
+   "position": 43.36
   },
   {
    "keys": [
     "incorporation in saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 17,
    "ctr": 0,
-   "position": 46.5625
+   "position": 46.64705882352941
   },
   {
    "keys": [
     "incorporation nova scotia"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 39.75
+   "position": 39.96
   },
   {
    "keys": [
     "incorporation saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 30,
+   "impressions": 31,
    "ctr": 0,
-   "position": 39.733333333333334
+   "position": 39.903225806451616
   },
   {
    "keys": [
     "incorporation services"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 7,
    "ctr": 0,
-   "position": 81
+   "position": 77.28571428571429
   },
   {
    "keys": [
@@ -4941,9 +5220,9 @@
     "isc annual return"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 18,
    "ctr": 0,
-   "position": 7.0625
+   "position": 7.055555555555555
   },
   {
    "keys": [
@@ -5022,9 +5301,9 @@
     "llc certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 7,
    "ctr": 0,
-   "position": 37.25
+   "position": 38.42857142857143
   },
   {
    "keys": [
@@ -5220,9 +5499,9 @@
     "nova scotia incorporation"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 26,
    "ctr": 0,
-   "position": 41.84
+   "position": 41.96153846153846
   },
   {
    "keys": [
@@ -5256,9 +5535,9 @@
     "nuance name search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 25.5
+   "position": 24.666666666666668
   },
   {
    "keys": [
@@ -5328,9 +5607,9 @@
     "nuans name canada"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 33.53846153846154
+   "position": 32.92857142857143
   },
   {
    "keys": [
@@ -5469,6 +5748,15 @@
   },
   {
    "keys": [
+    "obtain corporate bylaws online canada c corp"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
     "of bc"
    ],
    "clicks": 0,
@@ -5490,9 +5778,9 @@
     "online minute book"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 78
+   "position": 63
   },
   {
    "keys": [
@@ -5573,7 +5861,7 @@
    "clicks": 0,
    "impressions": 7,
    "ctr": 0,
-   "position": 41
+   "position": 39
   },
   {
    "keys": [
@@ -5625,9 +5913,9 @@
     "ontario business registry file annual return"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 13
+   "position": 12
   },
   {
    "keys": [
@@ -5766,10 +6054,19 @@
   },
   {
    "keys": [
-    "pei corp registry"
+    "pei business registry"
    ],
    "clicks": 0,
    "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "pei corp registry"
+   ],
+   "clicks": 0,
+   "impressions": 3,
    "ctr": 0,
    "position": 10
   },
@@ -5778,9 +6075,9 @@
     "pei corporate registry"
    ],
    "clicks": 0,
-   "impressions": 29,
+   "impressions": 70,
    "ctr": 0,
-   "position": 9.517241379310345
+   "position": 9.514285714285714
   },
   {
    "keys": [
@@ -5799,6 +6096,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 28
+  },
+  {
+   "keys": [
+    "prince edward island corporate registry"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9
   },
   {
    "keys": [
@@ -5946,6 +6252,15 @@
   },
   {
    "keys": [
+    "register a business in bc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
     "register of canadian companies"
    ],
    "clicks": 0,
@@ -5970,6 +6285,15 @@
    "impressions": 1,
    "ctr": 0,
    "position": 22
+  },
+  {
+   "keys": [
+    "registraire des entreprises du qu\u00e9bec (req)"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
   },
   {
    "keys": [
@@ -6102,9 +6426,9 @@
     "saskatchewan corporate registry"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
-   "position": 18
+   "position": 18.5
   },
   {
    "keys": [
@@ -6120,18 +6444,27 @@
     "saskatchewan corporation"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 15.75
+   "position": 14.666666666666666
+  },
+  {
+   "keys": [
+    "saskatchewan corporation registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
   },
   {
    "keys": [
     "saskatchewan incorporation"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 24,
    "ctr": 0,
-   "position": 25.64
+   "position": 25.708333333333332
   },
   {
    "keys": [
@@ -6297,6 +6630,15 @@
   },
   {
    "keys": [
+    "service nb corporate registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
     "service ontario annual return"
    ],
    "clicks": 0,
@@ -6417,9 +6759,18 @@
     "shareholders resolution"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
    "position": 8
+  },
+  {
+   "keys": [
+    "shareholders resolutions"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
   },
   {
    "keys": [
@@ -6453,9 +6804,9 @@
     "sk corporate registry"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 17
+   "position": 18
   },
   {
    "keys": [
@@ -6516,16 +6867,16 @@
     "special resolution of shareholders"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 7
+   "position": 8.5
   },
   {
    "keys": [
     "special resolution vs ordinary resolution"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
    "position": 9
   },
@@ -6552,9 +6903,9 @@
     "verify business"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 72
+   "position": 55
   },
   {
    "keys": [
@@ -6615,9 +6966,9 @@
     "virtual minute book"
    ],
    "clicks": 0,
-   "impressions": 31,
+   "impressions": 32,
    "ctr": 0,
-   "position": 52.03225806451613
+   "position": 51.53125
   },
   {
    "keys": [
@@ -6765,6 +7116,15 @@
   },
   {
    "keys": [
+    "what\u2019s this"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
     "when is annual return due"
    ],
    "clicks": 0,
@@ -6795,9 +7155,9 @@
     "www.corporateonline.gov.bc.ca annual report"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 12
+   "position": 12.666666666666666
   },
   {
    "keys": [
@@ -6822,9 +7182,9 @@
     "yukon corporate affairs"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 7,
    "ctr": 0,
-   "position": 7.222222222222222
+   "position": 7
   },
   {
    "keys": [
@@ -6848,39 +7208,48 @@
  "page": [
   {
    "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia"
+   ],
+   "clicks": 12,
+   "impressions": 1926,
+   "ctr": 0.006230529595015576,
+   "position": 9.656282450674974
+  },
+  {
+   "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta"
    ],
-   "clicks": 14,
-   "impressions": 820,
-   "ctr": 0.01707317073170732,
-   "position": 12.56829268292683
+   "clicks": 11,
+   "impressions": 826,
+   "ctr": 0.013317191283292978,
+   "position": 12.75181598062954
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-saskatchewan"
    ],
    "clicks": 11,
-   "impressions": 582,
-   "ctr": 0.018900343642611683,
-   "position": 15.649484536082474
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia"
-   ],
-   "clicks": 10,
-   "impressions": 1772,
-   "ctr": 0.0056433408577878106,
-   "position": 9.549661399548533
+   "impressions": 597,
+   "ctr": 0.018425460636515914,
+   "position": 15.906197654941373
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario"
    ],
+   "clicks": 6,
+   "impressions": 585,
+   "ctr": 0.010256410256410256,
+   "position": 26.552136752136754
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/shareholder-resolutions-in-canada"
+   ],
    "clicks": 5,
-   "impressions": 536,
-   "ctr": 0.009328358208955223,
-   "position": 27.567164179104477
+   "impressions": 377,
+   "ctr": 0.013262599469496022,
+   "position": 9.83289124668435
   },
   {
    "keys": [
@@ -6896,36 +7265,36 @@
     "https://www.corporateregistryservices.ca/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-british-columbia"
    ],
    "clicks": 4,
-   "impressions": 48,
-   "ctr": 0.08333333333333333,
-   "position": 8.5625
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/shareholder-resolutions-in-canada"
-   ],
-   "clicks": 4,
-   "impressions": 326,
-   "ctr": 0.012269938650306749,
-   "position": 9.932515337423313
+   "impressions": 47,
+   "ctr": 0.0851063829787234,
+   "position": 8.553191489361701
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/canada-corporations-search"
    ],
    "clicks": 4,
-   "impressions": 565,
-   "ctr": 0.007079646017699115,
-   "position": 24.527433628318583
+   "impressions": 604,
+   "ctr": 0.006622516556291391,
+   "position": 24.34271523178808
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island"
+   ],
+   "clicks": 3,
+   "impressions": 194,
+   "ctr": 0.015463917525773196,
+   "position": 7.438144329896907
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-ontario"
    ],
    "clicks": 3,
-   "impressions": 46,
-   "ctr": 0.06521739130434782,
-   "position": 8.76086956521739
+   "impressions": 47,
+   "ctr": 0.06382978723404255,
+   "position": 8.74468085106383
   },
   {
    "keys": [
@@ -6941,54 +7310,54 @@
     "https://www.corporateregistryservices.ca/disclaimer"
    ],
    "clicks": 3,
-   "impressions": 120,
-   "ctr": 0.025,
-   "position": 5.558333333333334
+   "impressions": 113,
+   "ctr": 0.02654867256637168,
+   "position": 5.336283185840708
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/corporate-by-laws-canada"
    ],
    "clicks": 2,
-   "impressions": 94,
-   "ctr": 0.02127659574468085,
-   "position": 33.1063829787234
+   "impressions": 108,
+   "ctr": 0.018518518518518517,
+   "position": 33.76851851851852
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-northwest-territories"
    ],
    "clicks": 2,
-   "impressions": 45,
-   "ctr": 0.044444444444444446,
-   "position": 6.688888888888889
+   "impressions": 41,
+   "ctr": 0.04878048780487805,
+   "position": 6.829268292682927
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-nova-scotia"
+   ],
+   "clicks": 2,
+   "impressions": 123,
+   "ctr": 0.016260162601626018,
+   "position": 7.943089430894309
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-nunavut"
    ],
    "clicks": 2,
-   "impressions": 20,
-   "ctr": 0.1,
-   "position": 5.9
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island"
-   ],
-   "clicks": 2,
-   "impressions": 109,
-   "ctr": 0.01834862385321101,
-   "position": 6.862385321100917
+   "impressions": 19,
+   "ctr": 0.10526315789473684,
+   "position": 5.947368421052632
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-yukon"
    ],
    "clicks": 2,
-   "impressions": 119,
-   "ctr": 0.01680672268907563,
-   "position": 7.563025210084033
+   "impressions": 113,
+   "ctr": 0.017699115044247787,
+   "position": 7.20353982300885
   },
   {
    "keys": [
@@ -7004,36 +7373,36 @@
     "https://www.corporateregistryservices.ca/guides/annual-return-filing-deadlines-canada"
    ],
    "clicks": 2,
-   "impressions": 307,
-   "ctr": 0.006514657980456026,
-   "position": 9.498371335504887
+   "impressions": 323,
+   "ctr": 0.006191950464396285,
+   "position": 9.656346749226007
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/nuans-name-search-canada-guide"
    ],
    "clicks": 2,
-   "impressions": 240,
-   "ctr": 0.008333333333333333,
-   "position": 25.529166666666665
+   "impressions": 255,
+   "ctr": 0.00784313725490196,
+   "position": 25.29019607843137
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/what-is-a-certificate-of-good-standing-canada"
    ],
    "clicks": 2,
-   "impressions": 161,
-   "ctr": 0.012422360248447204,
-   "position": 8.15527950310559
+   "impressions": 172,
+   "ctr": 0.011627906976744186,
+   "position": 8.209302325581396
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/minute-books"
    ],
    "clicks": 2,
-   "impressions": 292,
-   "ctr": 0.00684931506849315,
-   "position": 36.02739726027397
+   "impressions": 286,
+   "ctr": 0.006993006993006993,
+   "position": 36.98601398601399
   },
   {
    "keys": [
@@ -7049,9 +7418,9 @@
     "https://www.corporateregistryservices.ca/profile-reports/manitoba-corporate-profile-report"
    ],
    "clicks": 2,
-   "impressions": 30,
-   "ctr": 0.06666666666666667,
-   "position": 6.533333333333333
+   "impressions": 31,
+   "ctr": 0.06451612903225806,
+   "position": 6.225806451612903
   },
   {
    "keys": [
@@ -7067,18 +7436,18 @@
     "https://www.corporateregistryservices.ca/profile-reports/quebec-corporate-profile-report"
    ],
    "clicks": 2,
-   "impressions": 17,
-   "ctr": 0.11764705882352941,
-   "position": 4.8235294117647065
+   "impressions": 15,
+   "ctr": 0.13333333333333333,
+   "position": 4.6
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/annual-return/new-brunswick-corporate-annual-return"
    ],
    "clicks": 1,
-   "impressions": 40,
-   "ctr": 0.025,
-   "position": 6.775
+   "impressions": 39,
+   "ctr": 0.02564102564102564,
+   "position": 6.794871794871795
   },
   {
    "keys": [
@@ -7094,45 +7463,27 @@
     "https://www.corporateregistryservices.ca/articles/How-to-File-Your-Annual-Return-in-Prince-Edward-Island"
    ],
    "clicks": 1,
-   "impressions": 11,
-   "ctr": 0.09090909090909091,
-   "position": 6.454545454545454
+   "impressions": 8,
+   "ctr": 0.125,
+   "position": 6.75
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-federal-canada"
    ],
    "clicks": 1,
-   "impressions": 463,
-   "ctr": 0.0021598272138228943,
-   "position": 10.196544276457884
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-nova-scotia"
-   ],
-   "clicks": 1,
-   "impressions": 122,
-   "ctr": 0.00819672131147541,
-   "position": 8.032786885245901
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-quebec"
-   ],
-   "clicks": 1,
-   "impressions": 91,
-   "ctr": 0.01098901098901099,
-   "position": 6.648351648351649
+   "impressions": 482,
+   "ctr": 0.002074688796680498,
+   "position": 10.273858921161827
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/alberta-certificate-of-good-standing"
    ],
    "clicks": 1,
-   "impressions": 37,
-   "ctr": 0.02702702702702703,
-   "position": 10.08108108108108
+   "impressions": 47,
+   "ctr": 0.02127659574468085,
+   "position": 9.446808510638299
   },
   {
    "keys": [
@@ -7141,25 +7492,25 @@
    "clicks": 1,
    "impressions": 9,
    "ctr": 0.1111111111111111,
-   "position": 4.888888888888889
+   "position": 5
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/prince-edward-island-certificate-of-good-standing"
    ],
    "clicks": 1,
-   "impressions": 8,
-   "ctr": 0.125,
-   "position": 6.375
+   "impressions": 11,
+   "ctr": 0.09090909090909091,
+   "position": 5.909090909090909
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/quebec-certificate-of-good-standing"
    ],
    "clicks": 1,
-   "impressions": 54,
-   "ctr": 0.018518518518518517,
-   "position": 6.055555555555555
+   "impressions": 49,
+   "ctr": 0.02040816326530612,
+   "position": 5.775510204081633
   },
   {
    "keys": [
@@ -7175,27 +7526,36 @@
     "https://www.corporateregistryservices.ca/guides/corporate-search-for-due-diligence"
    ],
    "clicks": 1,
-   "impressions": 19,
-   "ctr": 0.05263157894736842,
-   "position": 8.947368421052632
+   "impressions": 21,
+   "ctr": 0.047619047619047616,
+   "position": 8.333333333333332
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/federal-vs-provincial-incorporation-canada"
    ],
    "clicks": 1,
-   "impressions": 54,
-   "ctr": 0.018518518518518517,
-   "position": 28.25925925925926
+   "impressions": 57,
+   "ctr": 0.017543859649122806,
+   "position": 28.228070175438596
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/what-is-a-corporate-minute-book-canada"
    ],
    "clicks": 1,
-   "impressions": 157,
-   "ctr": 0.006369426751592357,
-   "position": 6.012738853503185
+   "impressions": 170,
+   "ctr": 0.0058823529411764705,
+   "position": 6.035294117647059
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/incorporation/nova-scotia-incorporation-service"
+   ],
+   "clicks": 1,
+   "impressions": 262,
+   "ctr": 0.003816793893129771,
+   "position": 46.01908396946565
   },
   {
    "keys": [
@@ -7220,9 +7580,9 @@
     "https://www.corporateregistryservices.ca/nfp-grants/british-columbia"
    ],
    "clicks": 1,
-   "impressions": 11,
-   "ctr": 0.09090909090909091,
-   "position": 12.181818181818182
+   "impressions": 12,
+   "ctr": 0.08333333333333333,
+   "position": 12.083333333333334
   },
   {
    "keys": [
@@ -7247,18 +7607,18 @@
     "https://www.corporateregistryservices.ca/nfp-grants/ontario"
    ],
    "clicks": 1,
-   "impressions": 81,
-   "ctr": 0.012345679012345678,
-   "position": 8
+   "impressions": 82,
+   "ctr": 0.012195121951219513,
+   "position": 8.012195121951219
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/profile-reports/alberta-corporate-profile-report"
    ],
    "clicks": 1,
-   "impressions": 25,
-   "ctr": 0.04,
-   "position": 11.28
+   "impressions": 23,
+   "ctr": 0.043478260869565216,
+   "position": 11.652173913043478
   },
   {
    "keys": [
@@ -7267,43 +7627,43 @@
    "clicks": 1,
    "impressions": 20,
    "ctr": 0.05,
-   "position": 12.15
+   "position": 12.3
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/"
    ],
    "clicks": 0,
-   "impressions": 39,
+   "impressions": 38,
    "ctr": 0,
-   "position": 18.564102564102566
+   "position": 27.605263157894736
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/about"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 9,
    "ctr": 0,
-   "position": 7.25
+   "position": 8.88888888888889
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/annual-return"
    ],
    "clicks": 0,
-   "impressions": 22,
+   "impressions": 23,
    "ctr": 0,
-   "position": 29.272727272727273
+   "position": 30.043478260869566
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/annual-return/manitoba-corporate-annual-return"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 8.708333333333332
+   "position": 8.24
   },
   {
    "keys": [
@@ -7355,45 +7715,36 @@
     "https://www.corporateregistryservices.ca/annual-return/saskatchewan-corporate-annual-return"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 7
+   "position": 7.333333333333333
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/annual-return/yukon-corporate-annual-return"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 6,
    "ctr": 0,
-   "position": 5.8
+   "position": 10.166666666666666
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 5,
    "ctr": 0,
-   "position": 19.857142857142858
+   "position": 29.4
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/How-to-File-Your-Annual-Return-in-New-Brunswick"
    ],
    "clicks": 0,
-   "impressions": 94,
+   "impressions": 99,
    "ctr": 0,
-   "position": 7.223404255319149
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/How-to-Get-a-Corporate-Profile-Report-for-QuickBooks-Online-in-New-Brunswick"
-   ],
-   "clicks": 0,
-   "impressions": 2,
-   "ctr": 0,
-   "position": 7.5
+   "position": 7.474747474747475
   },
   {
    "keys": [
@@ -7409,36 +7760,45 @@
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-manitoba"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 39,
    "ctr": 0,
-   "position": 7.4
+   "position": 7.076923076923077
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-new-brunswick"
    ],
    "clicks": 0,
-   "impressions": 219,
+   "impressions": 215,
    "ctr": 0,
-   "position": 7.7214611872146115
+   "position": 7.772093023255814
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-newfoundland"
    ],
    "clicks": 0,
-   "impressions": 42,
+   "impressions": 50,
    "ctr": 0,
-   "position": 6.738095238095238
+   "position": 6.38
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-quebec"
+   ],
+   "clicks": 0,
+   "impressions": 87,
+   "ctr": 0,
+   "position": 6.609195402298851
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-manitoba"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 13.75
+   "position": 13
   },
   {
    "keys": [
@@ -7463,18 +7823,18 @@
     "https://www.corporateregistryservices.ca/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-nova-scotia"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 4,
    "ctr": 0,
-   "position": 9.4
+   "position": 9.5
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-quebec"
    ],
    "clicks": 0,
-   "impressions": 38,
+   "impressions": 36,
    "ctr": 0,
-   "position": 13.368421052631579
+   "position": 13.444444444444445
   },
   {
    "keys": [
@@ -7490,9 +7850,9 @@
     "https://www.corporateregistryservices.ca/contact"
    ],
    "clicks": 0,
-   "impressions": 14,
+   "impressions": 11,
    "ctr": 0,
-   "position": 6.285714285714286
+   "position": 6.909090909090909
   },
   {
    "keys": [
@@ -7517,63 +7877,63 @@
     "https://www.corporateregistryservices.ca/good-standing"
    ],
    "clicks": 0,
-   "impressions": 79,
+   "impressions": 89,
    "ctr": 0,
-   "position": 34.70886075949367
+   "position": 35.853932584269664
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/british-columbia-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 101,
+   "impressions": 102,
    "ctr": 0,
-   "position": 9.455445544554456
+   "position": 9.284313725490197
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/canada-federal-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 75,
+   "impressions": 73,
    "ctr": 0,
-   "position": 9.613333333333333
+   "position": 9.726027397260275
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/manitoba-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 37,
+   "impressions": 39,
    "ctr": 0,
-   "position": 8.513513513513512
+   "position": 8.435897435897436
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/new-brunswick-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 18,
+   "impressions": 17,
    "ctr": 0,
-   "position": 6.666666666666667
+   "position": 6.882352941176471
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/newfoundland-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 33,
+   "impressions": 31,
    "ctr": 0,
-   "position": 6.848484848484849
+   "position": 6.612903225806452
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/good-standing/nova-scotia-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 39,
+   "impressions": 40,
    "ctr": 0,
-   "position": 6.487179487179487
+   "position": 6.55
   },
   {
    "keys": [
@@ -7589,9 +7949,9 @@
     "https://www.corporateregistryservices.ca/good-standing/ontario-certificate-of-good-standing"
    ],
    "clicks": 0,
-   "impressions": 26,
+   "impressions": 32,
    "ctr": 0,
-   "position": 12.538461538461538
+   "position": 13.03125
   },
   {
    "keys": [
@@ -7616,18 +7976,18 @@
     "https://www.corporateregistryservices.ca/guides/certificate-of-good-standing-for-bank-loan"
    ],
    "clicks": 0,
-   "impressions": 22,
+   "impressions": 27,
    "ctr": 0,
-   "position": 15.272727272727273
+   "position": 15.037037037037036
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/certificate-of-good-standing-for-grants"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 13,
    "ctr": 0,
-   "position": 15
+   "position": 19.23076923076923
   },
   {
    "keys": [
@@ -7643,36 +8003,27 @@
     "https://www.corporateregistryservices.ca/guides/corporate-search-for-commercial-lease"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 10,
    "ctr": 0,
-   "position": 7.625
+   "position": 7.9
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/corporate-search-for-litigation"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 17,
    "ctr": 0,
-   "position": 9.384615384615385
+   "position": 14.058823529411764
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company"
    ],
    "clicks": 0,
-   "impressions": 142,
+   "impressions": 173,
    "ctr": 0,
-   "position": 10.830985915492958
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/incorporation"
-   ],
-   "clicks": 0,
-   "impressions": 3,
-   "ctr": 0,
-   "position": 6
+   "position": 10.68208092485549
   },
   {
    "keys": [
@@ -7688,9 +8039,9 @@
     "https://www.corporateregistryservices.ca/incorporation/Manitoba-incorporation-service"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 27.11111111111111
+   "position": 25.1
   },
   {
    "keys": [
@@ -7721,6 +8072,15 @@
   },
   {
    "keys": [
+    "https://www.corporateregistryservices.ca/incorporation/book-free-consultation"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
     "https://www.corporateregistryservices.ca/incorporation/british-columbia-incorporation-service"
    ],
    "clicks": 0,
@@ -7733,9 +8093,9 @@
     "https://www.corporateregistryservices.ca/incorporation/canada-federal-incorporation-service"
    ],
    "clicks": 0,
-   "impressions": 10,
+   "impressions": 7,
    "ctr": 0,
-   "position": 30.4
+   "position": 40.57142857142857
   },
   {
    "keys": [
@@ -7751,9 +8111,9 @@
     "https://www.corporateregistryservices.ca/incorporation/new-brunswick-incorporation-service"
    ],
    "clicks": 0,
-   "impressions": 32,
+   "impressions": 38,
    "ctr": 0,
-   "position": 53.8125
+   "position": 52.26315789473684
   },
   {
    "keys": [
@@ -7772,15 +8132,6 @@
    "impressions": 14,
    "ctr": 0,
    "position": 31.5
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/incorporation/nova-scotia-incorporation-service"
-   ],
-   "clicks": 0,
-   "impressions": 241,
-   "ctr": 0,
-   "position": 46.095435684647306
   },
   {
    "keys": [
@@ -7816,16 +8167,16 @@
    "clicks": 0,
    "impressions": 38,
    "ctr": 0,
-   "position": 54.578947368421055
+   "position": 54.63157894736842
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/minute-books/british-columbia-corporate-minute-books"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 15,
    "ctr": 0,
-   "position": 9.0625
+   "position": 9.4
   },
   {
    "keys": [
@@ -7868,9 +8219,9 @@
     "https://www.corporateregistryservices.ca/minute-books/nova-scotia-corporate-minute-books"
    ],
    "clicks": 0,
-   "impressions": 11,
+   "impressions": 13,
    "ctr": 0,
-   "position": 6.7272727272727275
+   "position": 6.6923076923076925
   },
   {
    "keys": [
@@ -7904,18 +8255,18 @@
     "https://www.corporateregistryservices.ca/minute-books/quebec-corporate-minute-books"
    ],
    "clicks": 0,
-   "impressions": 58,
+   "impressions": 57,
    "ctr": 0,
-   "position": 6.948275862068965
+   "position": 6.912280701754386
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/nfp-grants"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
-   "position": 7.666666666666667
+   "position": 8
   },
   {
    "keys": [
@@ -7946,12 +8297,21 @@
   },
   {
    "keys": [
+    "https://www.corporateregistryservices.ca/nfp-grants/nunavut"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
     "https://www.corporateregistryservices.ca/nfp-grants/yukon"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 7,
    "ctr": 0,
-   "position": 13
+   "position": 12.285714285714286
   },
   {
    "keys": [
@@ -7976,18 +8336,18 @@
     "https://www.corporateregistryservices.ca/profile-reports"
    ],
    "clicks": 0,
-   "impressions": 90,
+   "impressions": 104,
    "ctr": 0,
-   "position": 18.022222222222222
+   "position": 17.96153846153846
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/profile-reports/british-columbia-corporate-profile-report"
    ],
    "clicks": 0,
-   "impressions": 26,
+   "impressions": 34,
    "ctr": 0,
-   "position": 9.807692307692308
+   "position": 9.5
   },
   {
    "keys": [
@@ -8003,9 +8363,9 @@
     "https://www.corporateregistryservices.ca/profile-reports/newfoundland-corporate-profile-report"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 9.25
+   "position": 9.333333333333334
   },
   {
    "keys": [
@@ -8021,27 +8381,27 @@
     "https://www.corporateregistryservices.ca/profile-reports/nova-scotia-corporate-profile-report"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 24,
    "ctr": 0,
-   "position": 5.08
+   "position": 4.833333333333334
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/profile-reports/ontario-corporate-profile-report"
    ],
    "clicks": 0,
-   "impressions": 44,
+   "impressions": 65,
    "ctr": 0,
-   "position": 20.386363636363637
+   "position": 17.70769230769231
   },
   {
    "keys": [
     "https://www.corporateregistryservices.ca/profile-reports/prince-edward-island-corporate-profile-report"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 12,
    "ctr": 0,
-   "position": 5.444444444444445
+   "position": 5.5
   },
   {
    "keys": [
@@ -8057,9 +8417,9 @@
     "https://www.corporateregistryservices.ca/terms"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 3,
    "ctr": 0,
-   "position": 3.4
+   "position": 3.3333333333333335
   }
  ],
  "page_query": [
@@ -8072,16 +8432,6 @@
    "impressions": 19,
    "ctr": 0.10526315789473684,
    "position": 31.105263157894736
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
-    "alberta annual return due date"
-   ],
-   "clicks": 1,
-   "impressions": 6,
-   "ctr": 0.16666666666666666,
-   "position": 10.833333333333334
   },
   {
    "keys": [
@@ -8139,9 +8489,9 @@
     "corporate services"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 5,
    "ctr": 0,
-   "position": 83
+   "position": 83.6
   },
   {
    "keys": [
@@ -8349,9 +8699,9 @@
     "bylaws in canada"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 30
+   "position": 24.5
   },
   {
    "keys": [
@@ -8389,9 +8739,9 @@
     "corporate company law"
    ],
    "clicks": 0,
-   "impressions": 27,
+   "impressions": 31,
    "ctr": 0,
-   "position": 72.62962962962963
+   "position": 72.83870967741936
   },
   {
    "keys": [
@@ -8399,9 +8749,19 @@
     "corporate law canada"
    ],
    "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/corporate-by-laws-canada",
+    "corporate law in canada"
+   ],
+   "clicks": 0,
    "impressions": 1,
    "ctr": 0,
-   "position": 72
+   "position": 69
   },
   {
    "keys": [
@@ -8412,6 +8772,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 45
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/corporate-by-laws-canada",
+    "obtain corporate bylaws online canada c corp"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
   },
   {
    "keys": [
@@ -8609,9 +8979,9 @@
     "cbca annual return"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 11,
    "ctr": 0,
-   "position": 10.333333333333334
+   "position": 10.090909090909092
   },
   {
    "keys": [
@@ -8619,9 +8989,9 @@
     "corp canada $12"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 9
+   "position": 9.666666666666666
   },
   {
    "keys": [
@@ -8649,9 +9019,9 @@
     "corporations canada annual filing"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 17.076923076923077
+   "position": 16.714285714285715
   },
   {
    "keys": [
@@ -8672,6 +9042,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 10
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-federal-canada",
+    "corporations canada annual return fee official"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
   },
   {
    "keys": [
@@ -8739,9 +9119,9 @@
     "federal corporation annual return"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 9,
    "ctr": 0,
-   "position": 11
+   "position": 10.88888888888889
   },
   {
    "keys": [
@@ -8946,6 +9326,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
+    "alberta annual return due date"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 11.25
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
     "alberta annual return form"
    ],
    "clicks": 0,
@@ -8969,9 +9359,9 @@
     "alberta cores"
    ],
    "clicks": 0,
-   "impressions": 18,
+   "impressions": 19,
    "ctr": 0,
-   "position": 8.61111111111111
+   "position": 8.68421052631579
   },
   {
    "keys": [
@@ -9016,6 +9406,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
+    "alberta corporate registry fee schedule"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
     "alberta corporate registry fees"
    ],
    "clicks": 0,
@@ -9031,17 +9431,7 @@
    "clicks": 0,
    "impressions": 10,
    "ctr": 0,
-   "position": 24.9
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
-    "alberta corporation"
-   ],
-   "clicks": 0,
-   "impressions": 1,
-   "ctr": 0,
-   "position": 19
+   "position": 26.5
   },
   {
    "keys": [
@@ -9109,9 +9499,9 @@
     "alberta societies annual return"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 19.5
+   "position": 10
   },
   {
    "keys": [
@@ -9131,7 +9521,7 @@
    "clicks": 0,
    "impressions": 14,
    "ctr": 0,
-   "position": 27.5
+   "position": 28.714285714285715
   },
   {
    "keys": [
@@ -9142,6 +9532,16 @@
    "impressions": 3,
    "ctr": 0,
    "position": 26.666666666666668
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
+    "annual filing fee"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
   },
   {
    "keys": [
@@ -9169,9 +9569,9 @@
     "annual return calgary"
    ],
    "clicks": 0,
-   "impressions": 26,
+   "impressions": 27,
    "ctr": 0,
-   "position": 30.615384615384617
+   "position": 31.703703703703702
   },
   {
    "keys": [
@@ -9246,12 +9646,22 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
+    "cores"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
     "cores alberta"
    ],
    "clicks": 0,
-   "impressions": 82,
+   "impressions": 93,
    "ctr": 0,
-   "position": 8.536585365853657
+   "position": 8.634408602150538
   },
   {
    "keys": [
@@ -9266,12 +9676,22 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
+    "cores online"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
     "cores registry"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 7.75
+   "position": 7.6
   },
   {
    "keys": [
@@ -9319,9 +9739,9 @@
     "corporate registry service alberta"
    ],
    "clicks": 0,
-   "impressions": 19,
+   "impressions": 17,
    "ctr": 0,
-   "position": 36.89473684210526
+   "position": 37.8235294117647
   },
   {
    "keys": [
@@ -9342,16 +9762,6 @@
    "impressions": 1,
    "ctr": 0,
    "position": 52
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-alberta",
-    "filing fees"
-   ],
-   "clicks": 0,
-   "impressions": 1,
-   "ctr": 0,
-   "position": 1
   },
   {
    "keys": [
@@ -9526,6 +9936,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "annual filing report"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
     "annual filing status"
    ],
    "clicks": 0,
@@ -9539,9 +9959,9 @@
     "annual report bc"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 13,
    "ctr": 0,
-   "position": 14.083333333333334
+   "position": 14.538461538461538
   },
   {
    "keys": [
@@ -9559,9 +9979,9 @@
     "annual report bc registry"
    ],
    "clicks": 0,
-   "impressions": 11,
+   "impressions": 12,
    "ctr": 0,
-   "position": 13.181818181818182
+   "position": 12.916666666666666
   },
   {
    "keys": [
@@ -9579,9 +9999,9 @@
     "annual report filing"
    ],
    "clicks": 0,
-   "impressions": 17,
+   "impressions": 19,
    "ctr": 0,
-   "position": 12.117647058823529
+   "position": 12.526315789473685
   },
   {
    "keys": [
@@ -9589,9 +10009,9 @@
     "annual report filing bc"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 10,
    "ctr": 0,
-   "position": 14.625
+   "position": 14.5
   },
   {
    "keys": [
@@ -9659,9 +10079,9 @@
     "bc annual filing"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 9.75
+   "position": 9.666666666666666
   },
   {
    "keys": [
@@ -9669,9 +10089,9 @@
     "bc annual report"
    ],
    "clicks": 0,
-   "impressions": 71,
+   "impressions": 85,
    "ctr": 0,
-   "position": 10
+   "position": 9.976470588235294
   },
   {
    "keys": [
@@ -9679,9 +10099,9 @@
     "bc annual report filing"
    ],
    "clicks": 0,
-   "impressions": 15,
+   "impressions": 16,
    "ctr": 0,
-   "position": 9.666666666666666
+   "position": 9.625
   },
   {
    "keys": [
@@ -9689,9 +10109,9 @@
     "bc annual report filing deadline"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 10
+   "position": 5.5
   },
   {
    "keys": [
@@ -9699,9 +10119,9 @@
     "bc annual report online"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 6,
    "ctr": 0,
-   "position": 8
+   "position": 8.333333333333332
   },
   {
    "keys": [
@@ -9749,9 +10169,9 @@
     "bc corporate annual report"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 17,
    "ctr": 0,
-   "position": 9.166666666666666
+   "position": 9.294117647058824
   },
   {
    "keys": [
@@ -9829,9 +10249,9 @@
     "bc online annual report"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 8.75
+   "position": 9.2
   },
   {
    "keys": [
@@ -9876,6 +10296,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "bc registries forms"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
     "bc registry"
    ],
    "clicks": 0,
@@ -9909,9 +10339,9 @@
     "bc registry annual reports"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 14.25
+   "position": 14.166666666666666
   },
   {
    "keys": [
@@ -9929,9 +10359,9 @@
     "bc registry file annual report"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 11,
    "ctr": 0,
-   "position": 10.222222222222221
+   "position": 10.272727272727273
   },
   {
    "keys": [
@@ -9949,9 +10379,19 @@
     "bc registry services annual report"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 15,
    "ctr": 0,
-   "position": 9
+   "position": 8.866666666666667
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "bc registry services forms"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
   },
   {
    "keys": [
@@ -10039,7 +10479,7 @@
     "corporate annual return"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
    "position": 78
   },
@@ -10069,9 +10509,9 @@
     "corporate registry bc"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 11.125
+   "position": 11.777777777777779
   },
   {
    "keys": [
@@ -10099,9 +10539,9 @@
     "cost to incorporate bc"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 8,
    "ctr": 0,
-   "position": 39.714285714285715
+   "position": 39.875
   },
   {
    "keys": [
@@ -10156,12 +10596,22 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "file anual report"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
     "file bc annual report"
    ],
    "clicks": 0,
-   "impressions": 19,
+   "impressions": 21,
    "ctr": 0,
-   "position": 10.842105263157896
+   "position": 10.619047619047619
   },
   {
    "keys": [
@@ -10199,9 +10649,9 @@
     "filing annual report bc"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 13.384615384615385
+   "position": 12.642857142857142
   },
   {
    "keys": [
@@ -10229,9 +10679,9 @@
     "how much does it cost to incorporate in bc"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 46
+   "position": 67
   },
   {
    "keys": [
@@ -10286,12 +10736,32 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "register a business in bc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
     "what is the new website"
    ],
    "clicks": 0,
    "impressions": 1,
    "ctr": 0,
    "position": 1
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-british-columbia",
+    "what\u2019s this"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
   },
   {
    "keys": [
@@ -10309,9 +10779,9 @@
     "www.corporateonline.gov.bc.ca annual report"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 12
+   "position": 12.666666666666666
   },
   {
    "keys": [
@@ -10339,9 +10809,9 @@
     "[annual resolutions]"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 4,
    "ctr": 0,
-   "position": 66
+   "position": 65.75
   },
   {
    "keys": [
@@ -10359,9 +10829,9 @@
     "annual information return ontario"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 6,
    "ctr": 0,
-   "position": 56.857142857142854
+   "position": 55.166666666666664
   },
   {
    "keys": [
@@ -10409,9 +10879,9 @@
     "annual return filing"
    ],
    "clicks": 0,
-   "impressions": 42,
+   "impressions": 41,
    "ctr": 0,
-   "position": 66.42857142857143
+   "position": 66.34146341463415
   },
   {
    "keys": [
@@ -10419,9 +10889,9 @@
     "annual return filing deadline"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 17
+   "position": 13
   },
   {
    "keys": [
@@ -10581,7 +11051,7 @@
    "clicks": 0,
    "impressions": 5,
    "ctr": 0,
-   "position": 58.8
+   "position": 56.4
   },
   {
    "keys": [
@@ -10589,9 +11059,9 @@
     "corporate annual return ontario"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 34.25
+   "position": 26.5
   },
   {
    "keys": [
@@ -10636,6 +11106,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario",
+    "dissolving a corporation in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario",
     "dissolving a corporation ontario"
    ],
    "clicks": 0,
@@ -10669,9 +11149,9 @@
     "file annual return ontario"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 24,
    "ctr": 0,
-   "position": 32.19047619047619
+   "position": 30.833333333333332
   },
   {
    "keys": [
@@ -10756,12 +11236,32 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario",
+    "how to close a business in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario",
     "how to close a corporation in ontario"
    ],
    "clicks": 0,
    "impressions": 1,
    "ctr": 0,
    "position": 66
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-ontario",
+    "how to close an incorporated business in ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
   },
   {
    "keys": [
@@ -10809,9 +11309,9 @@
     "how to file ontario annual return"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 12.5
+   "position": 12
   },
   {
    "keys": [
@@ -10911,7 +11411,7 @@
    "clicks": 0,
    "impressions": 7,
    "ctr": 0,
-   "position": 41
+   "position": 39
   },
   {
    "keys": [
@@ -10959,9 +11459,9 @@
     "ontario business registry file annual return"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 13
+   "position": 12
   },
   {
    "keys": [
@@ -11066,12 +11566,42 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island",
+    "annual report corporation"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island",
     "corporate registry pei"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 9,
    "ctr": 0,
-   "position": 9.6
+   "position": 10.333333333333334
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island",
+    "file annual return"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island",
+    "pei business registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
   },
   {
    "keys": [
@@ -11079,7 +11609,7 @@
     "pei corp registry"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 3,
    "ctr": 0,
    "position": 10
   },
@@ -11089,9 +11619,9 @@
     "pei corporate registry"
    ],
    "clicks": 0,
-   "impressions": 29,
+   "impressions": 70,
    "ctr": 0,
-   "position": 9.517241379310345
+   "position": 9.514285714285714
   },
   {
    "keys": [
@@ -11102,6 +11632,26 @@
    "impressions": 1,
    "ctr": 0,
    "position": 18
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-prince-edward-island",
+    "prince edward island corporate registry"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-quebec",
+    "registraire des entreprises du qu\u00e9bec (req)"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
   },
   {
    "keys": [
@@ -11139,9 +11689,9 @@
     "annual return for corporation"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 36
+   "position": 23
   },
   {
    "keys": [
@@ -11209,9 +11759,9 @@
     "corporate annual return"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 4,
    "ctr": 0,
-   "position": 16.5
+   "position": 34
   },
   {
    "keys": [
@@ -11219,9 +11769,9 @@
     "corporate profile report saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 5,
    "ctr": 0,
-   "position": 16
+   "position": 19
   },
   {
    "keys": [
@@ -11289,9 +11839,9 @@
     "incorporate saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 18,
+   "impressions": 19,
    "ctr": 0,
-   "position": 54.166666666666664
+   "position": 54
   },
   {
    "keys": [
@@ -11299,9 +11849,9 @@
     "incorporation in saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 17,
    "ctr": 0,
-   "position": 46.5625
+   "position": 46.64705882352941
   },
   {
    "keys": [
@@ -11309,9 +11859,9 @@
     "incorporation saskatchewan"
    ],
    "clicks": 0,
-   "impressions": 30,
+   "impressions": 31,
    "ctr": 0,
-   "position": 39.733333333333334
+   "position": 39.903225806451616
   },
   {
    "keys": [
@@ -11319,9 +11869,9 @@
     "isc annual return"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 18,
    "ctr": 0,
-   "position": 7.0625
+   "position": 7.055555555555555
   },
   {
    "keys": [
@@ -11409,9 +11959,9 @@
     "saskatchewan corporate registry"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
-   "position": 18
+   "position": 18.5
   },
   {
    "keys": [
@@ -11419,9 +11969,19 @@
     "saskatchewan corporation"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 6,
    "ctr": 0,
-   "position": 15.75
+   "position": 14.666666666666666
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/how-to-file-your-annual-return-in-saskatchewan",
+    "saskatchewan corporation registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
   },
   {
    "keys": [
@@ -11429,9 +11989,9 @@
     "saskatchewan incorporation"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 24,
    "ctr": 0,
-   "position": 25.64
+   "position": 25.708333333333332
   },
   {
    "keys": [
@@ -11459,9 +12019,9 @@
     "sk corporate registry"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 17
+   "position": 18
   },
   {
    "keys": [
@@ -11489,9 +12049,9 @@
     "incorporate in yukon"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 4,
    "ctr": 0,
-   "position": 19.666666666666668
+   "position": 17
   },
   {
    "keys": [
@@ -11499,9 +12059,9 @@
     "yukon corporate affairs"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 7,
    "ctr": 0,
-   "position": 7.222222222222222
+   "position": 7
   },
   {
    "keys": [
@@ -11519,9 +12079,9 @@
     "cidreq reports"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 8,
    "ctr": 0,
-   "position": 14
+   "position": 13.875
   },
   {
    "keys": [
@@ -11789,9 +12349,9 @@
     "[annual resolutions]"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 55.77777777777778
+   "position": 55.4
   },
   {
    "keys": [
@@ -11939,9 +12499,19 @@
     "shareholders resolution"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
    "position": 8
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/articles/shareholder-resolutions-in-canada",
+    "shareholders resolutions"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
   },
   {
    "keys": [
@@ -11979,9 +12549,9 @@
     "special resolution of shareholders"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 7
+   "position": 8.5
   },
   {
    "keys": [
@@ -11989,7 +12559,7 @@
     "special resolution vs ordinary resolution"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
    "position": 9
   },
@@ -12079,9 +12649,9 @@
     "business number lookup canada"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 29.444444444444443
+   "position": 29
   },
   {
    "keys": [
@@ -12089,9 +12659,9 @@
     "business number search canada"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 30
+   "position": 28
   },
   {
    "keys": [
@@ -12102,6 +12672,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 32
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "business registration lookup canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
   },
   {
    "keys": [
@@ -12176,6 +12756,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "canada busines registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
     "canada business corporation search"
    ],
    "clicks": 0,
@@ -12209,9 +12799,9 @@
     "canada business entity search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 28.5
+   "position": 27.666666666666668
   },
   {
    "keys": [
@@ -12279,9 +12869,9 @@
     "canada business registry"
    ],
    "clicks": 0,
-   "impressions": 12,
+   "impressions": 13,
    "ctr": 0,
-   "position": 23.083333333333332
+   "position": 22.615384615384617
   },
   {
    "keys": [
@@ -12289,9 +12879,9 @@
     "canada business search"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 28.25
+   "position": 24.2
   },
   {
    "keys": [
@@ -12369,9 +12959,9 @@
     "canada company registration search"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 20.166666666666668
+   "position": 20.142857142857142
   },
   {
    "keys": [
@@ -12379,9 +12969,9 @@
     "canada company registry"
    ],
    "clicks": 0,
-   "impressions": 16,
+   "impressions": 17,
    "ctr": 0,
-   "position": 23.5
+   "position": 23.41176470588235
   },
   {
    "keys": [
@@ -12399,9 +12989,9 @@
     "canada company search"
    ],
    "clicks": 0,
-   "impressions": 19,
+   "impressions": 17,
    "ctr": 0,
-   "position": 30.42105263157895
+   "position": 31.235294117647058
   },
   {
    "keys": [
@@ -12432,6 +13022,16 @@
    "impressions": 2,
    "ctr": 0,
    "position": 23
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "canada corporate records"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
   },
   {
    "keys": [
@@ -12579,9 +13179,9 @@
     "canada registry of companies"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 19
+   "position": 17.5
   },
   {
    "keys": [
@@ -12599,9 +13199,9 @@
     "canada secretary of state business search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 1,
    "ctr": 0,
-   "position": 36
+   "position": 33
   },
   {
    "keys": [
@@ -12619,9 +13219,9 @@
     "canada's business registries search"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 24
+   "position": 21.5
   },
   {
    "keys": [
@@ -12729,9 +13329,9 @@
     "canadian business registry search"
    ],
    "clicks": 0,
-   "impressions": 5,
+   "impressions": 7,
    "ctr": 0,
-   "position": 24.4
+   "position": 25
   },
   {
    "keys": [
@@ -12799,9 +13399,9 @@
     "canadian company registry"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 5,
    "ctr": 0,
-   "position": 24.5
+   "position": 23.4
   },
   {
    "keys": [
@@ -12879,9 +13479,9 @@
     "canadian corporation search"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 28.5
+   "position": 27.714285714285715
   },
   {
    "keys": [
@@ -12892,6 +13492,16 @@
    "impressions": 3,
    "ctr": 0,
    "position": 26.333333333333332
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "canadian entity search"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
   },
   {
    "keys": [
@@ -12939,9 +13549,9 @@
     "canadian secretary of state business search"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 3,
    "ctr": 0,
-   "position": 43.75
+   "position": 43.666666666666664
   },
   {
    "keys": [
@@ -13006,6 +13616,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "company database canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
     "company lookup canada"
    ],
    "clicks": 0,
@@ -13039,9 +13659,9 @@
     "company search canada"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
-   "position": 29
+   "position": 28.5
   },
   {
    "keys": [
@@ -13072,6 +13692,26 @@
    "impressions": 1,
    "ctr": 0,
    "position": 21
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "corporate lookup canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "corporate name search canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
   },
   {
    "keys": [
@@ -13232,6 +13872,26 @@
    "impressions": 1,
    "ctr": 0,
    "position": 33
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "find a business canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/canada-corporations-search",
+    "find business in canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
   },
   {
    "keys": [
@@ -13759,9 +14419,9 @@
     "certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 11,
    "ctr": 0,
-   "position": 34.375
+   "position": 35.18181818181818
   },
   {
    "keys": [
@@ -13809,9 +14469,9 @@
     "certificate of good standing canada"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 6,
    "ctr": 0,
-   "position": 44
+   "position": 43.666666666666664
   },
   {
    "keys": [
@@ -13819,9 +14479,9 @@
     "certificate of good standing ontario"
    ],
    "clicks": 0,
-   "impressions": 6,
+   "impressions": 7,
    "ctr": 0,
-   "position": 43.333333333333336
+   "position": 46.57142857142857
   },
   {
    "keys": [
@@ -13899,9 +14559,9 @@
     "how to get a certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 6,
    "ctr": 0,
-   "position": 43.333333333333336
+   "position": 43.5
   },
   {
    "keys": [
@@ -13909,9 +14569,9 @@
     "llc certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 4,
+   "impressions": 7,
    "ctr": 0,
-   "position": 37.25
+   "position": 38.42857142857143
   },
   {
    "keys": [
@@ -13996,6 +14656,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/certificate-of-good-standing-for-grants",
+    "certificate of good standing ontario"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 37
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/certificate-of-good-standing-for-grants",
     "good standing compliance checklist"
    ],
    "clicks": 0,
@@ -14009,9 +14679,9 @@
     "how to get a certificate of good standing"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 4,
    "ctr": 0,
-   "position": 24
+   "position": 23.75
   },
   {
    "keys": [
@@ -14052,6 +14722,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 17
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/corporate-search-for-litigation",
+    "how to sue a company in canada"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
   },
   {
    "keys": [
@@ -14136,6 +14816,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "canada company verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
     "check canadian company registration"
    ],
    "clicks": 0,
@@ -14149,9 +14839,19 @@
     "check directors of company"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 4,
    "ctr": 0,
    "position": 7
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "company registration verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
   },
   {
    "keys": [
@@ -14196,6 +14896,16 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "directors check"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
     "how to check company registered or not"
    ],
    "clicks": 0,
@@ -14216,12 +14926,22 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
-    "how to check if a company is legally registered"
+    "how to check if a company is in good standing"
    ],
    "clicks": 0,
    "impressions": 2,
    "ctr": 0,
-   "position": 11
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "how to check if a company is legally registered"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10.75
   },
   {
    "keys": [
@@ -14256,6 +14976,26 @@
   {
    "keys": [
     "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "how to know a company is registered or not"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
+    "how to verify a business"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/guides/how-to-verify-a-canadian-company",
     "how to verify company"
    ],
    "clicks": 0,
@@ -14279,9 +15019,9 @@
     "verify business"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 72
+   "position": 55
   },
   {
    "keys": [
@@ -14479,9 +15219,9 @@
     "nuance name search"
    ],
    "clicks": 0,
-   "impressions": 2,
+   "impressions": 3,
    "ctr": 0,
-   "position": 25.5
+   "position": 24.666666666666668
   },
   {
    "keys": [
@@ -14559,9 +15299,9 @@
     "nuans name canada"
    ],
    "clicks": 0,
-   "impressions": 13,
+   "impressions": 14,
    "ctr": 0,
-   "position": 33.53846153846154
+   "position": 32.92857142857143
   },
   {
    "keys": [
@@ -14959,9 +15699,9 @@
     "business incorporation new brunswick"
    ],
    "clicks": 0,
-   "impressions": 7,
+   "impressions": 8,
    "ctr": 0,
-   "position": 61.142857142857146
+   "position": 60.625
   },
   {
    "keys": [
@@ -14969,9 +15709,19 @@
     "how to incorporate a business in new brunswick"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 10,
    "ctr": 0,
-   "position": 71.44444444444444
+   "position": 71
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/incorporation/new-brunswick-incorporation-service",
+    "incorporate in new brunswick"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
   },
   {
    "keys": [
@@ -14979,9 +15729,9 @@
     "incorporating a business in new brunswick"
    ],
    "clicks": 0,
-   "impressions": 8,
+   "impressions": 9,
    "ctr": 0,
-   "position": 63.375
+   "position": 63.333333333333336
   },
   {
    "keys": [
@@ -14992,6 +15742,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 53
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/incorporation/new-brunswick-incorporation-service",
+    "service nb corporate registry"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
   },
   {
    "keys": [
@@ -15019,9 +15779,9 @@
     "business incorporation nova scotia"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 22,
    "ctr": 0,
-   "position": 52.714285714285715
+   "position": 52.90909090909091
   },
   {
    "keys": [
@@ -15039,9 +15799,9 @@
     "how to incorporate a business in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 21,
    "ctr": 0,
-   "position": 56.9
+   "position": 56.76190476190476
   },
   {
    "keys": [
@@ -15049,9 +15809,9 @@
     "incorporate in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 25,
+   "impressions": 26,
    "ctr": 0,
-   "position": 39.92
+   "position": 40.11538461538461
   },
   {
    "keys": [
@@ -15059,9 +15819,9 @@
     "incorporate nova scotia"
    ],
    "clicks": 0,
-   "impressions": 21,
+   "impressions": 24,
    "ctr": 0,
-   "position": 36.285714285714285
+   "position": 36.333333333333336
   },
   {
    "keys": [
@@ -15069,9 +15829,9 @@
     "incorporating a business in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 20,
+   "impressions": 21,
    "ctr": 0,
-   "position": 55.2
+   "position": 55.04761904761905
   },
   {
    "keys": [
@@ -15079,9 +15839,9 @@
     "incorporating in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 23,
+   "impressions": 25,
    "ctr": 0,
-   "position": 45.43478260869565
+   "position": 45.6
   },
   {
    "keys": [
@@ -15089,9 +15849,9 @@
     "incorporating nova scotia"
    ],
    "clicks": 0,
-   "impressions": 23,
+   "impressions": 24,
    "ctr": 0,
-   "position": 56
+   "position": 56.625
   },
   {
    "keys": [
@@ -15099,9 +15859,9 @@
     "incorporation in nova scotia"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 43.083333333333336
+   "position": 43.36
   },
   {
    "keys": [
@@ -15109,9 +15869,9 @@
     "incorporation nova scotia"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 39.75
+   "position": 39.96
   },
   {
    "keys": [
@@ -15119,9 +15879,9 @@
     "incorporation services"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 7,
    "ctr": 0,
-   "position": 81
+   "position": 77.28571428571429
   },
   {
    "keys": [
@@ -15129,9 +15889,9 @@
     "nova scotia incorporation"
    ],
    "clicks": 0,
-   "impressions": 24,
+   "impressions": 25,
    "ctr": 0,
-   "position": 44.375
+   "position": 44.4
   },
   {
    "keys": [
@@ -15139,9 +15899,9 @@
     "\"share subscription\" \"minute book\" canada"
    ],
    "clicks": 0,
-   "impressions": 9,
+   "impressions": 6,
    "ctr": 0,
-   "position": 4.333333333333334
+   "position": 4.166666666666666
   },
   {
    "keys": [
@@ -15157,16 +15917,6 @@
    "keys": [
     "https://www.corporateregistryservices.ca/minute-books",
     "canada corporate minute book where to keep directors resolution share issuance"
-   ],
-   "clicks": 0,
-   "impressions": 1,
-   "ctr": 0,
-   "position": 9
-  },
-  {
-   "keys": [
-    "https://www.corporateregistryservices.ca/minute-books",
-    "canada corporate minute book where to keep directors resolutions share issuance"
    ],
    "clicks": 0,
    "impressions": 1,
@@ -15321,7 +16071,7 @@
    "clicks": 0,
    "impressions": 32,
    "ctr": 0,
-   "position": 75.0625
+   "position": 75.09375
   },
   {
    "keys": [
@@ -15399,9 +16149,9 @@
     "online minute book"
    ],
    "clicks": 0,
-   "impressions": 1,
+   "impressions": 2,
    "ctr": 0,
-   "position": 78
+   "position": 63
   },
   {
    "keys": [
@@ -15429,9 +16179,9 @@
     "virtual minute book"
    ],
    "clicks": 0,
-   "impressions": 27,
+   "impressions": 28,
    "ctr": 0,
-   "position": 64.33333333333334
+   "position": 63.32142857142857
   },
   {
    "keys": [
@@ -15441,7 +16191,7 @@
    "clicks": 0,
    "impressions": 27,
    "ctr": 0,
-   "position": 73.96296296296296
+   "position": 74.03703703703704
   },
   {
    "keys": [
@@ -16149,9 +16899,9 @@
     "corporate profile report"
    ],
    "clicks": 0,
-   "impressions": 10,
+   "impressions": 13,
    "ctr": 0,
-   "position": 15.9
+   "position": 15.692307692307692
   },
   {
    "keys": [
@@ -16162,6 +16912,16 @@
    "impressions": 1,
    "ctr": 0,
    "position": 17
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/profile-reports",
+    "corporate profile report bc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
   },
   {
    "keys": [
@@ -16189,9 +16949,19 @@
     "corporate profile report new brunswick"
    ],
    "clicks": 0,
-   "impressions": 3,
+   "impressions": 5,
    "ctr": 0,
-   "position": 21.666666666666668
+   "position": 23
+  },
+  {
+   "keys": [
+    "https://www.corporateregistryservices.ca/profile-reports",
+    "corporate profile report nova scotia"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
   },
   {
    "keys": [
