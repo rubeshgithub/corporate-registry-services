@@ -46,6 +46,14 @@ export function breadcrumbLd(items: Array<{ name: string; url?: string }>) {
 /**
  * Service schema for pages describing a specific priced offering. Fed from
  * inferServiceContext so this stays in sync with the conversion strip.
+ *
+ * We deliberately don't emit an `offers` node here. Google treats any
+ * structured data with a priced `offers` block as a Merchant listing and
+ * flags missing hasMerchantReturnPolicy / shippingDetails — fields that
+ * don't apply to a professional-services business (nothing ships, "return"
+ * doesn't exist in the physical-goods sense). Price stays visible in the
+ * page copy for SERP snippet extraction; keeping it out of the JSON-LD
+ * removes the merchant-listing eligibility and its associated warnings.
  */
 export function serviceLd({
   ctx,
@@ -59,9 +67,6 @@ export function serviceLd({
   const jurisdictionLabel = ctx.jurisdictionKey
     ? JURISDICTIONS.find((j) => j.key === ctx.jurisdictionKey)?.label
     : undefined;
-  // Extract a numeric price from ctx.price like "$99 all-in + GST" → "99".
-  const priceMatch = ctx.price.match(/\$(\d+)/);
-  const priceValue = priceMatch ? priceMatch[1] : undefined;
 
   return {
     "@context": "https://schema.org",
@@ -76,21 +81,6 @@ export function serviceLd({
     areaServed: jurisdictionLabel
       ? { "@type": "AdministrativeArea", name: jurisdictionLabel }
       : { "@type": "Country",            name: "Canada" },
-    ...(priceValue
-      ? {
-          offers: {
-            "@type":         "Offer",
-            price:           priceValue,
-            priceCurrency:   "CAD",
-            priceSpecification: {
-              "@type":         "PriceSpecification",
-              price:           priceValue,
-              priceCurrency:   "CAD",
-              valueAddedTaxIncluded: false,
-            },
-          },
-        }
-      : {}),
   };
 }
 
