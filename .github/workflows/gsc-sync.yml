@@ -77,9 +77,107 @@ jobs:
           print(f"queries:{len(out.get('query',[]))} pages:{len(out.get('page',[]))}")
           PY
 
+      - name: Compute opportunity queue for the cowork automation
+        run: |
+          python - <<'PY'
+          # Reads automation/gsc/latest.json and emits
+          # automation/gsc/opportunities.json — a ranked queue of queries
+          # where Google already shows CRS but not at the top of page 1,
+          # AND no existing URL is a tight semantic match. Each entry is
+          # a candidate hyper-specific article the cowork can write next.
+          #
+          # Scoring: impressions × (60 - min(position, 60)) / 60. This
+          # rewards high demand AND high position gap — an impression at
+          # pos 45 is worth much more (bigger jump possible) than an
+          # impression at pos 18 (already close to page 1). Filters keep
+          # only queries with >= 5 impressions and position in [15, 60].
+          #
+          # Cowork reads this file first each week — see
+          # content/content-auto-publish/CMS-API-BRIEF.md.
+
+          import json, re
+
+          data = json.load(open("automation/gsc/latest.json"))
+          queries = data.get("query", [])
+          pages   = data.get("page",  [])
+
+          STOP = {
+              "a","an","the","and","or","for","to","in","of","on","at","by","with",
+              "is","are","how","do","i","my","your","from","canada","canadian",
+          }
+
+          def slugify(s):
+              s = re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
+              return s
+
+          def tokens(s):
+              return {t for t in re.split(r"[^a-z0-9]+", s.lower()) if t and t not in STOP and len(t) > 2}
+
+          page_slugs = [p["keys"][0].lower() for p in pages]
+
+          def stem(t):
+              # Cheap prefix stem — collapses incorporate/incorporation/incorporating
+              # to "incorp", search/searches/searching to "searc". Uses first 5 chars
+              # for tokens > 5 chars, full token otherwise. Not a real stemmer, but
+              # good enough to prevent false-positive opportunities for known pages.
+              return t[:5] if len(t) > 5 else t
+
+          def has_dedicated_page(query):
+              qtok = tokens(query)
+              if not qtok:
+                  return True   # nothing meaningful — skip
+              stems = [stem(t) for t in qtok]
+              for url in page_slugs:
+                  if all(s in url for s in stems):
+                      return True
+              return False
+
+          def infer_section(query):
+              ql = query.lower()
+              if "minute book" in ql:               return "minute-books"
+              if "good standing" in ql:             return "good-standing"
+              if "profile report" in ql:            return "profile-reports"
+              if "annual report" in ql or "annual return" in ql: return "articles"
+              if "incorporat" in ql:                return "incorporation"
+              if "nfp" in ql or "not-for-profit" in ql or "not for profit" in ql: return "not-for-profit"
+              return "articles"
+
+          opps = []
+          for row in queries:
+              q      = row["keys"][0]
+              impr   = row.get("impressions", 0)
+              pos    = row.get("position", 100.0)
+              clicks = row.get("clicks", 0)
+              if impr < 5:                          continue
+              if pos < 15 or pos > 60:              continue
+              if has_dedicated_page(q):             continue
+              score = impr * (60 - min(pos, 60)) / 60
+              opps.append({
+                  "query":            q,
+                  "impressions":      impr,
+                  "position":         round(pos, 1),
+                  "clicks":           clicks,
+                  "score":            round(score, 2),
+                  "suggested_slug":   slugify(q),
+                  "suggested_section": infer_section(q),
+              })
+
+          opps.sort(key=lambda o: o["score"], reverse=True)
+
+          out = {
+              "generated_at": data.get("generated_at"),
+              "window":       {"start": data.get("start"), "end": data.get("end")},
+              "filter":       "impressions >= 5, position in [15, 60], no URL semantic match",
+              "count":        len(opps),
+              "opportunities": opps[:30],
+          }
+          json.dump(out, open("automation/gsc/opportunities.json", "w"), indent=1)
+          print(f"opportunities:{len(opps)} top3:{[o['query'] for o in opps[:3]]}")
+          PY
+
       - name: Commit if changed
         run: |
           git config user.name  "gsc-sync[bot]"
           git config user.email "actions@users.noreply.github.com"
-          git add automation/gsc/latest.json
+          git add automation/gsc/latest.json automation/gsc/opportunities.json
           git diff --cached --quiet || { git commit -m "chore: daily GSC sync [skip ci]"; git push; }
