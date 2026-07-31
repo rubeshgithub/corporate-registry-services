@@ -12,6 +12,7 @@ import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
 import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 import CoresLookupIsland from "@/components/CoresLookupIsland";
+import RegistryStatusSearchIsland from "@/components/RegistryStatusSearchIsland";
 
 type Params = { section: string; slug: string };
 
@@ -190,6 +191,23 @@ export default async function ContentPage({
               with the picked corp stashed in sessionStorage. */}
           {page.section === "articles" && page.slug === "what-is-cores-alberta" && (
             <CoresLookupIsland src={`article-${page.slug}`} />
+          )}
+
+          {/* PEI Annual Return — psychology-driven status search with urgency.
+              Drives visitors to search their corporation + see filing deadline
+              before reading the full article. */}
+          {page.section === "articles" && page.slug === "how-to-file-your-annual-return-in-prince-edward-island" && (
+            <RegistryStatusSearchIsland
+              config={{
+                province: "pe",
+                eyebrow: "⏰ Know Your Deadline",
+                headline: "Check Your PEI Filing Status Right Now",
+                subheadline: "See if your annual return is due this year — and know exactly when. Takes 10 seconds.",
+                urgencyBadge: "⚠ Deadlines can surprise you",
+                riskText: "Missing deadlines can result in corporate penalties and suspension",
+                trustText: "Direct from the PEI Corporate Registry — always current",
+              }}
+            />
           )}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
