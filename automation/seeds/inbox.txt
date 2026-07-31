@@ -1,0 +1,15 @@
+# CRS content seeds — INBOX (human-edited, append-only)
+#
+# Saw a page that attracts the kind of client you want? Paste the URL here.
+# One per line. Anything after " -- " is a free-text note (optional).
+# Lines starting with # are ignored.
+#
+# The scheduled article run drains this file: each URL is triaged into
+# ../seeds/seeds.json with a CRS angle, a slug, and a duplicate check,
+# then removed from here. You never need to edit JSON.
+#
+# Examples of the two useful kinds:
+#   an INTENT SIGNAL   — a page that proves buyers are looking for something
+#   a COMPETITOR PAGE  — a page that ranks for a query CRS should own
+#
+# https://example.gov/some-page -- clients keep asking about this

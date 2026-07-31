@@ -67,20 +67,29 @@ After a successful POST/PUT: the draft appears at /cms (Status=Draft); the human
 
 **Converting queue articles to API payloads:** take the article's front-matter fields (title/h1/slug/section/description/faq) as the JSON fields, and the markdown body WITHOUT the front-matter block as `body`. Strip any bold CTA image-comment blocks that reference nonexistent assets.
 
-## GSC data + opportunity queue (read BOTH every run)
+## GSC data + opportunity queue (read ALL THREE every run)
 
-The repo contains two daily-synced files under `automation/gsc/`:
+The repo contains two daily-synced files under `automation/gsc/`, plus a human-curated seed store under `automation/seeds/`:
 
 **`opportunities.json` — READ THIS FIRST.** A ranked queue of the top-30 SEO opportunities as of the last GSC pull. Each row is a query where CRS already shows in Google (≥5 impressions in the last 28 days) but ranks at position 15–60 AND no existing URL semantically matches. Fields: `query`, `impressions`, `position`, `clicks`, `score` (impressions × position-gap), `suggested_slug`, `suggested_section`. **This file complements the manual queue below — the queue wins while it has Pending items.** Reason: the matcher scores single queries, so it structurally underestimates demand spread across phrasing variants (e.g. "incorporate in nova scotia" totals ~340 impressions/28d across 10 variants, none of which individually outranks the top single-query opportunity at ~21). Use opportunities.json to: (a) sanity-check the next queue item against fresh data; (b) flag in your report any opportunity that clearly beats the next queue item — but still deliver the queue item unless the user has redirected; (c) REPLENISH the queue when it has no Pending items: promote the top opportunities as new Pending rows, aggregating related query variants into one target, and rejecting any whose suggested_slug semantically duplicates an existing URL (e.g. "canada business registry search" is /canada-corporations-search re-worded — a title/content refresh of that page beats a new article; deliver refresh recommendations to the user instead).
 
 **`latest.json` — the raw 28-day export.** Use for movement reporting and drill-downs: how previously delivered articles are ranking, position changes on top pages, page×query breakdown of a specific slug.
 
+**`automation/seeds/` — the human's own ideas. Nothing generates these; do not overwrite them.** `inbox.txt` is where the site owner pastes URLs of pages that attract the clients he wants (one per line, optional `-- note` after the URL). `seeds.json` is the triaged store. GSC can only surface demand CRS is *already* ranking for; seeds are how the owner injects demand it isn't ranking for at all, so they carry business judgment that no score can reproduce and they **outrank `opportunities.json`** whenever the queue needs replenishing.
+
+**Draining the inbox (do this every run, before picking an article):** for each non-comment line in `inbox.txt`, fetch the URL, then append a seed object to `seeds.json` with `id`, `added`, `source_url`, `user_note`, `signal_type` (`intent` = proves buyers want something, `competitor` = ranks for a query CRS should own), `what_the_page_is` (factual summary), `crs_angle`, `priority`, `status`, `resolution`, `duplicate_check`, `editorial_caution`. Then remove the drained lines from `inbox.txt` and commit both files with the run. Triage rules:
+- **A seed is an intent signal, not a template.** Never rewrite the source page. Find the commercial angle that connects the buyer's need to a service CRS actually sells, and be explicit in `editorial_caution` about what CRS must not claim (especially for government-service pages — CRS is a registry agent, not a tax, legal or licensing authority).
+- **Duplicate check is mandatory** against the internal-link inventory, `latest.json` page rows, and the existing queue. If it overlaps, set `status: "merged"` and fold the angle into the existing queue item or into a refresh of the existing page — a thin near-duplicate costs rankings on the page that already exists.
+- **If there is no honest CRS angle, reject it** (`status: "rejected"` with a one-line reason) and say so in your report. Do not manufacture a tenuous link to sell a service.
+- Newly queued seeds go in as Pending rows at the END of the queue unless `priority` is `"next"`, in which case they go directly after the current in-flight item.
+
 Steps each run:
 1. Report movement to the user from `latest.json` — previously delivered article positions, notable movers, any regressions.
-2. Pick the first Pending item from the "Article queue" table below. If the queue has no Pending items, promote from `opportunities.json` per the policy above — always verifying the `suggested_slug` doesn't collide with or semantically duplicate an existing URL (check `latest.json`'s `page` rows and the internal-link inventory).
-3. Write, post, log in the queue table below.
+2. Drain `automation/seeds/inbox.txt` per the triage rules above; report what was seeded, merged or rejected.
+3. Pick the first Pending item from the "Article queue" table below. If the queue has no Pending items, replenish it — **seeds with `status: "new"`/`"queued"` first, then `opportunities.json`** per the policy above — always verifying the `suggested_slug` doesn't collide with or semantically duplicate an existing URL (check `latest.json`'s `page` rows and the internal-link inventory).
+4. Write, post, log in the queue table below.
 
-If both files are absent, proceed from the queue table using the July 2026 data baked in — but note this in your report so the user can investigate the sync workflow.
+If the GSC files are absent, proceed from the queue table using the July 2026 data baked in — but note this in your report so the user can investigate the sync workflow.
 
 ## Article queue (GSC-data-driven plan v2, July 2026)
 
@@ -93,11 +102,11 @@ If both files are absent, proceed from the queue table using the July 2026 data 
 | 4 | (expand existing) | ontario annual return | Expand ON article (pos 28.9, 130 imp/wk); deliver as refresh doc | Pending |
 | 5 | digital-minute-books-canada | virtual minute book / digital minute book | NOTE: /minute-books/digital-minute-book-canada service page exists — article should target the informational query and funnel to it, not duplicate it | Pending |
 | 6 | how-to-incorporate-in-saskatchewan | saskatchewan incorporation | Same template as NS; also add "ISC" to Sask annual-return article title (refresh note) | Pending |
-| 7+ | certificate-of-status-ontario | certificate of status ontario | SERP-verified weak competition | Pending |
+| 7+ | certificate-of-status-ontario | certificate of status ontario | SERP-verified weak competition. **Must open with seed-001:** the two proofs Ontario buyers confuse — Tax Compliance Verification (TCV number, Ontario Ministry of Finance, free, needs a CRA FBC letter) vs. Certificate of Status (registry standing, what CRS supplies). Cite ontario.ca; never imply CRS obtains a TCV or FBC. Add an FAQ pair on the distinction | Pending |
 | 8+ | cost-to-incorporate-in-ontario | how much does it cost to incorporate in ontario | From v1 plan | Pending |
 
 ## After posting
 
-1. Update the Status column in this doc (project_write the full updated doc back to the same path).
+1. Update the Status column in this doc (commit the updated file back to the repo at `content/content-auto-publish/crs-publishing-runbook.md` in the same push as the draft), and update any seed's `status` in `automation/seeds/seeds.json` that this run acted on.
 2. Report to the user: which article, response status, draft URL, reminder to review.
 3. If the queue is empty: check for a fresh GSC export from the user; otherwise report queue exhausted and propose next candidates from the province × service matrix.
