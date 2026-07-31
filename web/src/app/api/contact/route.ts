@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import crypto from "node:crypto";
+import { inboundMessages, ensureInboundMessageIndexes } from "@/lib/inbound-messages-mongo";
 
 function makeSes() {
   return new SESClient({
@@ -50,6 +52,31 @@ ${message}
 Corporate Registry Services
 support@corporateregistryservices.ca
   `.trim();
+
+  /* Persist to Mongo first so we always have a record even if SES fails
+   *  or the reply-address bounces. Fire-and-forget — the SES send is what
+   *  matters to the visitor. */
+  void (async () => {
+    try {
+      await ensureInboundMessageIndexes();
+      const col = await inboundMessages();
+      const ipRaw = (request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
+      const ipHash = ipRaw ? crypto.createHash("sha256").update(ipRaw).digest("hex").slice(0, 24) : undefined;
+      await col.insertOne({
+        source:    "contact",
+        name:      name.trim(),
+        email:     email.trim().toLowerCase(),
+        phone:     phone?.trim() || undefined,
+        subject:   subjectLine,
+        message:   message.trim(),
+        ipHash,
+        userAgent: (request.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
+        createdAt: new Date(),
+      });
+    } catch (e) {
+      console.error("[CRS] contact form Mongo save failed:", e instanceof Error ? e.message : e);
+    }
+  })();
 
   try {
     const ses = makeSes();

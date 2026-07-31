@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { pageviews, clicks, searches, ensureIndexes } from "@/lib/mongo";
+import { sendAlertSms } from "@/lib/sms-infobip";
 
 /**
  * POST /api/track
@@ -89,11 +90,13 @@ export async function POST(req: Request) {
   await ensureIndexes();
 
   if (body.type === "pageview") {
-    const pv = await pageviews();
+    const pv   = await pageviews();
+    const path = normalizePath(trunc(body.path));
+    const sid  = trunc(body.sessionId, 64);
     await pv.insertOne({
-      path:        normalizePath(trunc(body.path)),
+      path,
       referrer:    trunc(body.referrer),
-      sessionId:   trunc(body.sessionId, 64),
+      sessionId:   sid,
       userAgent:   trunc(body.userAgent, 200),
       utmSource:   trunc(body.utmSource,  100),
       utmMedium:   trunc(body.utmMedium,  100),
@@ -103,6 +106,25 @@ export async function POST(req: Request) {
       msclkid:     trunc(body.msclkid,    200),
       ts:          new Date(),
     });
+    /* Order-page arrival alert. Fires once per session per order path
+     *  per hour. Look for a prior pageview by the same session on any
+     *  /order/* path within the last hour — the insert we just did counts,
+     *  so >1 hits means this isn't the first. Fire-and-forget SMS. */
+    if (path.startsWith("/order/")) {
+      void (async () => {
+        try {
+          const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+          const prior = await pv.countDocuments({
+            sessionId: sid,
+            path:      { $regex: "^/order/" },
+            ts:        { $gte: oneHourAgo },
+          });
+          if (prior <= 1) {
+            void sendAlertSms(`CRS: Visitor on ${path} - session ${sid.slice(0, 6)}`);
+          }
+        } catch { /* SMS is fire-and-forget; failure never affects the pageview */ }
+      })();
+    }
     return NextResponse.json({ ok: true });
   }
 

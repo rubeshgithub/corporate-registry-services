@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { getAnalyticsData, getTrafficData, getSecondaryTrends, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken, type SecondaryTrends } from "@/lib/analytics";
+import { getInboundInsights, fmtLocal, INBOUND_WINDOW_DAYS, type InboundInsights } from "@/lib/inbound-insights";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -21,10 +22,11 @@ export default async function AnalyticsPage({
 
   const params      = await searchParams;
   const token       = parseWindowToken(params.window);
-  const [data, traffic, secondary] = await Promise.all([
+  const [data, traffic, secondary, inbound] = await Promise.all([
     getAnalyticsData(token),
     getTrafficData(token),
     getSecondaryTrends(),
+    getInboundInsights(),
   ]);
 
   return (
@@ -45,6 +47,10 @@ export default async function AnalyticsPage({
         <ContentPageSearchIntent traffic={traffic} />
         <GovExitLeaks traffic={traffic} />
         <PilotRequestsCard traffic={traffic} />
+        <CartAbandonmentCard inbound={inbound} />
+        <SearchLeadsCard inbound={inbound} />
+        <ConsultationRequestsCard inbound={inbound} />
+        <InboundMessagesCard inbound={inbound} />
         <RecentOrdersTable rows={data.recent} currency={data.currency} />
       </div>
     </div>
@@ -864,6 +870,277 @@ function PilotRequestsCard({ traffic }: { traffic: TrafficData }) {
                   </td>
                   <td style={{ ...tdStyle, fontSize: "0.78rem" }}>{r.jurisdictionKey.toUpperCase()}</td>
                   <td style={{ ...tdStyle, fontSize: "0.72rem", color: "var(--text-muted)" }}>{r.entityType || "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────── Inbound insights cards ─────────────────────── */
+
+/**
+ * Cart abandonment — visitors who reached /order/* and typed enough contact
+ * info to be reachable, but no matching Stripe paid session exists in the
+ * lookback window. The most actionable warm-lead list on the page.
+ */
+function CartAbandonmentCard({ inbound }: { inbound: InboundInsights }) {
+  const unpaid = inbound.orderDraftsRecent.filter((d) => !d.paid);
+  const withEmail = unpaid.filter((d) => d.email);
+  const hot = inbound.orderDraftsCount;
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem", borderColor: hot > 0 ? "rgba(212,175,55,0.5)" : "var(--border)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: hot > 0 ? "var(--gold)" : "var(--text-muted)" }}>
+            Cart abandonment · last {INBOUND_WINDOW_DAYS} days
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Visitors who typed contact info on an <code style={{ fontFamily: "var(--font-mono), monospace" }}>/order/*</code> page or picked a company but never completed payment. Cross-checked against paid Stripe sessions by email. Warm leads worth a personal reply.
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: hot > 0 ? "var(--gold)" : "var(--text-muted)", fontWeight: 700 }}>
+          {hot} unpaid · {withEmail.length} reachable
+        </div>
+      </div>
+
+      {unpaid.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.75rem 0", fontStyle: "italic" }}>
+          No unpaid drafts in the window — either every visitor converted or the beacon hasn&apos;t captured any yet.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto", marginTop: "0.75rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Last touch</th>
+                <th style={thStyle}>Service</th>
+                <th style={thStyle}>Company / Jurisdiction</th>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              {unpaid.slice(0, 20).map((d, i) => (
+                <tr key={`${d.sessionId}-${d.service}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+                    {fmtLocal(d.updatedAt)}
+                  </td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem" }}>{d.service}</td>
+                  <td style={{ ...tdStyle, maxWidth: 260 }}>
+                    <div style={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={d.company}>{d.company || <em style={{ color: "var(--text-muted)" }}>—</em>}</div>
+                    <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)" }}>{d.jurisdiction || "—"}</div>
+                  </td>
+                  <td style={tdStyle}>{d.contactName || <em style={{ color: "var(--text-muted)" }}>(not typed)</em>}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem" }}>
+                    {d.email && <div><a href={`mailto:${d.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{d.email}</a></div>}
+                    {d.phone && <div style={{ color: "var(--text-muted)" }}>{d.phone}</div>}
+                    {!d.email && !d.phone && <em style={{ color: "var(--text-muted)" }}>—</em>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Search leads — from the "Save this search" card on registry search results.
+ * Low-commitment top-of-funnel captures — often stale by day 5, but useful
+ * for volume + trend.
+ */
+function SearchLeadsCard({ inbound }: { inbound: InboundInsights }) {
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
+            Search leads · last {INBOUND_WINDOW_DAYS} days
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Visitors who dropped their email on <code style={{ fontFamily: "var(--font-mono), monospace" }}>/canada-corporations-search</code> via the &ldquo;Save this search&rdquo; card. Passive interest — no follow-up promised, just a re-run link + pricing.
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: "var(--text)", fontWeight: 700 }}>
+          {inbound.searchLeadsCount} captured
+        </div>
+      </div>
+
+      {inbound.searchLeadsRecent.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.75rem 0", fontStyle: "italic" }}>
+          None yet.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto", marginTop: "0.75rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Saved</th>
+                <th style={thStyle}>Email</th>
+                <th style={thStyle}>Search query</th>
+                <th style={thStyle}>Prov</th>
+                <th style={thStyle}>Results</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inbound.searchLeadsRecent.map((r, i) => (
+                <tr key={`${r.email}-${r.createdAt}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>{fmtLocal(r.createdAt)}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem" }}>
+                    <a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a>
+                  </td>
+                  <td style={{ ...tdStyle, maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.query}>{r.query}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)" }}>{r.province.toUpperCase()}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", fontWeight: 700, color: r.resultCount === 0 ? "#B45309" : "var(--text)" }}>{r.resultCount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Consultation requests — incorporation + NFP consultation bookings merged.
+ * Higher-intent than search leads (they gave a phone number and jurisdiction)
+ * and have a 1-business-day SLA on human reply.
+ */
+function ConsultationRequestsCard({ inbound }: { inbound: InboundInsights }) {
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem", borderColor: inbound.consultationCount > 0 ? "rgba(42,125,143,0.4)" : "var(--border)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--secondary)" }}>
+            Consultation requests · last {INBOUND_WINDOW_DAYS} days
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            Free consultation bookings from <code style={{ fontFamily: "var(--font-mono), monospace" }}>/incorporation/book-free-consultation</code> and <code style={{ fontFamily: "var(--font-mono), monospace" }}>/not-for-profit/book-free-consultation</code>. SLA: reach out within one business day.
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: "var(--secondary)", fontWeight: 700 }}>
+          {inbound.consultationCount} inbound
+        </div>
+      </div>
+
+      {inbound.consultationRecent.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.75rem 0", fontStyle: "italic" }}>
+          None in the window.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto", marginTop: "0.75rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Received</th>
+                <th style={thStyle}>Kind</th>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>Contact</th>
+                <th style={thStyle}>Jurisdiction</th>
+                <th style={thStyle}>Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inbound.consultationRecent.map((r, i) => (
+                <tr key={`${r.email}-${r.createdAt}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>{fmtLocal(r.createdAt)}</td>
+                  <td style={{ ...tdStyle, fontSize: "0.7rem" }}>
+                    <span style={{
+                      padding: "0.15rem 0.5rem",
+                      background: r.kind === "incorp" ? "rgba(42,125,143,0.1)" : "rgba(212,175,55,0.15)",
+                      color:      r.kind === "incorp" ? "var(--secondary)"    : "var(--gold)",
+                      border:     `1px solid ${r.kind === "incorp" ? "var(--secondary)" : "var(--gold)"}`,
+                      borderRadius: "0.3rem",
+                      fontFamily: "var(--font-mono), monospace",
+                      fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em",
+                    }}>{r.kind === "incorp" ? "Incorp" : "NFP"}</span>
+                    {r.explorationMode && <span style={{ marginLeft: "0.35rem", fontSize: "0.68rem", color: "var(--text-muted)" }}>· exploring</span>}
+                  </td>
+                  <td style={{ ...tdStyle, fontSize: "0.82rem" }}>{r.name}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.76rem" }}>
+                    <div><a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a></div>
+                    <div style={{ color: "var(--text-muted)" }}>{r.phone}</div>
+                  </td>
+                  <td style={{ ...tdStyle, fontSize: "0.76rem" }}>{r.jurisdiction}</td>
+                  <td style={{ ...tdStyle, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.summary}>{r.summary}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Inbound messages — contact form + custom-quote wizard submits. Still
+ * emailed via SES; this is the queryable Mongo mirror so nothing gets
+ * lost if inbox rules eat it.
+ */
+function InboundMessagesCard({ inbound }: { inbound: InboundInsights }) {
+  return (
+    <div style={{ ...cardStyle, marginBottom: "1rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
+            Inbound messages · last {INBOUND_WINDOW_DAYS} days
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            <code style={{ fontFamily: "var(--font-mono), monospace" }}>/contact</code> submits + custom-quote wizard submits. Mirrors what SES delivers to <code style={{ fontFamily: "var(--font-mono), monospace" }}>NOTIFY_EMAIL</code>.
+          </div>
+        </div>
+        <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: "var(--text)", fontWeight: 700 }}>
+          {inbound.inboundMessagesCount} received
+        </div>
+      </div>
+
+      {inbound.inboundMessagesRecent.length === 0 ? (
+        <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.75rem 0", fontStyle: "italic" }}>
+          None yet.
+        </div>
+      ) : (
+        <div style={{ overflowX: "auto", marginTop: "0.75rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
+                <th style={thStyle}>Received</th>
+                <th style={thStyle}>Source</th>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>Contact</th>
+                <th style={thStyle}>Subject / preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inbound.inboundMessagesRecent.map((r, i) => (
+                <tr key={`${r.email}-${r.createdAt}-${i}`} style={{ borderTop: "1px solid var(--border)", verticalAlign: "top" }}>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>{fmtLocal(r.createdAt)}</td>
+                  <td style={{ ...tdStyle, fontSize: "0.7rem" }}>
+                    <span style={{
+                      padding: "0.15rem 0.5rem",
+                      background: r.source === "contact" ? "var(--bg-deep)" : "rgba(212,175,55,0.1)",
+                      color:      r.source === "contact" ? "var(--text)"   : "var(--gold)",
+                      borderRadius: "0.3rem",
+                      fontFamily: "var(--font-mono), monospace",
+                      textTransform: "uppercase", letterSpacing: "0.04em",
+                    }}>{r.source}</span>
+                  </td>
+                  <td style={{ ...tdStyle, fontSize: "0.82rem" }}>{r.name}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.76rem" }}>
+                    <div><a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a></div>
+                    {r.phone && <div style={{ color: "var(--text-muted)" }}>{r.phone}</div>}
+                  </td>
+                  <td style={{ ...tdStyle, maxWidth: 460 }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.8rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.subject}>{r.subject || <em style={{ color: "var(--text-muted)" }}>—</em>}</div>
+                    <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.message}>{r.message}</div>
+                  </td>
                 </tr>
               ))}
             </tbody>

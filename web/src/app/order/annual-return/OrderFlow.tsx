@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, Clock, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput from "@/components/PlacesInput";
+import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -151,6 +152,22 @@ export default function OrderFlow() {
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
+
+  /* Cart-abandonment beacon. Debounced upsert of the current contact + company
+     selection into order_drafts. Disabled once we've fired the Stripe redirect
+     (a paying session is not an abandoned one). */
+  useOrderDraftBeacon({
+    service:  "annual-return",
+    contact,
+    company:  pick ? {
+      name:            pick.name,
+      registryId:      pick.registryId,
+      businessNumber:  pick.businessNumber,
+      jurisdiction:    pick.jurisdiction,
+      provinceKey:     pick.provinceKey,
+    } : undefined,
+    disabled: paying,
+  });
 
   const changeErr = changeErrors(changes);
 

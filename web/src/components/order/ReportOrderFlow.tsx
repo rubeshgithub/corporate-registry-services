@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { ReportServiceConfig } from "@/lib/report-config";
+import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -48,6 +49,21 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying] = useState(false);
   const [payErr, setPayErr] = useState("");
+
+  /* Cart-abandonment beacon — same shape as OrderFlow. Only ships when
+     something worth capturing exists (contact typed or company picked). */
+  useOrderDraftBeacon({
+    service:  config.key,
+    contact,
+    company:  pick ? {
+      name:            pick.name,
+      registryId:      pick.registryId,
+      businessNumber:  pick.businessNumber,
+      jurisdiction:    pick.jurisdiction,
+      provinceKey:     pick.provinceKey,
+    } : undefined,
+    disabled: paying,
+  });
 
   // If ?q= is present the visitor came from the company-search page with a
   // specific pick — auto-run the lookup and, if ?registryId= matches, jump

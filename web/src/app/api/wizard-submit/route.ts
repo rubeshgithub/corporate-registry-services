@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import crypto from "node:crypto";
 import { getBucket, JURISDICTIONS } from "@/lib/service-config";
 import type { WizardState } from "@/lib/wizard-types";
+import { inboundMessages, ensureInboundMessageIndexes } from "@/lib/inbound-messages-mongo";
 
 function makeSes() {
   return new SESClient({
@@ -113,6 +115,39 @@ support@corporateregistryservices.ca
 
   const ownerEmail = process.env.NOTIFY_EMAIL ?? process.env.OWNER_EMAIL ?? "info@crs.ca";
   const fromEmail  = process.env.SES_FROM    ?? process.env.FROM_EMAIL  ?? "noreply@crs.ca";
+
+  /* Persist the wizard submit to Mongo so the operator has a queryable
+     audit trail beyond the SES inbox. Fire-and-forget — SES delivery is
+     what the visitor cares about; a Mongo failure shouldn't 4xx them. */
+  void (async () => {
+    try {
+      await ensureInboundMessageIndexes();
+      const col = await inboundMessages();
+      const ipRaw = (request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
+      const ipHash = ipRaw ? crypto.createHash("sha256").update(ipRaw).digest("hex").slice(0, 24) : undefined;
+      await col.insertOne({
+        source:    "wizard",
+        name:      customer.fullName.trim(),
+        email:     customer.email.trim().toLowerCase(),
+        phone:     customer.phone?.trim() || undefined,
+        subject:   `${bucket?.label ?? bucketKey} — ${serviceNames}`,
+        message:   `Ref ${ref} — ${jurisdiction?.label ?? jurisdictionKey ?? "N/A"} — Company: ${customer.company || "—"} — Prefers: ${customer.preferredContact}`,
+        payload: {
+          ref,
+          bucketKey,
+          serviceKeys,
+          serviceLabels: selectedServices.map((s) => s.label),
+          jurisdictionKey,
+          details,
+        },
+        ipHash,
+        userAgent: (request.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
+        createdAt: new Date(),
+      });
+    } catch (e) {
+      console.error("[CRS] wizard-submit Mongo save failed:", e instanceof Error ? e.message : e);
+    }
+  })();
 
   try {
     const ses = makeSes();

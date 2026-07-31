@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import crypto from "node:crypto";
 import { markTokenConverted } from "@/lib/outreach-mongo";
+import { sendAlertSms } from "@/lib/sms-infobip";
 
 /**
  * POST /api/order/webhook
@@ -651,6 +652,14 @@ async function fulfill(session: Stripe.Checkout.Session) {
   // if any. Fire-and-forget — failure here never blocks fulfillment.
   const outreachRef = session.metadata?.outreach_ref;
   if (outreachRef) void markTokenConverted(outreachRef, session.id);
+
+  // Ping the operator's phone. Amount is a strong summary signal; company
+  // + jurisdiction let them place the order without opening the dashboard.
+  // Fire-and-forget — Infobip must never fail a Stripe fulfillment.
+  void sendAlertSms(
+    `CRS PAID: ${fmtAmount(session)} - ${session.metadata?.service ?? "order"} - `
+    + `${session.metadata?.company_name ?? "-"} - ${session.metadata?.jurisdiction ?? "-"}`
+  );
 
   if (service === "annual-return" || service === "annual-return-multiple") {
     await ses.send(new SendEmailCommand({
