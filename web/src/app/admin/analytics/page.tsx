@@ -25,7 +25,7 @@ export default async function AnalyticsPage({
   const [data, traffic, secondary, inbound] = await Promise.all([
     getAnalyticsData(token),
     getTrafficData(token),
-    getSecondaryTrends(),
+    getSecondaryTrends(token),
     getInboundInsights(token),
   ]);
 
@@ -159,7 +159,7 @@ function RevenueByArticleCard({ secondary, currency }: { secondary: SecondaryTre
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.85rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-            Revenue by landing article · last 90 days
+            Revenue by landing article · {secondary.revenueByArticleLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
             Paid orders attributed to a specific article via the <code style={{ fontFamily: "var(--font-mono), monospace" }}>src=article-*</code> / <code style={{ fontFamily: "var(--font-mono), monospace" }}>inline-article-*</code> tag — ranks content by dollars, not pageviews.
@@ -172,7 +172,7 @@ function RevenueByArticleCard({ secondary, currency }: { secondary: SecondaryTre
 
       {rows.length === 0 ? (
         <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", padding: "0.5rem 0" }}>
-          No article-attributed orders in the last 90 days yet. Every Stripe checkout that carries <code style={{ fontFamily: "var(--font-mono), monospace" }}>src=article-*</code> or <code style={{ fontFamily: "var(--font-mono), monospace" }}>inline-article-*</code> in its metadata will show up here.
+          No article-attributed orders in {secondary.revenueByArticleLabel.toLowerCase()} yet. Every Stripe checkout that carries <code style={{ fontFamily: "var(--font-mono), monospace" }}>src=article-*</code> or <code style={{ fontFamily: "var(--font-mono), monospace" }}>inline-article-*</code> in its metadata will show up here.
         </div>
       ) : (
         <div style={{ overflowX: "auto" }}>

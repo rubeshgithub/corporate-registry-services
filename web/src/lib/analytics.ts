@@ -793,10 +793,10 @@ export type ArticleRevenue = {
 };
 
 export type SecondaryTrends = {
-  weekly:            WeeklyBucket[];   // last 12 weeks, oldest first
-  revenueByArticle:  ArticleRevenue[]; // last 90 days
-  windowDays:        number;           // always 90 for the article rollup
-  fetchedAt:         string;
+  weekly:                  WeeklyBucket[];   // last 12 weeks, oldest first (independent of tab)
+  revenueByArticle:        ArticleRevenue[]; // respects the tab window
+  revenueByArticleLabel:   string;           // "Last 7 days" etc. — matches the tab
+  fetchedAt:               string;
 };
 
 /** Mountain-Time YYYY-MM-DD → Monday-of-that-week YYYY-MM-DD (UTC epoch dates). */
@@ -826,17 +826,23 @@ function articleSlugFromSrc(src: string): string | null {
   return null;
 }
 
-export async function getSecondaryTrends(): Promise<SecondaryTrends> {
+export async function getSecondaryTrends(token: WindowToken = "90d"): Promise<SecondaryTrends> {
   const key = process.env.STRIPE_SECRET_KEY;
   const emptyResult: SecondaryTrends = {
-    weekly: [], revenueByArticle: [], windowDays: 90, fetchedAt: new Date().toISOString(),
+    weekly: [], revenueByArticle: [], revenueByArticleLabel: resolveWindow(token).label, fetchedAt: new Date().toISOString(),
   };
   if (!key) return emptyResult;
 
   const stripe   = new Stripe(key);
   const NINETY_D = 90 * 24 * 3600 * 1000;
-  const sinceUnix = Math.floor((Date.now() - NINETY_D) / 1000);
-  const sessions  = await listPaidSessions(stripe, sinceUnix);
+  /* Query the widest we need: 90 days for the weekly rollup OR the tab
+   *  window, whichever is larger. One Stripe call feeds both cards. */
+  const cfg           = resolveWindow(token);
+  const tabSinceMs    = cfg.sinceMs;
+  const rollupSinceMs = Date.now() - NINETY_D;
+  const querySinceMs  = Math.min(tabSinceMs, rollupSinceMs);
+  const sinceUnix     = Math.floor(querySinceMs / 1000);
+  const sessions      = await listPaidSessions(stripe, sinceUnix);
 
   /* Weekly bars — always 12 weeks ending this week's Monday. */
   const nowMondayISO = mondayOf(localDate(new Date()));
@@ -862,9 +868,12 @@ export async function getSecondaryTrends(): Promise<SecondaryTrends> {
     ...weekMap.get(iso)!,
   }));
 
-  /* Revenue by landing article — 90-day rollup grouped by article slug. */
+  /* Revenue by landing article — filter down to only the tab window from
+   *  the already-fetched sessions. */
+  const tabSinceUnix = Math.floor(tabSinceMs / 1000);
   const articleMap = new Map<string, { count: number; amount: number }>();
   for (const s of sessions) {
+    if (s.created < tabSinceUnix) continue;
     const src  = s.metadata?.src ?? "";
     const slug = articleSlugFromSrc(src);
     if (!slug) continue;
@@ -882,7 +891,7 @@ export async function getSecondaryTrends(): Promise<SecondaryTrends> {
     }))
     .sort((a, b) => b.amount - a.amount);
 
-  return { weekly, revenueByArticle, windowDays: 90, fetchedAt: new Date().toISOString() };
+  return { weekly, revenueByArticle, revenueByArticleLabel: cfg.label, fetchedAt: new Date().toISOString() };
 }
 
 /** Turn compact attribution codes into human labels. article-<slug>,
