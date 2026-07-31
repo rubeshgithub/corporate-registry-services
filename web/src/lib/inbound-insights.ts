@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { db } from "./mongo";
-import { OPERATOR_TZ } from "./analytics";
+import { OPERATOR_TZ, type WindowToken } from "./analytics";
 
 /**
  * Read-side aggregator for the 4 inbound-lead collections the admin analytics
@@ -34,6 +34,7 @@ export type InboundMessageRow  = { source: "contact" | "wizard"; name: string; e
 export type ConsultationRow    = { kind: "incorp" | "nfp"; name: string; email: string; phone: string; jurisdiction: string; summary: string; explorationMode: boolean; createdAt: string };
 
 export type InboundInsights = {
+  windowLabel:            string;
   searchLeadsCount:       number;
   searchLeadsRecent:      SearchLeadRow[];
   orderDraftsCount:       number;   // drafts unmatched by a Stripe paid session
@@ -44,10 +45,29 @@ export type InboundInsights = {
   consultationRecent:     ConsultationRow[];
 };
 
-export const INBOUND_WINDOW_DAYS = 30;
+/** Same window derivation as analytics.ts — keeps every card on the same
+ *  clock so the tabs at the top refresh the entire dashboard consistently. */
+function sinceForToken(token: WindowToken): { since: Date; label: string } {
+  const now = Date.now();
+  const day = 24 * 60 * 60 * 1000;
+  switch (token) {
+    case "1h":    return { since: new Date(now - 60 * 60 * 1000), label: "Past 1 hour" };
+    case "today": {
+      /* Start-of-day in Mountain Time — mirror analytics.ts behaviour. */
+      const nowStr = new Date().toLocaleString("en-CA", { timeZone: OPERATOR_TZ, year: "numeric", month: "2-digit", day: "2-digit" });
+      const [y, m, d] = nowStr.split(/[-,\s]/).filter(Boolean).map(Number);
+      const startLocal = new Date(Date.UTC(y, m - 1, d, 6, 0, 0)); // MDT UTC-6; close enough for daily bucketing
+      return { since: startLocal, label: "Today (MST)" };
+    }
+    case "7d":    return { since: new Date(now -   7 * day), label: "Last 7 days"  };
+    case "30d":   return { since: new Date(now -  30 * day), label: "Last 30 days" };
+    case "90d":   return { since: new Date(now -  90 * day), label: "Last 90 days" };
+    case "1y":    return { since: new Date(now - 365 * day), label: "Last 1 year"  };
+  }
+}
 
-export async function getInboundInsights(): Promise<InboundInsights> {
-  const since = new Date(Date.now() - INBOUND_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+export async function getInboundInsights(token: WindowToken = "30d"): Promise<InboundInsights> {
+  const { since, label: windowLabel } = sinceForToken(token);
   const database = await db();
 
   /* Search leads — soft email capture from /canada-corporations-search */
@@ -182,6 +202,7 @@ export async function getInboundInsights(): Promise<InboundInsights> {
   const orderDraftsCount = orderDraftsRecent.filter((d) => !d.paid).length;
 
   return {
+    windowLabel,
     searchLeadsCount,      searchLeadsRecent,
     orderDraftsCount,      orderDraftsRecent,
     inboundMessagesCount:  inboundCount,

@@ -318,7 +318,7 @@ export async function getAnalyticsData(token: WindowToken = "30d"): Promise<Anal
     bySrc:          bucketize(rows, (r) => ({ key: r.src,          label: prettySrc(r.src) })),
     byJurisdiction: bucketize(rows, (r) => ({ key: r.jurisdiction, label: r.jurisdiction })),
     trend,
-    recent:         rows.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 25),
+    recent:         rows.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 200),
     fetchedAt:      new Date().toISOString(),
   };
 }

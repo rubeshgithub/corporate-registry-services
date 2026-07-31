@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { getAnalyticsData, getTrafficData, getSecondaryTrends, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken, type SecondaryTrends } from "@/lib/analytics";
-import { getInboundInsights, fmtLocal, INBOUND_WINDOW_DAYS, type InboundInsights } from "@/lib/inbound-insights";
+import { getInboundInsights, fmtLocal, type InboundInsights } from "@/lib/inbound-insights";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -26,7 +26,7 @@ export default async function AnalyticsPage({
     getAnalyticsData(token),
     getTrafficData(token),
     getSecondaryTrends(),
-    getInboundInsights(),
+    getInboundInsights(token),
   ]);
 
   return (
@@ -456,7 +456,7 @@ function RecentOrdersTable({ rows, currency }: { rows: OrderRow[]; currency: str
   return (
     <div style={cardStyle}>
       <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.85rem" }}>
-        Most recent {rows.length} orders
+        Orders in this window · {rows.length} shown {rows.length >= 200 ? "(cap reached — narrow the window to see the tail)" : ""}
       </div>
       {rows.length === 0 && <div style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>No orders yet in this window.</div>}
       {rows.length > 0 && (
@@ -896,7 +896,7 @@ function CartAbandonmentCard({ inbound }: { inbound: InboundInsights }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: hot > 0 ? "var(--gold)" : "var(--text-muted)" }}>
-            Cart abandonment · last {INBOUND_WINDOW_DAYS} days
+            Cart abandonment · {inbound.windowLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
             Visitors who typed contact info on an <code style={{ fontFamily: "var(--font-mono), monospace" }}>/order/*</code> page or picked a company but never completed payment. Cross-checked against paid Stripe sessions by email. Warm leads worth a personal reply.
@@ -961,7 +961,7 @@ function SearchLeadsCard({ inbound }: { inbound: InboundInsights }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-            Search leads · last {INBOUND_WINDOW_DAYS} days
+            Search leads · {inbound.windowLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
             Visitors who dropped their email on <code style={{ fontFamily: "var(--font-mono), monospace" }}>/canada-corporations-search</code> via the &ldquo;Save this search&rdquo; card. Passive interest — no follow-up promised, just a re-run link + pricing.
@@ -1019,7 +1019,7 @@ function ConsultationRequestsCard({ inbound }: { inbound: InboundInsights }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--secondary)" }}>
-            Consultation requests · last {INBOUND_WINDOW_DAYS} days
+            Consultation requests · {inbound.windowLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
             Free consultation bookings from <code style={{ fontFamily: "var(--font-mono), monospace" }}>/incorporation/book-free-consultation</code> and <code style={{ fontFamily: "var(--font-mono), monospace" }}>/not-for-profit/book-free-consultation</code>. SLA: reach out within one business day.
@@ -1091,7 +1091,7 @@ function InboundMessagesCard({ inbound }: { inbound: InboundInsights }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ fontSize: "0.72rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-            Inbound messages · last {INBOUND_WINDOW_DAYS} days
+            Inbound messages · {inbound.windowLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
             <code style={{ fontFamily: "var(--font-mono), monospace" }}>/contact</code> submits + custom-quote wizard submits. Mirrors what SES delivers to <code style={{ fontFamily: "var(--font-mono), monospace" }}>NOTIFY_EMAIL</code>.
