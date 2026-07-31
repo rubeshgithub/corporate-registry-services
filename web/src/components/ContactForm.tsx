@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
+import { gaEvent } from "@/lib/ga";
 
 const SUBJECTS = [
   "General Enquiry",
@@ -34,6 +35,10 @@ export default function ContactForm({ compact = false }: { compact?: boolean }) 
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Send failed");
+      gaEvent("generate_lead", {
+        method: "contact_form",
+        subject: form.subject || "unspecified",
+      });
       setStatus("sent");
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");

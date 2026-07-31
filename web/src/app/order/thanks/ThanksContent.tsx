@@ -3,12 +3,16 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Mail, ArrowLeft, Clock } from "lucide-react";
+import { gaEvent, gaPurchaseOnce } from "@/lib/ga";
 
 type SessionSummary = {
   status:      "paid" | "unpaid" | "unknown";
   company:     string;
   jurisdiction: string;
   amount:      string;
+  service:     string;
+  value:       number;
+  currency:    string;
 };
 
 export default function ThanksContent() {
@@ -32,6 +36,25 @@ export default function ThanksContent() {
       }
     })();
   }, [sessionId]);
+
+  // GA4 conversion tracking. Paid Stripe session → purchase (deduped per
+  // session); quote-style request without a checkout session → generate_lead.
+  useEffect(() => {
+    if (sessionId && summary?.status === "paid") {
+      gaPurchaseOnce({
+        sessionId,
+        value: summary.value,
+        currency: summary.currency,
+        service: summary.service,
+      });
+    }
+  }, [sessionId, summary]);
+
+  useEffect(() => {
+    if (!sessionId && ref) {
+      gaEvent("generate_lead", { method: "order_request", reference: ref });
+    }
+  }, [sessionId, ref]);
 
   const paid = summary?.status === "paid";
 

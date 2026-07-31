@@ -28,6 +28,10 @@ export async function GET(req: Request) {
       company:      (session.metadata?.company_name as string) ?? "",
       jurisdiction: (session.metadata?.jurisdiction as string) ?? "",
       amount:       session.amount_total ? `$${(session.amount_total / 100).toFixed(2)} ${session.currency?.toUpperCase()}` : "",
+      // Used by the thanks page to fire the GA4 purchase event.
+      service:      (session.metadata?.service as string) ?? "",
+      value:        session.amount_total ? session.amount_total / 100 : 0,
+      currency:     session.currency?.toUpperCase() ?? "CAD",
     });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : "Session lookup failed.";
