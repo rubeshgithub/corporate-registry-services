@@ -11,6 +11,7 @@ import NfpConsultationCTA from "@/components/NfpConsultationCTA";
 import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
 import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
+import CoresLookupIsland from "@/components/CoresLookupIsland";
 
 type Params = { section: string; slug: string };
 
@@ -181,6 +182,14 @@ export default async function ContentPage({
               condition if we add more share-cert-adjacent articles. */}
           {page.section === "articles" && page.slug === "share-certificates-in-canada" && (
             <ShareCertLookupIsland src={`article-${page.slug}`} />
+          )}
+
+          {/* CORES Alberta lookup widget — search-first widget for the
+              what-is-cores-alberta article. Visitor searches for their
+              corporation and is redirected to /order/corporate-search
+              with the picked corp stashed in sessionStorage. */}
+          {page.section === "articles" && page.slug === "what-is-cores-alberta" && (
+            <CoresLookupIsland src={`article-${page.slug}`} />
           )}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
