@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
+import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
 
 const WizardModal = dynamic(() => import("./WizardModal"), { ssr: false });
 
@@ -119,6 +120,10 @@ export default function CompanySearch() {
   const [leadState,   setLeadState]   = useState<"idle" | "sending" | "saved" | "error">("idle");
   const [leadMessage, setLeadMessage] = useState("");
   const savedSearchesRef = useRef<Set<string>>(new Set());
+
+  /* Email gate for "View full profile" clicks — first click in a session
+     opens the modal, subsequent clicks pass through (session storage flag). */
+  const [gateFor, setGateFor] = useState<{ company: GateCompany; href: string } | null>(null);
 
   /** Build a deep-link into an order flow that skips the lookup step. */
   function orderHref(service: "profile-report" | "good-standing" | "annual-return", r: Result) {
@@ -261,6 +266,13 @@ export default function CompanySearch() {
   return (
     <div>
       {wizardOpen && <WizardModal onClose={() => { setWizardOpen(false); setWizardPreload(undefined); }} preload={wizardPreload} />}
+      {gateFor && (
+        <ProfileEmailGate
+          company={gateFor.company}
+          profileHref={gateFor.href}
+          onClose={() => setGateFor(null)}
+        />
+      )}
       {/* Search bar */}
       <form onSubmit={handleSubmit} style={{ position: "relative", marginBottom: "0.875rem" }}>
         <Search
@@ -441,12 +453,27 @@ export default function CompanySearch() {
                 <Field label="Status Notes"         value={r.statusNotes      || "—"} />
               </div>
 
-              {/* Alberta-only: link to the enriched profile page with full history + live status */}
+              {/* Alberta-only: link to the enriched profile page with full history + live status.
+                  First click in a session opens an email gate; subsequent clicks pass through. */}
               {r.provinceKey === "ab" && r.registryId && (
-                <a
-                  href={`/corporation/${r.registryId}`}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => {
+                    const href = `/corporation/${r.registryId}`;
+                    if (isProfileUnlocked()) {
+                      window.open(href, "_blank", "noreferrer");
+                      return;
+                    }
+                    setGateFor({
+                      company: {
+                        name:         r.name,
+                        registryId:   r.registryId,
+                        provinceKey:  r.provinceKey,
+                        jurisdiction: r.jurisdiction,
+                      },
+                      href,
+                    });
+                  }}
                   style={{
                     display: "inline-flex", alignItems: "center", gap: "0.35rem",
                     marginBottom: "0.75rem",
@@ -456,18 +483,20 @@ export default function CompanySearch() {
                     border: "1px solid var(--secondary)",
                     borderRadius: "0.4rem",
                     fontSize: "0.8rem", fontWeight: 600,
-                    textDecoration: "none",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
                   }}
                 >
                   ✨ View full profile · timeline + live status →
-                </a>
+                </button>
               )}
 
               {/* CTA: inline pricing menu → deep-link into an order flow */}
               <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
                   <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                    Order a service for this company — filed within 24 hours.
+                    Need directors, addresses, and full corporate details?
+                    <strong style={{ color: "var(--text)" }}> Order the Corporate Profile Report</strong> — filed within 24 hours.
                   </span>
                   <button
                     onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
