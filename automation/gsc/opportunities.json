@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-07-31T11:39:13.091531Z",
+ "generated_at": "2026-08-01T10:59:22.129886Z",
  "window": {
-  "start": "2026-07-02",
-  "end": "2026-07-29"
+  "start": "2026-07-03",
+  "end": "2026-07-30"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 36,
+ "count": 34,
  "opportunities": [
   {
    "query": "annual report filing",
@@ -18,20 +18,11 @@
   },
   {
    "query": "annual return calgary",
-   "impressions": 26,
-   "position": 32.9,
+   "impressions": 25,
+   "position": 33.0,
    "clicks": 0,
-   "score": 11.73,
+   "score": 11.23,
    "suggested_slug": "annual-return-calgary",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "canada business registry search",
-   "impressions": 20,
-   "position": 30.7,
-   "clicks": 3,
-   "score": 9.77,
-   "suggested_slug": "canada-business-registry-search",
    "suggested_section": "articles"
   },
   {
@@ -53,11 +44,20 @@
    "suggested_section": "articles"
   },
   {
+   "query": "canada business registry search",
+   "impressions": 16,
+   "position": 29.6,
+   "clicks": 3,
+   "score": 8.1,
+   "suggested_slug": "canada-business-registry-search",
+   "suggested_section": "articles"
+  },
+  {
    "query": "virtual minute book",
-   "impressions": 35,
-   "position": 47.8,
+   "impressions": 34,
+   "position": 47.1,
    "clicks": 0,
-   "score": 7.13,
+   "score": 7.33,
    "suggested_slug": "virtual-minute-book",
    "suggested_section": "minute-books"
   },
@@ -71,30 +71,30 @@
    "suggested_section": "articles"
   },
   {
-   "query": "annual business returns alberta",
-   "impressions": 14,
-   "position": 30.4,
-   "clicks": 0,
-   "score": 6.92,
-   "suggested_slug": "annual-business-returns-alberta",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "canada company search",
-   "impressions": 14,
-   "position": 30.5,
-   "clicks": 0,
-   "score": 6.88,
-   "suggested_slug": "canada-company-search",
-   "suggested_section": "articles"
-  },
-  {
    "query": "canada business registries",
    "impressions": 10,
    "position": 19.6,
    "clicks": 0,
    "score": 6.73,
    "suggested_slug": "canada-business-registries",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "annual business returns alberta",
+   "impressions": 13,
+   "position": 31.1,
+   "clicks": 0,
+   "score": 6.27,
+   "suggested_slug": "annual-business-returns-alberta",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "canada company search",
+   "impressions": 12,
+   "position": 30.8,
+   "clicks": 0,
+   "score": 5.85,
+   "suggested_slug": "canada-company-search",
    "suggested_section": "articles"
   },
   {
@@ -126,10 +126,10 @@
   },
   {
    "query": "alberta corporate registry filing",
-   "impressions": 10,
-   "position": 28.2,
+   "impressions": 9,
+   "position": 29.2,
    "clicks": 0,
-   "score": 5.3,
+   "score": 4.62,
    "suggested_slug": "alberta-corporate-registry-filing",
    "suggested_section": "articles"
   },
@@ -140,24 +140,6 @@
    "clicks": 0,
    "score": 4.1,
    "suggested_slug": "canada-company-registration-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "canadian business registry search",
-   "impressions": 7,
-   "position": 25,
-   "clicks": 0,
-   "score": 4.08,
-   "suggested_slug": "canadian-business-registry-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "alberta corporate filing",
-   "impressions": 7,
-   "position": 25.1,
-   "clicks": 0,
-   "score": 4.07,
-   "suggested_slug": "alberta-corporate-filing",
    "suggested_section": "articles"
   },
   {
@@ -179,12 +161,12 @@
    "suggested_section": "articles"
   },
   {
-   "query": "canada's business registries",
+   "query": "canadian business registry search",
    "impressions": 6,
-   "position": 22,
+   "position": 24.3,
    "clicks": 0,
-   "score": 3.8,
-   "suggested_slug": "canada-s-business-registries",
+   "score": 3.57,
+   "suggested_slug": "canadian-business-registry-search",
    "suggested_section": "articles"
   },
   {
@@ -194,6 +176,15 @@
    "clicks": 0,
    "score": 3.52,
    "suggested_slug": "ontario-annual-return-due-date",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "alberta corporate filing",
+   "impressions": 6,
+   "position": 26.3,
+   "clicks": 0,
+   "score": 3.37,
+   "suggested_slug": "alberta-corporate-filing",
    "suggested_section": "articles"
   },
   {
@@ -215,6 +206,15 @@
    "suggested_section": "articles"
   },
   {
+   "query": "canada's business registries",
+   "impressions": 5,
+   "position": 20.8,
+   "clicks": 0,
+   "score": 3.27,
+   "suggested_slug": "canada-s-business-registries",
+   "suggested_section": "articles"
+  },
+  {
    "query": "cost to incorporate bc",
    "impressions": 10,
    "position": 40.4,
@@ -224,6 +224,15 @@
    "suggested_section": "incorporation"
   },
   {
+   "query": "[annual resolutions]",
+   "impressions": 15,
+   "position": 48.5,
+   "clicks": 0,
+   "score": 2.88,
+   "suggested_slug": "annual-resolutions",
+   "suggested_section": "articles"
+  },
+  {
    "query": "business incorporation nova scotia",
    "impressions": 24,
    "position": 52.8,
@@ -231,15 +240,6 @@
    "score": 2.87,
    "suggested_slug": "business-incorporation-nova-scotia",
    "suggested_section": "incorporation"
-  },
-  {
-   "query": "[annual resolutions]",
-   "impressions": 16,
-   "position": 49.6,
-   "clicks": 0,
-   "score": 2.77,
-   "suggested_slug": "annual-resolutions",
-   "suggested_section": "articles"
   },
   {
    "query": "incorporating a business in nova scotia",
@@ -269,13 +269,13 @@
    "suggested_section": "articles"
   },
   {
-   "query": "ontario business annual return",
-   "impressions": 7,
-   "position": 39.4,
+   "query": "business incorporation saskatchewan",
+   "impressions": 10,
+   "position": 47.1,
    "clicks": 0,
-   "score": 2.4,
-   "suggested_slug": "ontario-business-annual-return",
-   "suggested_section": "articles"
+   "score": 2.15,
+   "suggested_slug": "business-incorporation-saskatchewan",
+   "suggested_section": "incorporation"
   }
  ]
 }
