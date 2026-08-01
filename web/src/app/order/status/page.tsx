@@ -1,23 +1,11 @@
-import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import StatusLookup from "./StatusLookup";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Check order status — CRS",
-  description:
-    "Look up the status of a CRS filing order using the reference number in your confirmation email.",
-  robots: { index: false, follow: false },
-};
-
+/**
+ * /order/status is now repurposed as a "Check Company Status" entry point.
+ * Very few visitors need to check CRS order status (they have the email
+ * confirmation), so we forward this URL to the Canada Corporations Search
+ * page where visitors can look up any company's registry status.
+ */
 export default function OrderStatusPage() {
-  return (
-    <>
-      <Header />
-      <main style={{ flex: 1, background: "var(--bg)", padding: "3rem 1.5rem" }}>
-        <StatusLookup />
-      </main>
-      <Footer />
-    </>
-  );
+  redirect("/canada-corporations-search");
 }
