@@ -97,7 +97,7 @@ If the GSC files are absent, proceed from the queue table using the July 2026 da
 |---|---|---|---|---|
 | 1 | what-is-cores-alberta | cores alberta | Relayed via GitHub Action 2026-07-27; in /cms review queue | DELIVERED — awaiting human publish |
 | 1b | (refresh, manual) | alberta annual return | New title/description + faq front-matter block delivered to user — user applies manually | With user |
-| 2 | how-to-incorporate-in-nova-scotia | incorporate in nova scotia | ~80 imp/wk across 10 variants; NS service page ranks 40–58. Link to NS incorporation service page + /order/ flow | Pending |
+| 2 | how-to-incorporate-in-nova-scotia | incorporate in nova scotia | ~80 imp/wk across 10 variants; NS service page ranks 40–58. Link to NS incorporation service page + /order/ flow. NOTE: article uses govt-verified $118.35 RJSC annual renewal fee — existing NS annual-return article says $25; discrepancy flagged to user 2026-08-01 | DELIVERED — relayed via GitHub Action 2026-08-01, awaiting human publish |
 | 3 | (refresh pass, manual) | CTR titles/metas top-10 pages | Deliver recommendations doc to user, not API | Pending |
 | 4 | (expand existing) | ontario annual return | Expand ON article (pos 28.9, 130 imp/wk); deliver as refresh doc | Pending |
 | 5 | digital-minute-books-canada | virtual minute book / digital minute book | NOTE: /minute-books/digital-minute-book-canada service page exists — article should target the informational query and funnel to it, not duplicate it | Pending |
