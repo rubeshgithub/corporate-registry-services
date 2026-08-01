@@ -13,6 +13,7 @@ import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 import CoresLookupIsland from "@/components/CoresLookupIsland";
 import RegistryStatusSearchIsland from "@/components/RegistryStatusSearchIsland";
+import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
 
 type Params = { section: string; slug: string };
 
@@ -191,6 +192,13 @@ export default async function ContentPage({
               with the picked corp stashed in sessionStorage. */}
           {page.section === "articles" && page.slug === "what-is-cores-alberta" && (
             <CoresLookupIsland src={`article-${page.slug}`} />
+          )}
+
+          {/* Corporate Documents pillar article — trust-first island that
+              forwards the visitor to /order/corporate-documents with the
+              picked corporation pre-filled for a same-day quote. */}
+          {page.section === "articles" && page.slug === "how-to-get-corporate-documents-in-canada" && (
+            <CorporateDocumentsIsland src={`article-${page.slug}`} />
           )}
 
           {/* PEI Annual Return — psychology-driven status search with urgency.
