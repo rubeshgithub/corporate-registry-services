@@ -168,7 +168,7 @@ export default function Header() {
         {/* Right-side actions */}
         <div className="crs-hactions" style={{ alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
           <a
-            href="/order/status"
+            href="/order/company-status-check-canada"
             className="crs-hcheck"
             style={{
               alignItems: "center",
@@ -194,7 +194,7 @@ export default function Header() {
             }}
           >
             <CircleCheck size={14} />
-            Check Status
+            Check Company Status
           </a>
           <a
             href="/#services"
@@ -549,7 +549,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
       })}
 
       <a
-        href="/order/status"
+        href="/order/company-status-check-canada"
         onClick={onClose}
         style={{
           display: "inline-flex",
@@ -568,7 +568,7 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
         }}
       >
         <CircleCheck size={14} />
-        Check Status
+        Check Company Status
       </a>
       <a
         href="/#services"

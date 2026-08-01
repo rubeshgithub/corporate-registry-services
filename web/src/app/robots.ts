@@ -22,6 +22,7 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/order/thanks",
           "/order/status",
+          "/order/company-status-check-canada",
           "/unsubscribed",
           "/o/",            // outreach deep-link tokens — should never be indexed
         ],
