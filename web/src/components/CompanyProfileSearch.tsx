@@ -103,25 +103,24 @@ export default function CompanyProfileSearch() {
           };
           setCompany(info);
 
-          // Fetch enriched data from D&B and Google Places
+          // Fetch enriched D&B data in background (fire-and-forget)
           try {
             const enrichRes = await fetch("/api/company/enrich", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                name: hit.name,
-                businessNumber: hit.businessNumber,
-                location: hit.location,
-              }),
+              body: JSON.stringify({ name: hit.name }),
             });
             const enrichData = await enrichRes.json();
-            if (enrichData.success) {
+            if (enrichData.success && enrichData.dAndBData) {
+              // Update component with enriched data (address, city, region, industry, etc.)
               setCompany((prev) =>
                 prev
                   ? {
                       ...prev,
-                      dAndBData: enrichData.dAndBData,
-                      googlePlacesData: enrichData.googlePlacesData,
+                      registeredOffice: enrichData.dAndBData.address,
+                      dAndBData: {
+                        industry: enrichData.dAndBData.industry,
+                      },
                     }
                   : prev
               );
@@ -402,50 +401,6 @@ function CompanyProfileCard({ company }: { company: CompanyInfo }) {
         </div>
       )}
 
-      {/* Google Places Data */}
-      {company.googlePlacesData && (
-        <div style={{ padding: "1.75rem", borderBottom: "1px solid var(--border)" }}>
-          <h3 style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "1rem" }}>
-            Contact Information
-          </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            {company.googlePlacesData.phone && (
-              <a
-                href={`tel:${company.googlePlacesData.phone}`}
-                style={{ color: "var(--primary)", textDecoration: "none", fontSize: "0.95rem" }}
-              >
-                📞 {company.googlePlacesData.phone}
-              </a>
-            )}
-            {company.googlePlacesData.email && (
-              <a
-                href={`mailto:${company.googlePlacesData.email}`}
-                style={{ color: "var(--primary)", textDecoration: "none", fontSize: "0.95rem" }}
-              >
-                ✉️ {company.googlePlacesData.email}
-              </a>
-            )}
-            {company.googlePlacesData.website && (
-              <a
-                href={company.googlePlacesData.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "var(--primary)",
-                  textDecoration: "none",
-                  fontSize: "0.95rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                🌐 Visit website
-                <ExternalLink size={12} />
-              </a>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Footer Actions */}
       <div style={{ padding: "1.75rem", background: "var(--bg-deep)", display: "flex", gap: "1rem", flexWrap: "wrap" }}>
