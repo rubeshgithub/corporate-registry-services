@@ -23,6 +23,13 @@ export type SearchLeadDoc = {
   createdAt:   Date;
   ackedAt?:    Date;     // ops marked "reached out"
   ackedBy?:    string;
+  /* Optional context — populated when we know what the visitor was doing:
+     "save-search"    — bottom-of-results soft capture (legacy)
+     "unlock-profile" — clicked "View full profile" on a search result and
+                        gave email to unlock the /corporation/:id page. */
+  intent?:      "save-search" | "unlock-profile";
+  registryId?:  string;  // corp # if they identified a specific corp
+  jurisdiction?: string; // human-readable ("Alberta", "Federal", …)
 };
 
 export async function searchLeads(): Promise<Collection<SearchLeadDoc>> {

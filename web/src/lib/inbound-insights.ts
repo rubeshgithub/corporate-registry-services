@@ -16,7 +16,16 @@ import { OPERATOR_TZ, type WindowToken } from "./analytics";
  * either side doesn't ripple through the whole dashboard.
  */
 
-export type SearchLeadRow      = { email: string; query: string; province: string; resultCount: number; createdAt: string };
+export type SearchLeadRow      = {
+  email:         string;
+  query:         string;
+  province:      string;
+  resultCount:   number;
+  createdAt:     string;
+  intent?:       "save-search" | "unlock-profile";
+  registryId?:   string;
+  jurisdiction?: string;
+};
 export type OrderDraftRow      = {
   sessionId:   string;
   service:     string;
@@ -74,16 +83,24 @@ export async function getInboundInsights(token: WindowToken = "30d"): Promise<In
   const searchLeadsCol = database.collection("search_leads");
   const searchLeadsCount = await searchLeadsCol.countDocuments({ createdAt: { $gte: since } });
   const searchLeadsRaw  = await searchLeadsCol
-    .find({ createdAt: { $gte: since } }, { projection: { email: 1, query: 1, province: 1, resultCount: 1, createdAt: 1 } })
+    .find(
+      { createdAt: { $gte: since } },
+      { projection: { email: 1, query: 1, province: 1, resultCount: 1, createdAt: 1, intent: 1, registryId: 1, jurisdiction: 1 } }
+    )
     .sort({ createdAt: -1 })
     .limit(15)
     .toArray();
   const searchLeadsRecent: SearchLeadRow[] = searchLeadsRaw.map((d) => ({
-    email:       String(d.email ?? ""),
-    query:       String(d.query ?? ""),
-    province:    String(d.province ?? "all"),
-    resultCount: Number(d.resultCount ?? 0),
-    createdAt:   (d.createdAt as Date).toISOString(),
+    email:        String(d.email ?? ""),
+    query:        String(d.query ?? ""),
+    province:     String(d.province ?? "all"),
+    resultCount:  Number(d.resultCount ?? 0),
+    createdAt:    (d.createdAt as Date).toISOString(),
+    intent:       d.intent === "unlock-profile" ? "unlock-profile"
+               :  d.intent === "save-search"    ? "save-search"
+               :  undefined,
+    registryId:   d.registryId   ? String(d.registryId)   : undefined,
+    jurisdiction: d.jurisdiction ? String(d.jurisdiction) : undefined,
   }));
 
   /* Consultation requests (both types merged for admin convenience) */

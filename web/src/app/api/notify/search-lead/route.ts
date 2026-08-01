@@ -32,12 +32,16 @@ const PROV_LABEL: Record<string, string> = {
 };
 
 type Body = {
-  email?:       string;
-  query?:       string;
-  province?:    string;
-  resultCount?: number;
-  path?:        string;
-  sessionId?:   string;
+  email?:        string;
+  query?:        string;
+  province?:     string;
+  resultCount?:  number;
+  path?:         string;
+  sessionId?:    string;
+  /* Extra context from the "unlock full profile" gate */
+  intent?:       string;   // "save-search" | "unlock-profile"
+  registryId?:   string;
+  jurisdiction?: string;
 };
 
 function ipHashFromRequest(req: Request): string {
@@ -77,16 +81,22 @@ export async function POST(req: Request) {
   }
 
   const resultCount = Number.isFinite(Number(body.resultCount)) ? Number(body.resultCount) : 0;
+  const intent      = body.intent === "unlock-profile" ? "unlock-profile" as const
+                    : body.intent === "save-search"    ? "save-search"    as const
+                    : undefined;
   await col.insertOne({
     email,
     query,
     province,
     resultCount,
-    path:      String(body.path ?? ""),
-    sessionId: body.sessionId ? String(body.sessionId) : undefined,
-    ipHash:    ipHashFromRequest(req) || undefined,
-    userAgent: (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
-    createdAt: now,
+    path:         String(body.path ?? ""),
+    sessionId:    body.sessionId ? String(body.sessionId) : undefined,
+    ipHash:       ipHashFromRequest(req) || undefined,
+    userAgent:    (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
+    createdAt:    now,
+    intent,
+    registryId:   body.registryId   ? String(body.registryId).trim().slice(0, 64) : undefined,
+    jurisdiction: body.jurisdiction ? String(body.jurisdiction).trim().slice(0, 64) : undefined,
   });
 
   await sendConfirmationEmail({ email, query, province, resultCount });

@@ -964,7 +964,7 @@ function SearchLeadsCard({ inbound }: { inbound: InboundInsights }) {
             Search leads · {inbound.windowLabel.toLowerCase()}
           </div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
-            Visitors who dropped their email on <code style={{ fontFamily: "var(--font-mono), monospace" }}>/canada-corporations-search</code> via the &ldquo;Save this search&rdquo; card. Passive interest — no follow-up promised, just a re-run link + pricing.
+            Emails captured on <code style={{ fontFamily: "var(--font-mono), monospace" }}>/canada-corporations-search</code> — via the bottom &ldquo;Save this search&rdquo; card <em>or</em> the &ldquo;View full profile&rdquo; unlock gate. Unlock-profile leads are warmer (specific corp in mind).
           </div>
         </div>
         <div style={{ textAlign: "right", fontFamily: "var(--font-mono), monospace", fontSize: "0.9rem", color: "var(--text)", fontWeight: 700 }}>
@@ -982,24 +982,52 @@ function SearchLeadsCard({ inbound }: { inbound: InboundInsights }) {
             <thead>
               <tr style={{ textAlign: "left", color: "var(--text-muted)", fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase" }}>
                 <th style={thStyle}>Saved</th>
+                <th style={thStyle}>Intent</th>
                 <th style={thStyle}>Email</th>
                 <th style={thStyle}>Search query</th>
+                <th style={thStyle}>Corp #</th>
                 <th style={thStyle}>Prov</th>
                 <th style={thStyle}>Results</th>
               </tr>
             </thead>
             <tbody>
-              {inbound.searchLeadsRecent.map((r, i) => (
-                <tr key={`${r.email}-${r.createdAt}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
-                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>{fmtLocal(r.createdAt)}</td>
-                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem" }}>
-                    <a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a>
-                  </td>
-                  <td style={{ ...tdStyle, maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.query}>{r.query}</td>
-                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)" }}>{r.province.toUpperCase()}</td>
-                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", fontWeight: 700, color: r.resultCount === 0 ? "#B45309" : "var(--text)" }}>{r.resultCount}</td>
-                </tr>
-              ))}
+              {inbound.searchLeadsRecent.map((r, i) => {
+                const isUnlock = r.intent === "unlock-profile";
+                return (
+                  <tr key={`${r.email}-${r.createdAt}-${i}`} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>{fmtLocal(r.createdAt)}</td>
+                    <td style={tdStyle}>
+                      <span style={{
+                        display: "inline-block",
+                        padding: "0.15rem 0.5rem",
+                        borderRadius: "9999px",
+                        fontFamily: "var(--font-mono), monospace",
+                        fontSize: "0.62rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        background: isUnlock ? "rgba(42,125,143,0.12)" : "var(--gold-dim)",
+                        color:      isUnlock ? "var(--secondary)"      : "var(--gold)",
+                        border:     `1px solid ${isUnlock ? "rgba(42,125,143,0.35)" : "rgba(249,172,0,0.45)"}`,
+                      }}>
+                        {isUnlock ? "unlock" : "save"}
+                      </span>
+                    </td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem" }}>
+                      <a href={`mailto:${r.email}`} style={{ color: "var(--secondary)", textDecoration: "none" }}>{r.email}</a>
+                    </td>
+                    <td style={{ ...tdStyle, maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.query}>
+                      {r.query}
+                      {r.jurisdiction ? <span style={{ color: "var(--text-muted)", fontSize: "0.72rem" }}> · {r.jurisdiction}</span> : null}
+                    </td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: r.registryId ? "var(--text)" : "var(--text-muted)" }}>
+                      {r.registryId ?? "—"}
+                    </td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.72rem", color: "var(--text-muted)" }}>{r.province.toUpperCase()}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono), monospace", fontSize: "0.78rem", fontWeight: 700, color: r.resultCount === 0 ? "#B45309" : "var(--text)" }}>{r.resultCount}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
