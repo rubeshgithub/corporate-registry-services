@@ -102,6 +102,33 @@ export default function CompanyProfileSearch() {
             incorporationDate: hit.registrationDate,
           };
           setCompany(info);
+
+          // Fetch enriched data from D&B and Google Places
+          try {
+            const enrichRes = await fetch("/api/company/enrich", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: hit.name,
+                businessNumber: hit.businessNumber,
+                location: hit.location,
+              }),
+            });
+            const enrichData = await enrichRes.json();
+            if (enrichData.success) {
+              setCompany((prev) =>
+                prev
+                  ? {
+                      ...prev,
+                      dAndBData: enrichData.dAndBData,
+                      googlePlacesData: enrichData.googlePlacesData,
+                    }
+                  : prev
+              );
+            }
+          } catch {
+            /* silently fail on enrichment — registry data is enough */
+          }
           // Save to history
           const newHistory = [query, ...searchHistory.filter((h) => h !== query)].slice(0, 10);
           setSearchHistory(newHistory);
@@ -420,39 +447,52 @@ function CompanyProfileCard({ company }: { company: CompanyInfo }) {
         </div>
       )}
 
-      {/* Footer CTA */}
-      <div style={{ padding: "1.75rem", background: "var(--bg-deep)" }}>
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          <a
-            href={`/order/corporate-search?q=${encodeURIComponent(company.name)}`}
-            style={{
-              padding: "0.75rem 1.25rem",
-              borderRadius: "0.5rem",
-              background: "var(--primary)",
-              color: "#FFFFFF",
-              textDecoration: "none",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-            }}
-          >
-            Order Services
-          </a>
-          <button
-            onClick={() => window.print()}
-            style={{
-              padding: "0.75rem 1.25rem",
-              borderRadius: "0.5rem",
-              background: "var(--card)",
-              border: "1px solid var(--border)",
-              color: "var(--text)",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              cursor: "pointer",
-            }}
-          >
-            Print Profile
-          </button>
-        </div>
+      {/* Footer Actions */}
+      <div style={{ padding: "1.75rem", background: "var(--bg-deep)", display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+        <button
+          onClick={() => window.print()}
+          style={{
+            padding: "0.75rem 1.25rem",
+            borderRadius: "0.5rem",
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+            color: "var(--text)",
+            fontWeight: 600,
+            fontSize: "0.9rem",
+            cursor: "pointer",
+            transition: "all 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.target as HTMLElement).style.background = "var(--gold-dim)";
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLElement).style.background = "var(--card)";
+          }}
+        >
+          📄 Print Profile
+        </button>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            padding: "0.75rem 1.25rem",
+            borderRadius: "0.5rem",
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+            color: "var(--text)",
+            fontWeight: 600,
+            fontSize: "0.9rem",
+            cursor: "pointer",
+            transition: "all 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.target as HTMLElement).style.background = "var(--gold-dim)";
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLElement).style.background = "var(--card)";
+          }}
+        >
+          🔄 New Search
+        </button>
       </div>
     </div>
   );
