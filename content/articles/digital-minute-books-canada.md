@@ -1,0 +1,101 @@
+---
+title: "Digital Minute Books in Canada: Legal? What the CBCA Says"
+h1: "Digital Minute Books in Canada: What the Law Requires"
+slug: "digital-minute-books-canada"
+section: "articles"
+description: "Digital minute books are fully legal in Canada — CBCA s.22 and every provincial act allow electronic records. What yours must contain, from $299 all-in."
+faq:
+  - q: "Can corporate resolutions be signed electronically in Canada?"
+    a: "Generally yes. Electronic signatures are recognized across Canadian jurisdictions, and written resolutions signed electronically are standard practice for private corporations. For high-stakes documents such as share transfers in a sale, confirm the signing approach with counsel, since some lenders and registries have their own execution requirements."
+  - q: "Do I still need a paper copy if my minute book is digital?"
+    a: "No. The statute requires that records be capable of being reproduced in written form within a reasonable time — it does not require paper. Print-on-demand satisfies an inspection request, and keeping a backup of the digital book covers the legal duty to take reasonable precautions against loss."
+  - q: "What happens if my corporation doesn't keep a minute book at all?"
+    a: "The corporation is offside its governing statute, and the consequences surface at the worst times: stalled financings, delayed sales, problems proving share ownership or dividend authorization to the CRA. Reconstruction is possible but costs more than maintenance."
+  - q: "Is a digital minute book acceptable to the CRA and auditors?"
+    a: "Yes. The CRA and auditors care that the records exist, are complete, and can be produced — share registers that match filings and resolutions that support dividends and approvals. A current digital book satisfies them; an empty binder does not."
+  - q: "Where must a digital minute book be \"kept\"?"
+    a: "CBCA s. 20 requires records to be maintained at the registered office or another place in Canada the directors designate. For a digital book, keep the corporation's official copy accessible from that location and producible there on request."
+---
+
+**Minute book missing or out of date?** [Get a complete digital minute book →](/minute-books/digital-minute-book-canada) · from $299 all-in + GST, prepared by corporate filing specialists, typically within 2 business days.
+
+Digital minute books are fully legal in Canada. The *Canada Business Corporations Act* and every provincial corporate statute permit corporate records to be kept electronically, as long as the records can be reproduced in intelligible written form when someone is entitled to inspect them. This guide covers exactly what the law says, what a compliant digital minute book must contain, and how to move a paper binder — or no binder at all — into a format your accountant, banker, and lawyer can actually use.
+
+## Are digital minute books legal in Canada?
+
+Yes — and they have been for years. Section 22 of the *Canada Business Corporations Act* (CBCA) says corporate records "may be entered or recorded by any system of mechanical or electronic data processing or any other information storage device that is capable of reproducing any required information in intelligible written form within a reasonable time." A well-organized set of PDFs meets that test; a binder gathering dust at a law firm has no legal advantage over it.
+
+The provinces match the federal position. Ontario modernized its *Business Corporations Act* effective October 1, 2023, confirming records may be kept in any format, electronic included. Alberta, BC, and the other provincial and territorial statutes contain equivalent form-of-records language. No Canadian jurisdiction requires a paper minute book.
+
+Two conditions come with the permission, and they matter:
+
+- **Reproducibility.** The corporation must be able to produce the records in accurate, readable written form when a director, shareholder, or authorized person asks — at the registered office or another designated place in Canada (CBCA s. 20).
+- **Reasonable precautions.** The corporation must guard the records against loss, destruction, and falsification. In practice that means reliable backups, controlled access, and a clear record of what was added when — the digital equivalents of not leaving the binder on a windowsill.
+
+One related myth worth killing: you do not need a corporate seal. CBCA s. 23 makes the seal optional, and documents signed without one are just as valid.
+
+## What must a digital minute book contain?
+
+The format changed; the contents didn't. Whether paper or digital, CBCA s. 20 and its provincial equivalents require the same statutory record set: articles of incorporation and any amendments, by-laws, minutes and resolutions of shareholders and directors, the securities register, registers of directors and officers, and copies of certain filed notices. Our guide to [what belongs in a corporate minute book](/guides/what-is-a-corporate-minute-book-canada) walks through each document in detail.
+
+Federal corporations have one newer obligation that catches people off guard: the **register of individuals with significant control (ISC)**. Every CBCA corporation must maintain one, and since January 22, 2024, must also file its ISC information with Corporations Canada — at the same time as the annual return and within 15 days of any change. Some of that information is publicly searchable. A minute book prepared today that ignores the ISC register is incomplete on day one.
+
+The everyday documents are the ones most corporations fall behind on: the annual [director resolutions](/articles/director-resolutions-in-canada) and shareholder resolutions approving financial statements and confirming officers, [share certificates](/articles/share-certificates-in-canada) for every issuance, and [by-laws](/articles/corporate-by-laws-canada) that actually exist rather than being "somewhere in the incorporation email."
+
+## Is a digital minute book better than a paper one?
+
+For most owner-managed corporations, yes — not because the law prefers it, but because a digital book actually gets used and updated. The comparison is lopsided:
+
+| | Paper binder | Digital minute book |
+|---|---|---|
+| Sharing with your accountant | Photocopy or courier | Emailed or shared in seconds |
+| Year-end resolutions | Often skipped — binder is at the law firm | Signed and filed the same week |
+| Loss risk | Fire, flood, moving offices | Backed up; reproducible on demand |
+| Due diligence / financing | Days of scrambling | Complete record produced immediately |
+| Ongoing cost | Law firm storage and retrieval fees | None |
+
+The pattern we see constantly: a corporation incorporates online, receives articles and nothing else, and the "minute book" is a folder of unsigned PDFs. Five years later a bank, a buyer, or a CRA auditor asks for the securities register and the annual resolutions, and there is nothing to produce. The fix costs far more after the fact — reconstruction requires retrieving filing history from the government registry — than keeping the book current ever would have.
+
+## When will someone actually ask to see it?
+
+More often than most owners expect. Banks ask for the minute book when opening accounts or advancing credit — usually the securities register and borrowing resolutions. Lawyers ask during any purchase, sale, reorganization, or financing; a missing or incomplete book slows the deal and generates legal fees to fix. The CRA can ask during an audit, particularly to verify dividend resolutions and share ownership. And under CBCA s. 21, your own shareholders are entitled to examine most of the records on request.
+
+In every one of those situations, "it's digital" is a perfectly acceptable answer. "We don't have one" is not — the record-keeping obligation is statutory, and producing nothing exposes the corporation and its directors to compliance problems at exactly the moment a deal or an audit is on the line.
+
+## How do you switch to a digital minute book?
+
+If your corporation already has a paper book, the conversion is mostly disciplined scanning: every document in the binder, scanned in order, organized by category (constating documents, registers, resolutions by year, share documents), with the registers brought current and any missing annual resolutions prepared and signed. From then on, new documents are added digitally as they're signed.
+
+If your corporation never had a minute book — common for online incorporations — the book has to be built, not scanned: by-laws drafted, organizational resolutions prepared, shares formally subscribed and certificates issued, registers created, and the ISC register completed. For an older corporation, the filing history first has to be retrieved from the government registry so the record actually matches what was filed.
+
+That second path is exactly what our [digital minute book service](/minute-books/digital-minute-book-canada) does. The Standard package ($299 all-in + GST) builds a complete, compliant digital minute book for corporations up to two years old, typically within 2 business days. Established (2–5 years, $749) and Legacy (5+ years, $1,399) packages include government document retrieval and full reconstruction. Every book is delivered by email and manageable in our free MinuteBook app — no subscription, no hourly legal fees.
+
+## Frequently Asked Questions
+
+### Can corporate resolutions be signed electronically in Canada?
+
+Generally yes. Electronic signatures are recognized across Canadian jurisdictions, and written resolutions signed electronically are standard practice for private corporations. For high-stakes documents — share transfers in a sale, security agreements — confirm the signing approach with counsel, since some lenders and registries still have their own execution requirements.
+
+### Do I still need a paper copy if my minute book is digital?
+
+No. The statute requires that records be *capable of being reproduced* in written form within a reasonable time — it does not require you to keep paper. Print-on-demand satisfies an inspection request. Keeping a backup copy of the digital book is a legal expectation (reasonable precautions against loss), not a paper binder.
+
+### What happens if my corporation doesn't keep a minute book at all?
+
+The corporation is offside its governing statute, and the practical consequences surface at the worst times: stalled financings, delayed sales, problems proving share ownership or dividend authorization to the CRA, and directors unable to demonstrate decisions were properly made. Reconstruction is possible — we do it regularly — but it costs more than maintenance.
+
+### Is a digital minute book acceptable to the CRA and auditors?
+
+Yes. What the CRA and auditors care about is that the records exist, are complete, and can be produced — share registers that match filings, resolutions that support dividends and bonuses, signed financial-statement approvals. A digital book that is current satisfies them; an empty binder does not.
+
+### Where must a digital minute book be "kept"?
+
+CBCA s. 20 requires records to be maintained at the registered office or another place in Canada the directors designate. For a digital book, keep the corporation's official copy accessible from that location and producible there on request — which a properly stored digital book does automatically.
+
+---
+
+**Ready to get compliant?** [Order your digital minute book →](/minute-books/digital-minute-book-canada) — complete, lawyer-grade corporate records for any Canadian jurisdiction, prepared from your incorporation documents or rebuilt from the government registry.
+
+**Turnaround:** typically 2 business days (Standard package) · **Price:** from $299 all-in + GST — resolutions $79, share certificates $49, by-laws $99 if you only need single documents.
+
+*Sources: [Canada Business Corporations Act, ss. 20–23](https://laws-lois.justice.gc.ca/eng/acts/c-44/page-4.html) · [Corporations Canada — ISC filing requirement](https://ised-isde.canada.ca/site/corporations-canada/en/new-filing-requirement-effect-cbca-businesses-must-begin-file-individuals-significant-control)*
