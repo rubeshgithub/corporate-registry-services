@@ -1,0 +1,14 @@
+{
+  "name": "crs-scripts",
+  "version": "1.0.0",
+  "description": "Local ops tools — registrar delta importer + contact enrichment. Not shipped with the web app.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import-delta":     "node import_delta.mjs",
+    "enrich-contacts":  "node enrich_contacts.mjs"
+  },
+  "dependencies": {
+    "mongodb": "^6.10.0"
+  }
+}
