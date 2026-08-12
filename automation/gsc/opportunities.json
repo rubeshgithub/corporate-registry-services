@@ -1,18 +1,18 @@
 {
- "generated_at": "2026-08-11T10:26:28.326960Z",
+ "generated_at": "2026-08-12T10:36:32.567105Z",
  "window": {
-  "start": "2026-07-13",
-  "end": "2026-08-09"
+  "start": "2026-07-14",
+  "end": "2026-08-10"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 66,
+ "count": 64,
  "opportunities": [
   {
    "query": "virtual minute book",
-   "impressions": 40,
-   "position": 36.5,
+   "impressions": 39,
+   "position": 35.5,
    "clicks": 0,
-   "score": 15.63,
+   "score": 15.9,
    "suggested_slug": "virtual-minute-book",
    "suggested_section": "minute-books"
   },
@@ -27,29 +27,11 @@
   },
   {
    "query": "annual report filing",
-   "impressions": 22,
-   "position": 22.7,
+   "impressions": 21,
+   "position": 22.6,
    "clicks": 0,
-   "score": 13.68,
+   "score": 13.08,
    "suggested_slug": "annual-report-filing",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "saskatchewan incorporation",
-   "impressions": 25,
-   "position": 28.7,
-   "clicks": 0,
-   "score": 13.03,
-   "suggested_slug": "saskatchewan-incorporation",
-   "suggested_section": "incorporation"
-  },
-  {
-   "query": "corporate name report",
-   "impressions": 28,
-   "position": 32.7,
-   "clicks": 0,
-   "score": 12.75,
-   "suggested_slug": "corporate-name-report",
    "suggested_section": "articles"
   },
   {
@@ -59,6 +41,24 @@
    "clicks": 0,
    "score": 12.65,
    "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "saskatchewan incorporation",
+   "impressions": 24,
+   "position": 28.9,
+   "clicks": 0,
+   "score": 12.45,
+   "suggested_slug": "saskatchewan-incorporation",
+   "suggested_section": "incorporation"
+  },
+  {
+   "query": "corporate name report",
+   "impressions": 26,
+   "position": 32.8,
+   "clicks": 0,
+   "score": 11.78,
+   "suggested_slug": "corporate-name-report",
    "suggested_section": "articles"
   },
   {
@@ -72,29 +72,20 @@
   },
   {
    "query": "incorporation saskatchewan",
-   "impressions": 30,
-   "position": 41.4,
+   "impressions": 29,
+   "position": 41.0,
    "clicks": 0,
-   "score": 9.32,
+   "score": 9.17,
    "suggested_slug": "incorporation-saskatchewan",
    "suggested_section": "incorporation"
   },
   {
    "query": "annual report bc",
-   "impressions": 12,
-   "position": 16.2,
+   "impressions": 11,
+   "position": 16.5,
    "clicks": 0,
-   "score": 8.75,
+   "score": 7.98,
    "suggested_slug": "annual-report-bc",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "canada business registry search",
-   "impressions": 14,
-   "position": 26.7,
-   "clicks": 1,
-   "score": 7.77,
-   "suggested_slug": "canada-business-registry-search",
    "suggested_section": "articles"
   },
   {
@@ -116,21 +107,21 @@
    "suggested_section": "articles"
   },
   {
+   "query": "canada business registry search",
+   "impressions": 12,
+   "position": 24.7,
+   "clicks": 1,
+   "score": 7.07,
+   "suggested_slug": "canada-business-registry-search",
+   "suggested_section": "articles"
+  },
+  {
    "query": "canada company registration search",
    "impressions": 10,
    "position": 18.8,
    "clicks": 0,
    "score": 6.87,
    "suggested_slug": "canada-company-registration-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business number lookup canada",
-   "impressions": 12,
-   "position": 26.8,
-   "clicks": 0,
-   "score": 6.65,
-   "suggested_slug": "business-number-lookup-canada",
    "suggested_section": "articles"
   },
   {
@@ -143,20 +134,11 @@
    "suggested_section": "articles"
   },
   {
-   "query": "incorporation in saskatchewan",
-   "impressions": 24,
-   "position": 44.0,
-   "clicks": 0,
-   "score": 6.42,
-   "suggested_slug": "incorporation-in-saskatchewan",
-   "suggested_section": "incorporation"
-  },
-  {
    "query": "incorporating a business in nova scotia",
-   "impressions": 33,
-   "position": 48.5,
+   "impressions": 32,
+   "position": 48.3,
    "clicks": 0,
-   "score": 6.33,
+   "score": 6.25,
    "suggested_slug": "incorporating-a-business-in-nova-scotia",
    "suggested_section": "incorporation"
   },
@@ -170,6 +152,15 @@
    "suggested_section": "incorporation"
   },
   {
+   "query": "business number lookup canada",
+   "impressions": 11,
+   "position": 26.5,
+   "clicks": 0,
+   "score": 6.15,
+   "suggested_slug": "business-number-lookup-canada",
+   "suggested_section": "articles"
+  },
+  {
    "query": "alberta corporate registry filing",
    "impressions": 13,
    "position": 31.9,
@@ -177,6 +168,15 @@
    "score": 6.08,
    "suggested_slug": "alberta-corporate-registry-filing",
    "suggested_section": "articles"
+  },
+  {
+   "query": "incorporation in saskatchewan",
+   "impressions": 23,
+   "position": 44.1,
+   "clicks": 0,
+   "score": 6.08,
+   "suggested_slug": "incorporation-in-saskatchewan",
+   "suggested_section": "incorporation"
   },
   {
    "query": "find canadian business",
@@ -234,21 +234,12 @@
   },
   {
    "query": "how to incorporate a business in nova scotia",
-   "impressions": 28,
-   "position": 49.7,
+   "impressions": 27,
+   "position": 49.6,
    "clicks": 0,
-   "score": 4.8,
+   "score": 4.7,
    "suggested_slug": "how-to-incorporate-a-business-in-nova-scotia",
    "suggested_section": "incorporation"
-  },
-  {
-   "query": "bc registry annual reports",
-   "impressions": 6,
-   "position": 15.2,
-   "clicks": 0,
-   "score": 4.48,
-   "suggested_slug": "bc-registry-annual-reports",
-   "suggested_section": "articles"
   },
   {
    "query": "business incorporation saskatchewan",
@@ -275,6 +266,15 @@
    "clicks": 0,
    "score": 4.25,
    "suggested_slug": "how-to-check-if-a-company-is-registered-in-canada",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "[annual resolutions]",
+   "impressions": 19,
+   "position": 46.7,
+   "clicks": 0,
+   "score": 4.22,
+   "suggested_slug": "annual-resolutions",
    "suggested_section": "articles"
   }
  ]
