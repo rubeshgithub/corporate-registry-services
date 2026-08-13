@@ -1,0 +1,109 @@
+---
+title: "Certificate of Status Ontario: What It Is & How to Get One"
+h1: "Certificate of Status in Ontario: Which Proof Do You Actually Need?"
+slug: "certificate-of-status-ontario"
+section: "articles"
+description: "Ontario Certificate of Status vs. TCV number: what each proves, the $26 government fee, and how to get your certificate in about 3 hours — $79 all-in."
+faq:
+  - q: "Is a TCV number the same as a Certificate of Status?"
+    a: "No. A TCV number is issued by the Ontario Ministry of Finance and proves your business is compliant with Ontario tax obligations. A Certificate of Status is issued by the Ontario Business Registry and proves your corporation is registered, active and in good standing. Ontario government contract and licence applications may require both."
+  - q: "Can CRS get a TCV number or FBC letter for me?"
+    a: "No — and be wary of anyone who claims they can. A TCV number comes free and directly from Ontario's Tax Compliance Verification service, and the FBC letter comes from your CRA My Business Account. CRS supplies registry documents: the Certificate of Status, corporate profile reports, and corporation searches."
+  - q: "How fast can I get an Ontario Certificate of Status?"
+    a: "Ordering through CRS, about 3 hours, delivered as a PDF — $79 all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it."
+  - q: "Is a Certificate of Status the same as a Certificate of Good Standing?"
+    a: "Yes. Ontario officially calls it a Certificate of Status; most other Canadian jurisdictions call the equivalent document a certificate of good standing (or certificate of compliance federally). Banks and lawyers use the names interchangeably, and the Ontario certificate satisfies a request worded either way."
+  - q: "How much does a Certificate of Status cost in Ontario?"
+    a: "The government fee is $26 through the Ontario Business Registry. CRS retrieves it for $79 all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required."
+---
+
+**Bidding on a contract or asked for proof of standing?** [Order your Ontario Certificate of Status →](/order/good-standing?src=article-certificate-of-status-ontario) — $79 all-in + tax, ready in about 3 hours.
+
+If you've been asked to prove your corporation's standing in Ontario, there are two different documents people routinely confuse — and they come from two different government systems. A **Tax Compliance Verification (TCV) number** proves your *tax* standing with the Ontario Ministry of Finance. A **Certificate of Status** proves your *corporate registry* standing with the Ontario Business Registry. Government licence and contract applications often ask for the first; banks, lenders, lawyers and other registries almost always want the second. This guide explains what each one is, how to get it, and what it costs — so you order the right document the first time.
+
+## Certificate of Status vs. TCV Number: What's the Difference?
+
+A Certificate of Status confirms your corporation is registered, active and in good standing on the Ontario Business Registry. A TCV number confirms your business is compliant with its Ontario tax obligations. They are issued by different parts of government, prove different things, and one cannot substitute for the other.
+
+| | Certificate of Status | TCV number |
+|---|---|---|
+| **What it proves** | Corporation legally exists, is active, and filings are up to date | Business is compliant with Ontario tax obligations |
+| **Issued by** | Ontario Business Registry (ServiceOntario) | Ontario Ministry of Finance |
+| **Government cost** | $26 | Free |
+| **What you receive** | Official certificate (PDF) | A TCV number plus a downloadable certificate |
+| **Who asks for it** | Banks, lenders, lawyers, landlords, other provinces' registries | Ontario government licences, programs, contracts and agreements |
+
+Ontario government procurement is the place these two collide: a bid package may require *both* a TCV number and proof of corporate standing. Read the requirement carefully — "tax compliance" means TCV; "good standing", "certificate of status" or "proof of active status" means the registry document.
+
+One thing to be clear about: a TCV number can only be obtained by your business directly through [Ontario's Tax Compliance Verification service](https://www.ontario.ca/page/check-your-tax-compliance-status). It's free, and no third party — CRS included — can get one for you. What CRS supplies is the registry side: the Certificate of Status itself, plus supporting documents like [corporate profile reports](/guides/corporate-profile-report-vs-certificate-of-good-standing).
+
+## What Is a Certificate of Status in Ontario?
+
+A Certificate of Status is an official document issued by the Ontario Business Registry confirming that a corporation is legally registered, active, and compliant with its filing requirements under the Business Corporations Act (Ontario). In most other provinces the same document is called a [certificate of good standing](/guides/what-is-a-certificate-of-good-standing-canada) — the names are interchangeable, and whoever is asking will accept the Ontario version.
+
+The certificate confirms four things: the corporation legally exists, it is active (not dissolved, discontinued or amalgamated), its required filings are current, and it is in good standing with the registry as of the date on the certificate.
+
+The certificate has no official expiry date, but most banks and lawyers want one issued recently — typically within the last 30 to 60 days — so it's worth ordering fresh when a specific transaction needs it rather than keeping one on file.
+
+## When Do You Need a Certificate of Status?
+
+Any time a third party needs formal proof that your corporation is real, active and compliant. The most common triggers:
+
+- **Business banking and financing** — opening accounts, loan applications, renewals of credit facilities
+- **Government contracts and licences** — often alongside a TCV number
+- **Extra-provincial registration** — registering your Ontario corporation in another province
+- **Buying or selling a business** — due diligence on either side of the deal
+- **Legal and real-estate transactions** — lawyers routinely require a current certificate before closing
+
+If you only need to *check* a company's status — yours or someone else's — rather than prove it formally, a [free corporation search](/canada-corporations-search) will show whether it's active before you spend anything on a certificate.
+
+## How Do You Get a Certificate of Status in Ontario?
+
+There are two routes: order it yourself through the Ontario Business Registry, or have a registry agent pull it for you.
+
+**Doing it yourself:** you order through the [Ontario Business Registry](https://www.ontario.ca/page/ontario-business-registry) with an Ontario.ca account and your corporation's **company key** — a PIN-style code mailed or emailed to the corporation. The government fee is $26, payable by credit or debit, and online requests are typically processed the same business day, with the certificate delivered by email as a PDF. The catch is the company key: if you don't have it (most owners don't have it handy), requesting one can take several business days — which is exactly the delay you can't afford when a bank or bid deadline is sitting on your desk.
+
+**Using CRS:** we retrieve the certificate directly from the Ontario Business Registry — no company key, no OBR account, no ontario.ca login needed on your end. $79 all-in + tax including the government charge, delivered as a PDF in about 3 hours. [Order here →](/order/good-standing?src=article-certificate-of-status-ontario)
+
+## How Do You Get a TCV Number?
+
+Directly from the province, for free — this is the one document in the mix you must obtain yourself. Per [ontario.ca](https://www.ontario.ca/page/check-your-tax-compliance-status), you log in to the Tax Compliance Verification service with an Ontario.ca account, register your business information, and request a TCV number. If your business files corporate income tax or GST/HST, you'll need to upload a current, unexpired **Filing and Balance Confirmation (FBC) letter** from the Canada Revenue Agency — an original PDF obtained through CRA My Business Account, not a scan. Once verified, you receive a TCV number to quote in applications, plus a certificate you can download. Questions go to the Ministry of Finance at 1-866-ONT-TAXS (668-8297).
+
+CRS doesn't obtain TCV numbers or FBC letters — those are tax documents between your business, the CRA and the Ministry of Finance. We handle the registry documents that usually get requested in the same package.
+
+## What If Your Corporation Isn't in Good Standing?
+
+Fix the filings first — a certificate ordered for a non-compliant corporation will show exactly that. In Ontario the usual culprit is missed annual returns, which since 2021 are filed through the Ontario Business Registry rather than with the CRA tax return. If you're behind, our guide to [filing your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario) walks through the process, or CRS can [file it for you](/order/annual-return) — $99 all-in + tax, filed within 24 hours. Once the registry shows you compliant, order the certificate.
+
+If the corporation has actually been dissolved or cancelled, a Certificate of Status can't help — the registry will show it inactive, and you'll need to revive the corporation first. [Contact us](/contact) and we'll point you at the right fix.
+
+## Frequently Asked Questions
+
+### Is a TCV number the same as a Certificate of Status?
+
+No. A TCV number is issued by the Ontario Ministry of Finance and proves your business is compliant with Ontario tax obligations. A Certificate of Status is issued by the Ontario Business Registry and proves your corporation is registered, active and in good standing. Ontario government contract and licence applications may require both.
+
+### Can CRS get a TCV number or FBC letter for me?
+
+No — and be wary of anyone who claims they can. A TCV number comes free and directly from Ontario's Tax Compliance Verification service, and the FBC letter comes from your CRA My Business Account. CRS supplies registry documents: the Certificate of Status, corporate profile reports, and corporation searches.
+
+### How fast can I get an Ontario Certificate of Status?
+
+Ordering through CRS, about 3 hours, delivered as a PDF — $79 all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it.
+
+### Is a Certificate of Status the same as a Certificate of Good Standing?
+
+Yes. Ontario officially calls it a Certificate of Status; most other Canadian jurisdictions call the equivalent document a certificate of good standing (or certificate of compliance federally). Banks and lawyers use the names interchangeably, and the Ontario certificate satisfies a request worded either way.
+
+### How much does a Certificate of Status cost in Ontario?
+
+The government fee is $26 through the Ontario Business Registry. CRS retrieves it for $79 all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required.
+
+## Get Your Ontario Certificate of Status Today
+
+Whether it's a bank, a bid package or a closing table asking, the certificate is the easy half of the equation — don't let a missing company key hold up the deal. CRS pulls your Certificate of Status directly from the Ontario Business Registry and delivers it the same morning you order.
+
+**Turnaround:** ~3 hours, delivered as PDF
+**Price:** $79 all-in + tax (government charges included)
+
+[Order your Ontario Certificate of Status →](/order/good-standing?src=article-certificate-of-status-ontario)
