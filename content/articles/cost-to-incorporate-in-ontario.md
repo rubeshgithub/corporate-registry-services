@@ -1,0 +1,128 @@
+---
+title: "How Much Does It Cost to Incorporate in Ontario? (2026)"
+h1: "How Much Does It Cost to Incorporate in Ontario?"
+slug: "cost-to-incorporate-in-ontario"
+section: "articles"
+description: "Ontario incorporation costs $300 in government fees plus a NUANS report — DIY vs. lawyer vs. CRS at $699 all-in. Every fee, deadline and hidden cost, 2026."
+faq:
+  - q: "How much does it cost to incorporate in Ontario?"
+    a: "The Ontario government charges $300 to file Articles of Incorporation through the Ontario Business Registry. Named corporations also need an Ontario-biased NUANS report, typically $20–$60 from a search house. A do-it-yourself numbered company can therefore cost as little as $300; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing for $699 all-in + tax including the government fee, NUANS and a full minute book."
+  - q: "Is it cheaper to incorporate in Ontario or federally?"
+    a: "Federal (CBCA) incorporation has a lower filing fee — $200 online versus Ontario's $300 — but a federal corporation that operates in Ontario must also register extra-provincially in Ontario, and it files a $12 federal annual return every year while an Ontario corporation's annual return carries no government fee. Over several years the two usually cost about the same; pick by where you operate and whether you want Canada-wide name protection, not by the $100 gap."
+  - q: "What ongoing costs does an Ontario corporation have?"
+    a: "An Ontario corporation must file an initial return within 60 days of incorporation and an annual return within 6 months of each fiscal year-end through the Ontario Business Registry — neither carries a government fee if you file directly. Budget separately for your accountant's T2 corporate tax return, and for changes such as Articles of Amendment ($150 government fee)."
+  - q: "Do I need a lawyer to incorporate in Ontario?"
+    a: "No. Anyone can file Articles of Incorporation online through the Ontario Business Registry, and a registry agent like CRS can prepare and file the documents for you. A lawyer is worth the extra cost when you have multiple share classes, outside investors, or need a shareholders' agreement drafted at the same time."
+---
+
+**Ready to incorporate?** [Start your Ontario incorporation — $699 all-in →](/order/incorporation?src=article-cost-to-incorporate-in-ontario) · Government fee, NUANS report, Articles, by-laws and complete minute book included. No Ontario Business Registry account needed.
+
+Incorporating in Ontario costs **$300 in government fees**, paid to the Ontario Business Registry when you file your Articles of Incorporation, plus roughly **$20–$60 for an Ontario-biased NUANS name report** if you want a named (rather than numbered) corporation. That is the floor. What most founders actually spend depends on who prepares the paperwork: a fully do-it-yourself numbered company can come in at $300, a lawyer-prepared incorporation with a minute book commonly lands between $1,000 and $2,500, and CRS files the complete package for **$699 all-in + tax**. This guide breaks down every government fee, every deadline, and the costs that surprise first-time incorporators.
+
+## What are the government fees to incorporate in Ontario?
+
+Ontario has one of the simplest fee schedules in Canada. Every business corporation under the *Ontario Business Corporations Act* (OBCA) pays the same filing fee whether it is a one-person consultancy or a 50-shareholder start-up:
+
+| Item | Government fee | Notes |
+|---|---|---|
+| Articles of Incorporation (Form 1) | $300.00 | Filed through the Ontario Business Registry; same fee by mail |
+| Ontario-biased NUANS report | $0 govt fee; ~$20–$60 from a search house | Required for named corporations only; valid 90 days |
+| Initial Return (Corporations Information Act) | $0 | Due within 60 days of incorporation |
+| Annual Return | $0 | Due within 6 months of fiscal year-end, every year |
+| Business Number (BN) and corporate tax account | $0 | Issued by the CRA at no charge; needed before you register for HST or payroll |
+
+The $300 filing fee is set out in the Ministry's own [Articles of Incorporation instructions](https://forms.mgcs.gov.on.ca/dataset/5351) and has not changed since the Ontario Business Registry (OBR) launched in October 2021. Ontario does not sell an "expedited" tier the way some provinces do — online filings through the OBR are processed automatically, usually the same business day, and mailed applications go into a manual queue.
+
+Two things stand out compared with other provinces. First, Ontario does not charge a name-reservation fee: your NUANS report *is* your name clearance, and you file the Articles with the report's reference number. Second, Ontario's annual return is free. Alberta charges $47 a year, BC $43 and the federal registry $12 — so an Ontario corporation's ongoing registry cost is genuinely $0 if you file on time yourself.
+
+## What does an Ontario NUANS report cost?
+
+If you want a name — "Maple Ridge Consulting Inc." rather than "1234567 Ontario Inc." — you need an **Ontario-biased NUANS report** dated within 90 days of filing. NUANS is the federally run name-search database, but the report itself is produced by private search houses, and each sets its own price. Expect **$20–$60** for a standard Ontario-biased report; some providers bundle a preliminary search or a second name for a little more.
+
+Skip this cost entirely by incorporating a **numbered company**. The registry assigns the next available number, there is nothing to search, and you can always add a name later by filing Articles of Amendment ($150 government fee, plus a NUANS report at that point). Many founders who plan to rebrand, or who will trade under a registered business name anyway, go numbered on day one and save both the fee and a day or two of waiting.
+
+CRS includes the NUANS report and the preliminary name check in its $699 all-in price. See our [NUANS name search guide](/guides/nuans-name-search-canada-guide) for how the report works and what a "conflict" actually means.
+
+## DIY vs. registry agent vs. lawyer: what will you actually pay?
+
+The government fee is the same for everyone. The difference is what you get around it — and whether the corporation is properly organized after the certificate arrives.
+
+| Route | Typical total cost | What you get | Where it goes wrong |
+|---|---|---|---|
+| **DIY through the OBR** | $300 (numbered) to ~$360 (named) | Certificate and Articles of Incorporation only | No by-laws, no organizational resolutions, no share issuance, no minute book — the corporation exists but has no shareholders and no directors' authority documented |
+| **CRS (registry agent)** | $699 all-in + tax | Government fee, NUANS report, customised Articles, by-laws, first directors' and shareholders' resolutions, share certificates, registers, BN application, digital minute book | Not a law firm — complex share structures and shareholder agreements go to a lawyer |
+| **Business lawyer** | ~$1,000–$2,500+ (estimate) | Everything above plus legal advice, custom share classes, shareholders' agreement | Cost, and turnaround measured in weeks rather than days |
+
+The DIY number is the one that catches people. Filing the Articles yourself for $300 creates a corporation, but a corporation is only "organized" once the first directors adopt by-laws, issue shares and appoint officers — and those documents have to exist on paper (or PDF) in a [corporate minute book](/guides/what-is-a-corporate-minute-book-canada). Banks ask for them when you open the account. Accountants ask for the share register at T2 time. A buyer's lawyer will ask for the whole book in due diligence. Founders who skipped this step routinely pay $500–$1,500 later to have a lawyer reconstruct it — more than the original saving.
+
+Lawyer pricing varies widely by firm and by complexity; treat the range above as an estimate. Where a lawyer earns the premium is a multi-founder start-up with vesting, preferred shares or an investor on the cap table. For a one- or two-owner operating company with common shares, a registry agent covers the same ground for a fraction of the fee.
+
+## What ongoing costs should you budget for after incorporating in Ontario?
+
+Incorporation is a one-time cost. Staying compliant is annual, and Ontario keeps it cheap — but not free of effort:
+
+- **Initial Return — within 60 days, $0.** Every new Ontario corporation must file an initial return under the *Corporations Information Act* confirming its directors, officers and registered office. It is filed through the OBR and there is no government fee. Miss it and the corporation is out of compliance from month three.
+- **Annual Return — within 6 months of fiscal year-end, $0.** Since 2021 this is filed with the OBR (not with the CRA T2 return as it used to be). There is no government fee. Filing it late or not at all is what eventually gets a corporation flagged as non-compliant and, after enough years, cancelled for non-filing. CRS files it for [$99 all-in + tax](/order/annual-return) if you'd rather not manage the OBR login and company key yourself — see [how to file your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario).
+- **Notice of Change — within 15 days, $0.** Any change of directors, officers or registered office must be reported to the OBR within 15 days.
+- **T2 corporate income tax return — annually.** Filed with the CRA by your accountant; the OBR annual return does *not* replace it.
+- **Articles of Amendment — $150** when you change the name, share structure or other provisions in the Articles.
+- **Certificate of Status — $26** from the ministry when a bank, lender or contract counterparty asks for proof the corporation is active. See our [certificate of status guide](/articles/certificate-of-status-ontario).
+- **Corporate records upkeep.** Directors' and shareholders' resolutions for dividends, officer changes and the annual approval of financial statements belong in the minute book. CRS drafts [director resolution sets from $79 + GST](/order/director-resolution).
+
+None of these individually is expensive. What costs money is forgetting them: a corporation that has never filed an annual return cannot get a clean Certificate of Status, which stalls financing, leases and sales until the back filings are caught up.
+
+## Is it cheaper to incorporate in Ontario or federally?
+
+On the filing fee alone, federal wins: Corporations Canada charges **$200** to incorporate online under the CBCA versus Ontario's $300. But that headline number is misleading for a business that operates in Ontario:
+
+- A federal corporation carrying on business in Ontario must also **register extra-provincially in Ontario** (an Ontario initial return under the Corporations Information Act — no fee, but another filing to track).
+- The federal annual return costs **$12 every year**; Ontario's is free.
+- Federal corporations must have **25% Canadian-resident directors**; Ontario dropped its residency requirement in July 2023, so a fully non-resident founding team can only use Ontario (or another residency-free province).
+- Federal incorporation gives you **Canada-wide name protection** — the real reason to choose it if you plan to operate in several provinces or raise from national investors.
+
+Over five years the two routes cost roughly the same in government fees. Choose on strategy, not the $100 difference. Our [federal vs. provincial incorporation guide](/guides/federal-vs-provincial-incorporation-canada) walks through the decision, and CRS files either for the same $699 all-in.
+
+## How long does it take to incorporate in Ontario?
+
+Cost and speed are related, because a slow filing costs you a week of not being able to open the bank account. Ontario is among the fastest jurisdictions in Canada:
+
+- **Online OBR filing:** the Certificate of Incorporation is typically issued the same business day for a numbered company, or within 1–2 business days once a named corporation's NUANS report is in hand.
+- **Mail-in filing:** goes to the ministry's manual queue and can take considerably longer — the ministry itself recommends filing online.
+- **CRS-filed incorporation:** name cleared in 1–2 days, Articles filed by day 2–3, certificate and complete minute book delivered as signable PDFs in **3–5 business days** end to end.
+
+## Hidden costs first-time incorporators forget
+
+The government fee is public. These are the line items that show up later:
+
+1. **Registered office address.** Ontario requires a physical address in the province (not a PO box). If you work from home and don't want that on the public record, a registered-office service is an added annual cost.
+2. **Business name registration ($60 / 5 years).** If your corporation will trade under a name other than its legal name — "1234567 Ontario Inc." operating as "Northshore Landscaping" — that operating name must be registered separately with the OBR.
+3. **HST registration and payroll accounts.** Free from the CRA, but often overlooked until the first invoice or hire.
+4. **A shareholders' agreement.** Not a registry filing, and not needed for a sole owner, but any two-or-more-founder company should budget lawyer time for one.
+5. **Minute-book maintenance.** Annual resolutions, share transfers and officer changes need to be papered every year. A [digital minute book](/minute-books/digital-minute-book-canada) keeps that from becoming a $1,000 clean-up job at sale time.
+
+## Frequently asked questions
+
+### How much does it cost to incorporate in Ontario?
+
+The Ontario government charges $300 to file Articles of Incorporation through the Ontario Business Registry. Named corporations also need an Ontario-biased NUANS report, typically $20–$60 from a search house. A do-it-yourself numbered company can therefore cost as little as $300; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing for $699 all-in + tax including the government fee, NUANS and a full minute book.
+
+### Is it cheaper to incorporate in Ontario or federally?
+
+Federal (CBCA) incorporation has a lower filing fee — $200 online versus Ontario's $300 — but a federal corporation that operates in Ontario must also register extra-provincially in Ontario, and it files a $12 federal annual return every year while an Ontario corporation's annual return carries no government fee. Over several years the two usually cost about the same; pick by where you operate and whether you want Canada-wide name protection, not by the $100 gap.
+
+### What ongoing costs does an Ontario corporation have?
+
+An Ontario corporation must file an initial return within 60 days of incorporation and an annual return within 6 months of each fiscal year-end through the Ontario Business Registry — neither carries a government fee if you file directly. Budget separately for your accountant's T2 corporate tax return, and for changes such as Articles of Amendment ($150 government fee).
+
+### Do I need a lawyer to incorporate in Ontario?
+
+No. Anyone can file Articles of Incorporation online through the Ontario Business Registry, and a registry agent like CRS can prepare and file the documents for you. A lawyer is worth the extra cost when you have multiple share classes, outside investors, or need a shareholders' agreement drafted at the same time.
+
+---
+
+**Ready to incorporate in Ontario?** [Start your Ontario incorporation →](/order/incorporation?src=article-cost-to-incorporate-in-ontario) — Articles drafted, filed directly with the Ontario Business Registry, full minute book included. Prefer to talk it through first? See the [Ontario incorporation service page](/incorporation/ontario-incorporation-service) or [contact us](/contact).
+
+**Turnaround:** name cleared in 1–2 days; certificate and minute book in 3–5 business days.
+**Price:** $699 all-in + tax — includes the $300 government fee, NUANS report, by-laws, resolutions, share certificates and Business Number application.
+
+*Fees verified against the Ontario Ministry of Public and Business Service Delivery's [Articles of Incorporation instructions](https://forms.mgcs.gov.on.ca/dataset/5351) ($300), [Articles of Amendment instructions](https://forms.mgcs.gov.on.ca/dataset/7496a9bc-9c6f-491e-bba5-78872de18762) ($150) and [ontario.ca business corporations page](https://www.ontario.ca/page/business-corporations) (annual return timing, $26 certificate of status), August 2026. NUANS and lawyer figures are market estimates.*
