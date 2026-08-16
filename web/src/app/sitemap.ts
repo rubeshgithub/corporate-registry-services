@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // through internal links from articles.
     { url: `${BASE_URL}/file-annual-return/alberta`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${BASE_URL}/canada-corporations-search`, lastModified: now, changeFrequency: "weekly", priority: 0.9  },
+    { url: `${BASE_URL}/professional-corporation`,   lastModified: now, changeFrequency: "weekly", priority: 0.95 },
   ];
 
   const section_routes: MetadataRoute.Sitemap = SECTIONS.map((section) => ({

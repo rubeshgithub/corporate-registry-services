@@ -28,6 +28,7 @@ const NAV: NavItem[] = [
       { label: "Corporate Profile Reports",   href: "/profile-reports",           hint: "For FINTRAC, QuickBooks, banking · $49" },
       { label: "Incorporation",               href: "/incorporation",             hint: "Federal + all 13 provinces · from $699" },
       { label: "Not-for-Profit Incorporation", href: "/not-for-profit",           hint: "Free consultation · all 14 jurisdictions" },
+      { label: "Professional Corporations",   href: "/professional-corporation",  hint: "Doctors, dentists, lawyers, CPAs · from $69" },
       { label: "Certificates of Good Standing", href: "/good-standing",           hint: "Government-issued · $79 all-in" },
       { label: "Director / Officer Changes",  href: "/order/change-directors",    hint: "Update the registry after board changes" },
       { label: "Registered Address Changes",  href: "/order/change-address",      hint: "Move your registered office, filed same day" },

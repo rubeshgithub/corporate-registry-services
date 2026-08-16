@@ -57,5 +57,11 @@ export const config = {
     "/minute-books/:path*",
     "/good-standing/:path*",
     "/profile-reports/:path*",
+    /* These three sections shipped after the matcher was first written and
+       were silently missing, so TitleCase URLs under them never 301'd to
+       the canonical lowercase form. */
+    "/not-for-profit/:path*",
+    "/nfp-grants/:path*",
+    "/professional-corporation/:path*",
   ],
 };
