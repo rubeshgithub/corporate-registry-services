@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { isProfessionalCorporation, proCorpPriceCents } from "@/lib/professional-corp";
 
 /**
  * POST /api/order/annual-return
@@ -27,7 +28,8 @@ import Stripe from "stripe";
  */
 const REAL_PRICE_PER_YEAR_CAD_CENTS = 9900;
 const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
-const PRICE_PER_YEAR_CAD_CENTS = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0
+const USE_TEST_PRICE = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0;
+const PRICE_PER_YEAR_CAD_CENTS = USE_TEST_PRICE
   ? TEST_OVERRIDE_CENTS
   : REAL_PRICE_PER_YEAR_CAD_CENTS;
 if (PRICE_PER_YEAR_CAD_CENTS !== REAL_PRICE_PER_YEAR_CAD_CENTS) {
@@ -137,6 +139,16 @@ export async function POST(req: Request) {
   const origin = req.headers.get("origin") ?? new URL(req.url).origin;
   const years  = Math.round(body.years);
 
+  /* Professional corporations file the same registry annual return but on a
+     second track alongside their regulator's permit renewal, and are priced
+     accordingly. Derived server-side from the registry hit — a client-sent
+     flag would let the customer pick the cheaper standard rate. */
+  const isPC       = isProfessionalCorporation(body.hit);
+  const pcPerYear  = proCorpPriceCents(body.hit, "annual-return");
+  const perYearCents = USE_TEST_PRICE
+    ? PRICE_PER_YEAR_CAD_CENTS
+    : (pcPerYear ?? REAL_PRICE_PER_YEAR_CAD_CENTS);
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -151,14 +163,18 @@ export async function POST(req: Request) {
         {
           price_data: {
             currency:     "cad",
-            unit_amount:  PRICE_PER_YEAR_CAD_CENTS,
-            // "exclusive" — GST is added on top of the $99 all-in price,
-            // matching the "$99 all-in + GST" messaging on every surface.
+            unit_amount:  perYearCents,
+            // "exclusive" — GST is added on top of the all-in price, matching
+            // the "$99 all-in + GST" ($139 for professional corporations)
+            // messaging on every surface.
             tax_behavior: "exclusive",
             product_data: {
-              name: years === 1
-                ? `Annual Return — ${body.hit.jurisdiction}`
-                : `Annual Return (${years} years) — ${body.hit.jurisdiction}`,
+              name: (() => {
+                const label = isPC ? "Professional Corporation Annual Return" : "Annual Return";
+                return years === 1
+                  ? `${label} — ${body.hit.jurisdiction}`
+                  : `${label} (${years} years) — ${body.hit.jurisdiction}`;
+              })(),
               description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Filed by CRS within 24 hours.`,
             },
           },
@@ -169,6 +185,7 @@ export async function POST(req: Request) {
       // 500 chars and each key at 40 chars; metadata is capped at 50 keys.
       metadata: {
         service:            years === 1 ? "annual-return" : "annual-return-multiple",
+        pro_corp:           isPC ? "yes" : "no",
         years_filed:        String(years),
         src:                body.src.slice(0, 100),
         outreach_ref:       (body.ref ?? "").slice(0, 32),

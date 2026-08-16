@@ -2,10 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, BadgeCheck } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { ReportServiceConfig } from "@/lib/report-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
+import {
+  isProfessionalCorporation,
+  detectProfession,
+  PROFESSION_LABELS,
+  PRO_CORP_SERVICES,
+  PRO_CORP_MENU_ORDER,
+} from "@/lib/professional-corp";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -122,6 +129,21 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
     setPick(hit);
     setScreen("confirm");
   };
+
+  /* Professional-corporation detection. Purely presentational here — the
+     order route re-derives this from the registry hit server-side, so a
+     tampered client can't buy the PC report at the standard price.
+     Only the profile report has PC pricing today; good-standing keeps its
+     standard price until one is published. */
+  const isPC       = config.key === "profile-report" && isProfessionalCorporation(pick);
+  const pcService  = PRO_CORP_SERVICES["profile-report"];
+  const profession = isPC ? detectProfession(pick) : "general";
+
+  /* Button copy follows PC status so the screen never promises $49 and then
+     charges $69 at Stripe. The lookup screen still shows the standard price
+     because no company has been picked yet — PC status is unknowable until
+     the customer selects a record. */
+  const shownButtonLabel = isPC ? "Pay $69 + GST and order" : config.buttonLabel;
 
   const canPay =
     !!pick &&
@@ -260,6 +282,27 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
               <div style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "0.15rem" }}>
                 {pick.jurisdiction} · {pick.entityType}
               </div>
+              {isPC && (
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.35rem",
+                    marginTop: "0.5rem",
+                    padding: "0.2rem 0.6rem",
+                    borderRadius: "999px",
+                    background: "var(--gold-dim)",
+                    color: "var(--gold)",
+                    fontSize: "0.72rem",
+                    fontWeight: 700,
+                    fontFamily: "var(--font-mono), monospace",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  <BadgeCheck size={12} /> Professional Corporation
+                </div>
+              )}
             </div>
           </div>
 
@@ -284,6 +327,92 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
 
           <div style={{ marginTop: "0.9rem", fontSize: "0.78rem", color: "var(--text-muted)" }}>
             {config.deliveryPromise}
+          </div>
+
+          {isPC && (
+            <div
+              style={{
+                marginTop: "0.9rem",
+                paddingTop: "0.9rem",
+                borderTop: "1px solid var(--border)",
+                fontSize: "0.8rem",
+                color: "var(--text)",
+                lineHeight: 1.55,
+              }}
+            >
+              This is a professional corporation
+              {profession !== "general" ? ` (${PROFESSION_LABELS[profession].toLowerCase()})` : ""},
+              so it is priced at <strong>{pcService.priceLabel}</strong> — the report covers the
+              registry record your regulator asks for when renewing your permit or certificate of
+              authorization.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Dedicated professional-corporation service menu. Shown only once a
+          PC has been picked, so it reads as "here is everything for YOUR
+          corporation" rather than a generic price list. */}
+      {isPC && pick && (
+        <div
+          style={{
+            background: "var(--card)",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-card)",
+            padding: "1.5rem 1.75rem",
+            marginBottom: "1.25rem",
+            boxShadow: "var(--shadow-card)",
+          }}
+        >
+          <div className="card-heading" style={{ fontSize: "1rem", marginBottom: "0.25rem" }}>
+            Professional corporation services
+          </div>
+          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: "0 0 1rem", lineHeight: 1.55 }}>
+            Professional corporations run on two tracks — the corporate registry and your
+            regulator. These are priced to cover both.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+            {PRO_CORP_MENU_ORDER.map((key) => {
+              const svc = PRO_CORP_SERVICES[key];
+              const href = `${svc.href}?q=${encodeURIComponent(pick.name)}`
+                + `&jurisdiction=${encodeURIComponent(pick.provinceKey)}`
+                + (pick.registryId ? `&registryId=${encodeURIComponent(pick.registryId)}` : "")
+                + `&src=${encodeURIComponent(`pc-menu-${config.key}`)}`;
+              return (
+                <a
+                  key={svc.key}
+                  href={href}
+                  style={{
+                    display: "flex",
+                    gap: "0.75rem",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "0.8rem 1rem",
+                    border: "1px solid var(--border)",
+                    borderRadius: "0.5rem",
+                    textDecoration: "none",
+                    background: "var(--bg)",
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.88rem" }}>
+                      {svc.label}
+                    </div>
+                    <div style={{ color: "var(--text-muted)", fontSize: "0.76rem", marginTop: "0.15rem", lineHeight: 1.5 }}>
+                      {svc.blurb}
+                    </div>
+                  </div>
+                  <div style={{ flexShrink: 0, textAlign: "right" }}>
+                    <div style={{ fontWeight: 700, color: "var(--gold)", fontSize: "0.85rem", whiteSpace: "nowrap" }}>
+                      {svc.priceLabel}
+                      {svc.perYear ? <span style={{ color: "var(--text-muted)", fontWeight: 500 }}> /yr</span> : null}
+                    </div>
+                    <ArrowRight size={14} style={{ color: "var(--text-muted)", marginTop: "0.2rem" }} />
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       )}
@@ -325,7 +454,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
         disabled={!canPay || paying}
         style={{ width: "100%", padding: "0.85rem 1rem", background: canPay ? "var(--primary)" : "var(--border)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: canPay && !paying ? "pointer" : "not-allowed", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
       >
-        {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{config.buttonLabel} <ArrowRight size={16} /></>}
+        {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{shownButtonLabel} <ArrowRight size={16} /></>}
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>

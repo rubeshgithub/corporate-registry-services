@@ -1,0 +1,75 @@
+---
+title: "Professional Corporation Renewals: Deadlines & Fees 2026"
+metaDescription: "Every professional corporation renewal deadline in one place — CPSO, CPSA, CPSBC, RCDSO, OCP, law societies, CPA bodies — plus registry annual returns."
+slug: "/professional-corporation/renewals"
+primaryKeyword: "professional corporation renewal"
+secondaryKeywords: ["CPSO incorporation renewal", "certificate of authorization renewal", "CPSA professional corporation renewal", "professional corporation annual return", "law corporation permit renewal"]
+jurisdiction: "Canada"
+cluster: "professional-corporation"
+lastUpdated: "2026-08-08"
+schemaSuggestions: ["FAQPage", "Service", "BreadcrumbList"]
+---
+
+# Professional Corporation Renewals: Every Deadline on One Page
+
+A professional corporation stays alive on two separate clocks. The **corporate registry** expects an annual return or annual report, on the anniversary-based schedule every corporation follows. The **regulator** expects its own renewal — a fee, a shareholder confirmation, sometimes a fresh corporation profile report — on a fixed date that has nothing to do with your incorporation anniversary. Most lapses happen because someone assumed the two were the same filing. They never are.
+
+This page collects the regulator renewal deadlines and fees we've verified on the regulators' own sites, plus the registry-side obligations, so a practice manager can build the whole compliance calendar from one table. Corporate Registry Services tracks and files both sides for clients — [book a free consultation](/professional-corporation/book-free-consultation) if you'd rather never think about this page again.
+
+## Regulator renewal calendar (verified 2026)
+
+| Regulator (profession) | What renews | Deadline | Fee | Notes |
+|---|---|---|---|---|
+| CPSO (physicians, ON) | Certificate of authorization | June 1 | $175 | $400 on first application; renew via CPSO portal; report shareholder changes within 15 days |
+| RCDSO (dentists, ON) | Certificate of authorization | July 31 ($200 after) | $175 | All certificates expire Aug 31 and are revoked Sept 1; portal-only |
+| OCP (pharmacists, ON) | Certificate of authorization | March 10 | $512.90 (HST incl.) | Renewal requires a corporation profile report dated within 30 days — order it early |
+| LSO (lawyers, ON) | Certificate of authorization | Expires Dec 31; renew ≥90 days before | Confirm current fee | Auto-revoked if unrenewed 12 months after expiry |
+| CPSA (physicians, AB) | Professional corporation permit | Alongside Dec 31 practice-permit window (separate process) | $200 + GST per physician shareholder | $200 late penalty per PC; revival $200 + GST |
+| Law Society of Alberta (lawyers) | Permit to practise as a PC | December 31 | $252 (incl. GST) | Renew via Lawyer Portal "My PC"; lapsed permit = fresh application at full $525 |
+| CPA Alberta (accountants) | PC registration | May 31 (year Apr 1–Mar 31) | ~$325.50 (confirm current schedule) | Penalty June 1, suspension July 1, cancellation Aug 30 |
+| CPA Ontario (accountants) | Annual Practitioner Due / registration | September 30 | $260 + HST per CPA ($45 late) | COA holders confirm public-accounting status |
+| CPSBC (physicians, BC) | Health profession corporation permit | March 1 (permit year Mar 1–end Feb) | $135/yr | $100 late penalty; reinstatement required after May 1; $350/licensee on first application |
+
+Where a fee says "confirm," the regulator hadn't published a current figure on the pages we verified — treat the date as firm and check the fee schedule when renewing.
+
+## The registry side (don't skip it)
+
+Ontario corporations file an **annual return via the Ontario Business Registry within six months of fiscal year-end**. Alberta corporations file an **annual return through a registry agent** each anniversary month — miss two consecutive years and the corporation is struck. BC companies file an **annual report (about $43.39) via Corporate Online** each anniversary. A struck or dissolved corporation instantly invalidates the regulator's authorization too, and several regulators (OCP explicitly) demand a fresh [corporation profile report](/corporate-profile-report) at renewal precisely to prove the registry side is alive and current.
+
+## What happens if you miss a renewal
+
+The pattern is consistent across regulators: a late fee first, then suspension or revocation of the certificate/permit, then a full re-application at the original (higher) fee — CPSA charges a $200 revival, the Law Society of Alberta requires a brand-new $525 application, RCDSO revokes on September 1. During the gap, income earned through the corporation sits in a grey zone your accountant and college will both dislike. On the registry side, prolonged non-filing ends in dissolution — and reviving a dissolved corporation is a separate, slower, court-order-flavoured process in some jurisdictions.
+
+## Build the calendar once
+
+For a typical incorporated Ontario physician the full-year compliance list is exactly four items: CPSO renewal by June 1, OBR annual return within six months of fiscal year-end, corporate tax filings, and a shareholder-register check whenever family circumstances change. An Alberta physician swaps in the CPSA permit renewal in the December practice-permit window and the registry-agent annual return in the anniversary month. It isn't complicated — it just punishes forgetting.
+
+## Frequently asked questions
+
+### Is the regulator renewal the same as my corporation's annual return?
+
+No — they are entirely separate filings to separate bodies. The annual return (registry) keeps the corporation legally alive; the regulator renewal (college or law society) keeps your certificate of authorization or permit valid. Missing either one eventually invalidates the whole structure. Diarize both.
+
+### What happens if my certificate of authorization lapses?
+
+Regulators apply late fees, then revoke — RCDSO certificates expire August 31 and are revoked September 1; the LSO auto-revokes 12 months after expiry. Practising through a corporation without a valid authorization is professional misconduct territory, and reinstatement means re-applying at the full original fee.
+
+### When is the CPSO incorporation renewal due?
+
+June 1 each year, at $175, through the CPSO member portal. The certificate of authorization was $400 on first issuance. Shareholder changes must be reported within 15 days year-round — don't save them for renewal time.
+
+### Do I need a corporation profile report to renew?
+
+For some regulators, yes — the Ontario College of Pharmacists requires one dated within 30 days of the renewal. Others require it on shareholder changes or re-application. It's the registry-side proof that your corporation exists and its directors match your filing.
+
+> ## Never miss a renewal again — free consultation
+>
+> Two filings, one deadline-proof plan. In a free consultation, a Corporate Registry Services specialist builds your corporation's complete compliance calendar — regulator renewal, registry annual return, and the documents each one needs — and can file both sides for you every year.
+>
+> **[Book your free professional corporation consultation →](/professional-corporation/book-free-consultation)**
+
+## Related guides
+
+- [Professional Corporations in Canada: The Complete Guide](/professional-corporation/)
+- [Alberta hub](/professional-corporation/alberta) · [Ontario hub](/professional-corporation/ontario) · [BC hub](/professional-corporation/british-columbia)
+- [Book a free consultation](/professional-corporation/book-free-consultation)

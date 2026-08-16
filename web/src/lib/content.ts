@@ -19,6 +19,7 @@ export const SECTIONS = [
   "guides",
   "not-for-profit",
   "nfp-grants",
+  "professional-corporation",
 ] as const;
 
 export type Section = (typeof SECTIONS)[number];
@@ -33,6 +34,7 @@ export const SECTION_LABELS: Record<Section, string> = {
   "guides":          "Guides",
   "not-for-profit":  "Not-for-Profit Incorporation",
   "nfp-grants":      "Grants for Not-for-Profits",
+  "professional-corporation": "Professional Corporations",
 };
 
 export type ContentPage = {
@@ -124,14 +126,20 @@ function extractFaqFromBody(md: string): FaqItem[] | undefined {
   // Find the FAQ heading (case-insensitive, either "Frequently asked
   // questions" or "FAQ"). Capture everything from there until the next H2
   // or end of document.
-  const match = md.match(/^##\s+(?:Frequently asked questions|FAQ)\s*\n([\s\S]*?)(?=^##\s|\z)/im);
+  /* NOTE: `\z` is Perl/Ruby end-of-input syntax and does NOT exist in
+     JavaScript regex — it matches a literal "z". The original patterns used
+     it, so every FAQ block was truncated at the first letter "z" in the
+     body (e.g. inside "authorization"), yielding zero questions and no
+     FAQPage schema. `$(?![\s\S])` is the correct end-of-input anchor when
+     the `m` flag is in play, since a bare `$` would match every line end. */
+  const match = md.match(/^##\s+(?:Frequently asked questions|FAQ)\s*\n([\s\S]*?)(?=^##\s|$(?![\s\S]))/im);
   if (!match) return undefined;
   const section = match[1];
 
   // Split on H3s — each H3 is a question. The regex captures the H3 text
   // and everything up to the next H3 (or end of section).
   const items: FaqItem[] = [];
-  const qRe = /^###\s+([^\n]+)\n+([\s\S]*?)(?=^###\s|\z)/gm;
+  const qRe = /^###\s+([^\n]+)\n+([\s\S]*?)(?=^###\s|$(?![\s\S]))/gm;
   let m: RegExpExecArray | null;
   while ((m = qRe.exec(section)) !== null) {
     const q = m[1].trim();

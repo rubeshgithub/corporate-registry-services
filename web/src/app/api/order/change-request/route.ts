@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { CHANGE_CONFIGS, type ChangeServiceKey } from "@/lib/change-config";
+import { isProfessionalCorporation, proCorpPriceCents, PRO_CORP_SERVICES, type ProCorpServiceKey } from "@/lib/professional-corp";
 
 /**
  * POST /api/order/change-request
@@ -67,10 +68,26 @@ export async function POST(req: Request) {
   const err = isValid(body);
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 
-  const config     = CHANGE_CONFIGS[body.service];
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : config.priceCents;
-  const stripe     = new Stripe(secret);
-  const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
+  const config = CHANGE_CONFIGS[body.service];
+
+  /* Professional-corporation pricing, derived server-side from the registry
+     hit (never a client flag). Director/officer and registered-address
+     changes both map to the single "change of information" PC price;
+     revival has its own. Voluntary dissolution has no published PC price,
+     so it keeps the standard one. */
+  const PC_SERVICE_FOR: Partial<Record<ChangeServiceKey, ProCorpServiceKey>> = {
+    "change-directors": "change-of-information",
+    "change-address":   "change-of-information",
+    "revival":          "revival",
+  };
+  const pcServiceKey = PC_SERVICE_FOR[body.service];
+  const isPC     = !!pcServiceKey && isProfessionalCorporation(body.hit);
+  const pcCents  = pcServiceKey ? proCorpPriceCents(body.hit, pcServiceKey) : null;
+
+  const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : (pcCents ?? config.priceCents);
+  const productName = isPC && pcServiceKey ? PRO_CORP_SERVICES[pcServiceKey].label : config.productName;
+  const stripe      = new Stripe(secret);
+  const origin      = req.headers.get("origin") ?? new URL(req.url).origin;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -86,7 +103,7 @@ export async function POST(req: Request) {
             unit_amount:  unitAmount,
             tax_behavior: "exclusive",
             product_data: {
-              name:        `${config.productName} — ${body.hit.jurisdiction}`,
+              name:        `${productName} — ${body.hit.jurisdiction}`,
               description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. ${config.productBlurb}`,
             },
           },
@@ -95,6 +112,7 @@ export async function POST(req: Request) {
       ],
       metadata: {
         service:         config.key,
+        pro_corp:        isPC ? "yes" : "no",
         src:             body.src.slice(0, 100),
         company_name:    body.hit.name.slice(0, 100),
         registry_id:     (body.hit.registryId || "").slice(0, 100),

@@ -55,6 +55,7 @@ export default function Footer() {
         </div>
         <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
           <FooterLink href="/minute-books">MinuteBook</FooterLink>
+          <FooterLink href="/professional-corporation">Professional Corporations</FooterLink>
           <FooterLink href="/about">About</FooterLink>
           <FooterLink href="/guides">Guides</FooterLink>
           <FooterLink href="/articles">Articles</FooterLink>

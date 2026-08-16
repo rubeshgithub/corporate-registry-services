@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2 } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck } from "lucide-react";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
+import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
 
 const WizardModal = dynamic(() => import("./WizardModal"), { ssr: false });
 
@@ -523,11 +524,32 @@ export default function CompanySearch() {
                       gap: "0.5rem",
                     }}
                   >
-                    {[
-                      { service: "profile-report" as const, label: "Corporate Profile Report",     price: "$49" },
-                      { service: "good-standing"  as const, label: "Certificate of Good Standing", price: "$79" },
-                      { service: "annual-return"  as const, label: "Annual Return Filing",         price: "from $99/yr" },
-                    ].map(({ service, label, price }) => (
+                    {/* Professional corporations are charged PC rates by the
+                        order routes (derived server-side from the registry
+                        record), so the price shown here MUST follow suit —
+                        otherwise the visitor sees $49 and is charged $69 at
+                        checkout. Good standing has no PC price yet, so it
+                        stays standard for everyone. */}
+                    {(() => {
+                      const pc = isProfessionalCorporation(r);
+                      return [
+                        {
+                          service: "profile-report" as const,
+                          label:   pc ? "Professional Corporation Profile Report" : "Corporate Profile Report",
+                          price:   pc ? "$69" : "$49",
+                        },
+                        {
+                          service: "good-standing" as const,
+                          label:   "Certificate of Good Standing",
+                          price:   "$79",
+                        },
+                        {
+                          service: "annual-return" as const,
+                          label:   pc ? "Professional Corporation Annual Return" : "Annual Return Filing",
+                          price:   pc ? "from $139/yr" : "from $99/yr",
+                        },
+                      ];
+                    })().map(({ service, label, price }) => (
                       <a
                         key={service}
                         href={orderHref(service, r)}
@@ -547,6 +569,32 @@ export default function CompanySearch() {
                         <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
                       </a>
                     ))}
+                    {/* Professional corporations get a route to the dedicated
+                        PC surface, where change-of-information and revival
+                        are also priced. */}
+                    {isProfessionalCorporation(r) && (
+                      <a
+                        href={`/order/professional-corporation?q=${encodeURIComponent(r.name)}&jurisdiction=${encodeURIComponent(r.provinceKey)}${r.registryId ? `&registryId=${encodeURIComponent(r.registryId)}` : ""}&src=registry-search`}
+                        style={{
+                          display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "0.6rem 0.85rem",
+                          border: "1px solid var(--gold)",
+                          background: "var(--gold-dim)",
+                          borderRadius: "0.5rem",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <span>
+                          <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
+                            All professional corporation services
+                          </span>
+                          <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
+                            Changes {PRO_CORP_SERVICES["change-of-information"].priceLabel.replace(" all-in + GST", "")} · Revival {PRO_CORP_SERVICES["revival"].priceLabel.replace(" all-in + GST", "")}
+                          </span>
+                        </span>
+                        <ArrowRight size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
+                      </a>
+                    )}
                     <button
                       onClick={() => { setWizardPreload({ companyName: r.name, jurisdictionKey: r.provinceKey }); setWizardOpen(true); }}
                       style={{

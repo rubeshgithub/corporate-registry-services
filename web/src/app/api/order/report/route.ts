@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { REPORT_CONFIGS, type ReportServiceKey } from "@/lib/report-config";
+import { isProfessionalCorporation, proCorpPriceCents, PRO_CORP_SERVICES } from "@/lib/professional-corp";
 
 /**
  * POST /api/order/report
@@ -63,8 +64,19 @@ export async function POST(req: Request) {
   const err = isValid(body);
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 
-  const config      = REPORT_CONFIGS[body.service];
-  const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : config.priceCents;
+  const config = REPORT_CONFIGS[body.service];
+
+  /* Professional-corporation pricing. Derived HERE from the registry hit —
+     never from a client-sent flag, because the PC price is higher than the
+     standard one and a lying client would otherwise underpay. Only the
+     profile report has a published PC price; good-standing keeps its
+     standard price until one is set. */
+  const isPC     = body.service === "profile-report" && isProfessionalCorporation(body.hit);
+  const pcCents  = isPC ? proCorpPriceCents(body.hit, "profile-report") : null;
+  const baseCents = pcCents ?? config.priceCents;
+
+  const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : baseCents;
+  const productName = isPC ? PRO_CORP_SERVICES["profile-report"].label : config.productName;
   const stripe      = new Stripe(secret);
   const origin      = req.headers.get("origin") ?? new URL(req.url).origin;
 
@@ -82,7 +94,7 @@ export async function POST(req: Request) {
             unit_amount:  unitAmount,
             tax_behavior: "exclusive",
             product_data: {
-              name:        `${config.productName} — ${body.hit.jurisdiction}`,
+              name:        `${productName} — ${body.hit.jurisdiction}`,
               description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. ${config.productBlurb}`,
             },
           },
@@ -91,6 +103,9 @@ export async function POST(req: Request) {
       ],
       metadata: {
         service:         config.key,
+        // Flags the fulfillment inbox that this is a professional corporation
+        // and was charged at the PC rate.
+        pro_corp:        isPC ? "yes" : "no",
         src:             body.src.slice(0, 100),
         company_name:    body.hit.name.slice(0, 100),
         registry_id:     (body.hit.registryId || "").slice(0, 100),
