@@ -33,6 +33,10 @@ This page collects the regulator renewal deadlines and fees we've verified on th
 | CPSNB (physicians, NB) | Registration on the Corporations Register | **Prior to** December 1 — so November 30 in practice | $300/yr | $300 on first registration; single calendar deadline for every corporation, not an anniversary |
 | CPSM (physicians, MB) | Medical corporation permit | Alongside your annual certificate of practice renewal | $241 (2025 schedule — confirm Fee Bylaw) | Requires a valid certificate of practice; CPSM must notify the Companies Branch of non-compliance |
 | CPSS (physicians, SK) | Medical professional corporation permit | Annual — confirm in your CPSS account | Confirm current fee schedule | College publishes permit, late and restoration fees; also operates a revalidation process |
+| Law Society of BC (lawyers) | Law corporation permit | Annual, alongside your practising certificate | $420 incl. GST on the permit; renewal per Schedule 1 | The Certificate Respecting the Corporate Name is **not** a permit — no legal services until the permit issues; all directors and the president must be practising lawyers |
+| CPABC (accountants, BC) | Professional accounting corporation incorporation permit | Annual | **$120.75** ($115 + GST) | The permit is **not** a licence to practise public accounting — that renews separately; name takes "Ltd."/"Inc."/"Corp.", not "Professional Corporation" |
+| CDSA (dentists, AB) | Professional corporation permit | Annual, alongside your practice permit | $500 application; confirm annual fee with the college | Articles must be college-endorsed **before** the registry filing; all voting shares held legally *and* beneficially by regulated members |
+| College of Chiropractors of Alberta | Professional corporation permit | Annual | Confirm current fee with the college | Same endorsement-first sequence as CPSA; shareholders and directors must be regulated members |
 
 Where a fee says "confirm," the regulator hadn't published a current figure on the pages we verified — treat the date as firm and check the fee schedule when renewing.
 
