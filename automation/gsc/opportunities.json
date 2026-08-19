@@ -1,8 +1,8 @@
 {
- "generated_at": "2026-08-18T09:59:03.807181Z",
+ "generated_at": "2026-08-19T09:59:28.050972Z",
  "window": {
-  "start": "2026-07-20",
-  "end": "2026-08-16"
+  "start": "2026-07-21",
+  "end": "2026-08-17"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
  "count": 80,
@@ -62,30 +62,21 @@
    "suggested_section": "articles"
   },
   {
-   "query": "canadian business registry",
-   "impressions": 17,
-   "position": 17.3,
-   "clicks": 0,
-   "score": 12.1,
-   "suggested_slug": "canadian-business-registry",
-   "suggested_section": "articles"
-  },
-  {
    "query": "corporate name report",
-   "impressions": 27,
+   "impressions": 26,
    "position": 33.3,
    "clicks": 0,
-   "score": 12.02,
+   "score": 11.57,
    "suggested_slug": "corporate-name-report",
    "suggested_section": "articles"
   },
   {
-   "query": "annual return calgary",
-   "impressions": 34,
-   "position": 39.9,
+   "query": "canadian business registry",
+   "impressions": 16,
+   "position": 16.9,
    "clicks": 0,
-   "score": 11.4,
-   "suggested_slug": "annual-return-calgary",
+   "score": 11.48,
+   "suggested_slug": "canadian-business-registry",
    "suggested_section": "articles"
   },
   {
@@ -117,12 +108,21 @@
   },
   {
    "query": "incorporating a business in new brunswick",
-   "impressions": 48,
-   "position": 47.1,
+   "impressions": 47,
+   "position": 46.7,
    "clicks": 0,
-   "score": 10.28,
+   "score": 10.38,
    "suggested_slug": "incorporating-a-business-in-new-brunswick",
    "suggested_section": "incorporation"
+  },
+  {
+   "query": "annual return calgary",
+   "impressions": 31,
+   "position": 41.7,
+   "clicks": 0,
+   "score": 9.43,
+   "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
   },
   {
    "query": "canada not for profit incorporations",
@@ -161,15 +161,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "annual business returns alberta",
-   "impressions": 19,
-   "position": 36.7,
-   "clicks": 0,
-   "score": 7.37,
-   "suggested_slug": "annual-business-returns-alberta",
-   "suggested_section": "articles"
-  },
-  {
    "query": "company/corporate profile report",
    "impressions": 10,
    "position": 16.3,
@@ -179,30 +170,21 @@
    "suggested_section": "profile-reports"
   },
   {
-   "query": "alberta corporate registry filing",
-   "impressions": 16,
-   "position": 33.7,
+   "query": "business incorporation new brunswick",
+   "impressions": 24,
+   "position": 42.5,
    "clicks": 0,
    "score": 7.02,
-   "suggested_slug": "alberta-corporate-registry-filing",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business incorporation new brunswick",
-   "impressions": 25,
-   "position": 43.3,
-   "clicks": 0,
-   "score": 6.95,
    "suggested_slug": "business-incorporation-new-brunswick",
    "suggested_section": "incorporation"
   },
   {
-   "query": "business registry canada",
-   "impressions": 10,
-   "position": 19.3,
+   "query": "annual business returns alberta",
+   "impressions": 18,
+   "position": 37.7,
    "clicks": 0,
-   "score": 6.78,
-   "suggested_slug": "business-registry-canada",
+   "score": 6.68,
+   "suggested_slug": "annual-business-returns-alberta",
    "suggested_section": "articles"
   },
   {
@@ -215,6 +197,15 @@
    "suggested_section": "articles"
   },
   {
+   "query": "alberta corporate registry filing",
+   "impressions": 15,
+   "position": 34.7,
+   "clicks": 0,
+   "score": 6.33,
+   "suggested_slug": "alberta-corporate-registry-filing",
+   "suggested_section": "articles"
+  },
+  {
    "query": "cost to incorporate bc",
    "impressions": 21,
    "position": 42.2,
@@ -222,6 +213,15 @@
    "score": 6.23,
    "suggested_slug": "cost-to-incorporate-bc",
    "suggested_section": "incorporation"
+  },
+  {
+   "query": "business registry canada",
+   "impressions": 9,
+   "position": 18.8,
+   "clicks": 0,
+   "score": 6.18,
+   "suggested_slug": "business-registry-canada",
+   "suggested_section": "articles"
   },
   {
    "query": "canada business registries",
@@ -239,15 +239,6 @@
    "clicks": 0,
    "score": 5.92,
    "suggested_slug": "how-to-incorporate-a-business-in-new-brunswick",
-   "suggested_section": "incorporation"
-  },
-  {
-   "query": "incorporating a business in nova scotia",
-   "impressions": 26,
-   "position": 46.9,
-   "clicks": 0,
-   "score": 5.67,
-   "suggested_slug": "incorporating-a-business-in-nova-scotia",
    "suggested_section": "incorporation"
   },
   {
@@ -269,13 +260,22 @@
    "suggested_section": "articles"
   },
   {
-   "query": "ontario annual return online",
-   "impressions": 8,
-   "position": 22.5,
+   "query": "incorporating a business in nova scotia",
+   "impressions": 25,
+   "position": 46.7,
    "clicks": 0,
-   "score": 5.0,
-   "suggested_slug": "ontario-annual-return-online",
-   "suggested_section": "articles"
+   "score": 5.53,
+   "suggested_slug": "incorporating-a-business-in-nova-scotia",
+   "suggested_section": "incorporation"
+  },
+  {
+   "query": "business incorporation saskatchewan",
+   "impressions": 23,
+   "position": 47.1,
+   "clicks": 0,
+   "score": 4.95,
+   "suggested_slug": "business-incorporation-saskatchewan",
+   "suggested_section": "incorporation"
   }
  ]
 }
