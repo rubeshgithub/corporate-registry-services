@@ -1,164 +1,164 @@
 {
- "generated_at": "2026-08-21T10:01:41.666160Z",
+ "generated_at": "2026-08-22T09:52:17.868530Z",
  "window": {
-  "start": "2026-07-23",
-  "end": "2026-08-19"
+  "start": "2026-07-24",
+  "end": "2026-08-20"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 82,
+ "count": 81,
  "opportunities": [
   {
    "query": "canada business registry",
-   "impressions": 42,
-   "position": 19,
+   "impressions": 48,
+   "position": 18.4,
    "clicks": 0,
-   "score": 28.7,
+   "score": 33.3,
    "suggested_slug": "canada-business-registry",
    "suggested_section": "articles"
   },
   {
    "query": "canada business search",
-   "impressions": 31,
-   "position": 17.3,
+   "impressions": 39,
+   "position": 15.6,
    "clicks": 0,
-   "score": 22.07,
+   "score": 28.87,
    "suggested_slug": "canada-business-search",
    "suggested_section": "articles"
   },
   {
    "query": "annual report filing",
-   "impressions": 31,
-   "position": 21.9,
+   "impressions": 37,
+   "position": 22.1,
    "clicks": 0,
-   "score": 19.7,
+   "score": 23.38,
    "suggested_slug": "annual-report-filing",
    "suggested_section": "articles"
   },
   {
    "query": "find canadian business",
-   "impressions": 28,
-   "position": 22.0,
+   "impressions": 34,
+   "position": 22.4,
    "clicks": 0,
-   "score": 17.75,
+   "score": 21.32,
    "suggested_slug": "find-canadian-business",
    "suggested_section": "articles"
   },
   {
-   "query": "canadian business registry",
-   "impressions": 22,
-   "position": 15.9,
-   "clicks": 0,
-   "score": 16.18,
-   "suggested_slug": "canadian-business-registry",
-   "suggested_section": "articles"
-  },
-  {
    "query": "business number lookup canada",
-   "impressions": 26,
-   "position": 23.9,
+   "impressions": 28,
+   "position": 24.3,
    "clicks": 0,
-   "score": 15.65,
+   "score": 16.67,
    "suggested_slug": "business-number-lookup-canada",
    "suggested_section": "articles"
   },
   {
    "query": "canada company search",
-   "impressions": 23,
-   "position": 24.7,
+   "impressions": 24,
+   "position": 24.3,
    "clicks": 0,
-   "score": 13.55,
+   "score": 14.27,
    "suggested_slug": "canada-company-search",
    "suggested_section": "articles"
   },
   {
    "query": "corporate name report",
-   "impressions": 26,
-   "position": 33,
+   "impressions": 27,
+   "position": 32.1,
    "clicks": 0,
-   "score": 11.7,
+   "score": 12.53,
    "suggested_slug": "corporate-name-report",
    "suggested_section": "articles"
   },
   {
    "query": "canada business registry search",
    "impressions": 18,
-   "position": 21.8,
+   "position": 20.9,
    "clicks": 1,
-   "score": 11.47,
+   "score": 11.73,
    "suggested_slug": "canada-business-registry-search",
    "suggested_section": "articles"
   },
   {
-   "query": "canada company registration search",
-   "impressions": 16,
-   "position": 17.9,
-   "clicks": 0,
-   "score": 11.22,
-   "suggested_slug": "canada-company-registration-search",
-   "suggested_section": "articles"
-  },
-  {
    "query": "incorporating a business in new brunswick",
-   "impressions": 46,
-   "position": 45.8,
+   "impressions": 48,
+   "position": 45.5,
    "clicks": 0,
-   "score": 10.88,
+   "score": 11.62,
    "suggested_slug": "incorporating-a-business-in-new-brunswick",
    "suggested_section": "incorporation"
   },
   {
+   "query": "canada company registration search",
+   "impressions": 16,
+   "position": 18.4,
+   "clicks": 0,
+   "score": 11.1,
+   "suggested_slug": "canada-company-registration-search",
+   "suggested_section": "articles"
+  },
+  {
    "query": "canada not for profit incorporations",
-   "impressions": 23,
+   "impressions": 25,
    "position": 34.6,
    "clicks": 0,
-   "score": 9.73,
+   "score": 10.6,
    "suggested_slug": "canada-not-for-profit-incorporations",
    "suggested_section": "incorporation"
   },
   {
    "query": "alberta non profit incorporating",
-   "impressions": 15,
+   "impressions": 16,
    "position": 21.7,
    "clicks": 0,
-   "score": 9.58,
+   "score": 10.22,
    "suggested_slug": "alberta-non-profit-incorporating",
    "suggested_section": "incorporation"
   },
   {
    "query": "ontario not for profit articles incorporation",
-   "impressions": 15,
-   "position": 24.5,
+   "impressions": 17,
+   "position": 24.7,
    "clicks": 0,
-   "score": 8.87,
+   "score": 10.0,
    "suggested_slug": "ontario-not-for-profit-articles-incorporation",
    "suggested_section": "incorporation"
   },
   {
-   "query": "business incorporation new brunswick",
-   "impressions": 26,
-   "position": 40.3,
+   "query": "check company registration canada",
+   "impressions": 15,
+   "position": 20.9,
    "clicks": 0,
-   "score": 8.52,
+   "score": 9.78,
+   "suggested_slug": "check-company-registration-canada",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "business incorporation new brunswick",
+   "impressions": 27,
+   "position": 39.0,
+   "clicks": 0,
+   "score": 9.47,
    "suggested_slug": "business-incorporation-new-brunswick",
    "suggested_section": "incorporation"
   },
   {
-   "query": "annual return calgary",
-   "impressions": 31,
-   "position": 44.1,
+   "query": "canadian entity search",
+   "impressions": 12,
+   "position": 16.8,
    "clicks": 0,
-   "score": 8.22,
-   "suggested_slug": "annual-return-calgary",
+   "score": 8.63,
+   "suggested_slug": "canadian-entity-search",
    "suggested_section": "articles"
   },
   {
-   "query": "canadian entity search",
-   "impressions": 11,
-   "position": 16.6,
+   "query": "how to incorporate a business in new brunswick",
+   "impressions": 29,
+   "position": 43.6,
    "clicks": 0,
    "score": 7.95,
-   "suggested_slug": "canadian-entity-search",
-   "suggested_section": "articles"
+   "suggested_slug": "how-to-incorporate-a-business-in-new-brunswick",
+   "suggested_section": "incorporation"
   },
   {
    "query": "canada business entity search",
@@ -170,12 +170,48 @@
    "suggested_section": "articles"
   },
   {
-   "query": "check company registration canada",
-   "impressions": 11,
-   "position": 21.6,
+   "query": "annual return calgary",
+   "impressions": 30,
+   "position": 45.0,
+   "clicks": 0,
+   "score": 7.48,
+   "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "canadian corporation lookup",
+   "impressions": 10,
+   "position": 17.8,
    "clicks": 0,
    "score": 7.03,
-   "suggested_slug": "check-company-registration-canada",
+   "suggested_slug": "canadian-corporation-lookup",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "alberta corporate registry filing",
+   "impressions": 17,
+   "position": 35.6,
+   "clicks": 0,
+   "score": 6.92,
+   "suggested_slug": "alberta-corporate-registry-filing",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "ontario not for profit incorporations",
+   "impressions": 14,
+   "position": 30.8,
+   "clicks": 0,
+   "score": 6.82,
+   "suggested_slug": "ontario-not-for-profit-incorporations",
+   "suggested_section": "incorporation"
+  },
+  {
+   "query": "business name search canada",
+   "impressions": 15,
+   "position": 32.9,
+   "clicks": 0,
+   "score": 6.77,
+   "suggested_slug": "business-name-search-canada",
    "suggested_section": "articles"
   },
   {
@@ -188,57 +224,48 @@
    "suggested_section": "articles"
   },
   {
-   "query": "how to incorporate a business in new brunswick",
-   "impressions": 29,
-   "position": 46.1,
-   "clicks": 0,
-   "score": 6.7,
-   "suggested_slug": "how-to-incorporate-a-business-in-new-brunswick",
-   "suggested_section": "incorporation"
-  },
-  {
    "query": "annual business returns alberta",
    "impressions": 19,
-   "position": 39.1,
+   "position": 38.9,
    "clicks": 0,
-   "score": 6.62,
+   "score": 6.68,
    "suggested_slug": "annual-business-returns-alberta",
    "suggested_section": "articles"
   },
   {
    "query": "company/corporate profile report",
    "impressions": 9,
-   "position": 16.9,
+   "position": 16.3,
    "clicks": 0,
-   "score": 6.47,
+   "score": 6.55,
    "suggested_slug": "company-corporate-profile-report",
    "suggested_section": "profile-reports"
   },
   {
-   "query": "canadian corporation lookup",
-   "impressions": 9,
-   "position": 17.7,
-   "clicks": 0,
-   "score": 6.35,
-   "suggested_slug": "canadian-corporation-lookup",
-   "suggested_section": "articles"
-  },
-  {
    "query": "canada not for profit organizations",
-   "impressions": 19,
-   "position": 40.1,
+   "impressions": 20,
+   "position": 40.4,
    "clicks": 0,
-   "score": 6.3,
+   "score": 6.53,
    "suggested_slug": "canada-not-for-profit-organizations",
    "suggested_section": "not-for-profit"
   },
   {
-   "query": "alberta corporate registry filing",
-   "impressions": 15,
-   "position": 35.7,
+   "query": "business registry canada",
+   "impressions": 9,
+   "position": 17.7,
    "clicks": 0,
-   "score": 6.07,
-   "suggested_slug": "alberta-corporate-registry-filing",
+   "score": 6.35,
+   "suggested_slug": "business-registry-canada",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "canada business name search",
+   "impressions": 13,
+   "position": 31.8,
+   "clicks": 0,
+   "score": 6.12,
+   "suggested_slug": "canada-business-name-search",
    "suggested_section": "articles"
   },
   {
@@ -248,33 +275,6 @@
    "clicks": 0,
    "score": 6.07,
    "suggested_slug": "ontario-annual-return-online",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "cost to incorporate bc",
-   "impressions": 20,
-   "position": 42.2,
-   "clicks": 0,
-   "score": 5.92,
-   "suggested_slug": "cost-to-incorporate-bc",
-   "suggested_section": "incorporation"
-  },
-  {
-   "query": "ontario not for profit incorporations",
-   "impressions": 12,
-   "position": 31.3,
-   "clicks": 0,
-   "score": 5.73,
-   "suggested_slug": "ontario-not-for-profit-incorporations",
-   "suggested_section": "incorporation"
-  },
-  {
-   "query": "business registry canada",
-   "impressions": 8,
-   "position": 17.9,
-   "clicks": 0,
-   "score": 5.62,
-   "suggested_slug": "business-registry-canada",
    "suggested_section": "articles"
   }
  ]
