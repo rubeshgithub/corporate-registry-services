@@ -13,6 +13,29 @@ export type ServiceItem = {
   needsJurisdiction: boolean;
   estimatedFee: string;
   detailFields?: DetailField[];
+  /**
+   * Checkout price in CAD cents. Every service that can be bought is priced
+   * here — this is the single source of truth, and `estimatedFee` is the
+   * display string for the same number. Null means the service cannot be
+   * checked out directly (e.g. it routes to a consultation instead).
+   *
+   * Kept alongside estimatedFee rather than parsed out of it, because the
+   * display strings carry qualifiers ("from", "/year") that a parser would
+   * have to guess at.
+   */
+  priceCents?: number | null;
+  /**
+   * Where "buy this" sends the customer. Services with a dedicated
+   * lookup-first flow point at it; the rest use the generic per-service
+   * checkout at /order/service/<key>, which reads its price from here.
+   */
+  orderPath?: string;
+  /**
+   * True when the service acts on a corporation that already exists, so it
+   * can be offered from a registry search result. False for incorporation
+   * and other pre-formation services, where there is nothing to look up.
+   */
+  existingCorp?: boolean;
 };
 
 export type DetailField = {
@@ -54,6 +77,19 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Official registry record of a company's legal status, directors, and filing history.",
         needsJurisdiction: true,
         estimatedFee: "$49 + GST",
+        priceCents: 4900,
+        orderPath: "/order/profile-report",
+        existingCorp: true,
+      },
+      {
+        key: "corporate-documents",
+        label: "Copies of Corporation Documents",
+        description: "Full set of filed corporate documents from the date of incorporation through to today — articles, amendments, annual returns, and every endorsed certificate on the registry file.",
+        needsJurisdiction: true,
+        estimatedFee: "$489 + GST",
+        priceCents: 48900,
+        orderPath: "/order/corporate-documents",
+        existingCorp: true,
       },
       {
         key: "good-standing",
@@ -61,6 +97,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Government-issued certificate confirming the company is active and compliant.",
         needsJurisdiction: true,
         estimatedFee: "$79 + GST",
+        priceCents: 7900,
+        orderPath: "/order/good-standing",
+        existingCorp: true,
       },
       {
         key: "corporate-search",
@@ -68,6 +107,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Search for a business name across provincial or federal registries.",
         needsJurisdiction: true,
         estimatedFee: "$49 + GST",
+        priceCents: 4900,
+        orderPath: "/order/corporate-search",
+        existingCorp: true,
         detailFields: [
           { key: "searchName", label: "Company name to search", type: "text", placeholder: "e.g. Maple Holdings Inc.", required: true },
         ],
@@ -78,6 +120,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Federal NUANS pre-incorporation name search required for federal filings.",
         needsJurisdiction: false,
         estimatedFee: "$79 + GST",
+        priceCents: 7900,
+        orderPath: "/order/nuans-search",
+        existingCorp: false,
         detailFields: [
           { key: "proposedName", label: "Proposed company name", type: "text", placeholder: "e.g. Maple Holdings Inc.", required: true },
         ],
@@ -96,6 +141,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Incorporate with a government-assigned number name (e.g. 1234567 Ontario Inc.).",
         needsJurisdiction: true,
         estimatedFee: "$699 + GST",
+        priceCents: 69900,
+        orderPath: "/order/incorporation",
+        existingCorp: false,
       },
       {
         key: "incorporation-named",
@@ -103,6 +151,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Incorporate with a custom business name including NUANS search and filing.",
         needsJurisdiction: true,
         estimatedFee: "$749 + GST",
+        priceCents: 74900,
+        orderPath: "/order/incorporation",
+        existingCorp: false,
         detailFields: [
           { key: "proposedName", label: "Proposed company name", type: "text", placeholder: "e.g. Maple Holdings Inc.", required: true },
         ],
@@ -113,6 +164,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Register an existing corporation to operate in an additional province.",
         needsJurisdiction: true,
         estimatedFee: "$299 + GST",
+        priceCents: 29900,
+        existingCorp: true,
         detailFields: [
           { key: "homeJurisdiction", label: "Home jurisdiction", type: "text", placeholder: "e.g. Ontario", required: true },
           { key: "corpName", label: "Corporation name", type: "text", placeholder: "Legal name", required: true },
@@ -124,6 +177,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Incorporate a non-profit or charitable organization.",
         needsJurisdiction: true,
         estimatedFee: "$699 + GST",
+        priceCents: null,
+        orderPath: "/not-for-profit/book-free-consultation",
+        existingCorp: false,
         detailFields: [
           { key: "orgName", label: "Proposed organization name", type: "text", placeholder: "e.g. Maple Foundation", required: true },
         ],
@@ -142,6 +198,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Complete digital minute book: articles, by-laws, registers, share certificates, and organizational resolutions.",
         needsJurisdiction: true,
         estimatedFee: "from $299 + GST",
+        priceCents: 29900,
+        existingCorp: true,
       },
       {
         key: "minute-book-update",
@@ -149,6 +207,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Bring an existing minute book up to date with missing resolutions and registers.",
         needsJurisdiction: false,
         estimatedFee: "from $299 + GST",
+        priceCents: 29900,
+        existingCorp: true,
       },
       {
         key: "share-certificate",
@@ -156,6 +216,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Professionally formatted share certificates for your shareholders.",
         needsJurisdiction: false,
         estimatedFee: "$49 + GST",
+        priceCents: 4900,
+        orderPath: "/order/share-certificate",
+        existingCorp: true,
         detailFields: [
           { key: "numCerts", label: "Number of certificates", type: "text", placeholder: "e.g. 3", required: true },
         ],
@@ -166,6 +229,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Draft and prepare director resolutions for any corporate decision.",
         needsJurisdiction: false,
         estimatedFee: "$79 + GST",
+        priceCents: 7900,
+        orderPath: "/order/director-resolution",
+        existingCorp: true,
         detailFields: [
           { key: "resolutionSubject", label: "What is the resolution about?", type: "textarea", placeholder: "e.g. Approve bank signing officers, approve financial statements...", required: true },
         ],
@@ -176,6 +242,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Annual or special shareholder resolutions for corporate governance.",
         needsJurisdiction: false,
         estimatedFee: "$79 + GST",
+        priceCents: 7900,
+        orderPath: "/order/shareholder-resolution",
+        existingCorp: true,
         detailFields: [
           { key: "resolutionSubject", label: "What is the resolution about?", type: "textarea", placeholder: "e.g. Elect directors, approve auditors...", required: true },
         ],
@@ -186,6 +255,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Draft or update general by-laws governing the corporation.",
         needsJurisdiction: false,
         estimatedFee: "$99 + GST",
+        priceCents: 9900,
+        orderPath: "/order/bylaws",
+        existingCorp: true,
       },
     ],
   },
@@ -201,6 +273,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "File an appointment or resignation of directors or officers with the registry.",
         needsJurisdiction: true,
         estimatedFee: "$99 + GST",
+        priceCents: 9900,
+        orderPath: "/order/change-directors",
+        existingCorp: true,
         detailFields: [
           { key: "changeType", label: "Type of change", type: "select", options: ["Appoint director", "Resign director", "Appoint officer", "Resign officer", "Both appoint and resign"], required: true },
           { key: "directorName", label: "Director / officer name", type: "text", placeholder: "Full legal name", required: true },
@@ -212,6 +287,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Update the corporation's registered office address on file with the registry.",
         needsJurisdiction: true,
         estimatedFee: "$99 + GST",
+        priceCents: 9900,
+        orderPath: "/order/change-address",
+        existingCorp: true,
         detailFields: [
           { key: "newAddress", label: "New registered office address", type: "textarea", placeholder: "Full address including city, province, postal code", required: true },
         ],
@@ -222,6 +300,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "File a name change including NUANS search (if required) and articles of amendment.",
         needsJurisdiction: true,
         estimatedFee: "$299 + GST",
+        priceCents: 29900,
+        existingCorp: true,
         detailFields: [
           { key: "currentName", label: "Current company name", type: "text", placeholder: "Current legal name", required: true },
           { key: "proposedName", label: "Proposed new name", type: "text", placeholder: "New legal name", required: true },
@@ -233,6 +313,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "File articles of amendment for any change to the corporation's constating documents.",
         needsJurisdiction: true,
         estimatedFee: "$199 + GST",
+        priceCents: 19900,
+        existingCorp: true,
         detailFields: [
           { key: "amendmentDetails", label: "What is being amended?", type: "textarea", placeholder: "Describe the amendment(s)", required: true },
         ],
@@ -243,6 +325,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "File articles to split or consolidate the corporation's share capital.",
         needsJurisdiction: true,
         estimatedFee: "$199 + GST",
+        priceCents: 19900,
+        existingCorp: true,
         detailFields: [
           { key: "splitType", label: "Type", type: "select", options: ["Share split", "Share consolidation"], required: true },
           { key: "splitRatio", label: "Ratio (e.g. 2:1)", type: "text", placeholder: "e.g. 2:1", required: true },
@@ -262,6 +346,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "File your corporation's mandatory annual return to maintain good standing.",
         needsJurisdiction: true,
         estimatedFee: "$99 + GST",
+        priceCents: 9900,
+        orderPath: "/order/annual-return",
+        existingCorp: true,
       },
       {
         key: "annual-return-multiple",
@@ -269,6 +356,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Catch up on missed annual returns to restore good standing.",
         needsJurisdiction: true,
         estimatedFee: "$99/year + GST",
+        priceCents: 9900,
+        orderPath: "/order/annual-return",
+        existingCorp: true,
         detailFields: [
           { key: "yearsOwing", label: "How many years are outstanding?", type: "text", placeholder: "e.g. 3", required: true },
         ],
@@ -276,16 +366,20 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
       {
         key: "registered-office",
         label: "Registered Office Service",
-        description: "Use our address as your registered office for legal and government correspondence.",
+        description: "Use our address as your registered office for legal and government correspondence, with mail scanned and forwarded.",
         needsJurisdiction: true,
-        estimatedFee: "Custom quote",
+        estimatedFee: "$399/year + GST",
+        priceCents: 39900,
+        existingCorp: true,
       },
       {
         key: "compliance-review",
         label: "Corporate Compliance Review",
-        description: "Full review of your corporate records to identify and resolve compliance gaps.",
+        description: "Deep review of your corporate records — and we fill the gaps, including the resolutions, registers and filings needed to bring the record up to date.",
         needsJurisdiction: false,
-        estimatedFee: "Custom quote",
+        estimatedFee: "$499 + GST",
+        priceCents: 49900,
+        existingCorp: true,
       },
     ],
   },
@@ -301,6 +395,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Formally wind up and dissolve the corporation with the government registry.",
         needsJurisdiction: true,
         estimatedFee: "$399 + GST",
+        priceCents: 39900,
+        orderPath: "/order/voluntary-dissolution",
+        existingCorp: true,
       },
       {
         key: "revival",
@@ -308,6 +405,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Restore a dissolved or struck-off corporation back to active status.",
         needsJurisdiction: true,
         estimatedFee: "$399 + GST",
+        priceCents: 39900,
+        orderPath: "/order/revival",
+        existingCorp: true,
       },
       {
         key: "amalgamation",
@@ -315,6 +415,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Combine two or more corporations into a single entity.",
         needsJurisdiction: true,
         estimatedFee: "$799 + GST",
+        priceCents: 79900,
+        existingCorp: true,
         detailFields: [
           { key: "numCorporations", label: "Number of corporations amalgamating", type: "text", placeholder: "e.g. 2", required: true },
           { key: "resultingName", label: "Proposed name of resulting corporation", type: "text", placeholder: "Legal name", required: true },
@@ -326,6 +428,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         description: "Transfer your corporation's jurisdiction to another province or to federal.",
         needsJurisdiction: true,
         estimatedFee: "$499 + GST",
+        priceCents: 49900,
+        existingCorp: true,
         detailFields: [
           { key: "fromJurisdiction", label: "From jurisdiction", type: "text", placeholder: "e.g. Ontario", required: true },
           { key: "toJurisdiction", label: "To jurisdiction", type: "text", placeholder: "e.g. Federal", required: true },
@@ -341,4 +445,42 @@ export function getBucket(key: string): ServiceBucket | undefined {
 
 export function getService(bucketKey: string, serviceKey: string): ServiceItem | undefined {
   return getBucket(bucketKey)?.services.find((s) => s.key === serviceKey);
+}
+
+/** Find a service by key across every bucket. Service keys are unique
+ *  catalogue-wide, so the bucket is not needed to resolve one. */
+export function findService(serviceKey: string): ServiceItem | undefined {
+  for (const b of SERVICE_BUCKETS) {
+    const hit = b.services.find((s) => s.key === serviceKey);
+    if (hit) return hit;
+  }
+  return undefined;
+}
+
+/** The bucket a service belongs to — used for breadcrumbs and fulfillment
+ *  email subject lines. */
+export function findBucketForService(serviceKey: string): ServiceBucket | undefined {
+  return SERVICE_BUCKETS.find((b) => b.services.some((s) => s.key === serviceKey));
+}
+
+/**
+ * Where to send a customer who wants to buy this service. Services with a
+ * dedicated lookup-first flow use it; everything else with a price falls
+ * through to the generic per-service checkout. Returns null when the
+ * service cannot be bought directly.
+ */
+export function checkoutPathFor(service: ServiceItem): string | null {
+  if (service.orderPath) return service.orderPath;
+  if (service.priceCents == null) return null;
+  return `/order/service/${service.key}`;
+}
+
+/**
+ * Every service that can be sold against a corporation the visitor has
+ * already found in the registry. Drives the search-result service menu.
+ */
+export function existingCorpServices(): ServiceItem[] {
+  return SERVICE_BUCKETS
+    .flatMap((b) => b.services)
+    .filter((s) => s.existingCorp && checkoutPathFor(s) !== null);
 }

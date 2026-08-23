@@ -1,28 +1,31 @@
 import { NextResponse } from "next/server";
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import crypto from "node:crypto";
-import { inboundMessages, ensureInboundMessageIndexes } from "@/lib/inbound-messages-mongo";
+import Stripe from "stripe";
+import { findService } from "@/lib/service-config";
 
 /**
  * POST /api/order/corporate-documents
  *
- * Quote-first flow (no upfront payment). Visitor picks which documents
- * they want for a specific corporation, we email them a quote within a
- * few hours, and once confirmed, deliver everything within 24 hours.
+ * Copies of Corporation Documents — the full set on the registry file, from
+ * the date of incorporation through to today. Flat price, paid upfront.
  *
- * Persists to inbound_messages so it shows up in the admin analytics
- * inbox alongside contact + wizard submits. Sends SES notifications to
- * both the owner and the visitor.
+ * This replaced a quote-first flow: the visitor used to pick documents and
+ * wait for a manual quote, which meant a real order sat in an inbox instead
+ * of taking payment. The product is now a single full-set deliverable at one
+ * price, so there is nothing to quote.
+ *
+ * The document checkboxes are retained as fulfillment scope — they tell the
+ * team what the customer is actually chasing — but they do not change the
+ * price. Price is resolved server-side from SERVICE_BUCKETS, never sent by
+ * the client.
  */
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 
 const DOC_LABELS: Record<string, string> = {
-  "original":         "Original / copy of Incorporation Document",
-  "articles":         "Articles of Incorporation",
-  "proof-filings":    "Proof of filings (Annual Returns, changes to directors/shareholders/address, etc.)",
-  "full-set":         "Full set of documents — everything on file, up to date",
+  "original":      "Original / copy of Incorporation Document",
+  "articles":      "Articles of Incorporation",
+  "proof-filings": "Proof of filings (Annual Returns, changes to directors/shareholders/address, etc.)",
+  "full-set":      "Full set of documents — everything on file, up to date",
 };
 
 type Hit = {
@@ -32,180 +35,106 @@ type Hit = {
   jurisdiction:     string;
   provinceKey:      string;
   location:         string;
+  entityType?:      string;
+  status?:          string;
+  registrationDate?: string;
 };
 
 type Body = {
-  hit:          Hit;
-  documents:    string[];   // keys from DOC_LABELS
-  notes?:       string;
-  contact:      { name: string; email: string; phone: string };
-  src:          string;
+  hit:       Hit;
+  documents: string[];
+  notes?:    string;
+  contact:   { name: string; email: string; phone: string };
+  src:       string;
 };
 
-function makeSes() {
-  return new SESClient({
-    region: process.env.AWS_REGION ?? "us-east-1",
-    credentials: {
-      accessKeyId:     process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
-  });
-}
-
-function makeRef() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let ref = "CRS-";
-  for (let i = 0; i < 6; i++) ref += chars[Math.floor(Math.random() * chars.length)];
-  return ref;
+const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
+const USE_TEST_PRICE = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0;
+if (USE_TEST_PRICE) {
+  console.warn(`[order/corporate-documents] TEST PRICE ACTIVE: charging ${TEST_OVERRIDE_CENTS} cents.`);
 }
 
 function isValid(body: Body): string | null {
-  if (!body?.hit?.name)                          return "Missing company selection.";
-  if (!Array.isArray(body.documents) || body.documents.length === 0)
-                                                 return "Select at least one document.";
-  for (const key of body.documents) {
-    if (!(key in DOC_LABELS))                    return `Unknown document: ${key}`;
+  if (!body?.hit?.name)              return "Missing company selection.";
+  if (!body?.contact?.name?.trim())  return "Missing contact name.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body?.contact?.email ?? "")) return "Invalid email.";
+  if (!body?.contact?.phone?.trim()) return "Missing phone number.";
+  for (const key of body.documents ?? []) {
+    if (!(key in DOC_LABELS))        return `Unknown document: ${key}`;
   }
-  if (!body?.contact?.name?.trim())              return "Missing contact name.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body?.contact?.email ?? ""))
-                                                 return "Invalid email.";
-  if (!body?.contact?.phone?.trim())             return "Missing phone number.";
   return null;
 }
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
+  const secret = process.env.STRIPE_SECRET_KEY;
+  if (!secret) return NextResponse.json({ error: "Payments are not configured." }, { status: 500 });
+
   let body: Body;
-  try { body = await request.json(); } catch {
-    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+  try { body = await req.json(); } catch {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
   const err = isValid(body);
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 
-  const ref = makeRef();
-  const docLabels = body.documents.map((k) => DOC_LABELS[k]);
-  const docLines  = docLabels.map((l) => `  • ${l}`).join("\n");
-
-  const ownerBody = `
-New corporate-documents quote request — Ref: ${ref}
-====================================
-Company:       ${body.hit.name}
-Jurisdiction:  ${body.hit.jurisdiction}
-Registry ID:   ${body.hit.registryId || "—"}
-BN:            ${body.hit.businessNumber || "—"}
-Location:      ${body.hit.location || "—"}
-
-Documents requested:
-${docLines}
-${body.notes ? `\nVisitor notes:\n${body.notes}\n` : ""}
---- Customer ---
-Name:  ${body.contact.name}
-Email: ${body.contact.email}
-Phone: ${body.contact.phone}
-Src:   ${body.src}
-====================================
-  `.trim();
-
-  const customerBody = `
-Hi ${body.contact.name},
-
-Thank you for reaching out to CRS — Corporate Registry Services.
-
-We've received your document request for ${body.hit.name}${body.hit.jurisdiction ? ` (${body.hit.jurisdiction})` : ""} and our team is already on it.
-
-Request Details
-${"─".repeat(58)}
-Reference:   ${ref}
-Company:     ${body.hit.name}
-${body.hit.registryId ? `Registry ID: ${body.hit.registryId}` : ""}
-
-Documents requested:
-${docLines}
-${"─".repeat(58)}
-
-What happens next:
-
-Step 1 — Custom Quote (within a few hours)
-   We'll review what's available on file with the registry and
-   email you a formal quote. No hidden charges — ever.
-
-Step 2 — Approve & Pay Securely
-   Reply to approve the quote. We'll send a secure payment link —
-   no work begins until you confirm.
-
-Step 3 — Registry Retrieval & Delivery
-   All requested documents are pulled directly from the government
-   registry and delivered to your email within 24 hours of payment.
-
-${"─".repeat(58)}
-Questions? Simply reply to this email — we're here to help.
-
-— The CRS Team
-Corporate Registry Services
-support@corporateregistryservices.ca
-  `.trim();
-
-  const ownerEmail = process.env.NOTIFY_EMAIL ?? process.env.OWNER_EMAIL ?? "info@crs.ca";
-  const fromEmail  = process.env.SES_FROM    ?? process.env.FROM_EMAIL  ?? "noreply@crs.ca";
-
-  /* Persist for the admin analytics inbox. Fire-and-forget — SES delivery
-     is what the visitor cares about; a Mongo hiccup shouldn't 4xx them. */
-  void (async () => {
-    try {
-      await ensureInboundMessageIndexes();
-      const col = await inboundMessages();
-      const ipRaw = (request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-      const ipHash = ipRaw ? crypto.createHash("sha256").update(ipRaw).digest("hex").slice(0, 24) : undefined;
-      await col.insertOne({
-        source:    "wizard",
-        name:      body.contact.name.trim(),
-        email:     body.contact.email.trim().toLowerCase(),
-        phone:     body.contact.phone?.trim() || undefined,
-        subject:   `Corporate documents — ${body.hit.name}`,
-        message:   `Ref ${ref} — ${body.hit.jurisdiction} — Docs: ${docLabels.join(", ")}${body.notes ? ` — Notes: ${body.notes}` : ""}`,
-        payload: {
-          ref,
-          service:      "corporate-documents",
-          hit:          body.hit,
-          documents:    body.documents,
-          documentLabels: docLabels,
-          notes:        body.notes ?? "",
-          src:          body.src,
-        },
-        ipHash,
-        userAgent: (request.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
-        createdAt: new Date(),
-      });
-    } catch (e) {
-      console.error("[CRS] corporate-documents Mongo save failed:", e instanceof Error ? e.message : e);
-    }
-  })();
-
-  try {
-    const ses = makeSes();
-
-    await ses.send(new SendEmailCommand({
-      Source:      fromEmail,
-      Destination: { ToAddresses: [ownerEmail] },
-      Message: {
-        Subject: { Data: `[CRS] Docs quote ${ref} — ${body.hit.name}` },
-        Body:    { Text: { Data: ownerBody } },
-      },
-    }));
-
-    await ses.send(new SendEmailCommand({
-      Source:      fromEmail,
-      Destination: { ToAddresses: [body.contact.email] },
-      Message: {
-        Subject: { Data: `Your CRS corporate documents request — ${ref}` },
-        Body:    { Text: { Data: customerBody } },
-      },
-    }));
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    console.error("[CRS] corporate-documents SES send failed:", msg);
-    return NextResponse.json({ ref, emailError: msg }, { status: 200 });
+  const service = findService("corporate-documents");
+  if (!service?.priceCents) {
+    return NextResponse.json({ error: "Service is not priced." }, { status: 500 });
   }
 
-  return NextResponse.json({ ref }, { status: 200 });
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : service.priceCents;
+  const wanted     = (body.documents ?? []).map((k) => DOC_LABELS[k]).filter(Boolean);
+  const stripe     = new Stripe(secret);
+  const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode:                       "payment",
+      payment_method_types:       ["card"],
+      customer_email:             body.contact.email.trim(),
+      automatic_tax:              { enabled: true },
+      billing_address_collection: "required",
+      line_items: [
+        {
+          price_data: {
+            currency:     "cad",
+            unit_amount:  unitAmount,
+            tax_behavior: "exclusive",
+            product_data: {
+              name:        `Copies of Corporation Documents — ${body.hit.jurisdiction}`,
+              description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Full set on file from the date of incorporation to date.`.slice(0, 500),
+            },
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        service:         "corporate-documents",
+        service_label:   "Copies of Corporation Documents",
+        src:             (body.src ?? "").slice(0, 100),
+        company_name:    body.hit.name.slice(0, 100),
+        registry_id:     (body.hit.registryId || "").slice(0, 100),
+        business_number: (body.hit.businessNumber || "").slice(0, 100),
+        jurisdiction:    body.hit.jurisdiction.slice(0, 100),
+        province_key:    body.hit.provinceKey.slice(0, 20),
+        location:        (body.hit.location || "").slice(0, 200),
+        entity_type:     (body.hit.entityType || "").slice(0, 200),
+        registry_status: (body.hit.status || "").slice(0, 20),
+        incorp_date:     (body.hit.registrationDate || "").slice(0, 20),
+        contact_name:    body.contact.name.slice(0, 200),
+        contact_phone:   body.contact.phone.slice(0, 40),
+        // Scope hints for fulfillment — not price-affecting.
+        docs_requested:  wanted.join(" · ").slice(0, 480) || "Full set",
+        notes:           (body.notes ?? "").slice(0, 480),
+      },
+      success_url: `${origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${origin}/order/corporate-documents?jurisdiction=${encodeURIComponent(body.hit.provinceKey)}&src=${encodeURIComponent(body.src ?? "")}`,
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Payment setup failed.";
+    console.error("[order/corporate-documents] Stripe error:", msg);
+    return NextResponse.json({ error: msg }, { status: 502 });
+  }
 }

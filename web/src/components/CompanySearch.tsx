@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck, ChevronDown } from "lucide-react";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
 import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
+import { existingCorpServices, checkoutPathFor } from "@/lib/service-config";
 
 const WizardModal = dynamic(() => import("./WizardModal"), { ssr: false });
 
@@ -135,6 +136,63 @@ export default function CompanySearch() {
     params.set("src", "corp-search");
     return `/order/${service}?${params.toString()}`;
   }
+
+  /** Same deep-link contract, but for any absolute checkout path. */
+  function pathHref(path: string, r: Result) {
+    const params = new URLSearchParams();
+    if (r.name)        params.set("q",           r.name);
+    if (r.provinceKey) params.set("jurisdiction", r.provinceKey);
+    if (r.registryId)  params.set("registryId",  r.registryId);
+    params.set("src", "corp-search");
+    return `${path}?${params.toString()}`;
+  }
+
+  /**
+   * The four headline services shown on every result card, priced for the
+   * corporation in hand. Professional corporations get PC rates here so the
+   * card never advertises $49 and then charges $69 at checkout — the order
+   * routes re-derive PC status server-side.
+   */
+  function primaryServices(r: Result) {
+    const pc = isProfessionalCorporation(r);
+    return [
+      {
+        key:   "profile-report",
+        label: pc ? "Professional Corporation Profile Report" : "Corporate Profile Report",
+        sub:   "Directors, addresses, status and filing history",
+        price: pc ? "$69" : "$49",
+        href:  orderHref("profile-report", r),
+      },
+      {
+        key:   "annual-return",
+        label: pc ? "Professional Corporation Annual Return" : "Annual Returns",
+        sub:   "Keeps the corporation in good standing",
+        price: pc ? "from $139/yr" : "from $99/yr",
+        href:  orderHref("annual-return", r),
+      },
+      {
+        key:   "good-standing",
+        label: "Certificate of Good Standing",
+        sub:   "Government-issued proof the corporation is active",
+        price: "$79",
+        href:  orderHref("good-standing", r),
+      },
+      {
+        key:   "corporate-documents",
+        label: "Copies of Corporation Documents",
+        sub:   "Full set from the date of incorporation to date",
+        price: "$489",
+        href:  pathHref("/order/corporate-documents", r),
+      },
+    ];
+  }
+
+  /** Everything else in the catalogue that can be bought against an existing
+   *  corporation, minus the four already on the card. Each one has a real
+   *  price and a real checkout — "Something else" never raises a quote. */
+  const otherServices = existingCorpServices().filter(
+    (s) => !["profile-report", "annual-return", "annual-return-multiple", "good-standing", "corporate-documents"].includes(s.key),
+  );
 
   useEffect(() => {
     const detected = detectProvince(query);
@@ -492,127 +550,138 @@ export default function CompanySearch() {
                 </button>
               )}
 
-              {/* CTA: inline pricing menu → deep-link into an order flow */}
-              <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
-                  <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                    Need directors, addresses, and full corporate details?
-                    <strong style={{ color: "var(--text)" }}> Order the Corporate Profile Report</strong> — filed within 24 hours.
-                  </span>
-                  <button
-                    onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
-                    style={{
-                      display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                      padding: "0.4rem 0.9rem", borderRadius: "0.5rem",
-                      background: expandedIdx === i ? "var(--bg-deep)" : "var(--primary)",
-                      color: expandedIdx === i ? "var(--text)" : "#fff",
-                      border: expandedIdx === i ? "1.5px solid var(--border)" : "none",
-                      fontSize: "0.78rem", fontWeight: 600,
-                      cursor: "pointer", whiteSpace: "nowrap",
-                    }}
-                  >
-                    {expandedIdx === i ? "Hide options" : "Order a service"} <ArrowRight size={12} />
-                  </button>
+              {/* Services — always visible. Previously hidden behind an
+                  "Order a service" toggle, which buried the whole catalogue
+                  one click deep on the page where intent is highest: the
+                  visitor has just found their corporation. Every tile goes
+                  straight to a checkout; nothing here raises a quote. */}
+              <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.85rem" }}>
+                <div style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.6rem" }}>
+                  Order for this corporation
                 </div>
 
-                {expandedIdx === i && (
-                  <div
-                    style={{
-                      marginTop: "0.75rem",
-                      display: "grid",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {/* Professional corporations are charged PC rates by the
-                        order routes (derived server-side from the registry
-                        record), so the price shown here MUST follow suit —
-                        otherwise the visitor sees $49 and is charged $69 at
-                        checkout. Good standing has no PC price yet, so it
-                        stays standard for everyone. */}
-                    {(() => {
-                      const pc = isProfessionalCorporation(r);
-                      return [
-                        {
-                          service: "profile-report" as const,
-                          label:   pc ? "Professional Corporation Profile Report" : "Corporate Profile Report",
-                          price:   pc ? "$69" : "$49",
-                        },
-                        {
-                          service: "good-standing" as const,
-                          label:   "Certificate of Good Standing",
-                          price:   "$79",
-                        },
-                        {
-                          service: "annual-return" as const,
-                          label:   pc ? "Professional Corporation Annual Return" : "Annual Return Filing",
-                          price:   pc ? "from $139/yr" : "from $99/yr",
-                        },
-                      ];
-                    })().map(({ service, label, price }) => (
-                      <a
-                        key={service}
-                        href={orderHref(service, r)}
-                        style={{
-                          display: "flex", alignItems: "center", justifyContent: "space-between",
-                          padding: "0.6rem 0.85rem",
-                          border: "1px solid var(--border)",
-                          background: "var(--card)",
-                          borderRadius: "0.5rem",
-                          textDecoration: "none",
-                        }}
-                      >
-                        <span>
-                          <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>{label}</span>
-                          <span style={{ fontSize: "0.72rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace" }}>{price} all-in + GST</span>
-                        </span>
-                        <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
-                      </a>
-                    ))}
-                    {/* Professional corporations get a route to the dedicated
-                        PC surface, where change-of-information and revival
-                        are also priced. */}
-                    {isProfessionalCorporation(r) && (
-                      <a
-                        href={`/order/professional-corporation?q=${encodeURIComponent(r.name)}&jurisdiction=${encodeURIComponent(r.provinceKey)}${r.registryId ? `&registryId=${encodeURIComponent(r.registryId)}` : ""}&src=registry-search`}
-                        style={{
-                          display: "flex", alignItems: "center", justifyContent: "space-between",
-                          padding: "0.6rem 0.85rem",
-                          border: "1px solid var(--gold)",
-                          background: "var(--gold-dim)",
-                          borderRadius: "0.5rem",
-                          textDecoration: "none",
-                        }}
-                      >
-                        <span>
-                          <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
-                            All professional corporation services
-                          </span>
-                          <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
-                            Changes {PRO_CORP_SERVICES["change-of-information"].priceLabel.replace(" all-in + GST", "")} · Revival {PRO_CORP_SERVICES["revival"].priceLabel.replace(" all-in + GST", "")}
-                          </span>
-                        </span>
-                        <ArrowRight size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
-                      </a>
-                    )}
-                    <button
-                      onClick={() => { setWizardPreload({ companyName: r.name, jurisdictionKey: r.provinceKey }); setWizardOpen(true); }}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(232px, 1fr))", gap: "0.5rem" }}>
+                  {primaryServices(r).map((s) => (
+                    <a
+                      key={s.key}
+                      href={s.href}
                       style={{
-                        display: "flex", alignItems: "center", justifyContent: "space-between",
-                        padding: "0.6rem 0.85rem",
-                        border: "1.5px dashed var(--border)",
-                        background: "transparent",
+                        display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.6rem",
+                        padding: "0.65rem 0.85rem",
+                        border: "1px solid var(--border)",
+                        background: "var(--card)",
                         borderRadius: "0.5rem",
-                        cursor: "pointer",
-                        textAlign: "left",
+                        textDecoration: "none",
                       }}
                     >
-                      <span>
-                        <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>Something else</span>
-                        <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>Custom quote — 1 hour response</span>
+                      <span style={{ minWidth: 0 }}>
+                        <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)", lineHeight: 1.3 }}>
+                          {s.label}
+                        </span>
+                        <span style={{ display: "block", fontSize: "0.68rem", color: "var(--text-muted)", lineHeight: 1.4, marginTop: "0.12rem" }}>
+                          {s.sub}
+                        </span>
+                        <span style={{ display: "block", fontSize: "0.72rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace", marginTop: "0.2rem" }}>
+                          {s.price} all-in + GST
+                        </span>
                       </span>
-                      <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
-                    </button>
+                      <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.15rem" }} />
+                    </a>
+                  ))}
+                </div>
+
+                {/* Professional corporations get a route to the dedicated PC
+                    surface, where change-of-information and revival are also
+                    priced at PC rates. */}
+                {isProfessionalCorporation(r) && (
+                  <a
+                    href={`/order/professional-corporation?q=${encodeURIComponent(r.name)}&jurisdiction=${encodeURIComponent(r.provinceKey)}${r.registryId ? `&registryId=${encodeURIComponent(r.registryId)}` : ""}&src=registry-search`}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      marginTop: "0.5rem",
+                      padding: "0.6rem 0.85rem",
+                      border: "1px solid var(--gold)",
+                      background: "var(--gold-dim)",
+                      borderRadius: "0.5rem",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>
+                      <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
+                        All professional corporation services
+                      </span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
+                        Changes {PRO_CORP_SERVICES["change-of-information"].priceLabel.replace(" all-in + GST", "")} · Revival {PRO_CORP_SERVICES["revival"].priceLabel.replace(" all-in + GST", "")}
+                      </span>
+                    </span>
+                    <ArrowRight size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
+                  </a>
+                )}
+
+                {/* Something else — expands to the rest of the priced
+                    catalogue rather than a quote form. */}
+                <button
+                  onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
+                  style={{
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    width: "100%",
+                    marginTop: "0.5rem",
+                    padding: "0.6rem 0.85rem",
+                    border: "1.5px dashed var(--border)",
+                    background: "transparent",
+                    borderRadius: "0.5rem",
+                    cursor: "pointer",
+                    textAlign: "left",
+                  }}
+                >
+                  <span>
+                    <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
+                      Something else
+                    </span>
+                    <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
+                      {expandedIdx === i ? "Hide" : `${otherServices.length} more services, priced`}
+                    </span>
+                  </span>
+                  <ChevronDown
+                    size={14}
+                    style={{
+                      color: "var(--text-muted)", flexShrink: 0,
+                      transform: expandedIdx === i ? "rotate(180deg)" : "none",
+                      transition: "transform 150ms ease",
+                    }}
+                  />
+                </button>
+
+                {expandedIdx === i && (
+                  <div style={{ marginTop: "0.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(232px, 1fr))", gap: "0.5rem" }}>
+                    {otherServices.map((s) => {
+                      const path = checkoutPathFor(s);
+                      if (!path) return null;
+                      return (
+                        <a
+                          key={s.key}
+                          href={pathHref(path, r)}
+                          style={{
+                            display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.6rem",
+                            padding: "0.6rem 0.85rem",
+                            border: "1px solid var(--border)",
+                            background: "var(--bg)",
+                            borderRadius: "0.5rem",
+                            textDecoration: "none",
+                          }}
+                        >
+                          <span style={{ minWidth: 0 }}>
+                            <span style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", lineHeight: 1.3 }}>
+                              {s.label}
+                            </span>
+                            <span style={{ display: "block", fontSize: "0.7rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace", marginTop: "0.15rem" }}>
+                              {s.estimatedFee}
+                            </span>
+                          </span>
+                          <ArrowRight size={12} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.2rem" }} />
+                        </a>
+                      );
+                    })}
                   </div>
                 )}
               </div>

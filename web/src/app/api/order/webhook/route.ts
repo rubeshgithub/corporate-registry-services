@@ -1026,7 +1026,94 @@ support@corporateregistryservices.ca
     return;
   }
 
-  // Other services not wired yet — silently ignore.
+  /* ── Generic fallback ───────────────────────────────────────────────
+     Anything else that reached a paid Stripe session — the catalogue
+     services sold through /api/order/service, corporate-documents, and any
+     future service added to SERVICE_BUCKETS.
+
+     This branch used to be `silently ignore`, which meant a customer could
+     pay and neither they nor the ops inbox would hear anything. A paid
+     order must always produce mail, even if the copy is generic. */
+  const m = session.metadata ?? {};
+  const label = m.service_label || service || "Order";
+  const detailsJson = readChunkedJson<Record<string, unknown>>(m, "details_json");
+  const detailLines = detailsJson
+    ? Object.entries(detailsJson)
+        .filter(([, v]) => v !== "" && v != null)
+        .map(([k, v]) => `  ${k}: ${String(v)}`)
+        .join("\n")
+    : "";
+
+  const ownerText = `
+NEW PAID ORDER — ${label} — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Service key:   ${service ?? "—"}
+Attribution:   ${m.src ?? "—"}
+
+--- Company (from registry lookup) ---
+Name:          ${m.company_name ?? "—"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
+Registry ID:   ${m.registry_id ?? "—"}
+BN:            ${m.business_number ?? "—"}
+Entity type:   ${m.entity_type ?? "—"}
+Status:        ${m.registry_status ?? "—"}
+Incorporated:  ${m.incorp_date ?? "—"}
+Location:      ${m.location ?? "—"}
+
+--- ${label} ---
+${m.docs_requested ? `Documents requested: ${m.docs_requested}\n` : ""}${m.notes ? `Notes: ${m.notes}\n` : ""}${detailLines || "(no structured details)"}
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"}
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+  const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+We've received your payment for ${label}${m.company_name ? ` for ${m.company_name}` : ""}.
+
+Our team is on it. You'll hear from us by email as soon as it's ready — and
+we'll be in touch sooner if we need anything from you.
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Service:      ${label}
+  Company:      ${m.company_name ?? "—"}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+  await ses.send(new SendEmailCommand({
+    Source: fromEmail,
+    Destination: { ToAddresses: [ownerEmail] },
+    Message: {
+      Subject: { Data: `[CRS] Paid — ${label} — ${m.company_name ?? "—"}` },
+      Body:    { Text: { Data: ownerText } },
+    },
+  }));
+  if (customerEmail) {
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [customerEmail] },
+      Message: {
+        Subject: { Data: `Payment received — we're preparing your ${label.toLowerCase()}` },
+        Body:    { Text: { Data: customerText } },
+      },
+    }));
+  }
 }
 
 export async function POST(req: Request) {

@@ -5,10 +5,10 @@ import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail } from "lucide-react";
 
 /**
- * Corporate Documents order flow — quote-first (no Stripe upfront).
+ * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
  *
  * Visitor lookup a corporation → picks which documents they need →
- * provides contact details → gets a quote emailed within a few hours.
+ * provides contact details → pays → documents delivered within 24 hours.
  * Once confirmed and paid, all documents are delivered within 24 hours.
  */
 
@@ -152,8 +152,14 @@ export default function CorporateDocumentsFlow() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Could not submit — please try again.");
-      setRef(String(data.ref ?? ""));
-      setScreen("success");
+      /* Paid flow now: the API returns a Stripe Checkout URL rather than a
+         quote reference, so hand off to Stripe instead of a success screen.
+         Stripe returns the customer to /order/thanks. */
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error("Could not start payment. Please try again.");
     } catch (e) {
       setSubmitErr(e instanceof Error ? e.message : "Network error — please try again.");
     } finally {
@@ -172,7 +178,7 @@ export default function CorporateDocumentsFlow() {
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          Corporate Documents · Quote within a few hours
+          Corporate Documents · $489 all-in + GST
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
           Order corporate documents on file
@@ -338,7 +344,7 @@ function ConfirmScreen({
             Which documents do you need?
           </label>
           <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: 0 }}>
-            Select one or more. We&apos;ll confirm exactly what&apos;s available on file when we send the quote.
+            Tell us what you&apos;re chasing so we prioritise it. The price covers the full set on file either way.
           </p>
         </div>
 
@@ -389,7 +395,7 @@ function ConfirmScreen({
       {/* Contact */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>
         <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.85rem" }}>
-          Where should we email the quote?
+          Where should we send the documents?
         </label>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -430,11 +436,11 @@ function ConfirmScreen({
         }}
       >
         {submitting ? <Loader2 size={16} className="crs-spin" /> : <Mail size={16} />}
-        {submitting ? "Sending request…" : "Request my quote"}
+        {submitting ? "Redirecting to secure payment…" : "Pay $489 + GST and order"}
       </button>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>
-        You&apos;ll receive a formal quote within a few hours. Once approved, all documents are delivered by email within 24 hours.
+        Card processed securely by Stripe. All government fees included — documents delivered by email within 24 hours.
       </p>
     </>
   );
