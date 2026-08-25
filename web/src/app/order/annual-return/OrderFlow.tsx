@@ -6,6 +6,7 @@ import { Search, CheckCircle2, Clock, AlertCircle, ArrowRight, Loader2 } from "l
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput from "@/components/PlacesInput";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
+import ETransferCapture from "@/components/order/ETransferCapture";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -657,6 +658,21 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. We&apos;ll file within 24 hours and email a filing confirmation.
       </p>
+
+      <ETransferCapture
+        service="annual-return"
+        serviceLabel={years === 1 ? "Annual Return" : `Annual Return (${years} years)`}
+        priceLabel={priceLabel}
+        company={pick ? {
+          name:           pick.name,
+          registryId:     pick.registryId,
+          businessNumber: pick.businessNumber,
+          jurisdiction:   pick.jurisdiction,
+          provinceKey:    pick.provinceKey,
+        } : undefined}
+        contact={contact}
+        src={attributionSrc}
+      />
     </div>
   );
 }

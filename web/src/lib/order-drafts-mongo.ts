@@ -39,6 +39,10 @@ export type OrderDraftDoc = {
    *  notified. Cleared implicitly by the row being replaced on a new
    *  session. */
   notifiedAt?:  Date;
+  /** Set when the visitor asked for Interac e-Transfer instructions instead
+   *  of paying by card. These are not abandonments — they are people waiting
+   *  on a reply, and the operator owes them the transfer address by hand. */
+  etransferRequestedAt?: Date;
 };
 
 export async function orderDrafts(): Promise<Collection<OrderDraftDoc>> {

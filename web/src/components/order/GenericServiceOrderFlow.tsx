@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS, type ServiceItem } from "@/lib/service-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
+import ETransferCapture from "@/components/order/ETransferCapture";
 
 /**
  * Checkout for catalogue services that don't warrant a bespoke flow —
@@ -350,6 +351,21 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. All government fees included.
       </p>
+
+      <ETransferCapture
+        service={service.key}
+        serviceLabel={service.label}
+        priceLabel={service.estimatedFee}
+        company={pick ? {
+          name:           pick.name,
+          registryId:     pick.registryId,
+          businessNumber: pick.businessNumber,
+          jurisdiction:   pick.jurisdiction,
+          provinceKey:    pick.provinceKey,
+        } : undefined}
+        contact={contact}
+        src={attributionSrc}
+      />
     </div>
   );
 }

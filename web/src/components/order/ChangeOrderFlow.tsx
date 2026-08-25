@@ -6,6 +6,7 @@ import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, Plus, Trash2, I
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { ChangeServiceConfig } from "@/lib/change-config";
 import PlacesInput from "@/components/PlacesInput";
+import ETransferCapture from "@/components/order/ETransferCapture";
 
 /**
  * Shared checkout for the four form-based change services:
@@ -350,6 +351,21 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. {config.deliveryPromise}
       </p>
+
+      <ETransferCapture
+        service={config.key}
+        serviceLabel={config.label}
+        priceLabel={config.priceLabel}
+        company={pick ? {
+          name:           pick.name,
+          registryId:     pick.registryId,
+          businessNumber: pick.businessNumber,
+          jurisdiction:   pick.jurisdiction,
+          provinceKey:    pick.provinceKey,
+        } : undefined}
+        contact={contact}
+        src={attributionSrc}
+      />
     </div>
   );
 }

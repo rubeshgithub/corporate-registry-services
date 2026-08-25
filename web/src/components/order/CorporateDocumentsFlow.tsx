@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail } from "lucide-react";
+import ETransferCapture from "@/components/order/ETransferCapture";
 
 /**
  * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
@@ -207,7 +208,7 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
           notes={notes} setNotes={setNotes}
           contact={contact} setContact={setContact}
           onBack={() => setScreen("lookup")}
-          onSubmit={submit} price={price}
+          onSubmit={submit} price={price} src={src}
           submitting={submitting} submitErr={submitErr}
           canSubmit={canSubmit}
         />
@@ -305,7 +306,7 @@ function LookupScreen({
 
 function ConfirmScreen({
   hit, selected, toggleDoc, notes, setNotes,
-  contact, setContact, onBack, onSubmit, price,
+  contact, setContact, onBack, onSubmit, price, src,
   submitting, submitErr, canSubmit,
 }: {
   hit: RegistryHit;
@@ -313,7 +314,7 @@ function ConfirmScreen({
   notes: string; setNotes: (v: string) => void;
   contact: { name: string; email: string; phone: string };
   setContact: (v: { name: string; email: string; phone: string }) => void;
-  onBack: () => void; onSubmit: () => void; price: string;
+  onBack: () => void; onSubmit: () => void; price: string; src: string;
   submitting: boolean; submitErr: string; canSubmit: boolean;
 }) {
   return (
@@ -444,6 +445,21 @@ function ConfirmScreen({
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>
         Card processed securely by Stripe. All government fees included — documents delivered by email within 24 hours.
       </p>
+
+      <ETransferCapture
+        service="corporate-documents"
+        serviceLabel="Copies of Corporation Documents"
+        priceLabel={`${price} all-in + GST`}
+        company={{
+          name:           hit.name,
+          registryId:     hit.registryId,
+          businessNumber: hit.businessNumber,
+          jurisdiction:   hit.jurisdiction,
+          provinceKey:    hit.provinceKey,
+        }}
+        contact={contact}
+        src={src}
+      />
     </>
   );
 }

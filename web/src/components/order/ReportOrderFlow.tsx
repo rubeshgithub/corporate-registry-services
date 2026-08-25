@@ -13,6 +13,7 @@ import {
   PRO_CORP_SERVICES,
   PRO_CORP_MENU_ORDER,
 } from "@/lib/professional-corp";
+import ETransferCapture from "@/components/order/ETransferCapture";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -460,6 +461,21 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. {config.deliveryPromise}
       </p>
+
+      <ETransferCapture
+        service={config.key}
+        serviceLabel={isPC ? PRO_CORP_SERVICES["profile-report"].label : config.label}
+        priceLabel={isPC ? pcService.priceLabel : config.priceLabel}
+        company={pick ? {
+          name:           pick.name,
+          registryId:     pick.registryId,
+          businessNumber: pick.businessNumber,
+          jurisdiction:   pick.jurisdiction,
+          provinceKey:    pick.provinceKey,
+        } : undefined}
+        contact={contact}
+        src={attributionSrc}
+      />
     </div>
   );
 }
