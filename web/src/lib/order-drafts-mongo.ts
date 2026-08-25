@@ -34,6 +34,11 @@ export type OrderDraftDoc = {
   userAgent?:   string;
   createdAt:    Date;
   updatedAt:    Date;
+  /** Set once the abandonment alert has been emailed for this draft, so a
+   *  repeating sweep never mails the same lead twice. Absent = not yet
+   *  notified. Cleared implicitly by the row being replaced on a new
+   *  session. */
+  notifiedAt?:  Date;
 };
 
 export async function orderDrafts(): Promise<Collection<OrderDraftDoc>> {
@@ -49,6 +54,8 @@ export async function ensureOrderDraftIndexes(): Promise<void> {
     await col.createIndex({ sessionId: 1, service: 1 }, { unique: true });
     await col.createIndex({ updatedAt: -1 });
     await col.createIndex({ "contact.email": 1 }, { sparse: true });
+    /* Drives the abandonment sweep: find cold, un-notified drafts cheaply. */
+    await col.createIndex({ notifiedAt: 1, updatedAt: -1 }, { sparse: true });
   } catch (e) {
     indexesEnsured = false;
     console.error("[order-drafts] failed to ensure indexes:", e);

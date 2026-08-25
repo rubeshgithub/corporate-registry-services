@@ -1,0 +1,51 @@
+name: Abandoned order sweep
+
+# Emails the ops inbox about order drafts that have gone cold — someone who
+# picked a company or typed contact details on an /order/* page and then left
+# without paying.
+#
+# Runs every 15 minutes. The endpoint itself decides what counts as "cold"
+# (default 20 minutes since last activity) and marks each draft notified, so
+# overlapping runs never send the same lead twice.
+#
+# Secret required: ADMIN_SWEEP_TOKEN (must match the env var on Render).
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Dry run — report without sending"
+        required: false
+        default: "0"
+
+concurrency:
+  group: abandoned-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger sweep
+        env:
+          TOKEN: ${{ secrets.ADMIN_SWEEP_TOKEN }}
+          BASE: https://www.corporateregistryservices.ca
+          DRY: ${{ github.event.inputs.dry || '0' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TOKEN:-}" ]; then
+            echo "::error::ADMIN_SWEEP_TOKEN secret is not set — sweep skipped."
+            exit 1
+          fi
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            "$BASE/api/admin/abandoned-sweep?dry=$DRY")
+          code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | sed '$d')
+          echo "$body"
+          if [ "$code" != "200" ]; then
+            echo "::error::sweep returned HTTP $code"
+            exit 1
+          fi
