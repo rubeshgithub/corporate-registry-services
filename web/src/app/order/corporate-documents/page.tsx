@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CorporateDocumentsFlow from "@/components/order/CorporateDocumentsFlow";
+import { getPriceCents } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Order Corporate Documents — Articles + Historical Filings — CRS",
@@ -11,13 +12,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function CorporateDocumentsOrderPage() {
+export default async function CorporateDocumentsOrderPage() {
   return (
     <>
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
         <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
-          <CorporateDocumentsFlow />
+          <CorporateDocumentsFlow priceCents={await getPriceCents("corporate-documents")} />
         </Suspense>
       </main>
       <Footer />

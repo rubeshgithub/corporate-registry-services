@@ -46,7 +46,10 @@ type RegistryHit = {
 
 type Screen = "lookup" | "services";
 
-export default function ProCorpOrderFlow() {
+export default function ProCorpOrderFlow({ prices }: { prices?: Record<string, number> }) {
+  /* Live prices from the admin-editable catalogue via the server page. */
+  const priceOf = (key: string, fallbackCents: number) =>
+    `$${Math.round((prices?.[`pc-${key}`] ?? fallbackCents) / 100).toLocaleString()}`;
   const params              = useSearchParams();
   const initialJurisdiction = params.get("jurisdiction") ?? "all";
   const attributionSrc      = params.get("src") ?? "direct";
@@ -213,7 +216,7 @@ export default function ProCorpOrderFlow() {
             Starting a <strong>new</strong> professional corporation? There is nothing to look up yet
             — see{" "}
             <a href={PRO_CORP_SERVICES.setup.href} style={{ color: "var(--text)", borderBottom: "1px solid var(--gold)", textDecoration: "none" }}>
-              new PC setup at {PRO_CORP_SERVICES.setup.priceLabel}
+              new PC setup at {priceOf("setup", PRO_CORP_SERVICES.setup.priceCents)} all-in + GST
             </a>
             , which includes all government and regulator fees.
           </div>
@@ -297,7 +300,7 @@ export default function ProCorpOrderFlow() {
               <div style={{ flexShrink: 0, textAlign: "right" }}>
                 {isPC && (
                   <div style={{ fontWeight: 700, color: "var(--gold)", fontSize: "0.9rem", whiteSpace: "nowrap" }}>
-                    {svc.priceLabel.replace(" all-in + GST", "")}
+                    {priceOf(svc.key, svc.priceCents)}
                     {svc.perYear ? <span style={{ color: "var(--text-muted)", fontWeight: 500, fontSize: "0.78rem" }}>/yr</span> : null}
                   </div>
                 )}

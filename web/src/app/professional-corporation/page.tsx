@@ -7,6 +7,7 @@ import {
   PRO_CORP_ALL_SERVICES,
 } from "@/lib/professional-corp";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
+import { getPrices, getPriceCents, formatPriceLabel, formatCents } from "@/lib/pricing";
 import { getPillar, listSection } from "@/lib/content";
 
 /**
@@ -22,18 +23,33 @@ import { getPillar, listSection } from "@/lib/content";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.corporateregistryservices.ca";
 
-export const metadata: Metadata = {
-  title: "Professional Corporation Services in Canada — CRS",
-  description:
-    "Set up a professional corporation for $1,699 all-in including government and regulator fees, or file annual returns, changes, profile reports and revivals at professional-corporation rates.",
-  alternates: { canonical: "/professional-corporation" },
-};
+/* Static page quoting live prices — revalidate so an admin change lands
+   within a minute rather than at the next deploy. */
+export const revalidate = 60;
+
+/* The description quotes the setup price, so it is generated per request
+   from the pricing catalogue — an indexable page must not advertise a
+   figure the checkout will not honour. */
+export async function generateMetadata(): Promise<Metadata> {
+  const cents = await getPriceCents("pc-setup");
+  return {
+    title: "Professional Corporation Services in Canada — CRS",
+    description:
+      `Set up a professional corporation for ${formatCents(cents)} all-in including government and regulator fees, or file annual returns, changes, profile reports and revivals at professional-corporation rates.`,
+    alternates: { canonical: "/professional-corporation" },
+  };
+}
 
 export default async function ProfessionalCorporationHub() {
   /* This static route shadows the generic /[section] index, so the cluster's
      pillar (_index.md) would otherwise never render. Pull it in and show it
      below the commercial block — prices and CTAs first, long-form SEO copy
      underneath. The 14 child guides come from listSection. */
+  const prices = await getPrices();
+  /* Live prices from the admin-editable catalogue, so the cards and the
+     Offer schema never advertise a figure checkout will not honour. */
+  const priceFor = (key: string, fallback: number) => prices[`pc-${key}`] ?? fallback;
+
   const pillar = await getPillar("professional-corporation");
   const guides = listSection("professional-corporation");
 
@@ -59,7 +75,7 @@ export default async function ProfessionalCorporationHub() {
         return {
           "@type": "Offer",
           "name":  svc.label,
-          "price": (svc.priceCents / 100).toFixed(2),
+          "price": (priceFor(svc.key, svc.priceCents) / 100).toFixed(2),
           "priceCurrency": "CAD",
         };
       }),
@@ -102,7 +118,7 @@ export default async function ProfessionalCorporationHub() {
                 href={PRO_CORP_SERVICES.setup.href}
                 style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", padding: "0.75rem 1.25rem", borderRadius: "0.5rem", border: "1px solid var(--gold)", color: "var(--text)", fontWeight: 600, fontSize: "0.9rem", textDecoration: "none" }}
               >
-                Set up a new PC — {PRO_CORP_SERVICES.setup.priceLabel.replace(" all-in + GST", "")} <ArrowRight size={14} />
+                Set up a new PC — ${(priceFor("setup", PRO_CORP_SERVICES.setup.priceCents) / 100).toLocaleString()} <ArrowRight size={14} />
               </a>
             </div>
           </div>
@@ -132,7 +148,7 @@ export default async function ProfessionalCorporationHub() {
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", alignItems: "baseline", justifyContent: "space-between" }}>
                     <div className="card-heading" style={{ fontSize: "1.1rem" }}>{svc.label}</div>
                     <div style={{ fontWeight: 700, color: "var(--gold)", fontSize: "1rem", whiteSpace: "nowrap" }}>
-                      {svc.priceLabel}
+                      {formatPriceLabel(priceFor(svc.key, svc.priceCents), svc.perYear ? "per-year" : "once")}
                       {svc.perYear ? <span style={{ color: "var(--text-muted)", fontWeight: 500, fontSize: "0.82rem" }}> per year</span> : null}
                     </div>
                   </div>

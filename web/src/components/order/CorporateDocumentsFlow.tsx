@@ -53,7 +53,9 @@ const DOCUMENTS: { key: string; label: string; hint: string }[] = [
 const DEBOUNCE_MS = 400;
 const MIN_QUERY   = 2;
 
-export default function CorporateDocumentsFlow() {
+export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCents?: number }) {
+  /* Price from the admin-editable catalogue via the server page. */
+  const price = `$${Math.round(priceCents / 100).toLocaleString()}`;
   const params = useSearchParams();
   const initialQuery    = params.get("q") ?? "";
   const initialProvince = params.get("jurisdiction") ?? "all";
@@ -178,7 +180,7 @@ export default function CorporateDocumentsFlow() {
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          Corporate Documents · $489 all-in + GST
+          Corporate Documents · {price} all-in + GST
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
           Order corporate documents on file
@@ -205,7 +207,7 @@ export default function CorporateDocumentsFlow() {
           notes={notes} setNotes={setNotes}
           contact={contact} setContact={setContact}
           onBack={() => setScreen("lookup")}
-          onSubmit={submit}
+          onSubmit={submit} price={price}
           submitting={submitting} submitErr={submitErr}
           canSubmit={canSubmit}
         />
@@ -303,7 +305,7 @@ function LookupScreen({
 
 function ConfirmScreen({
   hit, selected, toggleDoc, notes, setNotes,
-  contact, setContact, onBack, onSubmit,
+  contact, setContact, onBack, onSubmit, price,
   submitting, submitErr, canSubmit,
 }: {
   hit: RegistryHit;
@@ -311,7 +313,7 @@ function ConfirmScreen({
   notes: string; setNotes: (v: string) => void;
   contact: { name: string; email: string; phone: string };
   setContact: (v: { name: string; email: string; phone: string }) => void;
-  onBack: () => void; onSubmit: () => void;
+  onBack: () => void; onSubmit: () => void; price: string;
   submitting: boolean; submitErr: string; canSubmit: boolean;
 }) {
   return (
@@ -436,7 +438,7 @@ function ConfirmScreen({
         }}
       >
         {submitting ? <Loader2 size={16} className="crs-spin" /> : <Mail size={16} />}
-        {submitting ? "Redirecting to secure payment…" : "Pay $489 + GST and order"}
+        {submitting ? "Redirecting to secure payment…" : `Pay ${price} + GST and order`}
       </button>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>

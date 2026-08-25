@@ -195,6 +195,49 @@ export function formatPriceLabel(cents: number, unit: PriceUnit = "once"): strin
     : `${formatCents(cents)} all-in + GST`;
 }
 
+/**
+ * Rewrite the dollar figure inside an existing copy string to the live price.
+ *
+ * Deliberately a token swap rather than rebuilding the sentence: every config
+ * has its own wording ("Pay $99 + GST and file" vs "…and order" vs "…and
+ * start revival"), and regenerating would flatten those. Swapping just the
+ * number keeps the copy and guarantees it matches what Stripe charges.
+ *
+ * Handles "$99", "$1,699", "from $299", "$99/year".
+ */
+export function swapPrice(copy: string, cents: number): string {
+  return copy.replace(/\$[\d,]+(?:\.\d{2})?/, formatCents(cents));
+}
+
+/** A config object carrying a price and the copy that quotes it. */
+type PricedConfig = {
+  priceCents:   number;
+  priceLabel:   string;
+  buttonLabel?: string;
+};
+
+/**
+ * Return a copy of a service config with the live price applied to both the
+ * amount and every string that quotes it. Order pages are server components,
+ * so they call this and hand the result to the client flow — which means the
+ * page can never advertise a price the checkout won't honour.
+ */
+export async function withLivePrice<T extends PricedConfig>(cfg: T, key: string): Promise<T> {
+  let cents: number;
+  try {
+    cents = await getPriceCents(key);
+  } catch {
+    return cfg;   // unknown key — leave the shipped copy untouched
+  }
+  if (cents === cfg.priceCents) return cfg;
+  return {
+    ...cfg,
+    priceCents:  cents,
+    priceLabel:  swapPrice(cfg.priceLabel, cents),
+    ...(cfg.buttonLabel ? { buttonLabel: swapPrice(cfg.buttonLabel, cents) } : {}),
+  };
+}
+
 let indexEnsured = false;
 export async function ensurePricingIndexes(): Promise<void> {
   if (indexEnsured) return;

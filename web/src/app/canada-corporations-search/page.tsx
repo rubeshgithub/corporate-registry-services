@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CompanySearch from "@/components/CompanySearch";
+import { getPrices } from "@/lib/pricing";
+
+/* Statically generated, but the service card quotes live prices — revalidate
+   so an admin price change reaches the page within a minute instead of
+   waiting for the next deploy. Checkout is already correct immediately. */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Canada Corporations Search — Search Canadian Business Registries | CRS",
@@ -37,7 +43,7 @@ const REGISTRIES = [
   "Corporations Canada",
 ];
 
-export default function CanadaCorporationsSearchPage() {
+export default async function CanadaCorporationsSearchPage() {
   return (
     <>
       <Header />
@@ -71,7 +77,7 @@ export default function CanadaCorporationsSearchPage() {
 
         {/* Search + results */}
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "1.75rem 1.5rem 4rem" }}>
-          <CompanySearch />
+          <CompanySearch prices={await getPrices()} />
 
           {/* Source info */}
           <div

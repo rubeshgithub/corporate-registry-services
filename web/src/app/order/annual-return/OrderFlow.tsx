@@ -130,7 +130,10 @@ function nextAnniversary(incorpISO: string) {
   return { date: label, away, daysAway };
 }
 
-export default function OrderFlow() {
+export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: number }) {
+  /* Per-year price comes from the admin-editable pricing catalogue via the
+     server page, so the figures shown here always match what Stripe charges. */
+  const perYear = Math.round(perYearCents / 100);
   const params = useSearchParams();
   const initialJurisdiction = params.get("jurisdiction") ?? "all";
   const attributionSrc      = params.get("src") ?? "direct";
@@ -171,10 +174,10 @@ export default function OrderFlow() {
 
   const changeErr = changeErrors(changes);
 
-  const priceLabel = years === 1 ? "$99 all-in + GST" : `$${99 * years} all-in + GST`;
+  const priceLabel = `$${perYear * years} all-in + GST`;
   const buttonLabel = years === 1
-    ? "Pay $99 + GST and file"
-    : `Pay $${99 * years} + GST and file ${years} years`;
+    ? `Pay $${perYear} + GST and file`
+    : `Pay $${perYear * years} + GST and file ${years} years`;
 
   // Read initial query and years from URL. If ?q= is present the visitor
   // arrived from the company-search page with a specific pick — auto-run the
@@ -290,7 +293,7 @@ export default function OrderFlow() {
               color: "var(--gold)",
             }}
           >
-            Annual Return · from $99 all-in + GST
+            Annual Return · from {`$${perYear}`} all-in + GST
           </span>
           <h1
             style={{
@@ -568,7 +571,7 @@ export default function OrderFlow() {
           />
         )}
         <div style={{ marginTop: "0.75rem", fontSize: "0.8rem", color: "var(--text-muted)" }}>
-          Total: <strong style={{ color: "var(--text)" }}>{priceLabel}</strong>{years > 1 ? ` (${years} × $99)` : ""}
+          Total: <strong style={{ color: "var(--text)" }}>{priceLabel}</strong>{years > 1 ? ` (${years} × $${perYear})` : ""}
         </div>
       </div>
 

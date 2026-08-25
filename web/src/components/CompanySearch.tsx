@@ -101,7 +101,13 @@ function MetaPill({ label, value, tone }: { label: string; value: string; tone: 
   );
 }
 
-export default function CompanySearch() {
+export default function CompanySearch({ prices }: { prices?: Record<string, number> }) {
+  /* Effective prices from the admin-editable catalogue, injected by the
+     server page. Falls back to the shipped defaults if absent so the card
+     still renders — but then it is the checkout that is authoritative. */
+  const priceOf = (key: string, fallbackCents: number) =>
+    `$${Math.round((prices?.[key] ?? fallbackCents) / 100).toLocaleString()}`;
+
   const [query, setQuery]             = useState("");
   const [province, setProvince]       = useState("all");
   const [results, setResults]         = useState<Result[]>([]);
@@ -160,28 +166,28 @@ export default function CompanySearch() {
         key:   "profile-report",
         label: pc ? "Professional Corporation Profile Report" : "Corporate Profile Report",
         sub:   "Directors, addresses, status and filing history",
-        price: pc ? "$69" : "$49",
+        price: pc ? priceOf("pc-profile-report", 6900) : priceOf("profile-report", 4900),
         href:  orderHref("profile-report", r),
       },
       {
         key:   "annual-return",
         label: pc ? "Professional Corporation Annual Return" : "Annual Returns",
         sub:   "Keeps the corporation in good standing",
-        price: pc ? "from $139/yr" : "from $99/yr",
+        price: pc ? `from ${priceOf("pc-annual-return", 13900)}/yr` : `from ${priceOf("annual-return", 9900)}/yr`,
         href:  orderHref("annual-return", r),
       },
       {
         key:   "good-standing",
         label: "Certificate of Good Standing",
         sub:   "Government-issued proof the corporation is active",
-        price: "$79",
+        price: priceOf("good-standing", 7900),
         href:  orderHref("good-standing", r),
       },
       {
         key:   "corporate-documents",
         label: "Copies of Corporation Documents",
         sub:   "Full set from the date of incorporation to date",
-        price: "$489",
+        price: priceOf("corporate-documents", 48900),
         href:  pathHref("/order/corporate-documents", r),
       },
     ];
@@ -611,7 +617,7 @@ export default function CompanySearch() {
                         All professional corporation services
                       </span>
                       <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
-                        Changes {PRO_CORP_SERVICES["change-of-information"].priceLabel.replace(" all-in + GST", "")} · Revival {PRO_CORP_SERVICES["revival"].priceLabel.replace(" all-in + GST", "")}
+                        Changes {priceOf("pc-change-of-information", 16900)} · Revival {priceOf("pc-revival", 48900)}
                       </span>
                     </span>
                     <ArrowRight size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
@@ -675,7 +681,7 @@ export default function CompanySearch() {
                               {s.label}
                             </span>
                             <span style={{ display: "block", fontSize: "0.7rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace", marginTop: "0.15rem" }}>
-                              {s.estimatedFee}
+                              {priceOf(s.key, s.priceCents ?? 0)}{s.estimatedFee.includes("/year") ? "/year" : ""} all-in + GST
                             </span>
                           </span>
                           <ArrowRight size={12} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.2rem" }} />
