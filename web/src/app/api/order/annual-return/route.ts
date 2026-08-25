@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { isProfessionalCorporation, proCorpPriceCents } from "@/lib/professional-corp";
+import { isProfessionalCorporation } from "@/lib/professional-corp";
+import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
 
 /**
  * POST /api/order/annual-return
@@ -144,10 +145,10 @@ export async function POST(req: Request) {
      accordingly. Derived server-side from the registry hit — a client-sent
      flag would let the customer pick the cheaper standard rate. */
   const isPC       = isProfessionalCorporation(body.hit);
-  const pcPerYear  = proCorpPriceCents(body.hit, "annual-return");
+  const pcPerYear  = await proCorpPriceCentsLive(isPC, "annual-return");
   const perYearCents = USE_TEST_PRICE
     ? PRICE_PER_YEAR_CAD_CENTS
-    : (pcPerYear ?? REAL_PRICE_PER_YEAR_CAD_CENTS);
+    : (pcPerYear ?? await getPriceCents("annual-return"));
 
   try {
     const session = await stripe.checkout.sessions.create({

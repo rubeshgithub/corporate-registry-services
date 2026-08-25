@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { getAnalyticsData, getTrafficData, getSecondaryTrends, parseWindowToken, OPERATOR_TZ, type Bucket, type AnalyticsData, type OrderRow, type TrafficData, type WindowToken, type SecondaryTrends } from "@/lib/analytics";
 import { getInboundInsights, fmtLocal, type InboundInsights } from "@/lib/inbound-insights";
+import PricingEditor from "./PricingEditor";
 
 // 5-minute cache so the dashboard doesn't hammer the Stripe API on refresh.
 export const revalidate = 300;
@@ -33,6 +34,7 @@ export default async function AnalyticsPage({
     <div style={{ minHeight: "100vh", background: "var(--bg-deep)", padding: "2rem 1.5rem" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
         <TopBar token={token} label={data.windowLabel} fetchedAt={data.fetchedAt} />
+        <PricingEditor />
         <SummaryCards data={data} traffic={traffic} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
           <BreakdownCard title="Orders by service"          buckets={data.byService}      totalOrders={data.totalOrders} />

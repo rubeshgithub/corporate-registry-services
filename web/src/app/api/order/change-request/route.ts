@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { CHANGE_CONFIGS, type ChangeServiceKey } from "@/lib/change-config";
-import { isProfessionalCorporation, proCorpPriceCents, PRO_CORP_SERVICES, type ProCorpServiceKey } from "@/lib/professional-corp";
+import { isProfessionalCorporation, PRO_CORP_SERVICES, type ProCorpServiceKey } from "@/lib/professional-corp";
+import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
 
 /**
  * POST /api/order/change-request
@@ -82,9 +83,9 @@ export async function POST(req: Request) {
   };
   const pcServiceKey = PC_SERVICE_FOR[body.service];
   const isPC     = !!pcServiceKey && isProfessionalCorporation(body.hit);
-  const pcCents  = pcServiceKey ? proCorpPriceCents(body.hit, pcServiceKey) : null;
+  const pcCents  = pcServiceKey ? await proCorpPriceCentsLive(isPC, pcServiceKey) : null;
 
-  const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : (pcCents ?? config.priceCents);
+  const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : (pcCents ?? await getPriceCents(body.service));
   const productName = isPC && pcServiceKey ? PRO_CORP_SERVICES[pcServiceKey].label : config.productName;
   const stripe      = new Stripe(secret);
   const origin      = req.headers.get("origin") ?? new URL(req.url).origin;

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getPriceCents } from "@/lib/pricing";
 
 /**
  * POST /api/order/incorporation
@@ -17,17 +18,16 @@ import Stripe from "stripe";
  * that amount instead — used for one-off live-mode end-to-end tests.
  * Unset the env var after testing to restore real prices.
  */
-const REAL_PRICE_CENTS: Record<string, number> = {
-  numbered:            69900,
-  named:               74900,
-  "extra-provincial":  29900,
-  "not-for-profit":    69900,
+/* Prices resolved from the pricing catalogue at request time so the admin
+   screen controls them. Keys map to the catalogue's incorporation entries. */
+const PRICE_KEY_FOR_TYPE: Record<string, string> = {
+  numbered:            "incorporation-numbered",
+  named:               "incorporation-named",
+  "extra-provincial":  "extra-provincial",
+  "not-for-profit":    "incorporation-nfp",
 };
 const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
 const USE_TEST_PRICE = Number.isFinite(TEST_OVERRIDE_CENTS) && TEST_OVERRIDE_CENTS > 0;
-const PRICE_CENTS: Record<string, number> = USE_TEST_PRICE
-  ? Object.fromEntries(Object.keys(REAL_PRICE_CENTS).map((k) => [k, TEST_OVERRIDE_CENTS]))
-  : REAL_PRICE_CENTS;
 if (USE_TEST_PRICE) {
   console.warn(`[order/incorporation] TEST PRICE ACTIVE: charging ${TEST_OVERRIDE_CENTS} cents for every incorporation type.`);
 }
@@ -71,7 +71,7 @@ type Body    = {
 function isValid(b: Body): string | null {
   const f = b.form;
   if (!f)                            return "Missing form.";
-  if (!(f.companyType in PRICE_CENTS)) return "Invalid company type.";
+  if (!(f.companyType in PRICE_KEY_FOR_TYPE)) return "Invalid company type.";
   if (!f.jurisdictionKey)            return "Choose a jurisdiction.";
   if (f.companyType === "named" && !f.nameOptions.some((n) => n.trim())) return "At least one proposed name is required.";
   if (f.companyType === "extra-provincial" && (!f.homeJurisdiction || !f.existingCorpName.trim())) return "Home jurisdiction and existing name are required.";
@@ -116,6 +116,12 @@ export async function POST(req: Request) {
   const origin = req.headers.get("origin") ?? new URL(req.url).origin;
   const sum = summarize(f);
 
+  /* Price resolved from the pricing catalogue (admin-editable) at request
+     time, not from a module constant. */
+  const unitAmount = USE_TEST_PRICE
+    ? TEST_OVERRIDE_CENTS
+    : await getPriceCents(PRICE_KEY_FOR_TYPE[f.companyType]);
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -130,7 +136,7 @@ export async function POST(req: Request) {
         {
           price_data: {
             currency:     "cad",
-            unit_amount:  PRICE_CENTS[f.companyType],
+            unit_amount:  unitAmount,
             tax_behavior: "exclusive",
             product_data: {
               name: `Incorporation — ${LABEL[f.companyType]} — ${f.jurisdictionKey.toUpperCase()}`,

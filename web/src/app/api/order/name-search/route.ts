@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { NAME_SEARCH_CONFIGS, type NameSearchServiceKey } from "@/lib/name-search-config";
 import { JURISDICTIONS } from "@/lib/service-config";
+import { getPriceCents } from "@/lib/pricing";
 
 /**
  * POST /api/order/name-search
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 
   const config     = NAME_SEARCH_CONFIGS[body.service];
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : config.priceCents;
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents(body.service);
   const jurisdictionLabel = body.jurisdiction
     ? JURISDICTIONS.find((j) => j.key === body.jurisdiction)?.label ?? body.jurisdiction
     : "Federal";

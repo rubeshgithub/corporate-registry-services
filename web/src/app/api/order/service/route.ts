@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { findService, findBucketForService } from "@/lib/service-config";
+import { getPriceCents, priceKeyForService } from "@/lib/pricing";
 
 /**
  * POST /api/order/service
@@ -89,7 +90,7 @@ export async function POST(req: Request) {
   }
 
   const bucket     = findBucketForService(body.serviceKey);
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : service.priceCents;
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents(priceKeyForService(service.key));
   const stripe     = new Stripe(secret);
   const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
 

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { REPORT_CONFIGS, type ReportServiceKey } from "@/lib/report-config";
-import { isProfessionalCorporation, proCorpPriceCents, PRO_CORP_SERVICES } from "@/lib/professional-corp";
+import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
+import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
 
 /**
  * POST /api/order/report
@@ -72,8 +73,8 @@ export async function POST(req: Request) {
      profile report has a published PC price; good-standing keeps its
      standard price until one is set. */
   const isPC     = body.service === "profile-report" && isProfessionalCorporation(body.hit);
-  const pcCents  = isPC ? proCorpPriceCents(body.hit, "profile-report") : null;
-  const baseCents = pcCents ?? config.priceCents;
+  const pcCents  = await proCorpPriceCentsLive(isPC, "profile-report");
+  const baseCents = pcCents ?? await getPriceCents(body.service);
 
   const unitAmount  = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : baseCents;
   const productName = isPC ? PRO_CORP_SERVICES["profile-report"].label : config.productName;

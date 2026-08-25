@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { findService } from "@/lib/service-config";
+import { getPriceCents } from "@/lib/pricing";
 
 /**
  * POST /api/order/corporate-documents
@@ -82,7 +83,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Service is not priced." }, { status: 500 });
   }
 
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : service.priceCents;
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents("corporate-documents");
   const wanted     = (body.documents ?? []).map((k) => DOC_LABELS[k]).filter(Boolean);
   const stripe     = new Stripe(secret);
   const origin     = req.headers.get("origin") ?? new URL(req.url).origin;

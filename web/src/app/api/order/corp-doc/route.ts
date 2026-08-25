@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { CORP_DOC_CONFIGS, type CorpDocServiceKey } from "@/lib/corp-doc-config";
+import { getPriceCents } from "@/lib/pricing";
 
 /**
  * POST /api/order/corp-doc
@@ -75,7 +76,7 @@ export async function POST(req: Request) {
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 
   const config     = CORP_DOC_CONFIGS[body.service];
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : config.priceCents;
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents(body.service);
   const stripe     = new Stripe(secret);
   const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
 
