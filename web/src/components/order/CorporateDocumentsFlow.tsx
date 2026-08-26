@@ -208,7 +208,7 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
           notes={notes} setNotes={setNotes}
           contact={contact} setContact={setContact}
           onBack={() => setScreen("lookup")}
-          onSubmit={submit} price={price} src={src}
+          onSubmit={submit} price={price} priceCents={priceCents} src={src}
           submitting={submitting} submitErr={submitErr}
           canSubmit={canSubmit}
         />
@@ -306,7 +306,7 @@ function LookupScreen({
 
 function ConfirmScreen({
   hit, selected, toggleDoc, notes, setNotes,
-  contact, setContact, onBack, onSubmit, price, src,
+  contact, setContact, onBack, onSubmit, price, priceCents, src,
   submitting, submitErr, canSubmit,
 }: {
   hit: RegistryHit;
@@ -314,7 +314,7 @@ function ConfirmScreen({
   notes: string; setNotes: (v: string) => void;
   contact: { name: string; email: string; phone: string };
   setContact: (v: { name: string; email: string; phone: string }) => void;
-  onBack: () => void; onSubmit: () => void; price: string; src: string;
+  onBack: () => void; onSubmit: () => void; price: string; priceCents: number; src: string;
   submitting: boolean; submitErr: string; canSubmit: boolean;
 }) {
   return (
@@ -450,6 +450,7 @@ function ConfirmScreen({
         service="corporate-documents"
         serviceLabel="Copies of Corporation Documents"
         priceLabel={`${price} all-in + GST`}
+        priceCents={priceCents}
         company={{
           name:           hit.name,
           registryId:     hit.registryId,

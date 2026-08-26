@@ -466,6 +466,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
         service={config.key}
         serviceLabel={isPC ? PRO_CORP_SERVICES["profile-report"].label : config.label}
         priceLabel={isPC ? pcService.priceLabel : config.priceLabel}
+        priceCents={isPC ? pcService.priceCents : config.priceCents}
         company={pick ? {
           name:           pick.name,
           registryId:     pick.registryId,

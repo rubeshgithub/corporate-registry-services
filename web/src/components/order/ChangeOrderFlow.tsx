@@ -356,6 +356,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
         service={config.key}
         serviceLabel={config.label}
         priceLabel={config.priceLabel}
+        priceCents={config.priceCents}
         company={pick ? {
           name:           pick.name,
           registryId:     pick.registryId,

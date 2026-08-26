@@ -22,6 +22,20 @@ import { Loader2, Check, AlertCircle, ChevronDown } from "lucide-react";
  *    off a public page and lets the operator match the transfer to an order.
  */
 
+/**
+ * Minimum order value that justifies offering e-Transfer, in cents.
+ *
+ * Every e-Transfer is manual work on both sides — we email instructions, they
+ * send it, we reconcile it against an order, then we start. On a $49 profile
+ * report that handling can cost more than the sale. Above ~$200 the margin
+ * carries it, and the customers who genuinely cannot use a card are usually
+ * buying the larger services anyway.
+ *
+ * Applies to the order TOTAL, so a 3-year annual-return catch-up qualifies
+ * even though a single year does not.
+ */
+const MIN_ETRANSFER_CENTS = 20_000;
+
 export type ETransferCompany = {
   name?:            string;
   registryId?:      string;
@@ -40,6 +54,7 @@ export default function ETransferCapture({
   service,
   serviceLabel,
   priceLabel,
+  priceCents,
   company,
   contact,
   src,
@@ -47,6 +62,9 @@ export default function ETransferCapture({
   service:       string;
   serviceLabel?: string;
   priceLabel?:   string;
+  /** Order total in cents. Below MIN_ETRANSFER_CENTS the block does not
+   *  render at all — see the constant for why. */
+  priceCents?:   number;
   company?:      ETransferCompany;
   /** Anything the visitor already typed on the form — pre-fills the field so
    *  they don't retype an email they just entered. */
@@ -60,6 +78,12 @@ export default function ETransferCapture({
   const [err, setErr]       = useState("");
 
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+  /* Below the threshold the option is not offered. Checked after the hooks so
+     the hook order stays stable across renders — an order total can change
+     mid-flow (adding years to an annual return), and bailing before the
+     useState calls would break React's rules. */
+  const offered = (priceCents ?? 0) >= MIN_ETRANSFER_CENTS;
 
   const submit = async () => {
     if (!valid || state === "sending") return;
@@ -88,6 +112,10 @@ export default function ETransferCapture({
       setErr(e instanceof Error ? e.message : "Could not send. Please try again.");
     }
   };
+
+  /* Already-submitted state still renders even if the total later drops below
+     the threshold — the customer is owed the confirmation they just earned. */
+  if (!offered && state !== "sent") return null;
 
   if (state === "sent") {
     return (

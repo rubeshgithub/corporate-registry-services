@@ -356,6 +356,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
         service={service.key}
         serviceLabel={service.label}
         priceLabel={service.estimatedFee}
+        priceCents={service.priceCents ?? 0}
         company={pick ? {
           name:           pick.name,
           registryId:     pick.registryId,

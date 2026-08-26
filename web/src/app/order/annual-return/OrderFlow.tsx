@@ -663,6 +663,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
         service="annual-return"
         serviceLabel={years === 1 ? "Annual Return" : `Annual Return (${years} years)`}
         priceLabel={priceLabel}
+        priceCents={perYearCents * years}
         company={pick ? {
           name:           pick.name,
           registryId:     pick.registryId,
