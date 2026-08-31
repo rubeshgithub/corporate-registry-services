@@ -257,23 +257,73 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
     update({ customer: { ...state.customer, [field]: value } });
   };
 
+  /** Raise a quote. Only reached when the basket contains something that
+   *  genuinely cannot be sold directly — currently just not-for-profit
+   *  incorporation, which routes to a consultation by design. */
+  const submitQuote = async () => {
+    const res = await fetch("/api/wizard-submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(state),
+    });
+    if (!res.ok) throw new Error("quote-failed");
+    const { ref } = await res.json();
+    localStorage.removeItem(STORAGE_KEY);
+    window.location.href = `/order/thanks?ref=${ref}`;
+  };
+
+  /**
+   * Take payment for the whole basket rather than emailing a quote.
+   *
+   * The single-service case already fast-paths into that service's own
+   * order flow (see goFastCheckout). This covers the multi-service case,
+   * which used to fall straight through to a quote — so picking three
+   * services, one of them a $99 annual return with a working one-click
+   * checkout, produced an email to answer by hand.
+   *
+   * A 409 means one of the chosen services isn't directly purchasable; that
+   * is the only case where a quote is still the right answer, so we fall
+   * back rather than failing.
+   */
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const res = await fetch("/api/wizard-submit", {
+      const res = await fetch("/api/order/wizard-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(state),
+        body: JSON.stringify({
+          bucketKey:       state.bucketKey,
+          serviceKeys:     state.serviceKeys,
+          jurisdictionKey: state.jurisdictionKey,
+          details:         state.details,
+          customer:        state.customer,
+          src:             "wizard",
+        }),
       });
+
       if (res.ok) {
-        const { ref } = await res.json();
-        localStorage.removeItem(STORAGE_KEY);
-        window.location.href = `/order/thanks?ref=${ref}`;
-      } else {
-        alert("Something went wrong. Please try again or email us directly.");
+        const { url } = await res.json();
+        if (url) {
+          localStorage.removeItem(STORAGE_KEY);
+          window.location.href = url;
+          return;
+        }
       }
+
+      if (res.status === 409) {
+        await submitQuote();
+        return;
+      }
+
+      /* Anything else — Stripe down, misconfiguration — is better handled by
+         capturing the lead than by showing the visitor a dead end. */
+      await submitQuote();
     } catch {
-      alert("Network error. Please try again.");
+      try {
+        await submitQuote();
+      } catch {
+        alert("Network error. Please try again, or email us directly.");
+      }
     } finally {
       setSubmitting(false);
     }

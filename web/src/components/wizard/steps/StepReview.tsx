@@ -17,6 +17,25 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
   );
   const jurisdiction = JURISDICTIONS.find((j) => j.key === state.jurisdictionKey);
 
+  /* Multi-year annual-return catch-up is billed per year — the wizard
+     collects the count in details.yearsOwing. */
+  const qtyFor = (key: string) => {
+    if (key !== "annual-return-multiple") return 1;
+    const n = parseInt(state.details.yearsOwing ?? "", 10);
+    return Number.isFinite(n) && n >= 2 && n <= 10 ? n : 2;
+  };
+
+  /* Every selected service must be directly purchasable for this to be a
+     checkout rather than a quote — one that isn't (not-for-profit routes to
+     a consultation) sends the whole basket down the quote path, so the copy
+     has to follow suit. */
+  const priced      = selectedServices.map((s) => ({ svc: s, qty: qtyFor(s.key) }));
+  const allPurchasable = priced.every(({ svc }) => typeof svc.priceCents === "number");
+  const totalCents  = allPurchasable
+    ? priced.reduce((sum, { svc, qty }) => sum + (svc.priceCents ?? 0) * qty, 0)
+    : 0;
+  const fmt = (c: number) => `$${(c / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+
   return (
     <div className="step-enter">
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: "0.75rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.06em" }}>
@@ -26,7 +45,9 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
         Review your order
       </h2>
       <p style={{ fontSize: "0.825rem", color: "var(--text-muted)", marginBottom: "1rem" }}>
-        We&apos;ll send you a custom quote within 1 hour.
+        {allPurchasable
+          ? "Pay securely and we start straight away — no waiting on a quote."
+          : "One of your selections needs a specialist, so we'll send a custom quote within 1 hour."}
       </p>
 
       {/* Summary box */}
@@ -53,6 +74,26 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
         {state.customer.company && <ReviewRow label="Company" value={state.customer.company} />}
         <ReviewRow label="Contact via" value={state.customer.preferredContact} />
       </div>
+
+      {allPurchasable && (
+        <div style={{ borderRadius: "0.625rem", border: "1px solid var(--gold)", background: "var(--gold-dim)", padding: "0.875rem", marginBottom: "1rem" }}>
+          {priced.map(({ svc, qty }) => (
+            <div key={svc.key} style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", fontSize: "0.82rem", color: "var(--text)", marginBottom: "0.35rem" }}>
+              <span>{svc.label}{qty > 1 ? ` × ${qty}` : ""}</span>
+              <span style={{ fontFamily: "var(--font-mono), monospace", whiteSpace: "nowrap" }}>
+                {fmt((svc.priceCents ?? 0) * qty)}
+              </span>
+            </div>
+          ))}
+          <div style={{ borderTop: "1px solid rgba(0,0,0,0.12)", marginTop: "0.5rem", paddingTop: "0.5rem", display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "0.9rem", color: "var(--text)" }}>
+            <span>Total</span>
+            <span style={{ fontFamily: "var(--font-mono), monospace" }}>{fmt(totalCents)} + GST</span>
+          </div>
+          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem" }}>
+            All government fees included. GST calculated at checkout.
+          </div>
+        </div>
+      )}
 
       {/* Terms */}
       <label
