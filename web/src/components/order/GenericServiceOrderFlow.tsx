@@ -6,6 +6,8 @@ import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-r
 import { JURISDICTIONS, type ServiceItem } from "@/lib/service-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { type RegistryAccessState } from "@/lib/registry-access";
 
 /**
  * Checkout for catalogue services that don't warrant a bespoke flow —
@@ -51,6 +53,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]   = useState(false);
   const [payErr, setPayErr]   = useState("");
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
   useOrderDraftBeacon({
     service:  service.key,
@@ -137,6 +140,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
           hit:        pick,
           details,
           contact,
+          registryAccess,
           src:        attributionSrc,
         }),
       });
@@ -305,6 +309,14 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
           ))}
         </div>
       )}
+
+      <RegistryAccessField
+        service={service.key}
+        provinceKey={pick?.provinceKey}
+        jurisdictionLabel={pick?.jurisdiction}
+        value={registryAccess}
+        onChange={setRegistryAccess}
+      />
 
       {/* Contact */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)", padding: "1.5rem 1.75rem", marginBottom: "1.25rem", boxShadow: "var(--shadow-card)" }}>

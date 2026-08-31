@@ -7,6 +7,8 @@ import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput from "@/components/PlacesInput";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { type RegistryAccessState } from "@/lib/registry-access";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -156,6 +158,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
   /* Cart-abandonment beacon. Debounced upsert of the current contact + company
      selection into order_drafts. Disabled once we've fired the Stripe redirect
@@ -261,6 +264,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
           years,
           changes,
           contact,
+          registryAccess,
           src: attributionSrc,
           ref: outreachRef,
         }),
@@ -578,6 +582,14 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
 
       {/* What changed? */}
       <ChangesSection years={years} changes={changes} setChanges={setChanges} error={changeErr} />
+
+      <RegistryAccessField
+        service={"annual-return"}
+        provinceKey={pick?.provinceKey}
+        jurisdictionLabel={pick?.jurisdiction}
+        value={registryAccess}
+        onChange={setRegistryAccess}
+      />
 
       {/* Contact */}
       <div

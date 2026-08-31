@@ -471,6 +471,9 @@ Payment:       ${s.payment_status}
 Years to file: ${m.years_filed ?? "1"}
 Attribution:   ${m.src ?? "—"}
 
+--- Registry access ---
+${m.registry_access || "(not applicable for this jurisdiction)"}
+
 --- Company (from live registry lookup) ---
 Name:          ${m.company_name ?? "—"}
 Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
@@ -700,6 +703,9 @@ NEW PAID ORDER — ${label} — Stripe session ${session.id}
 Amount:        ${fmtAmount(session)}
 Payment:       ${session.payment_status}
 Attribution:   ${m.src ?? "—"}
+
+--- Registry access ---
+${m.registry_access || "(not applicable for this jurisdiction)"}
 
 --- Company (from live registry lookup) ---
 Name:          ${m.company_name ?? "—"}
@@ -1061,6 +1067,9 @@ Entity type:   ${m.entity_type ?? "—"}
 Status:        ${m.registry_status ?? "—"}
 Incorporated:  ${m.incorp_date ?? "—"}
 Location:      ${m.location ?? "—"}
+
+--- Registry access ---
+${m.registry_access || "(not applicable)"}
 
 --- ${label} ---
 ${m.docs_requested ? `Documents requested: ${m.docs_requested}\n` : ""}${m.notes ? `Notes: ${m.notes}\n` : ""}${detailLines || "(no structured details)"}

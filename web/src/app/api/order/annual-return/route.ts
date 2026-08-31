@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { isProfessionalCorporation } from "@/lib/professional-corp";
 import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
+import { registryAccessFor, summarizeRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
 
 /**
  * POST /api/order/annual-return
@@ -59,6 +60,7 @@ type Changes = {
 };
 
 type Body = {
+  registryAccess?: RegistryAccessState;
   hit:      Hit;
   years:    number;
   changes:  Changes;
@@ -187,6 +189,9 @@ export async function POST(req: Request) {
       metadata: {
         service:            years === 1 ? "annual-return" : "annual-return-multiple",
         pro_corp:           isPC ? "yes" : "no",
+        /* What the customer told us about their registry credential —
+           the fulfillment team needs this before they can file. */
+        registry_access: summarizeRegistryAccess(body.registryAccess, registryAccessFor(body.hit.provinceKey)).slice(0, 480),
         years_filed:        String(years),
         src:                body.src.slice(0, 100),
         outreach_ref:       (body.ref ?? "").slice(0, 32),

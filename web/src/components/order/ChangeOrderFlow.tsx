@@ -7,6 +7,8 @@ import { JURISDICTIONS } from "@/lib/service-config";
 import type { ChangeServiceConfig } from "@/lib/change-config";
 import PlacesInput from "@/components/PlacesInput";
 import ETransferCapture from "@/components/order/ETransferCapture";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { type RegistryAccessState } from "@/lib/registry-access";
 
 /**
  * Shared checkout for the four form-based change services:
@@ -88,6 +90,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
   useEffect(() => {
     const q = params.get("q");
@@ -165,6 +168,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
           hit:     pick,
           details,
           contact,
+          registryAccess,
           src:     attributionSrc,
         }),
       });
@@ -301,6 +305,14 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
 
       {/* Service-specific middle section */}
       <DetailsSection config={config} details={details} setDetails={setDetails} />
+
+      <RegistryAccessField
+        service={config.key}
+        provinceKey={pick?.provinceKey}
+        jurisdictionLabel={pick?.jurisdiction}
+        value={registryAccess}
+        onChange={setRegistryAccess}
+      />
 
       {/* Contact */}
       <div style={cardStyle}>
