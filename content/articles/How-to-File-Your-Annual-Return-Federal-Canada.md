@@ -1,6 +1,6 @@
 ﻿---
-title: "CBCA Annual Return | Corporations Canada | $99, 24 Hrs"
-h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 24 Hours"
+title: "CBCA Annual Return | Corporations Canada | $129 All-In"
+h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
 description: "CBCA annual return filed with Corporations Canada in 1 business day — $129 all-in, government fee included. It's not your CRA T2. Beat the 60-day deadline."

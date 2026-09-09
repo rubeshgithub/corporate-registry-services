@@ -1,6 +1,6 @@
 ﻿---
-title: "CORES Alberta Annual Return | Certified Agent | $99, 24 Hrs"
-h1: "Alberta Annual Return: Filed via CORES in 24 Hours"
+title: "CORES Alberta Annual Return | Certified Agent | $129"
+h1: "Alberta Annual Return: Filed via CORES in 1 Business Day"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
 description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — $129 all-in, no CORES account needed. Beat your 1-month deadline."
