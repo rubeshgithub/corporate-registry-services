@@ -3,10 +3,10 @@ title: "CORES Alberta Annual Return | Certified Agent | $99, 24 Hrs"
 h1: "Alberta Annual Return: Filed via CORES in 24 Hours"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
-description: "Certified CORES Registry Agent files your Alberta annual return in 24 hours — $129 all-in, no CORES account needed. Beat your 1-month deadline."
+description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — $129 all-in, no CORES account needed. Beat your 1-month deadline."
 ---
 
-**Deadline coming up?** [File your Alberta annual return in 24 hours →](/file-annual-return/alberta) · $129 all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
+**Deadline coming up?** [File your Alberta annual return in 1 business day →](/file-annual-return/alberta) · $129 all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
 
 Alberta corporations incorporated under the *Business Corporations Act (Alberta)* (ABCA) must file an annual return every year with the Alberta Corporate Registry to maintain their good standing. Alberta has one of the shortest filing windows in Canada — annual returns are due within just one month of the corporation's anniversary date. This guide covers the rules, deadlines, fees, forms, and late-filing consequences — with a jump-off point to file when you're ready.
 
@@ -83,7 +83,7 @@ Note: Alberta corporate annual returns are separate from **GST returns** (filed 
 
 CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.
 
-**Turnaround:** 24 hours from order.
+**Turnaround:** 1 business day from order.
 **Price:** $129 + applicable tax — all-in, including the $47 government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta)

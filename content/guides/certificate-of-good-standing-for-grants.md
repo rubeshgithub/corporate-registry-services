@@ -8,7 +8,7 @@ faq:
   - q: "Which grants require a Certificate of Good Standing?"
     a: "Most federal and provincial grants require it, including the Ontario Trillium Foundation, Ontario Gaming Grants, Canada Cultural Investment Fund, IRAP, Canada Book Fund, provincial arts councils, and virtually all not-for-profit funders. Check the specific program guidelines — they will name either 'Certificate of Good Standing' or 'proof of good standing.'"
   - q: "What if my annual return is overdue?"
-    a: "The registry will not issue a Certificate of Good Standing while any annual return is outstanding. File the missing annual return first (CRS files within 24 hours), then order the certificate. Missing the grant deadline because of a stale annual filing is one of the most common reasons applications are rejected."
+    a: "The registry will not issue a Certificate of Good Standing while any annual return is outstanding. File the missing annual return first (CRS files within 1 business day), then order the certificate. Missing the grant deadline because of a stale annual filing is one of the most common reasons applications are rejected."
   - q: "How fresh does the certificate have to be for a grant application?"
     a: "Most funders require the certificate dated within 30 days of application submission — many require it within 14 days. If your intake deadline is next week, order the certificate this week, not last week."
   - q: "How fast can I get one?"
@@ -59,7 +59,7 @@ If you're incorporated as a not-for-profit, cross-check the [Grants for Not-for-
 
 Here's the pattern that wins:
 
-1. **60+ days out from deadline** — Confirm your annual return is filed. If overdue, [file it now through CRS](/annual-return) (filed within 24 hours).
+1. **60+ days out from deadline** — Confirm your annual return is filed. If overdue, [file it now through CRS](/annual-return) (filed within 1 business day).
 2. **30 days out** — Check the program's specific freshness window. Ontario Gaming requires the certificate be current at intake; OTF requires it dated within 30 days of application.
 3. **14 days out** — Order the Certificate of Good Standing through CRS. Delivered by email within one business hour for most jurisdictions.
 4. **Application day** — Attach the PDF to your application and submit.

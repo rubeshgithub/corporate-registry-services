@@ -3,10 +3,10 @@ title: "CBCA Annual Return | Corporations Canada | $99, 24 Hrs"
 h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 24 Hours"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
-description: "CBCA annual return filed with Corporations Canada in 24 hours — $129 all-in, government fee included. It's not your CRA T2. Beat the 60-day deadline."
+description: "CBCA annual return filed with Corporations Canada in 1 business day — $129 all-in, government fee included. It's not your CRA T2. Beat the 60-day deadline."
 ---
 
-**Deadline coming up?** [File your federal (CBCA) annual return in 24 hours →](/order/annual-return) · $129 all-in, filed with Corporations Canada — not your CRA T2 return.
+**Deadline coming up?** [File your federal (CBCA) annual return in 1 business day →](/order/annual-return) · $129 all-in, filed with Corporations Canada — not your CRA T2 return.
 
 Federal corporations incorporated under the *Canada Business Corporations Act* (CBCA) must file an annual return with Corporations Canada every year. This is separate from any provincial or territorial filings and separate from your federal tax return with the Canada Revenue Agency.
 
@@ -83,7 +83,7 @@ If the federal annual return is not filed within the 60-day window after the ann
 
 CRS files CBCA annual returns directly with Corporations Canada on your behalf. You don't need a GCKey, Sign-In Partner, or corporation access code — we handle the Online Filing Centre, submit the return before your 60-day deadline, and email you the Corporations Canada confirmation for your records.
 
-**Turnaround:** 24 hours from order.
+**Turnaround:** 1 business day from order.
 **Price:** $129 + applicable tax — all-in, including the $12 government fee.
 
 [File your federal (CBCA) annual return now →](/order/annual-return)

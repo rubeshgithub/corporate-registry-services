@@ -2,10 +2,10 @@
 title: "Northwest Territories Annual Return: How to File with NWT Corporate Registries — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Northwest-Territories"
 section: "articles"
-description: "File your Northwest Territories Annual Return through NWT Corporate Registries — $129 all-in, government fee included. Filed within 24 hours, deadline monitored every year."
+description: "File your Northwest Territories Annual Return through NWT Corporate Registries — $129 all-in, government fee included. Filed within 1 business day, deadline monitored every year."
 ---
 
-**Deadline coming up?** [File your NWT annual return in 24 hours →](/order/annual-return) · $129 all-in, filed directly through the NT Corporate Registry — no portal login required.
+**Deadline coming up?** [File your NWT annual return in 1 business day →](/order/annual-return) · $129 all-in, filed directly through the NT Corporate Registry — no portal login required.
 
 Corporations incorporated in the Northwest Territories under the *Business Corporations Act (Northwest Territories)* must file an annual return with the NT Corporate Registry within 2 months of the corporation's anniversary date.
 
@@ -42,7 +42,7 @@ The NWT government fee is **$50**.
 
 CRS files Northwest Territories annual returns directly through the NT Corporate Registry on your behalf. You don't need to navigate the territorial portal yourself — we prepare the return, file it before your 2-month anniversary deadline, and email you the confirmation.
 
-**Turnaround:** 24 hours from order.
+**Turnaround:** 1 business day from order.
 **Price:** $129 + applicable tax — all-in, including the $50 government fee.
 
 [File your NWT annual return now →](/order/annual-return)

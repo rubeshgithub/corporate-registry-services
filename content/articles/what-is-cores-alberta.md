@@ -3,7 +3,7 @@ title: "What Is CORES in Alberta? Corporate Registry Explained"
 h1: "What Is CORES in Alberta?"
 slug: "what-is-cores-alberta"
 section: "articles"
-description: "CORES is Alberta's Corporate Registry system. Learn who can access it, what Levels 1–3 mean, and how to file without a CORES account — in 24 hours."
+description: "CORES is Alberta's Corporate Registry system. Learn who can access it, what Levels 1–3 mean, and how to file without a CORES account — in 1 business day."
 faq:
   - q: "What does CORES stand for?"
     a: "CORES is Alberta's Corporate Registry System — the electronic platform Service Alberta uses to process all corporate filings and searches in the province, from incorporations and annual returns to amendments and dissolutions."
@@ -12,12 +12,12 @@ faq:
   - q: "Can I get my own CORES account?"
     a: "Not as an ordinary business owner. Direct CORES access is limited to accredited registry agents, Alberta law firms in public practice, and high-volume subscribers processing 50+ transactions per month with an accredited person on staff. Everyone else files through an authorized registry agent."
   - q: "How much does a CORES filing cost?"
-    a: "The government fee depends on the transaction — an Alberta annual return carries a $47 government fee, for example — and the registry agent filing it adds a service fee they set independently. CRS charges $129 all-in + GST for an Alberta annual return, including the $47 government fee, filed within 24 hours."
+    a: "The government fee depends on the transaction — an Alberta annual return carries a $47 government fee, for example — and the registry agent filing it adds a service fee they set independently. CRS charges $129 all-in + GST for an Alberta annual return, including the $47 government fee, filed within 1 business day."
   - q: "Do other provinces use CORES?"
     a: "No. CORES is Alberta-specific. Other jurisdictions run their own systems — Ontario uses the Ontario Business Registry, BC uses BC Registry Services, and federal corporations file through Corporations Canada's Online Filing Centre — and most of those allow direct public filing, unlike Alberta."
 ---
 
-**Just need a filing done?** [File through a CORES Certified Registry Agent →](/file-annual-return/alberta) · $129 all-in, 24 hours — no CORES account required.
+**Just need a filing done?** [File through a CORES Certified Registry Agent →](/file-annual-return/alberta) · $129 all-in, 1 business day — no CORES account required.
 
 CORES is Alberta's **Corporate Registry System** — the government platform where every Alberta incorporation, annual return, amendment, and corporate search is actually processed. Here's the part that surprises most business owners: **you can't log into CORES yourself.** Access is restricted to accredited registry agents, law firms, and high-volume subscribers, which is why Alberta corporations file through an authorized CORES agent instead.
 
@@ -67,15 +67,15 @@ Your Alberta annual return is due within one month of your incorporation anniver
 
 1. Send us your corporation's legal name or Corporate Access Number
 2. Confirm your directors and registered office are current
-3. We file directly through CORES — within 24 hours, $129 all-in + GST, including the $47 government fee
+3. We file directly through CORES — within 1 business day, $129 all-in + GST, including the $47 government fee
 
 No account, no portal, no in-person visit. The same applies to incorporations, amendments, and [corporate searches](/canada-corporations-search).
 
 ## File through a CORES Certified Registry Agent
 
-CRS is a Certified Registry Agent filing directly through CORES — annual returns, incorporations, amendments, and searches, most completed within 24 hours.
+CRS is a Certified Registry Agent filing directly through CORES — annual returns, incorporations, amendments, and searches, most completed within 1 business day.
 
-**Turnaround:** 24 hours from order.
+**Turnaround:** 1 business day from order.
 **Price:** $129 + applicable tax — all-in, including the $47 government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta) · or [search your corporation first](/canada-corporations-search).

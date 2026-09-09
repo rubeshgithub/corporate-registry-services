@@ -25,7 +25,7 @@ Body: markdown, starts with a bold CTA line ("**Deadline coming up?** [action �
 
 Use the `seo-content-engine` skill (Stage 4) if available. Core rules: ≥3 question-form H2s; answer-first intro; 1,200–2,000 words; concrete numbers labeled as typical/estimates unless sourced; verify government fees/deadlines/portal names with web search before writing; internal links ONLY to real CRS pages (below); never invent URLs.
 
-**Brand voice:** professional, plain-spoken, benefit-led, urgency around deadlines. Short punchy claims with concrete numbers: "$99 all-in + GST", "24 hours from order", "no CORES account required", "Beat your 1-month deadline."
+**Brand voice:** professional, plain-spoken, benefit-led, urgency around deadlines. Short punchy claims with concrete numbers: "$99 all-in + GST", "1 business day from order", "no CORES account required", "Beat your 1-month deadline."
 
 **Consistent CRS facts (from live articles):** Alberta annual return $47 govt fee / due within 1 month of anniversary; BC Annual Report $43 / 2 months; Federal CBCA $12 / 60 days after anniversary month; CRS all-in price $99 + tax for annual filings, 24h turnaround; director/shareholder resolution sets $79 + GST, 1 business day; By-Law No. 1 drafting $99 + GST; minute book Standard package $299. CRS is a Certified CORES Registry Agent. Alberta & BC: no director residency requirement; Federal CBCA: 25% of directors must be Canadian residents.
 

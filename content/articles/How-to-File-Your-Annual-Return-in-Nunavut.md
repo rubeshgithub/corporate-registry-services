@@ -2,10 +2,10 @@
 title: "Nunavut Annual Return: How to File with Nunavut Corporate Registries — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Nunavut"
 section: "articles"
-description: "File your Nunavut Annual Return through Nunavut Corporate Registries — $129 all-in, government fee included. Filed within 24 hours, deadline monitored every year. No login required."
+description: "File your Nunavut Annual Return through Nunavut Corporate Registries — $129 all-in, government fee included. Filed within 1 business day, deadline monitored every year. No login required."
 ---
 
-**Deadline coming up?** [File your Nunavut annual return in 24 hours →](/order/annual-return) · $129 all-in, filed directly through the Nunavut Corporate Registry — remote-friendly, no in-person visit required.
+**Deadline coming up?** [File your Nunavut annual return in 1 business day →](/order/annual-return) · $129 all-in, filed directly through the Nunavut Corporate Registry — remote-friendly, no in-person visit required.
 
 Corporations incorporated in Nunavut under the *Business Corporations Act (Nunavut)* must file an annual return with the Nunavut Department of Justice Corporate Registry within 2 months of the corporation's anniversary date.
 
@@ -41,7 +41,7 @@ The Nunavut government fee is **$50**.
 
 CRS files Nunavut annual returns directly with the Nunavut Corporate Registry on your behalf — no in-person visit or physical mail required. We prepare the return, file it before your 2-month anniversary deadline, and email you the confirmation. Particularly valuable for corporations operating remotely from the territory.
 
-**Turnaround:** 24 hours from order.
+**Turnaround:** 1 business day from order.
 **Price:** $129 + applicable tax — all-in, including the $50 government fee.
 
 [File your Nunavut annual return now →](/order/annual-return)

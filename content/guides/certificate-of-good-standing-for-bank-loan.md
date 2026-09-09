@@ -81,7 +81,7 @@ No — that's a [Corporate Profile Report](/profile-reports). A Certificate of G
 
 ### What if my corporation isn't in good standing?
 
-The registry won't issue a Certificate of Good Standing if you have outstanding annual returns or an active dissolution notice. File the outstanding [annual return](/annual-return) first — CRS files them within 24 hours — then order the certificate.
+The registry won't issue a Certificate of Good Standing if you have outstanding annual returns or an active dissolution notice. File the outstanding [annual return](/annual-return) first — CRS files them within 1 business day — then order the certificate.
 
 ### Can I get the certificate on the same day?
 

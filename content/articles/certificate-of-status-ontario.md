@@ -73,7 +73,7 @@ CRS doesn't obtain TCV numbers or FBC letters — those are tax documents betwee
 
 ## What If Your Corporation Isn't in Good Standing?
 
-Fix the filings first — a certificate ordered for a non-compliant corporation will show exactly that. In Ontario the usual culprit is missed annual returns, which since 2021 are filed through the Ontario Business Registry rather than with the CRA tax return. If you're behind, our guide to [filing your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario) walks through the process, or CRS can [file it for you](/order/annual-return) — $129 all-in + tax, filed within 24 hours. Once the registry shows you compliant, order the certificate.
+Fix the filings first — a certificate ordered for a non-compliant corporation will show exactly that. In Ontario the usual culprit is missed annual returns, which since 2021 are filed through the Ontario Business Registry rather than with the CRA tax return. If you're behind, our guide to [filing your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario) walks through the process, or CRS can [file it for you](/order/annual-return) — $129 all-in + tax, filed within 1 business day. Once the registry shows you compliant, order the certificate.
 
 If the corporation has actually been dissolved or cancelled, a Certificate of Status can't help — the registry will show it inactive, and you'll need to revive the corporation first. [Contact us](/contact) and we'll point you at the right fix.
 

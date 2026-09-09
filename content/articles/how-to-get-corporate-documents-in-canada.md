@@ -22,7 +22,7 @@ faq:
 
 If your bank, lawyer, accountant, or a buyer's due-diligence team has just asked you for a copy of your **articles of incorporation** — or the "full corporate file" — you're not looking for a form to fill out. You're looking for someone to send you the PDF. This guide answers exactly one question: how do you get a copy of every corporate document on file for a Canadian corporation, and how fast?
 
-The short answer, before we get into the specifics: **every corporate document ever filed with the registry is still there. The registry never deletes anything.** You (or a retrieval service acting on your behalf) can order a fresh certified copy of the articles of incorporation, the certificate of incorporation, and every historical filing at any time — usually within 24 hours for digital-era records.
+The short answer, before we get into the specifics: **every corporate document ever filed with the registry is still there. The registry never deletes anything.** You (or a retrieval service acting on your behalf) can order a fresh certified copy of the articles of incorporation, the certificate of incorporation, and every historical filing at any time — usually within 1 business day for digital-era records.
 
 ## The three documents people usually want
 
@@ -77,7 +77,7 @@ A retrieval service does the multi-registry paperwork for you and delivers a sin
 - You need historical filings from day one — not just the current snapshot.
 - You want everything named, sorted, and delivered as clean PDFs suitable for uploading to your bank's or lender's portal without renaming files.
 - You want one contact, one quote, one invoice, and one delivery — instead of several logins and several receipts.
-- You need it within 24 hours.
+- You need it within 1 business day.
 
 The rest of this article assumes you're going this route, because that's what most people who search for "how to get a copy of articles of incorporation Canada" actually want — a person to handle it, not a portal to log into.
 
@@ -104,11 +104,11 @@ You can also order a **narrower set** — for example, just articles + certifica
 
 Pricing has two components: government retrieval fees and a service fee. Both depend on how many documents you need and which jurisdictions you're pulling from. Government fees typically run $20-$40 per document; a full historical set for a single-jurisdiction corporation is usually $200-$500 all-in. Multi-jurisdiction, older corporations with dozens of filings run higher.
 
-Rather than publish a fixed price for a variable-length package, we send a formal quote after checking what's actually on file for your corporation. Quote comes back the same business day (usually within a few hours). Once approved, documents are delivered to your email within 24 hours.
+Rather than publish a fixed price for a variable-length package, we send a formal quote after checking what's actually on file for your corporation. Quote comes back the same business day (usually within a few hours). Once approved, documents are delivered to your email within 1 business day.
 
 ## How long does it take?
 
-**Digital-era filings (roughly 2005 onwards):** same day to 24 hours.
+**Digital-era filings (roughly 2005 onwards):** same day to 1 business day.
 
 **Older paper filings:** most jurisdictions have digitized filings back to the early 2000s. Anything older may require the registry to physically pull the file — usually 3-10 business days for federal and larger provinces, longer for smaller provinces or if the file is archived off-site.
 
@@ -145,6 +145,6 @@ If your corporation is registered extra-provincially — for example, a BC corpo
 
 Whether you need a single document for a bank loan or the complete corporate history for a sale, you can request a quote here: **[Order Corporate Documents →](/order/corporate-documents)**.
 
-Tell us the corporation name (we'll look it up), what documents you need, and where to send the quote. You'll hear back within a few hours with a formal quote. Once approved, everything lands in your inbox within 24 hours.
+Tell us the corporation name (we'll look it up), what documents you need, and where to send the quote. You'll hear back within a few hours with a formal quote. Once approved, everything lands in your inbox within 1 business day.
 
 If you're not sure what you need — or the person asking (bank, lawyer, CRA) used a term you don't recognize — reply to the quote email and we'll walk through it. We do this every day.

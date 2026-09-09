@@ -58,7 +58,7 @@ A New Brunswick search result leads with a one-letter status code, defined in th
 | **J** | The corporation amalgamated into another entity |
 | **K** | The corporation continued out of New Brunswick into another jurisdiction |
 
-Status B is the one that trips companies up. It usually just means a missed annual return — New Brunswick corporations must file within the 30 days following their incorporation anniversary, at $60 e-filed — but two years of unfiled returns puts a corporation on the road to involuntary dissolution. If that's your own corporation showing B, our guide to [filing your annual return in New Brunswick](/articles/how-to-file-your-annual-return-in-new-brunswick) walks through the fix, or CRS can [file it for you](/order/annual-return?src=article-new-brunswick-corporate-registry-search) — $99 all-in + tax, filed within 24 hours.
+Status B is the one that trips companies up. It usually just means a missed annual return — New Brunswick corporations must file within the 30 days following their incorporation anniversary, at $60 e-filed — but two years of unfiled returns puts a corporation on the road to involuntary dissolution. If that's your own corporation showing B, our guide to [filing your annual return in New Brunswick](/articles/how-to-file-your-annual-return-in-new-brunswick) walks through the fix, or CRS can [file it for you](/order/annual-return?src=article-new-brunswick-corporate-registry-search) — $99 all-in + tax, filed within 1 business day.
 
 ## What Documents Can You Get From the Registry?
 
