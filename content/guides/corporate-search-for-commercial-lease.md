@@ -8,7 +8,7 @@ faq:
   - q: "Why do commercial landlords require a corporate search?"
     a: "Because if the corporate tenant doesn't legally exist, or the person signing isn't a director, the lease can be unenforceable — and the landlord has no one to collect from. A Corporate Profile Report confirms both the corporation exists and identifies who has authority to bind it."
   - q: "Should I ask the tenant for the corporate documents, or run the search myself?"
-    a: "Run it yourself. Documents supplied by the tenant can be out of date or edited. Ordering directly from the corporate registry (or through CRS) gives you the current government record. It's $49 all-in — cheap insurance on a five-year lease."
+    a: "Run it yourself. Documents supplied by the tenant can be out of date or edited. Ordering directly from the corporate registry (or through CRS) gives you the current government record. It's {{price:corporate-search}} all-in — cheap insurance on a five-year lease."
   - q: "Do I need a Certificate of Good Standing in addition to the Profile Report?"
     a: "For most standard leases, a Corporate Profile Report is enough. For larger leases (over $250k annual rent), leases where you're waiving a personal guarantee, or leases where the tenant is a numbered company you don't recognise, add a Certificate of Good Standing to prove the tenant is fully compliant with its filings."
   - q: "What if the corporation is dissolved or in default?"
@@ -41,7 +41,7 @@ For most commercial leases, a Corporate Profile Report answers the questions tha
 | Registered office (for service) | Profile Report — registered office address |
 | Legal name (for the lease document) | Profile Report — current legal name plus any operating names |
 
-For a $30,000-a-year lease with a mid-market tenant, a Profile Report ($69) is enough. For a $250,000-a-year lease, a lease where you're waiving a personal guarantee, or a lease with unusual terms — order both the Profile Report and the Certificate of Good Standing ($109).
+For a $30,000-a-year lease with a mid-market tenant, a Profile Report ({{price:profile-report}}) is enough. For a $250,000-a-year lease, a lease where you're waiving a personal guarantee, or a lease with unusual terms — order both the Profile Report and the Certificate of Good Standing ({{price:good-standing}}).
 
 ## What to check on the Profile Report before you sign
 
@@ -73,23 +73,23 @@ Also: some jurisdictions treat personal guarantees on corporate leases different
 
 For a mid-market commercial lease being signed in 2 weeks:
 
-1. **Day 1 (LOI signed)** — Order Corporate Profile Report ($69). Confirm status, directors, legal name. Verify person negotiating is a director.
+1. **Day 1 (LOI signed)** — Order Corporate Profile Report ({{price:profile-report}}). Confirm status, directors, legal name. Verify person negotiating is a director.
 2. **Day 3–5** — Draft lease uses exact legal name from Profile Report. If a directors' resolution is needed for the signer, request it.
-3. **Day 10** — For leases over $250k annual rent or without a strong personal guarantee, order a Certificate of Good Standing ($109) dated close to signing.
+3. **Day 10** — For leases over $250k annual rent or without a strong personal guarantee, order a Certificate of Good Standing ({{price:good-standing}}) dated close to signing.
 4. **Day 14 (signing)** — Both documents in the deal file. Lease signed.
 
-Total additional cost of diligence: $49 or $128. Cost of a five-year lease to a struck corporation: the full landlord-loss provision under your insurance, plus vacancy.
+Total additional cost of diligence: {{price:corporate-search}} or $128. Cost of a five-year lease to a struck corporation: the full landlord-loss provision under your insurance, plus vacancy.
 
 ## Order the documents
 
-- **Standard lease diligence?** — [Order a Corporate Profile Report](/profile-reports), $69 all-in, one business hour.
-- **Higher-value or higher-risk lease?** — Also [order a Certificate of Good Standing](/good-standing), $109 all-in.
+- **Standard lease diligence?** — [Order a Corporate Profile Report](/profile-reports), {{price:profile-report}} all-in, one business hour.
+- **Higher-value or higher-risk lease?** — Also [order a Certificate of Good Standing](/good-standing), {{price:good-standing}} all-in.
 
 ## Frequently asked questions
 
 ### Can I make the tenant pay for the corporate search?
 
-Yes — most commercial leases in Canada either expressly assign document-cost recovery to the tenant, or the landlord builds it into the initial payment. A $69 Profile Report is a rounding error on any real commercial lease.
+Yes — most commercial leases in Canada either expressly assign document-cost recovery to the tenant, or the landlord builds it into the initial payment. A {{price:profile-report}} Profile Report is a rounding error on any real commercial lease.
 
 ### Do I need to verify guarantors too?
 

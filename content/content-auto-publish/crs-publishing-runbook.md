@@ -25,9 +25,15 @@ Body: markdown, starts with a bold CTA line ("**Deadline coming up?** [action �
 
 Use the `seo-content-engine` skill (Stage 4) if available. Core rules: ≥3 question-form H2s; answer-first intro; 1,200–2,000 words; concrete numbers labeled as typical/estimates unless sourced; verify government fees/deadlines/portal names with web search before writing; internal links ONLY to real CRS pages (below); never invent URLs.
 
-**Brand voice:** professional, plain-spoken, benefit-led, urgency around deadlines. Short punchy claims with concrete numbers: "$129 all-in + GST" (always check the current price in /admin/analytics), "1 business day from order", "no CORES account required", "Beat your 1-month deadline."
+**Brand voice:** professional, plain-spoken, benefit-led, urgency around deadlines. Short punchy claims with concrete numbers: "{{price:annual-return}} all-in + GST", "1 business day from order", "no CORES account required", "Beat your 1-month deadline."
 
-**Consistent CRS facts (from live articles):** Alberta annual return $47 govt fee / due within 1 month of anniversary; BC Annual Report $43 / 2 months; Federal CBCA $12 / 60 days after anniversary month; CRS all-in price $99 + tax for annual filings, 24h turnaround; director/shareholder resolution sets $79 + GST, 1 business day; By-Law No. 1 drafting $99 + GST; minute book Standard package $299. CRS is a Certified CORES Registry Agent. Alberta & BC: no director residency requirement; Federal CBCA: 25% of directors must be Canadian residents.
+**NEVER write a CRS price as a number.** Write the token `{{price:<key>}}` — in the body *and* in front-matter `title:` / `description:` — and the renderer substitutes the live price from the catalogue (`web/src/lib/price-catalogue.ts`, overridable in /admin/analytics) on every request. A literal like "$129" goes stale the moment the operator changes a price, which is exactly how live pages ended up advertising $99 while checkout charged $129.
+
+Keys: `annual-return`, `profile-report`, `good-standing`, `corporate-search`, `nuans-search`, `corporate-documents`, `incorporation-numbered`, `incorporation-named`, `incorporation-nfp`, `extra-provincial`, `change-directors`, `change-address`, `change-name`, `articles-amendment`, `share-split`, `voluntary-dissolution`, `revival`, `amalgamation`, `continuance`, `registered-office`, `compliance-review`, `share-certificate`, `director-resolution`, `shareholder-resolution`, `bylaws`, `minute-book-new`, `minute-book-update`, and the `pc-` prefixed professional-corporation equivalents.
+
+**Government fees stay literal** — they are the government's numbers, not ours, and belong in the copy as researched (e.g. "the $47 CORES filing fee"). Only CRS's own prices become tokens.
+
+**Consistent CRS facts (from live articles):** Alberta annual return $47 govt fee / due within 1 month of anniversary; BC Annual Report $43 / 2 months; Federal CBCA $12 / 60 days after anniversary month; CRS all-in price `{{price:annual-return}}` + tax for annual filings, 1 business day turnaround; director/shareholder resolution sets `{{price:director-resolution}}` + GST, 1 business day; By-Law No. 1 drafting `{{price:bylaws}}` + GST; minute book Standard package `{{price:minute-book-new}}`. CRS is a Certified CORES Registry Agent. Alberta & BC: no director residency requirement; Federal CBCA: 25% of directors must be Canadian residents.
 
 ## Internal-link inventory (real pages, expanded from actual article files)
 

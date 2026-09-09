@@ -1,9 +1,9 @@
 ﻿---
-title: "QuickBooks Profile Report — BC · $69 all-in + GST"
+title: "QuickBooks Profile Report — BC · {{price:profile-report}} all-in + GST"
 h1: "Corporate Profile Report for QuickBooks (BC)"
 slug: "how-to-get-a-corporate-profile-report-for-quickbooks-online-in-british-columbia"
 section: "articles"
-description: "Get the BC Corporate Profile Report Intuit accepts for FINTRAC, payroll, and QuickBooks Payments verification. $69 all-in + GST, PDF within one business hour."
+description: "Get the BC Corporate Profile Report Intuit accepts for FINTRAC, payroll, and QuickBooks Payments verification. {{price:profile-report}} all-in + GST, PDF within one business hour."
 widgetEyebrow: "For QuickBooks Online verification"
 widgetTitle: "Get the Corporate Profile Report QuickBooks accepts"
 widgetSub: "The exact PDF Intuit needs for FINTRAC, payroll, and QuickBooks Payments verification. Delivered by email in one business hour — upload directly to your QuickBooks Online account."
@@ -39,7 +39,7 @@ QuickBooks Online requires a Corporate Profile Report to verify your business an
 
 1. **[Search your BC corporation in the card at the top of this page](#crs-inline-lookup)** — company name, Corporate Access Number, or Business Number all work
 2. Pick your corporation from the results
-3. Enter your name, email, and phone; pay $69 + GST securely via Stripe
+3. Enter your name, email, and phone; pay {{price:profile-report}} + GST securely via Stripe
 4. Receive the government-issued PDF by email within one business hour
 5. Upload it in QuickBooks Online to complete FINTRAC / payroll / Payments verification
 

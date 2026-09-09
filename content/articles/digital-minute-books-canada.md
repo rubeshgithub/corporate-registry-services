@@ -3,7 +3,7 @@ title: "Digital Minute Books in Canada: Legal? What the CBCA Says"
 h1: "Digital Minute Books in Canada: What the Law Requires"
 slug: "digital-minute-books-canada"
 section: "articles"
-description: "Digital minute books are fully legal in Canada — CBCA s.22 and every provincial act allow electronic records. What yours must contain, from $299 all-in."
+description: "Digital minute books are fully legal in Canada — CBCA s.22 and every provincial act allow electronic records. What yours must contain, from {{price:minute-book-new}} all-in."
 faq:
   - q: "Can corporate resolutions be signed electronically in Canada?"
     a: "Generally yes. Electronic signatures are recognized across Canadian jurisdictions, and written resolutions signed electronically are standard practice for private corporations. For high-stakes documents such as share transfers in a sale, confirm the signing approach with counsel, since some lenders and registries have their own execution requirements."
@@ -17,7 +17,7 @@ faq:
     a: "CBCA s. 20 requires records to be maintained at the registered office or another place in Canada the directors designate. For a digital book, keep the corporation's official copy accessible from that location and producible there on request."
 ---
 
-**Minute book missing or out of date?** [Get a complete digital minute book →](/minute-books/digital-minute-book-canada) · from $299 all-in + GST, prepared by corporate filing specialists, typically within 2 business days.
+**Minute book missing or out of date?** [Get a complete digital minute book →](/minute-books/digital-minute-book-canada) · from {{price:minute-book-new}} all-in + GST, prepared by corporate filing specialists, typically within 2 business days.
 
 Digital minute books are fully legal in Canada. The *Canada Business Corporations Act* and every provincial corporate statute permit corporate records to be kept electronically, as long as the records can be reproduced in intelligible written form when someone is entitled to inspect them. This guide covers exactly what the law says, what a compliant digital minute book must contain, and how to move a paper binder — or no binder at all — into a format your accountant, banker, and lawyer can actually use.
 
@@ -68,7 +68,7 @@ If your corporation already has a paper book, the conversion is mostly disciplin
 
 If your corporation never had a minute book — common for online incorporations — the book has to be built, not scanned: by-laws drafted, organizational resolutions prepared, shares formally subscribed and certificates issued, registers created, and the ISC register completed. For an older corporation, the filing history first has to be retrieved from the government registry so the record actually matches what was filed.
 
-That second path is exactly what our [digital minute book service](/minute-books/digital-minute-book-canada) does. The Standard package ($299 all-in + GST) builds a complete, compliant digital minute book for corporations up to two years old, typically within 2 business days. Established (2–5 years, $749) and Legacy (5+ years, $1,399) packages include government document retrieval and full reconstruction. Every book is delivered by email and manageable in our free MinuteBook app — no subscription, no hourly legal fees.
+That second path is exactly what our [digital minute book service](/minute-books/digital-minute-book-canada) does. The Standard package ({{price:minute-book-new}} all-in + GST) builds a complete, compliant digital minute book for corporations up to two years old, typically within 2 business days. Established (2–5 years, {{price:incorporation-named}}) and Legacy (5+ years, $1,399) packages include government document retrieval and full reconstruction. Every book is delivered by email and manageable in our free MinuteBook app — no subscription, no hourly legal fees.
 
 ## Frequently Asked Questions
 
@@ -96,6 +96,6 @@ CBCA s. 20 requires records to be maintained at the registered office or another
 
 **Ready to get compliant?** [Order your digital minute book →](/minute-books/digital-minute-book-canada) — complete, lawyer-grade corporate records for any Canadian jurisdiction, prepared from your incorporation documents or rebuilt from the government registry.
 
-**Turnaround:** typically 2 business days (Standard package) · **Price:** from $299 all-in + GST — resolutions $79, share certificates $49, by-laws $99 if you only need single documents.
+**Turnaround:** typically 2 business days (Standard package) · **Price:** from {{price:minute-book-new}} all-in + GST — resolutions {{price:director-resolution}}, share certificates {{price:share-certificate}}, by-laws {{price:bylaws}} if you only need single documents.
 
 *Sources: [Canada Business Corporations Act, ss. 20–23](https://laws-lois.justice.gc.ca/eng/acts/c-44/page-4.html) · [Corporations Canada — ISC filing requirement](https://ised-isde.canada.ca/site/corporations-canada/en/new-filing-requirement-effect-cbca-businesses-must-begin-file-individuals-significant-control)*

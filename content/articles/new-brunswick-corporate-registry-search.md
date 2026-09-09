@@ -6,16 +6,16 @@ section: "articles"
 description: "How to search New Brunswick's Corporate Affairs Registry Database: free BN lookup, $3 name search, status codes — and full profile reports in 3 hours."
 faq:
   - q: "Is the New Brunswick corporate registry search free?"
-    a: "Searching by a company's 15-digit New Brunswick business number is free. A name (keyword) search result is $3.00 per transaction by credit card, and unlimited searching is available by subscription at $50 per month. CRS offers a researched name search for $49 + GST if you'd rather have the registry record found, confirmed and explained for you."
+    a: "Searching by a company's 15-digit New Brunswick business number is free. A name (keyword) search result is $3.00 per transaction by credit card, and unlimited searching is available by subscription at $50 per month. CRS offers a researched name search for {{price:corporate-search}} + GST if you'd rather have the registry record found, confirmed and explained for you."
   - q: "Does New Brunswick have a registry of joint stock companies?"
     a: "No — that's Nova Scotia. Nova Scotia's corporate registry is the Registry of Joint Stock Companies (RJSC); New Brunswick's is simply the Corporate Registry, run by Service New Brunswick through the Corporate Affairs Registry Database. If the company you're looking for is registered in Nova Scotia, you'll need to search there instead."
   - q: "How do I find out if a New Brunswick company is still active?"
-    a: "Run a search in the Corporate Affairs Registry Database and read the status code: A means the corporation exists and is current on its annual returns, B means it exists but has fallen behind, and F means it has been dissolved or its charter forfeited. For formal proof of standing, order a Certificate of Status ($20 from the registry, or $79 all-in through CRS including the government fee)."
+    a: "Run a search in the Corporate Affairs Registry Database and read the status code: A means the corporation exists and is current on its annual returns, B means it exists but has fallen behind, and F means it has been dissolved or its charter forfeited. For formal proof of standing, order a Certificate of Status ($20 from the registry, or {{price:good-standing}} all-in through CRS including the government fee)."
   - q: "How much does a New Brunswick certificate of status cost?"
-    a: "The government fee is $20. CRS retrieves it for $79 all-in + tax, delivered as a PDF in about 3 hours, with no registry account or portal navigation needed on your end. Banks and lawyers accept it as the New Brunswick equivalent of a certificate of good standing."
+    a: "The government fee is $20. CRS retrieves it for {{price:good-standing}} all-in + tax, delivered as a PDF in about 3 hours, with no registry account or portal navigation needed on your end. Banks and lawyers accept it as the New Brunswick equivalent of a certificate of good standing."
 ---
 
-**Need the full picture on a New Brunswick company?** [Order a corporate profile report — $49 + GST, ~3-hour delivery →](/order/profile-report?src=article-new-brunswick-corporate-registry-search) · Directors, registered office, status and filing history, pulled directly from the registry.
+**Need the full picture on a New Brunswick company?** [Order a corporate profile report — {{price:profile-report}} + GST, ~3-hour delivery →](/order/profile-report?src=article-new-brunswick-corporate-registry-search) · Directors, registered office, status and filing history, pulled directly from the registry.
 
 New Brunswick corporate searches run through the **Corporate Affairs Registry Database**, Service New Brunswick's online index of every corporation, non-profit company, partnership and registered business name in the province. Searching by a company's 15-digit New Brunswick business number is free; a name (keyword) search result costs **$3.00 per transaction** by credit card, and heavy users can subscribe for $50 a month. This guide covers where to search, what the results actually tell you, what the A/B/F status codes mean, and how to turn a search hit into a document a bank or lawyer will accept.
 
@@ -43,7 +43,7 @@ Partly. Here is what SNB charges:
 
 So if you already have the company's business number, you can pull its record without paying. If all you have is a name, the keyword search result is a $3 transaction — cheap, but the result is a registry database record, not a formatted report, and reading it correctly takes some familiarity with the registry's status codes and category numbers.
 
-If you'd rather skip the portal entirely, CRS runs a [corporate name search](/order/corporate-search?src=article-new-brunswick-corporate-registry-search) for $49 + GST — we search the registry, confirm exactly which entity you're looking at, and send you the results in plain English. For a quick free first pass on corporations in several Canadian jurisdictions, try our [Canada corporations search](/canada-corporations-search) tool.
+If you'd rather skip the portal entirely, CRS runs a [corporate name search](/order/corporate-search?src=article-new-brunswick-corporate-registry-search) for {{price:corporate-search}} + GST — we search the registry, confirm exactly which entity you're looking at, and send you the results in plain English. For a quick free first pass on corporations in several Canadian jurisdictions, try our [Canada corporations search](/canada-corporations-search) tool.
 
 ## What Do the Status Codes in Search Results Mean?
 
@@ -58,7 +58,7 @@ A New Brunswick search result leads with a one-letter status code, defined in th
 | **J** | The corporation amalgamated into another entity |
 | **K** | The corporation continued out of New Brunswick into another jurisdiction |
 
-Status B is the one that trips companies up. It usually just means a missed annual return — New Brunswick corporations must file within the 30 days following their incorporation anniversary, at $60 e-filed — but two years of unfiled returns puts a corporation on the road to involuntary dissolution. If that's your own corporation showing B, our guide to [filing your annual return in New Brunswick](/articles/how-to-file-your-annual-return-in-new-brunswick) walks through the fix, or CRS can [file it for you](/order/annual-return?src=article-new-brunswick-corporate-registry-search) — $99 all-in + tax, filed within 1 business day.
+Status B is the one that trips companies up. It usually just means a missed annual return — New Brunswick corporations must file within the 30 days following their incorporation anniversary, at $60 e-filed — but two years of unfiled returns puts a corporation on the road to involuntary dissolution. If that's your own corporation showing B, our guide to [filing your annual return in New Brunswick](/articles/how-to-file-your-annual-return-in-new-brunswick) walks through the fix, or CRS can [file it for you](/order/annual-return?src=article-new-brunswick-corporate-registry-search) — {{price:annual-return}} all-in + tax, filed within 1 business day.
 
 ## What Documents Can You Get From the Registry?
 
@@ -67,7 +67,7 @@ A search tells *you* what's on file; a registry document *proves* it to someone 
 - **Certificate of Status — $20.** The registry's formal confirmation of a corporation's existence and standing. This is what New Brunswick calls the document most other provinces call a certificate of good standing — our guide to [certificates of good standing in Canada](/guides/what-is-a-certificate-of-good-standing-canada) covers how the names map across jurisdictions.
 - **Certified copies of documents on file — $20** (regular, uncertified copies are $10). Because the database isn't the official record, certified copies of the actual filed documents are what courts and lawyers ask for.
 
-CRS retrieves both without you touching the portal: a [Certificate of Good Standing](/order/good-standing?src=article-new-brunswick-corporate-registry-search) is $79 all-in + tax, and a full [corporate profile report](/order/profile-report?src=article-new-brunswick-corporate-registry-search) — legal status, directors, registered office and filing history in one document — is $49 + GST, typically delivered in about 3 hours.
+CRS retrieves both without you touching the portal: a [Certificate of Good Standing](/order/good-standing?src=article-new-brunswick-corporate-registry-search) is {{price:good-standing}} all-in + tax, and a full [corporate profile report](/order/profile-report?src=article-new-brunswick-corporate-registry-search) — legal status, directors, registered office and filing history in one document — is {{price:profile-report}} + GST, typically delivered in about 3 hours.
 
 ## Can You Search New Brunswick Companies Through the Federal Registry?
 
@@ -79,7 +79,7 @@ The reverse trap exists too: a federally incorporated (CBCA) company operating i
 
 ### Is the New Brunswick corporate registry search free?
 
-Searching by a company's 15-digit New Brunswick business number is free. A name (keyword) search result is $3.00 per transaction by credit card, and unlimited searching is available by subscription at $50 per month. CRS offers a researched name search for $49 + GST if you'd rather have the registry record found, confirmed and explained for you.
+Searching by a company's 15-digit New Brunswick business number is free. A name (keyword) search result is $3.00 per transaction by credit card, and unlimited searching is available by subscription at $50 per month. CRS offers a researched name search for {{price:corporate-search}} + GST if you'd rather have the registry record found, confirmed and explained for you.
 
 ### Does New Brunswick have a registry of joint stock companies?
 
@@ -87,17 +87,17 @@ No — that's Nova Scotia. Nova Scotia's corporate registry is the Registry of J
 
 ### How do I find out if a New Brunswick company is still active?
 
-Run a search in the Corporate Affairs Registry Database and read the status code: A means the corporation exists and is current on its annual returns, B means it exists but has fallen behind, and F means it has been dissolved or its charter forfeited. For formal proof of standing, order a Certificate of Status ($20 from the registry, or $79 all-in through CRS including the government fee).
+Run a search in the Corporate Affairs Registry Database and read the status code: A means the corporation exists and is current on its annual returns, B means it exists but has fallen behind, and F means it has been dissolved or its charter forfeited. For formal proof of standing, order a Certificate of Status ($20 from the registry, or {{price:good-standing}} all-in through CRS including the government fee).
 
 ### How much does a New Brunswick certificate of status cost?
 
-The government fee is $20. CRS retrieves it for $79 all-in + tax, delivered as a PDF in about 3 hours, with no registry account or portal navigation needed on your end. Banks and lawyers accept it as the New Brunswick equivalent of a certificate of good standing.
+The government fee is $20. CRS retrieves it for {{price:good-standing}} all-in + tax, delivered as a PDF in about 3 hours, with no registry account or portal navigation needed on your end. Banks and lawyers accept it as the New Brunswick equivalent of a certificate of good standing.
 
 ## Search Done — Now Get the Document
 
 A $3 search tells you a company exists. When the bank, the buyer or the lawyer wants proof, CRS pulls the profile report or Certificate of Status directly from the New Brunswick Corporate Registry and delivers it the same day.
 
 **Turnaround:** ~3 hours, delivered as PDF
-**Price:** Profile report $49 + GST · Certificate of Good Standing $79 all-in + tax
+**Price:** Profile report {{price:profile-report}} + GST · Certificate of Good Standing {{price:good-standing}} all-in + tax
 
 [Order your New Brunswick profile report →](/order/profile-report?src=article-new-brunswick-corporate-registry-search)

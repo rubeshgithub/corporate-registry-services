@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
-import { listSection } from "@/lib/content";
+import { listSection, primePrices } from "@/lib/content";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { getPrices, formatCents, swapPrice } from "@/lib/pricing";
 import { ArrowRight, CheckCircle2, Clock, ShieldCheck, Landmark, Search, BookOpen, Building2, MapPin, Mail, Users, UserCheck, AlertCircle } from "lucide-react";
@@ -74,6 +74,7 @@ export default async function ProfileReportsLandingPage() {
   const price = formatCents(cents);
   const FAQ = faqFor(price);
   const TRUST_CHIPS = trustChipsFor(price);
+  await primePrices();   // sync reader — prime before it resolves title tokens
   const pages = listSection("profile-reports");
   const breadcrumb = breadcrumbLd([
     { name: "Home",                    url: "/" },

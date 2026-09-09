@@ -109,8 +109,8 @@ CRS prices minute books based on the age of the corporation, because older corpo
 
 | Package | Company Age | What's Included | Price |
 |---|---|---|---|
-| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and organizational documents | $299 + applicable tax |
-| **Established** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | $749 + applicable tax |
+| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and organizational documents | {{price:minute-book-new}} + applicable tax |
+| **Established** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | {{price:incorporation-named}} + applicable tax |
 | **Legacy** | 5+ years | Full corporate history retrieval from government registries + comprehensive minute book reconstruction covering all years of activity | $1,399 + applicable tax |
 
 All packages include: retrieval of all available corporate filings from the relevant government registry, preparation of all required registers and share documents, director and officer resolutions, share certificates, and delivery in both Word and PDF formats.

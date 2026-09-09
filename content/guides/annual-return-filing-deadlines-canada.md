@@ -27,20 +27,20 @@ Failure to file triggers a cascade of consequences:
 
 | Jurisdiction | Filing Due Date | Filing Portal | CRS Fee (incl. Govt. Fee) |
 |---|---|---|---|
-| **Federal (CBCA)** | Within 60 days of the corporation's anniversary month | Corporations Canada | $129 + GST |
-| **Ontario** | Within 6 months of the corporation's fiscal year-end | Ontario Business Registry | $129 + HST |
-| **British Columbia** | Within 2 months of the corporation's anniversary date | BC Registry Services | $129 + GST |
-| **Alberta** | Within 1 month of the corporation's anniversary date | CORES (Alberta Corporate Registry) | $129 + GST |
-| **Québec** | By March 31 each year (annual declaration) | Registraire des entreprises | $129 + GST/QST |
-| **Saskatchewan** | Within 3 months of the corporation's anniversary date | ISC Saskatchewan | $129 + GST |
-| **Manitoba** | By March 31 each year | Companies Office Manitoba | $129 + GST |
-| **Nova Scotia** | Within 30 days of the corporation's anniversary date | Registry of Joint Stock Companies | $129 + HST |
-| **New Brunswick** | By February 1, or within 30 days of anniversary | Service New Brunswick | $129 + HST |
+| **Federal (CBCA)** | Within 60 days of the corporation's anniversary month | Corporations Canada | {{price:annual-return}} + GST |
+| **Ontario** | Within 6 months of the corporation's fiscal year-end | Ontario Business Registry | {{price:annual-return}} + HST |
+| **British Columbia** | Within 2 months of the corporation's anniversary date | BC Registry Services | {{price:annual-return}} + GST |
+| **Alberta** | Within 1 month of the corporation's anniversary date | CORES (Alberta Corporate Registry) | {{price:annual-return}} + GST |
+| **Québec** | By March 31 each year (annual declaration) | Registraire des entreprises | {{price:annual-return}} + GST/QST |
+| **Saskatchewan** | Within 3 months of the corporation's anniversary date | ISC Saskatchewan | {{price:annual-return}} + GST |
+| **Manitoba** | By March 31 each year | Companies Office Manitoba | {{price:annual-return}} + GST |
+| **Nova Scotia** | Within 30 days of the corporation's anniversary date | Registry of Joint Stock Companies | {{price:annual-return}} + HST |
+| **New Brunswick** | By February 1, or within 30 days of anniversary | Service New Brunswick | {{price:annual-return}} + HST |
 | **Newfoundland & Labrador** | Within 3 months of the corporation's anniversary date | Registry of Companies | $149 + HST |
-| **Prince Edward Island** | Within 30 days of the corporation's anniversary date | PEI Corporate Registry | $129 + HST |
-| **Northwest Territories** | Within 2 months of the corporation's anniversary date | NT Corporate Registry | $129 + GST |
-| **Nunavut** | Within 2 months of the corporation's anniversary date | Nunavut Dept. of Justice | $129 + GST |
-| **Yukon** | Within 1 month of the corporation's anniversary date | Corporate Affairs Yukon | $129 + GST |
+| **Prince Edward Island** | Within 30 days of the corporation's anniversary date | PEI Corporate Registry | {{price:annual-return}} + HST |
+| **Northwest Territories** | Within 2 months of the corporation's anniversary date | NT Corporate Registry | {{price:annual-return}} + GST |
+| **Nunavut** | Within 2 months of the corporation's anniversary date | Nunavut Dept. of Justice | {{price:annual-return}} + GST |
+| **Yukon** | Within 1 month of the corporation's anniversary date | Corporate Affairs Yukon | {{price:annual-return}} + GST |
 
 *CRS fee is all-inclusive: government filing fee + professional preparation and submission. Newfoundland & Labrador is priced at $149 due to the higher government fee ($100). Prices subject to change — contact us for a firm quote.*
 

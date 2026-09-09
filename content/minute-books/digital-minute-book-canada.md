@@ -1,25 +1,25 @@
 ---
-title: "Digital Minute Book Service — Canada · from $299 all-in"
+title: "Digital Minute Book Service — Canada · from {{price:minute-book-new}} all-in"
 h1: "Digital Minute Book Service — Canada"
 slug: "digital-minute-book-canada"
 section: "minute-books"
-description: "Complete digital corporate minute book prepared for any Canadian jurisdiction — resolutions, registers, share certificates and by-laws — from $299 all-in + GST. Managed online with the MinuteBook app."
+description: "Complete digital corporate minute book prepared for any Canadian jurisdiction — resolutions, registers, share certificates and by-laws — from {{price:minute-book-new}} all-in + GST. Managed online with the MinuteBook app."
 faq:
   - q: "Is a digital minute book legal in Canada?"
     a: "Yes. The Canada Business Corporations Act and all provincial corporate statutes permit corporate records to be kept electronically, provided they are organized, accessible, and can be produced in readable form for inspection at the registered office. A digital minute book satisfies the same requirement as a paper binder."
   - q: "How much does a corporate minute book cost in Canada?"
-    a: "A complete digital minute book for a recently incorporated Canadian company costs $299 all-in + GST from Corporate Registry Services. Older corporations requiring government document retrieval cost $749–$1,399 depending on age. Individual documents — resolutions from $79, share certificates $49, by-laws $99 — are available separately."
+    a: "A complete digital minute book for a recently incorporated Canadian company costs {{price:minute-book-new}} all-in + GST from Corporate Registry Services. Older corporations requiring government document retrieval cost {{price:incorporation-named}}–$1,399 depending on age. Individual documents — resolutions from {{price:director-resolution}}, share certificates {{price:share-certificate}}, by-laws {{price:bylaws}} — are available separately."
   - q: "How fast will I receive my minute book?"
     a: "Standard packages for corporations up to two years old are typically delivered within two business days. Established and Legacy packages requiring government document retrieval take longer depending on the registry — we confirm the timeline when you order."
   - q: "I incorporated online and never got a minute book. Is that a problem?"
-    a: "Yes — incorporation services often deliver articles only, leaving the corporation without by-laws, organizational resolutions, registers, or share certificates. Your corporation is legally required to maintain these records. Our Standard package ($299 all-in + GST) creates the complete minute book from your incorporation documents."
+    a: "Yes — incorporation services often deliver articles only, leaving the corporation without by-laws, organizational resolutions, registers, or share certificates. Your corporation is legally required to maintain these records. Our Standard package ({{price:minute-book-new}} all-in + GST) creates the complete minute book from your incorporation documents."
   - q: "What's the difference between a minute book and an annual return?"
-    a: "An annual return is a yearly government filing that keeps your corporation in good standing on the public registry. A minute book is your internal record of resolutions, registers, and share documents. Both are legally required — we handle annual returns for $99 all-in + GST and minute books from $299."
+    a: "An annual return is a yearly government filing that keeps your corporation in good standing on the public registry. A minute book is your internal record of resolutions, registers, and share documents. Both are legally required — we handle annual returns for {{price:annual-return}} all-in + GST and minute books from {{price:minute-book-new}}."
 ---
 
 Every Canadian corporation is legally required to maintain a minute book — but nobody said it has to be a dusty binder at a law firm. We prepare complete, compliant **digital minute books** for corporations in every province, territory, and federally, delivered to your email and manageable online with our free MinuteBook app.
 
-**From $299 all-in + GST.** No subscriptions required. No hourly legal fees. Prepared by corporate filing specialists, typically within 2 business days.
+**From {{price:minute-book-new}} all-in + GST.** No subscriptions required. No hourly legal fees. Prepared by corporate filing specialists, typically within 2 business days.
 
 ## What is a digital minute book?
 
@@ -31,13 +31,13 @@ Canadian corporate law (the CBCA and every provincial equivalent) fully permits 
 
 | Package | Best for | What's included | Price |
 |---|---|---|---|
-| **Standard** | Corporations up to 2 years old | Full minute book prepared from incorporation: organizational resolutions, by-laws, registers, share subscriptions, share certificates | $299 all-in + GST |
-| **Established** | 2–5 years old | Government document retrieval for all filings since incorporation + complete minute book preparation | $749 all-in + GST |
+| **Standard** | Corporations up to 2 years old | Full minute book prepared from incorporation: organizational resolutions, by-laws, registers, share subscriptions, share certificates | {{price:minute-book-new}} all-in + GST |
+| **Established** | 2–5 years old | Government document retrieval for all filings since incorporation + complete minute book preparation | {{price:incorporation-named}} all-in + GST |
 | **Legacy** | 5+ years old | Full corporate history retrieval + comprehensive minute book reconstruction covering every year of activity | $1,399 all-in + GST |
 
 Already have some documents? Send us what you have — filed annual returns, share issuance records, change filings — and we'll quote a discounted Established or Legacy package.
 
-**Behind on your minute book but not sure how far?** Our [Minute Book Update service](/#services) (from $299 + GST) brings an existing book current with missing annual resolutions and register updates.
+**Behind on your minute book but not sure how far?** Our [Minute Book Update service](/#services) (from {{price:minute-book-update}} + GST) brings an existing book current with missing annual resolutions and register updates.
 
 ## Individual corporate documents {#individual-corporate-documents}
 
@@ -45,11 +45,11 @@ Don't need the full package? We prepare single documents on demand:
 
 | Service | Price | Order |
 |---|---|---|
-| Director Resolutions — any corporate decision, including the annual package. [Read the guide](/articles/director-resolutions-in-canada) | $79 + GST | [Order →](/order/director-resolution?src=service-page-digital-minute-book) |
-| Shareholder Resolutions — annual or special. [Read the guide](/articles/shareholder-resolutions-in-canada) | $79 + GST | [Order →](/order/shareholder-resolution?src=service-page-digital-minute-book) |
-| Share Certificates — professionally formatted, sequentially numbered. [Read the guide](/articles/share-certificates-in-canada) | $49 + GST | [Order →](/order/share-certificate?src=service-page-digital-minute-book) |
-| Corporate By-Laws — drafted or updated. [Read the guide](/articles/corporate-by-laws-canada) | $99 + GST | [Order →](/order/bylaws?src=service-page-digital-minute-book) |
-| Minute Book Update — bring an existing book current | from $299 + GST | [Contact us](/contact) |
+| Director Resolutions — any corporate decision, including the annual package. [Read the guide](/articles/director-resolutions-in-canada) | {{price:director-resolution}} + GST | [Order →](/order/director-resolution?src=service-page-digital-minute-book) |
+| Shareholder Resolutions — annual or special. [Read the guide](/articles/shareholder-resolutions-in-canada) | {{price:shareholder-resolution}} + GST | [Order →](/order/shareholder-resolution?src=service-page-digital-minute-book) |
+| Share Certificates — professionally formatted, sequentially numbered. [Read the guide](/articles/share-certificates-in-canada) | {{price:share-certificate}} + GST | [Order →](/order/share-certificate?src=service-page-digital-minute-book) |
+| Corporate By-Laws — drafted or updated. [Read the guide](/articles/corporate-by-laws-canada) | {{price:bylaws}} + GST | [Order →](/order/bylaws?src=service-page-digital-minute-book) |
+| Minute Book Update — bring an existing book current | from {{price:minute-book-update}} + GST | [Contact us](/contact) |
 
 ## What's inside your minute book
 
@@ -73,7 +73,7 @@ Every minute book we prepare can be loaded into **MinuteBook**, our online minut
 
 ## Why business owners choose us over the alternatives
 
-- **Flat, transparent pricing.** $299 all-in + GST for a complete new minute book. Comparable providers charge $199–$249 per year as a subscription, or $450+ through a law firm for annual maintenance alone.
+- **Flat, transparent pricing.** {{price:minute-book-new}} all-in + GST for a complete new minute book. Comparable providers charge $199–$249 per year as a subscription, or $450+ through a law firm for annual maintenance alone.
 - **Every Canadian jurisdiction.** Federal, all ten provinces, all three territories — one provider, one format.
 - **Done-for-you AND self-serve.** We prepare the book; the MinuteBook app keeps it current. No other Canadian provider offers both.
 - **Registry specialists.** We file annual returns, incorporations, and corporate changes every day — your minute book is prepared by people who work with these registries directly.

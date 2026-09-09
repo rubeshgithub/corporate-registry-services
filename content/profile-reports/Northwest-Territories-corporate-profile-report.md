@@ -23,7 +23,7 @@ The Northwest Territories Corporate Profile Report is retrieved directly from th
 
 | | |
 |---|---|
-| **Price** | $69 + applicable tax — all government charges included |
+| **Price** | {{price:profile-report}} + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |

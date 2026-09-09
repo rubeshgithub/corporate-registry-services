@@ -4,7 +4,7 @@ slug: "Canada-federal-certificate-of-good-standing"
 section: "good-standing"
 ---
 
-Canada Federal Certificate of Good Standing. Available for $109 + applicable tax, all-in (including government charges).
+Canada Federal Certificate of Good Standing. Available for {{price:good-standing}} + applicable tax, all-in (including government charges).
 
 A Canada Federal Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the Corporations Canada confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Canada Business Corporations Act (CBCA).
 

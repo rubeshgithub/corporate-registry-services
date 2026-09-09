@@ -1,12 +1,12 @@
 ﻿---
-title: "File Your BC Annual Report — BC Registries · $129 all-in"
+title: "File Your BC Annual Report — BC Registries · {{price:annual-return}} all-in"
 h1: "File Your BC Annual Report"
 slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
-description: "File your BC Annual Report with BC Registries in minutes — $129 all-in, GST included, filed within 1 business day. Skip the BCeID login and confusing forms."
+description: "File your BC Annual Report with BC Registries in minutes — {{price:annual-return}} all-in, GST included, filed within 1 business day. Skip the BCeID login and confusing forms."
 ---
 
-**Deadline coming up?** [File your BC Annual Report in 1 business day →](/order/annual-return) · $129 all-in, filed directly through BC Registry Services — no BCeID login, no portal navigation required.
+**Deadline coming up?** [File your BC Annual Report in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through BC Registry Services — no BCeID login, no portal navigation required.
 
 Every corporation incorporated under British Columbia's *Business Corporations Act* (BCA) must file an annual report each year to maintain its good standing with BC Registry Services. In British Columbia, the annual filing is called an **Annual Report** (not an "annual return" as in other provinces), but the requirement and purpose are the same.
 
@@ -79,6 +79,6 @@ If your BC company also carries on business in Ontario, Alberta, or any other pr
 CRS files BC Annual Reports directly through BC Registry Services on your behalf. You don't need a BC Services Card, a BCeID, or a Registry Services account — we prepare the report, submit it before your 2-month anniversary deadline, and email you the confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** $129 + applicable tax — all-in, including the $43 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $43 government fee.
 
 [File your BC Annual Report now →](/order/annual-return)

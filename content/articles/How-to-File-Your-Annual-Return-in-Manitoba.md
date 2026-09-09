@@ -2,10 +2,10 @@
 title: "Manitoba Annual Return: How to File with the Companies Office — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Manitoba"
 section: "articles"
-description: "File your Manitoba Annual Return through the Companies Office — $129 all-in, government fee included. Filed within 1 business day, deadline monitored every year. No login required."
+description: "File your Manitoba Annual Return through the Companies Office — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year. No login required."
 ---
 
-**March 31 deadline coming up?** [File your Manitoba annual return in 1 business day →](/order/annual-return) · $129 all-in, filed directly through the Companies Office Manitoba — no portal login required.
+**March 31 deadline coming up?** [File your Manitoba annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through the Companies Office Manitoba — no portal login required.
 
 Manitoba corporations incorporated under *The Business Corporations Act (Manitoba)* must file an annual return with the Companies Office Manitoba every year. Like Quebec, Manitoba uses a **fixed calendar deadline** — all Manitoba corporations file by the same date.
 
@@ -49,6 +49,6 @@ Failure to file results in a non-compliance notice, followed by administrative d
 CRS files Manitoba annual returns directly through the Companies Office Manitoba on your behalf. You don't need a Companies Office Online account, and you don't need to navigate the portal yourself — we prepare the return, file it before your March 31 deadline (or 3 months after fiscal year-end), and email you the confirmation.
 
 **Turnaround:** 1 business day from order.
-**Price:** $129 + applicable tax — all-in, including the $45 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $45 government fee.
 
 [File your Manitoba annual return now →](/order/annual-return)

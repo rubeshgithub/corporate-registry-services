@@ -1,9 +1,9 @@
 ---
-title: "Saskatchewan Incorporation | $699 All-In, Filed via ISC"
-h1: "Saskatchewan Incorporation Service: SBCA Filing, $699 All-In"
+title: "Saskatchewan Incorporation | {{price:incorporation-numbered}} All-In, Filed via ISC"
+h1: "Saskatchewan Incorporation Service: SBCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "Saskatchewan-incorporation-service"
 section: "incorporation"
-description: "Incorporate a Saskatchewan corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed via ISC on your behalf. Delivered in 3–5 business days."
+description: "Incorporate a Saskatchewan corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed via ISC on your behalf. Delivered in 3–5 business days."
 faq:
   - q: "What is ISC and why does Saskatchewan use it?"
     a: "ISC — Information Services Corporation — is the private company that operates Saskatchewan's corporate registry under contract with the provincial government. Unlike most provinces that run their own registry in-house, Saskatchewan outsourced this function to ISC, which handles incorporation, annual returns, and every other registry filing through its ISC Online portal. When CRS files your Saskatchewan incorporation, we submit directly to ISC on your behalf — you don't need an ISC Online account."
@@ -17,7 +17,7 @@ faq:
     a: "A named Saskatchewan corporation (e.g., 'Prairie Grain Co. Ltd.') requires a NUANS report or SK name search to confirm the name is available. A numbered corporation (e.g., '101999999 Saskatchewan Ltd.') skips the name search and is faster and cheaper to set up. Many businesses start numbered and later file Articles of Amendment to add a name — a common, cost-effective approach when branding hasn't been finalized."
 ---
 
-**Ready to incorporate in Saskatchewan?** [Start your Saskatchewan incorporation — $699 all-in →](/order/incorporation) · Articles filed via ISC, minute book delivered in 3–5 business days. **Not sure Saskatchewan vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Saskatchewan?** [Start your Saskatchewan incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed via ISC, minute book delivered in 3–5 business days. **Not sure Saskatchewan vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Saskatchewan is one of the most distinctive Canadian jurisdictions from a filing-mechanics perspective. The province outsourced its corporate registry to ISC (Information Services Corporation), a private company operating under provincial contract, and every corporate filing — incorporation, annual return, name change, share issuance — flows through the ISC Online portal. The upside for a filer: the process is well-run and consistently responsive. The downside if you're going DIY: you need an ISC Online account, which CRS handles for you when you order through us.
 
@@ -42,7 +42,7 @@ Under The Business Corporations Act (Saskatchewan):
 - **At least one director** — must be 18+. **At least 25% must be Canadian residents** (for a 1–3 director board, at least one Canadian resident).
 - **Filing through ISC Online** — accessible through Certified Registry Agents (like CRS) or by setting up your own ISC Online account.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the SK registry
 - NUANS or SK name search filed
@@ -56,7 +56,7 @@ Under The Business Corporations Act (Saskatchewan):
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and ISC filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and ISC filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Saskatchewan incorporation timeline
 
@@ -73,8 +73,8 @@ Total: **typically 3–5 business days** end-to-end.
 
 Every Saskatchewan corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 3 months of your anniversary date, filed with ISC. $45 government fee, filed at $129 all-in through CRS. See our [Saskatchewan annual return guide](/articles/how-to-file-your-annual-return-in-saskatchewan).
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 3 months of your anniversary date, filed with ISC. $45 government fee, filed at {{price:annual-return}} all-in through CRS. See our [Saskatchewan annual return guide](/articles/how-to-file-your-annual-return-in-saskatchewan).
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the ISC annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -89,4 +89,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Saskatchewan?
 
-[Start your Saskatchewan incorporation — $699 all-in →](/order/incorporation) · Articles filed via ISC, minute book delivered in 3–5 business days.
+[Start your Saskatchewan incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed via ISC, minute book delivered in 3–5 business days.

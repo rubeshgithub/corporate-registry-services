@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { listSection, getPillar, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
+import { listSection, getPillar, primePrices, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { ArrowRight } from "lucide-react";
 import { formatReviewedDate } from "@/lib/format-date";
@@ -109,6 +109,9 @@ export default async function SectionPage({
 
   if (!SECTIONS.includes(section as Section)) notFound();
 
+  /* listSection is sync, so prices must be primed before it reads titles
+     that quote one ("QuickBooks Profile Report — BC · $69 all-in"). */
+  await primePrices();
   const pages = listSection(section as Section);
   const label = SECTION_LABELS[section as Section];
   const override = await liveOverride(section as Section);

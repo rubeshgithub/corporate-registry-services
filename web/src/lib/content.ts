@@ -5,6 +5,8 @@ import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import type { FaqItem } from "./structured-data";
+import { DEFAULT_PRICES, formatCents } from "./price-catalogue";
+import { getPrices } from "./pricing";
 
 // Content lives one level above the Next.js project root
 const CONTENT_DIR = path.join(process.cwd(), "..", "content");
@@ -99,6 +101,43 @@ function rebrand(text: string) {
   return text; // Content already uses CRS branding
 }
 
+/* ── Price tokens ─────────────────────────────────────────────────── */
+
+/**
+ * Markdown never states a dollar amount for a CRS service — it writes a
+ * token, `{{price:annual-return}}`, and the renderer substitutes the live
+ * catalogue price. Before this, ~150 sentences and 18 frontmatter titles
+ * carried literal prices; a change in /admin/analytics reached the checkout
+ * in 30 seconds and the articles never, until someone ran a sync script and
+ * redeployed. Twice that script missed lines and the SERP showed one price
+ * while Stripe charged another.
+ *
+ * Substitution runs on the raw file — frontmatter and body together — so
+ * title, description, H1, FAQ answers and prose all resolve in one place.
+ * Government fees and grant amounts stay literal: only CRS prices are tokens.
+ */
+const PRICE_TOKEN = /\{\{\s*price:([a-z0-9-]+)\s*\}\}/g;
+
+/* Prices for the synchronous readers (listSection). The async readers prime
+   this from the catalogue on every call, and the pages that call listSection
+   directly call primePrices() first; until then it holds the code defaults. */
+let livePrices: Record<string, number> = DEFAULT_PRICES;
+
+export async function primePrices(): Promise<void> {
+  livePrices = await getPrices();
+}
+
+export function applyPriceTokens(text: string, prices: Record<string, number> = livePrices): string {
+  return text.replace(PRICE_TOKEN, (token, key: string) => {
+    const cents = prices[key];
+    if (cents == null) {
+      console.error(`[content] unknown price token ${token}`);
+      return token;   // leave it visible rather than render "$NaN"
+    }
+    return formatCents(cents);
+  });
+}
+
 /**
  * The article template already renders the frontmatter `title` (or `h1`)
  * as the page H1. When the markdown body also opens with `# ...`, the
@@ -168,7 +207,7 @@ export function listSection(section: Section): ContentMeta[] {
     // regular routed slug. Handled separately via getPillar().
     .filter((f) => !f.startsWith("_"))
     .map((filename) => {
-      const raw = fs.readFileSync(path.join(dir, filename), "utf8");
+      const raw = applyPriceTokens(fs.readFileSync(path.join(dir, filename), "utf8"));
       const { data } = matter(raw);
       return {
         section,
@@ -187,7 +226,8 @@ export async function getPillar(section: Section): Promise<ContentPage | null> {
   const file = path.join(dir, "_index.md");
   if (!fs.existsSync(file)) return null;
 
-  const raw = fs.readFileSync(file, "utf8");
+  await primePrices();
+  const raw = applyPriceTokens(fs.readFileSync(file, "utf8"));
   const { data, content } = matter(raw);
   const rebranded = stripLeadingH1(rebrand(content));
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
@@ -225,7 +265,8 @@ export async function getPage(
   const match = files.find((f) => slugify(f) === slug.toLowerCase());
   if (!match) return null;
 
-  const raw = fs.readFileSync(path.join(dir, match), "utf8");
+  await primePrices();
+  const raw = applyPriceTokens(fs.readFileSync(path.join(dir, match), "utf8"));
   const { data, content } = matter(raw);
 
   const rebranded = stripLeadingH1(rebrand(content));

@@ -3,7 +3,7 @@ title: "How to Incorporate in Saskatchewan: Fees, Steps & Costs"
 h1: "How to Incorporate a Business in Saskatchewan"
 slug: "how-to-incorporate-in-saskatchewan"
 section: "articles"
-description: "Incorporate in Saskatchewan: $255 ISC fee, $50 name reservation, SBCA steps and timelines - CRS files it all for $699 all-in."
+description: "Incorporate in Saskatchewan: $255 ISC fee, $50 name reservation, SBCA steps and timelines - CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in Saskatchewan?"
     a: "The government fee is $255, plus $50 to reserve a name (skipped for numbered companies), per ISC's fee schedule effective April 15, 2026. Every year after, the annual return costs $60 filed on time or $110 filed late."
@@ -15,9 +15,9 @@ faq:
     a: "No. The $50 name reservation includes Saskatchewan's own registry search, and a reservation number is all the incorporation filing needs. A Canada-wide NUANS search is still worth ordering if you plan to operate outside Saskatchewan or want early warning of federal name conflicts."
 ---
 
-**Ready to incorporate?** [Start your Saskatchewan incorporation — $699 all-in →](/order/incorporation?src=article-how-to-incorporate-in-saskatchewan) · Articles of Incorporation drafted, filed with ISC on your behalf, complete minute book delivered.
+**Ready to incorporate?** [Start your Saskatchewan incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation?src=article-how-to-incorporate-in-saskatchewan) · Articles of Incorporation drafted, filed with ISC on your behalf, complete minute book delivered.
 
-Incorporating in Saskatchewan costs a **$255 government fee plus a $50 name reservation**, all filed through ISC's Corporate Registry application at corporateregistry.isc.ca. You can do it yourself in about a week, or CRS can handle the entire filing for **$699 all-in**, including your Articles of Incorporation, name search, Business Number application, and a complete minute book. This guide walks through every fee, every step, and the two rules — the Saskatchewan attorney requirement and the registered-office rule — that catch out-of-province founders.
+Incorporating in Saskatchewan costs a **$255 government fee plus a $50 name reservation**, all filed through ISC's Corporate Registry application at corporateregistry.isc.ca. You can do it yourself in about a week, or CRS can handle the entire filing for **{{price:incorporation-numbered}} all-in**, including your Articles of Incorporation, name search, Business Number application, and a complete minute book. This guide walks through every fee, every step, and the two rules — the Saskatchewan attorney requirement and the registered-office rule — that catch out-of-province founders.
 
 ## How much does it cost to incorporate in Saskatchewan?
 
@@ -33,7 +33,7 @@ The government charges **$255 to incorporate a for-profit business corporation**
 
 A numbered company (e.g. "102345678 Saskatchewan Ltd.") skips the name reservation entirely.
 
-Those are just the filing fees. Doing it properly also means drafting Articles of Incorporation with a share structure that fits how you actually want to split ownership, preparing organizational resolutions, issuing share certificates, and setting up a minute book — which is where most founders either spend lawyer money or cut corners. CRS's [Saskatchewan incorporation service](/incorporation/saskatchewan-incorporation-service) is **$699 all-in + tax**: name search, Articles drafted for your ownership structure, ISC filing, share certificates, organizational resolutions, Business Number application, and the full minute book.
+Those are just the filing fees. Doing it properly also means drafting Articles of Incorporation with a share structure that fits how you actually want to split ownership, preparing organizational resolutions, issuing share certificates, and setting up a minute book — which is where most founders either spend lawyer money or cut corners. CRS's [Saskatchewan incorporation service](/incorporation/saskatchewan-incorporation-service) is **{{price:incorporation-numbered}} all-in + tax**: name search, Articles drafted for your ownership structure, ISC filing, share certificates, organizational resolutions, Business Number application, and the full minute book.
 
 ## How do you incorporate in Saskatchewan step by step?
 
@@ -74,7 +74,7 @@ For agriculture, potash and uranium, oil and gas, and other Saskatchewan-anchore
 
 Incorporation is day one, not the finish line. Your Saskatchewan corporation must:
 
-- **File an annual return with ISC every year.** It's due **one month after the anniversary of your incorporation date**, and the government fee is **$60 — or $110 if you file late** ([ISC](https://www.saskregistries.ca/corporateregistry/maintainandamendyourbusinessinformation/maintainingabusinesscorporation)). Miss the final notice and the registry moves to strike the corporation. Our guide to [filing your Saskatchewan annual return](/articles/how-to-file-your-annual-return-in-saskatchewan) covers the mechanics, or CRS can [file it for you](/order/annual-return) — $129 all-in, with your deadline tracked every year.
+- **File an annual return with ISC every year.** It's due **one month after the anniversary of your incorporation date**, and the government fee is **$60 — or $110 if you file late** ([ISC](https://www.saskregistries.ca/corporateregistry/maintainandamendyourbusinessinformation/maintainingabusinesscorporation)). Miss the final notice and the registry moves to strike the corporation. Our guide to [filing your Saskatchewan annual return](/articles/how-to-file-your-annual-return-in-saskatchewan) covers the mechanics, or CRS can [file it for you](/order/annual-return) — {{price:annual-return}} all-in, with your deadline tracked every year.
 - **Keep a minute book.** Directors' and shareholders' registers, share certificates, organizational resolutions, and every filing you make. Lenders and buyers will ask for it; see [what belongs in a corporate minute book](/guides/what-is-a-corporate-minute-book-canada).
 - **Keep the registry current.** Director changes, registered-office moves, and power-of-attorney changes all get filed with ISC as they happen.
 
@@ -82,7 +82,7 @@ Incorporation is day one, not the finish line. Your Saskatchewan corporation mus
 
 If you're comfortable drafting Articles from templates and your share structure is one founder, one share class, the DIY route through corporateregistry.isc.ca works and costs roughly $305 in government fees.
 
-Where founders come unstuck is everything around the form: share classes that don't fit how they actually want to split equity, no organizational resolutions, no share certificates ever issued, no minute book — gaps that surface later during a financing, a CRA review, or a sale. CRS's **$699 all-in** [Saskatchewan incorporation](/incorporation/saskatchewan-incorporation-service) covers the name search, custom-drafted Articles, ISC filing, organizational resolutions, share certificates, BN application, and a complete minute book — with your annual return deadline tracked for free afterward.
+Where founders come unstuck is everything around the form: share classes that don't fit how they actually want to split equity, no organizational resolutions, no share certificates ever issued, no minute book — gaps that surface later during a financing, a CRA review, or a sale. CRS's **{{price:incorporation-numbered}} all-in** [Saskatchewan incorporation](/incorporation/saskatchewan-incorporation-service) covers the name search, custom-drafted Articles, ISC filing, organizational resolutions, share certificates, BN application, and a complete minute book — with your annual return deadline tracked for free afterward.
 
 ## Frequently asked questions
 
@@ -107,6 +107,6 @@ No. The $50 name reservation includes Saskatchewan's own registry search, and a 
 **Ready to incorporate in Saskatchewan?** [Start your SK incorporation →](/order/incorporation?src=article-how-to-incorporate-in-saskatchewan) — Articles drafted, filed directly with ISC, full minute book included.
 
 **Turnaround:** name cleared in 1–2 days; certificate and minute book in 3–5 business days.
-**Price:** $699 all-in + tax — includes the $255 government fee, name search, and Business Number application.
+**Price:** {{price:incorporation-numbered}} all-in + tax — includes the $255 government fee, name search, and Business Number application.
 
 *Fees verified against the [ISC Corporate Registry fee schedule](https://www.saskregistries.ca/fees) (effective April 15, 2026) and ISC's [business corporation pages](https://www.saskregistries.ca/corporateregistry/registeringabusiness/registeryourbusiness/register-a-business-corporation), August 2026.*

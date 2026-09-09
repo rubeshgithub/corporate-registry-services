@@ -2,10 +2,10 @@
 title: "PEI Annual Return: How to File with the Corporate Registry — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Prince-Edward-Island"
 section: "articles"
-description: "File your PEI Annual Return through the Prince Edward Island Corporate Registry — $129 all-in, government fee included. Filed within 1 business day, deadline monitored every year."
+description: "File your PEI Annual Return through the Prince Edward Island Corporate Registry — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year."
 ---
 
-**30-day deadline?** [File your PEI annual return in 1 business day →](/order/annual-return) · $129 all-in, filed directly through the PEI Corporate Registry — no portal login required.
+**30-day deadline?** [File your PEI annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through the PEI Corporate Registry — no portal login required.
 
 Prince Edward Island corporations incorporated under the *Business Corporations Act (PEI)* must file an annual return with the PEI Corporate Registry within 30 days of the corporation's anniversary date.
 
@@ -48,6 +48,6 @@ Missing the 30-day window results in non-compliance status. Continued non-filing
 CRS files PEI annual returns directly through the PEI Corporate Registry on your behalf. You don't need to navigate the provincial portal yourself — we prepare the return, file it well within PEI's tight 30-day anniversary deadline, and email you the confirmation.
 
 **Turnaround:** 1 business day from order.
-**Price:** $129 + applicable tax — all-in, including the $50 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $50 government fee.
 
 [File your PEI annual return now →](/order/annual-return)

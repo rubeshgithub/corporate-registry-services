@@ -8,7 +8,7 @@ import {
 } from "@/lib/professional-corp";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { getPrices, getPriceCents, formatPriceLabel, formatCents } from "@/lib/pricing";
-import { getPillar, listSection } from "@/lib/content";
+import { getPillar, listSection, primePrices } from "@/lib/content";
 
 /**
  * Public professional-corporation services hub — the indexable counterpart
@@ -51,6 +51,7 @@ export default async function ProfessionalCorporationHub() {
   const priceFor = (key: string, fallback: number) => prices[`pc-${key}`] ?? fallback;
 
   const pillar = await getPillar("professional-corporation");
+  await primePrices();   // sync reader — prime before it resolves title tokens
   const guides = listSection("professional-corporation");
 
   const breadcrumb = breadcrumbLd([

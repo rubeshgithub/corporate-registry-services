@@ -3,7 +3,7 @@ title: "Federal vs. Provincial Incorporation in Canada — Which Is Right for Yo
 h1: "Federal vs. Provincial Incorporation in Canada: How to Choose"
 slug: "federal-vs-provincial-incorporation-canada"
 section: "guides"
-description: "Federal or provincial incorporation? Decision rules for cost, name protection, director residency, and cross-province operations. Same $699 all-in either way — pick on business needs, not budget."
+description: "Federal or provincial incorporation? Decision rules for cost, name protection, director residency, and cross-province operations. Same {{price:incorporation-numbered}} all-in either way — pick on business needs, not budget."
 ---
 
 > ### Short version — the decision in 30 seconds
@@ -13,7 +13,7 @@ description: "Federal or provincial incorporation? Decision rules for cost, name
 > - **All founders live outside Canada?** → **Provincial BC, Alberta, or Quebec** — no director residency requirement.
 > - **Still not sure?** → [Book a free 15-min incorporation consultation →](/incorporation/book-free-consultation) — a specialist walks through your situation and recommends the right jurisdiction.
 
-**Ready to file?** [Start incorporation — $699 all-in →](/order/incorporation) · Named or numbered · Federal or any province.
+**Ready to file?** [Start incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Named or numbered · Federal or any province.
 
 One of the first decisions every Canadian entrepreneur faces when incorporating is whether to incorporate federally under the *Canada Business Corporations Act* (CBCA) or provincially under a provincial business corporations act. Both options create a valid, limited-liability corporation — but they differ significantly in scope, cost, name protection, and compliance obligations.
 
@@ -34,7 +34,7 @@ A **provincially incorporated corporation** is created under the law of one spec
 | **Annual filings** | Annual Return to Corporations Canada | Annual Return to provincial registry |
 | **Director residency requirement** | 25% must be Canadian residents | Varies by province (Ontario: 25%; BC: none; Alberta: none) |
 | **Registered office** | Must be in Canada | Must be in the province |
-| **Cost to incorporate (CRS all-in)** | $699 + GST | $699 + GST/HST |
+| **Cost to incorporate (CRS all-in)** | {{price:incorporation-numbered}} + GST | {{price:incorporation-numbered}} + GST/HST |
 | **Ongoing compliance** | Federal annual return + provincial extra-provincial registration (if operating provincially) | Provincial annual return only |
 | **Name search** | NUANS report required | NUANS or provincial equivalent |
 
@@ -57,7 +57,7 @@ Provincial incorporation is the right choice if you:
 - **Operate exclusively within one province** — If your business, employees, office, and customers are all in Ontario (or BC, Alberta, etc.), there is no practical reason to incorporate federally.
 - **Want simpler ongoing compliance** — One annual return to one registry, rather than a federal return plus provincial extra-provincial filings.
 - **Are in British Columbia, Alberta, or Québec** — These provinces have particularly efficient and business-friendly incorporation processes. BC and Alberta impose no Canadian residency requirement on directors, making them popular for international entrepreneurs.
-- **Want straightforward startup costs** — CRS provincial incorporation is a flat $699 + GST/HST all-in, the same as federal.
+- **Want straightforward startup costs** — CRS provincial incorporation is a flat {{price:incorporation-numbered}} + GST/HST all-in, the same as federal.
 
 ## Director Residency Requirements
 
@@ -83,14 +83,14 @@ If your founding team has no Canadian residents, incorporating in BC or Alberta 
 
 ## Cost Comparison
 
-**Federal and provincial CRS incorporation cost the same — $699 all-in either way.** That means budget shouldn't drive this decision; pick on business needs (where you operate, name protection scope, director residency) and let the price be neutral. Where costs diverge is *after* incorporation: a federal corporation operating in provinces will pay extra-provincial registration in each of those provinces, so if you're staying in one province, provincial ends up cheaper long-term.
+**Federal and provincial CRS incorporation cost the same — {{price:incorporation-numbered}} all-in either way.** That means budget shouldn't drive this decision; pick on business needs (where you operate, name protection scope, director residency) and let the price be neutral. Where costs diverge is *after* incorporation: a federal corporation operating in provinces will pay extra-provincial registration in each of those provinces, so if you're staying in one province, provincial ends up cheaper long-term.
 
 | Service | Federal | Ontario (as example) |
 |---|---|---|
-| **Incorporation (CRS all-in fee)** | $699 + GST | $699 + HST |
+| **Incorporation (CRS all-in fee)** | {{price:incorporation-numbered}} + GST | {{price:incorporation-numbered}} + HST |
 | **What's included** | NUANS search, Articles of Incorporation, Notice of Directors, By-Laws, organizational resolutions, minute book | Same package under the Ontario Business Corporations Act |
-| **Annual Return (CRS all-in fee)** | $129 + GST | $129 + HST |
-| **Extra-provincial registration (per province)** | $299 + GST | $299 + HST |
+| **Annual Return (CRS all-in fee)** | {{price:annual-return}} + GST | {{price:annual-return}} + HST |
+| **Extra-provincial registration (per province)** | {{price:extra-provincial}} + GST | {{price:extra-provincial}} + HST |
 
 All CRS fees are all-inclusive: government filing fees, name search (where required), professional preparation, and submission are bundled into a single flat price — no surprise charges at checkout.
 
@@ -124,6 +124,6 @@ CRS offers all-inclusive incorporation services for every Canadian jurisdiction 
 
 Pick the path that matches where you're at:
 
-- **You've decided on federal (CBCA).** → [Start CBCA incorporation — $699 all-in →](/order/incorporation)
+- **You've decided on federal (CBCA).** → [Start CBCA incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation)
 - **You've decided on a province.** → [Browse provincial incorporation services →](/incorporation)
 - **You're still weighing it.** → [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation. Same specialist who files it can help you decide.

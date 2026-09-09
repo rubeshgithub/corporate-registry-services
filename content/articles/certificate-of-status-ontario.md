@@ -3,21 +3,21 @@ title: "Certificate of Status Ontario: What It Is & How to Get One"
 h1: "Certificate of Status in Ontario: Which Proof Do You Actually Need?"
 slug: "certificate-of-status-ontario"
 section: "articles"
-description: "Ontario Certificate of Status vs. TCV number: what each proves, the $26 government fee, and how to get your certificate in about 3 hours — $109 all-in."
+description: "Ontario Certificate of Status vs. TCV number: what each proves, the $26 government fee, and how to get your certificate in about 3 hours — {{price:good-standing}} all-in."
 faq:
   - q: "Is a TCV number the same as a Certificate of Status?"
     a: "No. A TCV number is issued by the Ontario Ministry of Finance and proves your business is compliant with Ontario tax obligations. A Certificate of Status is issued by the Ontario Business Registry and proves your corporation is registered, active and in good standing. Ontario government contract and licence applications may require both."
   - q: "Can CRS get a TCV number or FBC letter for me?"
     a: "No — and be wary of anyone who claims they can. A TCV number comes free and directly from Ontario's Tax Compliance Verification service, and the FBC letter comes from your CRA My Business Account. CRS supplies registry documents: the Certificate of Status, corporate profile reports, and corporation searches."
   - q: "How fast can I get an Ontario Certificate of Status?"
-    a: "Ordering through CRS, about 3 hours, delivered as a PDF — $109 all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it."
+    a: "Ordering through CRS, about 3 hours, delivered as a PDF — {{price:good-standing}} all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it."
   - q: "Is a Certificate of Status the same as a Certificate of Good Standing?"
     a: "Yes. Ontario officially calls it a Certificate of Status; most other Canadian jurisdictions call the equivalent document a certificate of good standing (or certificate of compliance federally). Banks and lawyers use the names interchangeably, and the Ontario certificate satisfies a request worded either way."
   - q: "How much does a Certificate of Status cost in Ontario?"
-    a: "The government fee is $26 through the Ontario Business Registry. CRS retrieves it for $109 all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required."
+    a: "The government fee is $26 through the Ontario Business Registry. CRS retrieves it for {{price:good-standing}} all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required."
 ---
 
-**Bidding on a contract or asked for proof of standing?** [Order your Ontario Certificate of Status →](/order/good-standing?src=article-certificate-of-status-ontario) — $109 all-in + tax, ready in about 3 hours.
+**Bidding on a contract or asked for proof of standing?** [Order your Ontario Certificate of Status →](/order/good-standing?src=article-certificate-of-status-ontario) — {{price:good-standing}} all-in + tax, ready in about 3 hours.
 
 If you've been asked to prove your corporation's standing in Ontario, there are two different documents people routinely confuse — and they come from two different government systems. A **Tax Compliance Verification (TCV) number** proves your *tax* standing with the Ontario Ministry of Finance. A **Certificate of Status** proves your *corporate registry* standing with the Ontario Business Registry. Government licence and contract applications often ask for the first; banks, lenders, lawyers and other registries almost always want the second. This guide explains what each one is, how to get it, and what it costs — so you order the right document the first time.
 
@@ -63,7 +63,7 @@ There are two routes: order it yourself through the Ontario Business Registry, o
 
 **Doing it yourself:** you order through the [Ontario Business Registry](https://www.ontario.ca/page/ontario-business-registry) with an Ontario.ca account and your corporation's **company key** — a PIN-style code mailed or emailed to the corporation. The government fee is $26, payable by credit or debit, and online requests are typically processed the same business day, with the certificate delivered by email as a PDF. The catch is the company key: if you don't have it (most owners don't have it handy), requesting one can take several business days — which is exactly the delay you can't afford when a bank or bid deadline is sitting on your desk.
 
-**Using CRS:** we retrieve the certificate directly from the Ontario Business Registry — no company key, no OBR account, no ontario.ca login needed on your end. $109 all-in + tax including the government charge, delivered as a PDF in about 3 hours. [Order here →](/order/good-standing?src=article-certificate-of-status-ontario)
+**Using CRS:** we retrieve the certificate directly from the Ontario Business Registry — no company key, no OBR account, no ontario.ca login needed on your end. {{price:good-standing}} all-in + tax including the government charge, delivered as a PDF in about 3 hours. [Order here →](/order/good-standing?src=article-certificate-of-status-ontario)
 
 ## How Do You Get a TCV Number?
 
@@ -73,7 +73,7 @@ CRS doesn't obtain TCV numbers or FBC letters — those are tax documents betwee
 
 ## What If Your Corporation Isn't in Good Standing?
 
-Fix the filings first — a certificate ordered for a non-compliant corporation will show exactly that. In Ontario the usual culprit is missed annual returns, which since 2021 are filed through the Ontario Business Registry rather than with the CRA tax return. If you're behind, our guide to [filing your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario) walks through the process, or CRS can [file it for you](/order/annual-return) — $129 all-in + tax, filed within 1 business day. Once the registry shows you compliant, order the certificate.
+Fix the filings first — a certificate ordered for a non-compliant corporation will show exactly that. In Ontario the usual culprit is missed annual returns, which since 2021 are filed through the Ontario Business Registry rather than with the CRA tax return. If you're behind, our guide to [filing your annual return in Ontario](/articles/how-to-file-your-annual-return-in-ontario) walks through the process, or CRS can [file it for you](/order/annual-return) — {{price:annual-return}} all-in + tax, filed within 1 business day. Once the registry shows you compliant, order the certificate.
 
 If the corporation has actually been dissolved or cancelled, a Certificate of Status can't help — the registry will show it inactive, and you'll need to revive the corporation first. [Contact us](/contact) and we'll point you at the right fix.
 
@@ -89,7 +89,7 @@ No — and be wary of anyone who claims they can. A TCV number comes free and di
 
 ### How fast can I get an Ontario Certificate of Status?
 
-Ordering through CRS, about 3 hours, delivered as a PDF — $109 all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it.
+Ordering through CRS, about 3 hours, delivered as a PDF — {{price:good-standing}} all-in + tax. Ordering yourself through the Ontario Business Registry is typically same-business-day for the $26 government fee, but requires an Ontario.ca account and your company key, which can take several business days to obtain if you don't have it.
 
 ### Is a Certificate of Status the same as a Certificate of Good Standing?
 
@@ -97,13 +97,13 @@ Yes. Ontario officially calls it a Certificate of Status; most other Canadian ju
 
 ### How much does a Certificate of Status cost in Ontario?
 
-The government fee is $26 through the Ontario Business Registry. CRS retrieves it for $109 all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required.
+The government fee is $26 through the Ontario Business Registry. CRS retrieves it for {{price:good-standing}} all-in + tax — the price includes the government charge — with roughly 3-hour turnaround and no company key or registry account required.
 
 ## Get Your Ontario Certificate of Status Today
 
 Whether it's a bank, a bid package or a closing table asking, the certificate is the easy half of the equation — don't let a missing company key hold up the deal. CRS pulls your Certificate of Status directly from the Ontario Business Registry and delivers it the same morning you order.
 
 **Turnaround:** ~3 hours, delivered as PDF
-**Price:** $109 all-in + tax (government charges included)
+**Price:** {{price:good-standing}} all-in + tax (government charges included)
 
 [Order your Ontario Certificate of Status →](/order/good-standing?src=article-certificate-of-status-ontario)

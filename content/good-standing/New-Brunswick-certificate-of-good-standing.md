@@ -4,7 +4,7 @@ slug: "New-Brunswick-certificate-of-good-standing"
 section: "good-standing"
 ---
 
-New Brunswick Certificate of Good Standing. Available for $109 + applicable tax, all-in (including government charges).
+New Brunswick Certificate of Good Standing. Available for {{price:good-standing}} + applicable tax, all-in (including government charges).
 
 A New Brunswick Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the New Brunswick Corporate Registry confirming that a corporation is legally registered, active, and compliant with all filing requirements under the New Brunswick Business Corporations Act.
 

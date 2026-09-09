@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import { isCmsAuthenticated } from "@/lib/cms-auth";
 import { cmsArticles } from "@/lib/cms-mongo";
+import { applyPriceTokens, primePrices } from "@/lib/content";
 
 /**
  * /cms/preview/[id] — renders a draft from Mongo using the same markdown
@@ -31,11 +32,15 @@ export default async function PreviewPage({ params }: { params: Promise<{ id: st
   const article = await col.findOne({ _id: oid! });
   if (!article) notFound();
 
+  /* Resolve {{price:key}} the same way the live renderer does, so a preview
+     shows real prices and an author never "corrects" a token back to a
+     literal. */
+  await primePrices();
   const contentHtml = String(
     await remark()
       .use(remarkGfm)
       .use(remarkHtml, { sanitize: false })
-      .process(article.body ?? ""),
+      .process(applyPriceTokens(article.body ?? "")),
   );
 
   return (

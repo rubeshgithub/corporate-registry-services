@@ -12,7 +12,7 @@ faq:
   - q: "How do I check if a Canadian corporation is dissolved?"
     a: "A Corporate Profile Report shows current status: active, dissolved, struck, amalgamated, or in default. If the report shows anything other than active, the corporation cannot enter into binding contracts under its current name — do not sign."
   - q: "How much does a Corporate Profile Report cost in Canada?"
-    a: "$49 all-in + GST through CRS — government fee included, delivered by email within one business hour. Provincial registries charge $10–$50 direct, but require a portal account and manual retrieval."
+    a: "{{price:corporate-search}} all-in + GST through CRS — government fee included, delivered by email within one business hour. Provincial registries charge $10–$50 direct, but require a portal account and manual retrieval."
 ---
 
 You're about to buy a business, extend trade credit, take on a supplier, or invest in a partnership — and the counterparty is a Canadian corporation. Before you sign, you need to know: does this entity actually exist? Are the people signing authorised to bind it? Are there past names, prior amalgamations, or a dissolution notice that changes the deal?
@@ -53,9 +53,9 @@ For most Canadian transactions, this is the minimum evidence file:
 
 | Document | Cost | What it proves |
 |---|---|---|
-| [Corporate Profile Report](/profile-reports) | $69 all-in | Current legal existence, status, directors, address |
-| [Certificate of Good Standing / Status](/good-standing) | $109 all-in | Corporation is compliant with all filings |
-| [Minute Book](/minute-books) (buyer's counsel review) | $299+ | Full history: resolutions, share transfers, past directors, articles amendments |
+| [Corporate Profile Report](/profile-reports) | {{price:profile-report}} all-in | Current legal existence, status, directors, address |
+| [Certificate of Good Standing / Status](/good-standing) | {{price:good-standing}} all-in | Corporation is compliant with all filings |
+| [Minute Book](/minute-books) (buyer's counsel review) | {{price:minute-book-new}}+ | Full history: resolutions, share transfers, past directors, articles amendments |
 | PPSA / RPMRR lien search | Varies by province | Registered security interests against corporate assets |
 | CRA arrears letter | Free (owner-requested) | No outstanding taxes owing |
 
@@ -83,11 +83,11 @@ If you're doing due diligence at scale (vetting suppliers, running KYC, extendin
 
 ## Order the searches
 
-**Just need to confirm status, directors, and registered office?** [Order a Corporate Profile Report](/profile-reports) — $69 all-in, PDF within one business hour.
+**Just need to confirm status, directors, and registered office?** [Order a Corporate Profile Report](/profile-reports) — {{price:profile-report}} all-in, PDF within one business hour.
 
-**Need to prove the corporation is compliant for financing or a closing?** [Order a Certificate of Good Standing](/good-standing) — $109 all-in.
+**Need to prove the corporation is compliant for financing or a closing?** [Order a Certificate of Good Standing](/good-standing) — {{price:good-standing}} all-in.
 
-**Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from $299.
+**Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from {{price:minute-book-new}}.
 
 ## Frequently asked questions
 

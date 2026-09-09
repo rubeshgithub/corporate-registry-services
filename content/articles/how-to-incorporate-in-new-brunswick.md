@@ -3,7 +3,7 @@ title: "How to Incorporate in New Brunswick: Fees, Steps & Timing"
 h1: "How to Incorporate a Business in New Brunswick"
 slug: "how-to-incorporate-in-new-brunswick"
 section: "articles"
-description: "Incorporate in New Brunswick: $262 govt fee, NUANS, Corporate Registry e-filing steps, timelines and annual return rules. CRS files it all for $699 all-in."
+description: "Incorporate in New Brunswick: $262 govt fee, NUANS, Corporate Registry e-filing steps, timelines and annual return rules. CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in New Brunswick?"
     a: "The Corporate Registry charges $262 to incorporate electronically (including the $12 Royal Gazette notice), $312 on paper, or $362 for expedited two-business-day service. Add a NUANS name search for a named corporation. The e-filed annual return is $60 every year after."
@@ -15,9 +15,9 @@ faq:
     a: "Within the 30 days following the corporation's anniversary date, every year. The e-filed fee is $60 ($80 on paper). Miss it and the registry marks the corporation 'B – Not Current'; two years of unfiled returns leads to dissolution."
 ---
 
-**Ready to incorporate?** [Start your New Brunswick incorporation — $699 all-in →](/order/incorporation?src=article-how-to-incorporate-in-new-brunswick) · NUANS cleared, Articles filed with the Corporate Registry, complete minute book delivered.
+**Ready to incorporate?** [Start your New Brunswick incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation?src=article-how-to-incorporate-in-new-brunswick) · NUANS cleared, Articles filed with the Corporate Registry, complete minute book delivered.
 
-Incorporating in New Brunswick costs a **$262 government fee** when you file electronically with Service New Brunswick's Corporate Registry ($312 on paper, $362 expedited), plus a NUANS name search if you want a named rather than numbered corporation. The registry's standard processing time is up to 10 working days, and the province imposes **no Canadian-residency requirement on directors**. You can file Form 1 yourself through the Corporate Registry's online filing centre, or CRS can handle the whole thing — name search, Articles, Notices, organizational resolutions, share certificates, Business Number application and a full minute book — for **$699 all-in + tax**. This guide walks through every fee, every form, and the *Business Corporations Act* (NBBCA) rules that catch first-time founders.
+Incorporating in New Brunswick costs a **$262 government fee** when you file electronically with Service New Brunswick's Corporate Registry ($312 on paper, $362 expedited), plus a NUANS name search if you want a named rather than numbered corporation. The registry's standard processing time is up to 10 working days, and the province imposes **no Canadian-residency requirement on directors**. You can file Form 1 yourself through the Corporate Registry's online filing centre, or CRS can handle the whole thing — name search, Articles, Notices, organizational resolutions, share certificates, Business Number application and a full minute book — for **{{price:incorporation-numbered}} all-in + tax**. This guide walks through every fee, every form, and the *Business Corporations Act* (NBBCA) rules that catch first-time founders.
 
 ## How much does it cost to incorporate in New Brunswick?
 
@@ -35,7 +35,7 @@ Service New Brunswick publishes its fees under the *Business Corporations Act* o
 
 Most incorporation fees include the mandatory $12 Royal Gazette publication, so the numbers above are what you actually pay the registry. A numbered corporation (e.g. "123456 N.B. Inc.") skips the NUANS report entirely.
 
-Those are the filing fees only. Doing it properly also means drafting Articles of Incorporation with a share structure that fits how you intend to own the company, adopting by-laws, passing organizational resolutions, issuing share certificates and setting up a minute book — the paperwork most founders either pay a lawyer for or skip and regret later. CRS's [New Brunswick incorporation service](/incorporation/new-brunswick-incorporation-service) is **$699 all-in + tax**: preliminary name check, NUANS report, Articles drafted in English, French or both, Notices of Directors and Registered Office, direct filing with the Corporate Registry, by-laws, organizational resolutions, share certificates, Business Number application and the complete minute book. The $262 government fee is included.
+Those are the filing fees only. Doing it properly also means drafting Articles of Incorporation with a share structure that fits how you intend to own the company, adopting by-laws, passing organizational resolutions, issuing share certificates and setting up a minute book — the paperwork most founders either pay a lawyer for or skip and regret later. CRS's [New Brunswick incorporation service](/incorporation/new-brunswick-incorporation-service) is **{{price:incorporation-numbered}} all-in + tax**: preliminary name check, NUANS report, Articles drafted in English, French or both, Notices of Directors and Registered Office, direct filing with the Corporate Registry, by-laws, organizational resolutions, share certificates, Business Number application and the complete minute book. The $262 government fee is included.
 
 ## How do you incorporate in New Brunswick step by step?
 
@@ -57,7 +57,7 @@ What your corporation does need is a **registered office in New Brunswick** — 
 
 ## Can you incorporate in French in New Brunswick?
 
-Yes. New Brunswick is Canada's only officially bilingual province, and the Corporate Registry accepts filings in **English, French or both**. Your corporate name can be English-only, French-only or bilingual — and unlike Quebec, there is no requirement to have a French version at all. For a business serving Moncton, the Acadian Peninsula or Madawaska as well as Saint John and Fredericton, a bilingual name and bilingual Articles cost nothing extra at the registry. CRS drafts in whichever language you choose as part of the $699 fee.
+Yes. New Brunswick is Canada's only officially bilingual province, and the Corporate Registry accepts filings in **English, French or both**. Your corporate name can be English-only, French-only or bilingual — and unlike Quebec, there is no requirement to have a French version at all. For a business serving Moncton, the Acadian Peninsula or Madawaska as well as Saint John and Fredericton, a bilingual name and bilingual Articles cost nothing extra at the registry. CRS drafts in whichever language you choose as part of the {{price:incorporation-numbered}} fee.
 
 ## What makes the New Brunswick Business Corporations Act different?
 
@@ -71,7 +71,7 @@ If you've looked at incorporating elsewhere, three things stand out:
 
 Incorporation is day one. Your New Brunswick corporation must:
 
-- **File an annual return within 30 days after its anniversary date, every year.** The [Corporate Registry](https://www2.snb.ca/content/snb/en/sites/corporate-registry/annual-return.html) mails or emails the Form 24.3 reminder before your anniversary month; the e-filed fee is $60. File late and your corporation shows as "B – Not Current" on the public registry; two years of unfiled returns and the registry dissolves it. See our guide to [filing your New Brunswick annual return](/articles/how-to-file-your-annual-return-in-new-brunswick), or CRS can [file it for you](/order/annual-return) — $129 all-in, 1-business-day turnaround, with the deadline tracked every year.
+- **File an annual return within 30 days after its anniversary date, every year.** The [Corporate Registry](https://www2.snb.ca/content/snb/en/sites/corporate-registry/annual-return.html) mails or emails the Form 24.3 reminder before your anniversary month; the e-filed fee is $60. File late and your corporation shows as "B – Not Current" on the public registry; two years of unfiled returns and the registry dissolves it. See our guide to [filing your New Brunswick annual return](/articles/how-to-file-your-annual-return-in-new-brunswick), or CRS can [file it for you](/order/annual-return) — {{price:annual-return}} all-in, 1-business-day turnaround, with the deadline tracked every year.
 - **Hold the organizational meeting and document it.** Adopt by-laws, appoint officers, issue shares, set the fiscal year-end and appoint (or waive) an auditor — all by [directors' resolutions](/articles/director-resolutions-in-canada) and [shareholder resolutions](/articles/shareholder-resolutions-in-canada) that go in the minute book.
 - **Keep a minute book.** Registers of directors, officers and shareholders, the securities register, share certificates and every filing you make. Lenders, buyers and the CRA will ask for it. See [what belongs in a corporate minute book](/guides/what-is-a-corporate-minute-book-canada).
 - **Tell the registry when things change.** Director changes and registered-office moves are filed as they happen; a name change or share-structure change needs Articles of Amendment ($212).
@@ -81,7 +81,7 @@ Incorporation is day one. Your New Brunswick corporation must:
 
 If your company is one founder, one class of shares and you're comfortable filling in Form 1 from the registry's instructions, the DIY route costs $262 plus a NUANS report and a couple of hours. The government forms are not the hard part.
 
-Where founders come unstuck is everything the forms don't ask for: share provisions that can't accommodate a second shareholder or a family trust, no by-laws ever adopted, shares never actually issued, no minute book when a bank or buyer asks for one. Fixing that later means Articles of Amendment at $212 and legal fees. CRS's **$699 all-in** [New Brunswick incorporation](/incorporation/new-brunswick-incorporation-service) covers the NUANS report, custom-drafted Articles (English, French or bilingual), the Notices, Corporate Registry filing, by-laws, organizational resolutions, share certificates, Business Number application and the complete minute book — with your annual return deadline tracked for free afterward. Not sure whether NB or federal is right? [Book a free 15-minute consultation](/incorporation/book-free-consultation).
+Where founders come unstuck is everything the forms don't ask for: share provisions that can't accommodate a second shareholder or a family trust, no by-laws ever adopted, shares never actually issued, no minute book when a bank or buyer asks for one. Fixing that later means Articles of Amendment at $212 and legal fees. CRS's **{{price:incorporation-numbered}} all-in** [New Brunswick incorporation](/incorporation/new-brunswick-incorporation-service) covers the NUANS report, custom-drafted Articles (English, French or bilingual), the Notices, Corporate Registry filing, by-laws, organizational resolutions, share certificates, Business Number application and the complete minute book — with your annual return deadline tracked for free afterward. Not sure whether NB or federal is right? [Book a free 15-minute consultation](/incorporation/book-free-consultation).
 
 ## Frequently asked questions
 
@@ -106,6 +106,6 @@ Within the 30 days following the corporation's anniversary date, every year. The
 **Ready to incorporate in New Brunswick?** [Start your NB incorporation →](/order/incorporation?src=article-how-to-incorporate-in-new-brunswick) — NUANS report, Articles drafted in English or French, filed directly with the Corporate Registry, full minute book included.
 
 **Turnaround:** name cleared in 1–2 days; certificate and minute book typically within two weeks (registry processing up to 10 working days, or 2 business days expedited).
-**Price:** $699 all-in + tax — includes the $262 government fee, NUANS report, and Business Number application.
+**Price:** {{price:incorporation-numbered}} all-in + tax — includes the $262 government fee, NUANS report, and Business Number application.
 
 *Fees and deadlines verified against Service New Brunswick's [Corporate Registry fee schedule](https://www.gnb.ca/content/snb/en/sites/corporate-registry/fees/provincial.html) and [annual return page](https://www2.snb.ca/content/snb/en/sites/corporate-registry/annual-return.html), August 2026.*

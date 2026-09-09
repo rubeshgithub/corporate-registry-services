@@ -4,7 +4,7 @@ slug: "Quebec-corporate-annual-return"
 section: "annual-return"
 ---
 
-Quebec Annual Return Filing — $129 + applicable tax, all-in (including government fees).
+Quebec Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
 
 Every Quebec corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

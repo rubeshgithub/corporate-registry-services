@@ -1,9 +1,9 @@
 ---
-title: "NWT Incorporation | $699 All-In, Northwest Territories"
-h1: "Northwest Territories Incorporation Service: BCA Filing, $699 All-In"
+title: "NWT Incorporation | {{price:incorporation-numbered}} All-In, Northwest Territories"
+h1: "Northwest Territories Incorporation Service: BCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "Northwest-Territories-incorporation-service"
 section: "incorporation"
-description: "Incorporate a Northwest Territories corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed with the NT Corporate Registry."
+description: "Incorporate a Northwest Territories corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed with the NT Corporate Registry."
 faq:
   - q: "Is NWT a good jurisdiction for mining, resource extraction, or northern operations?"
     a: "Yes — the Northwest Territories economy is anchored in diamond mining (Diavik, Ekati, Gahcho Kué), gold and rare-earth exploration, oil and gas, and northern resource logistics. Provincial incorporation aligns you with the NT regulatory environment and the territorial licensing regimes some of these industries require. For businesses operating primarily in the NT, territorial incorporation is simpler than federal + extra-provincial registration."
@@ -17,7 +17,7 @@ faq:
     a: "A named NWT corporation (e.g., 'Northern Exploration Ltd.') requires a NUANS report or NT name search to confirm availability. A numbered corporation skips the name search entirely and is faster and cheaper to set up. Many businesses start numbered and later file Articles of Amendment to add a name — a common, cost-effective approach when branding hasn't been finalized."
 ---
 
-**Ready to incorporate in the Northwest Territories?** [Start your NWT incorporation — $699 all-in →](/order/incorporation) · Articles filed with the NT Corporate Registry, minute book delivered in 4–7 business days. **Not sure NWT vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in the Northwest Territories?** [Start your NWT incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the NT Corporate Registry, minute book delivered in 4–7 business days. **Not sure NWT vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 The Northwest Territories is a specialised jurisdiction for businesses in diamond mining, resource extraction, northern logistics, and community-based operations across the territory. Corporations are formed under the Business Corporations Act (Northwest Territories) and filed with the NT Corporate Registry, administered by the Department of Justice. Territorial incorporation makes sense when operations are anchored in the NT — the licensing regimes and regulatory environment are territory-specific.
 
@@ -42,7 +42,7 @@ Under the Business Corporations Act (Northwest Territories):
 - **At least one director** — must be 18+. Specific residency rules should be confirmed with a specialist for your board composition.
 - **Filing through the NT Corporate Registry** — CRS handles this on your behalf; no territorial portal account required on your end.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the NT Corporate Registry
 - NUANS or NT name search filed
@@ -56,7 +56,7 @@ Under the Business Corporations Act (Northwest Territories):
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and NT Corporate Registry filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and NT Corporate Registry filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Northwest Territories incorporation timeline
 
@@ -73,8 +73,8 @@ Total: **typically 4–7 business days** end-to-end.
 
 Every NWT corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 2 months of your anniversary date, filed with the NT Corporate Registry. $50 government fee, filed at $129 all-in through CRS. See our [NWT annual return guide](/articles/how-to-file-your-annual-return-in-northwest-territories).
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 2 months of your anniversary date, filed with the NT Corporate Registry. $50 government fee, filed at {{price:annual-return}} all-in through CRS. See our [NWT annual return guide](/articles/how-to-file-your-annual-return-in-northwest-territories).
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the NT annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -89,4 +89,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in the Northwest Territories?
 
-[Start your NWT incorporation — $699 all-in →](/order/incorporation) · Articles filed with the NT Corporate Registry, minute book delivered in 4–7 business days.
+[Start your NWT incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the NT Corporate Registry, minute book delivered in 4–7 business days.

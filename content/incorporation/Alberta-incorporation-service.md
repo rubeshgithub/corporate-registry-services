@@ -1,9 +1,9 @@
 ---
-title: "Alberta Incorporation | $699 All-In, Filed via CORES Agent"
-h1: "Alberta Incorporation Service: ABCA Filing, $699 All-In"
+title: "Alberta Incorporation | {{price:incorporation-numbered}} All-In, Filed via CORES Agent"
+h1: "Alberta Incorporation Service: ABCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "Alberta-incorporation-service"
 section: "incorporation"
-description: "Incorporate an Alberta corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed via CORES by a Certified Registry Agent. No Canadian resident director required."
+description: "Incorporate an Alberta corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed via CORES by a Certified Registry Agent. No Canadian resident director required."
 faq:
   - q: "Do I need Canadian resident directors to incorporate in Alberta?"
     a: "No. Alberta removed the Canadian resident director requirement in 2022, joining British Columbia and Quebec as jurisdictions with no residency rule. Every director must be 18 or older, but there is no requirement that any of them be Canadian residents. Federal (CBCA) still requires 25% Canadian residents, so a fully non-resident founding team incorporating in Canada often chooses Alberta, BC, or (as of 2023) Ontario."
@@ -17,7 +17,7 @@ faq:
     a: "A named Alberta corporation (e.g., 'Acme Consulting Ltd.') requires a NUANS report or an Alberta name search to confirm the name is available. A numbered corporation (e.g., '2345678 Alberta Ltd.') skips the name search entirely and is faster and cheaper to set up. Many businesses start numbered and later file Articles of Amendment to add a name — a standard, cost-effective approach when branding hasn't been finalized. Both structures are legally identical; only the name differs."
 ---
 
-**Ready to incorporate in Alberta?** [Start your Alberta incorporation — $699 all-in →](/order/incorporation) · Articles filed via CORES by a Certified Registry Agent, minute book delivered in 2–4 business days. **Not sure Alberta vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Alberta?** [Start your Alberta incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed via CORES by a Certified Registry Agent, minute book delivered in 2–4 business days. **Not sure Alberta vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Alberta is one of the most business-friendly and fastest Canadian jurisdictions to incorporate in. The *Alberta Business Corporations Act* (ABCA) is a modern statute with investor-friendly defaults; the CORES filing system routes through Certified Registry Agents (like CRS) for same-day or next-day processing; and since 2022 Alberta has had no Canadian resident director requirement — making it a natural choice for international founders alongside British Columbia.
 
@@ -44,7 +44,7 @@ Under the *Alberta Business Corporations Act*:
 - **At least one director** — must be 18+. No Canadian residency requirement (removed 2022).
 - **Filing through a Certified Registry Agent** — CORES access is not available to the general public. Your incorporation must be filed either through a Certified Registry Agent (like CRS) or in person at a Registry Agent office.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with Service Alberta
 - Alberta name search or NUANS report filed
@@ -58,7 +58,7 @@ Under the *Alberta Business Corporations Act*:
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and CORES filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and CORES filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Alberta incorporation timeline
 
@@ -75,8 +75,8 @@ Total: **typically 2–4 business days** end-to-end. Alberta is often the fastes
 
 Every Alberta corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 1 month of your anniversary date, filed through CORES. Alberta has one of the tightest anniversary windows in Canada (matching Yukon). $47 government fee, filed at $129 all-in through CRS. See our [Alberta annual return guide](/articles/how-to-file-your-annual-return-in-alberta).
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 1 month of your anniversary date, filed through CORES. Alberta has one of the tightest anniversary windows in Canada (matching Yukon). $47 government fee, filed at {{price:annual-return}} all-in through CRS. See our [Alberta annual return guide](/articles/how-to-file-your-annual-return-in-alberta).
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the CORES annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -91,4 +91,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Alberta?
 
-[Start your Alberta incorporation — $699 all-in →](/order/incorporation) · Articles filed via CORES by a Certified Registry Agent, minute book delivered in 2–4 business days.
+[Start your Alberta incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed via CORES by a Certified Registry Agent, minute book delivered in 2–4 business days.

@@ -1,12 +1,12 @@
 ﻿---
-title: "File Your Yukon Annual Return — Corporate Affairs Yukon · $129"
+title: "File Your Yukon Annual Return — Corporate Affairs Yukon · {{price:annual-return}}"
 h1: "File Your Yukon Annual Return (Corporate Affairs Yukon)"
 slug: "How-to-File-Your-Annual-Return-in-Yukon"
 section: "articles"
-description: "File your Yukon annual return with Corporate Affairs Yukon in 1 business day. $129 all-in, government fee included. Yukon has one of Canada's shortest deadlines — just 1 month from your anniversary. File same day, no login."
+description: "File your Yukon annual return with Corporate Affairs Yukon in 1 business day. {{price:annual-return}} all-in, government fee included. Yukon has one of Canada's shortest deadlines — just 1 month from your anniversary. File same day, no login."
 ---
 
-**1-month deadline?** [File your Yukon annual return in 1 business day →](/order/annual-return) · $129 all-in, filed directly through Corporate Affairs Yukon — one of Canada's tightest deadlines, handled.
+**1-month deadline?** [File your Yukon annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through Corporate Affairs Yukon — one of Canada's tightest deadlines, handled.
 
 Yukon corporations incorporated under the *Business Corporations Act (Yukon)* must file an annual return with Corporate Affairs Yukon within 1 month of the corporation's anniversary date — one of the shortest deadlines in Canada alongside Alberta.
 
@@ -48,6 +48,6 @@ Yukon corporations have no specific Canadian residency requirement for directors
 CRS files Yukon annual returns directly through Corporate Affairs Yukon on your behalf. You don't need to navigate the territorial portal yourself — we prepare the return, file it well within Yukon's tight 1-month anniversary deadline (matching Alberta as one of the shortest in Canada), and email you the confirmation.
 
 **Turnaround:** 1 business day from order.
-**Price:** $129 + applicable tax — all-in, including the $50 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $50 government fee.
 
 [File your Yukon annual return now →](/order/annual-return)

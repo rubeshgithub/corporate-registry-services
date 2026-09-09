@@ -3,10 +3,10 @@ title: "How Much Does It Cost to Incorporate in BC? (2026)"
 h1: "How Much Does It Cost to Incorporate in BC?"
 slug: "cost-to-incorporate-in-bc"
 section: "articles"
-description: "BC incorporation costs $350 in government fees plus a $30 name request — DIY vs. lawyer vs. CRS from $699 all-in. Every fee and deadline, 2026."
+description: "BC incorporation costs $350 in government fees plus a $30 name request — DIY vs. lawyer vs. CRS from {{price:incorporation-numbered}} all-in. Every fee and deadline, 2026."
 faq:
   - q: "How much does it cost to incorporate in BC?"
-    a: "The BC government charges $350 to file an Incorporation Application, plus $30 for a name request if you want a named (rather than numbered) company. A do-it-yourself numbered company can therefore cost as little as $350; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing from $699 all-in + GST including the government fee, name reservation and a full minute book."
+    a: "The BC government charges $350 to file an Incorporation Application, plus $30 for a name request if you want a named (rather than numbered) company. A do-it-yourself numbered company can therefore cost as little as $350; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing from {{price:incorporation-numbered}} all-in + GST including the government fee, name reservation and a full minute book."
   - q: "Is it cheaper to incorporate in BC or federally?"
     a: "Federal (CBCA) incorporation has a lower filing fee — $200 online versus BC's $350 — but a federal corporation operating in BC must also register extra-provincially in BC, and the ongoing costs differ: BC's Annual Report is $43.39 a year versus the federal $12. Federal incorporation also requires 25% Canadian-resident directors, while BC has no residency requirement at all — for many international founders that rule, not the fee, decides it."
   - q: "What ongoing costs does a BC company have?"
@@ -15,9 +15,9 @@ faq:
     a: "No. Anyone can file a BC Incorporation Application online, and a registry agent like CRS can prepare and file everything for you — including the Articles, Central Securities Register and minute book BC law requires. A lawyer is worth the extra cost when you have multiple share classes, outside investors, or need a shareholders' agreement drafted at the same time."
 ---
 
-**Ready to incorporate?** [Start your BC incorporation — from $699 all-in →](/order/incorporation?src=article-cost-to-incorporate-in-bc) · Government fee, name reservation, Articles, Central Securities Register and complete minute book included. No BC Services Card or registry account needed.
+**Ready to incorporate?** [Start your BC incorporation — from {{price:incorporation-numbered}} all-in →](/order/incorporation?src=article-cost-to-incorporate-in-bc) · Government fee, name reservation, Articles, Central Securities Register and complete minute book included. No BC Services Card or registry account needed.
 
-Incorporating in British Columbia costs **$350 in government fees**, paid to BC Registries when you file your Incorporation Application, plus **$30 for a name request** if you want a named (rather than numbered) company. That is the floor. What most founders actually spend depends on who prepares the paperwork: a fully do-it-yourself numbered company can come in at $350, a lawyer-prepared incorporation with a minute book commonly lands between $1,000 and $2,500, and CRS files the complete package from **$699 all-in + GST**. This guide breaks down every government fee, every deadline, and the costs that surprise first-time incorporators.
+Incorporating in British Columbia costs **$350 in government fees**, paid to BC Registries when you file your Incorporation Application, plus **$30 for a name request** if you want a named (rather than numbered) company. That is the floor. What most founders actually spend depends on who prepares the paperwork: a fully do-it-yourself numbered company can come in at $350, a lawyer-prepared incorporation with a minute book commonly lands between $1,000 and $2,500, and CRS files the complete package from **{{price:incorporation-numbered}} all-in + GST**. This guide breaks down every government fee, every deadline, and the costs that surprise first-time incorporators.
 
 ## What are the government fees to incorporate in BC?
 
@@ -51,7 +51,7 @@ The government fee is the same for everyone. The difference is what you get arou
 | Route | Typical total cost | What you get | Where it goes wrong |
 |---|---|---|---|
 | **DIY through BC Registries** | $350 (numbered) to ~$380+ (named) | Certificate of Incorporation and Notice of Articles only | No Articles customisation, no share issuance, no Central Securities Register, no minute book — the company exists but its ownership is undocumented |
-| **CRS (registry agent)** | From $699 all-in + GST | Government fee, name reservation, customised Articles, by-laws, organizational resolutions, share certificates, Central Securities Register, registers, BN application, digital minute book | Not a law firm — complex share structures and shareholder agreements go to a lawyer |
+| **CRS (registry agent)** | From {{price:incorporation-numbered}} all-in + GST | Government fee, name reservation, customised Articles, by-laws, organizational resolutions, share certificates, Central Securities Register, registers, BN application, digital minute book | Not a law firm — complex share structures and shareholder agreements go to a lawyer |
 | **Business lawyer** | ~$1,000–$2,500+ (estimate) | Everything above plus legal advice, custom share classes, shareholders' agreement | Cost, and turnaround measured in weeks rather than days |
 
 The DIY number is the one that catches people, and in BC the trap has a name: the **Central Securities Register (CSR)**. Every BC company is required to maintain one at its records office — the definitive record of every share issued, transferred or cancelled. Filing the Incorporation Application yourself creates the company, but until the first directors adopt Articles-consistent resolutions, issue shares and record them in the CSR, the company has no documented shareholders. Banks ask for these records when you open the account; a buyer's lawyer will ask for the whole [minute book](/guides/what-is-a-corporate-minute-book-canada) in due diligence. Founders who skipped this step routinely pay $500–$1,500 later to have it reconstructed — more than the original saving.
@@ -62,11 +62,11 @@ Lawyer pricing varies widely by firm and complexity; treat the range above as a 
 
 Incorporation is a one-time cost. Staying compliant is annual:
 
-- **BC Annual Report — within 2 months of your anniversary, $43.39.** Filed with BC Registries every year to confirm your directors and addresses. It is not a tax filing, but skipping it is what eventually gets a company dissolved for non-compliance. CRS files it for [$129 all-in + tax](/order/annual-return) — see [how to file your BC Annual Report](/articles/how-to-file-your-annual-return-in-british-columbia).
+- **BC Annual Report — within 2 months of your anniversary, $43.39.** Filed with BC Registries every year to confirm your directors and addresses. It is not a tax filing, but skipping it is what eventually gets a company dissolved for non-compliance. CRS files it for [{{price:annual-return}} all-in + tax](/order/annual-return) — see [how to file your BC Annual Report](/articles/how-to-file-your-annual-return-in-british-columbia).
 - **Records office in BC.** BC law requires a physical BC address where the company's records (including the CSR) can be inspected. If you don't have a BC address, a records-office service is a real annual line item — commonly a few hundred dollars a year from law firms and agents.
 - **T2 corporate income tax return — annually.** Filed with the CRA by your accountant; the Annual Report does *not* replace it.
 - **Changes to the company.** Altering your Notice of Articles — a name change, new share classes — carries its own registry fees, as do name requests for the new name.
-- **Corporate records upkeep.** Directors' and shareholders' resolutions for dividends, share transfers and the annual approval of financial statements belong in the minute book, and every share movement must hit the CSR. CRS drafts [director resolution sets from $79 + GST](/order/director-resolution), and a [digital minute book](/minute-books/digital-minute-book-canada) keeps the records audit-ready.
+- **Corporate records upkeep.** Directors' and shareholders' resolutions for dividends, share transfers and the annual approval of financial statements belong in the minute book, and every share movement must hit the CSR. CRS drafts [director resolution sets from {{price:shareholder-resolution}} + GST](/order/director-resolution), and a [digital minute book](/minute-books/digital-minute-book-canada) keeps the records audit-ready.
 
 None of these individually is expensive. What costs money is forgetting them: a company that is behind on Annual Reports can't produce clean proof of [good standing](/good-standing) when a lender or landlord asks for it, and reinstating a dissolved company costs far more than the filings it missed.
 
@@ -103,7 +103,7 @@ The government fee is public. These are the line items that show up later:
 
 ### How much does it cost to incorporate in BC?
 
-The BC government charges $350 to file an Incorporation Application, plus $30 for a name request if you want a named (rather than numbered) company. A do-it-yourself numbered company can therefore cost as little as $350; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing from $699 all-in + GST including the government fee, name reservation and a full minute book.
+The BC government charges $350 to file an Incorporation Application, plus $30 for a name request if you want a named (rather than numbered) company. A do-it-yourself numbered company can therefore cost as little as $350; a lawyer-prepared incorporation commonly runs $1,000–$2,500; CRS files the whole thing from {{price:incorporation-numbered}} all-in + GST including the government fee, name reservation and a full minute book.
 
 ### Is it cheaper to incorporate in BC or federally?
 
@@ -122,6 +122,6 @@ No. Anyone can file a BC Incorporation Application online, and a registry agent 
 **Ready to incorporate in BC?** [Start your BC incorporation →](/order/incorporation?src=article-cost-to-incorporate-in-bc) — name reservation filed, Incorporation Application submitted directly to BC Registries, Central Securities Register and full minute book included. Prefer to talk it through first? See the [BC incorporation service page](/incorporation/british-columbia-incorporation-service) or [contact us](/contact).
 
 **Turnaround:** name cleared in 1–2 days with priority service; certificate and minute book in 2–4 business days.
-**Price:** from $699 all-in + GST (numbered) / $749 (named) — includes the $350 government fee, name reservation, by-laws, resolutions, share certificates, Central Securities Register and Business Number application.
+**Price:** from {{price:incorporation-numbered}} all-in + GST (numbered) / {{price:incorporation-named}} (named) — includes the $350 government fee, name reservation, by-laws, resolutions, share certificates, Central Securities Register and Business Number application.
 
 *Fees verified against the Province of BC's [incorporated companies page](https://www2.gov.bc.ca/gov/content/employment-business/business/managing-a-business/permits-licences/businesses-incorporated-companies/incorporated-companies) ($350 incorporation, $30 name request, $100 priority service, $1,000 ULC, $43.39 Annual Report, 2-month deadline), August 2026. Lawyer and records-office figures are market estimates.*

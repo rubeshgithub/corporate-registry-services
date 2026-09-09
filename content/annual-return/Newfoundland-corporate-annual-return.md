@@ -4,7 +4,7 @@ slug: "Newfoundland-corporate-annual-return"
 section: "annual-return"
 ---
 
-Newfoundland Annual Return Filing — $129 + applicable tax, all-in (including government fees).
+Newfoundland Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
 
 Every Newfoundland corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

@@ -21,7 +21,7 @@ A Saskatchewan Corporate Profile Report provides complete, current public record
 
 | | |
 |---|---|
-| **Price** | $69 + applicable tax — all government charges included |
+| **Price** | {{price:profile-report}} + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | PDF |
 | **Payment** | Interac E-transfer, Debit, Credit |

@@ -1,12 +1,12 @@
 ﻿---
-title: "OBR Ontario Annual Return | Filing Agent | $129 All-In"
+title: "OBR Ontario Annual Return | Filing Agent | {{price:annual-return}} All-In"
 h1: "Ontario Annual Return: Filed with the OBR in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
-description: "Ontario annual return filed with the OBR in 1 business day — $129 all-in, government fee included. No ONe-key login needed. Beat the 6-month deadline."
+description: "Ontario annual return filed with the OBR in 1 business day — {{price:annual-return}} all-in, government fee included. No ONe-key login needed. Beat the 6-month deadline."
 ---
 
-**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · $129 all-in, filed through the Ontario Business Registry by an authorized filing agent — no ONe-key account required.
+**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed through the Ontario Business Registry by an authorized filing agent — no ONe-key account required.
 
 Every Ontario corporation incorporated under the *Business Corporations Act (Ontario)* (OBCA) must file an annual return each year to remain in good standing with the Ontario Business Registry. Missing this filing can result in a notice of intent to dissolve — and ultimately, administrative dissolution of your corporation.
 
@@ -76,6 +76,6 @@ If your Ontario corporation is also registered as an extra-provincial corporatio
 CRS is an authorized filing agent that submits Ontario annual returns directly through the Ontario Business Registry on your behalf. You don't need a ONe-key login, and you don't need to navigate the OBR portal yourself — we prepare the return, file it before your 6-month deadline, and email you the OBR confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** $129 + applicable tax — all-in, including the $22 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $22 government fee.
 
 [File your Ontario annual return now →](/order/annual-return)

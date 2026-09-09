@@ -1,9 +1,9 @@
 ---
-title: "Ontario Incorporation | $699 All-In, Filed Through the OBR"
-h1: "Ontario Incorporation Service: OBCA Filing, $699 All-In"
+title: "Ontario Incorporation | {{price:incorporation-numbered}} All-In, Filed Through the OBR"
+h1: "Ontario Incorporation Service: OBCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "Ontario-incorporation-service"
 section: "incorporation"
-description: "Incorporate an Ontario corporation — $699 all-in, Articles + minute book + BN. Filed through the Ontario Business Registry. No Canadian resident director required (rule removed 2023)."
+description: "Incorporate an Ontario corporation — {{price:incorporation-numbered}} all-in, Articles + minute book + BN. Filed through the Ontario Business Registry. No Canadian resident director required (rule removed 2023)."
 faq:
   - q: "Do Ontario corporations still need Canadian resident directors?"
     a: "No — Ontario removed the 25% Canadian resident director requirement in July 2023. An Ontario corporation can now be formed with 100% non-resident directors, matching British Columbia, Alberta, and Quebec. Federal (CBCA) still requires 25% Canadian residents. This change made Ontario significantly more attractive for international founders and cross-border startups that previously had to pick BC or AB to avoid the residency rule."
@@ -17,7 +17,7 @@ faq:
     a: "A named Ontario corporation (e.g., 'Acme Consulting Inc.') requires a NUANS report to confirm the name is available and doesn't conflict with existing corporations or trademarks. A numbered corporation (e.g., '1234567 Ontario Inc.') skips the NUANS entirely and is faster and cheaper to set up. Many businesses start with numbered and later file Articles of Amendment to add a name once branding is finalized — a common and cost-effective approach."
 ---
 
-**Ready to incorporate in Ontario?** [Start your Ontario incorporation — $699 all-in →](/order/incorporation) · Articles filed through the OBR, minute book delivered in 3–5 business days. **Not sure Ontario vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Ontario?** [Start your Ontario incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed through the OBR, minute book delivered in 3–5 business days. **Not sure Ontario vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Ontario is Canada's largest business jurisdiction by GDP and the default incorporation choice for most small and mid-sized businesses operating in the province. The regulatory environment has modernised significantly in the past few years — the Ontario Business Registry replaced the old ministry filing system in 2021, and the 25% Canadian resident director requirement was removed in 2023 — making OBCA incorporation both faster and more accessible to international founders than it used to be.
 
@@ -43,7 +43,7 @@ Under the Ontario Business Corporations Act:
 - **NUANS name search** for named corporations, or skip it for a numbered corporation.
 - **Corporate name** — Ontario names are protected within Ontario only. If you want cross-Canada name protection, incorporate federally instead.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the Ontario Business Registry
 - NUANS name search filed
@@ -58,7 +58,7 @@ Under the Ontario Business Corporations Act:
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and OBR filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and OBR filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Ontario incorporation timeline
 
@@ -75,8 +75,8 @@ Total: **typically 3–5 business days** end-to-end. Ontario is among the fastes
 
 Every Ontario corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 6 months of your fiscal year-end, filed with the OBR (moved from the CRA in 2021). $22 government fee, filed at $129 all-in through CRS. See our [Ontario annual return guide](/articles/how-to-file-your-annual-return-in-ontario).
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 6 months of your fiscal year-end, filed with the OBR (moved from the CRA in 2021). $22 government fee, filed at {{price:annual-return}} all-in through CRS. See our [Ontario annual return guide](/articles/how-to-file-your-annual-return-in-ontario).
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (separate from the OBR annual return, handled by your accountant).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -91,4 +91,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Ontario?
 
-[Start your Ontario incorporation — $699 all-in →](/order/incorporation) · Articles filed through the OBR, minute book delivered in 3–5 business days.
+[Start your Ontario incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed through the OBR, minute book delivered in 3–5 business days.

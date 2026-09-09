@@ -1,23 +1,23 @@
 ---
-title: "Newfoundland & Labrador Incorporation | $699 All-In"
-h1: "Newfoundland & Labrador Incorporation Service: Corporations Act Filing, $699 All-In"
+title: "Newfoundland & Labrador Incorporation | {{price:incorporation-numbered}} All-In"
+h1: "Newfoundland & Labrador Incorporation Service: Corporations Act Filing, {{price:incorporation-numbered}} All-In"
 slug: "Newfoundland-incorporation-service"
 section: "incorporation"
-description: "Incorporate a Newfoundland & Labrador corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed with the Registry of Companies."
+description: "Incorporate a Newfoundland & Labrador corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed with the Registry of Companies."
 faq:
   - q: "Do I need Canadian resident directors for a Newfoundland & Labrador corporation?"
     a: "Yes. Under the Corporations Act (Newfoundland and Labrador), at least 25% of your directors must be Canadian residents. For a small board of 1–3 directors, at least one director must be a Canadian resident. If your founding team has no Canadian residents, incorporating in a province with no residency requirement (BC, Alberta, Quebec, Ontario, Nova Scotia) may be simpler than appointing a resident director purely for compliance."
   - q: "Is Newfoundland a good jurisdiction for offshore energy or seafood businesses?"
     a: "Yes — Newfoundland and Labrador's economy is anchored in offshore oil and gas, seafood, mineral resources, and increasingly hydro/renewable energy. Provincial incorporation aligns you with the NL regulatory environment and the province-specific licensing regimes some of these industries require. For businesses operating primarily in the province, NL incorporation is simpler and cheaper long-term than federal + extra-provincial registration."
   - q: "Why is the Newfoundland annual return fee higher than other provinces?"
-    a: "Newfoundland and Labrador's $100 annual return government fee is the highest of any Canadian jurisdiction — reflecting the province's registry cost structure. Because of this, CRS's all-in annual return service for NL is $149 (not the $129 rate that applies elsewhere). The upfront incorporation fee is still $699 all-in like every other jurisdiction; only the ongoing annual return is priced differently."
+    a: "Newfoundland and Labrador's $100 annual return government fee is the highest of any Canadian jurisdiction — reflecting the province's registry cost structure. Because of this, CRS's all-in annual return service for NL is $149 (not the {{price:annual-return}} rate that applies elsewhere). The upfront incorporation fee is still {{price:incorporation-numbered}} all-in like every other jurisdiction; only the ongoing annual return is priced differently."
   - q: "How long does Newfoundland incorporation take?"
     a: "CRS-filed Newfoundland incorporations typically complete end-to-end in 4–7 business days: NUANS or NL name search cleared on day 1–2, Articles of Incorporation filed with the Registry of Companies by day 2–3, Certificate of Incorporation issued shortly after (NL processing can vary), and the full minute book delivered as signable PDFs."
   - q: "Named or numbered — which should I pick for Newfoundland?"
     a: "A named Newfoundland corporation (e.g., 'Atlantic Fisheries Ltd.') requires a NUANS report or NL name search to confirm availability. A numbered corporation skips the name search entirely and is faster and cheaper to set up. Many businesses start numbered and later file Articles of Amendment to add a name — a common, cost-effective approach when branding hasn't been finalized."
 ---
 
-**Ready to incorporate in Newfoundland & Labrador?** [Start your NL incorporation — $699 all-in →](/order/incorporation) · Articles filed with the Registry of Companies, minute book delivered in 4–7 business days. **Not sure NL vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Newfoundland & Labrador?** [Start your NL incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the Registry of Companies, minute book delivered in 4–7 business days. **Not sure NL vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Newfoundland and Labrador is a natural choice for businesses in offshore oil and gas, seafood, mineral resources, and increasingly renewable energy. Corporations are formed under the Corporations Act (Newfoundland and Labrador) and filed with the Registry of Companies (part of Digital Government NL). One quirk worth knowing upfront: NL's ongoing annual return government fee is $100 — the highest of any Canadian jurisdiction — so ongoing compliance costs are marginally higher than elsewhere, though the upfront incorporation fee remains the same.
 
@@ -42,7 +42,7 @@ Under the Corporations Act (Newfoundland and Labrador):
 - **At least one director** — must be 18+. **At least 25% must be Canadian residents.**
 - **Filing through the Registry of Companies** — accessed via Digital Government NL. CRS handles this on your behalf; no provincial portal account required on your end.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the NL registry
 - NUANS or NL name search filed
@@ -56,7 +56,7 @@ Under the Corporations Act (Newfoundland and Labrador):
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and Registry of Companies filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and Registry of Companies filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Newfoundland incorporation timeline
 
@@ -73,8 +73,8 @@ Total: **typically 4–7 business days** end-to-end.
 
 Every Newfoundland corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 3 months of your anniversary date, filed with the Registry of Companies. **$100 government fee** (highest in Canada), so CRS's all-in AR service is **$149** for NL (vs $129 for other provinces). See our [Newfoundland annual return guide](/articles/how-to-file-your-annual-return-in-newfoundland).
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 3 months of your anniversary date, filed with the Registry of Companies. **$100 government fee** (highest in Canada), so CRS's all-in AR service is **$149** for NL (vs {{price:annual-return}} for other provinces). See our [Newfoundland annual return guide](/articles/how-to-file-your-annual-return-in-newfoundland).
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Registry of Companies annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -89,4 +89,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Newfoundland & Labrador?
 
-[Start your NL incorporation — $699 all-in →](/order/incorporation) · Articles filed with the Registry of Companies, minute book delivered in 4–7 business days.
+[Start your NL incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the Registry of Companies, minute book delivered in 4–7 business days.

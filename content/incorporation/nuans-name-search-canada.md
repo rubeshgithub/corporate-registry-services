@@ -1,6 +1,6 @@
 ---
 title: "Free NUANS Name Search Canada | Instant Availability Check"
-metaDescription: "Free instant availability check across Canadian corporate registries. Order the official $79 NUANS report from the same page. No email required for the check."
+metaDescription: "Free instant availability check across Canadian corporate registries. Order the official {{price:nuans-search}} NUANS report from the same page. No email required for the check."
 slug: "/incorporation/nuans-name-search-canada"
 primaryKeyword: "NUANS name search Canada"
 secondaryKeywords:
@@ -36,7 +36,7 @@ Check how many Canadian corporations already use a similar name — free, instan
 
 ## What the free check gets you
 
-A traffic-light indicator (strong / moderate / weak), the list of similar corporations we found, and a direct path to order the official NUANS report ($79 all-in + GST, delivered within one business hour) — which registrars require to accept your incorporation filing. Valid for 90 days from issue.
+A traffic-light indicator (strong / moderate / weak), the list of similar corporations we found, and a direct path to order the official NUANS report ({{price:nuans-search}} all-in + GST, delivered within one business hour) — which registrars require to accept your incorporation filing. Valid for 90 days from issue.
 
 ## Related services
 

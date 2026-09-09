@@ -1,14 +1,14 @@
 ---
-title: "New Brunswick Incorporation | $699 All-In, Filed with SNB"
-h1: "New Brunswick Incorporation Service: NBBCA Filing, $699 All-In"
+title: "New Brunswick Incorporation | {{price:incorporation-numbered}} All-In, Filed with SNB"
+h1: "New Brunswick Incorporation Service: NBBCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "New-Brunswick-incorporation-service"
 section: "incorporation"
-description: "Incorporate a New Brunswick corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed via Service New Brunswick. Bilingual filings available."
+description: "Incorporate a New Brunswick corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed via Service New Brunswick. Bilingual filings available."
 faq:
   - q: "Do I need Canadian resident directors for a New Brunswick corporation?"
     a: "Yes. Under the Business Corporations Act (New Brunswick), at least 25% of your directors must be Canadian residents. For a small board of 1–3 directors, at least one director must be a Canadian resident. If your founding team has no Canadian residents, incorporating in a province with no residency requirement (BC, Alberta, Quebec, Ontario, Nova Scotia) may be simpler than appointing a resident director purely for compliance."
   - q: "Is New Brunswick officially bilingual — does that affect incorporation?"
-    a: "Yes — New Brunswick is Canada's only officially bilingual province. Corporation filings can be submitted in English, French, or both, and the corporate name can be English-only, French-only, or bilingual. There's no French-language requirement like Quebec's — English-only is fully acceptable. CRS drafts and files in whichever language(s) you prefer as part of the $699 all-in fee."
+    a: "Yes — New Brunswick is Canada's only officially bilingual province. Corporation filings can be submitted in English, French, or both, and the corporate name can be English-only, French-only, or bilingual. There's no French-language requirement like Quebec's — English-only is fully acceptable. CRS drafts and files in whichever language(s) you prefer as part of the {{price:incorporation-numbered}} all-in fee."
   - q: "Is New Brunswick a good jurisdiction for Atlantic Canada operations?"
     a: "Yes — for businesses operating primarily in New Brunswick or across Atlantic Canada, provincial incorporation makes sense. NB has notable strength in energy (irving family businesses, refining), forestry, seafood processing, and cross-border US trade (Maine border). Provincial incorporation avoids the extra-provincial registration burden a federal corporation would carry — though NB corporations expanding to Nova Scotia, PEI, or Newfoundland will still need to file extra-provincial registrations in each."
   - q: "How long does New Brunswick incorporation take?"
@@ -17,7 +17,7 @@ faq:
     a: "New Brunswick uses a hybrid annual return deadline: the return is due by February 1 each year OR within 30 days of the corporation's anniversary date, whichever comes first. This can catch new corporations off-guard — a corporation incorporated in mid-January has less than a month until its first February 1 deadline. CRS tracks this for you and files well ahead of whichever deadline applies."
 ---
 
-**Ready to incorporate in New Brunswick?** [Start your NB incorporation — $699 all-in →](/order/incorporation) · Articles filed with Service New Brunswick, minute book delivered in 3–5 business days. **Not sure NB vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in New Brunswick?** [Start your NB incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with Service New Brunswick, minute book delivered in 3–5 business days. **Not sure NB vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 New Brunswick is a solid choice for Atlantic Canada operations, cross-border US trade, and businesses in forestry, seafood, energy, or shipbuilding. Corporations are formed under the Business Corporations Act (New Brunswick) — NBBCA — and filed with Service New Brunswick (SNB), the province's one-stop government services organization. New Brunswick is also Canada's only officially bilingual province, so filings and corporate names can be in English, French, or both — with no French-language requirement (unlike Quebec).
 
@@ -42,7 +42,7 @@ Under the Business Corporations Act (New Brunswick):
 - **At least one director** — must be 18+. **At least 25% must be Canadian residents.**
 - **Filing through Service New Brunswick** — CRS handles this on your behalf; no SNB account required.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the NB registry
 - NUANS or NB name search filed
@@ -56,7 +56,7 @@ Under the Business Corporations Act (New Brunswick):
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, SNB filing fees, and bilingual drafting are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, SNB filing fees, and bilingual drafting are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The New Brunswick incorporation timeline
 
@@ -73,8 +73,8 @@ Total: **typically 3–5 business days** end-to-end.
 
 Every New Brunswick corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due by February 1 each year OR within 30 days of your anniversary date, whichever comes first. Filed with Service New Brunswick. $50 government fee, filed at $129 all-in through CRS. See our [New Brunswick annual return guide](/articles/how-to-file-your-annual-return-in-new-brunswick). The dual-deadline can catch new corporations off-guard — CRS tracks it for you.
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due by February 1 each year OR within 30 days of your anniversary date, whichever comes first. Filed with Service New Brunswick. $50 government fee, filed at {{price:annual-return}} all-in through CRS. See our [New Brunswick annual return guide](/articles/how-to-file-your-annual-return-in-new-brunswick). The dual-deadline can catch new corporations off-guard — CRS tracks it for you.
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the SNB annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -89,4 +89,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in New Brunswick?
 
-[Start your NB incorporation — $699 all-in →](/order/incorporation) · Articles filed with Service New Brunswick, minute book delivered in 3–5 business days.
+[Start your NB incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with Service New Brunswick, minute book delivered in 3–5 business days.

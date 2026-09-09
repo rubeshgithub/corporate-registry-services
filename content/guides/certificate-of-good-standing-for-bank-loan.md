@@ -12,7 +12,7 @@ faq:
   - q: "How long does it take to get a Certificate of Good Standing?"
     a: "Through CRS, a Certificate of Good Standing is delivered by email within one business hour of your order for most jurisdictions, or one business day for jurisdictions with slower government portals."
   - q: "How much does a Certificate of Good Standing cost?"
-    a: "$109 all-in through CRS — the government fee is included. Ordering directly from provincial registries costs $30–$60 depending on the province, but adds a full-portal signup and manual retrieval step."
+    a: "{{price:good-standing}} all-in through CRS — the government fee is included. Ordering directly from provincial registries costs $30–$60 depending on the province, but adds a full-portal signup and manual retrieval step."
 ---
 
 The credit officer looks at your file, everything is signed, the funds are queued to release Friday — and then the email arrives: *"We need a current Certificate of Good Standing before we can advance."* Suddenly a Thursday afternoon is a scramble to figure out what document they actually want, where it comes from, and whether it'll arrive in time.
@@ -53,7 +53,7 @@ For commercial loans above $500,000, expect the bank to also ask for a **Corpora
 If your bank asked for it today, you're looking at three options:
 
 1. **Direct from the provincial or federal registry** — cheapest at $30–$60, but you'll need an account on the government portal (ONE-key for Ontario, CORES for Alberta, etc.), you're on their business hours, and the certificate arrives without any of the formatting most credit teams expect.
-2. **Order through CRS** — $109 all-in + GST, PDF delivered by email within one business hour for most jurisdictions. Government fee included. No portal signup, no waiting on registry business hours.
+2. **Order through CRS** — {{price:good-standing}} all-in + GST, PDF delivered by email within one business hour for most jurisdictions. Government fee included. No portal signup, no waiting on registry business hours.
 3. **Through your lawyer or accountant** — reliable but adds a professional fee on top and rarely faster than option 2.
 
 ## How to avoid the stale-certificate delay
@@ -67,7 +67,7 @@ Two rules avoid this:
 
 ## Order your Certificate of Good Standing
 
-If your bank has asked for one, [search your corporation on the Certificates of Good Standing page](/good-standing) — pick your jurisdiction, add your details, and the government-issued PDF arrives in your inbox within one business hour. $109 all-in + GST.
+If your bank has asked for one, [search your corporation on the Certificates of Good Standing page](/good-standing) — pick your jurisdiction, add your details, and the government-issued PDF arrives in your inbox within one business hour. {{price:good-standing}} all-in + GST.
 
 ## Frequently asked questions
 

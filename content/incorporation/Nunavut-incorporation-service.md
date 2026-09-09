@@ -1,9 +1,9 @@
 ---
-title: "Nunavut Incorporation | $699 All-In, Nunavut Corporate Registry"
-h1: "Nunavut Incorporation Service: BCA Filing, $699 All-In"
+title: "Nunavut Incorporation | {{price:incorporation-numbered}} All-In, Nunavut Corporate Registry"
+h1: "Nunavut Incorporation Service: BCA Filing, {{price:incorporation-numbered}} All-In"
 slug: "Nunavut-incorporation-service"
 section: "incorporation"
-description: "Incorporate a Nunavut corporation — $699 all-in, NUANS + Articles + minute book + BN. Filed with the Nunavut Corporate Registry. Remote-friendly."
+description: "Incorporate a Nunavut corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed with the Nunavut Corporate Registry. Remote-friendly."
 faq:
   - q: "Do I need to be in Nunavut to incorporate a Nunavut corporation?"
     a: "No — CRS files Nunavut incorporations remotely on your behalf, so you don't need to be in the territory or make any in-person visits. This is particularly valuable for Nunavut incorporations because the territory is remote and government offices are limited to a few communities. CRS handles the entire process by email and courier where needed; everything is delivered as signable PDFs."
@@ -17,7 +17,7 @@ faq:
     a: "A named Nunavut corporation (e.g., 'Arctic Logistics Ltd.') requires a NUANS report or Nunavut name search to confirm availability. A numbered corporation skips the name search entirely and is faster and cheaper to set up. Many businesses start numbered and later file Articles of Amendment to add a name — a common, cost-effective approach when branding hasn't been finalized."
 ---
 
-**Ready to incorporate in Nunavut?** [Start your Nunavut incorporation — $699 all-in →](/order/incorporation) · Articles filed with the Nunavut Corporate Registry, minute book delivered in 5–10 business days. **Not sure Nunavut vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Nunavut?** [Start your Nunavut incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the Nunavut Corporate Registry, minute book delivered in 5–10 business days. **Not sure Nunavut vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Nunavut is the newest and most remote Canadian jurisdiction, formed in 1999. Corporations are formed under the Business Corporations Act (Nunavut) and filed with the Nunavut Corporate Registry. Territorial incorporation makes sense for Inuit-owned businesses (particularly those relying on land-claim provisions under the Nunavut Agreement), resource extraction operations in the territory, and businesses providing services to Nunavut communities. CRS files remotely on your behalf — no in-person visits required, which matters given the territory's remoteness.
 
@@ -42,7 +42,7 @@ Under the Business Corporations Act (Nunavut):
 - **At least one director** — must be 18+. Specific residency rules should be confirmed with a specialist for your board composition.
 - **Filing through the Nunavut Corporate Registry** — CRS handles this on your behalf, remotely.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with the Nunavut Corporate Registry
 - NUANS or Nunavut name search filed
@@ -56,7 +56,7 @@ Under the Business Corporations Act (Nunavut):
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and Nunavut Corporate Registry filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and Nunavut Corporate Registry filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Nunavut incorporation timeline
 
@@ -73,8 +73,8 @@ Total: **typically 5–10 business days** end-to-end.
 
 Every Nunavut corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 2 months of your anniversary date, filed with the Nunavut Corporate Registry. $50 government fee, filed at $129 all-in through CRS. See our [Nunavut annual return guide](/articles/how-to-file-your-annual-return-in-nunavut). Remote-friendly — no in-person visit needed.
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 2 months of your anniversary date, filed with the Nunavut Corporate Registry. $50 government fee, filed at {{price:annual-return}} all-in through CRS. See our [Nunavut annual return guide](/articles/how-to-file-your-annual-return-in-nunavut). Remote-friendly — no in-person visit needed.
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Nunavut annual return).
 
 CRS can bundle all three ongoing filings if you'd like to keep everything under one roof.
@@ -89,4 +89,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Nunavut?
 
-[Start your Nunavut incorporation — $699 all-in →](/order/incorporation) · Articles filed with the Nunavut Corporate Registry, minute book delivered in 5–10 business days.
+[Start your Nunavut incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed with the Nunavut Corporate Registry, minute book delivered in 5–10 business days.

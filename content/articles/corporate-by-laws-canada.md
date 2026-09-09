@@ -3,7 +3,7 @@ title: "Corporate By-Laws in Canada: What Every Corporation Needs"
 h1: "Corporate By-Laws in Canada: A Complete Guide"
 slug: "corporate-by-laws-canada"
 section: "articles"
-description: "Everything about corporate by-laws in Canada — legal requirements, what to include, standard vs custom by-laws, how to enact and amend them, and the CRS $99 professional service."
+description: "Everything about corporate by-laws in Canada — legal requirements, what to include, standard vs custom by-laws, how to enact and amend them, and the CRS {{price:bylaws}} professional service."
 faq:
   - q: "Are by-laws legally required for a Canadian corporation?"
     a: "Under the Canada Business Corporations Act (s. 103) and every provincial equivalent, the directors of a corporation may make by-laws — the word is permissive, but in practice by-laws are treated as essential. Banks, buyers, and courts assume every corporation has by-laws, and running without them creates serious governance ambiguity."
@@ -12,9 +12,9 @@ faq:
   - q: "How are by-laws enacted and amended in Canada?"
     a: "The directors pass a resolution enacting or amending the by-law. The by-law then takes effect immediately but must be confirmed by ordinary shareholder resolution at the next shareholders' meeting. If shareholders don't confirm the by-law, it ceases to have effect from that point forward — though any actions taken under it before the meeting remain valid."
   - q: "What if I incorporated online and never received by-laws?"
-    a: "Many online incorporation services deliver only the articles and leave the corporation without by-laws, organizational resolutions, or a proper minute book. This is a common gap that surfaces during financing, sale, or CRA review. Corporate Registry Services drafts By-Law No. 1 covering all standard governance rules for $99 all-in + GST, or you can bundle it with a complete minute book from $299."
+    a: "Many online incorporation services deliver only the articles and leave the corporation without by-laws, organizational resolutions, or a proper minute book. This is a common gap that surfaces during financing, sale, or CRA review. Corporate Registry Services drafts By-Law No. 1 covering all standard governance rules for {{price:bylaws}} all-in + GST, or you can bundle it with a complete minute book from {{price:minute-book-new}}."
   - q: "How much does a professionally drafted set of by-laws cost?"
-    a: "Corporate Registry Services drafts By-Law No. 1 (general by-laws) for $99 all-in + GST — jurisdiction-specific, professionally formatted, and matched to your articles of incorporation. Amendments to existing by-laws are also $99 per by-law amendment. Bundled with a fresh minute book, by-laws are included in the $299 Standard package."
+    a: "Corporate Registry Services drafts By-Law No. 1 (general by-laws) for {{price:bylaws}} all-in + GST — jurisdiction-specific, professionally formatted, and matched to your articles of incorporation. Amendments to existing by-laws are also {{price:bylaws}} per by-law amendment. Bundled with a fresh minute book, by-laws are included in the {{price:minute-book-new}} Standard package."
 ---
 
 You've incorporated your Canadian corporation, and you probably received a certificate of incorporation and a copy of your articles. But did you also receive **by-laws**? A surprising number of Canadian corporations discover — often years later, during a financing or sale — that they were never given by-laws, or that the by-laws they have are missing crucial provisions.
@@ -132,17 +132,17 @@ The problem surfaces during due diligence: a buyer's lawyer or lender's lawyer a
 
 ## Have CRS prepare your corporate by-laws
 
-Corporate Registry Services drafts **By-Law No. 1 (general by-laws)** for **$99 all-in + GST** — jurisdiction-specific, professionally formatted, and matched to your articles of incorporation. The service includes:
+Corporate Registry Services drafts **By-Law No. 1 (general by-laws)** for **{{price:bylaws}} all-in + GST** — jurisdiction-specific, professionally formatted, and matched to your articles of incorporation. The service includes:
 
 - The complete by-law document covering meetings, officers, shares, governance, and signing authorities
 - The directors' resolution enacting the by-law
 - The shareholders' resolution confirming the by-law
 - Delivery as ready-to-sign PDFs
 
-Amendments to existing by-laws are also $99 per by-law amendment.
+Amendments to existing by-laws are also {{price:bylaws}} per by-law amendment.
 
-**[Order by-laws now →](/order/bylaws?src=article-corporate-by-laws-canada)** · Search your corp, pick standard or custom, pay $99 + GST.
+**[Order by-laws now →](/order/bylaws?src=article-corporate-by-laws-canada)** · Search your corp, pick standard or custom, pay {{price:bylaws}} + GST.
 
-Bundled with a fresh minute book, by-laws are included in the **$299 Standard package** — see the [Digital Minute Book service](/minute-books/digital-minute-book-canada) for the full breakdown.
+Bundled with a fresh minute book, by-laws are included in the **{{price:minute-book-new}} Standard package** — see the [Digital Minute Book service](/minute-books/digital-minute-book-canada) for the full breakdown.
 
 Related: [Share Certificates](/articles/share-certificates-in-canada) covers the share-issuance paper trail authorized by resolutions passed under your by-laws; [Director Resolutions](/articles/director-resolutions-in-canada) covers the board-side decision mechanics that by-laws govern.

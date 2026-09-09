@@ -3,21 +3,21 @@ title: "How to Incorporate in Nova Scotia: Fees, Steps & Timelines"
 h1: "How to Incorporate a Business in Nova Scotia"
 slug: "how-to-incorporate-in-nova-scotia"
 section: "articles"
-description: "Incorporate in Nova Scotia: Canada's lowest Fees, RJSC filing steps, name reservation, timelines - CRS files it all for $699 all-in."
+description: "Incorporate in Nova Scotia: Canada's lowest Fees, RJSC filing steps, name reservation, timelines - CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in Nova Scotia?"
     a: "The government fee is $200 — the lowest in Canada — plus a name reservation of $60.52 (Atlantic search) or $75.58 (Canada-wide search), unless you incorporate as a numbered company. Every year after, the RJSC charges a $118.35 annual renewal fee."
   - q: "How long does it take to incorporate in Nova Scotia?"
     a: "Name reservation results take about 2 business days, and the RJSC typically issues the Certificate of Incorporation and Business Number within 3 business days of a clean filing. Most incorporations complete inside one to two weeks end to end."
   - q: "Do I need a lawyer to incorporate in Nova Scotia?"
-    a: "No — incorporation is a registry filing, not a court process. A lawyer adds value for complex share structures or shareholder agreements. For standard incorporations, a registry service like CRS drafts the Memorandum, Articles, and minute book for a flat $699 all-in."
+    a: "No — incorporation is a registry filing, not a court process. A lawyer adds value for complex share structures or shareholder agreements. For standard incorporations, a registry service like CRS drafts the Memorandum, Articles, and minute book for a flat {{price:incorporation-numbered}} all-in."
   - q: "Can a non-resident incorporate a company in Nova Scotia?"
     a: "Yes. Nova Scotia imposes no Canadian-residency requirement on directors or shareholders. You will, however, need a registered office in Nova Scotia and a recognized agent who lives in the province — both commonly provided by a registry service."
 ---
 
-**Ready to incorporate?** [Start your Nova Scotia incorporation — $699 all-in →](/order/incorporation?src=article-how-to-incorporate-in-nova-scotia) · Memorandum + Articles drafted, filed with the RJSC, complete minute book delivered.
+**Ready to incorporate?** [Start your Nova Scotia incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation?src=article-how-to-incorporate-in-nova-scotia) · Memorandum + Articles drafted, filed with the RJSC, complete minute book delivered.
 
-Incorporating in Nova Scotia costs a $200 government fee — the lowest incorporation fee in Canada — plus a name reservation fee of $60.52–$75.58, all filed through the Registry of Joint Stock Companies (RJSC). You can do it yourself at rjsc.novascotia.ca in about a week, or CRS can handle the entire filing for $699 all-in, including your Memorandum of Association, Articles of Association, and a complete minute book. This guide walks through every step, every fee, and the parts of Nova Scotia's *Companies Act* that trip people up.
+Incorporating in Nova Scotia costs a $200 government fee — the lowest incorporation fee in Canada — plus a name reservation fee of $60.52–$75.58, all filed through the Registry of Joint Stock Companies (RJSC). You can do it yourself at rjsc.novascotia.ca in about a week, or CRS can handle the entire filing for {{price:incorporation-numbered}} all-in, including your Memorandum of Association, Articles of Association, and a complete minute book. This guide walks through every step, every fee, and the parts of Nova Scotia's *Companies Act* that trip people up.
 
 ## How much does it cost to incorporate in Nova Scotia?
 
@@ -33,7 +33,7 @@ The government charges **$200 to incorporate a limited company** in Nova Scotia 
 
 A numbered company (e.g. "1234567 Nova Scotia Limited") skips the name reservation fee entirely.
 
-Those are just the filing fees. Doing it properly also means drafting a Memorandum of Association and Articles of Association, appointing a recognized agent, preparing organizational resolutions, and setting up a minute book — which is where most founders either spend lawyer money or cut corners. CRS's [Nova Scotia incorporation service](/incorporation/nova-scotia-incorporation-service) is **$699 all-in + tax**: name search, both founding documents drafted for your ownership structure, RJSC filing, share certificates, organizational resolutions, Business Number application, and the full minute book.
+Those are just the filing fees. Doing it properly also means drafting a Memorandum of Association and Articles of Association, appointing a recognized agent, preparing organizational resolutions, and setting up a minute book — which is where most founders either spend lawyer money or cut corners. CRS's [Nova Scotia incorporation service](/incorporation/nova-scotia-incorporation-service) is **{{price:incorporation-numbered}} all-in + tax**: name search, both founding documents drafted for your ownership structure, RJSC filing, share certificates, organizational resolutions, Business Number application, and the full minute book.
 
 ## How do you incorporate in Nova Scotia step by step?
 
@@ -81,7 +81,7 @@ Incorporation is day one, not the finish line. Your Nova Scotia corporation must
 
 If you're comfortable drafting a Memorandum and Articles from templates and your share structure is one founder, one share class, the DIY route through rjsc.novascotia.ca works and costs roughly $260–$276 in government fees.
 
-Where founders come unstuck is everything around the form: share capital clauses that don't fit how they actually want to split equity, no organizational resolutions, no share certificates ever issued, no minute book — gaps that surface later during a financing, a CRA review, or a sale. CRS's **$699 all-in** [Nova Scotia incorporation](/incorporation/nova-scotia-incorporation-service) covers the name search, custom-drafted Memorandum and Articles, RJSC filing, organizational resolutions, share certificates, BN application, and a complete minute book — with your annual renewal deadline tracked for free afterward.
+Where founders come unstuck is everything around the form: share capital clauses that don't fit how they actually want to split equity, no organizational resolutions, no share certificates ever issued, no minute book — gaps that surface later during a financing, a CRA review, or a sale. CRS's **{{price:incorporation-numbered}} all-in** [Nova Scotia incorporation](/incorporation/nova-scotia-incorporation-service) covers the name search, custom-drafted Memorandum and Articles, RJSC filing, organizational resolutions, share certificates, BN application, and a complete minute book — with your annual renewal deadline tracked for free afterward.
 
 ## Frequently asked questions
 
@@ -95,7 +95,7 @@ Name reservation results take about 2 business days, and the RJSC typically issu
 
 ### Do I need a lawyer to incorporate in Nova Scotia?
 
-No — incorporation is a registry filing, not a court process. A lawyer adds value for complex share structures or shareholder agreements. For standard incorporations, a registry service like CRS drafts the Memorandum, Articles, and minute book for a flat $699 all-in.
+No — incorporation is a registry filing, not a court process. A lawyer adds value for complex share structures or shareholder agreements. For standard incorporations, a registry service like CRS drafts the Memorandum, Articles, and minute book for a flat {{price:incorporation-numbered}} all-in.
 
 ### Can a non-resident incorporate a company in Nova Scotia?
 
@@ -106,6 +106,6 @@ Yes. Nova Scotia imposes no Canadian-residency requirement on directors or share
 **Ready to incorporate in Nova Scotia?** [Start your NS incorporation →](/order/incorporation?src=article-how-to-incorporate-in-nova-scotia) — Memorandum + Articles drafted, filed directly with the RJSC, full minute book included.
 
 **Turnaround:** names cleared in 1–2 days; certificate and minute book in 5–10 business days.
-**Price:** $699 all-in + tax — includes the $200 government fee, name search, and Business Number application.
+**Price:** {{price:incorporation-numbered}} all-in + tax — includes the $200 government fee, name search, and Business Number application.
 
 *Fees verified against the [Registry of Joint Stock Companies](https://www.novascotia.ca/incorporate-limited-company) and [name reservation](https://www.novascotia.ca/reserve-name-your-business-or-non-profit) pages, August 2026.*

@@ -4,7 +4,7 @@ slug: "British-Columbia-certificate-of-good-standing"
 section: "good-standing"
 ---
 
-British Columbia Certificate of Good Standing. Available for $109 + applicable tax, all-in (including government charges).
+British Columbia Certificate of Good Standing. Available for {{price:good-standing}} + applicable tax, all-in (including government charges).
 
 A British Columbia Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the BC Corporate Registry confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Business Corporations Act (British Columbia).
 

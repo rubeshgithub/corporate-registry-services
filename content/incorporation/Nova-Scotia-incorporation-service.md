@@ -1,9 +1,9 @@
 ---
-title: "Nova Scotia Incorporation | $699 All-In, Filed with RJSC"
-h1: "Nova Scotia Incorporation Service: Companies Act Filing, $699 All-In"
+title: "Nova Scotia Incorporation | {{price:incorporation-numbered}} All-In, Filed with RJSC"
+h1: "Nova Scotia Incorporation Service: Companies Act Filing, {{price:incorporation-numbered}} All-In"
 slug: "Nova-Scotia-incorporation-service"
 section: "incorporation"
-description: "Incorporate a Nova Scotia corporation — $699 all-in, Memorandum + Articles + minute book + BN. Filed with RJSC. No Canadian resident director required."
+description: "Incorporate a Nova Scotia corporation — {{price:incorporation-numbered}} all-in, Memorandum + Articles + minute book + BN. Filed with RJSC. No Canadian resident director required."
 faq:
   - q: "Do I need Canadian resident directors to incorporate in Nova Scotia?"
     a: "No. Nova Scotia does not impose a Canadian residency requirement on directors — the only requirement is that each director be at least 18 years old. Combined with British Columbia, Alberta, and Quebec, this makes NS one of the four Canadian jurisdictions open to founders and boards with no Canadian residents. By contrast, federal (CBCA) incorporation requires that at least 25% of directors be Canadian residents."
@@ -17,7 +17,7 @@ faq:
     a: "CRS-filed NS incorporations typically complete end-to-end in 5–10 business days: names cleared through the RJSC database and NUANS on day 1–2, Memorandum + Articles drafted and submitted to the Registry of Joint Stock Companies by day 2–3, and the Certificate of Incorporation issued and full minute book delivered within 5–10 business days depending on RJSC processing volume."
 ---
 
-**Ready to incorporate in Nova Scotia?** [Start your NS incorporation — $699 all-in →](/order/incorporation) · Memorandum + Articles filed with the RJSC, minute book delivered as signable PDFs. **Not sure NS vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
+**Ready to incorporate in Nova Scotia?** [Start your NS incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Memorandum + Articles filed with the RJSC, minute book delivered as signable PDFs. **Not sure NS vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
 Nova Scotia is one of the more distinctive Canadian jurisdictions to incorporate in. Unlike Ontario, Alberta, or BC — all of which use modern *Business Corporations Acts* — Nova Scotia companies are formed under the older *Companies Act*, which uses a Memorandum + Articles of Association structure inherited from English company law. That creates some unique advantages, a few unique compliance requirements, and one specialised vehicle (the NSULC) that no other Canadian jurisdiction offers.
 
@@ -42,7 +42,7 @@ Because Nova Scotia uses the *Companies Act* rather than a modern BCA, the found
 - **Registered office in Nova Scotia** — a physical address (not a PO box) where records can be inspected.
 - **Name reservation** — a name search through the Registry of Joint Stock Companies plus a NUANS report if the name has federal reach or cross-provincial similarity risk.
 
-## What's included in the $699 all-in fee
+## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check against the NS Registry of Joint Stock Companies
 - NUANS or provincial name search filed
@@ -58,7 +58,7 @@ Because Nova Scotia uses the *Companies Act* rather than a modern BCA, the found
 - BN (Business Number) application filed with the CRA
 - Lifetime good-standing support — CRS tracks your annual return deadline every year and notifies you before it's due
 
-**All government fees, NUANS charges, and RJSC filing fees are included in the $699.** No surprise charges at checkout.
+**All government fees, NUANS charges, and RJSC filing fees are included in the {{price:incorporation-numbered}}.** No surprise charges at checkout.
 
 ## The Nova Scotia incorporation timeline
 
@@ -75,8 +75,8 @@ Total: **typically 5–10 business days** end-to-end. NS processing times can va
 
 Every Nova Scotia corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 30 days of your anniversary date, filed with the RJSC. NS has one of the tightest anniversary windows in Canada. CRS files this for you at $129 all-in. See our [Nova Scotia annual return guide](/articles/how-to-file-your-annual-return-in-nova-scotia) for the details.
-- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and the annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada) — CRS prepares these at $79 per resolution set.
+- **Annual return** — due within 30 days of your anniversary date, filed with the RJSC. NS has one of the tightest anniversary windows in Canada. CRS files this for you at {{price:annual-return}} all-in. See our [Nova Scotia annual return guide](/articles/how-to-file-your-annual-return-in-nova-scotia) for the details.
+- **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and the annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada) — CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after your fiscal year-end (this is separate from the RJSC annual return, handled by your accountant).
 
 CRS can bundle all three ongoing filings if you'd prefer to keep everything under one roof.
@@ -91,4 +91,4 @@ Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guid
 
 ## Ready to incorporate in Nova Scotia?
 
-[Start your Nova Scotia incorporation — $699 all-in →](/order/incorporation) · Memorandum + Articles filed with the RJSC, minute book delivered in 5–10 business days.
+[Start your Nova Scotia incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Memorandum + Articles filed with the RJSC, minute book delivered in 5–10 business days.

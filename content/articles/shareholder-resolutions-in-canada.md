@@ -3,7 +3,7 @@ title: "Shareholder Resolutions in Canada: Ordinary vs Special, Annual Package"
 h1: "Shareholder Resolutions in Canada: A Complete Guide"
 slug: "shareholder-resolutions-in-canada"
 section: "articles"
-description: "Everything about shareholder resolutions in Canada — ordinary vs special resolutions, the annual package, unanimous written resolutions, and the CRS $79 professional service."
+description: "Everything about shareholder resolutions in Canada — ordinary vs special resolutions, the annual package, unanimous written resolutions, and the CRS {{price:shareholder-resolution}} professional service."
 faq:
   - q: "What is the difference between an ordinary and a special shareholder resolution in Canada?"
     a: "An ordinary resolution requires a simple majority — more than 50% of the votes cast — and covers routine decisions like electing directors or waiving the auditor. A special resolution requires two-thirds — 66.67% of votes cast — and covers fundamental changes like amending the articles, continuing to another jurisdiction, or approving an amalgamation."
@@ -14,7 +14,7 @@ faq:
   - q: "What annual shareholder resolutions must every Canadian corporation pass?"
     a: "The standard annual package includes: electing (or re-electing) the directors, waiving the appointment of an auditor for most private corporations, and approving the financial statements presented by the directors. Skipping these means the corporation has no legally elected directors and no valid auditor waiver — a problem that surfaces during financing, sale, or a CRA review."
   - q: "How much does a professionally prepared shareholder resolution cost?"
-    a: "Corporate Registry Services prepares shareholder resolutions for $79 all-in + GST per resolution set — including the annual shareholders' package or one-off special resolutions. Delivered as ready-to-sign PDFs, professionally formatted, with any accompanying register or filing forms."
+    a: "Corporate Registry Services prepares shareholder resolutions for {{price:shareholder-resolution}} all-in + GST per resolution set — including the annual shareholders' package or one-off special resolutions. Delivered as ready-to-sign PDFs, professionally formatted, with any accompanying register or filing forms."
 ---
 
 Shareholder resolutions record decisions reserved for the corporation's owners — the people who actually hold the shares, not just those who sit on the board. Under Canadian corporate law, some decisions can only be made by shareholders, not directors, and those decisions must be documented as shareholder resolutions kept in the minute book.
@@ -86,8 +86,8 @@ The fix is a **retroactive annual package** — shareholder resolutions dated an
 
 ## Have CRS prepare your shareholder resolutions
 
-Corporate Registry Services prepares shareholder resolutions for **$79 all-in + GST** per resolution set — including the annual shareholders' package, one-off special resolutions (amending the articles, approving a fundamental change), and unanimous written resolutions for single- or multi-shareholder corporations. Delivered as ready-to-sign PDFs, professionally formatted, with any accompanying register or filing forms.
+Corporate Registry Services prepares shareholder resolutions for **{{price:shareholder-resolution}} all-in + GST** per resolution set — including the annual shareholders' package, one-off special resolutions (amending the articles, approving a fundamental change), and unanimous written resolutions for single- or multi-shareholder corporations. Delivered as ready-to-sign PDFs, professionally formatted, with any accompanying register or filing forms.
 
-**[Order a shareholder resolution now →](/order/shareholder-resolution?src=article-shareholder-resolutions-in-canada)** · Search your corp, pick the resolution type, pay $79 + GST.
+**[Order a shareholder resolution now →](/order/shareholder-resolution?src=article-shareholder-resolutions-in-canada)** · Search your corp, pick the resolution type, pay {{price:shareholder-resolution}} + GST.
 
 Related: [Director Resolutions](/articles/director-resolutions-in-canada) covers the board-side equivalent, [Share Certificates](/articles/share-certificates-in-canada) covers the share issuance paper trail, and [Corporate By-Laws](/articles/corporate-by-laws-canada) covers the by-laws that shareholders confirm at each annual meeting.
