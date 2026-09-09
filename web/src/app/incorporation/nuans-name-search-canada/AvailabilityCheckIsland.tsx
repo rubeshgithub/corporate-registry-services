@@ -167,7 +167,7 @@ export default function AvailabilityCheckIsland({ priceCents }: { priceCents?: n
 
       {/* Results */}
       {result && (
-        <ResultsCard result={result} name={checkedName} />
+        <ResultsCard result={result} name={checkedName} nuansPrice={nuansPrice} />
       )}
     </div>
   );
@@ -175,7 +175,7 @@ export default function AvailabilityCheckIsland({ priceCents }: { priceCents?: n
 
 /* ═══════════════════════════ Results ═══════════════════════════ */
 
-function ResultsCard({ result, name }: { result: Result; name: string }) {
+function ResultsCard({ result, name, nuansPrice }: { result: Result; name: string; nuansPrice: string }) {
   const { strength, matchCount, matches, scopeLabel, coverageNote } = result;
   const tone = TONE[strength];
 
