@@ -19,7 +19,7 @@ const SERVICE_LABELS: Record<string, string> = {
   "incorporation":          "Incorporation",
   "profile-report":         "Corporate Profile Report",
   "good-standing":          "Good Standing",
-  "corporate-search":       "Corporate Name Search",
+  "corporate-search":       "Name Availability - NUANS - Pre-Screen Name Search",
   "nuans-search":           "NUANS Search",
   "change-directors":       "Director / Officer Change",
   "change-address":         "Registered Address Change",

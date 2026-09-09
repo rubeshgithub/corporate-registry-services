@@ -6,6 +6,11 @@ import ReportOrderFlow from "@/components/order/ReportOrderFlow";
 import { REPORT_CONFIGS } from "@/lib/report-config";
 import { withLivePrice, getPriceCents, swapPrice } from "@/lib/pricing";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 const BASE_METADATA: Metadata = {
   title: "Order a Certificate of Good Standing — $79 all-in + GST — CRS",
   description:

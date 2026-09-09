@@ -495,7 +495,7 @@ Email:         ${s.customer_details?.email ?? "—"}
 Phone:         ${m.contact_phone ?? "—"}
 =====================================================
 
-Action: file this annual return with the ${m.jurisdiction ?? "target"} registry within 24 hours.
+Action: file this annual return with the ${m.jurisdiction ?? "target"} registry within 1 business day.
 Stripe: https://dashboard.stripe.com/payments/${s.payment_intent}
 `.trim();
 }
@@ -554,7 +554,7 @@ filing for ${m.company_name ?? "your corporation"}.
 
 What happens next:
   • Our team files your annual return with the ${m.jurisdiction ?? "corporate"} registry
-    within 24 hours.
+    within 1 business day.
   • You'll get a filing confirmation email with the registry receipt attached.
   • We'll email you 30 days before next year's anniversary date, so you never
     miss another filing.
@@ -607,7 +607,7 @@ Phone:         ${m.incorp_phone ?? "—"}
 Email:         ${s.customer_details?.email ?? "—"}
 =====================================================
 
-Action: file with the ${m.jurisdiction ?? "target"} registry within 24 hours.
+Action: file with the ${m.jurisdiction ?? "target"} registry within 1 business day.
 Stripe: https://dashboard.stripe.com/payments/${s.payment_intent}
 `.trim();
 }
@@ -620,7 +620,7 @@ Hi ${m.incorp_name ?? "there"},
 We've received your payment for the ${m.jurisdiction ?? "Canadian"} incorporation.
 
 What happens next:
-  • Our team files with the ${m.jurisdiction ?? "corporate"} registry within 24 hours.
+  • Our team files with the ${m.jurisdiction ?? "corporate"} registry within 1 business day.
   • You'll receive your Certificate of Incorporation, Articles, and filing receipt by email.
   • We'll email you 30 days before your first anniversary — annual returns start next year.
 
@@ -726,7 +726,7 @@ Email:         ${customerEmail ?? "—"}
 Phone:         ${m.contact_phone ?? "—"}
 =====================================================
 
-Action: file with the ${m.jurisdiction ?? "target"} registry within 24 hours.
+Action: file with the ${m.jurisdiction ?? "target"} registry within 1 business day.
 Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
 `.trim();
 
@@ -736,7 +736,7 @@ Hi ${m.contact_name ?? "there"},
 We've received your payment for a ${label} for ${m.company_name ?? "your corporation"}.
 
 We're filing the paperwork with the ${m.jurisdiction ?? "government"} registry within
-24 hours. You'll receive a filing confirmation and receipt by email.
+1 business day. You'll receive a filing confirmation and receipt by email.
 
 Order summary:
   Reference:    ${session.id}
@@ -774,7 +774,9 @@ support@corporateregistryservices.ca
 
   if (service === "corporate-search" || service === "nuans-search") {
     const m = session.metadata ?? {};
-    const label = service === "corporate-search" ? "Corporate Name Search" : "NUANS Name Search";
+    const label = service === "corporate-search"
+      ? "Name Availability - NUANS - Pre-Screen Name Search"
+      : "NUANS Name Search";
     const ownerText = `
 NEW PAID ORDER — ${label} — Stripe session ${session.id}
 =====================================================

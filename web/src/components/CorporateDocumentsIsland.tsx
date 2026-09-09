@@ -128,7 +128,7 @@ export default function CorporateDocumentsIsland({
             color: "var(--text)", marginTop: "0.15rem",
             lineHeight: 1.3,
           }}>
-            Search your corporation — get every document in 24 hours
+            Search your corporation — get every document in 1 business day
           </div>
         </div>
       </div>

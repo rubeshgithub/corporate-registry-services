@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { NameSearchServiceConfig } from "@/lib/name-search-config";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
- * Simple "propose a name → pay" order flow shared by Corporate Name Search
- * and NUANS. Single-screen: proposed name + (optional) jurisdiction +
- * contact + Stripe payment. No registry lookup step.
+ * Simple "propose a name → pay" order flow shared by the Name Availability
+ * pre-screen search and NUANS. Single-screen: proposed name + (optional)
+ * jurisdiction + contact + Stripe payment. No registry lookup step.
  */
 
 export default function NameSearchOrderFlow({ config }: { config: NameSearchServiceConfig }) {
@@ -170,7 +171,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. {config.deliveryPromise}
+        Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}
       </p>
     </div>
   );

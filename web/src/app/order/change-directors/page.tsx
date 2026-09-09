@@ -6,10 +6,15 @@ import ChangeOrderFlow from "@/components/order/ChangeOrderFlow";
 import { CHANGE_CONFIGS } from "@/lib/change-config";
 import { withLivePrice, getPriceCents, swapPrice } from "@/lib/pricing";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 const BASE_METADATA: Metadata = {
   title: "File a Director / Officer Change — $99 all-in + GST — CRS",
   description:
-    "Add or remove directors and officers on the Canadian corporate registry. $99 all-in + GST. Filed within 24 hours.",
+    "Add or remove directors and officers on the Canadian corporate registry. $99 all-in + GST. Filed within 1 business day.",
   robots: { index: false, follow: false },
 };
 

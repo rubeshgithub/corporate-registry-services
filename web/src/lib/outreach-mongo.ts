@@ -90,7 +90,7 @@ export type OutreachSuppressionDoc = {
  * Inbound minute-book pilot lead. Captured when a visitor searches their
  * corporation on the /minute-books hub page and clicks "Generate Free
  * Pilot", then enters their email. Owner (CRS) follows up manually
- * within 24 hours to grant MinuteBook subdomain access. Distinct from
+ * within 1 business day to grant MinuteBook subdomain access. Distinct from
  * paid orders (Stripe) — no charge, no auto-provisioning yet.
  */
 export type MinuteBookPilotDoc = {

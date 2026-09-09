@@ -47,7 +47,7 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
       <p style={{ fontSize: "0.825rem", color: "var(--text-muted)", marginBottom: "1rem" }}>
         {allPurchasable
           ? "Pay securely and we start straight away — no waiting on a quote."
-          : "One of your selections needs a specialist, so we'll send a custom quote within 1 hour."}
+          : "One of your selections needs a specialist, so we'll send a custom quote within 1 business hour."}
       </p>
 
       {/* Summary box */}

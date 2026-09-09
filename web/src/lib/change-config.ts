@@ -1,6 +1,6 @@
 /**
  * Configuration for the four form-based "change" services that CRS can file
- * within 24 hours of payment (no quote required). All follow the same shape:
+ * within 1 business day of payment (no quote required). All follow the same shape:
  *
  *   1. Registry lookup — identify the company being modified
  *   2. Service-specific details — what's changing
@@ -39,8 +39,8 @@ export const CHANGE_CONFIGS: Record<ChangeServiceKey, ChangeServiceConfig> = {
     priceCents:       9900,
     buttonLabel:      "Pay $99 + GST and file",
     productName:      "Director / Officer Change",
-    productBlurb:     "File director / officer change with the government registry within 24 hours.",
-    deliveryPromise:  "Filed within 24 hours of payment.",
+    productBlurb:     "File director / officer change with the government registry within 1 business day.",
+    deliveryPromise:  "Filed within 1 business day of payment.",
   },
   "change-address": {
     key:              "change-address",
@@ -51,8 +51,8 @@ export const CHANGE_CONFIGS: Record<ChangeServiceKey, ChangeServiceConfig> = {
     priceCents:       9900,
     buttonLabel:      "Pay $99 + GST and file",
     productName:      "Registered Office Address Change",
-    productBlurb:     "File a registered office address change with the government registry within 24 hours.",
-    deliveryPromise:  "Filed within 24 hours of payment.",
+    productBlurb:     "File a registered office address change with the government registry within 1 business day.",
+    deliveryPromise:  "Filed within 1 business day of payment.",
   },
   "voluntary-dissolution": {
     key:              "voluntary-dissolution",
@@ -64,7 +64,7 @@ export const CHANGE_CONFIGS: Record<ChangeServiceKey, ChangeServiceConfig> = {
     buttonLabel:      "Pay $399 + GST and file",
     productName:      "Voluntary Dissolution",
     productBlurb:     "File voluntary dissolution paperwork with the government registry.",
-    deliveryPromise:  "Dissolution paperwork filed within 24 hours of payment.",
+    deliveryPromise:  "Dissolution paperwork filed within 1 business day of payment.",
   },
   "revival": {
     key:              "revival",
@@ -76,6 +76,6 @@ export const CHANGE_CONFIGS: Record<ChangeServiceKey, ChangeServiceConfig> = {
     buttonLabel:      "Pay $399 + GST and start revival",
     productName:      "Corporate Revival",
     productBlurb:     "File corporate revival application with the government registry.",
-    deliveryPromise:  "Revival application filed within 24 hours of payment.",
+    deliveryPromise:  "Revival application filed within 1 business day of payment.",
   },
 };

@@ -63,7 +63,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
     items: [
       {
         q: "How long does an annual return filing take?",
-        a: "Filed with the registry within 24 hours of payment. Government processing on the registry side is usually the same day; you receive the filing confirmation by email as soon as the registry returns it.",
+        a: "Filed with the registry within 1 business day of payment. Government processing on the registry side is usually the same day; you receive the filing confirmation by email as soon as the registry returns it.",
       },
       {
         q: "How fast do I get a corporate profile report?",
@@ -71,7 +71,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: "How long does incorporation take?",
-        a: "Filed within 24 hours of payment. Certificate of Incorporation and organizational documents are emailed once the government returns them, typically within 1-3 business days depending on the jurisdiction.",
+        a: "Filed within 1 business day of payment. Certificate of Incorporation and organizational documents are emailed once the government returns them, typically within 1-3 business days depending on the jurisdiction.",
       },
       {
         q: "How long does a Certificate of Good Standing take?",

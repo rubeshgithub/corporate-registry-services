@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Mail, ArrowLeft, Clock } from "lucide-react";
 import { gaEvent, gaPurchaseOnce } from "@/lib/ga";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 type SessionSummary = {
   status:      "paid" | "unpaid" | "unknown";
@@ -110,10 +111,10 @@ export default function ThanksContent() {
 
         <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: "1.25rem", lineHeight: 1.6 }}>
           {paid
-            ? `We're filing ${summary?.company ? summary.company : "your annual return"} with the ${summary?.jurisdiction ?? "registry"} now. You'll get a filing confirmation by email within 24 hours.`
+            ? `We're filing ${summary?.company ? summary.company : "your annual return"} with the ${summary?.jurisdiction ?? "registry"} now. You'll get a filing confirmation by email within 1 business day. ${REGISTRY_CLOSURE_NOTE}`
             : sessionId
               ? "Give us a moment — we're checking with Stripe."
-              : "Thank you for your order. We'll review your request and send a custom quote within 1 hour."}
+              : "Thank you for your order. We'll review your request and send a custom quote within 1 business hour."}
         </p>
 
         {/* Reference / session id */}

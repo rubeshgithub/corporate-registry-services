@@ -224,7 +224,7 @@ function ResultPanel({ summary, refId }: { summary: Summary; refId: string }) {
 
       <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", margin: 0, lineHeight: 1.55 }}>
         {paid
-          ? "Our team files with the registry within 24 hours of payment. You'll receive a filing confirmation email once it's complete. If it's been more than a business day, reply to your confirmation email and we'll check in."
+          ? "Our team files with the registry within 1 business day of payment. You'll receive a filing confirmation email once it's complete. If it's been more than a business day, reply to your confirmation email and we'll check in."
           : "If you were charged but this still says unpaid, Stripe may still be processing. Wait a few minutes and try again — or contact support and we'll investigate."}
       </p>
     </div>

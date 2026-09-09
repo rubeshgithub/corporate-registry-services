@@ -450,7 +450,7 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
       return {
         accentColor: "var(--secondary)",
         title:       "Great news — this corporation is active",
-        subtitle:    "Our historical records showed a strike-off, but the live Alberta registrar confirms this corporation is currently Active. If you need proof of standing for financing, contracts, or a bid — we can pull an official Corporate Profile Report and email the PDF within an hour.",
+        subtitle:    "Our historical records showed a strike-off, but the live Alberta registrar confirms this corporation is currently Active. If you need proof of standing for financing, contracts, or a bid — we can pull an official Corporate Profile Report and email the PDF within 1 business hour.",
         primary:     { label: "Order Profile Report — $49", href: q("/order/profile-report") },
         secondary: [
           { label: "Certificate of Good Standing — $79", href: q("/order/good-standing") },
@@ -473,7 +473,7 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
     return {
       accentColor: "var(--secondary)",
       title:       "File your Annual Return in minutes",
-      subtitle:    "This corporation is active. Let CRS file your annual return with the Alberta registrar — $99 + gst, filed within 24 hours. We pre-fill your details from the registry so you can review and submit in about 2 minutes.",
+      subtitle:    "This corporation is active. Let CRS file your annual return with the Alberta registrar — $99 + gst, filed within 1 business day. We pre-fill your details from the registry so you can review and submit in about 2 minutes.",
       primary:     { label: "File Annual Return — $99 + gst", href: q("/order/annual-return") },
       secondary: [
         { label: "Profile Report — $49",             href: q("/order/profile-report") },

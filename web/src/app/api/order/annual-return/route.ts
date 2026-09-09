@@ -178,7 +178,7 @@ export async function POST(req: Request) {
                   ? `${label} — ${body.hit.jurisdiction}`
                   : `${label} (${years} years) — ${body.hit.jurisdiction}`;
               })(),
-              description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Filed by CRS within 24 hours.`,
+              description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Filed by CRS within 1 business day.`,
             },
           },
           quantity: years,

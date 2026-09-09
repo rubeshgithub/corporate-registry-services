@@ -14,6 +14,7 @@ import {
   PRO_CORP_MENU_ORDER,
 } from "@/lib/professional-corp";
 import ETransferCapture from "@/components/order/ETransferCapture";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -459,7 +460,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. {config.deliveryPromise}
+        Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}
       </p>
 
       <ETransferCapture

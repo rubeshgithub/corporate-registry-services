@@ -425,7 +425,7 @@ export default function CorporationServiceOrderFlow() {
       </button>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "1rem" }}>
-        All prices shown include government fees. You'll receive a quote within 1 hour.
+        All prices shown include government fees. You'll receive a quote within 1 business hour.
       </p>
     </div>
   );

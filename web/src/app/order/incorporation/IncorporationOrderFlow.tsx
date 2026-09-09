@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2, Info, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput, { type ParsedAddress } from "@/components/PlacesInput";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /* ────────────────────────── Types ────────────────────────── */
 
@@ -210,7 +211,7 @@ export default function IncorporationOrderFlow() {
           Incorporate your company
         </h1>
         <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-          Filed with the {state.jurisdictionKey ? (JURISDICTIONS.find((j) => j.key === state.jurisdictionKey)?.label ?? "chosen") : "chosen"} registry within 24 hours.
+          Filed with the {state.jurisdictionKey ? (JURISDICTIONS.find((j) => j.key === state.jurisdictionKey)?.label ?? "chosen") : "chosen"} registry within 1 business day.
         </p>
       </div>
 
@@ -329,7 +330,7 @@ export default function IncorporationOrderFlow() {
       </div>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. Filed with the government registry within 24 hours of payment.
+        Card processed securely by Stripe. Filed with the government registry within 1 business day of payment. {REGISTRY_CLOSURE_NOTE}
       </p>
     </div>
   );
@@ -684,7 +685,7 @@ function StepReview({ state, price }: { state: FormState; price: number }) {
   const jur = JURISDICTIONS.find((j) => j.key === state.jurisdictionKey);
   return (
     <div>
-      <SectionHeading title="Review & pay" subtitle="Confirm everything looks right — then we file within 24 hours of payment." />
+      <SectionHeading title="Review & pay" subtitle="Confirm everything looks right — then we file within 1 business day of payment." />
 
       <ReviewRow label="Type"          value={cfg.label} />
       <ReviewRow label="Jurisdiction"  value={jur?.label ?? "—"} />

@@ -8,6 +8,7 @@ import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState } from "@/lib/registry-access";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
  * Checkout for catalogue services that don't warrant a bespoke flow —
@@ -361,7 +362,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. All government fees included.
+        Card processed securely by Stripe. All government fees included. {REGISTRY_CLOSURE_NOTE}
       </p>
 
       <ETransferCapture

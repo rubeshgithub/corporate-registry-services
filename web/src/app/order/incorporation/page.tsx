@@ -7,7 +7,7 @@ import IncorporationOrderFlow from "./IncorporationOrderFlow";
 export const metadata: Metadata = {
   title: "Incorporate your company — CRS",
   description:
-    "Incorporate federally or in any Canadian province through CRS. Named or numbered. All-in pricing. Filed within 24 hours.",
+    "Incorporate federally or in any Canadian province through CRS. Named or numbered. All-in pricing. Filed within 1 business day.",
   robots: { index: false, follow: false },
 };
 

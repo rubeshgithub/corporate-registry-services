@@ -34,10 +34,10 @@ type SectionOverride = {
 const SECTION_OVERRIDES: Partial<Record<Section, SectionOverride>> = {
   "annual-return": {
     title:       "Canadian Annual Return Filing — $99 All-In, All Jurisdictions | CRS",
-    description: "File your Canadian corporate annual return through the government registry — $99 all-in, government fee included. Federal + all 13 provinces/territories. Filed within 24 hours.",
+    description: "File your Canadian corporate annual return through the government registry — $99 all-in, government fee included. Federal + all 13 provinces/territories. Filed within 1 business day.",
     orderStrip: {
       headline: "Ready to file? $99 all-in + GST, any jurisdiction.",
-      sub:      "Government fee included. Filed within 24 hours.",
+      sub:      "Government fee included. Filed within 1 business day.",
       href:     "/order/annual-return?src=section-annual-return",
       cta:      "Order now",
     },

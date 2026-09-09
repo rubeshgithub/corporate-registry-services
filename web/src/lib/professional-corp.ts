@@ -226,7 +226,7 @@ export const PRO_CORP_SERVICES: Record<ProCorpServiceKey, ProCorpService> = {
       "Annual return filed with the corporate registry",
       "Catch-up filings available for multiple missed years",
       "Keeps the corporation in good standing for permit renewal",
-      "Filed within 24 hours of payment",
+      "Filed within 1 business day of payment",
     ],
   },
   "change-of-information": {
@@ -242,7 +242,7 @@ export const PRO_CORP_SERVICES: Record<ProCorpServiceKey, ProCorpService> = {
       "Director, officer or shareholder changes",
       "Registered office or records address changes",
       "Multiple changes on a single filing",
-      "Filed within 24 hours of payment",
+      "Filed within 1 business day of payment",
     ],
   },
   "revival": {
@@ -258,7 +258,7 @@ export const PRO_CORP_SERVICES: Record<ProCorpServiceKey, ProCorpService> = {
       "Revival application prepared and filed",
       "Restores the corporation to active status",
       "Outstanding annual returns quoted separately if applicable",
-      "Application filed within 24 hours of payment",
+      "Application filed within 1 business day of payment",
     ],
   },
 };

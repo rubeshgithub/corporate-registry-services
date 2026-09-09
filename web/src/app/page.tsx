@@ -28,13 +28,13 @@ export const metadata: Metadata = {
 
 const TRUST_BADGES = [
   { icon: Globe,       label: "All 13 jurisdictions" },
-  { icon: Clock,       label: "Response within 1 hour" },
+  { icon: Clock,       label: "Response within 1 business hour" },
   { icon: ShieldCheck, label: "Government-direct" },
 ];
 
 const WHY_ITEMS = [
   { icon: CheckCircle2, title: "Official sources only",       body: "We file and retrieve directly from government registries — no third-party intermediaries." },
-  { icon: Clock,        title: "Fast turnaround",             body: "Most profile reports and certificates delivered in minutes. Filing quotes within 1 hour." },
+  { icon: Clock,        title: "Fast turnaround",             body: "Most profile reports and certificates delivered in minutes. Filing quotes within 1 business hour." },
   { icon: Globe,        title: "All of Canada",               body: "Federal, all 10 provinces, and all 3 territories — one trusted source." },
   { icon: FileText,     title: "Complete document packages",  body: "From a single search to a full minute book — we handle the paperwork end to end." },
 ];
@@ -294,7 +294,7 @@ export default function HomePage() {
           <div style={{ maxWidth: "620px", margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
               <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "clamp(1.4rem, 2.5vw, 1.85rem)", fontWeight: 700, color: "var(--text)", marginBottom: "0.5rem" }}>
-                Have a question? We respond within 1 hour.
+                Have a question? We respond within 1 business hour.
               </h2>
               <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>
                 Monday – Friday, 8 am – 8 pm ET. Or email us at{" "}

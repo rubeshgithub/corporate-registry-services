@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail } from "lucide-react";
 import ETransferCapture from "@/components/order/ETransferCapture";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
  * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
  *
  * Visitor lookup a corporation → picks which documents they need →
- * provides contact details → pays → documents delivered within 24 hours.
- * Once confirmed and paid, all documents are delivered within 24 hours.
+ * provides contact details → pays → documents delivered within 1 business day.
+ * Once confirmed and paid, all documents are delivered within 1 business day.
  */
 
 type RegistryHit = {
@@ -443,7 +444,7 @@ function ConfirmScreen({
       </button>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>
-        Card processed securely by Stripe. All government fees included — documents delivered by email within 24 hours.
+        Card processed securely by Stripe. All government fees included — documents delivered by email within 1 business day. {REGISTRY_CLOSURE_NOTE}
       </p>
 
       <ETransferCapture
@@ -495,7 +496,7 @@ function SuccessScreen({ refCode, company }: { refCode: string; company: string 
           <li>We review what&apos;s available on file with the registry.</li>
           <li>You get a formal quote by email within a few hours.</li>
           <li>Reply to approve — we send a secure payment link.</li>
-          <li>All documents delivered to your email within 24 hours.</li>
+          <li>All documents delivered to your email within 1 business day.</li>
         </ol>
       </div>
     </div>

@@ -5,10 +5,15 @@ import Footer from "@/components/Footer";
 import CorporateDocumentsFlow from "@/components/order/CorporateDocumentsFlow";
 import { getPriceCents } from "@/lib/pricing";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Order Corporate Documents — Articles + Historical Filings — CRS",
   description:
-    "Order the full set of corporate documents on file — articles of incorporation, historical filings, annual returns, director/address changes. Government-direct retrieval. Quote in a few hours, delivered within 24 hours of approval.",
+    "Order the full set of corporate documents on file — articles of incorporation, historical filings, annual returns, director/address changes. Government-direct retrieval. Quote in a few hours, delivered within 1 business day of approval.",
   robots: { index: false, follow: false },
 };
 

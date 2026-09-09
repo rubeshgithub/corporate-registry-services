@@ -89,7 +89,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       jurisdictionKey,
       price:          "$99 all-in + GST",
       ctaHeadline:    "CRS files this for you — $99 all-in + GST.",
-      ctaSubline:     "Government fee included. Filed within 24 hours. Deadline monitored every year.",
+      ctaSubline:     "Government fee included. Filed within 1 business day. Deadline monitored every year.",
       ctaButton:      "File my annual return",
       urgency:        jurisdictionKey ? ANNUAL_RETURN_URGENCY[jurisdictionKey] : undefined,
       stickyLabel:    "$99 · File my annual return",
@@ -102,7 +102,7 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
       jurisdictionKey,
       price:          "from $699 + GST",
       ctaHeadline:    "CRS incorporates your company — from $699 all-in.",
-      ctaSubline:     "Includes government fees, NUANS (if named), articles, and organizing resolutions. Filed within 24 hours.",
+      ctaSubline:     "Includes government fees, NUANS (if named), articles, and organizing resolutions. Filed within 1 business day.",
       ctaButton:      "Start incorporation",
       stickyLabel:    "From $699 · Start incorporation",
     };

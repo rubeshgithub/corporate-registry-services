@@ -419,12 +419,12 @@ export default async function ContentPage({
                   marginBottom: "0.25rem",
                 }}
               >
-                {ctx ? `Ready — ${ctx.price}, filed within 24 hours` : "Ready to order?"}
+                {ctx ? `Ready — ${ctx.price}, filed within 1 business day` : "Ready to order?"}
               </div>
               <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: 0 }}>
                 {ctx
                   ? "We'll pull your registry record, confirm what's changed, and file. No lawyer needed."
-                  : "Get a custom quote in minutes — we respond within 1 hour."}
+                  : "Get a custom quote in minutes — we respond within 1 business hour."}
               </p>
             </div>
             <a

@@ -41,7 +41,7 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   /* ── Reports & searches ─────────────────────────────────────────── */
   { key: "profile-report",        label: "Corporate Profile Report",          group: "Reports & searches", defaultCents: 4900,  unit: "once" },
   { key: "good-standing",         label: "Certificate of Good Standing",      group: "Reports & searches", defaultCents: 7900,  unit: "once" },
-  { key: "corporate-search",      label: "Corporate Name Search",             group: "Reports & searches", defaultCents: 4900,  unit: "once" },
+  { key: "corporate-search",      label: "Name Availability - NUANS - Pre-Screen Name Search", group: "Reports & searches", defaultCents: 4900,  unit: "once" },
   { key: "nuans-search",          label: "NUANS Name Search Report",          group: "Reports & searches", defaultCents: 7900,  unit: "once" },
   { key: "corporate-documents",   label: "Copies of Corporation Documents",   group: "Reports & searches", defaultCents: 48900, unit: "once", note: "Full set from date of incorporation to date" },
 

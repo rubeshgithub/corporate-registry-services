@@ -89,7 +89,7 @@ ${"─".repeat(58)}
 
 What happens next:
 
-Step 1 — Custom Quote (within 1 hour)
+Step 1 — Custom Quote (within 1 business hour)
    We'll review your request and send a formal quote to
    this email address. No hidden charges — ever.
 

@@ -6,10 +6,15 @@ import SearchOrderRouter from "./SearchOrderRouter";
 import { withLivePrice, getPriceCents, swapPrice } from "@/lib/pricing";
 import { NAME_SEARCH_CONFIGS } from "@/lib/name-search-config";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 const BASE_METADATA: Metadata = {
-  title: "Order a Corporate Name Search — $49 all-in + GST — CRS",
+  title: "Order a Name Availability Pre-Screen Name Search — $49 all-in + GST — CRS",
   description:
-    "Government-direct corporate name search across Canadian registries. $49 all-in + GST. Results by email within one business hour.",
+    "Government-direct name availability pre-screen across Canadian registries — confirm a proposed name is free before you file. $49 all-in + GST. Results by email within one business hour.",
   robots: { index: false, follow: false },
 };
 

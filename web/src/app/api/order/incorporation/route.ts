@@ -141,8 +141,8 @@ export async function POST(req: Request) {
             product_data: {
               name: `Incorporation — ${LABEL[f.companyType]} — ${f.jurisdictionKey.toUpperCase()}`,
               description: f.companyType === "named"
-                ? `Proposed names: ${f.nameOptions.filter((n) => n.trim()).join(" · ")}. Filed by CRS within 24 hours.`
-                : `${LABEL[f.companyType]}. Filed by CRS within 24 hours.`,
+                ? `Proposed names: ${f.nameOptions.filter((n) => n.trim()).join(" · ")}. Filed by CRS within 1 business day.`
+                : `${LABEL[f.companyType]}. Filed by CRS within 1 business day.`,
             },
           },
           quantity: 1,

@@ -284,7 +284,7 @@ const annualReturnTemplate: TemplateDef = {
           </tr>
           <tr>
             <td align="center" style="padding:0 0 20px;">
-              <span style="font-size:12px;color:#8A99A8;">Government fee included &middot; Filed within 24 hours &middot; Your details above are already filled in &mdash; takes about 2 minutes</span>
+              <span style="font-size:12px;color:#8A99A8;">Government fee included &middot; Filed within 1 business day &middot; Your details above are already filled in &mdash; takes about 2 minutes</span>
             </td>
           </tr>
         </table>
@@ -296,7 +296,7 @@ const annualReturnTemplate: TemplateDef = {
               <p style="margin:0 0 10px;font-size:12px;font-weight:bold;color:#0C3D61;text-transform:uppercase;letter-spacing:1px;">How it works</p>
               <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">1. Confirm the information above &mdash; or tell us what changed (directors, address)</p>
               <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">2. Pay $99<span style="font-size:11px;color:#5A6B7A;margin-left:3px;">+ gst</span> &mdash; no hidden fees, government fee included</p>
-              <p style="margin:0;font-size:13px;color:#1A2B3A;">3. We file with the ${esc(registryName)} within 24 hours and monitor your deadline every year after</p>
+              <p style="margin:0;font-size:13px;color:#1A2B3A;">3. We file with the ${esc(registryName)} within 1 business day and monitor your deadline every year after</p>
             </td>
           </tr>
         </table>
@@ -342,13 +342,13 @@ It is NOT your tax return — filing your T2 does not file your annual return.
 Corporations that miss it can be dissolved by the registry, freezing bank
 accounts, financing, and contracts.
 
-Review & File Now — $99 + gst (government fee included, filed within 24 hours):
+Review & File Now — $99 + gst (government fee included, filed within 1 business day):
   ${url}
 
 How it works:
   1. Confirm the information above — or tell us what changed
   2. Pay $99 + gst — no hidden fees, government fee included
-  3. We file with the ${registryName} within 24 hours
+  3. We file with the ${registryName} within 1 business day
 
 Prefer to file it yourself? Our free step-by-step guide:
   ${SITE_URL}/articles/how-to-file-your-annual-return-in-${provinceSlug}?src=email-ar
@@ -572,7 +572,7 @@ const generalTemplate: TemplateDef = {
         </table>
 
         <p style="margin:24px 0 0;font-size:12px;color:#8A99A8;text-align:center;line-height:1.6;">
-          All services filed within 24 hours &middot; Every price is all-in with the government fee included &middot; Custom quotes returned within one business hour.
+          All services filed within 1 business day &middot; Every price is all-in with the government fee included &middot; Custom quotes returned within one business hour.
         </p>
 
         <p style="margin:14px 0 0;font-size:12px;color:#5A6B7A;text-align:center;">
@@ -614,7 +614,7 @@ Services:
     Cleanly close a corporation that's no longer operating.
     Start: ${tokenUrl("dissolution")}
 
-All services filed within 24 hours. Every price is all-in with the
+All services filed within 1 business day. Every price is all-in with the
 government fee included.
 
 Not sure which service you need? Reply directly to this email — ${PERSONA_NAME}

@@ -131,7 +131,7 @@ async function sendConfirmationEmail(args: {
     `Re-run the search any time:`,
     `  ${searchUrl}`,
     ``,
-    `When you're ready to file, we handle the paperwork in 24 hours:`,
+    `When you're ready to file, we handle the paperwork in 1 business day:`,
     `  • Corporate Profile Report — $49 all-in`,
     `  • Certificate of Good Standing — $79 all-in`,
     `  • Annual Return Filing — from $99/yr`,
@@ -152,7 +152,7 @@ async function sendConfirmationEmail(args: {
         ? `That returned <strong>${args.resultCount} result${args.resultCount === 1 ? "" : "s"}</strong>.`
         : `That returned no direct match — reply to this email with the corporation name and our team will run a deeper search.`}</p>
     <p><a href="${searchUrl}" style="display:inline-block;padding:0.55rem 1rem;background:#003d5b;color:#fff;text-decoration:none;border-radius:0.4rem;font-weight:600;">Re-run this search →</a></p>
-    <p>When you're ready to file, we handle the paperwork in <strong>24 hours</strong>:</p>
+    <p>When you're ready to file, we handle the paperwork in <strong>1 business day</strong>:</p>
     <ul>
       <li>Corporate Profile Report — <strong>$49 all-in</strong></li>
       <li>Certificate of Good Standing — <strong>$79 all-in</strong></li>

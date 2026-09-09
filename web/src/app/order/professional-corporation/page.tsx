@@ -5,6 +5,11 @@ import Footer from "@/components/Footer";
 import ProCorpOrderFlow from "@/components/order/ProCorpOrderFlow";
 import { getPrices } from "@/lib/pricing";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 /**
  * Dedicated professional-corporation order page — lookup first, then pick
  * the service. Noindex like every other /order/* page: these are checkout

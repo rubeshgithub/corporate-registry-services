@@ -103,8 +103,8 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
       },
       {
         key: "corporate-search",
-        label: "Corporate Name Search",
-        description: "Search for a business name across provincial or federal registries.",
+        label: "Name Availability - NUANS - Pre-Screen Name Search",
+        description: "Pre-screen a proposed business name against the provincial or federal registry before you file.",
         needsJurisdiction: true,
         estimatedFee: "$49 + GST",
         priceCents: 4900,

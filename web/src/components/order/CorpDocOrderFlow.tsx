@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, HelpCircle, Mail, MessageCircle } from "lucide-react";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import type {
   CorpDocServiceConfig,
   CorpDocServiceKey,
@@ -374,7 +375,7 @@ function DetailsScreen(props: {
         )}
       </button>
       <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
-        Card processed securely by Stripe. {config.deliveryPromise}
+        Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}
       </p>
     </section>
   );

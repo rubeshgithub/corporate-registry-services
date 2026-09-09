@@ -9,6 +9,7 @@ import PlacesInput from "@/components/PlacesInput";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState } from "@/lib/registry-access";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
  * Shared checkout for the four form-based change services:
@@ -361,7 +362,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. {config.deliveryPromise}
+        Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}
       </p>
 
       <ETransferCapture

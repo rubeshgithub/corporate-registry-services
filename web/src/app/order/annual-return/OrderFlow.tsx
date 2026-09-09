@@ -9,6 +9,7 @@ import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState } from "@/lib/registry-access";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -668,7 +669,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
       </button>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. We&apos;ll file within 24 hours and email a filing confirmation.
+        Card processed securely by Stripe. We&apos;ll file within 1 business day and email a filing confirmation. {REGISTRY_CLOSURE_NOTE}
       </p>
 
       <ETransferCapture

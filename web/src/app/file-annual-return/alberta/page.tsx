@@ -6,7 +6,7 @@ import AlbertaSearchIsland from "./AlbertaSearchIsland";
 export const metadata: Metadata = {
   title: "File Your Alberta Annual Return in Minutes — CRS",
   description:
-    "Search your Alberta corporation and file your annual return with the Alberta registrar in minutes. $99 all-in + gst. Filed within 24 hours.",
+    "Search your Alberta corporation and file your annual return with the Alberta registrar in minutes. $99 all-in + gst. Filed within 1 business day.",
 };
 
 export default function FileAlbertaAnnualReturnPage() {
@@ -53,7 +53,7 @@ export default function FileAlbertaAnnualReturnPage() {
             <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, margin: "0 auto 1.75rem", maxWidth: "48ch" }}>
               Search your Alberta corporation below. We&apos;ll pull your details from the registry and file your annual return
               — <strong style={{ color: "var(--text)" }}>$99</strong>
-              <span style={{ fontSize: "0.85em", color: "var(--text-muted)" }}> + gst</span>, filed within 24 hours.
+              <span style={{ fontSize: "0.85em", color: "var(--text-muted)" }}> + gst</span>, filed within 1 business day.
             </p>
 
             <AlbertaSearchIsland />
@@ -61,7 +61,7 @@ export default function FileAlbertaAnnualReturnPage() {
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1.5rem", marginTop: "1.5rem", fontSize: "0.82rem", color: "var(--text-muted)" }}>
               <span>✓ Trusted by Alberta corporations</span>
               <span>✓ Filed with the Alberta Corporate Registry</span>
-              <span>✓ 24-hour turnaround</span>
+              <span>✓ 1-business-day turnaround</span>
             </div>
           </div>
         </section>

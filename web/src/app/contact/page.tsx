@@ -7,7 +7,7 @@ import { Mail, Clock, Globe } from "lucide-react";
 export const metadata: Metadata = {
   title: "Contact CRS — Canadian Corporate Registry Services",
   description:
-    "Contact CRS for corporate profile reports, good standing certificates, annual returns, incorporations, and minute books. We respond within 1 hour.",
+    "Contact CRS for corporate profile reports, good standing certificates, annual returns, incorporations, and minute books. We respond within 1 business hour.",
 };
 
 const CONTACT_ITEMS = [
@@ -21,7 +21,7 @@ const CONTACT_ITEMS = [
   {
     icon: Clock,
     label: "Response time",
-    value: "Within 1 hour",
+    value: "Within 1 business hour",
     href: null,
     note: "Monday – Friday, 8 am – 8 pm ET",
   },
@@ -71,7 +71,7 @@ export default function ContactPage() {
                 marginBottom: "1.25rem",
               }}
             >
-              Have a question? We respond within 1 hour.
+              Have a question? We respond within 1 business hour.
             </h1>
             <div className="gold-line" style={{ marginBottom: "1.25rem" }} />
             <p style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.75 }}>

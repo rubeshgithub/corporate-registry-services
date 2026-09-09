@@ -6,6 +6,11 @@ import NameSearchOrderFlow from "@/components/order/NameSearchOrderFlow";
 import { NAME_SEARCH_CONFIGS } from "@/lib/name-search-config";
 import { withLivePrice, getPriceCents, swapPrice } from "@/lib/pricing";
 
+/* Prices are resolved from the catalogue at render, so the page must
+   re-render — 60s ISR, same as the other price-quoting pages. Without
+   this it is built once and quotes that day's price until the next deploy. */
+export const revalidate = 60;
+
 const BASE_METADATA: Metadata = {
   title: "Order a NUANS Name Search Report — $79 all-in + GST — CRS",
   description:

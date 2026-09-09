@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-return-deadlines";
+import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -44,7 +45,7 @@ const HEADLINES: Record<Service, { eyebrow: string; title: string; sub: string; 
     title:      "Check your company's annual return status and due date",
     sub:        "Enter your company name, Corporate Access Number, or Business Number to see its status, due date, and file in one step.",
     buttonLabel: "Pay $99 + GST and file",
-    ctaSubline: "Government fee included. Filed within 24 hours.",
+    ctaSubline: "Government fee included. Filed within 1 business day.",
   },
   "profile-report": {
     eyebrow:    "Order a profile report",
@@ -506,7 +507,7 @@ export default function InlineLookupOrder({
             )}
           </button>
           <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
-            Card processed securely by Stripe. {copy.ctaSubline}
+            Card processed securely by Stripe. {copy.ctaSubline} {REGISTRY_CLOSURE_NOTE}
           </p>
         </>
       )}

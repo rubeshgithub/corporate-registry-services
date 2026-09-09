@@ -62,7 +62,7 @@ export default function ContactForm({ compact = false }: { compact?: boolean }) 
             Message sent!
           </div>
           <p style={{ fontSize: "0.83rem", color: "var(--text-muted)", margin: 0 }}>
-            We&apos;ll get back to you within 1 hour.
+            We&apos;ll get back to you within 1 business hour.
           </p>
         </div>
         <button
