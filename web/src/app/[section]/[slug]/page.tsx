@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPage, listAllPages, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
-import { inferServiceContext, wizardHref } from "@/lib/service-context";
+import { inferServiceContext, withLivePrices, wizardHref } from "@/lib/service-context";
+import { getPrices } from "@/lib/pricing";
 import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
@@ -14,6 +15,10 @@ import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-
 import CoresLookupIsland from "@/components/CoresLookupIsland";
 import RegistryStatusSearchIsland from "@/components/RegistryStatusSearchIsland";
 import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
+
+/* The CTA strip and lookup widget quote catalogue prices — 60s ISR so a
+   price change reaches every content page without a deploy. */
+export const revalidate = 60;
 
 type Params = { section: string; slug: string };
 
@@ -53,7 +58,9 @@ export default async function ContentPage({
 
   const sectionLabel = SECTION_LABELS[page.section];
   const sectionHref = `/${section}`;
-  const ctx = inferServiceContext(page.section, page.slug);
+  const prices   = await getPrices();
+  const inferred = inferServiceContext(page.section, page.slug);
+  const ctx      = inferred ? withLivePrices(inferred, prices) : null;
   const ctaHref = ctx ? wizardHref(ctx, `article-${page.slug}`) : "/#incorporate";
 
   const relatedGroups = getRelatedGroups(page.section, page.slug);
@@ -166,6 +173,7 @@ export default async function ContentPage({
             <InlineLookupOrder
               service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
               provinceKey={ctx.jurisdictionKey}
+              priceCents={prices[ctx.serviceKey]}
               srcTag={`inline-article-${page.slug}`}
               urgency={ctx.urgency ?? null}
               eyebrowOverride={page.widgetEyebrow ?? null}
@@ -183,7 +191,7 @@ export default async function ContentPage({
               on mount. Single share-cert article for now — extend the
               condition if we add more share-cert-adjacent articles. */}
           {page.section === "articles" && page.slug === "share-certificates-in-canada" && (
-            <ShareCertLookupIsland src={`article-${page.slug}`} />
+            <ShareCertLookupIsland src={`article-${page.slug}`} priceCents={prices["share-certificate"]} />
           )}
 
           {/* CORES Alberta lookup widget — search-first widget for the

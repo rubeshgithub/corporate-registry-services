@@ -10,6 +10,7 @@ import {
 } from "@/lib/outreach-mongo";
 import { newToken, signUnsubscribe } from "@/lib/outreach-token";
 import { TEMPLATES } from "@/lib/outreach-templates";
+import { getPrices } from "@/lib/pricing";
 import { sendOutreach } from "@/lib/outreach-ses";
 
 /**
@@ -89,6 +90,7 @@ export async function POST(req: Request) {
     recipientName:  body.recipientName,
     unsubscribeUrl,
     customIntro:    body.customIntro,
+    prices:         await getPrices(),
   });
 
   const subject = body.subjectOverride?.trim() || rendered.subject;

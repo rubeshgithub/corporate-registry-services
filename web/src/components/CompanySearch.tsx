@@ -330,7 +330,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
 
   return (
     <div>
-      {wizardOpen && <WizardModal onClose={() => { setWizardOpen(false); setWizardPreload(undefined); }} preload={wizardPreload} />}
+      {wizardOpen && <WizardModal onClose={() => { setWizardOpen(false); setWizardPreload(undefined); }} preload={wizardPreload} prices={prices} />}
       {gateFor && (
         <ProfileEmailGate
           company={gateFor.company}

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
 import { listSection } from "@/lib/content";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
+import { getPrices, formatCents, swapPrice } from "@/lib/pricing";
 import { ArrowRight, CheckCircle2, Clock, ShieldCheck, Landmark, Search, BookOpen, Building2, MapPin, Mail, Users, UserCheck, AlertCircle } from "lucide-react";
 
 /**
@@ -15,16 +16,29 @@ import { ArrowRight, CheckCircle2, Clock, ShieldCheck, Landmark, Search, BookOpe
  *
  * Psychology: use-case anchoring in the headline ("Your bank asked?"),
  * one massive search bar (Fitts's law), price + speed shown *with* the
- * value stack so the $49 lands as anchored, not as sticker-shock.
+ * value stack so the price lands as anchored, not as sticker-shock.
  */
 
-export const metadata: Metadata = {
+const BASE_METADATA: Metadata = {
   title:       "Corporate Profile Report — $49 All-In, PDF in 1 Hour | CRS",
   description: "Search your Canadian corporation and order its official Corporate Profile Report. $49 all-in, government fee included, delivered by email in one business hour. FINTRAC / QuickBooks / bank-accepted.",
   alternates:  { canonical: "/profile-reports" },
 };
 
-const FAQ = [
+/* Title, description and body all quote the price, so they are resolved from
+   the catalogue per request — 60s ISR. */
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cents = (await getPrices())["profile-report"];
+  return {
+    ...BASE_METADATA,
+    title:       swapPrice(String(BASE_METADATA.title), cents),
+    description: swapPrice(String(BASE_METADATA.description), cents),
+  };
+}
+
+const faqFor = (price: string) => [
   {
     q: "What is a Corporate Profile Report?",
     a: "A Corporate Profile Report is the official government record of a Canadian corporation, pulled directly from the relevant Provincial or Federal Corporate Registry. It shows the corporation's current status, registered office address, communication address, directors, shareholders (where recorded), agent for service, and the last document filed. It's the document banks, FINTRAC, QuickBooks Online, CRA, and lawyers accept as proof that a corporation exists and is in good standing.",
@@ -39,7 +53,7 @@ const FAQ = [
   },
   {
     q: "Do you charge extra for the government fee?",
-    a: "No. $49 + GST is the total all-in price. The government registry fee is included in that number — there's no separate line item at checkout and no upsell.",
+    a: `No. ${price} + GST is the total all-in price. The government registry fee is included in that number — there's no separate line item at checkout and no upsell.`,
   },
   {
     q: "Which use cases is this accepted for?",
@@ -47,15 +61,19 @@ const FAQ = [
   },
 ];
 
-const TRUST_CHIPS = [
-  { icon: CheckCircle2, text: "$49 all-in + GST"    },
+const trustChipsFor = (price: string) => [
+  { icon: CheckCircle2, text: `${price} all-in + GST` },
   { icon: Clock,        text: "PDF in 1 business hour" },
   { icon: ShieldCheck,  text: "FINTRAC-ready"       },
   { icon: Landmark,     text: "Government-issued"   },
   { icon: CheckCircle2, text: "QuickBooks-accepted" },
 ];
 
-export default function ProfileReportsLandingPage() {
+export default async function ProfileReportsLandingPage() {
+  const cents = (await getPrices())["profile-report"];
+  const price = formatCents(cents);
+  const FAQ = faqFor(price);
+  const TRUST_CHIPS = trustChipsFor(price);
   const pages = listSection("profile-reports");
   const breadcrumb = breadcrumbLd([
     { name: "Home",                    url: "/" },
@@ -94,7 +112,7 @@ export default function ProfileReportsLandingPage() {
                   marginBottom: "1.15rem",
                 }}
               >
-                Official Corporate Profile Report · $49 all-in
+                Official Corporate Profile Report · {price} all-in
               </span>
 
               <h1
@@ -118,7 +136,7 @@ export default function ProfileReportsLandingPage() {
                   margin: "0 auto",
                 }}
               >
-                Search your Canadian corporation below and order its official Corporate Profile Report — <strong style={{ color: "var(--text)" }}>pulled directly from the relevant Provincial or Federal Corporate Registry</strong>. Delivered to your email in one business hour. $49 all-in, government fee included.
+                Search your Canadian corporation below and order its official Corporate Profile Report — <strong style={{ color: "var(--text)" }}>pulled directly from the relevant Provincial or Federal Corporate Registry</strong>. Delivered to your email in one business hour. {price} all-in, government fee included.
               </p>
             </div>
 
@@ -127,6 +145,7 @@ export default function ProfileReportsLandingPage() {
               service="profile-report"
               provinceKey={null}
               srcTag="landing-profile-reports-hero"
+              priceCents={cents}
             />
 
             {/* Trust chips — placed after the search so they're the first thing
@@ -259,7 +278,7 @@ export default function ProfileReportsLandingPage() {
 
             {/* Scope caveat — visitors who actually need historical filings
                 (banks doing deep due diligence, buyers, lawyers preparing
-                litigation) are the wrong audience for a $49 profile report.
+                litigation) are the wrong audience for a profile report.
                 Route them to the minute-book service before they buy the
                 wrong thing and refund-request. */}
             <div
@@ -365,7 +384,7 @@ export default function ProfileReportsLandingPage() {
                   Ready to order?
                 </div>
                 <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
-                  Jump back up to the search bar and find your corporation — $49 all-in, PDF in 1 business hour.
+                  Jump back up to the search bar and find your corporation — {price} all-in, PDF in 1 business hour.
                 </div>
               </div>
               <a

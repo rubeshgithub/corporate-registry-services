@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { searchLeads, ensureSearchLeadIndexes } from "@/lib/search-leads-mongo";
 import { isSuppressed } from "@/lib/outreach-mongo";
 import { sendOutreach } from "@/lib/outreach-ses";
+import { getPrices, formatCents } from "@/lib/pricing";
 
 /**
  * POST /api/notify/search-lead
@@ -110,6 +111,10 @@ async function sendConfirmationEmail(args: {
   email: string; query: string; province: string; resultCount: number;
 }) {
   const provLabel = PROV_LABEL[args.province] ?? args.province;
+  /* Prices come from the catalogue — this email used to hard-code $49/$79/$99
+     and kept quoting them after the catalogue moved. */
+  const prices = await getPrices();
+  const price  = (key: string) => formatCents(prices[key]);
   const searchQs  = new URLSearchParams();
   searchQs.set("q", args.query);
   if (args.province && args.province !== "all") searchQs.set("province", args.province);
@@ -132,9 +137,9 @@ async function sendConfirmationEmail(args: {
     `  ${searchUrl}`,
     ``,
     `When you're ready to file, we handle the paperwork in 1 business day:`,
-    `  • Corporate Profile Report — $49 all-in`,
-    `  • Certificate of Good Standing — $79 all-in`,
-    `  • Annual Return Filing — from $99/yr`,
+    `  • Corporate Profile Report — ${price("profile-report")} all-in`,
+    `  • Certificate of Good Standing — ${price("good-standing")} all-in`,
+    `  • Annual Return Filing — from ${price("annual-return")}/yr`,
     ``,
     `Reply to this email with any questions — a specialist watches this inbox during business hours.`,
     ``,
@@ -154,9 +159,9 @@ async function sendConfirmationEmail(args: {
     <p><a href="${searchUrl}" style="display:inline-block;padding:0.55rem 1rem;background:#003d5b;color:#fff;text-decoration:none;border-radius:0.4rem;font-weight:600;">Re-run this search →</a></p>
     <p>When you're ready to file, we handle the paperwork in <strong>1 business day</strong>:</p>
     <ul>
-      <li>Corporate Profile Report — <strong>$49 all-in</strong></li>
-      <li>Certificate of Good Standing — <strong>$79 all-in</strong></li>
-      <li>Annual Return Filing — <strong>from $99/yr</strong></li>
+      <li>Corporate Profile Report — <strong>${price("profile-report")} all-in</strong></li>
+      <li>Certificate of Good Standing — <strong>${price("good-standing")} all-in</strong></li>
+      <li>Annual Return Filing — <strong>from ${price("annual-return")}/yr</strong></li>
     </ul>
     <p>Reply to this email with any questions — a specialist watches this inbox during business hours.</p>
     <p style="color:#8A99A8;">— Corporate Registry Services · <a href="${SITE_URL}">${SITE_URL}</a></p>

@@ -33,7 +33,7 @@ function save(s: WizardState) {
   } catch {}
 }
 
-export default function WizardIsland({ preload }: { preload?: PreloadData }) {
+export default function WizardIsland({ preload, prices }: { preload?: PreloadData; prices?: Record<string, number> }) {
   const [state, setState] = useState<WizardState>(INITIAL_STATE);
   const [hydrated, setHydrated] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -382,6 +382,7 @@ export default function WizardIsland({ preload }: { preload?: PreloadData }) {
           <StepReview
             state={state}
             bucket={bucket}
+            prices={prices}
             onTermsChange={(v) => update({ consents: { terms: v } })}
             submitting={submitting}
           />

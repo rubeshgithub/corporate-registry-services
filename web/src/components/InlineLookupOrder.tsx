@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-return-deadlines";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import { swapPrice } from "@/lib/price-catalogue";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -76,6 +77,7 @@ export default function InlineLookupOrder({
   eyebrowOverride,
   titleOverride,
   subOverride,
+  priceCents,
 }: {
   service:     Service;
   provinceKey: string | null;   // from inferServiceContext.jurisdictionKey
@@ -84,6 +86,7 @@ export default function InlineLookupOrder({
   eyebrowOverride?: string | null;   // per-article mono chip override
   titleOverride?:   string | null;   // per-article headline override
   subOverride?:     string | null;   // per-article sub-line override
+  priceCents?:      number;          // live catalogue price — swaps the "$X" in the pay button
 }) {
   const base = HEADLINES[service];
   const copy = {
@@ -91,6 +94,9 @@ export default function InlineLookupOrder({
     eyebrow: eyebrowOverride ?? base.eyebrow,
     title:   titleOverride   ?? base.title,
     sub:     subOverride     ?? base.sub,
+    /* The literal in HEADLINES is a code default; the server page passes the
+       catalogue price so the button never quotes a stale number. */
+    buttonLabel: priceCents != null ? swapPrice(base.buttonLabel, priceCents) : base.buttonLabel,
   };
 
   const [query, setQuery]         = useState("");

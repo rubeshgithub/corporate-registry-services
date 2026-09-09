@@ -1,4 +1,22 @@
 import type { Section } from "./content";
+import { swapPrice } from "./price-catalogue";
+
+/**
+ * Apply catalogue prices to a context's copy. The dollar figures in
+ * inferServiceContext are code defaults; the content page resolves the live
+ * price by `serviceKey` and swaps the token in every string that quotes it,
+ * so the CTA strip can never advertise a price the checkout won't charge.
+ */
+export function withLivePrices(ctx: ServiceContext, prices: Record<string, number>): ServiceContext {
+  const cents = prices[ctx.serviceKey];
+  if (cents == null) return ctx;
+  return {
+    ...ctx,
+    price:       swapPrice(ctx.price, cents),
+    ctaHeadline: swapPrice(ctx.ctaHeadline, cents),
+    ...(ctx.stickyLabel ? { stickyLabel: swapPrice(ctx.stickyLabel, cents) } : {}),
+  };
+}
 
 /**
  * Maps a slug fragment to a JURISDICTIONS key from service-config.ts.

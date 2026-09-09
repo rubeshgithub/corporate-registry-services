@@ -7,6 +7,11 @@ import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { ArrowRight } from "lucide-react";
 import { formatReviewedDate } from "@/lib/format-date";
 import NfpConsultationCTA from "@/components/NfpConsultationCTA";
+import { getPrices, swapPrice } from "@/lib/pricing";
+
+/* The annual-return landing quotes the catalogue price in its title, meta
+   description and order strip — 60s ISR so a change lands without a deploy. */
+export const revalidate = 60;
 
 type Params = { section: string };
 
@@ -48,6 +53,24 @@ const SECTION_OVERRIDES: Partial<Record<Section, SectionOverride>> = {
   // there, not here.
 };
 
+/**
+ * The override with the live catalogue price swapped into every string that
+ * quotes one. Section keys double as catalogue keys ("annual-return"), so a
+ * section with no catalogue entry comes back untouched.
+ */
+async function liveOverride(section: Section): Promise<SectionOverride | undefined> {
+  const o = SECTION_OVERRIDES[section];
+  if (!o) return o;
+  const cents = (await getPrices())[section];
+  if (cents == null) return o;
+  return {
+    ...o,
+    title:       swapPrice(o.title, cents),
+    description: swapPrice(o.description, cents),
+    orderStrip:  o.orderStrip ? { ...o.orderStrip, headline: swapPrice(o.orderStrip.headline, cents) } : undefined,
+  };
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -69,7 +92,7 @@ export async function generateMetadata({
     };
   }
 
-  const override = SECTION_OVERRIDES[section as Section];
+  const override = await liveOverride(section as Section);
   return {
     title:       override?.title       ?? `${label} — CRS`,
     description: override?.description ?? `${label} across all Canadian provinces, territories, and federal. Official government-direct service by CRS.`,
@@ -88,7 +111,7 @@ export default async function SectionPage({
 
   const pages = listSection(section as Section);
   const label = SECTION_LABELS[section as Section];
-  const override = SECTION_OVERRIDES[section as Section];
+  const override = await liveOverride(section as Section);
   const pillar = await getPillar(section as Section);
 
   const breadcrumb = breadcrumbLd([

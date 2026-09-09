@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { companies, events } from "@/lib/registrar-mongo";
 import { fetchLiveCbrStatus, enrichCompany, needsEnrichment, type LiveCbrStatus, type EnrichmentResult } from "@/lib/registrar-live";
 import ProfileView from "./ProfileView";
+import { getPrices } from "@/lib/pricing";
 
 /**
  * Corporation profile page — the hub that ties together:
@@ -194,7 +195,7 @@ export default async function CorporationProfilePage({ params }: { params: Promi
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
       />
       <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 1.5rem" }}>
-        <ProfileView data={serialized} />
+        <ProfileView data={serialized} prices={await getPrices()} />
       </main>
       <Footer />
     </>

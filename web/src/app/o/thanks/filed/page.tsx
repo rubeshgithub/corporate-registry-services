@@ -1,18 +1,23 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CheckCircle2 } from "lucide-react";
+import { getPrices, formatCents } from "@/lib/pricing";
 
 export const metadata = {
   title: "Thanks for letting us know — CRS",
   robots: { index: false, follow: false },
 };
 
+/* The service links quote catalogue prices — 60s ISR. */
+export const revalidate = 60;
+
 /**
  * Landing page after a recipient clicks the "already filed" anti-CTA in an
  * outreach email. We record the acknowledgement on the token in the /o
  * route; this page just confirms and gently offers other services.
  */
-export default function AlreadyFiledPage() {
+export default async function AlreadyFiledPage() {
+  const prices = await getPrices();
   return (
     <>
       <Header />
@@ -48,10 +53,10 @@ export default function AlreadyFiledPage() {
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.5rem" }}>
               <a href="/order/profile-report?src=outreach-ack-filed" className="section-card" style={{ padding: "0.7rem 0.9rem", fontSize: "0.82rem" }}>
-                Corporate Profile Report — $49
+                Corporate Profile Report — {formatCents(prices["profile-report"])}
               </a>
               <a href="/order/good-standing?src=outreach-ack-filed" className="section-card" style={{ padding: "0.7rem 0.9rem", fontSize: "0.82rem" }}>
-                Certificate of Good Standing — $79
+                Certificate of Good Standing — {formatCents(prices["good-standing"])}
               </a>
               <a href="/order/change-directors?src=outreach-ack-filed" className="section-card" style={{ padding: "0.7rem 0.9rem", fontSize: "0.82rem" }}>
                 Director / officer change

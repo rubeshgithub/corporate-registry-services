@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight, Loader2, AlertCircle, CheckCircle2, Building2 } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
+import { swapPrice } from "@/lib/price-catalogue";
 
 /**
  * Order flow for visitors who searched and found a specific corporation
@@ -23,7 +24,7 @@ type CorporationDetails = {
   provinceKey: string;
 };
 
-const SERVICES = [
+const BASE_SERVICES = [
   { key: "annual-return", label: "Annual Return", price: "$99 all-in + GST" },
   { key: "profile-report", label: "Corporate Profile Report", price: "$49 all-in + GST" },
   { key: "good-standing", label: "Certificate of Good Standing", price: "$79 all-in + GST" },
@@ -33,7 +34,13 @@ const SERVICES = [
   { key: "revival", label: "Corporate Revival", price: "Starting at $399 + GST" },
 ];
 
-export default function CorporationServiceOrderFlow() {
+export default function CorporationServiceOrderFlow({ prices }: { prices?: Record<string, number> }) {
+  /* Price labels follow the catalogue map the page hands down; the literals
+     in BASE_SERVICES are code defaults. */
+  const services = BASE_SERVICES.map((s) => {
+    const cents = prices?.[s.key];
+    return cents == null ? s : { ...s, price: swapPrice(s.price, cents) };
+  });
   const params = useSearchParams();
   const qParam = params.get("q") ?? "";
   const srcParam = params.get("src") ?? "direct";
@@ -280,7 +287,7 @@ export default function CorporationServiceOrderFlow() {
           What service do you need?
         </h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          {SERVICES.map((svc) => (
+          {services.map((svc) => (
             <label
               key={svc.key}
               style={{

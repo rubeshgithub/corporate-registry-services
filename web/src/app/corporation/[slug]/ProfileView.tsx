@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MapPin, Phone, Globe, Mail, ArrowRight } from "lucide-react";
 import type { SerializedProfileData } from "./page";
+import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
 
 /**
  * Corporation profile page.
@@ -21,7 +22,7 @@ import type { SerializedProfileData } from "./page";
  *   - CTA sits ABOVE the details so a decided visitor doesn't scroll past it.
  */
 
-export default function ProfileView({ data }: { data: SerializedProfileData }) {
+export default function ProfileView({ data, prices }: { data: SerializedProfileData; prices?: Record<string, number> }) {
   const { company, events, live } = data;
 
   const livePresent = !!live?.found;
@@ -29,7 +30,7 @@ export default function ProfileView({ data }: { data: SerializedProfileData }) {
   const dbStatus    = company.status.derived;
   const currentStatus = livePresent ? liveStatus : dbStatus;
 
-  const cta = ctaConfig(liveStatus, dbStatus, company);
+  const cta = ctaConfig(liveStatus, dbStatus, company, prices ?? DEFAULT_PRICES);
 
   /* Compliance signal detection — CBR sometimes puts actionable text in
      status.Notes that isn't captured in status.State. E.g., "Active -
@@ -424,7 +425,9 @@ type CtaConfig = {
   secondary:   Array<{ label: string; href: string }>;
 };
 
-function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProfileData["company"]): CtaConfig {
+function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProfileData["company"], prices: Record<string, number>): CtaConfig {
+  /* CTA labels quote the catalogue price the server page handed down. */
+  const price = (key: string) => formatCents(prices[key] ?? DEFAULT_PRICES[key]);
   const s = normalize(liveStatus || dbStatus);
   const dbNorm = normalize(dbStatus);
   const src = `profile-${company._id}`;
@@ -436,9 +439,9 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
       accentColor: "#B45309",
       title:       "⚠ Urgent — file this Annual Return now",
       subtitle:    "This corporation is on Alberta's Liable-for-Dissolution list. If not filed within 4 months of the gazetted date, the registrar will strike it off — freezing bank accounts, financing, and contracts.",
-      primary:     { label: "File Annual Return — $99 + gst", href: q("/order/annual-return") },
+      primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
       secondary: [
-        { label: "Certificate of Good Standing — $79", href: q("/order/good-standing") },
+        { label: `Certificate of Good Standing — ${price("good-standing")}`, href: q("/order/good-standing") },
       ],
     };
   }
@@ -451,9 +454,9 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
         accentColor: "var(--secondary)",
         title:       "Great news — this corporation is active",
         subtitle:    "Our historical records showed a strike-off, but the live Alberta registrar confirms this corporation is currently Active. If you need proof of standing for financing, contracts, or a bid — we can pull an official Corporate Profile Report and email the PDF within 1 business hour.",
-        primary:     { label: "Order Profile Report — $49", href: q("/order/profile-report") },
+        primary:     { label: `Order Profile Report — ${price("profile-report")}`, href: q("/order/profile-report") },
         secondary: [
-          { label: "Certificate of Good Standing — $79", href: q("/order/good-standing") },
+          { label: `Certificate of Good Standing — ${price("good-standing")}`, href: q("/order/good-standing") },
         ],
       };
     }
@@ -463,7 +466,7 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
       subtitle:    "This corporation has been struck from the Alberta register. We file a revival + any missed annual returns as one package. Custom quote returned within one business hour.",
       primary:     { label: "Start Corporate Revival", href: q("/order/revival") },
       secondary: [
-        { label: "Order Profile Report — $49", href: q("/order/profile-report") },
+        { label: `Order Profile Report — ${price("profile-report")}`, href: q("/order/profile-report") },
       ],
     };
   }
@@ -473,11 +476,11 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
     return {
       accentColor: "var(--secondary)",
       title:       "File your Annual Return in minutes",
-      subtitle:    "This corporation is active. Let CRS file your annual return with the Alberta registrar — $99 + gst, filed within 1 business day. We pre-fill your details from the registry so you can review and submit in about 2 minutes.",
-      primary:     { label: "File Annual Return — $99 + gst", href: q("/order/annual-return") },
+      subtitle:    `This corporation is active. Let CRS file your annual return with the Alberta registrar — ${price("annual-return")} + gst, filed within 1 business day. We pre-fill your details from the registry so you can review and submit in about 2 minutes.`,
+      primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
       secondary: [
-        { label: "Profile Report — $49",             href: q("/order/profile-report") },
-        { label: "Certificate of Good Standing — $79", href: q("/order/good-standing") },
+        { label: `Profile Report — ${price("profile-report")}`,             href: q("/order/profile-report") },
+        { label: `Certificate of Good Standing — ${price("good-standing")}`, href: q("/order/good-standing") },
         { label: "Change Directors",                 href: q("/order/change-directors") },
         { label: "Change Registered Address",        href: q("/order/change-address") },
         { label: "Voluntary Dissolution",            href: q("/order/voluntary-dissolution") },
@@ -489,9 +492,9 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
   return {
     accentColor: "var(--gold)",
     title:       "Services available for this corporation",
-    primary:     { label: "File Annual Return — $99 + gst", href: q("/order/annual-return") },
+    primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
     secondary: [
-      { label: "Order Profile Report — $49", href: q("/order/profile-report") },
+      { label: `Order Profile Report — ${price("profile-report")}`, href: q("/order/profile-report") },
     ],
   };
 }

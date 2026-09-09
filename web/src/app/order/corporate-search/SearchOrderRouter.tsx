@@ -10,14 +10,14 @@ import { NAME_SEARCH_CONFIGS, type NameSearchServiceConfig } from "@/lib/name-se
  * - If src=article-status-search-*: Show corporation service order (visitor found a corp on article)
  * - Otherwise: Show name search form (visitor wants to search for a name)
  */
-export default function SearchOrderRouter({ nameSearchConfig }: { nameSearchConfig?: NameSearchServiceConfig }) {
+export default function SearchOrderRouter({ nameSearchConfig, prices }: { nameSearchConfig?: NameSearchServiceConfig; prices?: Record<string, number> }) {
   const params = useSearchParams();
   const src = params.get("src") ?? "";
   const isFromArticleSearch = src.startsWith("article-status-search-");
 
   if (isFromArticleSearch) {
     // Visitor searched on article, found a corporation, now ordering a service
-    return <CorporationServiceOrderFlow />;
+    return <CorporationServiceOrderFlow prices={prices} />;
   }
 
   // Standard flow: propose a name to search

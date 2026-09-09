@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, Loader2, ArrowRight, CheckCircle2, AlertTriangle, XOctagon } from "lucide-react";
+import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
 
 /**
  * Client-side island for the Instant Availability Check page.
@@ -44,7 +45,8 @@ const SCOPES: Array<{ key: Scope; label: string; help: string }> = [
   { key: "pe",      label: "Prince Edward Island", help: "PEI Corporate Registry" },
 ];
 
-export default function AvailabilityCheckIsland() {
+export default function AvailabilityCheckIsland({ priceCents }: { priceCents?: number } = {}) {
+  const nuansPrice = formatCents(priceCents ?? DEFAULT_PRICES["nuans-search"]);
   const [name, setName]       = useState("");
   const [scope, setScope]     = useState<Scope>("all");
   const [loading, setLoading] = useState(false);
@@ -278,7 +280,7 @@ function ResultsCard({ result, name }: { result: Result; name: string }) {
             textDecoration: "none",
           }}
         >
-          Order Full NUANS Report — $79 all-in <ArrowRight size={15} />
+          Order Full NUANS Report — {nuansPrice} all-in <ArrowRight size={15} />
         </a>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.6rem", fontStyle: "italic" }}>
           Delivered by email within one business hour. Required for federal incorporation and cross-provincial name protection.

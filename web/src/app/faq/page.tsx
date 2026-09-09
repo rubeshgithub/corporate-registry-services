@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatWithUsButton from "@/components/ChatWithUsButton";
-import { FAQ_CATEGORIES } from "@/lib/faq-content";
+import { buildFaqCategories, type FaqCategory } from "@/lib/faq-content";
+import { getPrices, formatCents } from "@/lib/pricing";
 import { jsonLdScript } from "@/lib/structured-data";
 import { ArrowRight, HelpCircle } from "lucide-react";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.corporateregistryservices.ca";
+
+/* Answers quote catalogue prices — 60s ISR so a price change reaches the
+   page and its FAQPage schema without a deploy. */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions — CRS — Corporate Registry Services",
@@ -21,11 +26,11 @@ export const metadata: Metadata = {
  * authoritative sources but harmless to include; we generate it directly
  * from the same content the page renders so it can never drift.
  */
-function faqJsonLd() {
+function faqJsonLd(categories: FaqCategory[]) {
   return {
     "@context": "https://schema.org",
     "@type":    "FAQPage",
-    mainEntity: FAQ_CATEGORIES.flatMap((cat) =>
+    mainEntity: categories.flatMap((cat) =>
       cat.items.map((item) => ({
         "@type": "Question",
         name:    item.q,
@@ -38,12 +43,20 @@ function faqJsonLd() {
   };
 }
 
-export default function FaqPage() {
-  const totalCount = FAQ_CATEGORIES.reduce((sum, c) => sum + c.items.length, 0);
+export default async function FaqPage() {
+  const prices = await getPrices();
+  /* Throw on an unknown key rather than render "$NaN" — a typo should fail
+     the build, not ship a broken price. */
+  const categories = buildFaqCategories((key) => {
+    const cents = prices[key];
+    if (cents == null) throw new Error(`FAQ quotes an unknown price key: ${key}`);
+    return formatCents(cents);
+  });
+  const totalCount = categories.reduce((sum, c) => sum + c.items.length, 0);
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqJsonLd())} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqJsonLd(categories))} />
       <Header />
       <main style={{ flex: 1 }}>
         {/* Hero */}
@@ -103,7 +116,7 @@ export default function FaqPage() {
               borderBottom:  "1px solid var(--border)",
             }}
           >
-            {FAQ_CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <a
                 key={cat.key}
                 href={`#${cat.key}`}
@@ -126,7 +139,7 @@ export default function FaqPage() {
 
         {/* Content */}
         <article style={{ maxWidth: "820px", margin: "0 auto", padding: "0 1.5rem 4rem" }}>
-          {FAQ_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <section key={cat.key} id={cat.key} style={{ marginTop: "2.5rem" }}>
               <h2
                 style={{

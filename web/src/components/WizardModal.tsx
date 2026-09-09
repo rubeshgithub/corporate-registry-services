@@ -6,7 +6,7 @@ import WizardIsland from "./wizard/WizardIsland";
 
 type PreloadData = { companyName?: string; jurisdictionKey?: string };
 
-export default function WizardModal({ onClose, preload }: { onClose: () => void; preload?: PreloadData }) {
+export default function WizardModal({ onClose, preload, prices }: { onClose: () => void; preload?: PreloadData; prices?: Record<string, number> }) {
   // Close on Escape key
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -45,7 +45,7 @@ export default function WizardModal({ onClose, preload }: { onClose: () => void;
         >
           <X size={13} />
         </button>
-        <WizardIsland preload={preload} />
+        <WizardIsland preload={preload} prices={prices} />
       </div>
     </div>
   );

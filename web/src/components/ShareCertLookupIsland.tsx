@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
+import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
 
 /**
  * Inline share-certificate lookup widget for the
@@ -36,7 +37,7 @@ type RegistryHit = {
   provinceKey:      string;
 };
 
-export default function ShareCertLookupIsland({ src = "article-share-certificates-in-canada" }: { src?: string }) {
+export default function ShareCertLookupIsland({ src = "article-share-certificates-in-canada", priceCents }: { src?: string; priceCents?: number }) {
   const [q, setQ]                       = useState("");
   const [province, setProvince]         = useState("all");
   const [results, setResults]           = useState<RegistryHit[]>([]);
@@ -198,7 +199,7 @@ export default function ShareCertLookupIsland({ src = "article-share-certificate
       )}
 
       <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.75rem 0 0", lineHeight: 1.5 }}>
-        $49 all-in + GST · certificate + share register + securities register updates · delivered as signable PDFs in 1 business day.
+        {formatCents(priceCents ?? DEFAULT_PRICES["share-certificate"])} all-in + GST · certificate + share register + securities register updates · delivered as signable PDFs in 1 business day.
       </p>
     </div>
   );

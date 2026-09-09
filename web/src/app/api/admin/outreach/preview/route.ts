@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { TEMPLATES } from "@/lib/outreach-templates";
+import { getPrices } from "@/lib/pricing";
 import { signUnsubscribe } from "@/lib/outreach-token";
 import type { OutreachCompany, OutreachService } from "@/lib/outreach-mongo";
 
@@ -50,6 +51,7 @@ export async function POST(req: Request) {
     recipientName: body.recipientName,
     unsubscribeUrl,
     customIntro:   body.customIntro,
+    prices:        await getPrices(),
   });
 
   return NextResponse.json({

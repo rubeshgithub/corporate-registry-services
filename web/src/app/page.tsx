@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import WizardIsland from "@/components/wizard/WizardIsland";
 import HeroAsset from "@/components/HeroAsset";
 import ContactForm from "@/components/ContactForm";
+import { getPrices } from "@/lib/pricing";
 import {
   ShieldCheck,
   Clock,
@@ -26,6 +27,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+/* The wizard basket quotes catalogue prices — 60s ISR. */
+export const revalidate = 60;
+
 const TRUST_BADGES = [
   { icon: Globe,       label: "All 13 jurisdictions" },
   { icon: Clock,       label: "Response within 1 business hour" },
@@ -39,7 +43,8 @@ const WHY_ITEMS = [
   { icon: FileText,     title: "Complete document packages",  body: "From a single search to a full minute book — we handle the paperwork end to end." },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const prices = await getPrices();
   return (
     <>
       <Header />
@@ -164,7 +169,7 @@ export default function HomePage() {
 
             {/* Right column — wizard */}
             <div>
-              <WizardIsland />
+              <WizardIsland prices={prices} />
             </div>
           </section>
 

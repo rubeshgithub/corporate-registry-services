@@ -4,7 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AvailabilityCheckIsland from "./AvailabilityCheckIsland";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
-
+
+import { getPrices, formatCents, swapPrice } from "@/lib/pricing";
 /**
  * /incorporation/nuans-name-search-canada
  *
@@ -24,14 +25,22 @@ import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
  * queries like "what is nuans" and "nuans meaning".
  */
 
-export const metadata: Metadata = {
+const BASE_METADATA: Metadata = {
   title:       "Free NUANS Name Search Canada | Instant Availability | CRS",
   description: "Free instant availability check across Canadian corporate registries. Order the official $79 NUANS report from the same page. No email required for the check.",
   alternates:  { canonical: "/incorporation/nuans-name-search-canada" },
   keywords:    ["NUANS name search", "NUANS report Canada", "free NUANS search", "Canadian corporate name check", "NUANS name reservation", "how to read NUANS report", "NUANS Canada meaning"],
 };
 
-const FAQ = [
+/* The description, FAQ and body quote catalogue prices — 60s ISR. */
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cents = (await getPrices())["nuans-search"];
+  return { ...BASE_METADATA, description: swapPrice(String(BASE_METADATA.description), cents) };
+}
+
+const faqFor = (nuans: string) => [
   {
     q: "What does NUANS stand for?",
     a: "NUANS is the Newly Updated Automated Name Search — the federal name-search system operated by Innovation, Science and Economic Development Canada (ISED). It checks a proposed corporation name against every corporate registry in Canada (federal + all 13 provinces and territories), the federal trademarks database, and phonetically/orthographically similar variations. A NUANS report is required by Corporations Canada for federal (CBCA) incorporation, cross-provincial extra-provincial registration, and most corporate name changes.",
@@ -46,7 +55,7 @@ const FAQ = [
   },
   {
     q: "How much does a NUANS report cost through CRS?",
-    a: "$79 all-in + GST. That price includes the official NUANS search, the government fee, and CRS's preparation and delivery. Delivered by email within one business hour. If your first-choice name comes back with hard conflicts, we run the same NUANS with a backup name you provide, at no extra charge.",
+    a: `${nuans} all-in + GST. That price includes the official NUANS search, the government fee, and CRS's preparation and delivery. Delivered by email within one business hour. If your first-choice name comes back with hard conflicts, we run the same NUANS with a backup name you provide, at no extra charge.`,
   },
   {
     q: "How long does it take to get a NUANS report?",
@@ -74,7 +83,11 @@ const FAQ = [
   },
 ];
 
-export default function NuansNameSearchCanadaPage() {
+export default async function NuansNameSearchCanadaPage() {
+  const prices = await getPrices();
+  const nuans  = formatCents(prices["nuans-search"]);
+  const incorp = formatCents(prices["incorporation-numbered"]);
+  const FAQ    = faqFor(nuans);
   const breadcrumb = breadcrumbLd([
     { name: "Home",                     url: "/" },
     { name: "Incorporation",            url: "/incorporation" },
@@ -116,7 +129,7 @@ export default function NuansNameSearchCanadaPage() {
             </div>
           }
         >
-          <AvailabilityCheckIsland />
+          <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
         </Suspense>
 
         {/* ═══ Educational body content (SEO-targeted) ═══ */}
@@ -136,7 +149,7 @@ export default function NuansNameSearchCanadaPage() {
             Why do a free NUANS pre-check first?
           </h2>
           <p style={{ fontSize: "0.95rem", color: "var(--text)", lineHeight: 1.65, marginBottom: "1rem" }}>
-            The paid NUANS report is $79 all-in + GST. That&apos;s reasonable when your proposed name is genuinely available — but when the name is obviously taken (a common corporation already exists with the same distinctive words), you&apos;ve paid $79 for a report that will only tell you to pick a different name. The free Instant Availability Check surfaces the obvious cases before you commit, so you can iterate on the name for free and only order the paid NUANS once the name looks likely to pass.
+            The paid NUANS report is {nuans} all-in + GST. That&apos;s reasonable when your proposed name is genuinely available — but when the name is obviously taken (a common corporation already exists with the same distinctive words), you&apos;ve paid {nuans} for a report that will only tell you to pick a different name. The free Instant Availability Check surfaces the obvious cases before you commit, so you can iterate on the name for free and only order the paid NUANS once the name looks likely to pass.
           </p>
           <p style={{ fontSize: "0.95rem", color: "var(--text)", lineHeight: 1.65, marginBottom: "1rem" }}>
             The free check is intentionally more permissive than a real NUANS (it doesn&apos;t do phonetics or trademark search), so a clean free check is not a guarantee — but a dirty free check is a very reliable &quot;don&apos;t waste $79&quot; signal.
@@ -151,7 +164,7 @@ export default function NuansNameSearchCanadaPage() {
                 <tr style={{ background: "var(--bg-deep)", borderBottom: "2px solid var(--border)" }}>
                   <th style={cellStyle}>What&apos;s checked</th>
                   <th style={cellStyle}>Free instant check</th>
-                  <th style={cellStyle}>Paid NUANS report ($79)</th>
+                  <th style={cellStyle}>Paid NUANS report ({nuans})</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,9 +231,9 @@ export default function NuansNameSearchCanadaPage() {
             Related services
           </h2>
           <ul style={{ fontSize: "0.9rem", color: "var(--text)", lineHeight: 1.7, marginBottom: "1rem", paddingLeft: "1.5rem" }}>
-            <li><a href="/order/nuans-search" style={{ color: "var(--secondary)" }}>Order a full NUANS name search report</a> — $79 all-in + GST, delivered within one business hour</li>
-            <li><a href="/incorporation/canada-federal-incorporation-service" style={{ color: "var(--secondary)" }}>Federal (CBCA) incorporation service</a> — $699 all-in, NUANS + Articles + minute book</li>
-            <li><a href="/incorporation" style={{ color: "var(--secondary)" }}>Provincial incorporation services</a> — all 13 provinces and territories, $699 all-in</li>
+            <li><a href="/order/nuans-search" style={{ color: "var(--secondary)" }}>Order a full NUANS name search report</a> — {nuans} all-in + GST, delivered within one business hour</li>
+            <li><a href="/incorporation/canada-federal-incorporation-service" style={{ color: "var(--secondary)" }}>Federal (CBCA) incorporation service</a> — {incorp} all-in, NUANS + Articles + minute book</li>
+            <li><a href="/incorporation" style={{ color: "var(--secondary)" }}>Provincial incorporation services</a> — all 13 provinces and territories, {incorp} all-in</li>
             <li><a href="/guides/federal-vs-provincial-incorporation-canada" style={{ color: "var(--secondary)" }}>Federal vs. provincial incorporation in Canada</a> — decision guide</li>
             <li><a href="/incorporation/book-free-consultation" style={{ color: "var(--secondary)" }}>Book a free 15-min consultation</a> — walk through the name and jurisdiction with a specialist</li>
           </ul>

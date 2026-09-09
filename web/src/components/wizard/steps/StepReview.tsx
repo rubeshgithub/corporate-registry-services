@@ -1,7 +1,8 @@
 "use client";
 
 import type { WizardState } from "@/lib/wizard-types";
-import type { ServiceBucket } from "@/lib/service-config";
+import type { ServiceBucket, ServiceItem } from "@/lib/service-config";
+import { priceKeyForService } from "@/lib/price-catalogue";
 import { JURISDICTIONS } from "@/lib/service-config";
 
 type Props = {
@@ -9,9 +10,14 @@ type Props = {
   bucket: ServiceBucket;
   onTermsChange: (v: boolean) => void;
   submitting: boolean;
+  /** Live catalogue prices from the server page; falls back to config defaults. */
+  prices?: Record<string, number>;
 };
 
-export default function StepReview({ state, bucket, onTermsChange, submitting }: Props) {
+export default function StepReview({ state, bucket, onTermsChange, submitting, prices }: Props) {
+  /* The checkout route resolves the same catalogue by key, so the total shown
+     here is the total Stripe will charge. */
+  const centsFor = (svc: ServiceItem) => prices?.[priceKeyForService(svc.key)] ?? svc.priceCents;
   const selectedServices = bucket.services.filter((s) =>
     state.serviceKeys.includes(s.key)
   );
@@ -30,9 +36,9 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
      a consultation) sends the whole basket down the quote path, so the copy
      has to follow suit. */
   const priced      = selectedServices.map((s) => ({ svc: s, qty: qtyFor(s.key) }));
-  const allPurchasable = priced.every(({ svc }) => typeof svc.priceCents === "number");
+  const allPurchasable = priced.every(({ svc }) => typeof centsFor(svc) === "number");
   const totalCents  = allPurchasable
-    ? priced.reduce((sum, { svc, qty }) => sum + (svc.priceCents ?? 0) * qty, 0)
+    ? priced.reduce((sum, { svc, qty }) => sum + (centsFor(svc) ?? 0) * qty, 0)
     : 0;
   const fmt = (c: number) => `$${(c / 100).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
@@ -81,7 +87,7 @@ export default function StepReview({ state, bucket, onTermsChange, submitting }:
             <div key={svc.key} style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", fontSize: "0.82rem", color: "var(--text)", marginBottom: "0.35rem" }}>
               <span>{svc.label}{qty > 1 ? ` × ${qty}` : ""}</span>
               <span style={{ fontFamily: "var(--font-mono), monospace", whiteSpace: "nowrap" }}>
-                {fmt((svc.priceCents ?? 0) * qty)}
+                {fmt((centsFor(svc) ?? 0) * qty)}
               </span>
             </div>
           ))}

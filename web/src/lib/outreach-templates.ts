@@ -1,5 +1,6 @@
 import { calculateAnnualReturnDeadline } from "./annual-return-deadlines";
 import type { OutreachCompany, OutreachService } from "./outreach-mongo";
+import { DEFAULT_PRICES, formatCents } from "./price-catalogue";
 
 /**
  * Email template registry. Each template renders both an HTML and plain-text
@@ -52,6 +53,8 @@ export type RenderContext = {
   recipientName?: string;
   unsubscribeUrl: string;
   customIntro?:   string;
+  /** Live catalogue prices, resolved by the send/preview routes. Falls back to code defaults. */
+  prices?:        Record<string, number>;
 };
 
 export type RenderedEmail = {
@@ -167,6 +170,11 @@ function firstName(ctx: RenderContext): string {
   return raw.split(/\s+/)[0];
 }
 
+/* Every price in a template comes from here — never a literal. */
+function livePrice(ctx: RenderContext, key: string): string {
+  return formatCents(ctx.prices?.[key] ?? DEFAULT_PRICES[key]);
+}
+
 const annualReturnTemplate: TemplateDef = {
   key:   "annual-return",
   label: "Annual Return — filing reminder",
@@ -278,7 +286,7 @@ const annualReturnTemplate: TemplateDef = {
             <td align="center" style="padding:4px 0 8px;">
               <a href="${url}"
                  style="display:inline-block;background-color:#0C3D61;color:#FFFFFF;font-size:16px;font-weight:bold;text-decoration:none;padding:14px 40px;border-radius:6px;">
-                Review &amp; File Now &mdash; $99<span style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:4px;">+ gst</span>
+                Review &amp; File Now &mdash; ${livePrice(ctx, "annual-return")}<span style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:4px;">+ gst</span>
               </a>
             </td>
           </tr>
@@ -295,7 +303,7 @@ const annualReturnTemplate: TemplateDef = {
             <td style="padding:16px 20px;">
               <p style="margin:0 0 10px;font-size:12px;font-weight:bold;color:#0C3D61;text-transform:uppercase;letter-spacing:1px;">How it works</p>
               <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">1. Confirm the information above &mdash; or tell us what changed (directors, address)</p>
-              <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">2. Pay $99<span style="font-size:11px;color:#5A6B7A;margin-left:3px;">+ gst</span> &mdash; no hidden fees, government fee included</p>
+              <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">2. Pay ${livePrice(ctx, "annual-return")}<span style="font-size:11px;color:#5A6B7A;margin-left:3px;">+ gst</span> &mdash; no hidden fees, government fee included</p>
               <p style="margin:0;font-size:13px;color:#1A2B3A;">3. We file with the ${esc(registryName)} within 1 business day and monitor your deadline every year after</p>
             </td>
           </tr>
@@ -342,12 +350,12 @@ It is NOT your tax return — filing your T2 does not file your annual return.
 Corporations that miss it can be dissolved by the registry, freezing bank
 accounts, financing, and contracts.
 
-Review & File Now — $99 + gst (government fee included, filed within 1 business day):
+Review & File Now — ${livePrice(ctx, "annual-return")} + gst (government fee included, filed within 1 business day):
   ${url}
 
 How it works:
   1. Confirm the information above — or tell us what changed
-  2. Pay $99 + gst — no hidden fees, government fee included
+  2. Pay ${livePrice(ctx, "annual-return")} + gst — no hidden fees, government fee included
   3. We file with the ${registryName} within 1 business day
 
 Prefer to file it yourself? Our free step-by-step guide:
@@ -366,7 +374,7 @@ we'll stop the reminders for this corporation:
 function genericTemplate(
   key:      OutreachService,
   label:    string,
-  headline: string,
+  headline: string | ((ctx: RenderContext) => string),
   ctaLabel: string,
 ): TemplateDef {
   return {
@@ -375,7 +383,7 @@ function genericTemplate(
     render(ctx) {
       const url = orderUrl(ctx.token);
       const subject = `${ctx.company.name} — ${label}`;
-      const intro = ctx.customIntro?.trim() || headline;
+      const intro = ctx.customIntro?.trim() || (typeof headline === "function" ? headline(ctx) : headline);
       const registryName = REGISTRY_NAME[ctx.company.provinceKey] ?? `${ctx.company.jurisdiction} Corporate Registry`;
 
       const innerHtml = `
@@ -499,21 +507,21 @@ const generalTemplate: TemplateDef = {
       {
         href:  tokenUrl("annual-return"),
         title: "Annual Return Filing",
-        price: "$99 all-in + gst",
+        price: `${livePrice(ctx, "annual-return")} all-in + gst`,
         blurb: "Mandatory every year, even if the corporation had no activity. Miss it and the registry can dissolve you.",
         cta:   "File annual return",
       },
       {
         href:  tokenUrl("profile-report"),
         title: "Corporate Profile Report",
-        price: "$49 all-in + gst",
+        price: `${livePrice(ctx, "profile-report")} all-in + gst`,
         blurb: "Official registry snapshot: directors, addresses, status, incorporation history. Delivered by email within one business hour.",
         cta:   "Order profile report",
       },
       {
         href:  tokenUrl("good-standing"),
         title: "Certificate of Good Standing",
-        price: "$79 all-in + gst",
+        price: `${livePrice(ctx, "good-standing")} all-in + gst`,
         blurb: "Official certificate for financing, corporate transactions, or foreign registrations. Pulled directly from the registry.",
         cta:   "Order certificate",
       },
@@ -594,15 +602,15 @@ On file:
 
 Services:
 
-* Annual Return Filing — $99 all-in + gst
+* Annual Return Filing — ${livePrice(ctx, "annual-return")} all-in + gst
     Mandatory every year, even if inactive. Miss it → registry dissolution.
     File: ${tokenUrl("annual-return")}
 
-* Corporate Profile Report — $49 all-in + gst
+* Corporate Profile Report — ${livePrice(ctx, "profile-report")} all-in + gst
     Official registry snapshot delivered within one business hour.
     Order: ${tokenUrl("profile-report")}
 
-* Certificate of Good Standing — $79 all-in + gst
+* Certificate of Good Standing — ${livePrice(ctx, "good-standing")} all-in + gst
     For financing, transactions, or foreign registrations.
     Order: ${tokenUrl("good-standing")}
 
@@ -632,13 +640,13 @@ export const TEMPLATES: Record<OutreachService, TemplateDef> = {
   "profile-report": genericTemplate(
     "profile-report",
     "Corporate Profile Report",
-    "Need an official Corporate Profile Report for your company? We pull it directly from the registry and deliver a PDF within one business hour — $49 all-in + GST.",
+    (ctx) => `Need an official Corporate Profile Report for your company? We pull it directly from the registry and deliver a PDF within one business hour — ${livePrice(ctx, "profile-report")} all-in + GST.`,
     "Order Profile Report",
   ),
   "good-standing":  genericTemplate(
     "good-standing",
     "Certificate of Good Standing",
-    "Need a Certificate of Good Standing for financing, a bid, or a corporate transaction? We order it directly from the registry — $79 all-in + GST, delivered within one business hour.",
+    (ctx) => `Need a Certificate of Good Standing for financing, a bid, or a corporate transaction? We order it directly from the registry — ${livePrice(ctx, "good-standing")} all-in + GST, delivered within one business hour.`,
     "Order Certificate",
   ),
   "dissolution":    genericTemplate(

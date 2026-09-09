@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SearchOrderRouter from "./SearchOrderRouter";
-import { withLivePrice, getPriceCents, swapPrice } from "@/lib/pricing";
+import { withLivePrice, getPriceCents, getPrices, swapPrice } from "@/lib/pricing";
 import { NAME_SEARCH_CONFIGS } from "@/lib/name-search-config";
 
 /* Prices are resolved from the catalogue at render, so the page must
@@ -43,7 +43,7 @@ export default async function CorporateSearchOrderPage() {
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
         <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
-          <SearchOrderRouter nameSearchConfig={await withLivePrice(NAME_SEARCH_CONFIGS["corporate-search"], "corporate-search")} />
+          <SearchOrderRouter nameSearchConfig={await withLivePrice(NAME_SEARCH_CONFIGS["corporate-search"], "corporate-search")} prices={await getPrices()} />
         </Suspense>
       </main>
       <Footer />

@@ -2,14 +2,24 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AlbertaSearchIsland from "./AlbertaSearchIsland";
+import { getPrices, formatCents, swapPrice } from "@/lib/pricing";
 
-export const metadata: Metadata = {
+const BASE_METADATA: Metadata = {
   title: "File Your Alberta Annual Return in Minutes — CRS",
   description:
     "Search your Alberta corporation and file your annual return with the Alberta registrar in minutes. $99 all-in + gst. Filed within 1 business day.",
 };
 
-export default function FileAlbertaAnnualReturnPage() {
+/* The description and hero quote the catalogue price — 60s ISR. */
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cents = (await getPrices())["annual-return"];
+  return { ...BASE_METADATA, description: swapPrice(String(BASE_METADATA.description), cents) };
+}
+
+export default async function FileAlbertaAnnualReturnPage() {
+  const price = formatCents((await getPrices())["annual-return"]);
   return (
     <>
       <Header />
@@ -52,7 +62,7 @@ export default function FileAlbertaAnnualReturnPage() {
             </h1>
             <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, margin: "0 auto 1.75rem", maxWidth: "48ch" }}>
               Search your Alberta corporation below. We&apos;ll pull your details from the registry and file your annual return
-              — <strong style={{ color: "var(--text)" }}>$99</strong>
+              — <strong style={{ color: "var(--text)" }}>{price}</strong>
               <span style={{ fontSize: "0.85em", color: "var(--text-muted)" }}> + gst</span>, filed within 1 business day.
             </p>
 
