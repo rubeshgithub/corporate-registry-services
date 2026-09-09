@@ -17,7 +17,7 @@ Extra-provincial registration and filing details Name history and other historic
 
 | | |
 |---|---|
-| **Price** | $49 + applicable tax — all government charges included |
+| **Price** | $69 + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |

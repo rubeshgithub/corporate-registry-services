@@ -1,12 +1,12 @@
 ﻿---
-title: "File Your NS Annual Return — RJSC (Joint Stock) · $99 all-in"
+title: "File Your NS Annual Return — RJSC (Joint Stock) · $129 all-in"
 h1: "File Your Nova Scotia Annual Return (RJSC)"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
-description: "File your Nova Scotia annual return with the Registry of Joint Stock Companies (RJSC) in 24 hours. $99 all-in, government fee included. Nova Scotia's 30-day anniversary deadline is one of Canada's tightest — miss it and dissolution starts."
+description: "File your Nova Scotia annual return with the Registry of Joint Stock Companies (RJSC) in 24 hours. $129 all-in, government fee included. Nova Scotia's 30-day anniversary deadline is one of Canada's tightest — miss it and dissolution starts."
 ---
 
-**30-day deadline?** [File your Nova Scotia annual return in 24 hours →](/order/annual-return) · $99 all-in, filed directly through the RJSC — beat one of Canada's tightest windows.
+**30-day deadline?** [File your Nova Scotia annual return in 24 hours →](/order/annual-return) · $129 all-in, filed directly through the RJSC — beat one of Canada's tightest windows.
 
 Nova Scotia corporations incorporated under the *Companies Act (Nova Scotia)* or *Corporations Registration Act* must file an annual return with the Registry of Joint Stock Companies every year within 30 days of the corporation's anniversary date — one of the tightest deadlines in Canada.
 
@@ -49,6 +49,6 @@ Given the strict 30-day window, administrative dissolution can follow relatively
 CRS files Nova Scotia annual returns directly through the Registry of Joint Stock Companies (RJSC) on your behalf. You don't need to navigate the RJSC portal — we prepare the return, file it well within Nova Scotia's tight 30-day anniversary deadline, and email you the RJSC confirmation.
 
 **Turnaround:** 24 hours from order.
-**Price:** $99 + applicable tax — all-in, including the $25 government fee.
+**Price:** $129 + applicable tax — all-in, including the $25 government fee.
 
 [File your Nova Scotia annual return now →](/order/annual-return)

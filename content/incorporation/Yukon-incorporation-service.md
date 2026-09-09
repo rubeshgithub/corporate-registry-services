@@ -73,7 +73,7 @@ Total: **typically 3–6 business days** end-to-end.
 
 Every Yukon corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due **within 1 month of your anniversary date** (one of Canada's tightest windows, matched only by Alberta), filed with Corporate Affairs Yukon. $50 government fee, filed at $99 all-in through CRS. See our [Yukon annual return guide](/articles/how-to-file-your-annual-return-in-yukon).
+- **Annual return** — due **within 1 month of your anniversary date** (one of Canada's tightest windows, matched only by Alberta), filed with Corporate Affairs Yukon. $50 government fee, filed at $129 all-in through CRS. See our [Yukon annual return guide](/articles/how-to-file-your-annual-return-in-yukon).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Corporate Affairs Yukon annual return).
 

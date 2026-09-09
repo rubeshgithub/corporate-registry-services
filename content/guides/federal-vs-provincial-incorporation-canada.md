@@ -89,7 +89,7 @@ If your founding team has no Canadian residents, incorporating in BC or Alberta 
 |---|---|---|
 | **Incorporation (CRS all-in fee)** | $699 + GST | $699 + HST |
 | **What's included** | NUANS search, Articles of Incorporation, Notice of Directors, By-Laws, organizational resolutions, minute book | Same package under the Ontario Business Corporations Act |
-| **Annual Return (CRS all-in fee)** | $99 + GST | $99 + HST |
+| **Annual Return (CRS all-in fee)** | $129 + GST | $129 + HST |
 | **Extra-provincial registration (per province)** | $299 + GST | $299 + HST |
 
 All CRS fees are all-inclusive: government filing fees, name search (where required), professional preparation, and submission are bundled into a single flat price — no surprise charges at checkout.

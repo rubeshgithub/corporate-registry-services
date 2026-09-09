@@ -73,7 +73,7 @@ Total: **typically 5–10 business days** end-to-end.
 
 Every Nunavut corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 2 months of your anniversary date, filed with the Nunavut Corporate Registry. $50 government fee, filed at $99 all-in through CRS. See our [Nunavut annual return guide](/articles/how-to-file-your-annual-return-in-nunavut). Remote-friendly — no in-person visit needed.
+- **Annual return** — due within 2 months of your anniversary date, filed with the Nunavut Corporate Registry. $50 government fee, filed at $129 all-in through CRS. See our [Nunavut annual return guide](/articles/how-to-file-your-annual-return-in-nunavut). Remote-friendly — no in-person visit needed.
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Nunavut annual return).
 

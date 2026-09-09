@@ -10,7 +10,7 @@ faq:
   - q: "Is Newfoundland a good jurisdiction for offshore energy or seafood businesses?"
     a: "Yes — Newfoundland and Labrador's economy is anchored in offshore oil and gas, seafood, mineral resources, and increasingly hydro/renewable energy. Provincial incorporation aligns you with the NL regulatory environment and the province-specific licensing regimes some of these industries require. For businesses operating primarily in the province, NL incorporation is simpler and cheaper long-term than federal + extra-provincial registration."
   - q: "Why is the Newfoundland annual return fee higher than other provinces?"
-    a: "Newfoundland and Labrador's $100 annual return government fee is the highest of any Canadian jurisdiction — reflecting the province's registry cost structure. Because of this, CRS's all-in annual return service for NL is $149 (not the $99 rate that applies elsewhere). The upfront incorporation fee is still $699 all-in like every other jurisdiction; only the ongoing annual return is priced differently."
+    a: "Newfoundland and Labrador's $100 annual return government fee is the highest of any Canadian jurisdiction — reflecting the province's registry cost structure. Because of this, CRS's all-in annual return service for NL is $149 (not the $129 rate that applies elsewhere). The upfront incorporation fee is still $699 all-in like every other jurisdiction; only the ongoing annual return is priced differently."
   - q: "How long does Newfoundland incorporation take?"
     a: "CRS-filed Newfoundland incorporations typically complete end-to-end in 4–7 business days: NUANS or NL name search cleared on day 1–2, Articles of Incorporation filed with the Registry of Companies by day 2–3, Certificate of Incorporation issued shortly after (NL processing can vary), and the full minute book delivered as signable PDFs."
   - q: "Named or numbered — which should I pick for Newfoundland?"
@@ -73,7 +73,7 @@ Total: **typically 4–7 business days** end-to-end.
 
 Every Newfoundland corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 3 months of your anniversary date, filed with the Registry of Companies. **$100 government fee** (highest in Canada), so CRS's all-in AR service is **$149** for NL (vs $99 for other provinces). See our [Newfoundland annual return guide](/articles/how-to-file-your-annual-return-in-newfoundland).
+- **Annual return** — due within 3 months of your anniversary date, filed with the Registry of Companies. **$100 government fee** (highest in Canada), so CRS's all-in AR service is **$149** for NL (vs $129 for other provinces). See our [Newfoundland annual return guide](/articles/how-to-file-your-annual-return-in-newfoundland).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Registry of Companies annual return).
 

@@ -3,12 +3,12 @@ title: "Corporate Profile Report in Canada: What It Is & Cost"
 h1: "What Is a Corporate Profile Report in Canada (and How Do You Get One)?"
 slug: "corporate-profile-report-canada"
 section: "articles"
-description: "What a corporate profile report shows, what it costs in each province, and how to get one in 3 hours — $49 all-in from a certified registry agent."
+description: "What a corporate profile report shows, what it costs in each province, and how to get one in 3 hours — $69 all-in from a certified registry agent."
 faq:
   - q: "Is a corporate profile report the same as a corporate search?"
     a: "In everyday use, yes — \"corporate search,\" \"corporation search,\" and \"profile report\" usually refer to the same product: the registry's report on a corporation's public record. Ontario's registry formally calls it a Profile Report; BC calls its equivalent a company summary."
   - q: "Can I get a corporate profile report for a company in any province?"
-    a: "Yes. Every provincial and territorial registry, plus Corporations Canada federally, produces a profile report or equivalent. CRS retrieves reports from any Canadian jurisdiction for $49 all-in, so you don't need to learn each registry's process."
+    a: "Yes. Every provincial and territorial registry, plus Corporations Canada federally, produces a profile report or equivalent. CRS retrieves reports from any Canadian jurisdiction for $69 all-in, so you don't need to learn each registry's process."
   - q: "How current is the information in a profile report?"
     a: "The report is a snapshot of the registry record on the date it's generated — changes filed after that date won't appear. Banks and lawyers typically ask for a report dated within the last 30–90 days."
   - q: "Does a corporate profile report show who owns the corporation?"
@@ -17,9 +17,9 @@ faq:
     a: "Ordering direct from a registry ranges from instant (federal, free online) to several days for mail-in forms. CRS delivers profile reports for any Canadian jurisdiction in about 3 hours during business hours, as a PDF by email."
 ---
 
-**Need a corporate profile report today?** [Order one for $49 all-in — 3-hour delivery →](/order/profile-report?src=article-corporate-profile-report-canada)
+**Need a corporate profile report today?** [Order one for $69 all-in — 3-hour delivery →](/order/profile-report?src=article-corporate-profile-report-canada)
 
-A corporate profile report is the official registry record of a Canadian corporation — its legal name, status, registered office, directors, and filing history — pulled directly from the provincial or federal corporate registry. You can order one yourself from the registry that governs the corporation (Ontario charges an $8 government fee, for example), or have a registry agent like CRS retrieve it for you in any Canadian jurisdiction for $49 all-in, delivered in about 3 hours.
+A corporate profile report is the official registry record of a Canadian corporation — its legal name, status, registered office, directors, and filing history — pulled directly from the provincial or federal corporate registry. You can order one yourself from the registry that governs the corporation (Ontario charges an $8 government fee, for example), or have a registry agent like CRS retrieve it for you in any Canadian jurisdiction for $69 all-in, delivered in about 3 hours.
 
 Banks ask for them. Lawyers ask for them. Accountants setting up QuickBooks Online ask for them. Here's exactly what the report contains, what it costs in each jurisdiction, and the fastest way to get one.
 
@@ -67,7 +67,7 @@ Government fees are modest — the cost is mostly in figuring out which registry
 
 Ontario's $8 fee is set out in the province's official search-products form; the federal figures are published by Corporations Canada. Alberta works differently: all corporate registry searches flow through authorized service providers, so the price you pay depends on the agent you use — typically in the $25–$75 range including service fees.
 
-CRS retrieves profile reports from any Canadian registry — provincial or federal — for **$49 + tax, all-in**, delivered as a PDF in about 3 hours. As a Certified CORES Registry Agent, we pull the record directly from the registry, so what you receive is the official report, not a reformatted copy.
+CRS retrieves profile reports from any Canadian registry — provincial or federal — for **$69 + tax, all-in**, delivered as a PDF in about 3 hours. As a Certified CORES Registry Agent, we pull the record directly from the registry, so what you receive is the official report, not a reformatted copy.
 
 ## How do you get a corporate profile report?
 
@@ -89,7 +89,7 @@ In everyday use, yes — "corporate search," "corporation search," and "profile 
 
 ### Can I get a corporate profile report for a company in any province?
 
-Yes. Every provincial and territorial registry, plus Corporations Canada federally, produces a profile report or equivalent for its corporations. CRS retrieves reports from any Canadian jurisdiction for $49 all-in, so you don't need to learn each registry's process — useful when you're checking companies in more than one province.
+Yes. Every provincial and territorial registry, plus Corporations Canada federally, produces a profile report or equivalent for its corporations. CRS retrieves reports from any Canadian jurisdiction for $69 all-in, so you don't need to learn each registry's process — useful when you're checking companies in more than one province.
 
 ### How current is the information in a profile report?
 
@@ -108,6 +108,6 @@ Ordering direct from a registry ranges from instant (federal, free online) to se
 **Need the official record on a Canadian corporation?** We pull corporate profile reports directly from every provincial, territorial, and federal registry — one flat price, no registry accounts required.
 
 **Turnaround:** ~3 hours, delivered as a PDF by email
-**Price:** $49 + tax — all-in, any Canadian jurisdiction
+**Price:** $69 + tax — all-in, any Canadian jurisdiction
 
 [Order your corporate profile report →](/order/profile-report?src=article-corporate-profile-report-canada) or [run a Canada-wide corporate search](/canada-corporations-search) if you're not sure where the company is registered.

@@ -77,7 +77,7 @@ Total: **typically 2–4 business days** end-to-end. BC is among the fastest Can
 
 Every BC corporation has ongoing statutory obligations. In your first year:
 
-- **BC Annual Report** — due within 2 months of your anniversary date, filed with BC Registry Services. (BC calls it an Annual Report, not an annual return, but it serves the same statutory purpose.) $43 government fee, filed at $99 all-in through CRS. See our [BC Annual Report guide](/articles/how-to-file-your-annual-return-in-british-columbia).
+- **BC Annual Report** — due within 2 months of your anniversary date, filed with BC Registry Services. (BC calls it an Annual Report, not an annual return, but it serves the same statutory purpose.) $43 government fee, filed at $129 all-in through CRS. See our [BC Annual Report guide](/articles/how-to-file-your-annual-return-in-british-columbia).
 - **Central Securities Register maintenance** — every share issuance, transfer, or cancellation must be recorded in the CSR at your records office. Share issuances also require directors' resolutions and share certificates. See our [share certificates guide](/articles/share-certificates-in-canada).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the BC Annual Report).

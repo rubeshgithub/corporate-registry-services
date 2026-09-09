@@ -28,7 +28,7 @@ Every civil filing or demand against a Canadian corporation requires four facts:
 3. **Its current status** — you cannot sue a dissolved corporation.
 4. **Its sitting directors** — needed if you're pleading director liability under the *Business Corporations Act*, environmental statutes, or CRA-source-deductions provisions.
 
-A [Corporate Profile Report](/profile-reports) gives you all four on one PDF, sealed by the registry, dated. $49 all-in, delivered in one business hour.
+A [Corporate Profile Report](/profile-reports) gives you all four on one PDF, sealed by the registry, dated. $69 all-in, delivered in one business hour.
 
 ## Where litigators lose the case before filing
 
@@ -53,13 +53,13 @@ Focus on:
 
 ## What the Profile Report *doesn't* give you
 
-For litigation involving historical facts (past directors during the events at issue, prior transactions, old amalgamations, share-transfer history), the Profile Report only shows *current* state. The corporation's [Minute Book](/minute-books) is the full record. If your matter turns on who was a director five years ago or what resolution was passed in 2019, you'll need Minute Book discovery — which is typically obtained through pleadings and civil discovery, not a $49 registry order.
+For litigation involving historical facts (past directors during the events at issue, prior transactions, old amalgamations, share-transfer history), the Profile Report only shows *current* state. The corporation's [Minute Book](/minute-books) is the full record. If your matter turns on who was a director five years ago or what resolution was passed in 2019, you'll need Minute Book discovery — which is typically obtained through pleadings and civil discovery, not a $69 registry order.
 
 ## Sample litigation-diligence timeline
 
 For a $150,000 breach-of-contract claim filed in Ontario:
 
-1. **T-14 days (statement of claim drafting)** — Order Corporate Profile Report on defendant corporation ($49). Confirm legal name, registered office, status.
+1. **T-14 days (statement of claim drafting)** — Order Corporate Profile Report on defendant corporation ($69). Confirm legal name, registered office, status.
 2. **T-10 days** — Draft pleadings using verified legal name and registered office. If pleading director liability, cross-check historical director timing.
 3. **T-7 days (statement of claim finalised)** — Fresh Profile Report if the first pull is over 14 days old.
 4. **Filing day** — Statement of claim issued. Registered office confirmed on Profile Report of same day.
@@ -75,7 +75,7 @@ Before spending $2,000+ on collections legal work, confirm the corporation still
 
 ## Order the documents
 
-- **Filing a claim or demand letter?** — [Order a Corporate Profile Report](/profile-reports), $49 all-in, delivered in one business hour.
+- **Filing a claim or demand letter?** — [Order a Corporate Profile Report](/profile-reports), $69 all-in, delivered in one business hour.
 - **Need to prove the defendant is in default of registry filings?** — Also [order a Certificate of Good Standing](/good-standing) or note the "in default" status on the Profile Report.
 - **Need historical directors for statutory liability?** — [Minute Book review](/minute-books) — usually obtained through civil discovery, not registry order.
 

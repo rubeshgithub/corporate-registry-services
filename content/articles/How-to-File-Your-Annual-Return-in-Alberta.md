@@ -3,10 +3,10 @@ title: "CORES Alberta Annual Return | Certified Agent | $99, 24 Hrs"
 h1: "Alberta Annual Return: Filed via CORES in 24 Hours"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
-description: "Certified CORES Registry Agent files your Alberta annual return in 24 hours — $99 all-in, no CORES account needed. Beat your 1-month deadline."
+description: "Certified CORES Registry Agent files your Alberta annual return in 24 hours — $129 all-in, no CORES account needed. Beat your 1-month deadline."
 ---
 
-**Deadline coming up?** [File your Alberta annual return in 24 hours →](/file-annual-return/alberta) · $99 all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
+**Deadline coming up?** [File your Alberta annual return in 24 hours →](/file-annual-return/alberta) · $129 all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
 
 Alberta corporations incorporated under the *Business Corporations Act (Alberta)* (ABCA) must file an annual return every year with the Alberta Corporate Registry to maintain their good standing. Alberta has one of the shortest filing windows in Canada — annual returns are due within just one month of the corporation's anniversary date. This guide covers the rules, deadlines, fees, forms, and late-filing consequences — with a jump-off point to file when you're ready.
 
@@ -54,7 +54,7 @@ Prefer to skip CORES entirely? CRS files your Alberta annual return directly wit
 
 ## How much is the Alberta annual return fee? (CORES fee)
 
-The Alberta government charges a **$47 CORES filing fee** for an Alberta corporate annual return, payable online at the time of filing. There is no separate CORES surcharge on top — the $47 is the total government fee. Alberta societies and non-profits pay the same $47 government fee. The all-in CRS fee — including the $47 government fee and professional preparation — is $99 + GST. There is no volume discount for filing multiple corporations at once.
+The Alberta government charges a **$47 CORES filing fee** for an Alberta corporate annual return, payable online at the time of filing. There is no separate CORES surcharge on top — the $47 is the total government fee. Alberta societies and non-profits pay the same $47 government fee. The all-in CRS fee — including the $47 government fee and professional preparation — is $129 + GST. There is no volume discount for filing multiple corporations at once.
 
 ## Alberta's Strict 1-Month Deadline
 
@@ -66,7 +66,7 @@ Alberta corporations have **no Canadian residency requirement for directors**. A
 
 ## Annual returns for Alberta societies and non-profits
 
-Alberta societies (registered under the *Societies Act*) and non-profit corporations must also file annual returns — but under different statutes and with slightly different information requirements. Alberta societies file annually with the Alberta Corporate Registry, disclosing directors, registered office, and (for non-profits) a summary of activities. The government fee remains the same ($47). CRS files annual returns for Alberta societies and non-profits under the same $99 all-in service — the process differs from a standard corporate annual return, so mention "society" or "non-profit" when you contact us.
+Alberta societies (registered under the *Societies Act*) and non-profit corporations must also file annual returns — but under different statutes and with slightly different information requirements. Alberta societies file annually with the Alberta Corporate Registry, disclosing directors, registered office, and (for non-profits) a summary of activities. The government fee remains the same ($47). CRS files annual returns for Alberta societies and non-profits under the same $129 all-in service — the process differs from a standard corporate annual return, so mention "society" or "non-profit" when you contact us.
 
 ## What happens if my Alberta annual return is late?
 
@@ -84,6 +84,6 @@ Note: Alberta corporate annual returns are separate from **GST returns** (filed 
 CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.
 
 **Turnaround:** 24 hours from order.
-**Price:** $99 + applicable tax — all-in, including the $47 government fee.
+**Price:** $129 + applicable tax — all-in, including the $47 government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta)

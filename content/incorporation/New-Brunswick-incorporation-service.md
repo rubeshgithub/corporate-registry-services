@@ -73,7 +73,7 @@ Total: **typically 3–5 business days** end-to-end.
 
 Every New Brunswick corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due by February 1 each year OR within 30 days of your anniversary date, whichever comes first. Filed with Service New Brunswick. $50 government fee, filed at $99 all-in through CRS. See our [New Brunswick annual return guide](/articles/how-to-file-your-annual-return-in-new-brunswick). The dual-deadline can catch new corporations off-guard — CRS tracks it for you.
+- **Annual return** — due by February 1 each year OR within 30 days of your anniversary date, whichever comes first. Filed with Service New Brunswick. $50 government fee, filed at $129 all-in through CRS. See our [New Brunswick annual return guide](/articles/how-to-file-your-annual-return-in-new-brunswick). The dual-deadline can catch new corporations off-guard — CRS tracks it for you.
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the SNB annual return).
 

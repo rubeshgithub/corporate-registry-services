@@ -75,7 +75,7 @@ Total: **typically 5–10 business days** end-to-end. NS processing times can va
 
 Every Nova Scotia corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 30 days of your anniversary date, filed with the RJSC. NS has one of the tightest anniversary windows in Canada. CRS files this for you at $99 all-in. See our [Nova Scotia annual return guide](/articles/how-to-file-your-annual-return-in-nova-scotia) for the details.
+- **Annual return** — due within 30 days of your anniversary date, filed with the RJSC. NS has one of the tightest anniversary windows in Canada. CRS files this for you at $129 all-in. See our [Nova Scotia annual return guide](/articles/how-to-file-your-annual-return-in-nova-scotia) for the details.
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and the annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada) — CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after your fiscal year-end (this is separate from the RJSC annual return, handled by your accountant).
 

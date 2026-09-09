@@ -12,7 +12,7 @@ faq:
   - q: "What's the difference between a Business Number and a Corporation Number?"
     a: "A Business Number (BN) is a 9-digit CRA identifier used for tax accounts and payroll. A Corporation Number (or Corporate Access Number) is issued by the corporate registry when a company is incorporated. Both identify the corporation, but only the Corporation Number is used to search the corporate registry."
   - q: "Is checking a company's registration free?"
-    a: "Basic name searches are free on every registry. But the certified Corporate Profile Report (the document banks, lawyers, and FINTRAC-regulated entities accept as proof) is a paid $49 document. Free lookups are for quick sanity checks — paid documents are for real transactions."
+    a: "Basic name searches are free on every registry. But the certified Corporate Profile Report (the document banks, lawyers, and FINTRAC-regulated entities accept as proof) is a paid $69 document. Free lookups are for quick sanity checks — paid documents are for real transactions."
 ---
 
 A supplier gives you an invoice. A landlord signs a lease. A contractor bids on your project. A customer offers 60-day terms. Before you say yes, one question needs an answer: *is this actually a real, registered Canadian company, and can these people bind it?*
@@ -26,8 +26,8 @@ Not every situation needs a full corporate diligence pack. Match the tool to the
 | Level | Situation | Tool | Cost |
 |---|---|---|---|
 | **Sanity check** | Vendor invoice, low-stakes contact | Free registry name search | Free |
-| **Standard verification** | Contract signing, extended credit, customer onboarding | [Corporate Profile Report](/profile-reports) | $49 all-in |
-| **High-stakes verification** | Purchase, financing, litigation, deep KYC | Profile Report + Certificate of Good Standing + Minute Book review | $49 + $79 + $299+ |
+| **Standard verification** | Contract signing, extended credit, customer onboarding | [Corporate Profile Report](/profile-reports) | $69 all-in |
+| **High-stakes verification** | Purchase, financing, litigation, deep KYC | Profile Report + Certificate of Good Standing + Minute Book review | $69 + $109 + $299+ |
 
 Do the free search first. If any red flag surfaces (name doesn't match, no results, status looks wrong), don't proceed on the free data — that's the moment to order the certified document.
 
@@ -55,7 +55,7 @@ A [Corporate Profile Report](/profile-reports) is the government-issued PDF that
 - What is its official legal name (and any operating names)?
 - When was it last active with the registry?
 
-$49 all-in through CRS, PDF delivered by email within one business hour for most jurisdictions. This is the document your bank, lawyer, insurer, and any FINTRAC-regulated entity actually accepts as verification.
+$69 all-in through CRS, PDF delivered by email within one business hour for most jurisdictions. This is the document your bank, lawyer, insurer, and any FINTRAC-regulated entity actually accepts as verification.
 
 If the person handing you the contract isn't on the directors list, don't sign until you have a director's resolution authorising them.
 
@@ -92,15 +92,15 @@ Order a Profile Report and specifically watch for:
 ## Order the verification you need
 
 - **Quick check?** — [Free Canada-wide search](/canada-corporations-search)
-- **Standard verification?** — [Corporate Profile Report ($49 all-in)](/profile-reports)
-- **Prove compliance for financing?** — [Certificate of Good Standing ($79 all-in)](/good-standing)
+- **Standard verification?** — [Corporate Profile Report ($69 all-in)](/profile-reports)
+- **Prove compliance for financing?** — [Certificate of Good Standing ($109 all-in)](/good-standing)
 - **Full corporate history?** — [Minute Book (from $299)](/minute-books)
 
 ## Frequently asked questions
 
 ### Can I verify a Canadian company entirely for free?
 
-You can do a basic sanity check for free through provincial and federal registries. But if you need the government-sealed PDF that banks, lawyers, insurers, and FINTRAC-regulated entities accept as evidence, that's the paid Corporate Profile Report ($49). Free lookups are for judgement; paid documents are for records.
+You can do a basic sanity check for free through provincial and federal registries. But if you need the government-sealed PDF that banks, lawyers, insurers, and FINTRAC-regulated entities accept as evidence, that's the paid Corporate Profile Report ($69). Free lookups are for judgement; paid documents are for records.
 
 ### How do I search by Business Number?
 

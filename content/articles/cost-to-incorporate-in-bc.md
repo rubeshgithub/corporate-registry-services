@@ -62,7 +62,7 @@ Lawyer pricing varies widely by firm and complexity; treat the range above as a 
 
 Incorporation is a one-time cost. Staying compliant is annual:
 
-- **BC Annual Report — within 2 months of your anniversary, $43.39.** Filed with BC Registries every year to confirm your directors and addresses. It is not a tax filing, but skipping it is what eventually gets a company dissolved for non-compliance. CRS files it for [$99 all-in + tax](/order/annual-return) — see [how to file your BC Annual Report](/articles/how-to-file-your-annual-return-in-british-columbia).
+- **BC Annual Report — within 2 months of your anniversary, $43.39.** Filed with BC Registries every year to confirm your directors and addresses. It is not a tax filing, but skipping it is what eventually gets a company dissolved for non-compliance. CRS files it for [$129 all-in + tax](/order/annual-return) — see [how to file your BC Annual Report](/articles/how-to-file-your-annual-return-in-british-columbia).
 - **Records office in BC.** BC law requires a physical BC address where the company's records (including the CSR) can be inspected. If you don't have a BC address, a records-office service is a real annual line item — commonly a few hundred dollars a year from law firms and agents.
 - **T2 corporate income tax return — annually.** Filed with the CRA by your accountant; the Annual Report does *not* replace it.
 - **Changes to the company.** Altering your Notice of Articles — a name change, new share classes — carries its own registry fees, as do name requests for the new name.

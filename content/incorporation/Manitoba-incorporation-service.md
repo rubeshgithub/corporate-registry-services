@@ -27,7 +27,7 @@ Manitoba is a solid, straightforward jurisdiction for incorporation, particularl
 
 **Fixed-date annual compliance.** Unlike most provinces where the annual return follows each corporation's anniversary date, Manitoba uses a fixed March 31 deadline. Once you're aware of it, ongoing compliance planning is easier — every March, you know Manitoba filings are due. CRS monitors it for you either way.
 
-**Affordable annual maintenance.** Manitoba's $45 government annual return fee is on the lower end of the Canadian range. Combined with CRS's flat $99 all-in AR filing, ongoing costs are predictable and low.
+**Affordable annual maintenance.** Manitoba's $45 government annual return fee is on the lower end of the Canadian range. Combined with CRS's flat $129 all-in AR filing, ongoing costs are predictable and low.
 
 **Straightforward corporations statute.** The Corporations Act (Manitoba) is close in structure to the federal CBCA. Standard Articles of Incorporation defaults are conventional and well-understood by Canadian deal counsel.
 
@@ -73,7 +73,7 @@ Total: **typically 3–5 business days** end-to-end.
 
 Every Manitoba corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due by March 31 (for December-year-end corporations) or 3 months after fiscal year-end, filed with the Companies Office Manitoba. $45 government fee, filed at $99 all-in through CRS. See our [Manitoba annual return guide](/articles/how-to-file-your-annual-return-in-manitoba).
+- **Annual return** — due by March 31 (for December-year-end corporations) or 3 months after fiscal year-end, filed with the Companies Office Manitoba. $45 government fee, filed at $129 all-in through CRS. See our [Manitoba annual return guide](/articles/how-to-file-your-annual-return-in-manitoba).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Companies Office annual return).
 

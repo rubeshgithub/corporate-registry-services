@@ -12,7 +12,7 @@ faq:
   - q: "How fresh does the certificate have to be for a grant application?"
     a: "Most funders require the certificate dated within 30 days of application submission — many require it within 14 days. If your intake deadline is next week, order the certificate this week, not last week."
   - q: "How fast can I get one?"
-    a: "One business hour for most jurisdictions through CRS. Nunavut, Northwest Territories, and occasional slow days at REQ Quebec run to one business day. All jurisdictions are $79 all-in + GST."
+    a: "One business hour for most jurisdictions through CRS. Nunavut, Northwest Territories, and occasional slow days at REQ Quebec run to one business day. All jurisdictions are $109 all-in + GST."
 ---
 
 Your grant application is 90% complete. Then you hit the compliance checklist and see the line: *"Attach current Certificate of Good Standing (dated within 30 days)."* The deadline is 10 days out. This guide explains exactly what funders want, why they want it, and how not to lose your intake window over paperwork.
@@ -75,11 +75,11 @@ The registry will refuse to issue a Certificate of Good Standing if any of these
 - Director changes haven't been filed
 - A dissolution notice is active
 
-Fix these before ordering the certificate — the certificate itself is the last step, not the first. If you're not sure what your status is, order a [Corporate Profile Report](/profile-reports) first ($49) to see exactly what the registry has on file.
+Fix these before ordering the certificate — the certificate itself is the last step, not the first. If you're not sure what your status is, order a [Corporate Profile Report](/profile-reports) first ($69) to see exactly what the registry has on file.
 
 ## Order your Certificate of Good Standing
 
-Once your file is clean, ordering is straightforward. [Search your corporation on the Certificates of Good Standing page](/good-standing), pick your jurisdiction, add your contact details, and the government-issued PDF is in your inbox within one business hour. $79 all-in + GST.
+Once your file is clean, ordering is straightforward. [Search your corporation on the Certificates of Good Standing page](/good-standing), pick your jurisdiction, add your contact details, and the government-issued PDF is in your inbox within one business hour. $109 all-in + GST.
 
 ## Frequently asked questions
 

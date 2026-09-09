@@ -53,8 +53,8 @@ For most Canadian transactions, this is the minimum evidence file:
 
 | Document | Cost | What it proves |
 |---|---|---|
-| [Corporate Profile Report](/profile-reports) | $49 all-in | Current legal existence, status, directors, address |
-| [Certificate of Good Standing / Status](/good-standing) | $79 all-in | Corporation is compliant with all filings |
+| [Corporate Profile Report](/profile-reports) | $69 all-in | Current legal existence, status, directors, address |
+| [Certificate of Good Standing / Status](/good-standing) | $109 all-in | Corporation is compliant with all filings |
 | [Minute Book](/minute-books) (buyer's counsel review) | $299+ | Full history: resolutions, share transfers, past directors, articles amendments |
 | PPSA / RPMRR lien search | Varies by province | Registered security interests against corporate assets |
 | CRA arrears letter | Free (owner-requested) | No outstanding taxes owing |
@@ -83,9 +83,9 @@ If you're doing due diligence at scale (vetting suppliers, running KYC, extendin
 
 ## Order the searches
 
-**Just need to confirm status, directors, and registered office?** [Order a Corporate Profile Report](/profile-reports) — $49 all-in, PDF within one business hour.
+**Just need to confirm status, directors, and registered office?** [Order a Corporate Profile Report](/profile-reports) — $69 all-in, PDF within one business hour.
 
-**Need to prove the corporation is compliant for financing or a closing?** [Order a Certificate of Good Standing](/good-standing) — $79 all-in.
+**Need to prove the corporation is compliant for financing or a closing?** [Order a Certificate of Good Standing](/good-standing) — $109 all-in.
 
 **Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from $299.
 

@@ -75,7 +75,7 @@ Total: **typically 2–4 business days** end-to-end. Alberta is often the fastes
 
 Every Alberta corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 1 month of your anniversary date, filed through CORES. Alberta has one of the tightest anniversary windows in Canada (matching Yukon). $47 government fee, filed at $99 all-in through CRS. See our [Alberta annual return guide](/articles/how-to-file-your-annual-return-in-alberta).
+- **Annual return** — due within 1 month of your anniversary date, filed through CORES. Alberta has one of the tightest anniversary windows in Canada (matching Yukon). $47 government fee, filed at $129 all-in through CRS. See our [Alberta annual return guide](/articles/how-to-file-your-annual-return-in-alberta).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the CORES annual return).
 

@@ -76,7 +76,7 @@ Total: **typically 4–7 business days** end-to-end. The bilingual drafting adds
 
 Every Quebec corporation has ongoing statutory obligations. In your first year:
 
-- **Annual declaration (déclaration annuelle)** — due by March 31 each year, filed with the REQ. ~$35 government fee, filed at $99 all-in through CRS. See our [Quebec annual declaration guide](/articles/how-to-file-your-annual-return-in-quebec). This is separate from your CRA T2 return.
+- **Annual declaration (déclaration annuelle)** — due by March 31 each year, filed with the REQ. ~$35 government fee, filed at $129 all-in through CRS. See our [Quebec annual declaration guide](/articles/how-to-file-your-annual-return-in-quebec). This is separate from your CRA T2 return.
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return + Revenu Québec CO-17** — Quebec corporations file BOTH the federal T2 with the CRA and the CO-17 with Revenu Québec, annually. Handled by your accountant.
 

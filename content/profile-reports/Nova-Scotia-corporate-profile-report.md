@@ -23,7 +23,7 @@ The Nova Scotia Corporate Profile Report is retrieved directly from the Registry
 
 | | |
 |---|---|
-| **Price** | $49 + applicable tax — all government charges included |
+| **Price** | $69 + applicable tax — all government charges included |
 | **Processing Time** | 3 Hours |
 | **Delivery** | PDF |
 | **Payment** | Interac E-transfer, Debit, Credit |

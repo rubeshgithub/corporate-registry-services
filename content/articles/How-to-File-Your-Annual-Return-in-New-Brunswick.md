@@ -1,12 +1,12 @@
 ﻿---
-title: "File Your NB Annual Return — Service New Brunswick · $99 all-in"
+title: "File Your NB Annual Return — Service New Brunswick · $129 all-in"
 h1: "File Your New Brunswick Annual Return"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"
-description: "File your New Brunswick annual return with Service New Brunswick's Corporate Registry in 24 hours. $99 all-in, government fee included. Missed anniversary or calendar deadline? File same day and stay in good standing."
+description: "File your New Brunswick annual return with Service New Brunswick's Corporate Registry in 24 hours. $129 all-in, government fee included. Missed anniversary or calendar deadline? File same day and stay in good standing."
 ---
 
-**February 1 deadline coming up?** [File your New Brunswick annual return in 24 hours →](/order/annual-return) · $99 all-in, filed directly through Service New Brunswick — no SNB portal login required.
+**February 1 deadline coming up?** [File your New Brunswick annual return in 24 hours →](/order/annual-return) · $129 all-in, filed directly through Service New Brunswick — no SNB portal login required.
 
 New Brunswick corporations incorporated under the *Business Corporations Act (New Brunswick)* must file an annual return with Service New Brunswick every year. New Brunswick operates on a combined anniversary-and-calendar system for its annual return deadlines.
 
@@ -49,6 +49,6 @@ Failure to file results in the corporation being placed in non-compliance, and u
 CRS files New Brunswick annual returns directly through Service New Brunswick on your behalf. You don't need an SNB account, and you don't need to navigate the SNB business portal yourself — we prepare the return, file it before your February 1 (or 30-day anniversary) deadline, whichever is earlier, and email you the confirmation.
 
 **Turnaround:** 24 hours from order.
-**Price:** $99 + applicable tax — all-in, including the $50 government fee.
+**Price:** $129 + applicable tax — all-in, including the $50 government fee.
 
 [File your New Brunswick annual return now →](/order/annual-return)

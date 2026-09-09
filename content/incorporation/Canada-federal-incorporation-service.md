@@ -77,7 +77,7 @@ Total: **typically 3–5 business days** end-to-end. Corporations Canada is amon
 
 Every CBCA corporation has ongoing statutory obligations. In your first year:
 
-- **Federal annual return** — due within 60 days of your anniversary month, filed with Corporations Canada. $12 government fee, filed at $99 all-in through CRS. See our [federal annual return guide](/articles/how-to-file-your-annual-return-federal-canada). Not to be confused with your CRA T2 tax return.
+- **Federal annual return** — due within 60 days of your anniversary month, filed with Corporations Canada. $12 government fee, filed at $129 all-in through CRS. See our [federal annual return guide](/articles/how-to-file-your-annual-return-federal-canada). Not to be confused with your CRA T2 tax return.
 - **Extra-provincial registration + annual returns** — in each province where you carry on physical business. CRS handles the initial registration ($299/province) and the yearly filings.
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at $79 per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the Corporations Canada annual return).

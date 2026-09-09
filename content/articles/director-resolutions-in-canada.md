@@ -14,7 +14,7 @@ faq:
   - q: "What are annual director resolutions?"
     a: "Annual director resolutions are yearly board decisions that every Canadian corporation must pass — typically approving the financial statements, appointing or reappointing officers, and authorizing bank signing arrangements. They form the directors' half of the annual package alongside annual shareholder resolutions."
   - q: "How much does a professionally prepared director resolution cost?"
-    a: "$79 all-in + GST per resolution set, delivered as ready-to-sign PDFs in 1 business day — includes the resolution document, any accompanying register-of-directors or register-of-officers updates, and consent to act (when appointing new directors). Assumes you have your corporation's current profile report and articles of incorporation on hand. If we need to pull them from the registry for you, additional fetch fees are quoted upfront (typically $49–$99 depending on the jurisdiction)."
+    a: "$79 all-in + GST per resolution set, delivered as ready-to-sign PDFs in 1 business day — includes the resolution document, any accompanying register-of-directors or register-of-officers updates, and consent to act (when appointing new directors). Assumes you have your corporation's current profile report and articles of incorporation on hand. If we need to pull them from the registry for you, additional fetch fees are quoted upfront (typically $69–$99 depending on the jurisdiction)."
 ---
 
 > **Skip to the fast lane.**
@@ -117,7 +117,7 @@ Corporate Registry Services prepares director resolutions for **$79 all-in + GST
 - Matching register-of-directors or register-of-officers update
 - Delivered as signable PDFs within 1 business day
 
-**What $79 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those to confirm the corporation's full legal name, jurisdiction, and current director/officer list. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start (typically $49–$99 depending on the jurisdiction).
+**What $79 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those to confirm the corporation's full legal name, jurisdiction, and current director/officer list. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start (typically $69–$99 depending on the jurisdiction).
 
 **[Search your corporation now →](/order/director-resolution?src=article-director-resolutions-in-canada)** · See your current directors and officers on-screen, pick the resolution type, pay $79 + GST — signable PDFs back in 1 business day.
 

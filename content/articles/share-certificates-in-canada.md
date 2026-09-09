@@ -14,7 +14,7 @@ faq:
   - q: "Are digital share certificates legal in Canada?"
     a: "Yes. Federal and provincial corporate statutes permit share certificates to be issued and stored electronically, provided they contain the same information as a paper certificate and can be produced in readable form for inspection. Digital certificates are equally admissible in due diligence and audits."
   - q: "How much does a professionally prepared share certificate cost?"
-    a: "$49 all-in + GST for the certificate plus share-register and securities-register updates, delivered as signable PDFs in 1 business day. That price assumes you have your corporation's current profile report and articles of incorporation on hand for us to confirm share classes and legal name. If we need to pull those from the registry for you, we quote the additional filing fees before starting."
+    a: "$69 all-in + GST for the certificate plus share-register and securities-register updates, delivered as signable PDFs in 1 business day. That price assumes you have your corporation's current profile report and articles of incorporation on hand for us to confirm share classes and legal name. If we need to pull those from the registry for you, we quote the additional filing fees before starting."
 ---
 
 > **Skip to the fast lane.**
@@ -106,7 +106,7 @@ Corporate Registry Services prepares professionally formatted, sequentially numb
 - Matching entry in the securities register
 - Delivered as signable PDFs within 1 business day
 
-**What $49 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those documents to confirm the corporation's full legal name, jurisdiction, share classes, and authorized capital. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start work (typically $49–$99 depending on the jurisdiction).
+**What $69 assumes:** you already have your corporation's **latest profile report** and **articles of incorporation** on hand. We use those documents to confirm the corporation's full legal name, jurisdiction, share classes, and authorized capital. If you don't have them, we can pull them from the registry for you — the additional filing fees are quoted before we start work (typically $69–$99 depending on the jurisdiction).
 
 **[Search your corporation now →](/order/share-certificate?src=article-share-certificates-in-canada)** · See your share classes on-screen, confirm the shareholder details, pay $49 + GST — signable PDFs back in 1 business day.
 
