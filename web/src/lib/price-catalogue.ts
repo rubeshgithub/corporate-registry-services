@@ -51,6 +51,7 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   { key: "extra-provincial",      label: "Extra-Provincial Registration",     group: "Filings & changes", defaultCents: 29900, unit: "once" },
   { key: "registered-office",     label: "Registered Office Service",         group: "Filings & changes", defaultCents: 39900, unit: "per-year" },
   { key: "compliance-review",     label: "Corporate Compliance Review",       group: "Filings & changes", defaultCents: 49900, unit: "once" },
+  { key: "transparency-register", label: "BC Transparency Register",          group: "Filings & changes", defaultCents: 29900, unit: "once", note: "Required of every private B.C. company since 1 Oct 2020" },
 
   /* ── Documents ──────────────────────────────────────────────────── */
   { key: "share-certificate",      label: "Share Certificate",                group: "Documents", defaultCents: 4900,  unit: "once" },

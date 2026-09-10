@@ -373,6 +373,15 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         existingCorp: true,
       },
       {
+        key: "transparency-register",
+        label: "BC Transparency Register",
+        description: "Identify the significant individuals behind a private B.C. company and build the transparency register the Business Corporations Act has required since 1 October 2020.",
+        needsJurisdiction: false,
+        estimatedFee: "$299 + GST",
+        priceCents: 29900,
+        existingCorp: true,
+      },
+      {
         key: "compliance-review",
         label: "Corporate Compliance Review",
         description: "Deep review of your corporate records — and we fill the gaps, including the resolutions, registers and filings needed to bring the record up to date.",
