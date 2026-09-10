@@ -13,7 +13,14 @@ import { NAME_SEARCH_CONFIGS, type NameSearchServiceConfig } from "@/lib/name-se
 export default function SearchOrderRouter({ nameSearchConfig, prices }: { nameSearchConfig?: NameSearchServiceConfig; prices?: Record<string, number> }) {
   const params = useSearchParams();
   const src = params.get("src") ?? "";
-  const isFromArticleSearch = src.startsWith("article-status-search-");
+  /* Which flow to show. `flow=services` is the explicit signal; the
+     `article-status-search-` prefix is the older implicit one, kept so
+     existing links keep working. src is NOT used to choose the flow beyond
+     that legacy prefix — it carries article attribution, and rewriting it to
+     steer routing would misattribute the revenue (analytics strips the
+     "article-" prefix to recover the slug). */
+  const isFromArticleSearch =
+    params.get("flow") === "services" || src.startsWith("article-status-search-");
 
   if (isFromArticleSearch) {
     // Visitor searched on article, found a corporation, now ordering a service

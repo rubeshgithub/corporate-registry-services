@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight, Loader2, AlertCircle, CheckCircle2, Building2 } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { swapPrice } from "@/lib/price-catalogue";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { type RegistryAccessState } from "@/lib/registry-access";
 
 /**
  * Order flow for visitors who searched and found a specific corporation
@@ -23,6 +25,11 @@ type CorporationDetails = {
   jurisdiction: string;
   provinceKey: string;
 };
+
+/* Services whose order page collects details this screen doesn't. */
+const REDIRECT_SERVICES = new Set([
+  "change-directors", "change-address", "voluntary-dissolution", "revival",
+]);
 
 const BASE_SERVICES = [
   { key: "annual-return", label: "Annual Return", price: "$99 all-in + GST" },
@@ -50,6 +57,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const [searchErr, setSearchErr] = useState("");
   const [selectedService, setSelectedService] = useState("annual-return");
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
   const [paying, setPaying] = useState(false);
   const [payErr, setPayErr] = useState("");
 
@@ -106,21 +114,58 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
     setPaying(true);
     setPayErr("");
 
+    /* Every order route takes the corporation as `hit`, not as flattened
+       fields, and only annual-return has an endpoint named after itself.
+       Reports share /api/order/report and changes share
+       /api/order/change-request, both keyed by a `service` field. Building
+       the URL from the service key sent six of seven services to a 404, and
+       the flat body failed validation on the seventh. */
+    const hit = {
+      name:           corp.name,
+      registryId:     corp.registryId,
+      businessNumber: corp.businessNumber,
+      jurisdiction:   corp.jurisdiction,
+      provinceKey:    corp.provinceKey,
+      location:       corp.location,
+      status:         corp.status,
+    };
+
+    /* Director, address, dissolution and revival filings need structured
+       details this screen does not collect, so hand them to their own order
+       page with the corporation pre-filled rather than post a half-filled
+       body. */
+    if (REDIRECT_SERVICES.has(selectedService)) {
+      const p = new URLSearchParams({ q: corp.name, src: srcParam });
+      if (corp.registryId)  p.set("registryId", corp.registryId);
+      if (corp.provinceKey) p.set("jurisdiction", corp.provinceKey);
+      window.location.href = `/order/${selectedService}?${p.toString()}`;
+      return;
+    }
+
+    const isReport = selectedService === "profile-report" || selectedService === "good-standing";
+    const endpoint = isReport ? "/api/order/report" : "/api/order/annual-return";
+    const body = isReport
+      ? { service: selectedService, hit, contact, src: srcParam }
+      : {
+          hit,
+          years:   1,
+          changes: {
+            directors: [], shareholders: [],
+            registeredAddress: { changed: false, newAddress: "", effectiveDate: "" },
+            recordsAddress:    { changed: false, newAddress: "", effectiveDate: "" },
+            authorizedAgent:   { changed: false, newAgent:    "", effectiveDate: "" },
+            other:             "",
+          },
+          contact,
+          registryAccess,
+          src: srcParam,
+        };
+
     try {
-      // Determine which service endpoint to use
-      const serviceEndpoint = `/api/order/${selectedService}`;
-      const res = await fetch(serviceEndpoint, {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          corpName: corp.name,
-          registryId: corp.registryId,
-          businessNumber: corp.businessNumber,
-          jurisdiction: corp.jurisdiction,
-          provinceKey: corp.provinceKey,
-          contact,
-          src: srcParam,
-        }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
       if (res.ok && data.url) {
@@ -376,6 +421,17 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
           </div>
         </div>
       </div>
+
+      {/* Registry credential — renders only for services and jurisdictions
+          that actually need one, so Alberta (where CRS is the registry agent)
+          and read-only products show nothing. */}
+      <RegistryAccessField
+        service={selectedService}
+        provinceKey={corp?.provinceKey}
+        jurisdictionLabel={corp?.jurisdiction}
+        value={registryAccess}
+        onChange={setRegistryAccess}
+      />
 
       {/* Error Message */}
       {payErr && (

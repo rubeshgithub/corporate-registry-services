@@ -81,6 +81,12 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
     const params = new URLSearchParams();
     params.set("q", hit.name);
     params.set("src", src);
+    /* Ask for the existing-corporation service menu. Without this the router
+       falls through to the propose-a-new-name flow and the visitor is offered
+       a name search for a company they already own. */
+    params.set("flow", "services");
+    if (hit.registryId)  params.set("registryId", hit.registryId);
+    if (hit.provinceKey) params.set("jurisdiction", hit.provinceKey);
     window.location.href = `/order/corporate-search?${params.toString()}`;
   };
 
