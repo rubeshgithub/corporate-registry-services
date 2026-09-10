@@ -4,6 +4,7 @@ import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import crypto from "node:crypto";
 import { markTokenConverted } from "@/lib/outreach-mongo";
 import { sendAlertSms } from "@/lib/sms-infobip";
+import { registryAccessLine } from "@/lib/registry-access";
 
 /**
  * POST /api/order/webhook
@@ -472,7 +473,7 @@ Years to file: ${m.years_filed ?? "1"}
 Attribution:   ${m.src ?? "—"}
 
 --- Registry access ---
-${m.registry_access || "(not applicable for this jurisdiction)"}
+${registryAccessLine(m.registry_access, "annual-return", m.province_key)}
 
 --- Company (from live registry lookup) ---
 Name:          ${m.company_name ?? "—"}
@@ -705,7 +706,7 @@ Payment:       ${session.payment_status}
 Attribution:   ${m.src ?? "—"}
 
 --- Registry access ---
-${m.registry_access || "(not applicable for this jurisdiction)"}
+${registryAccessLine(m.registry_access, service, m.province_key)}
 
 --- Company (from live registry lookup) ---
 Name:          ${m.company_name ?? "—"}
@@ -1071,7 +1072,7 @@ Incorporated:  ${m.incorp_date ?? "—"}
 Location:      ${m.location ?? "—"}
 
 --- Registry access ---
-${m.registry_access || "(not applicable)"}
+${registryAccessLine(m.registry_access, service ?? "", m.province_key)}
 
 --- ${label} ---
 ${m.docs_requested ? `Documents requested: ${m.docs_requested}\n` : ""}${m.notes ? `Notes: ${m.notes}\n` : ""}${detailLines || "(no structured details)"}

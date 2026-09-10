@@ -133,6 +133,36 @@ export type RegistryAccessState = {
   code:   string;
 };
 
+/**
+ * The "Registry access" line for a fulfillment email.
+ *
+ * Distinguishing "we asked and the jurisdiction needs nothing" from "we never
+ * asked" matters: on 2026-09-09 a paid BC annual return reported "(not
+ * applicable for this jurisdiction)" when BC does require an access code — the
+ * article widget simply never collected one, and the empty summary fell
+ * through to the not-applicable default. The ops team was told the credential
+ * wasn't needed when in fact nobody had asked for it.
+ *
+ * Only say "not applicable" when that is actually true for the service and
+ * jurisdiction. Otherwise say plainly that it is missing.
+ */
+export function registryAccessLine(
+  summary:     string | undefined | null,
+  serviceKey:  string,
+  provinceKey: string | undefined | null,
+): string {
+  if (summary && summary.trim()) return summary;
+  if (!needsRegistryAccess(serviceKey, provinceKey)) {
+    return "(not applicable for this jurisdiction)";
+  }
+  const access = registryAccessFor(provinceKey);
+  return [
+    `!! NOT CAPTURED — this filing needs the corporation's ${access?.term ?? "registry credential"}.`,
+    `   The order form did not ask for it. Contact the customer before filing.`,
+    access?.ifMissing ? `   If they don't have it: ${access.ifMissing}` : "",
+  ].filter(Boolean).join("\n");
+}
+
 /** Compact, human-readable form for the fulfillment email and Stripe metadata. */
 export function summarizeRegistryAccess(
   state: RegistryAccessState | undefined,

@@ -5,6 +5,8 @@ import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-r
 import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-return-deadlines";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { swapPrice } from "@/lib/price-catalogue";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { type RegistryAccessState } from "@/lib/registry-access";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -110,6 +112,10 @@ export default function InlineLookupOrder({
   const [changesNote, setChangesNote] = useState("");
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
+  /* The credential the registry needs before it will accept the filing.
+     The field renders itself only where the jurisdiction requires one, so
+     it is safe to mount unconditionally. */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
 
   /** Fire the same search tracking beacon the standalone CompanySearch uses.
       Feeds the admin dashboard's "search intent" section regardless of
@@ -221,6 +227,7 @@ export default function InlineLookupOrder({
                 other:             hasChanges ? changesNote.trim() : "",
               },
               contact,
+              registryAccess,
               src: srcTag,
             }
           : {
@@ -478,6 +485,14 @@ export default function InlineLookupOrder({
               )}
             </div>
           )}
+
+          <RegistryAccessField
+            service={service}
+            provinceKey={pick?.provinceKey ?? provinceKey}
+            jurisdictionLabel={pick?.jurisdiction}
+            value={registryAccess}
+            onChange={setRegistryAccess}
+          />
 
           {payErr && (
             <div style={{ padding: "0.55rem 0.8rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.8rem", borderRadius: "0.4rem", marginTop: "0.6rem", display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>
