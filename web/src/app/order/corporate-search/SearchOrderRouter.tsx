@@ -12,18 +12,24 @@ import { NAME_SEARCH_CONFIGS, type NameSearchServiceConfig } from "@/lib/name-se
  */
 export default function SearchOrderRouter({ nameSearchConfig, prices }: { nameSearchConfig?: NameSearchServiceConfig; prices?: Record<string, number> }) {
   const params = useSearchParams();
-  const src = params.get("src") ?? "";
-  /* Which flow to show. `flow=services` is the explicit signal; the
-     `article-status-search-` prefix is the older implicit one, kept so
-     existing links keep working. src is NOT used to choose the flow beyond
-     that legacy prefix — it carries article attribution, and rewriting it to
-     steer routing would misattribute the revenue (analytics strips the
-     "article-" prefix to recover the slug). */
-  const isFromArticleSearch =
-    params.get("flow") === "services" || src.startsWith("article-status-search-");
+  /* Which of the two flows to render.
+   *
+   * `flow` is the only thing that decides this. It used to be inferred from
+   * `src` starting with "article-status-search-", which was wrong twice over:
+   * a caller had to know an undocumented prefix to get the right screen (the
+   * CORES widget didn't, and sent visitors to a name-search form for a company
+   * they already owned), and `src` is an attribution field — analytics.ts
+   * strips its "article-" prefix to credit revenue to an article, so bending
+   * src to steer routing would have misattributed the revenue.
+   *
+   * The old prefix is still honoured so any link already in the wild keeps
+   * working, but nothing new should rely on it. */
+  const flow = params.get("flow");
+  const legacyServicesPrefix = (params.get("src") ?? "").startsWith("article-status-search-");
+  const showServiceMenu = flow === "services" || legacyServicesPrefix;
 
-  if (isFromArticleSearch) {
-    // Visitor searched on article, found a corporation, now ordering a service
+  if (showServiceMenu) {
+    // The visitor already picked an existing corporation — offer services on it.
     return <CorporationServiceOrderFlow prices={prices} />;
   }
 

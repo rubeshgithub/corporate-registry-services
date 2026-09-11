@@ -19,6 +19,35 @@ import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
    price change reaches every content page without a deploy. */
 export const revalidate = 60;
 
+/**
+ * Articles that ship their own search widget instead of the generic
+ * lookup-and-pay one. A slug appearing here suppresses InlineLookupOrder, so
+ * a page can never render two search boxes.
+ *
+ * Each island owns its own destination; those that link to
+ * /order/corporate-search must pass flow=services, or the router falls
+ * through to the propose-a-new-name form.
+ */
+const CUSTOM_ISLANDS: Record<
+  string,
+  (a: { slug: string; prices: Record<string, number> }) => React.ReactNode
+> = {
+  /* Share certs need shareholder + share details after the corp is picked, so
+     this island only handles the search and hands off to
+     /order/share-certificate via sessionStorage. */
+  "share-certificates-in-canada": ({ slug, prices }) => (
+    <ShareCertLookupIsland src={`article-${slug}`} priceCents={prices["share-certificate"]} />
+  ),
+  /* Alberta CORES: search-first, then the existing-corporation service menu. */
+  "what-is-cores-alberta": ({ slug }) => (
+    <CoresLookupIsland src={`article-${slug}`} />
+  ),
+  /* Corporate documents pillar: forwards to /order/corporate-documents. */
+  "how-to-get-corporate-documents-in-canada": ({ slug }) => (
+    <CorporateDocumentsIsland src={`article-${slug}`} />
+  ),
+};
+
 type Params = { section: string; slug: string };
 
 export async function generateStaticParams(): Promise<Params[]> {
@@ -157,64 +186,41 @@ export default async function ContentPage({
             <NfpConsultationCTA src={`article-${page.section}-${page.slug}`} />
           )}
 
-          {/* Inline lookup + order widget — for the three lookup-first
-              services (annual return, profile report, good standing), give
-              high-intent visitors a way to search their company and pay
-              without leaving this page. The urgency line is folded into the
-              card (subtle, below the search input) so the fold isn't a
-              wall of price + warning before the visitor has done anything.
-              Other service articles still see the conversion strip below. */}
-          {ctx && (
-            ctx.serviceKey === "annual-return"  ||
-            ctx.serviceKey === "profile-report" ||
-            ctx.serviceKey === "good-standing"
-          ) && (
-            <InlineLookupOrder
-              service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
-              provinceKey={ctx.jurisdictionKey}
-              priceCents={prices[ctx.serviceKey]}
-              srcTag={`inline-article-${page.slug}`}
-              urgency={ctx.urgency ?? null}
-              eyebrowOverride={page.widgetEyebrow ?? null}
-              titleOverride={page.widgetTitle ?? null}
-              subOverride={page.widgetSub ?? null}
-            />
-          )}
+          {/* ── Which search widget does this page get? ───────────────────
+              Exactly one. A page either brings its own island (CUSTOM_ISLANDS)
+              or, failing that, gets the generic lookup-and-pay widget when its
+              inferred service is one of the three lookup-first products.
 
-          {/* Share-certificate lookup widget — different flow shape than the
-              AR/PR/GS inline widget above because a share cert needs
-              shareholder + share details AFTER the corp is picked. So this
-              widget only handles the corp search; the visitor is redirected
-              to /order/share-certificate with the picked corp stashed in
-              sessionStorage, where ShareCertSingleScreenFlow auto-verifies
-              on mount. Single share-cert article for now — extend the
-              condition if we add more share-cert-adjacent articles. */}
-          {page.section === "articles" && page.slug === "share-certificates-in-canada" && (
-            <ShareCertLookupIsland src={`article-${page.slug}`} priceCents={prices["share-certificate"]} />
-          )}
-
-          {/* CORES Alberta lookup widget — search-first widget for the
-              what-is-cores-alberta article. Visitor searches for their
-              corporation and is redirected to /order/corporate-search
-              with the picked corp stashed in sessionStorage. */}
-          {page.section === "articles" && page.slug === "what-is-cores-alberta" && (
-            <CoresLookupIsland src={`article-${page.slug}`} />
-          )}
-
-          {/* Corporate Documents pillar article — trust-first island that
-              forwards the visitor to /order/corporate-documents with the
-              picked corporation pre-filled for a same-day quote. */}
-          {page.section === "articles" && page.slug === "how-to-get-corporate-documents-in-canada" && (
-            <CorporateDocumentsIsland src={`article-${page.slug}`} />
-          )}
-
-          {/* PEI used to mount a second, PEI-only status-search island here.
-              Because the slug contains "annual-return", InlineLookupOrder
-              already renders above, so the page showed two search boxes doing
-              nearly the same thing and visitors did not know which to use. The
-              deadline urgency it carried now lives in ANNUAL_RETURN_URGENCY and
-              renders inside the widget above. RegistryStatusSearchIsland itself
-              is kept (and its routing + dropdown-clipping bugs fixed) for reuse. */}
+              This used to be two independent conditions, and a page that
+              satisfied both rendered two competing search boxes — which is
+              what happened on the PEI annual-return article, because its slug
+              contains "annual-return". The other three custom islands avoided
+              it only because their slugs happen not to. Deciding here makes
+              that collision impossible rather than lucky. */}
+          {(() => {
+            const custom = CUSTOM_ISLANDS[page.slug];
+            if (custom && page.section === "articles") {
+              return custom({ slug: page.slug, prices });
+            }
+            const generic = ctx && (
+              ctx.serviceKey === "annual-return"  ||
+              ctx.serviceKey === "profile-report" ||
+              ctx.serviceKey === "good-standing"
+            );
+            if (!generic || !ctx) return null;
+            return (
+              <InlineLookupOrder
+                service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
+                provinceKey={ctx.jurisdictionKey}
+                priceCents={prices[ctx.serviceKey]}
+                srcTag={`inline-article-${page.slug}`}
+                urgency={ctx.urgency ?? null}
+                eyebrowOverride={page.widgetEyebrow ?? null}
+                titleOverride={page.widgetTitle ?? null}
+                subOverride={page.widgetSub ?? null}
+              />
+            );
+          })()}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
               (minute-books, incorporation, etc.), the urgency still lives here
