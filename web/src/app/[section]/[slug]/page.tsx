@@ -13,7 +13,6 @@ import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
 import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 import CoresLookupIsland from "@/components/CoresLookupIsland";
-import RegistryStatusSearchIsland from "@/components/RegistryStatusSearchIsland";
 import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
 
 /* The CTA strip and lookup widget quote catalogue prices — 60s ISR so a
@@ -209,22 +208,13 @@ export default async function ContentPage({
             <CorporateDocumentsIsland src={`article-${page.slug}`} />
           )}
 
-          {/* PEI Annual Return — psychology-driven status search with urgency.
-              Drives visitors to search their corporation + see filing deadline
-              before reading the full article. */}
-          {page.section === "articles" && page.slug === "how-to-file-your-annual-return-in-prince-edward-island" && (
-            <RegistryStatusSearchIsland
-              config={{
-                province: "pe",
-                eyebrow: "⏰ Know Your Deadline",
-                headline: "Check Your PEI Filing Status Right Now",
-                subheadline: "See if your annual return is due this year — and know exactly when. Takes 10 seconds.",
-                urgencyBadge: "⚠ Deadlines can surprise you",
-                riskText: "Missing deadlines can result in corporate penalties and suspension",
-                trustText: "Direct from the PEI Corporate Registry — always current",
-              }}
-            />
-          )}
+          {/* PEI used to mount a second, PEI-only status-search island here.
+              Because the slug contains "annual-return", InlineLookupOrder
+              already renders above, so the page showed two search boxes doing
+              nearly the same thing and visitors did not know which to use. The
+              deadline urgency it carried now lives in ANNUAL_RETURN_URGENCY and
+              renders inside the widget above. RegistryStatusSearchIsland itself
+              is kept (and its routing + dropdown-clipping bugs fixed) for reuse. */}
 
           {/* Deadline urgency callout — for articles WITHOUT the inline widget
               (minute-books, incorporation, etc.), the urgency still lives here

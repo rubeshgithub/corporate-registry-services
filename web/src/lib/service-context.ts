@@ -85,6 +85,10 @@ const ANNUAL_RETURN_URGENCY: Partial<Record<string, UrgencyBlock>> = {
     headline: "BC Annual Reports are due within 2 months of your incorporation anniversary.",
     body:     "Continued non-compliance places your corporation in non-compliance status, and if more than a year overdue the Registrar can dissolve it.",
   },
+  pe: {
+    headline: "PEI gives you 30 days after your anniversary date — one of the tightest windows in Canada.",
+    body:     "Missing the 30-day window puts the corporation into non-compliance status, and continued non-filing can lead to administrative dissolution. Reviving it afterwards means an application and additional fees.",
+  },
   federal: {
     headline: "Federal CBCA annual returns are due within 60 days of your anniversary.",
     body:     "Corporations Canada can dissolve a corporation for repeated missed filings — costly to reverse and disrupts existing contracts.",

@@ -91,6 +91,10 @@ export default function RegistryStatusSearchIsland({ config }: { config: SearchC
     const params = new URLSearchParams();
     params.set("q", hit.name);
     params.set("src", `article-status-search-${config.province}`);
+    /* Ask for the existing-corporation service menu. Without this the
+       router falls through to the propose-a-new-name flow and offers a name
+       search for a company the visitor already owns. */
+    params.set("flow", "services");
     window.location.href = `/order/corporate-search?${params.toString()}`;
   };
 
@@ -104,7 +108,9 @@ export default function RegistryStatusSearchIsland({ config }: { config: SearchC
         background: "linear-gradient(135deg, rgba(217,119,6,0.08) 0%, rgba(217,119,6,0.02) 100%)",
         boxShadow: "0 8px 24px rgba(217,119,6,0.15), inset 0 1px 0 rgba(255,255,255,0.2)",
         position: "relative",
-        overflow: "hidden",
+        /* NOT overflow:hidden — the results dropdown is absolutely positioned
+           and was being clipped by it, so the list could not be scrolled. The
+           decorative accent line below rounds its own top corners instead. */
       }}
     >
       {/* Accent line at top for psychological weight */}
@@ -115,6 +121,7 @@ export default function RegistryStatusSearchIsland({ config }: { config: SearchC
           left: 0,
           right: 0,
           height: "3px",
+          borderRadius: "0.8rem 0.8rem 0 0",
           background: "linear-gradient(90deg, #D97706 0%, #F97316 50%, #D97706 100%)",
         }}
       />
