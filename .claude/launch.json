@@ -6,12 +6,6 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "C:/Projects/CRS/corporate-registry-services/web", "run", "dev"],
       "port": 3000
-    },
-    {
-      "name": "docu10",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "C:/Projects/CRS/docu10", "run", "dev"],
-      "port": 3001
     }
   ]
 }
