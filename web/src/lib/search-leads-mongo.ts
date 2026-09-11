@@ -26,10 +26,21 @@ export type SearchLeadDoc = {
   /* Optional context — populated when we know what the visitor was doing:
      "save-search"    — bottom-of-results soft capture (legacy)
      "unlock-profile" — clicked "View full profile" on a search result and
-                        gave email to unlock the /corporation/:id page. */
-  intent?:      "save-search" | "unlock-profile";
+                        gave email to unlock the /corporation/:id page.
+     "pc-name-check"  — proposed a professional-corporation name on an
+                        article and gave name/email/phone for the free
+                        preliminary report. The highest-intent lead the site
+                        produces, and the one an operator should call. */
+  intent?:      "save-search" | "unlock-profile" | "pc-name-check";
   registryId?:  string;  // corp # if they identified a specific corp
   jurisdiction?: string; // human-readable ("Alberta", "Federal", …)
+
+  /* Populated by the pc-name-check flow, which captures more than an email
+     because the product it leads to is sold by conversation. */
+  contactName?:  string;
+  contactPhone?: string;
+  profession?:   string;  // free text, e.g. "physician"
+  src?:          string;  // article attribution
 };
 
 export async function searchLeads(): Promise<Collection<SearchLeadDoc>> {
