@@ -68,6 +68,8 @@ Two structural cautions. First, voting shares cannot be parked in trusts or voti
 
 ## Keeping it alive: annual renewals
 
+Two clocks, not one: the CPSA permit renewal below, and the corporate annual return owed to the Alberta registry on your incorporation anniversary. They are separate filings with separate consequences — see [how to file an annual return for a medical professional corporation](/articles/how-to-file-annual-returns-medical-professional-corporation).
+
 An Alberta medical PC has two renewal tracks, and they do not talk to each other. At the corporate registry, the corporation must file its annual return through a registry agent to stay in good standing — fall out of good standing and you jeopardize a condition of your CPSA permit. At the College, the PC permit renews annually at $200 + GST per physician shareholder; renewal opens at the same time as your practice permit renewal (CPSA's 2026 renewal window ran to December 31, 2025) but is a separate process — renewing your practice permit does not renew your PC. In multi-shareholder PCs, only the designated physician sees the renewal, though every shareholder receives the final permit and receipt.
 
 Miss the deadline and CPSA charges a $200 late penalty per PC; letting the registration lapse entirely means a $200 + GST revival fee and time practising outside your corporate structure. Our [renewals and compliance guide](/professional-corporation/renewals) shows how to run both calendars on one plan.

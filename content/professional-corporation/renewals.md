@@ -16,6 +16,8 @@ A professional corporation stays alive on two separate clocks. The **corporate r
 
 This page collects the regulator renewal deadlines and fees we've verified on the regulators' own sites, plus the registry-side obligations, so a practice manager can build the whole compliance calendar from one table. Corporate Registry Services tracks and files both sides for clients — [book a free consultation](/professional-corporation/book-free-consultation) if you'd rather never think about this page again.
 
+The registry side is the one that gets missed, because it moves with each corporation's own anniversary rather than a shared date — [how to file a medical professional corporation annual return](/articles/how-to-file-annual-returns-medical-professional-corporation) covers what it is, when it falls due, and what a strike-off costs to undo.
+
 ## Regulator renewal calendar (verified 2026)
 
 | Regulator (profession) | What renews | Deadline | Fee | Notes |
