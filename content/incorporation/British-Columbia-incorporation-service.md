@@ -45,6 +45,8 @@ Under the BC *Business Corporations Act*:
 - **At least one director** — must be 18+. No Canadian residency requirement.
 - **BC name reservation** or NUANS report — provincial name reservation is sufficient for BC-only operations; NUANS provides broader national protection.
 
+Newly incorporated BC companies pick up two obligations immediately: the annual report, due within two months of the incorporation anniversary, and a [transparency register](/articles/bc-transparency-register) recording who ultimately owns or controls the company. The register is required from day one and is the one most new companies never create.
+
 ## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with BC Registry Services

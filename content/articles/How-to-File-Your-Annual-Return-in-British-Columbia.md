@@ -44,12 +44,14 @@ The BC Annual Report requires:
 BC Annual Reports are filed through **BC Registry Services** at [bcregistry.gov.bc.ca](https://www.bcregistry.gov.bc.ca) — the government portal for all BC corporate filings, including annual report filing.
 
 **Steps to file your BC annual report:**
-1. Log in to BC Registry Services using a BC Services Card or BCeID
+1. Log in to BC Registry Services using a BC Services Card or BCeID — see [what a Business BCeID takes to set up](/articles/business-bceid-bc-registry-account)
 2. Search for and access your company's dashboard
 3. Select "File Annual Report" when the filing becomes due
 4. Confirm or update your company's information (directors, registered office)
 5. Review and submit
 6. Pay the $43 government filing fee
+
+Getting a BCeID is not always the quick step it sounds like — registering with only a Business Number means [attending a BCeID Point of Service in person](/articles/business-bceid-bc-registry-account) with original identification.
 
 Prefer to skip the BCeID login and the portal entirely? CRS files your BC Annual Report directly with BC Registry Services on your behalf — see [Let CRS File Your BC Annual Report](#let-crs-file-your-bc-annual-report) below.
 
@@ -65,6 +67,12 @@ If the BC Annual Report is not filed within the 2-month period:
 2. If continued non-compliance, the corporation is placed in **non-compliance** status
 3. If the annual report is more than one year overdue, the corporation may be **dissolved** by the Registrar
 4. Once dissolved, the corporation must apply for reinstatement, which involves additional government fees and processing time
+
+## What Else Does a BC Company Have to Keep Current?
+
+The annual report is the filing everyone remembers. The one most BC companies have never done is the **transparency register** — a record of the individuals who ultimately own or control the company, required of every private BC company since 1 October 2020. It is not filed anywhere today, which is why it gets skipped, but section 427 of the *Business Corporations Act* already carries fines of up to $100,000 for a company and $50,000 for an individual, and B.C. has legislated a public version of it.
+
+See [the BC transparency register explained](/articles/bc-transparency-register) for who counts as a significant individual and what has to be recorded.
 
 ## Directors and Residency Requirements
 
