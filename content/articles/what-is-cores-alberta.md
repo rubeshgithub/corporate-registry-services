@@ -23,6 +23,8 @@ CORES is Alberta's **Corporate Registry System** — the government platform whe
 
 This guide covers what CORES does, who's allowed to use it, what the accreditation levels mean, and how to get your filings done without an account.
 
+Starting from scratch instead? [How to register a business in Alberta](/articles/how-to-register-a-business-in-alberta) covers the trade-name-vs-incorporation decision and what each costs through a registry agent.
+
 ## What does CORES actually do?
 
 Every transaction on the Alberta Corporate Registry flows through CORES, including:

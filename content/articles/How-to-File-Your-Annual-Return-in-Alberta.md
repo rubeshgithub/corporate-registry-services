@@ -79,6 +79,8 @@ Alberta is strict about annual return compliance. Missing the 1-month deadline r
 
 Note: Alberta corporate annual returns are separate from **GST returns** (filed with CRA) and **T2 corporate income tax returns** (also with CRA). Late CORES filing does not directly trigger CRA penalties — but a dissolved corporation cannot legally operate, which cascades into GST/T2 compliance problems very quickly. If you have late CORES *and* late GST filings, address the CORES filing first — you cannot file GST on a corporation the registry has dissolved.
 
+Setting up a second company, or helping someone start out? See [how to register a business in Alberta](/articles/how-to-register-a-business-in-alberta).
+
 ## File Your Alberta Annual Return Through a CORES Certified Registry Agent
 
 CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.

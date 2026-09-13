@@ -44,6 +44,8 @@ Under the *Alberta Business Corporations Act*:
 - **At least one director** — must be 18+. No Canadian residency requirement (removed 2022).
 - **Filing through a Certified Registry Agent** — CORES access is not available to the general public. Your incorporation must be filed either through a Certified Registry Agent (like CRS) or in person at a Registry Agent office.
 
+Not sure incorporation is the right structure yet? [How to register a business in Alberta](/articles/how-to-register-a-business-in-alberta) compares a trade name against a corporation, with the real costs of each.
+
 ## What's included in the {{price:incorporation-numbered}} all-in fee
 
 - Preliminary name availability check with Service Alberta
