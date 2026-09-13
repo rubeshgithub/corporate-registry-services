@@ -24,6 +24,6 @@ There is no obligation. If you only need the checklist, it's yours.
 
 ## Related guides
 
-- [Federal vs. Provincial Incorporation in Canada — Which Is Right for You?](/guides/federal-vs-provincial-incorporation-canada)
+- [Federal vs. Provincial Incorporation in Canada — Which Is Right for You?](/articles/federal-vs-provincial-incorporation-canada)
 - [Federal (CBCA) incorporation service](/incorporation/canada-federal-incorporation-service)
 - [Corporate annual returns — deadlines by jurisdiction](/guides/annual-return-filing-deadlines-canada)

@@ -28,6 +28,19 @@ const nextConfig: NextConfig = {
         destination: "/profile-reports",
         permanent: true,
       },
+
+      /* Federal-vs-provincial moved from /guides to /articles. A slug is
+       * normally untouchable because it carries ranking history — this one
+       * had none to carry: 1,515 words, 22 inbound links, correctly indexed,
+       * and zero impressions. Over the same 7-day window articles averaged
+       * 145 impressions per page at 1.15% CTR against guides' 44 at 0.45%,
+       * from a near-identical average position. The redirect is here because
+       * the old URL was public and internally linked. */
+      {
+        source: "/guides/federal-vs-provincial-incorporation-canada",
+        destination: "/articles/federal-vs-provincial-incorporation-canada",
+        permanent: true,
+      },
     ];
   },
 };

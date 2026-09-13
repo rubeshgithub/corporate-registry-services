@@ -53,7 +53,7 @@ A DIY incorporation typically takes one to three weeks end to end depending on w
 
 **No.** New Brunswick's *Business Corporations Act* does not require any director to be a resident Canadian. That puts NB alongside British Columbia, Alberta, Ontario, Nova Scotia, PEI and Quebec as jurisdictions fully open to non-resident founders and boards. By contrast, federal (CBCA) incorporation requires at least 25% of directors to be resident Canadians (or at least one, where there are fewer than four), so an internationally owned business that wants a Canadian entity without adding a resident director often incorporates provincially instead.
 
-What your corporation does need is a **registered office in New Brunswick** — a real street address where the registry can reach you and where your records are kept. Non-resident founders usually satisfy this through a registered-office service. If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada) covers when the CBCA's national name protection is worth its residency rule.
+What your corporation does need is a **registered office in New Brunswick** — a real street address where the registry can reach you and where your records are kept. Non-resident founders usually satisfy this through a registered-office service. If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada) covers when the CBCA's national name protection is worth its residency rule.
 
 ## Can you incorporate in French in New Brunswick?
 

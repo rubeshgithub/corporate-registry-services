@@ -80,7 +80,7 @@ On the filing fee alone, federal wins: Corporations Canada charges **$200** to i
 - Federal corporations must have **25% Canadian-resident directors**; Ontario dropped its residency requirement in July 2023, so a fully non-resident founding team can only use Ontario (or another residency-free province).
 - Federal incorporation gives you **Canada-wide name protection** — the real reason to choose it if you plan to operate in several provinces or raise from national investors.
 
-Over five years the two routes cost roughly the same in government fees. Choose on strategy, not the $100 difference. Our [federal vs. provincial incorporation guide](/guides/federal-vs-provincial-incorporation-canada) walks through the decision, and CRS files either for the same {{price:incorporation-numbered}} all-in.
+Over five years the two routes cost roughly the same in government fees. Choose on strategy, not the $100 difference. Our [federal vs. provincial incorporation guide](/articles/federal-vs-provincial-incorporation-canada) walks through the decision, and CRS files either for the same {{price:incorporation-numbered}} all-in.
 
 ## How long does it take to incorporate in Ontario?
 

@@ -149,7 +149,7 @@ export function buildFaqCategories(price: PriceOf): FaqCategory[] {
         {
           q: "Should I incorporate federally or provincially?",
           a: "Federal gives you the corporation name protection across all of Canada and lets you operate anywhere without re-registering. Provincial is simpler if you plan to operate in one province. If you cross provincial lines regularly, federal often makes more sense; local businesses usually go provincial. Prices are the same either way through CRS.",
-          href: "/guides/federal-vs-provincial-incorporation-canada",
+          href: "/articles/federal-vs-provincial-incorporation-canada",
         },
       ],
     },

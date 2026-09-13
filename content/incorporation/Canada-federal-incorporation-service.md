@@ -90,7 +90,7 @@ Not sure whether federal (CBCA) or a specific province is the right jurisdiction
 
 [Book a free incorporation consultation →](/incorporation/book-free-consultation)
 
-Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada) for a self-serve overview.
+Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada) for a self-serve overview.
 
 ## Ready to incorporate federally?
 

@@ -29,7 +29,7 @@ function serviceFamily(slug: string): "annual-return" | "incorporation" | "good-
    moves later. */
 const FAMILY_GUIDES: Record<string, string[]> = {
   "annual-return":   ["annual-return-filing-deadlines-canada"],
-  "incorporation":   ["federal-vs-provincial-incorporation-canada", "nuans-name-search-canada-guide"],
+  "incorporation":   ["nuans-name-search-canada-guide"],   // federal-vs-provincial moved to content/articles/
   "good-standing":   ["what-is-a-certificate-of-good-standing-canada", "corporate-profile-report-vs-certificate-of-good-standing"],
   "profile-report":  ["corporate-profile-report-vs-certificate-of-good-standing"],
   "minute-book":     ["what-is-a-corporate-minute-book-canada"],

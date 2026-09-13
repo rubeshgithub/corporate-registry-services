@@ -2,7 +2,7 @@
 title: "Federal vs. Provincial Incorporation in Canada — Which Is Right for You?"
 h1: "Federal vs. Provincial Incorporation in Canada: How to Choose"
 slug: "federal-vs-provincial-incorporation-canada"
-section: "guides"
+section: "articles"
 description: "Federal or provincial incorporation? Decision rules for cost, name protection, director residency, and cross-province operations. Same {{price:incorporation-numbered}} all-in either way — pick on business needs, not budget."
 ---
 

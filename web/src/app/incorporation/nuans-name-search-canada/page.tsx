@@ -234,7 +234,7 @@ export default async function NuansNameSearchCanadaPage() {
             <li><a href="/order/nuans-search" style={{ color: "var(--secondary)" }}>Order a full NUANS name search report</a> — {nuans} all-in + GST, delivered within one business hour</li>
             <li><a href="/incorporation/canada-federal-incorporation-service" style={{ color: "var(--secondary)" }}>Federal (CBCA) incorporation service</a> — {incorp} all-in, NUANS + Articles + minute book</li>
             <li><a href="/incorporation" style={{ color: "var(--secondary)" }}>Provincial incorporation services</a> — all 13 provinces and territories, {incorp} all-in</li>
-            <li><a href="/guides/federal-vs-provincial-incorporation-canada" style={{ color: "var(--secondary)" }}>Federal vs. provincial incorporation in Canada</a> — decision guide</li>
+            <li><a href="/articles/federal-vs-provincial-incorporation-canada" style={{ color: "var(--secondary)" }}>Federal vs. provincial incorporation in Canada</a> — decision guide</li>
             <li><a href="/incorporation/book-free-consultation" style={{ color: "var(--secondary)" }}>Book a free 15-min consultation</a> — walk through the name and jurisdiction with a specialist</li>
           </ul>
         </div>

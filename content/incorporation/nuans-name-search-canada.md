@@ -40,7 +40,7 @@ A traffic-light indicator (strong / moderate / weak), the list of similar corpor
 
 ## Related services
 
-- [Federal vs. Provincial Incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada)
+- [Federal vs. Provincial Incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada)
 - [Order a NUANS Name Search Report](/order/nuans-search)
 - [Federal (CBCA) Incorporation Service](/incorporation/canada-federal-incorporation-service)
 - [Book a Free Incorporation Consultation](/incorporation/book-free-consultation)

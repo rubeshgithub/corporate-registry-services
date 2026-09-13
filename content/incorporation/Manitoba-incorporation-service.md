@@ -85,7 +85,7 @@ Not sure whether Manitoba or federal (CBCA) is the right jurisdiction? A CRS inc
 
 [Book a free incorporation consultation →](/incorporation/book-free-consultation)
 
-Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada) for a self-serve overview.
+Or read the comparison in [Federal vs. Provincial Incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada) for a self-serve overview.
 
 ## Ready to incorporate in Manitoba?
 

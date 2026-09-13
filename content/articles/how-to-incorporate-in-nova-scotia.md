@@ -53,7 +53,7 @@ End to end, a do-it-yourself incorporation usually lands inside one to two weeks
 
 The trade-off: while your directors can live anywhere, your corporation cannot. Nova Scotia requires a **registered office inside the province** (a real address where records are kept, not a PO box) and a **recognized agent resident in Nova Scotia** who can accept official communications. Non-resident founders usually satisfy both through a service provider.
 
-If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada) covers when the CBCA's name protection is worth its residency rule.
+If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada) covers when the CBCA's name protection is worth its residency rule.
 
 ## Do you need a NUANS report to incorporate in Nova Scotia?
 

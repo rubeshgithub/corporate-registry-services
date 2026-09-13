@@ -53,7 +53,7 @@ End to end, a do-it-yourself incorporation usually lands inside one to two weeks
 
 The trade-off: while your directors can live anywhere, your corporation needs a local footprint. Saskatchewan requires a **registered office inside the province** (a real street address where records can be served, not a P.O. box), and **if no director or officer resides in Saskatchewan, you must appoint an attorney in the province** by power of attorney — someone authorized to accept official communications on the corporation's behalf. Non-resident founders usually satisfy both through a service provider.
 
-If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/guides/federal-vs-provincial-incorporation-canada) covers when the CBCA's Canada-wide name protection is worth its residency rule.
+If you're weighing jurisdictions, our guide to [federal vs. provincial incorporation in Canada](/articles/federal-vs-provincial-incorporation-canada) covers when the CBCA's Canada-wide name protection is worth its residency rule.
 
 ## Do you need a NUANS report to incorporate in Saskatchewan?
 
