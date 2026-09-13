@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2, Info, AlertCircle } from 
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput, { type ParsedAddress } from "@/components/PlacesInput";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import { DEFAULT_PRICES, priceKeyForService, formatCents } from "@/lib/price-catalogue";
 
 /* ────────────────────────── Types ────────────────────────── */
 
@@ -66,11 +67,14 @@ type FormState = {
 
 /* ────────────────────────── Pricing ────────────────────────── */
 
-const PRICING: Record<CompanyType, { label: string; price: number; blurb: string }> = {
-  "numbered":         { label: "Numbered Company",       price: 699, blurb: "Government-assigned number name (e.g. 1234567 Ontario Inc.)." },
-  "named":            { label: "Named Company",          price: 749, blurb: "Custom business name. Includes NUANS pre-search + filing." },
-  "extra-provincial": { label: "Extra-Provincial",       price: 299, blurb: "Register an existing corporation to operate in another province." },
-  "not-for-profit":   { label: "Not-for-Profit",         price: 699, blurb: "Non-profit or charitable organization." },
+/* Labels and blurbs only — the price is resolved live from the catalogue by
+   `key`, never hardcoded, so an /admin/analytics override reaches this screen
+   and the Stripe charge together. */
+const COMPANY_TYPES: Record<CompanyType, { label: string; key: string; blurb: string }> = {
+  "numbered":         { label: "Numbered Company",       key: "incorporation-numbered", blurb: "Government-assigned number name (e.g. 1234567 Ontario Inc.)." },
+  "named":            { label: "Named Company",          key: "incorporation-named",    blurb: "Custom business name. Includes NUANS pre-search + filing." },
+  "extra-provincial": { label: "Extra-Provincial",       key: "extra-provincial",       blurb: "Register an existing corporation to operate in another province." },
+  "not-for-profit":   { label: "Not-for-Profit",         key: priceKeyForService("not-for-profit"), blurb: "Non-profit or charitable organization." },
 };
 
 const RELATIONSHIPS: Relationship[] = ["Director", "President", "Legal Representative", "Accountant", "Other"];
@@ -87,7 +91,10 @@ const emailOk = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 
 const STEPS = ["Company", "Addresses", "People", "Business", "Review & Pay"] as const;
 
-export default function IncorporationOrderFlow() {
+export default function IncorporationOrderFlow({ prices }: { prices?: Record<string, number> }) {
+  /* Live catalogue cents by company type; falls back to code defaults so the
+     picker renders even if the prop is somehow absent. */
+  const centsFor = (ct: CompanyType) => (prices ?? DEFAULT_PRICES)[COMPANY_TYPES[ct].key] ?? DEFAULT_PRICES[COMPANY_TYPES[ct].key];
   const params  = useSearchParams();
   const jurisdictionParam = params.get("jurisdiction") ?? "";
   const typeParam         = (params.get("type") as CompanyType | null);
@@ -95,7 +102,7 @@ export default function IncorporationOrderFlow() {
 
   const [step, setStep] = useState(0);
   const [state, setState] = useState<FormState>({
-    companyType:       typeParam && PRICING[typeParam] ? typeParam : "numbered",
+    companyType:       typeParam && COMPANY_TYPES[typeParam] ? typeParam : "numbered",
     jurisdictionKey:   jurisdictionParam || "",
     nameOptions:       ["", "", ""],
     homeJurisdiction:  "",
@@ -113,7 +120,7 @@ export default function IncorporationOrderFlow() {
   const [paying, setPaying] = useState(false);
   const [payErr, setPayErr] = useState("");
 
-  const price = PRICING[state.companyType].price;
+  const price = centsFor(state.companyType);   // cents
 
   /* ─── Field patch helpers ─── */
   const patch = (p: Partial<FormState>) => setState((s) => ({ ...s, ...p }));
@@ -205,7 +212,7 @@ export default function IncorporationOrderFlow() {
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          Incorporation · from ${PRICING.numbered.price} all-in + GST
+          Incorporation · from {formatCents(centsFor("numbered"))} all-in + GST
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
           Incorporate your company
@@ -224,6 +231,7 @@ export default function IncorporationOrderFlow() {
           <StepCompany
             state={state}
             patch={patch}
+            prices={prices}
           />
         )}
         {step === 1 && (
@@ -323,7 +331,7 @@ export default function IncorporationOrderFlow() {
             {paying ? (
               <><Loader2 size={16} className="crs-spin" /> Redirecting…</>
             ) : (
-              <>Pay ${price} + GST and file <ArrowRight size={16} /></>
+              <>Pay {formatCents(price)} + GST and file <ArrowRight size={16} /></>
             )}
           </button>
         )}
@@ -370,13 +378,22 @@ function Stepper({ current }: { current: number }) {
 }
 
 /* ── Step 0: Company basics ── */
-function StepCompany({ state, patch }: { state: FormState; patch: (p: Partial<FormState>) => void }) {
+function StepCompany({ state, patch, prices }: { state: FormState; patch: (p: Partial<FormState>) => void; prices?: Record<string, number> }) {
+  const centsFor = (ct: CompanyType) => (prices ?? DEFAULT_PRICES)[COMPANY_TYPES[ct].key] ?? DEFAULT_PRICES[COMPANY_TYPES[ct].key];
   return (
     <div>
       <SectionHeading title="What are we incorporating?" subtitle="Pick the type that fits — the form adjusts to match." />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.5rem", marginBottom: "1.25rem" }}>
-        {(Object.keys(PRICING) as CompanyType[]).map((t) => (
+        {(Object.keys(COMPANY_TYPES) as CompanyType[]).map((t) => {
+          /* Asymmetric dominance, made arithmetic-visible: a named company
+             ($749) includes the NUANS report, so buying a numbered company
+             ($699) plus a standalone NUANS ($79 = $778) costs more for a
+             worse result. Shown only while that is actually true, so an admin
+             price change can't leave a false claim on screen. */
+          const numberedPlusNuans = centsFor("numbered") + ((prices ?? DEFAULT_PRICES)["nuans-search"] ?? DEFAULT_PRICES["nuans-search"]);
+          const namedDominates = t === "named" && centsFor("named") < numberedPlusNuans;
+          return (
           <button
             key={t}
             type="button"
@@ -390,11 +407,17 @@ function StepCompany({ state, patch }: { state: FormState; patch: (p: Partial<Fo
               cursor: "pointer",
             }}
           >
-            <div style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)" }}>{PRICING[t].label}</div>
-            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.15rem", lineHeight: 1.4 }}>{PRICING[t].blurb}</div>
-            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gold)", marginTop: "0.4rem" }}>${PRICING[t].price} all-in + GST</div>
+            <div style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)" }}>{COMPANY_TYPES[t].label}</div>
+            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.15rem", lineHeight: 1.4 }}>{COMPANY_TYPES[t].blurb}</div>
+            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--gold)", marginTop: "0.4rem" }}>{formatCents(centsFor(t))} all-in + GST</div>
+            {namedDominates && (
+              <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginTop: "0.3rem", lineHeight: 1.4 }}>
+                Includes the {formatCents((prices ?? DEFAULT_PRICES)["nuans-search"] ?? DEFAULT_PRICES["nuans-search"])} NUANS report — a numbered company plus a NUANS bought separately comes to {formatCents(numberedPlusNuans)}.
+              </div>
+            )}
           </button>
-        ))}
+          );
+        })}
       </div>
 
       <Field label="Jurisdiction" required>
@@ -680,8 +703,8 @@ function StepBusiness({ state, patch }: { state: FormState; patch: (p: Partial<F
 }
 
 /* ── Step 4: Review ── */
-function StepReview({ state, price }: { state: FormState; price: number }) {
-  const cfg = PRICING[state.companyType];
+function StepReview({ state, price }: { state: FormState; price: number }) {   // price in cents
+  const cfg = COMPANY_TYPES[state.companyType];
   const jur = JURISDICTIONS.find((j) => j.key === state.jurisdictionKey);
   return (
     <div>
@@ -707,7 +730,7 @@ function StepReview({ state, price }: { state: FormState; price: number }) {
 
       <div style={{ marginTop: "1.25rem", padding: "1rem 1.25rem", background: "var(--gold-dim)", borderRadius: "0.5rem", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
         <span style={{ fontWeight: 700, color: "var(--text)" }}>Total</span>
-        <span style={{ fontWeight: 800, color: "var(--text)", fontSize: "1.05rem" }}>${price} + GST</span>
+        <span style={{ fontWeight: 800, color: "var(--text)", fontSize: "1.05rem" }}>{formatCents(price)} + GST</span>
       </div>
     </div>
   );
