@@ -9,6 +9,7 @@ import {
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { getPrices, getPriceCents, formatPriceLabel, formatCents } from "@/lib/pricing";
 import { getPillar, listSection, primePrices } from "@/lib/content";
+import ProCorpNameCheckIsland from "@/components/ProCorpNameCheckIsland";
 
 /**
  * Public professional-corporation services hub — the indexable counterpart
@@ -123,6 +124,14 @@ export default async function ProfessionalCorporationHub() {
               </a>
             </div>
           </div>
+        </section>
+
+        {/* Free preliminary name check — the piece the $1,699 setup path was
+            missing. A physician lands here to set up; before we send them to a
+            consultation, let them check the name their college will require and
+            capture the lead. Sits right under the hero CTAs. */}
+        <section style={{ maxWidth: 860, margin: "0 auto", padding: "0 1.5rem" }}>
+          <ProCorpNameCheckIsland src="pc-hub-name-check" defaultScope="ab" />
         </section>
 
         {/* Services */}
