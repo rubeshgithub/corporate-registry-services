@@ -46,6 +46,24 @@ const CUSTOM_ISLANDS: Record<
   "how-to-get-corporate-documents-in-canada": ({ slug }) => (
     <CorporateDocumentsIsland src={`article-${slug}`} />
   ),
+  /* Alberta intent-to-dissolve: the reader's fix is filing the overdue
+     annual return, so this reuses the annual-return lookup-and-pay widget
+     with copy matched to the notice they're holding. */
+  "intent-to-dissolve-notice-alberta": ({ slug, prices }) => (
+    <InlineLookupOrder
+      service="annual-return"
+      provinceKey="ab"
+      priceCents={prices["annual-return"]}
+      srcTag={`inline-article-${slug}`}
+      urgency={{
+        headline: "Your notice has a deadline on it.",
+        body:     "File the outstanding annual return before that date and the dissolution stops. Miss it and the corporation is struck — reviving it costs several times more than filing today.",
+      }}
+      eyebrowOverride="Stop the dissolution"
+      titleOverride="Look up your corporation and file the overdue annual return"
+      subOverride="Enter your company name or Corporate Access Number to check its status and file the outstanding return before the deadline on your notice."
+    />
+  ),
 };
 
 type Params = { section: string; slug: string };
