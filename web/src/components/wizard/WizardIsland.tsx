@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, ArrowRight, Send, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, ExternalLink, AlertCircle } from "lucide-react";
 
 // Corporate documents (minute books, by-laws, resolutions) are handled on
 // our sister product MinuteBook rather than the CRS quote flow.
@@ -37,6 +37,7 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
   const [state, setState] = useState<WizardState>(INITIAL_STATE);
   const [hydrated, setHydrated] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     if (preload) {
@@ -75,6 +76,8 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const update = useCallback((patch: Partial<WizardState>) => {
+    /* Any edit or step change makes a refused submission's message stale. */
+    setSubmitError("");
     setState((prev) => {
       const next = { ...prev, ...patch };
       if (!preload) save(next);
@@ -259,17 +262,26 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
 
   /** Raise a quote. Only reached when the basket contains something that
    *  genuinely cannot be sold directly — currently just not-for-profit
-   *  incorporation, which routes to a consultation by design. */
+   *  incorporation, which routes to a consultation by design.
+   *  Throws an Error whose message is meant for the visitor: the server's
+   *  own text for a 400 or 429, a generic line otherwise. */
   const submitQuote = async () => {
-    const res = await fetch("/api/wizard-submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(state),
-    });
-    if (!res.ok) throw new Error("quote-failed");
-    const { ref } = await res.json();
+    let res: Response;
+    try {
+      res = await fetch("/api/wizard-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
+    } catch {
+      throw new Error("Network error. Please try again, or email us directly at support@corporateregistryservices.ca");
+    }
+    const data: { ref?: string; error?: string } | null = await res.json().catch(() => null);
+    if (!res.ok || !data?.ref) {
+      throw new Error(data?.error || "We couldn't send your request. Please try again, or email us directly at support@corporateregistryservices.ca");
+    }
     localStorage.removeItem(STORAGE_KEY);
-    window.location.href = `/order/thanks?ref=${ref}`;
+    window.location.href = `/order/thanks?ref=${encodeURIComponent(data.ref)}`;
   };
 
   /**
@@ -287,43 +299,41 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
    */
   const handleSubmit = async () => {
     setSubmitting(true);
+    setSubmitError("");
     try {
-      const res = await fetch("/api/order/wizard-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bucketKey:       state.bucketKey,
-          serviceKeys:     state.serviceKeys,
-          jurisdictionKey: state.jurisdictionKey,
-          details:         state.details,
-          customer:        state.customer,
-          src:             "wizard",
-        }),
-      });
-
-      if (res.ok) {
-        const { url } = await res.json();
-        if (url) {
-          localStorage.removeItem(STORAGE_KEY);
-          window.location.href = url;
-          return;
-        }
-      }
-
-      if (res.status === 409) {
-        await submitQuote();
-        return;
-      }
-
-      /* Anything else — Stripe down, misconfiguration — is better handled by
-         capturing the lead than by showing the visitor a dead end. */
-      await submitQuote();
-    } catch {
       try {
-        await submitQuote();
+        const res = await fetch("/api/order/wizard-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            bucketKey:       state.bucketKey,
+            serviceKeys:     state.serviceKeys,
+            jurisdictionKey: state.jurisdictionKey,
+            details:         state.details,
+            customer:        state.customer,
+            src:             "wizard",
+          }),
+        });
+
+        if (res.ok) {
+          const { url } = await res.json();
+          if (url) {
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.href = url;
+            return;
+          }
+        }
       } catch {
-        alert("Network error. Please try again, or email us directly.");
+        /* Checkout unreachable — fall through to the quote below. */
       }
+
+      /* A 409 means a service can't be bought directly. Anything else —
+         Stripe down, misconfiguration — is better handled by capturing the
+         lead than by showing the visitor a dead end. The quote is tried once;
+         if it is refused (bad input, rate limit), its message is shown. */
+      await submitQuote();
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -386,6 +396,24 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
             onTermsChange={(v) => update({ consents: { terms: v } })}
             submitting={submitting}
           />
+        )}
+
+        {submitError && isLast && (
+          <div
+            role="alert"
+            style={{
+              marginTop: "0.85rem",
+              display: "flex",
+              gap: "0.4rem",
+              alignItems: "flex-start",
+              color: "#B45309",
+              fontSize: "0.82rem",
+              lineHeight: 1.5,
+            }}
+          >
+            <AlertCircle size={15} style={{ flexShrink: 0, marginTop: "0.15rem" }} />
+            <span>{submitError}</span>
+          </div>
         )}
 
         {/* Corporate Documents lives on MinuteBook — surface a small notice

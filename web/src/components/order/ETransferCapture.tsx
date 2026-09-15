@@ -104,7 +104,8 @@ export default function ETransferCapture({
           src,
         }),
       });
-      const data = await res.json();
+      /* 400 and 429 carry a message for the visitor; anything else may not be JSON. */
+      const data: { error?: string } | null = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.error || "Could not send. Please try again.");
       setState("sent");
     } catch (e) {

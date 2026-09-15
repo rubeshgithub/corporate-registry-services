@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { orderDrafts, ensureOrderDraftIndexes } from "@/lib/order-drafts-mongo";
 import { sendAlertSms } from "@/lib/sms-infobip";
+import { findService } from "@/lib/service-config";
+import {
+  DAY, HOUR, admit, ipHashFrom, isEmail, oneLine, readJsonObject, savedCounts, text, tooManyRequests,
+} from "@/lib/public-form-guard";
 
 /**
  * POST /api/order/etransfer
@@ -20,17 +23,28 @@ import { sendAlertSms } from "@/lib/sms-infobip";
  * the company already attached. It also sets notifiedAt so the abandonment
  * sweep does not send a second "they left without paying" alert — this
  * person did not leave, they asked for another way to pay.
+ *
+ * Public and unauthenticated, and the acknowledgement goes from support@ to
+ * the address typed, so it is fixed text plus the service label looked up
+ * from service-config. The visitor's name, company and the client-sent label
+ * and price go to support@ only. See lib/public-form-guard.ts.
  */
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MAX_STR = 200;
-const trunc = (v: unknown, max = MAX_STR): string => {
-  if (typeof v !== "string") return "";
-  const s = v.trim();
-  return s.length > max ? s.slice(0, max) : s;
+const MAX_BODY = 16_000;   // raw request chars, checked before JSON parsing
+const MAX_NAME = 100;
+
+const LIMITS = {
+  perIpHour:       5,    // accepted requests from one IP hash
+  perEmailHour:    3,    // accepted requests giving one address
+  acksPerEmailDay: 1,    // acknowledgements sent to one address
+  acksAllHour:     30,   // acknowledgements site-wide
 };
+
+/** One line, cut to max. For values the visitor can't see or fix. */
+const clip = (v: unknown, max = 200): string => oneLine(v).slice(0, max);
 
 function makeSes() {
   return new SESClient({
@@ -42,45 +56,69 @@ function makeSes() {
   });
 }
 
-function ipHashFromRequest(req: Request): string {
-  const raw = (req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  return raw ? crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24) : "";
+function asObject(v: unknown): Record<string, unknown> {
+  return v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
 }
 
-type Body = {
-  sessionId?: string;
-  service?:   string;
-  serviceLabel?: string;
-  path?:      string;
-  priceLabel?: string;
-  contact?:   { name?: string; email?: string; phone?: string };
-  company?:   {
-    name?: string; registryId?: string; businessNumber?: string;
-    jurisdiction?: string; provinceKey?: string;
-  };
-  src?: string;
-};
-
 export async function POST(req: Request) {
-  let body: Body;
-  try { body = await req.json(); } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
-  }
+  const read = await readJsonObject(req, MAX_BODY, { tooLong: "Request is too long.", invalid: "Invalid request body." });
+  if ("response" in read) return read.response;
+  const { body } = read;
 
-  const email = trunc(body.contact?.email).toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const contact = asObject(body.contact);
+  const email   = text(contact.email).trim().toLowerCase();
+  if (!isEmail(email)) {
     return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
   }
+  const name = oneLine(contact.name);
+  if (name.length > MAX_NAME) {
+    return NextResponse.json({ error: `Name must be ${MAX_NAME} characters or fewer.` }, { status: 400 });
+  }
 
-  const service      = trunc(body.service, 40) || "unknown";
-  const serviceLabel = trunc(body.serviceLabel, 80) || service;
-  const priceLabel   = trunc(body.priceLabel, 40);
-  const name         = trunc(body.contact?.name);
-  const phone        = trunc(body.contact?.phone, 40);
-  const sessionId    = trunc(body.sessionId, 64);
-  const path         = trunc(body.path, 120);
-  const company      = body.company ?? {};
-  const now          = new Date();
+  const service      = clip(body.service, 40) || "unknown";
+  const serviceLabel = clip(body.serviceLabel, 80) || service;
+  const priceLabel   = clip(body.priceLabel, 40);
+  const phone        = clip(contact.phone, 40);
+  const sessionId    = clip(body.sessionId, 64);
+  const path         = clip(body.path, 120);
+  const src          = clip(body.src, 100);
+  const companyIn    = asObject(body.company);
+  const company = {
+    name:           clip(companyIn.name),
+    registryId:     clip(companyIn.registryId, 60),
+    businessNumber: clip(companyIn.businessNumber, 60),
+    jurisdiction:   clip(companyIn.jurisdiction, 80),
+    provinceKey:    clip(companyIn.provinceKey, 8),
+  };
+  /* The only service wording the visitor's acknowledgement may carry. */
+  const knownServiceLabel = findService(service)?.label;
+
+  const ipHash = ipHashFrom(req);
+  const nowMs  = Date.now();
+  const now    = new Date(nowMs);
+
+  /* Counted from the order_drafts rows this route writes. Rows are keyed on
+     sessionId + service, so repeats from one session collapse into one row and
+     session-less requests aren't saved; the in-process counts cover those. */
+  const saved = await savedCounts("order/etransfer", async () => {
+    await ensureOrderDraftIndexes();
+    const col = await orderDrafts();
+    const hourAgo = new Date(nowMs - HOUR);
+    const dayAgo  = new Date(nowMs - DAY);
+    const [ip, byEmail, acksToEmail, acksAll] = await Promise.all([
+      ipHash ? col.countDocuments({ ipHash, etransferRequestedAt: { $gte: hourAgo } }) : 0,
+      col.countDocuments({ "contact.email": email, etransferRequestedAt: { $gte: hourAgo } }),
+      col.countDocuments({ "contact.email": email, etransferAckSentAt: { $gte: dayAgo } }),
+      col.countDocuments({ etransferRequestedAt: { $gte: hourAgo }, etransferAckSentAt: { $gte: hourAgo } }),
+    ]);
+    return { ip, email: byEmail, acksToEmail, acksAll };
+  });
+
+  const admitted = admit("etransfer", LIMITS, ipHash, email, saved, nowMs);
+  if (!admitted) {
+    return tooManyRequests("Too many requests. Please try again later, or email us at support@corporateregistryservices.ca");
+  }
+  const { sendAck } = admitted;
 
   /* Record it against the draft so the operator sees it in the same place as
      every other warm lead. A session-less request still gets emailed — we
@@ -97,16 +135,17 @@ export async function POST(req: Request) {
         notifiedAt:             now,
         updatedAt:              now,
         userAgent: (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
-        ipHash:    ipHashFromRequest(req) || undefined,
+        ipHash,
       };
+      if (sendAck) setFields.etransferAckSentAt = now;
       if (name)  setFields["contact.name"]  = name;
       if (phone) setFields["contact.phone"] = phone;
       const setIf = (k: string, v: string) => { if (v) setFields[k] = v; };
-      setIf("company.name",           trunc(company.name));
-      setIf("company.registryId",     trunc(company.registryId, 60));
-      setIf("company.businessNumber", trunc(company.businessNumber, 60));
-      setIf("company.jurisdiction",   trunc(company.jurisdiction, 80));
-      setIf("company.provinceKey",    trunc(company.provinceKey, 8));
+      setIf("company.name",           company.name);
+      setIf("company.registryId",     company.registryId);
+      setIf("company.businessNumber", company.businessNumber);
+      setIf("company.jurisdiction",   company.jurisdiction);
+      setIf("company.provinceKey",    company.provinceKey);
 
       await col.updateOne(
         { sessionId, service },
@@ -131,39 +170,41 @@ ACTION: reply with the transfer address, the exact amount, and a reference.
 
 Service:       ${serviceLabel}${priceLabel ? ` (${priceLabel})` : ""}
 Page:          ${path || "—"}
-Attribution:   ${trunc(body.src, 100) || "—"}
+Attribution:   ${src || "—"}
 
 --- Company ---
-Name:          ${trunc(company.name) || "— (not selected)"}
-Registry ID:   ${trunc(company.registryId, 60) || "—"}
-BN:            ${trunc(company.businessNumber, 60) || "—"}
-Jurisdiction:  ${trunc(company.jurisdiction, 80) || trunc(company.provinceKey, 8) || "—"}
+Name:          ${company.name || "— (not selected)"}
+Registry ID:   ${company.registryId || "—"}
+BN:            ${company.businessNumber || "—"}
+Jurisdiction:  ${company.jurisdiction || company.provinceKey || "—"}
 
 --- Contact ---
 Name:          ${name || "—"}
 Email:         ${email}
 Phone:         ${phone || "—"}
+Auto-reply:    ${sendAck ? "sent" : "not sent (auto-reply limit reached for this address or site-wide)"}
 
 Requested:     ${now.toISOString()}
 Session:       ${sessionId || "—"}
 =====================================================
 `.trim();
 
+  /* Fixed text plus the catalogue's service label. Nothing the visitor typed
+     goes in, not even their name. */
   const customerText = `
-Hi${name ? ` ${name}` : ""},
+Hi,
 
-Thanks — we've got your request to pay by Interac e-Transfer${company.name ? ` for ${company.name}` : ""}.
+Thanks — we've got your request to pay by Interac e-Transfer${knownServiceLabel ? ` for ${knownServiceLabel}` : ""}.
 
 One of our team will email you the transfer details shortly, including the
 exact amount and a reference number to include with the transfer. We send
 these by hand rather than publishing them, so please wait for our reply
 rather than sending a transfer to any address you find elsewhere.
 
-${serviceLabel}${priceLabel ? ` — ${priceLabel}` : ""}
-
 Once the transfer lands we start work the same way as a card payment.
 
 Questions? Just reply to this email.
+If you didn't make this request, you can ignore this email.
 
 — The CRS Team
 Corporate Registry Services
@@ -176,18 +217,20 @@ support@corporateregistryservices.ca
       Source: fromEmail,
       Destination: { ToAddresses: [ownerEmail] },
       Message: {
-        Subject: { Data: `[CRS] e-Transfer requested — ${serviceLabel} — ${trunc(company.name) || email}` },
+        Subject: { Data: `[CRS] e-Transfer requested — ${serviceLabel} — ${company.name || email}` },
         Body:    { Text: { Data: ownerText } },
       },
     }));
-    await ses.send(new SendEmailCommand({
-      Source: fromEmail,
-      Destination: { ToAddresses: [email] },
-      Message: {
-        Subject: { Data: `We'll send your e-Transfer details shortly — CRS` },
-        Body:    { Text: { Data: customerText } },
-      },
-    }));
+    if (sendAck) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [email] },
+        Message: {
+          Subject: { Data: `We'll send your e-Transfer details shortly — CRS` },
+          Body:    { Text: { Data: customerText } },
+        },
+      }));
+    }
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Email send failed.";
     console.error("[order/etransfer] SES send failed:", msg);
@@ -198,7 +241,7 @@ support@corporateregistryservices.ca
 
   /* Someone actively trying to pay is worth the same ping as a paid order. */
   void sendAlertSms(
-    `CRS e-TRANSFER req: ${serviceLabel} - ${trunc(company.name) || "no company"} - ${email}`
+    `CRS e-TRANSFER req: ${serviceLabel} - ${company.name || "no company"} - ${email}`
   );
 
   return NextResponse.json({ ok: true });

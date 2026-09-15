@@ -43,6 +43,9 @@ export type OrderDraftDoc = {
    *  of paying by card. These are not abandonments — they are people waiting
    *  on a reply, and the operator owes them the transfer address by hand. */
   etransferRequestedAt?: Date;
+  /** Set with etransferRequestedAt when the visitor was also sent the fixed
+   *  acknowledgement. Counted to cap those per address and site-wide. */
+  etransferAckSentAt?: Date;
 };
 
 export async function orderDrafts(): Promise<Collection<OrderDraftDoc>> {
@@ -60,6 +63,8 @@ export async function ensureOrderDraftIndexes(): Promise<void> {
     await col.createIndex({ "contact.email": 1 }, { sparse: true });
     /* Drives the abandonment sweep: find cold, un-notified drafts cheaply. */
     await col.createIndex({ notifiedAt: 1, updatedAt: -1 }, { sparse: true });
+    /* /api/order/etransfer rate limits count recent requests. */
+    await col.createIndex({ etransferRequestedAt: -1 }, { sparse: true });
   } catch (e) {
     indexesEnsured = false;
     console.error("[order-drafts] failed to ensure indexes:", e);

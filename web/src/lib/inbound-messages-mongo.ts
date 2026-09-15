@@ -26,7 +26,7 @@ export type InboundMessageDoc = {
   payload?:   Record<string, unknown>;
   ipHash?:    string;
   userAgent?: string;
-  /** "contact" only: whether the visitor was sent the fixed auto-reply.
+  /** Whether the visitor was sent the fixed auto-reply.
    *  Counted to cap auto-replies per address and site-wide. */
   autoReplySent?: boolean;
   createdAt:  Date;
@@ -47,7 +47,7 @@ export async function ensureInboundMessageIndexes(): Promise<void> {
     await col.createIndex({ createdAt: -1 });
     await col.createIndex({ email: 1, createdAt: -1 });
     await col.createIndex({ source: 1, createdAt: -1 });
-    await col.createIndex({ ipHash: 1, createdAt: -1 });   // /api/contact rate limit
+    await col.createIndex({ ipHash: 1, createdAt: -1 });   // /api/contact and /api/wizard-submit rate limits
   } catch (e) {
     indexesEnsured = false;
     console.error("[inbound-messages] failed to ensure indexes:", e);
