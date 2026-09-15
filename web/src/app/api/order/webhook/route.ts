@@ -145,6 +145,7 @@ const MB_FED_SERVICES = new Set([
   "change-address",
   "voluntary-dissolution",
   "revival",
+  "minute-book",
 ]);
 
 /** Build the MinuteBook feed payload from a Stripe session. Returns null
@@ -259,6 +260,24 @@ function buildMbPayload(session: Stripe.Checkout.Session): MbFeedPayload | null 
         hasMissedFilings: details?.hasMissedFilings,
         reasonForRevival: details?.reasonForRevival,
         filingsNote:      details?.filingsNote,
+      },
+    });
+    return base;
+  }
+
+  if (service === "minute-book") {
+    // Lets MB provision the customer's workspace directly instead of via
+    // the manual pilot-request ops email.
+    base.events!.push({
+      type:          "minute_book_ordered",
+      effectiveDate: today,
+      data: {
+        tier:             m.mb_tier,
+        path:             m.mb_path,             // "self" | "crs"
+        reportSource:     m.mb_report_source,    // "crs_pull" | "customer_upload"
+        incorpDateSource: m.mb_incorp_source,    // "registry" | "customer"
+        contactRole:      m.mb_contact_role,
+        contactPhone:     m.contact_phone,
       },
     });
     return base;
@@ -908,6 +927,102 @@ support@corporateregistryservices.ca
         Destination: { ToAddresses: [customerEmail] },
         Message: {
           Subject: { Data: `Payment received — your ${label} is on the way` },
+          Body:    { Text: { Data: customerText } },
+        },
+      }));
+    }
+    return;
+  }
+
+  if (service === "minute-book") {
+    const m = session.metadata ?? {};
+    const pathLabel   = m.mb_path === "crs" ? "Built by CRS" : "Self-serve online";
+    const reportLabel = m.mb_report_source === "customer_upload"
+      ? "Customer will reply with their own report (verify it's dated within 30 days — pull fresh if not)"
+      : "CRS pulls the report (included)";
+
+    const ownerText = `
+NEW PAID ORDER — Corporate Minute Book — Stripe session ${session.id}
+=====================================================
+Amount:        ${fmtAmount(session)}
+Payment:       ${session.payment_status}
+Attribution:   ${m.src ?? "—"}
+
+--- Order ---
+Tier:          ${m.mb_tier ?? "—"} (incorp date ${m.incorp_date ?? "—"}, source: ${m.mb_incorp_source ?? "—"})
+Path:          ${pathLabel}
+Profile report: ${reportLabel}
+
+--- Company (from registry lookup) ---
+Name:          ${m.company_name ?? "—"}
+Jurisdiction:  ${m.jurisdiction ?? "—"} (${m.province_key ?? "—"})
+Registry ID:   ${m.registry_id ?? "—"}
+BN:            ${m.business_number ?? "—"}
+Entity type:   ${m.entity_type ?? "—"}
+Status:        ${m.registry_status ?? "—"}
+Location:      ${m.location ?? "—"}
+
+--- Customer ---
+Name:          ${m.contact_name ?? "—"} (${m.mb_contact_role ?? "—"})
+Email:         ${customerEmail ?? "—"}
+Phone:         ${m.contact_phone ?? "—"}
+=====================================================
+
+Action:
+1. Pull the current Corporate Profile Report${m.mb_report_source === "customer_upload" ? " (unless the customer's own report arrives and is <30 days old)" : ""} and email it to the customer within 1 business day.
+2. If the report shows an amalgamation, revival, or continuance, PAUSE and confirm a revised quote before any work (Complete-Book Guarantee).
+3. ${m.mb_path === "crs" ? "Book the 15-minute intake call, then build and QC the book (5-business-day SLA)." : "Confirm the customer's MinuteBook workspace is provisioned for the guided interview."}
+Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
+`.trim();
+
+    const customerText = `
+Hi ${m.contact_name ?? "there"},
+
+Your minute book order for ${m.company_name ?? "your corporation"} is confirmed.
+
+Here's what happens next:
+  1. We pull your corporation's current Corporate Profile Report and email
+     it to you within one business day.${m.mb_report_source === "customer_upload" ? `
+     (You chose to supply your own — just reply to this email with the PDF
+     attached. If it's older than 30 days we'll pull a fresh one, included.)` : ""}
+  2. You review it at your pace.
+  3. ${m.mb_path === "crs"
+    ? "We call you for a short 15-minute intake, then build and quality-check\n     your signature-ready book — delivered within 5 business days."
+    : "You complete the guided online interview (about 20 minutes) and your\n     book assembles from the official record, with a clear signing checklist."}
+
+Our Complete-Book Guarantee: if your registry record reveals events outside
+this order's scope (an amalgamation, revival, or continuance), we pause and
+confirm a revised quote with you before any work begins — or refund you in full.
+
+Order summary:
+  Reference:    ${session.id}
+  Amount paid:  ${fmtAmount(session)}
+  Company:      ${m.company_name ?? "—"}
+  Registry ID:  ${m.registry_id ?? "—"}
+  Jurisdiction: ${m.jurisdiction ?? "—"}
+  Package:      ${pathLabel}
+
+Questions? Reply to this email — we'll respond within one business hour.
+
+— The CRS Team
+Corporate Registry Services
+support@corporateregistryservices.ca
+`.trim();
+
+    await ses.send(new SendEmailCommand({
+      Source: fromEmail,
+      Destination: { ToAddresses: [ownerEmail] },
+      Message: {
+        Subject: { Data: `[CRS] Paid — Minute Book ${m.mb_tier ?? ""} ${pathLabel} — ${m.company_name ?? "—"}` },
+        Body:    { Text: { Data: ownerText } },
+      },
+    }));
+    if (customerEmail) {
+      await ses.send(new SendEmailCommand({
+        Source: fromEmail,
+        Destination: { ToAddresses: [customerEmail] },
+        Message: {
+          Subject: { Data: "Order confirmed — your minute book is underway" },
           Body:    { Text: { Data: customerText } },
         },
       }));

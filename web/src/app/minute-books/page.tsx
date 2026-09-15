@@ -78,21 +78,32 @@ const PACKAGES = [
   {
     name: "Standard",
     age: "Corporations up to 2 years old",
-    price: "$299",
+    price: "$289",
+    crsPrice: "$389",
     description: "Full minute book prepared from your incorporation documents — all registers, share certificates, by-laws, and organizational resolutions.",
     highlight: false,
   },
   {
-    name: "Established",
+    name: "Growing",
     age: "Corporations 2 – 5 years old",
-    price: "$749",
+    price: "$589",
+    crsPrice: "$689",
     description: "Government document retrieval for all filings since incorporation, plus complete minute book preparation and compilation.",
     highlight: true,
   },
   {
+    name: "Established",
+    age: "Corporations 5 – 10 years old",
+    price: "$889",
+    crsPrice: "$999",
+    description: "Deep history rebuild — registers, resolutions, and certificates reconstructed for every year of activity.",
+    highlight: false,
+  },
+  {
     name: "Legacy",
-    age: "Corporations 5+ years old",
+    age: "Corporations 10+ years old",
     price: "$1,399",
+    crsPrice: "$1,599",
     description: "Full corporate history retrieval from government registries and comprehensive minute book reconstruction covering all years of activity.",
     highlight: false,
   },
@@ -426,11 +437,35 @@ export default function MinuteBooksPage() {
                   >
                     {pkg.price} <span style={{ fontSize: "0.85rem", fontWeight: 400, opacity: 0.75 }}>+ tax</span>
                   </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-mono), monospace", fontSize: "0.68rem",
+                      color: pkg.highlight ? "rgba(255,255,255,0.75)" : "var(--text-muted)",
+                      marginTop: "-0.5rem", marginBottom: "0.75rem",
+                    }}
+                  >
+                    self-serve · {pkg.crsPrice} built by CRS
+                  </div>
                   <p style={{ fontSize: "0.82rem", lineHeight: 1.65, color: pkg.highlight ? "rgba(255,255,255,0.85)" : "var(--text-muted)", margin: 0 }}>
                     {pkg.description}
                   </p>
                 </div>
               ))}
+            </div>
+            <div style={{ textAlign: "center", marginTop: "2rem" }}>
+              <a
+                href="/order/minute-book?src=minute-books-pricing"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  padding: "0.85rem 1.75rem", background: "var(--primary)", color: "#FFFFFF",
+                  fontWeight: 700, fontSize: "0.95rem", borderRadius: "0.5rem", textDecoration: "none",
+                }}
+              >
+                Find your corporation — see your exact price →
+              </a>
+              <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.6rem" }}>
+                Your current Corporate Profile Report is included. No payment until you see your price.
+              </p>
             </div>
             <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "1.25rem" }}>
               Already have some corporate documents?{" "}
