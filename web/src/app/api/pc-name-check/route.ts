@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
+import { ipHashFrom } from "@/lib/client-ip";
 import { checkNameAvailability, type Scope } from "@/lib/name-availability";
 import { searchLeads, ensureSearchLeadIndexes } from "@/lib/search-leads-mongo";
 import { isSuppressed } from "@/lib/outreach-mongo";
@@ -48,12 +48,6 @@ type Body = {
   sessionId?:    string;
   src?:          string;
 };
-
-function ipHashFromRequest(req: Request): string {
-  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim();
-  if (!ip) return "";
-  return crypto.createHash("sha256").update(ip).digest("hex").slice(0, 24);
-}
 
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -104,7 +98,7 @@ export async function POST(req: Request) {
         resultCount:  result.matchCount,
         path:         String(body.path ?? ""),
         sessionId:    body.sessionId ? String(body.sessionId) : undefined,
-        ipHash:       ipHashFromRequest(req) || undefined,
+        ipHash:       ipHashFrom(req),
         userAgent:    (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
         createdAt:    new Date(),
         intent:       "pc-name-check",

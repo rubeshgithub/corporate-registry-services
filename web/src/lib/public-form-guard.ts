@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 
 /* Guards for public, unauthenticated routes that send mail from support@
@@ -58,11 +57,8 @@ export function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
   ]).finally(() => clearTimeout(timer));
 }
 
-/** First X-Forwarded-For hop, hashed. Stored hashes use the same derivation. */
-export function ipHashFrom(request: Request): string | undefined {
-  const raw = (request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  return raw ? crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24) : undefined;
-}
+/* Hashed client IP. See client-ip.ts for why it isn't the first X-Forwarded-For hop. */
+export { ipHashFrom } from "./client-ip";
 
 /** Reads a JSON object body of at most maxChars, or returns the 413/400 to send. */
 export async function readJsonObject(

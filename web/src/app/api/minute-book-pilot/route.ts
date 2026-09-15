@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
+import { ipHashFrom } from "@/lib/client-ip";
 import { ensureOutreachIndexes, minuteBookPilots, isSuppressed } from "@/lib/outreach-mongo";
 import { sendOutreach } from "@/lib/outreach-ses";
 
@@ -39,12 +39,6 @@ type Body = {
   path?:           string;
   sessionId?:      string;
 };
-
-function ipHashFromRequest(req: Request): string {
-  const raw = (req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  if (!raw) return "";
-  return crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24);
-}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DEDUPE_MS = 24 * 3600 * 1000;
@@ -96,7 +90,7 @@ export async function POST(req: Request) {
     status:          String(body.status ?? ""),
     requesterName:   body.requesterName?.trim() || undefined,
     requesterPhone:  body.requesterPhone?.trim() || undefined,
-    ipHash:          ipHashFromRequest(req) || undefined,
+    ipHash:          ipHashFrom(req),
     userAgent:       (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
     path:            String(body.path ?? "/minute-books"),
     sessionId:       body.sessionId?.trim() || undefined,

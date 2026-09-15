@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
+import { ipHashFrom } from "@/lib/client-ip";
 import { searchLeads, ensureSearchLeadIndexes } from "@/lib/search-leads-mongo";
 import { isSuppressed } from "@/lib/outreach-mongo";
 import { sendOutreach } from "@/lib/outreach-ses";
@@ -45,12 +45,6 @@ type Body = {
   jurisdiction?: string;
 };
 
-function ipHashFromRequest(req: Request): string {
-  const raw = (req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  if (!raw) return "";
-  return crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24);
-}
-
 export async function POST(req: Request) {
   let body: Body;
   try { body = await req.json(); } catch {
@@ -92,7 +86,7 @@ export async function POST(req: Request) {
     resultCount,
     path:         String(body.path ?? ""),
     sessionId:    body.sessionId ? String(body.sessionId) : undefined,
-    ipHash:       ipHashFromRequest(req) || undefined,
+    ipHash:       ipHashFrom(req),
     userAgent:    (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
     createdAt:    now,
     intent,

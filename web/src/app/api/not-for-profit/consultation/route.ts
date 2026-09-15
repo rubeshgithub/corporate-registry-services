@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
+import { ipHashFrom } from "@/lib/client-ip";
 import {
   ensureOutreachIndexes,
   nfpConsultations,
@@ -57,12 +57,6 @@ type Body = {
   notes?:      string;
   sourcePath?: string;
 };
-
-function ipHashFromRequest(req: Request): string {
-  const raw = (req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  if (!raw) return "";
-  return crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24);
-}
 
 export async function POST(req: Request) {
   let body: Body;
@@ -187,7 +181,7 @@ export async function POST(req: Request) {
     },
     notes:      body.notes?.trim() || undefined,
     sourcePath: String(body.sourcePath ?? "/not-for-profit/book-free-consultation"),
-    ipHash:     ipHashFromRequest(req) || undefined,
+    ipHash:     ipHashFrom(req),
     userAgent:  (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
     createdAt:  now,
   };

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "node:crypto";
+import { ipHashFrom } from "@/lib/client-ip";
 import { orderDrafts, ensureOrderDraftIndexes, type OrderDraftDoc } from "@/lib/order-drafts-mongo";
 
 /**
@@ -33,12 +33,6 @@ const trunc = (v: unknown, max = MAX_STR): string => {
   const s = v.trim();
   return s.length > max ? s.slice(0, max) : s;
 };
-
-function ipHashFromRequest(req: Request): string {
-  const raw = (req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "").split(",")[0]?.trim() ?? "";
-  if (!raw) return "";
-  return crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24);
-}
 
 type Body = {
   sessionId?: string;
@@ -82,7 +76,7 @@ export async function POST(req: Request) {
     sessionId, service, path,
     updatedAt: now,
     userAgent: (req.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
-    ipHash:    ipHashFromRequest(req) || undefined,
+    ipHash:    ipHashFrom(req),
   };
   const setOnInsert: Partial<OrderDraftDoc> = { createdAt: now };
 
