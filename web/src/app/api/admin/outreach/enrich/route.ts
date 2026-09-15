@@ -8,6 +8,7 @@ import {
 } from "@/lib/registrar-live";
 import { companies, lookups, ensureLookupsIndex } from "@/lib/registrar-mongo";
 import { isSuppressed } from "@/lib/outreach-mongo";
+import { docu10OptedOut } from "@/lib/docu10-optouts";
 
 /**
  * POST /api/admin/outreach/enrich
@@ -140,6 +141,13 @@ async function serializeContact(r: EnrichmentResult) {
   // surface "unsubscribed" state before the operator drafts an email.
   // Send-time check is still the last-line-of-defense; this is UX.
   const suppressed = r.email ? await isSuppressed(r.email) : false;
+  // Same for docu10's opt-out list. null = it could not be read; the console
+  // says so, and the send route will refuse until it can.
+  let docu10OptOut: boolean | null = false;
+  if (r.email) {
+    try { docu10OptOut = (await docu10OptedOut([r.email])).length > 0; }
+    catch (e) { console.error("[outreach/enrich] could not read docu10 opt-outs:", e); docu10OptOut = null; }
+  }
   return {
     email:          r.email,
     emailSourceUrl: r.emailSourceUrl,
@@ -148,6 +156,7 @@ async function serializeContact(r: EnrichmentResult) {
     enrichedAt:     r.enrichedAt.toISOString(),
     enrichStatus:   r.enrichStatus,
     suppressed,
+    docu10OptOut,
     rating:         r.rating         ?? null,
     reviewCount:    r.reviewCount    ?? null,
     businessStatus: r.businessStatus ?? null,

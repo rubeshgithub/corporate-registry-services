@@ -12,14 +12,17 @@ import { newToken, signUnsubscribe } from "@/lib/outreach-token";
 import { TEMPLATES } from "@/lib/outreach-templates";
 import { getPrices } from "@/lib/pricing";
 import { sendOutreach } from "@/lib/outreach-ses";
+import { docu10OptedOut } from "@/lib/docu10-optouts";
 
 /**
  * POST /api/admin/outreach/send
  *
  * Creates a token, renders the chosen template, sends the email via SES
  * (with the outreach configuration set), and logs the full send for CASL
- * audit. Suppression is checked before any of that — a suppressed recipient
- * gets a 409 with { suppressed: true }.
+ * audit. Suppression is checked before any of that, against both
+ * outreach_suppression and docu10's opt-out list — a suppressed recipient
+ * gets a 409 with { suppressed: true, reason }, and a list that cannot be
+ * read gets a 503 with nothing sent.
  */
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://corporateregistryservices.ca";
@@ -73,8 +76,22 @@ export async function POST(req: Request) {
   // Suppression check — never send to a suppressed address, ever.
   for (const addr of [...to, ...cc, ...bcc]) {
     if (await isSuppressed(addr)) {
-      return NextResponse.json({ error: `Address is on the suppression list: ${addr}`, suppressed: true }, { status: 409 });
+      return NextResponse.json({ error: `Address is on the suppression list: ${addr}`, suppressed: true, reason: "outreach_suppression" }, { status: 409 });
     }
+  }
+
+  // docu10's opt-out list — people who asked CRS for no more email through a
+  // docu10 email or its staff. If it cannot be read, refuse: an unchecked
+  // send could reach someone who unsubscribed.
+  let optedOut: string[];
+  try {
+    optedOut = await docu10OptedOut([...to, ...cc, ...bcc]);
+  } catch (e) {
+    console.error("[outreach/send] could not read docu10 opt-outs:", e);
+    return NextResponse.json({ error: "Could not check docu10's opt-out list, so nothing was sent. Try again in a minute." }, { status: 503 });
+  }
+  if (optedOut.length) {
+    return NextResponse.json({ error: `Address asked CRS for no more email (docu10 opt-out list): ${optedOut[0]}`, suppressed: true, reason: "docu10_optout" }, { status: 409 });
   }
 
   const token = newToken();

@@ -87,6 +87,9 @@ type EnrichmentPayload = {
   /** True when this email is on the outreach suppression list —
    *  operator should NOT send further outreach to it. */
   suppressed?:    boolean;
+  /** True when this email is on docu10's opt-out list (asked CRS for no
+   *  more email through docu10). null = the list could not be read. */
+  docu10OptOut?:  boolean | null;
   /* Places signal-quality — populated when the enrichment picked a
    *  Google Places candidate. Used by the outreach console to spot
    *  low-signal or closed businesses before drafting. */
@@ -111,6 +114,13 @@ type EnrichmentState =
   | { mode: "picking";    candidates: PlaceCandidate[]; picking: PlaceCandidate }
   | { mode: "resolved";   contact: EnrichmentPayload; note?: string }
   | { mode: "error";      message: string };
+
+/** The preview endpoint's check of every To/Cc/Bcc address. The send
+ *  endpoint repeats it; this only warns while composing. */
+type RecipientCheck = {
+  blocked: { email: string; reason: "outreach_suppression" | "docu10_optout" }[];
+  failed:  boolean;
+};
 
 export default function OutreachConsole() {
   /* ── Search state ──────────────────────────────────────────── */
@@ -137,6 +147,7 @@ export default function OutreachConsole() {
   const [previewHtml, setPreviewHtml] = useState("");
   const [previewText, setPreviewText] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [recipientCheck, setRecipientCheck] = useState<RecipientCheck | null>(null);
 
   /* ── Send state ────────────────────────────────────────────── */
   const [sending, setSending]     = useState(false);
@@ -185,7 +196,7 @@ export default function OutreachConsole() {
 
   /* ── Preview fetch (debounced on every relevant field change) ─ */
   useEffect(() => {
-    if (!pick) { setPreviewHtml(""); setPreviewText(""); return; }
+    if (!pick) { setPreviewHtml(""); setPreviewText(""); setRecipientCheck(null); return; }
     if (previewDebounce.current) clearTimeout(previewDebounce.current);
     previewDebounce.current = setTimeout(async () => {
       setPreviewLoading(true);
@@ -197,6 +208,7 @@ export default function OutreachConsole() {
             service,
             company: companyFromResult(pick),
             recipientEmail: firstEmail(to),
+            recipients: [...splitEmails(to), ...splitEmails(cc), ...splitEmails(bcc)],
             recipientName,
             customIntro,
             subjectOverride: subjectTouched ? subject : undefined,
@@ -206,11 +218,12 @@ export default function OutreachConsole() {
         if (data.html) setPreviewHtml(data.html);
         if (data.text) setPreviewText(data.text);
         if (!subjectTouched && data.subject) setSubject(data.subject);
+        setRecipientCheck(data.recipientCheck ?? null);
       } catch { /* preview failures fall through — user still sees stale content */ }
       finally { setPreviewLoading(false); }
     }, 300);
     return () => { if (previewDebounce.current) clearTimeout(previewDebounce.current); };
-  }, [pick, service, recipientName, customIntro, subject, subjectTouched, to]);
+  }, [pick, service, recipientName, customIntro, subject, subjectTouched, to, cc, bcc]);
 
   /* ── Draft helpers ─────────────────────────────────────────── */
 
@@ -323,12 +336,20 @@ export default function OutreachConsole() {
     }
   };
 
+  /* Blocked addresses still in the fields. The check lags typing by the
+     preview debounce, so drop entries for addresses no longer entered. */
+  const blockedRecipients = useMemo(() => {
+    const entered = new Set([...splitEmails(to), ...splitEmails(cc), ...splitEmails(bcc)]);
+    return (recipientCheck?.blocked ?? []).filter((b) => entered.has(b.email));
+  }, [recipientCheck, to, cc, bcc]);
+
   const canSend = useMemo(() => {
     if (!pick) return false;
     const toList = splitEmails(to);
     if (!toList.length) return false;
+    if (blockedRecipients.length) return false;
     return toList.every((e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
-  }, [pick, to]);
+  }, [pick, to, blockedRecipients]);
 
   /* ── Render ────────────────────────────────────────────────── */
   return (
@@ -472,6 +493,8 @@ export default function OutreachConsole() {
               sendErr={sendErr}
               sentOk={sentOk}
               canSend={canSend}
+              blockedRecipients={blockedRecipients}
+              recipientCheckFailed={!!recipientCheck?.failed}
               enrich={enrich}
               onPickCandidate={(c) => pickCandidate(pick, c)}
               onRefreshEnrich={() => fetchEnrichment(pick, /* forceRefresh */ true)}
@@ -623,6 +646,7 @@ function Drafter({
   customIntro, setCustomIntro,
   previewHtml, previewText, previewLoading,
   onClose, onSend, sending, sendErr, sentOk, canSend,
+  blockedRecipients, recipientCheckFailed,
   enrich, onPickCandidate, onRefreshEnrich, onFillTo,
 }: {
   pick: Result;
@@ -639,6 +663,8 @@ function Drafter({
   sending: boolean; sendErr: string;
   sentOk: { token: string; landingUrl: string } | null;
   canSend: boolean;
+  blockedRecipients:    RecipientCheck["blocked"];
+  recipientCheckFailed: boolean;
   enrich:           EnrichmentState;
   onPickCandidate:  (c: PlaceCandidate) => void;
   onRefreshEnrich:  () => void;
@@ -745,6 +771,30 @@ function Drafter({
           <input value={bcc} onChange={(e) => setBcc(e.target.value)} placeholder="optional" className="field-input" style={{ height: "2.2rem" }} />
         </Field>
       </div>
+
+      {blockedRecipients.length > 0 && (
+        <div role="alert" style={{ marginBottom: "0.75rem", padding: "0.5rem 0.7rem", background: "rgba(180,83,9,0.08)", border: "1px solid rgba(180,83,9,0.45)", color: "#B45309", fontSize: "0.8rem", borderRadius: "0.4rem", display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>
+          <AlertCircle size={14} style={{ marginTop: "0.1rem", flexShrink: 0 }} />
+          <span style={{ lineHeight: 1.45 }}>
+            Do not email — remove {blockedRecipients.length === 1 ? "this address" : "these addresses"} to send:
+            {blockedRecipients.map((b) => (
+              <span key={`${b.email}:${b.reason}`} style={{ display: "block", overflowWrap: "anywhere" }}>
+                <strong>{b.email}</strong> — {b.reason === "docu10_optout"
+                  ? "asked CRS for no more email (docu10 opt-out list)"
+                  : "unsubscribed (outreach suppression list)"}
+              </span>
+            ))}
+          </span>
+        </div>
+      )}
+      {recipientCheckFailed && (
+        <div role="status" style={{ marginBottom: "0.75rem", padding: "0.5rem 0.7rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.8rem", borderRadius: "0.4rem", display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>
+          <AlertCircle size={14} style={{ marginTop: "0.1rem", flexShrink: 0 }} />
+          <span style={{ lineHeight: 1.45 }}>
+            Could not check the opt-out lists for these addresses. Sending will be refused until they can be read.
+          </span>
+        </div>
+      )}
 
       <Field label="Subject">
         <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="auto-generated from template" className="field-input" style={{ height: "2.2rem" }} />
@@ -1129,6 +1179,43 @@ function ResolvedContact({
           </span>
         </div>
       )}
+      {contact.docu10OptOut && contact.email && !contact.suppressed && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(180,83,9,0.10)",
+            border:       "1px solid rgba(180,83,9,0.45)",
+            color:        "#B45309",
+            fontSize:     "0.78rem",
+            fontWeight:   700,
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+            display:      "flex",
+            gap:          "0.4rem",
+            alignItems:   "flex-start",
+          }}
+        >
+          🚫 <span style={{ fontWeight: 600, lineHeight: 1.4 }}>
+            Asked CRS for no more email (docu10 opt-out list) — do not email. The send API will block this address. Reach out by phone or postal address instead.
+          </span>
+        </div>
+      )}
+      {contact.docu10OptOut === null && contact.email && !contact.suppressed && (
+        <div
+          role="status"
+          style={{
+            padding:      "0.55rem 0.75rem",
+            background:   "rgba(180,83,9,0.08)",
+            color:        "#B45309",
+            fontSize:     "0.78rem",
+            borderRadius: "0.35rem",
+            marginBottom: "0.5rem",
+          }}
+        >
+          Could not check docu10&apos;s opt-out list for this address. The send API will refuse until it can be read.
+        </div>
+      )}
       {/* CLOSED_PERMANENTLY reads differently depending on the corp's
           own registry status. For an ACTIVE corp we assume the Places
           entry is stale or a false-positive match → skip. For a
@@ -1237,7 +1324,7 @@ function ResolvedContact({
           value={contact.email}
           link={`mailto:${contact.email}`}
           action={
-            contact.suppressed ? null : (
+            contact.suppressed || contact.docu10OptOut ? null : (
               <button
                 onClick={() => onFillTo(contact.email!)}
                 style={{
