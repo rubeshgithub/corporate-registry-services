@@ -8,6 +8,7 @@ import { getPrices } from "@/lib/pricing";
 import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
+import MinuteBookLookupIsland from "@/components/MinuteBookLookupIsland";
 import NfpConsultationCTA from "@/components/NfpConsultationCTA";
 import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
 import { formatReviewedDate } from "@/lib/format-date";
@@ -219,6 +220,13 @@ export default async function ContentPage({
             const custom = CUSTOM_ISLANDS[page.slug];
             if (custom && page.section === "articles") {
               return custom({ slug: page.slug, prices });
+            }
+            // Minute-book province pages lead with a corporation search — the
+            // reader wants their own company's book — handing off to
+            // /order/service/minute-book-new pre-filled. Matches every
+            // "<province>-corporate-minute-books" page, not the general guide.
+            if (page.section === "minute-books" && page.slug.endsWith("-corporate-minute-books")) {
+              return <MinuteBookLookupIsland src={`minute-books-${page.slug}`} />;
             }
             const generic = ctx && (
               ctx.serviceKey === "annual-return"  ||
