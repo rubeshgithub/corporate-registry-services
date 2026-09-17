@@ -15,6 +15,8 @@ import { formatReviewedDate } from "@/lib/format-date";
 import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 import CoresLookupIsland from "@/components/CoresLookupIsland";
 import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
+import ProCorpNameCheckIsland from "@/components/ProCorpNameCheckIsland";
+import AvailabilityCheckIsland from "@/app/incorporation/nuans-name-search-canada/AvailabilityCheckIsland";
 
 /* The CTA strip and lookup widget quote catalogue prices — 60s ISR so a
    price change reaches every content page without a deploy. */
@@ -31,26 +33,94 @@ export const revalidate = 60;
  */
 const CUSTOM_ISLANDS: Record<
   string,
-  (a: { slug: string; prices: Record<string, number> }) => React.ReactNode
+  (a: { section: string; slug: string; prices: Record<string, number> }) => React.ReactNode
 > = {
+  /* ── Corporation-search widget (find/verify an existing corporation) ──
+     These ranking pages asked for a lookup below the heading. Search -> the
+     profile report, the flagship "I looked up a company" product; the Ontario
+     certificate page uses good-standing, its exact match. */
+  "articles/bc-transparency-register": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Look up any Canadian corporation"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
+  ),
+  "guides/how-to-verify-a-canadian-company": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Verify any Canadian corporation"
+      subOverride="Search by company name, corporation number, or Business Number to confirm it exists and pull its registry record." />
+  ),
+  "articles/business-bceid-bc-registry-account": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Look up any Canadian corporation"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
+  ),
+  "articles/corporate-by-laws-canada": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Look up your corporation"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
+  ),
+  "articles/shareholder-resolutions-in-canada": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Look up your corporation"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
+  ),
+  "guides/corporate-search-for-due-diligence": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Search the corporation you're diligencing"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record and order a profile report." />
+  ),
+  "articles/certificate-of-status-ontario": ({ slug, prices }) => (
+    <InlineLookupOrder service="good-standing" provinceKey="on" priceCents={prices["good-standing"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Find your Ontario corporation"
+      subOverride="Search your company to confirm it is active and order its Certificate of Status." />
+  ),
+
+  /* ── Proposed-name check (pre-incorporation "is my name free?") ──
+     Incorporation / register-a-business pages use the general availability
+     check; professional-corporation pages use the PC name builder. */
+  "articles/how-to-incorporate-in-saskatchewan": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  "articles/how-to-register-a-business-in-alberta": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  "incorporation/canada-federal-incorporation-service": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  "incorporation/new-brunswick-incorporation-service": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  "professional-corporation/alberta": ({ slug }) => (
+    <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="ab" profession="professional" />
+  ),
+  "professional-corporation/medical-ontario": ({ slug }) => (
+    <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="all" profession="physician" />
+  ),
   /* Share certs need shareholder + share details after the corp is picked, so
      this island only handles the search and hands off to
      /order/share-certificate via sessionStorage. */
-  "share-certificates-in-canada": ({ slug, prices }) => (
+  "articles/share-certificates-in-canada": ({ slug, prices }) => (
     <ShareCertLookupIsland src={`article-${slug}`} priceCents={prices["share-certificate"]} />
   ),
   /* Alberta CORES: search-first, then the existing-corporation service menu. */
-  "what-is-cores-alberta": ({ slug }) => (
+  "articles/what-is-cores-alberta": ({ slug }) => (
     <CoresLookupIsland src={`article-${slug}`} />
   ),
   /* Corporate documents pillar: forwards to /order/corporate-documents. */
-  "how-to-get-corporate-documents-in-canada": ({ slug }) => (
+  "articles/how-to-get-corporate-documents-in-canada": ({ slug }) => (
     <CorporateDocumentsIsland src={`article-${slug}`} />
   ),
   /* Alberta intent-to-dissolve: the reader's fix is filing the overdue
      annual return, so this reuses the annual-return lookup-and-pay widget
      with copy matched to the notice they're holding. */
-  "intent-to-dissolve-notice-alberta": ({ slug, prices }) => (
+  "articles/intent-to-dissolve-notice-alberta": ({ slug, prices }) => (
     <InlineLookupOrder
       service="annual-return"
       provinceKey="ab"
@@ -217,9 +287,9 @@ export default async function ContentPage({
               it only because their slugs happen not to. Deciding here makes
               that collision impossible rather than lucky. */}
           {(() => {
-            const custom = CUSTOM_ISLANDS[page.slug];
-            if (custom && page.section === "articles") {
-              return custom({ slug: page.slug, prices });
+            const custom = CUSTOM_ISLANDS[`${page.section}/${page.slug}`];
+            if (custom) {
+              return custom({ section: page.section, slug: page.slug, prices });
             }
             // Minute-book province pages lead with a corporation search — the
             // reader wants their own company's book — handing off to
