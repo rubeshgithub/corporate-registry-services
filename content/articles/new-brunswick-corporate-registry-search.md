@@ -93,6 +93,8 @@ Run a search in the Corporate Affairs Registry Database and read the status code
 
 The government fee is $20. CRS retrieves it for {{price:good-standing}} all-in + tax, delivered as a PDF in about 3 hours, with no registry account or portal navigation needed on your end. Banks and lawyers accept it as the New Brunswick equivalent of a certificate of good standing.
 
+Looking beyond New Brunswick? [How to search Canadian business registries](/articles/how-to-search-canadian-business-registries) covers finding a company by name or number across every province and the federal registry.
+
 ## Search Done — Now Get the Document
 
 A $3 search tells you a company exists. When the bank, the buyer or the lawyer wants proof, CRS pulls the profile report or Certificate of Status directly from the New Brunswick Corporate Registry and delivers it the same day.

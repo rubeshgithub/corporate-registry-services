@@ -89,6 +89,8 @@ If you're doing due diligence at scale (vetting suppliers, running KYC, extendin
 
 **Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from {{price:minute-book-new}}.
 
+Start by locating the corporation: [how to search Canadian business registries](/articles/how-to-search-canadian-business-registries) walks through finding a company across all fourteen registries before you pull its record.
+
 ## Frequently asked questions
 
 ### Can I do a corporate search for free on government websites?

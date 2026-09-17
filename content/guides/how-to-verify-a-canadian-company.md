@@ -96,6 +96,8 @@ Order a Profile Report and specifically watch for:
 - **Prove compliance for financing?** — [Certificate of Good Standing ({{price:good-standing}} all-in)](/good-standing)
 - **Full corporate history?** — [Minute Book (from {{price:minute-book-new}})](/minute-books)
 
+Not sure which registry holds the company? [How to search Canadian business registries](/articles/how-to-search-canadian-business-registries) explains why Canada has fourteen of them and how to find a company across all of them.
+
 ## Frequently asked questions
 
 ### Can I verify a Canadian company entirely for free?
