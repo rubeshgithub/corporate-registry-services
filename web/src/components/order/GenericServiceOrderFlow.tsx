@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS, type ServiceItem } from "@/lib/service-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
@@ -351,6 +352,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         onClick={goToPayment}
         disabled={!canPay || paying}

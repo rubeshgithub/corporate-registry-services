@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, ArrowRight, CircleCheck, ChevronDown, ExternalLink } from "lucide-react";
+import { Menu, X, ArrowRight, CircleCheck, ChevronDown, ExternalLink, Phone } from "lucide-react";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF_CALL } from "@/lib/contact";
 
 /**
  * Nav config. Structured so adding a new category (e.g. "Accounting & Tax")
@@ -185,6 +186,22 @@ export default function HeaderClient({ prices }: { prices: Prices }) {
 
         {/* Right-side actions */}
         <div className="crs-hactions" style={{ alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
+          <a
+            href={SITE_PHONE_HREF_CALL}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.35rem",
+              color: "rgba(255,255,255,0.85)",
+              fontSize: "0.82rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Phone size={13} />
+            {SITE_PHONE_DISPLAY}
+          </a>
           <a
             href="/order/company-status-check-canada"
             className="crs-hcheck"
@@ -566,6 +583,25 @@ function MobileDrawer({ nav, onClose }: { nav: NavItem[]; onClose: () => void })
         );
       })}
 
+      <a
+        href={SITE_PHONE_HREF_CALL}
+        onClick={onClose}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.4rem",
+          marginTop: "0.75rem",
+          padding: "0.6rem 0.9rem",
+          color: "rgba(255,255,255,0.85)",
+          fontSize: "0.88rem",
+          fontWeight: 600,
+          textDecoration: "none",
+        }}
+      >
+        <Phone size={14} />
+        {SITE_PHONE_DISPLAY}
+      </a>
       <a
         href="/order/company-status-check-canada"
         onClick={onClose}

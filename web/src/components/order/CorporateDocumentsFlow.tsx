@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail } from "lucide-react";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
@@ -425,6 +426,7 @@ function ConfirmScreen({
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         type="button"
         onClick={onSubmit}

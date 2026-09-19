@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
-import { Mail, Clock, Globe } from "lucide-react";
+import { Mail, Phone, Clock, Globe } from "lucide-react";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF_CALL } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Contact CRS — Canadian Corporate Registry Services",
@@ -11,6 +12,13 @@ export const metadata: Metadata = {
 };
 
 const CONTACT_ITEMS = [
+  {
+    icon: Phone,
+    label: "Phone",
+    value: SITE_PHONE_DISPLAY,
+    href: SITE_PHONE_HREF_CALL,
+    note: "Call or text — Monday – Friday, 8 am – 8 pm ET",
+  },
   {
     icon: Mail,
     label: "Email",

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { NameSearchServiceConfig } from "@/lib/name-search-config";
@@ -162,6 +163,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         onClick={submit}
         disabled={!canPay || paying}

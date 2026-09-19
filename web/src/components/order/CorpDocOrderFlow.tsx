@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, HelpCircle, Mail, MessageCircle } from "lucide-react";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import type {
@@ -348,6 +349,7 @@ function DetailsScreen(props: {
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         onClick={onSubmit}
         disabled={!canPay || paying}

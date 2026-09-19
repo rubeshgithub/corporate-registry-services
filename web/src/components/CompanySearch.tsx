@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck, ChevronDown } from "lucide-react";
+import RegistrySearchZeroResultsModal from "./RegistrySearchZeroResultsModal";
+import RegistrySearchZeroResultsHelp from "./RegistrySearchZeroResultsHelp";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
 import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
@@ -128,6 +130,11 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
   const [leadState,   setLeadState]   = useState<"idle" | "sending" | "saved" | "error">("idle");
   const [leadMessage, setLeadMessage] = useState("");
   const savedSearchesRef = useRef<Set<string>>(new Set());
+
+  /* Which (query, province) the zero-results popup has already been shown
+     and dismissed for — so it doesn't reopen on every debounced re-search
+     of the same failed query, but does show again for a genuinely new one. */
+  const [zeroModalDismissedFor, setZeroModalDismissedFor] = useState<string | null>(null);
 
   /* Email gate for "View full profile" clicks — first click in a session
      opens the modal, subsequent clicks pass through (session storage flag). */
@@ -764,35 +771,32 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
         </form>
       )}
 
-      {/* No results */}
+      {/* No results — a gentle popup on first hitting zero for this query,
+          plus the same combined offer left inline below so it's still
+          visible if the popup gets dismissed. */}
       {!loading && !error && searched && results.length === 0 && (
-        <div
-          style={{
-            textAlign: "center", padding: "3rem 1.5rem",
-            background: "var(--card)", border: "1px solid var(--border)",
-            borderRadius: "var(--radius-card)",
-            boxShadow: "var(--shadow-card)",
-          }}
-        >
-          <div style={{ fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.5rem", fontWeight: 500 }}>
-            No results found for &ldquo;{query}&rdquo;
-          </div>
-          <p style={{ fontSize: "0.83rem", color: "var(--text-muted)", margin: "0 0 1.25rem" }}>
-            Try a different spelling, or let our team search directly.
-          </p>
-          <button
-            onClick={() => { setWizardPreload(undefined); setWizardOpen(true); }}
+        <>
+          {zeroModalDismissedFor !== `${query.trim().toLowerCase()}|${province}` && (
+            <RegistrySearchZeroResultsModal
+              query={query}
+              province={province}
+              onClose={() => setZeroModalDismissedFor(`${query.trim().toLowerCase()}|${province}`)}
+            />
+          )}
+          <div
             style={{
-              display: "inline-flex", alignItems: "center", gap: "0.35rem",
-              padding: "0.5rem 1rem", borderRadius: "0.5rem",
-              background: "var(--primary)", color: "#fff",
-              fontSize: "0.82rem", fontWeight: 600,
-              border: "none", cursor: "pointer",
+              textAlign: "left", padding: "1.5rem",
+              background: "var(--card)", border: "1px solid var(--border)",
+              borderRadius: "var(--radius-card)",
+              boxShadow: "var(--shadow-card)",
             }}
           >
-            Request a manual search <ArrowRight size={13} />
-          </button>
-        </div>
+            <div style={{ fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.75rem", fontWeight: 500 }}>
+              No results found for &ldquo;{query}&rdquo;
+            </div>
+            <RegistrySearchZeroResultsHelp query={query} province={province} />
+          </div>
+        </>
       )}
     </div>
   );

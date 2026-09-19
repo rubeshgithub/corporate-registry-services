@@ -1,3 +1,6 @@
+import { Phone } from "lucide-react";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF_CALL } from "@/lib/contact";
+
 export default function Footer() {
   return (
     <footer
@@ -52,6 +55,22 @@ export default function Footer() {
           >
             Canadian corporate registry services — all 13 jurisdictions.
           </p>
+          <a
+            href={SITE_PHONE_HREF_CALL}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.3rem",
+              marginTop: "0.4rem",
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: "var(--text)",
+              textDecoration: "none",
+            }}
+          >
+            <Phone size={12} style={{ color: "var(--gold)" }} />
+            {SITE_PHONE_DISPLAY}
+          </a>
         </div>
         <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
           <FooterLink href="/minute-books">MinuteBook</FooterLink>

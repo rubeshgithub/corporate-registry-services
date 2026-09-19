@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, Edit2, Mail, MessageCircle } from "lucide-react";
 import type { CorpDocServiceConfig, ShareCertificateDetails } from "@/lib/corp-doc-config";
 
@@ -492,6 +493,7 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
           />
         </Field>
 
+        <PaymentStepChatNudge />
         <button
           onClick={submit}
           disabled={!canPay || paying}

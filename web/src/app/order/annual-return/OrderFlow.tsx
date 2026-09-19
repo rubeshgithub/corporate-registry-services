@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "@/components/order/PaymentStepChatNudge";
 import { Search, CheckCircle2, Clock, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput from "@/components/PlacesInput";
@@ -640,6 +641,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         onClick={goToPayment}
         disabled={!canPay || paying}

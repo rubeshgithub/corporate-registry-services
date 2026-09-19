@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "@/components/order/PaymentStepChatNudge";
 import { ArrowLeft, ArrowRight, Loader2, Plus, Trash2, Info, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput, { type ParsedAddress } from "@/components/PlacesInput";
@@ -310,13 +311,15 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
             Continue <ArrowRight size={14} />
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={submit}
-            disabled={paying}
-            style={{
-              padding: "0.7rem 1.25rem",
-              background: "var(--primary)",
+          <>
+            <PaymentStepChatNudge />
+            <button
+              type="button"
+              onClick={submit}
+              disabled={paying}
+              style={{
+                padding: "0.7rem 1.25rem",
+                background: "var(--primary)",
               color: "#FFFFFF",
               border: "none",
               borderRadius: "0.5rem",
@@ -333,7 +336,8 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
             ) : (
               <>Pay {formatCents(price)} + GST and file <ArrowRight size={16} /></>
             )}
-          </button>
+            </button>
+          </>
         )}
       </div>
 

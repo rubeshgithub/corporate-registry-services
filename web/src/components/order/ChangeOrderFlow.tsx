@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, Plus, Trash2, Info } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { ChangeServiceConfig } from "@/lib/change-config";
@@ -353,6 +354,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
         </div>
       )}
 
+      <PaymentStepChatNudge />
       <button
         onClick={submit}
         disabled={!canPay || paying}
