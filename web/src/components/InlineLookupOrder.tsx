@@ -6,6 +6,7 @@ import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-retu
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
+import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import { type RegistryAccessState } from "@/lib/registry-access";
 
 /**
@@ -105,6 +106,10 @@ export default function InlineLookupOrder({
   const [results, setResults]     = useState<RegistryHit[]>([]);
   const [searching, setSearching] = useState(false);
   const [searchErr, setSearchErr] = useState("");
+  /* Set only by an explicit (non-silent) search that came back empty — see
+     runSearch. Keyed to the query that produced it so it clears the moment
+     the visitor edits the box. */
+  const [zeroHelpFor, setZeroHelpFor] = useState<string | null>(null);
 
   const [pick, setPick]           = useState<RegistryHit | null>(null);
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
@@ -166,8 +171,16 @@ export default function InlineLookupOrder({
       // Silent (debounced) fires don't surface the "no matches" copy — that
       // fires only when the user explicitly clicks Find, so we're not
       // chastising them mid-type when they're still assembling the query.
+      /* Offer a human only on an explicit Find that found nothing — never on
+         a debounced fire, so we don't interrupt someone still typing. Whole
+         provinces are missing upstream (Newfoundland isn't in Canada Business
+         Registries at all), so "no matches" here often means our data can't
+         answer, not that the corporation doesn't exist. */
       if (!hits.length && !opts?.silent) {
         setSearchErr("No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+        setZeroHelpFor(q);
+      } else if (hits.length) {
+        setZeroHelpFor(null);
       }
     } catch {
       if (!opts?.silent) {
@@ -339,6 +352,25 @@ export default function InlineLookupOrder({
             >
               <span style={{ color: "#B45309", fontWeight: 600 }}>{urgency.headline}</span>{" "}
               {urgency.body}
+            </div>
+          )}
+
+          {/* Inline only — no auto-opening modal. This widget sits mid-article,
+              and the reader hasn't asked for a dialog; the standalone search
+              page is the place for that. Rendered only while the failed query
+              is still in the box, so editing it dismisses the offer. */}
+          {zeroHelpFor && zeroHelpFor === query.trim() && results.length === 0 && (
+            <div
+              style={{
+                marginTop:    "0.85rem",
+                paddingTop:   "0.9rem",
+                borderTop:    "1px dashed var(--border)",
+              }}
+            >
+              <RegistrySearchZeroResultsHelp
+                query={zeroHelpFor}
+                province={provinceKey ?? "all"}
+              />
             </div>
           )}
 
