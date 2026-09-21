@@ -16,6 +16,9 @@ const REGISTRIES = [
   { key: "bc",      label: "British Columbia"        },
   { key: "ab",      label: "Alberta"                 },
   { key: "on",      label: "Ontario"                 },
+  /* Québec records are in CBR (Registry_Source "QC") and the page already
+     advertises Québec coverage, but there was no way to narrow to it. */
+  { key: "qc",      label: "Québec"                  },
   { key: "federal", label: "Federal"                 },
   { key: "mb",      label: "Manitoba"                },
   { key: "sk",      label: "Saskatchewan"            },

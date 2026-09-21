@@ -229,10 +229,21 @@ interface CBRDoc {
 }
 interface CBRResp { totalResults: number; count: number; docs: CBRDoc[] }
 
+/* Maps our province keys to CBR's Registry_Source codes.
+   Federal is "CC" (Corporations Canada), NOT "CA" — verified against live
+   data: "CA" never appears as a Registry_Source, while "CC" carries the
+   federal corporations. The old "CA" entry meant a federal search matched
+   nothing once results are actually filtered by province.
+
+   Codes CBR genuinely holds records for, sampled across a dozen generic
+   terms: ON, AB, QC, CC, MB, BC, SK, NS. The remaining keys below (nb, nl,
+   nt, yt, nu) are kept so the jurisdiction stays selectable — the search
+   then correctly returns nothing and offers a manual lookup, which beats
+   returning another province's companies under their label. */
 const PROVINCE_CBR: Record<string, string> = {
-  ab: "AB", on: "ON", mb: "MB", sk: "SK", ns: "NS",
+  ab: "AB", on: "ON", qc: "QC", mb: "MB", sk: "SK", ns: "NS",
   nb: "NB", nl: "NL", pe: "PE", nt: "NT", yt: "YT",
-  nu: "NU", federal: "CA",
+  nu: "NU", federal: "CC",
 };
 
 const CBR_LABEL: Record<string, string> = {
@@ -241,6 +252,10 @@ const CBR_LABEL: Record<string, string> = {
   NL: "Newfoundland & Labrador", PE: "Prince Edward Island",
   NT: "Northwest Territories",  YT: "Yukon",  NU: "Nunavut",
   BC: "British Columbia",        CA: "Federal", QC: "Quebec",
+  /* CBR labels federal records "CC" in BOTH Registry_Source and Jurisdiction,
+     so without this the raw code "CC" was shown to visitors as the
+     jurisdiction of every federal corporation. */
+  CC: "Federal",
 };
 
 async function searchCBR(q: string, status: StatusFilter, provinceCode?: string) {
@@ -271,18 +286,52 @@ async function searchCBR(q: string, status: StatusFilter, provinceCode?: string)
       statusNotes:      d.Status_Notes ?? "",
       entityType:       d.Entity_Type ?? d.MRAS_Entity_Type ?? "",
       registrationDate: d.Date_Incorporated?.slice(0, 10) ?? "",
-      jurisdiction:     d.Jurisdiction ?? CBR_LABEL[src] ?? src,
-      provinceKey:      src === "CA" ? "federal" : src.toLowerCase(),
+      /* CBR's Jurisdiction field is a raw two-letter code ("ON", "BC", "CC"),
+         not a label, and it used to win this ?? chain — so every CBR result
+         showed a bare code while BC/PEI results (which set a full name)
+         showed "British Columbia". Resolve through CBR_LABEL first so the
+         jurisdiction column reads the same whichever source answered. */
+      jurisdiction:     CBR_LABEL[d.Jurisdiction ?? ""] ?? CBR_LABEL[src] ?? d.Jurisdiction ?? src,
+      provinceKey:      (src === "CC" || src === "CA") ? "federal" : src.toLowerCase(),
     };
   });
 
-  const filtered = mapped.filter((r) => matchesStatus(r.status, r.statusNotes, status));
+  /* Province filtering happens HERE, not upstream. The `&fq=Registry_Source:XX`
+     appended to the query URL is silently ignored by CBR — verified: identical
+     totalResults, identical doc counts and an identical jurisdiction spread
+     with and without it. Left on the URL in case CBR ever honours it; it is
+     harmless, but it is not what narrows the results.
+
+     Without this filter, picking a province returned that province's label on
+     a list of other provinces' companies. Worst for the five jurisdictions CBR
+     holds no records for at all (NB, NL, NT, YT, NU): every one of them
+     returned the same unfiltered Ontario-heavy list. CBR's real coverage,
+     sampled across a dozen generic terms, is ON, AB, QC, CC, MB, BC, SK, NS.
+
+     Filtering here means those five now correctly return nothing — which is
+     the honest answer, and which surfaces the "can't find it? call us" offer
+     instead of a wrong one. */
+  const inProvince = provinceCode
+    ? mapped.filter((r) => {
+        /* provinceKey is "federal" for CBR's "CC" source, so map it back to
+           the registry code before comparing — comparing "FEDERAL" (or the
+           historic "CA") against provinceCode "CC" would drop every federal
+           corporation from a federal search. */
+        const code = r.provinceKey === "federal" ? "CC" : r.provinceKey.toUpperCase();
+        return code === provinceCode;
+      })
+    : mapped;
+
+  const filtered = inProvince.filter((r) => matchesStatus(r.status, r.statusNotes, status));
 
   return {
-    // When a status filter is active, `total` reflects post-filter matches in
-    // the fetched window — not the full CBR corpus — because the upstream
-    // total is meaningless once we've narrowed by an unindexed field.
-    total:  status === "all" ? (data.totalResults ?? data.count ?? 0) : filtered.length,
+    /* `total` can only be the upstream corpus count for an unfiltered,
+       unnarrowed search. The moment we filter by province or status the
+       upstream number describes a different set than the one we return, so
+       report what we actually matched in the fetched window. */
+    total:  status === "all" && !provinceCode
+      ? (data.totalResults ?? data.count ?? 0)
+      : filtered.length,
     source: "cbr",
     results: filtered.slice(0, 12),
   };
