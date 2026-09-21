@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { openCrispChat } from "@/lib/crisp";
 
 /**
  * Auto-opens Crisp chat, maximized, the moment a visitor reaches the
@@ -13,15 +14,15 @@ import { useEffect } from "react";
  *
  * Fires once per browser session (sessionStorage), not on every step
  * re-render or every order-page revisit, so it stays a nudge, not a nag.
+ *
+ * This previously gated on Array.isArray(window.$crisp), which made it a
+ * guaranteed no-op in practice: by the time anyone clicks through an order
+ * flow to the payment step, Crisp has booted and swapped that array for its
+ * instance object, so the retry loop below spun for its full 8s and gave up
+ * every time. See lib/crisp.ts.
  */
 
 const SESSION_KEY = "crs_chat_opened_at_payment";
-
-declare global {
-  interface Window {
-    $crisp?: Array<unknown[]>;
-  }
-}
 
 export default function PaymentStepChatNudge() {
   useEffect(() => {
@@ -35,12 +36,9 @@ export default function PaymentStepChatNudge() {
     }
 
     const tryOpen = () => {
-      if (Array.isArray(window.$crisp)) {
-        window.$crisp.push(["do", "chat:open"]);
-        try { sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* ignore */ }
-        return true;
-      }
-      return false;
+      if (!openCrispChat()) return false;
+      try { sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* ignore */ }
+      return true;
     };
 
     if (tryOpen()) return;

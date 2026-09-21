@@ -1,24 +1,21 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
+import { openCrispChat } from "@/lib/crisp";
 
 /**
  * "Chat with us" button.
  *
- * Uses Crisp's client-side action queue to open the widget:
- *   window.$crisp.push(["do", "chat:open"])
+ * Opens the Crisp widget via lib/crisp's openCrispChat(). If Crisp is
+ * genuinely unreachable (script blocked, offline, no website id), falls back
+ * to a mailto: link so the button is never dead.
  *
- * If Crisp hasn't loaded yet (script blocked, offline, no website id),
- * falls back to a mailto: link so the button is never dead.
+ * This used to gate on Array.isArray(window.$crisp), which meant it opened
+ * the chat only if clicked before Crisp finished loading and fell through to
+ * mailto: forever after — see lib/crisp.ts.
  */
 
 const SUPPORT_EMAIL = "support@corporateregistryservices.ca";
-
-declare global {
-  interface Window {
-    $crisp?: Array<unknown[]>;
-  }
-}
 
 export default function ChatWithUsButton({
   label   = "Chat with us",
@@ -28,10 +25,7 @@ export default function ChatWithUsButton({
   variant?: "primary" | "ghost";
 }) {
   const onClick = () => {
-    if (typeof window !== "undefined" && Array.isArray(window.$crisp)) {
-      window.$crisp.push(["do", "chat:open"]);
-      return;
-    }
+    if (openCrispChat()) return;
     // Fallback: chat script hasn't loaded — email instead.
     window.location.href = `mailto:${SUPPORT_EMAIL}?subject=Question%20from%20CRS%20FAQ`;
   };
