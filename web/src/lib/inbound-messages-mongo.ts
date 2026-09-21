@@ -6,15 +6,18 @@ import { db } from "./mongo";
  * currently only lands in the operator inbox as an SES email.
  *
  * Sources today:
- *   - "contact"    → /api/contact (general enquiry form)
- *   - "wizard"     → /api/wizard-submit (custom-quote wizard)
+ *   - "contact"     → /api/contact (general enquiry form)
+ *   - "wizard"      → /api/wizard-submit (custom-quote wizard)
+ *   - "search-help" → /api/notify/search-help (zero-result registry search;
+ *                     the visitor believes their corporation exists and we
+ *                     promise a reply within 24 h, so it needs an operator)
  *
  * Consolidated so a single admin card can show all recent inbound messages
  * across surfaces, with dedup + search over time. Doesn't replace the SES
  * notification — the email still ships; this is the audit layer.
  */
 export type InboundMessageDoc = {
-  source:     "contact" | "wizard";
+  source:     "contact" | "wizard" | "search-help";
   name:       string;
   email:      string;      // lowercased
   phone?:     string;
