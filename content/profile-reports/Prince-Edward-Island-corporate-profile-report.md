@@ -1,5 +1,6 @@
 ﻿---
 title: "Prince Edward Island Corporate Profile Report"
+description: "Prince Edward Island Corporate Profile Report from the PEI Corporate Registry: legal names, registered office, directors and status. {{price:profile-report}} all-in."
 slug: "Prince-Edward-Island-corporate-profile-report"
 section: "profile-reports"
 ---

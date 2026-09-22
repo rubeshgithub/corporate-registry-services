@@ -1,5 +1,6 @@
 ﻿---
 title: "Newfoundland Corporate Minute Book"
+description: "Newfoundland and Labrador corporate minute book prepared or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Newfoundland-corporate-minute-books"
 section: "minute-books"
 ---

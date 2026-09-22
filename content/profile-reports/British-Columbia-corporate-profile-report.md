@@ -1,5 +1,6 @@
 ﻿---
 title: "British Columbia Corporate Profile Report"
+description: "British Columbia Corporate Profile Report from the BC Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "British-Columbia-corporate-profile-report"
 section: "profile-reports"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Yukon Corporate Annual Return"
+description: "File your Yukon corporate annual return with the Yukon Corporate Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing and avoid dissolution."
 slug: "Yukon-corporate-annual-return"
 section: "annual-return"
 ---

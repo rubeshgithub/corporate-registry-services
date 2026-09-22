@@ -1,5 +1,6 @@
 ﻿---
 title: "British Columbia Certificate of Good Standing"
+description: "British Columbia Certificate of Good Standing (Certificate of Status) from BC Registries — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "British-Columbia-certificate-of-good-standing"
 section: "good-standing"
 ---

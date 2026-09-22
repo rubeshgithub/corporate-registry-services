@@ -1,5 +1,6 @@
 ﻿---
 title: "Newfoundland Certificate of Good Standing"
+description: "Newfoundland and Labrador Certificate of Good Standing from the Registry of Companies — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Newfoundland-certificate-of-good-standing"
 section: "good-standing"
 ---

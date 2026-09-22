@@ -1,5 +1,6 @@
 ﻿---
 title: "Nunavut Corporate Profile Report"
+description: "Nunavut Corporate Profile Report from the Nunavut Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Nunavut-corporate-profile-report"
 section: "profile-reports"
 ---

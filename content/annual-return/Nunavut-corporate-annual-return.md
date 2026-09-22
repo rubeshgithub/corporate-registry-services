@@ -1,5 +1,6 @@
 ﻿---
 title: "Nunavut Corporate Annual Return"
+description: "File your Nunavut corporate annual return with the Nunavut Corporate Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Nunavut-corporate-annual-return"
 section: "annual-return"
 ---

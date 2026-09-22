@@ -1,5 +1,6 @@
 ﻿---
 title: "What Is a Certificate of Good Standing in Canada?"
+description: "What a Certificate of Good Standing is in Canada, what it proves, its provincial names (Certificate of Status, Compliance, Existence) and how to get one."
 slug: "what-is-a-certificate-of-good-standing-canada"
 section: "guides"
 ---

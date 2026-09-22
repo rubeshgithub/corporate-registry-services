@@ -1,5 +1,6 @@
 ﻿---
 title: "Yukon Certificate of Good Standing"
+description: "Yukon Certificate of Good Standing (Certificate of Status) from the Yukon Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Yukon-certificate-of-good-standing"
 section: "good-standing"
 ---

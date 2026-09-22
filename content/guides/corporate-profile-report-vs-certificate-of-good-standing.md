@@ -1,5 +1,6 @@
 ﻿---
 title: "Corporate Profile Report vs. Certificate of Good Standing — Key Differences"
+description: "Corporate profile report vs certificate of good standing — what each registry document contains, what it proves, and which one you actually need."
 slug: "corporate-profile-report-vs-certificate-of-good-standing"
 section: "guides"
 ---

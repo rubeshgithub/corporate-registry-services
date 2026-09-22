@@ -1,5 +1,6 @@
 ﻿---
 title: "Northwest Territories Certificate of Good Standing"
+description: "Northwest Territories Certificate of Good Standing from the NWT Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Northwest-Territories-certificate-of-good-standing"
 section: "good-standing"
 ---

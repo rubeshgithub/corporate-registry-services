@@ -1,5 +1,6 @@
 ﻿---
 title: "Quebec Corporate Minute Book"
+description: "Quebec corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Quebec-corporate-minute-books"
 section: "minute-books"
 ---

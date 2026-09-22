@@ -1,5 +1,6 @@
 ﻿---
 title: "Canada Federal Corporate Profile Report"
+description: "Federal Corporate Profile Report from Corporations Canada for any CBCA corporation: legal names, status, registered office and directors. {{price:profile-report}} all-in."
 slug: "Canada-federal-corporate-profile-report"
 section: "profile-reports"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Alberta Corporate Profile Report"
+description: "Alberta Corporate Profile Report from the Alberta Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Alberta-corporate-profile-report"
 section: "profile-reports"
 ---

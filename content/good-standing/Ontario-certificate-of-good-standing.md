@@ -1,5 +1,6 @@
 ﻿---
 title: "Ontario Certificate of Good Standing"
+description: "Ontario Certificate of Good Standing (Certificate of Status) from the Ontario Business Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Ontario-certificate-of-good-standing"
 section: "good-standing"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "New Brunswick Corporate Minute Book"
+description: "New Brunswick corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "New-Brunswick-corporate-minute-books"
 section: "minute-books"
 ---

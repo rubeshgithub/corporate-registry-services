@@ -1,5 +1,6 @@
 ﻿---
 title: "Alberta Certificate of Good Standing"
+description: "Alberta Certificate of Good Standing (Certificate of Status) from the Alberta Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Alberta-certificate-of-good-standing"
 section: "good-standing"
 ---

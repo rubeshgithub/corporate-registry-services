@@ -1,5 +1,6 @@
 ﻿---
 title: "Nova Scotia Corporate Minute Book"
+description: "Nova Scotia corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Nova-Scotia-corporate-minute-books"
 section: "minute-books"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Alberta Corporate Minute Book"
+description: "Alberta corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Alberta-corporate-minute-books"
 section: "minute-books"
 ---

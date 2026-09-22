@@ -1,5 +1,6 @@
 ﻿---
 title: "Ontario Corporate Annual Return"
+description: "File your Ontario corporate annual return with the Ontario Business Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Ontario-corporate-annual-return"
 section: "annual-return"
 ---

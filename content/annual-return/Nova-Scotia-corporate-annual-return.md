@@ -1,5 +1,6 @@
 ﻿---
 title: "Nova Scotia Corporate Annual Return"
+description: "File your Nova Scotia corporate annual return with the Registry of Joint Stock Companies — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Nova-Scotia-corporate-annual-return"
 section: "annual-return"
 ---

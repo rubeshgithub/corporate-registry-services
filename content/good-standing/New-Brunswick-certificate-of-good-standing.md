@@ -1,5 +1,6 @@
 ﻿---
 title: "New Brunswick Certificate of Good Standing"
+description: "New Brunswick Certificate of Good Standing from the New Brunswick Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "New-Brunswick-certificate-of-good-standing"
 section: "good-standing"
 ---

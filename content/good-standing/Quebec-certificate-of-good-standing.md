@@ -1,5 +1,6 @@
 ﻿---
 title: "Quebec Certificate of Good Standing"
+description: "Quebec Certificate of Good Standing from the Registraire des entreprises du Québec (REQ) — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Quebec-certificate-of-good-standing"
 section: "good-standing"
 ---

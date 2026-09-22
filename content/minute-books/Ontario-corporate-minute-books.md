@@ -1,5 +1,6 @@
 ﻿---
 title: "Ontario Corporate Minute Book"
+description: "Ontario corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Ontario-corporate-minute-books"
 section: "minute-books"
 ---

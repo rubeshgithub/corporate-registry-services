@@ -1,5 +1,6 @@
 ﻿---
 title: "Quebec Corporate Profile Report"
+description: "Quebec Corporate Profile Report from the Registraire des entreprises (REQ): legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Quebec-corporate-profile-report"
 section: "profile-reports"
 ---

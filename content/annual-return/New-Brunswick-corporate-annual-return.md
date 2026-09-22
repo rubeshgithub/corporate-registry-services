@@ -1,5 +1,6 @@
 ﻿---
 title: "New Brunswick Corporate Annual Return"
+description: "File your New Brunswick corporate annual return with the New Brunswick Corporate Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "New-Brunswick-corporate-annual-return"
 section: "annual-return"
 ---

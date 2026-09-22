@@ -1,5 +1,6 @@
 ﻿---
 title: "Prince Edward Island Corporate Annual Return"
+description: "File your Prince Edward Island corporate annual return with the PEI Corporate Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Prince-Edward-Island-corporate-annual-return"
 section: "annual-return"
 ---

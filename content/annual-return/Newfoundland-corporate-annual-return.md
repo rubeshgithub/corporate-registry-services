@@ -1,5 +1,6 @@
 ﻿---
 title: "Newfoundland Corporate Annual Return"
+description: "File your Newfoundland and Labrador corporate annual return with the Registry of Companies — {{price:annual-return}} all-in, government fee included. Avoid dissolution."
 slug: "Newfoundland-corporate-annual-return"
 section: "annual-return"
 ---

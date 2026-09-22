@@ -1,5 +1,6 @@
 ﻿---
 title: "What Is a Corporate Minute Book — And Why Canadian Corporations Need One"
+description: "Why every Canadian corporation must keep a minute book, what it must contain under the CBCA and provincial acts, and what happens when it's out of date."
 slug: "what-is-a-corporate-minute-book-canada"
 section: "guides"
 ---

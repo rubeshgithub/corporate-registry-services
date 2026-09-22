@@ -1,5 +1,6 @@
 ﻿---
 title: "Northwest Territories Corporate Profile Report"
+description: "Northwest Territories Corporate Profile Report from the NWT Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Northwest-Territories-corporate-profile-report"
 section: "profile-reports"
 ---

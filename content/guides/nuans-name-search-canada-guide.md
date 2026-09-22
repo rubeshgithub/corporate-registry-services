@@ -1,5 +1,6 @@
 ---
 title: "NUANS Name Search in Canada — Complete Guide for Business Owners"
+description: "What a NUANS report is, when you need one to incorporate in Canada, how to read the results, and how it differs from a provincial name search."
 slug: "nuans-name-search-canada-guide"
 section: "guides"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Saskatchewan Certificate of Good Standing"
+description: "Saskatchewan Certificate of Good Standing from the Saskatchewan Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Saskatchewan-certificate-of-good-standing"
 section: "good-standing"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Ontario Corporate Profile Report"
+description: "Ontario Corporate Profile Report from the Ontario Business Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Ontario-corporate-profile-report"
 section: "profile-reports"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Saskatchewan Corporate Annual Return"
+description: "File your Saskatchewan corporate annual return with the Saskatchewan Corporate Registry (ISC) — {{price:annual-return}} all-in, government fee included. Avoid dissolution."
 slug: "Saskatchewan-corporate-annual-return"
 section: "annual-return"
 ---

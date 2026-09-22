@@ -1,5 +1,6 @@
 ﻿---
 title: "Manitoba Corporate Minute Book"
+description: "Manitoba corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Manitoba-corporate-minute-books"
 section: "minute-books"
 ---

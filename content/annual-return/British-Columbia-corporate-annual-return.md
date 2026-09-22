@@ -1,5 +1,6 @@
 ﻿---
 title: "British Columbia Corporate Annual Return"
+description: "File your BC Annual Report (British Columbia's corporate annual return) with BC Registries — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "British-Columbia-corporate-annual-return"
 section: "annual-return"
 ---

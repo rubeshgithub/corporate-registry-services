@@ -1,5 +1,6 @@
 ﻿---
 title: "Yukon Corporate Profile Report"
+description: "Yukon Corporate Profile Report from the Yukon Corporate Registry: names, registered office, directors, status and last annual return. {{price:profile-report}} all-in."
 slug: "Yukon-corporate-profile-report"
 section: "profile-reports"
 ---

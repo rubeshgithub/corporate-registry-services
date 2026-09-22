@@ -1,5 +1,6 @@
 ﻿---
 title: "New Brunswick Corporate Profile Report"
+description: "New Brunswick Corporate Profile Report from the New Brunswick Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "New-Brunswick-corporate-profile-report"
 section: "profile-reports"
 ---

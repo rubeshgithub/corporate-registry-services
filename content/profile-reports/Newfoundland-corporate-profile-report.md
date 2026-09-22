@@ -1,5 +1,6 @@
 ﻿---
 title: "Newfoundland Corporate Profile Report"
+description: "Newfoundland and Labrador Corporate Profile Report from the Registry of Companies: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "Newfoundland-corporate-profile-report"
 section: "profile-reports"
 ---

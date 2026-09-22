@@ -1,5 +1,6 @@
 ﻿---
 title: "Prince Edward Island Corporate Minute Book"
+description: "Prince Edward Island corporate minute book prepared or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Prince-Edward-Island-corporate-minute-books"
 section: "minute-books"
 ---

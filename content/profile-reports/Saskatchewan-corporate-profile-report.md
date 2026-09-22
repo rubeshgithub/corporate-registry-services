@@ -1,5 +1,6 @@
 ﻿---
 title: "Saskatchewan Corporate Profile Report"
+description: "Saskatchewan Corporate Profile Report from the Saskatchewan Corporate Registry: names, registry number, registered office, directors and status. {{price:profile-report}} all-in."
 slug: "Saskatchewan-corporate-profile-report"
 section: "profile-reports"
 ---

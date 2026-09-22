@@ -1,5 +1,6 @@
 ﻿---
 title: "Manitoba Corporate Profile Report"
+description: "Manitoba Corporate Profile Report from the Manitoba Companies Office: legal names, registry number, registered office, directors and status. {{price:profile-report}} all-in."
 slug: "Manitoba-corporate-profile-report"
 section: "profile-reports"
 ---

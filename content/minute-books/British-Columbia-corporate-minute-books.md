@@ -1,5 +1,6 @@
 ﻿---
 title: "British Columbia Corporate Minute Book"
+description: "British Columbia corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "British-Columbia-corporate-minute-books"
 section: "minute-books"
 ---

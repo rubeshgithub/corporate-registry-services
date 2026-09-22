@@ -1,5 +1,6 @@
 ﻿---
 title: "Manitoba Certificate of Good Standing"
+description: "Manitoba Certificate of Good Standing (Certificate of Status) from the Manitoba Companies Office — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Manitoba-certificate-of-good-standing"
 section: "good-standing"
 ---

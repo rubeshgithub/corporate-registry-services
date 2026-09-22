@@ -1,5 +1,6 @@
 ﻿---
 title: "Nova Scotia Corporate Profile Report"
+description: "Nova Scotia Corporate Profile Report from the Registry of Joint Stock Companies: names, registry number, registered office, directors and status. {{price:profile-report}} all-in."
 slug: "Nova-Scotia-corporate-profile-report"
 section: "profile-reports"
 ---

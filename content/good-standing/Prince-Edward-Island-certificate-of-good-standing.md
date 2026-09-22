@@ -1,5 +1,6 @@
 ﻿---
 title: "Prince Edward Island Certificate of Good Standing"
+description: "Prince Edward Island Certificate of Good Standing from the PEI Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Prince-Edward-Island-certificate-of-good-standing"
 section: "good-standing"
 ---

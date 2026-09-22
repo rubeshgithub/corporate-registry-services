@@ -1,5 +1,6 @@
 ﻿---
 title: "Nunavut Certificate of Good Standing"
+description: "Nunavut Certificate of Good Standing (Certificate of Status) from the Nunavut Corporate Registry — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Nunavut-certificate-of-good-standing"
 section: "good-standing"
 ---

@@ -1,5 +1,6 @@
 ﻿---
 title: "Canada Federal Certificate of Good Standing"
+description: "Canada Federal Certificate of Good Standing from Corporations Canada — official proof a CBCA corporation is active and up to date on its filings. {{price:good-standing}} all-in."
 slug: "Canada-federal-certificate-of-good-standing"
 section: "good-standing"
 ---

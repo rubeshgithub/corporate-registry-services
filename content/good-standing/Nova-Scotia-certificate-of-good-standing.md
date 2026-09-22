@@ -1,5 +1,6 @@
 ﻿---
 title: "Nova Scotia Certificate of Good Standing"
+description: "Nova Scotia Certificate of Good Standing from the Registry of Joint Stock Companies — proof a corporation is active and compliant. {{price:good-standing}} all-in."
 slug: "Nova-Scotia-certificate-of-good-standing"
 section: "good-standing"
 ---

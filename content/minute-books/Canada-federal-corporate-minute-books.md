@@ -1,5 +1,6 @@
 ﻿---
 title: "Canada Federal Corporate Minute Book"
+description: "Federal (CBCA) corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Canada-federal-corporate-minute-books"
 section: "minute-books"
 ---

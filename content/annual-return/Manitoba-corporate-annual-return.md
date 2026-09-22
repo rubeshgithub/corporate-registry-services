@@ -1,5 +1,6 @@
 ﻿---
 title: "Manitoba Corporate Annual Return"
+description: "File your Manitoba corporate annual return with the Manitoba Companies Office — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Manitoba-corporate-annual-return"
 section: "annual-return"
 ---
