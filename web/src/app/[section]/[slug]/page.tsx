@@ -91,6 +91,9 @@ const CUSTOM_ISLANDS: Record<
   "articles/how-to-register-a-business-in-alberta": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
+  "articles/how-to-incorporate-in-alberta": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
   "incorporation/canada-federal-incorporation-service": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
