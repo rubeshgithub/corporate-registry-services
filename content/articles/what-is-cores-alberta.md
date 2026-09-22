@@ -23,6 +23,15 @@ CORES is Alberta's **Corporate Registry System** — the government platform whe
 
 This guide covers what CORES does, who's allowed to use it, what the accreditation levels mean, and how to get your filings done without an account.
 
+## What do you need done in CORES?
+
+Most people who search for CORES aren't curious about the system — they have a filing to get done and have just discovered they can't log in to do it. Pick the one that brought you here. Each is filed through our CORES-certified agents, most within 1 business day, no account needed:
+
+- **Annual return due — or already overdue?** [File your Alberta annual return](/file-annual-return/alberta) · {{price:annual-return}} all-in, $47 government fee included
+- **Need proof of your corporation for a bank, lawyer or buyer?** [Order an Alberta corporate profile report](/profile-reports/alberta-corporate-profile-report) · {{price:profile-report}}
+- **Struck off or dissolved for missed returns?** [Revive your Alberta corporation](/order/revival) · {{price:revival}}
+- **Starting a new corporation?** [Incorporate in Alberta](/incorporation/alberta-incorporation-service) · from {{price:incorporation-numbered}} all-in
+
 Starting from scratch instead? [How to register a business in Alberta](/articles/how-to-register-a-business-in-alberta) covers the trade-name-vs-incorporation decision and what each costs through a registry agent.
 
 ## What does CORES actually do?
@@ -32,8 +41,8 @@ Every transaction on the Alberta Corporate Registry flows through CORES, includi
 - Incorporating a new Alberta corporation
 - Filing the mandatory [annual return](/articles/how-to-file-your-annual-return-in-alberta)
 - Changing directors, registered office addresses, or corporate names
-- Corporate searches and profile reports
-- Dissolutions, revivals, and amalgamations
+- Corporate searches and [profile reports](/profile-reports/alberta-corporate-profile-report)
+- Dissolutions, [revivals](/order/revival), and amalgamations
 - Registering out-of-province (extra-provincial) corporations
 
 If your corporation exists in Alberta, its official record lives in CORES — and keeping that record current isn't optional. Corporations that stop filing are flagged as non-compliant and eventually dissolved.
@@ -72,6 +81,10 @@ Your Alberta annual return is due within one month of your incorporation anniver
 3. We file directly through CORES — within 1 business day, {{price:annual-return}} all-in + GST, including the $47 government fee
 
 No account, no portal, no in-person visit. The same applies to incorporations, amendments, and [corporate searches](/canada-corporations-search).
+
+## Struck off for missed annual returns? Revival goes through CORES too
+
+Miss your annual returns for long enough and Alberta dissolves the corporation — and from that moment its bank account, contracts and name all belong to an entity that no longer legally exists. It is recoverable. A revival is filed through CORES by an accredited agent, and the corporation is restored under its original Corporate Access Number as if it had never lapsed. [Revive your Alberta corporation →](/order/revival) · {{price:revival}} — or [search it first](/canada-corporations-search) to confirm its current status.
 
 ## File through a CORES Certified Registry Agent
 

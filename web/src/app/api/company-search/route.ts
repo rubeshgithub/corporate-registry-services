@@ -490,7 +490,28 @@ export async function GET(request: Request) {
       return NextResponse.json(await searchBC(q, status));
     }
     if (province === "pe") {
-      return NextResponse.json(await searchPEI(q, status));
+      /* PEI has its own upstream (wdf.princeedwardisland.ca). In Sep 2026 this
+         path 502'd on production while the identical request — same body,
+         same headers, same Node https client — succeeded from a dev machine,
+         which points at the environment (PEI's WAF vs Render's egress IP, or
+         the runtime's TLS fingerprint) rather than the code. Render's logs
+         aren't reachable from the CLI, so surface the upstream failure class
+         and status in the response body: no secrets, no request internals,
+         just enough to tell a 403 from a timeout from the catch-all string. */
+      try {
+        return NextResponse.json(await searchPEI(q, status));
+      } catch (e) {
+        const err = e as { name?: string; message?: string; status?: number };
+        console.error("[CRS] PEI search failed:", err?.name, err?.status, err?.message);
+        return NextResponse.json(
+          {
+            error:    "Search temporarily unavailable",
+            source:   "pei",
+            peiError: `${err?.name ?? "Error"}${err?.status ? ` ${err.status}` : ""}: ${String(err?.message ?? "").slice(0, 160)}`,
+          },
+          { status: 502 },
+        );
+      }
     }
     const cbrCode = province === "all" ? undefined : PROVINCE_CBR[province];
 

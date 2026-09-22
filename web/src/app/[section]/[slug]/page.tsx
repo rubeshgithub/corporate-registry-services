@@ -69,6 +69,18 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Look up your corporation"
       subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
   ),
+  /* The registry-search article is the site's fastest-growing page (2,000+
+     impressions/day by Sep 2026) and, until this entry, rendered NO search
+     widget: its slug infers no lookup-first service, so the generic fallback
+     below skipped it, and nothing here claimed it. A reader arriving from
+     "how do I search a Canadian business registry" could read about searching
+     but not search — every one of those impressions was a dead end. */
+  "articles/how-to-search-canadian-business-registries": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Search Canadian business registries"
+      subOverride="Search by company name, corporation number, or Business Number across every registry we cover — and order the official profile report if you need the record." />
+  ),
   "guides/corporate-search-for-due-diligence": ({ slug, prices }) => (
     <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
