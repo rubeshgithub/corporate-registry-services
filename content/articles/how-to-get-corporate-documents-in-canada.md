@@ -1,5 +1,5 @@
 ---
-title: "How to Get a Copy of Your Articles of Incorporation and Corporate Documents in Canada"
+title: "Get a Copy of Your Articles of Incorporation in Canada"
 h1: "How to Get a Copy of Articles of Incorporation and Corporate Documents in Canada"
 slug: "how-to-get-corporate-documents-in-canada"
 section: "articles"

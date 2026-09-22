@@ -1,5 +1,5 @@
 ﻿---
-title: "File Your NB Annual Return — Service New Brunswick · {{price:annual-return}} all-in"
+title: "NB Annual Return — Service New Brunswick · {{price:annual-return}} all-in"
 h1: "File Your New Brunswick Annual Return"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"

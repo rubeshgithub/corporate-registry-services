@@ -1,5 +1,6 @@
 ﻿---
-title: "Manitoba Annual Return: How to File with the Companies Office — File it to avoid dissolution of your Corporation"
+title: "Manitoba Annual Return — Companies Office Filing Guide"
+h1: "Manitoba Annual Return: How to File with the Companies Office — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Manitoba"
 section: "articles"
 description: "File your Manitoba Annual Return through the Companies Office — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year. No login required."

@@ -1,5 +1,5 @@
 ---
-title: "Shareholder Resolutions in Canada: Ordinary vs Special, Annual Package"
+title: "Shareholder Resolutions in Canada: Ordinary vs Special"
 h1: "Shareholder Resolutions in Canada: A Complete Guide"
 slug: "shareholder-resolutions-in-canada"
 section: "articles"

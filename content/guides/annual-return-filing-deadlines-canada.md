@@ -1,5 +1,6 @@
 ---
-title: "Annual Return Filing in Canada — Deadlines, Fees & Province-by-Province Guide"
+title: "Annual Return Filing Deadlines in Canada by Province"
+h1: "Annual Return Filing in Canada — Deadlines, Fees & Province-by-Province Guide"
 description: "Corporate annual return deadlines, fees and filing rules for every Canadian jurisdiction, federal and provincial — and what happens if you miss a filing."
 slug: "annual-return-filing-deadlines-canada"
 section: "guides"

@@ -1,5 +1,6 @@
 ﻿---
-title: "PEI Annual Return: How to File with the Corporate Registry — File it to avoid dissolution of your Corporation"
+title: "PEI Corporate Registry: How to File Your Annual Return"
+h1: "PEI Annual Return: How to File with the Corporate Registry — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Prince-Edward-Island"
 section: "articles"
 description: "File your PEI Annual Return through the Prince Edward Island Corporate Registry — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year."

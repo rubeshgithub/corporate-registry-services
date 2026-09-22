@@ -1,5 +1,6 @@
 ---
-title: "How to Incorporate a Society in Alberta (2026 Guide)"
+title: "How to Incorporate a Non-Profit or Society in Alberta"
+h1: "How to Incorporate a Society in Alberta (2026 Guide)"
 metaDescription: "How to incorporate a society in Alberta: 5 members, NUANS, forms and the $51.50 fee explained. Book a free CRS consultation to start right."
 slug: "/not-for-profit/alberta"
 primaryKeyword: "how to incorporate a society in Alberta"

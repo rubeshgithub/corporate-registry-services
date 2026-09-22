@@ -1,5 +1,6 @@
 ---
-title: "How to Verify a Canadian Company — Registration, Directors, Status & History"
+title: "How to Verify a Canadian Company — Status & Directors"
+h1: "How to Verify a Canadian Company — Registration, Directors, Status & History"
 slug: "how-to-verify-a-canadian-company"
 section: "guides"
 description: "How to check if a Canadian company is real: verify registration, current directors, registered office, status, and business number. Free tools, paid documents, and what each proves — with the fastest path from search to confirmed."
