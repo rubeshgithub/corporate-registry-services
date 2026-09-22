@@ -5,38 +5,45 @@ import { Phone, Mail, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF_CALL } from "@/lib/contact";
 
 /**
- * The combined "can't find your corporation?" offer for a zero-result
- * registry search — two ways to reach a human, both of which work with no
- * third-party script: call or text the number, or leave an email. Rendered
- * in two places:
- *   - RegistrySearchZeroResultsModal, the auto-opening popup
- *   - inline in CompanySearch's "no results" card, so the offer is still
- *     visible after the popup is dismissed
+ * The "can't find your corporation?" offer for a zero-result registry
+ * search. One implementation, rendered in two places:
+ *   - RegistrySearchZeroResultsModal, the auto-opening popup on the
+ *     standalone search page
+ *   - inline under the search box in InlineLookupOrder (articles and the
+ *     per-jurisdiction service pages) and in CompanySearch's no-results card
  *
- * Deliberately one combined offer rather than two competing CTAs (a phone
- * prompt and a separate "request a manual search" button) — a visitor who
- * just got zero results shouldn't have to choose which help mechanism to
- * trust.
+ * ── Email first, phone second ────────────────────────────────────────────
+ * A zero result here usually means our data can't answer, not that the
+ * corporation doesn't exist: Newfoundland, Yukon, New Brunswick and the
+ * territories aren't in the federal registry data at all, and their own
+ * registries can't be queried by machine (terms of use, Cloudflare
+ * challenges). What we can do is look the corporation up by hand and send
+ * back what we find — and the output of that is information, which is
+ * better delivered in writing than in a call. So the email form is the
+ * primary action and the phone number is a quiet secondary line.
  *
- * ── Why there's no "chat with us" button here ────────────────────────────
- * There were two, in turn, and both were dead ends. First an sms: link,
- * which silently does nothing on desktop (no SMS handler). Then a button
- * that opened Crisp — but Crisp frequently doesn't load at all (the site
- * has no NEXT_PUBLIC_CRISP_WEBSITE_ID set, and the widget script is a
- * common ad-blocker target), so that was dead too. The number is shown as
- * readable text, not only as a link, so it works even where tel: doesn't:
- * the visitor can dial or text it themselves.
+ * No chat button, deliberately. Two earlier versions had one (an sms: link,
+ * then a Crisp opener) and both were dead ends for a large share of
+ * visitors. The number is shown as readable text inside the tel: link so it
+ * works even where tel: has no handler.
  *
- * Posts to /api/notify/search-help, which mails support@ AND acknowledges
- * the visitor. It deliberately does NOT use /api/notify/search-lead (what
- * CompanySearch's "save this search" form uses): that route only mails the
- * visitor and is documented as "no ops notification", which left the
- * 24-hour promise below unbacked when this first shipped.
- *
- * Self-contained (own email/sending state) rather than lifting
- * CompanySearch's leadEmail state, so the results>0 "save search" form is
- * untouched.
+ * Posts to /api/notify/search-help, which mails support@ with the searched
+ * name and jurisdiction AND sends the visitor a fixed acknowledgement — not
+ * /api/notify/search-lead, which by design never notifies anyone and would
+ * leave the promise below unbacked.
  */
+
+/* Display-only. Names the registry a person will actually check, so the
+   promise is concrete on the jurisdictions where this card does the real
+   work. Anything not listed gets the generic wording. */
+const MANUAL_REGISTRY: Record<string, string> = {
+  nl: "Newfoundland and Labrador Registry of Companies",
+  yt: "Yukon Corporate Online Registry",
+  nb: "New Brunswick Corporate Registry",
+  nt: "Northwest Territories Corporate Registry",
+  nu: "Nunavut Corporate Registry",
+  pe: "PEI Corporate Registry",
+};
 
 export default function RegistrySearchZeroResultsHelp({
   query,
@@ -45,9 +52,12 @@ export default function RegistrySearchZeroResultsHelp({
   query:    string;
   province: string;
 }) {
-  const [email, setEmail]   = useState("");
-  const [state, setState]   = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [email, setEmail]     = useState("");
+  const [state, setState]     = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
+
+  const registry = MANUAL_REGISTRY[province] ?? "registry";
+  const registryPhrase = MANUAL_REGISTRY[province] ? `the ${registry}` : "the registry";
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -86,79 +96,70 @@ export default function RegistrySearchZeroResultsHelp({
     }
   }
 
+  if (state === "sent") {
+    return (
+      <div>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", fontSize: "0.88rem", color: "var(--secondary)", fontWeight: 500, lineHeight: 1.55 }}>
+          <CheckCircle2 size={17} style={{ flexShrink: 0, marginTop: "0.1rem" }} />
+          <span>
+            Thanks — a confirmation is on its way to your inbox. We&rsquo;ll search {registryPhrase} for
+            &ldquo;{query}&rdquo; by hand and email you what we find within 24 hours.
+          </span>
+        </div>
+        <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.7rem 0 0", lineHeight: 1.5 }}>
+          Need it sooner? Call or text{" "}
+          <a href={SITE_PHONE_HREF_CALL} style={{ color: "var(--text)", fontWeight: 600, textDecoration: "none" }}>{SITE_PHONE_DISPLAY}</a>.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", margin: "0 0 1rem", lineHeight: 1.6 }}>
-        If you believe this corporation exists, we can take a closer look.
+      <p style={{ fontSize: "0.88rem", color: "var(--text)", margin: "0 0 0.85rem", lineHeight: 1.6 }}>
+        If you believe this corporation exists, leave your email and we&rsquo;ll look it up in {registryPhrase} by
+        hand — and send you what we find within 24 hours.
       </p>
 
-      {/* Call or text. The number is plain readable text inside the link so
-          it's usable on desktop, where tel: often has no handler. */}
-      <a
-        href={SITE_PHONE_HREF_CALL}
-        style={{
-          display: "flex", alignItems: "center", gap: "0.65rem",
-          padding: "0.8rem 1rem", borderRadius: "var(--radius-card)",
-          background: "var(--primary)", color: "#FFFFFF",
-          textDecoration: "none", marginBottom: "1rem",
-        }}
-      >
-        <Phone size={18} style={{ flexShrink: 0 }} />
-        <span>
-          <span style={{ display: "block", fontSize: "0.72rem", opacity: 0.85, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-            Call or text
-          </span>
-          <span style={{ display: "block", fontSize: "1.05rem", fontWeight: 700, letterSpacing: "0.01em" }}>
-            {SITE_PHONE_DISPLAY}
-          </span>
-        </span>
-      </a>
-
-      <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 0.5rem" }}>
-        Or email us
-      </div>
-
-      {state === "sent" ? (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", color: "var(--secondary)", fontWeight: 500 }}>
-          <CheckCircle2 size={15} /> Thanks — check your inbox. We&rsquo;ll get back to you within the next 24 hours.
-        </div>
-      ) : (
-        <>
-          <form onSubmit={submit} style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-            <input
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
-              placeholder="you@company.ca"
-              className="field-input"
-              style={{ flex: "1 1 200px", minWidth: "160px", height: "2.4rem", fontSize: "0.86rem" }}
-              required
-            />
-            <button
-              type="submit"
-              disabled={state === "sending"}
-              className="btn-primary"
-              style={{
-                height: "2.4rem", fontSize: "0.82rem",
-                display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                opacity: state === "sending" ? 0.7 : 1,
-              }}
-            >
-              {state === "sending"
-                ? <><Loader2 size={13} className="crs-spin" /> Sending…</>
-                : <><Mail size={13} /> Send <ArrowRight size={12} /></>}
-            </button>
-          </form>
-          {state === "error" && (
-            <span style={{ display: "block", fontSize: "0.76rem", color: "var(--gold)", marginTop: "0.4rem" }}>{message}</span>
-          )}
-          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: "0.7rem 0 0", lineHeight: 1.5 }}>
-            We&rsquo;ll get back to you within the next 24 hours.
-          </p>
-        </>
+      <form onSubmit={submit} style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <input
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
+          placeholder="you@company.ca"
+          className="field-input"
+          style={{ flex: "1 1 220px", minWidth: "180px", height: "2.6rem", fontSize: "0.9rem" }}
+          required
+        />
+        <button
+          type="submit"
+          disabled={state === "sending"}
+          className="btn-primary"
+          style={{
+            height: "2.6rem", fontSize: "0.86rem", padding: "0 1rem",
+            display: "inline-flex", alignItems: "center", gap: "0.4rem",
+            opacity: state === "sending" ? 0.7 : 1,
+          }}
+        >
+          {state === "sending"
+            ? <><Loader2 size={14} className="crs-spin" /> Sending…</>
+            : <><Mail size={14} /> Email me what you find <ArrowRight size={13} /></>}
+        </button>
+      </form>
+      {state === "error" && (
+        <span style={{ display: "block", fontSize: "0.76rem", color: "var(--gold)", marginTop: "0.4rem" }}>{message}</span>
       )}
+
+      {/* Secondary on purpose: one quiet line, number readable as text. */}
+      <p style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.85rem 0 0", lineHeight: 1.5 }}>
+        <Phone size={12} style={{ flexShrink: 0 }} />
+        <span>
+          Prefer to talk? Call or text{" "}
+          <a href={SITE_PHONE_HREF_CALL} style={{ color: "var(--text)", fontWeight: 600, textDecoration: "none" }}>{SITE_PHONE_DISPLAY}</a>.
+        </span>
+      </p>
     </div>
   );
 }
