@@ -503,13 +503,19 @@ export async function GET(request: Request) {
       } catch (e) {
         const err = e as { name?: string; message?: string; status?: number };
         console.error("[CRS] PEI search failed:", err?.name, err?.status, err?.message);
+        /* 503, not 502, on purpose. The site sits behind Cloudflare, which
+           replaces an origin 502/504 with its own error page ("error code:
+           502", text/plain, no x-render-origin-server header) — so a JSON
+           diagnostic on a 502 is never visible from outside. Cloudflare
+           passes a 503 body through unchanged. Semantically it is also the
+           right code: our service is up, the upstream it depends on isn't. */
         return NextResponse.json(
           {
             error:    "Search temporarily unavailable",
             source:   "pei",
             peiError: `${err?.name ?? "Error"}${err?.status ? ` ${err.status}` : ""}: ${String(err?.message ?? "").slice(0, 160)}`,
           },
-          { status: 502 },
+          { status: 503, headers: { "Cache-Control": "no-store" } },
         );
       }
     }
