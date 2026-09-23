@@ -63,9 +63,15 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
         if (myToken !== searchToken.current) return;
         const hits: RegistryHit[] = data.results ?? [];
         setResults(hits);
-        setDropdownOpen(true);
+        /* Only open the dropdown when there is something to show. It used to open
+           unconditionally, which meant a zero-result search rendered neither the
+           dropdown (no rows) NOR the error (gated on !dropdownOpen) — so "No
+           matches" was invisible on every one of these islands. */
+        setDropdownOpen(hits.length > 0);
         if (!hits.length)
-          setSearchErr("No matches — try the exact legal name or corporation number.");
+          setSearchErr(data?.error
+            ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
+            : "No matches — try the exact legal name or corporation number.");
       } catch {
         if (myToken !== searchToken.current) return;
         setSearchErr("Search is temporarily unavailable — please try again.");
@@ -252,7 +258,7 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
               This island searches on every keystroke, so a length gate keeps
               the card from firing at "ro"; keyed to q, it updates as they type
               and disappears the moment a match appears. */}
-          {searchErr.startsWith("No matches") && q.trim().length >= 6 && (
+          {q.trim().length >= 6 && (
             <div style={{ marginTop: "0.9rem", paddingTop: "0.9rem", borderTop: "1px dashed var(--border)" }}>
               <RegistrySearchZeroResultsHelp query={q.trim()} province={province} />
             </div>

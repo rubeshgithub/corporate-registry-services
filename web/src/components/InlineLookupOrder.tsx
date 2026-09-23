@@ -177,7 +177,15 @@ export default function InlineLookupOrder({
          Registries at all), so "no matches" here often means our data can't
          answer, not that the corporation doesn't exist. */
       if (!hits.length && !opts?.silent) {
-        setSearchErr("No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+        /* Distinguish "we searched and found nothing" from "we couldn't
+           search". The API answers a failed upstream with 200-shaped JSON
+           carrying `error` (PEI's registry is currently blocked from our
+           host), and fetch doesn't throw on it — so without this check the
+           visitor is told their corporation has no record when in fact we
+           never reached the registry. */
+        setSearchErr(data?.error
+          ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
+          : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
         setZeroHelpFor(q);
       } else if (hits.length) {
         setZeroHelpFor(null);
