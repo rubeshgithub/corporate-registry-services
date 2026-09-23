@@ -138,6 +138,10 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
      and dismissed for — so it doesn't reopen on every debounced re-search
      of the same failed query, but does show again for a genuinely new one. */
   const [zeroModalDismissedFor, setZeroModalDismissedFor] = useState<string | null>(null);
+  /* True when the last search deliberately skipped the PEI upstream (we don't
+     query it while someone types). An empty result set then means "not
+     searched", so the "can't find it?" offer must not fire yet. */
+  const [peiDeferred, setPeiDeferred]  = useState(false);
 
   /* Email gate for "View full profile" clicks — first click in a session
      opens the modal, subsequent clicks pass through (session storage flag). */
@@ -244,11 +248,19 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
     setSearched(true);
     setError("");
     try {
-      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}`);
+      /* deep=1 marks a deliberate search — submit, or a province change —
+         and is the only thing permitted to reach the PEI upstream. A
+         debounced keystroke must not: one call per character is what got
+         that integration blocked. See lib/pei-budget.ts. */
+      const deep = opts.track ? "&deep=1" : "";
+      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}${deep}`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setResults(data.results ?? []);
       setTotal(data.total ?? 0);
+      /* PEI not consulted on this fire — so an empty result set is "we
+         didn't look", and must not be presented as "doesn't exist". */
+      setPeiDeferred(Boolean(data.deferred || data.peiSkipped));
       if (opts.track) trackSearch(q, prov, data.total ?? data.results?.length ?? 0);
     } catch {
       setError("Search temporarily unavailable. Please try again.");
@@ -777,7 +789,24 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       {/* No results — a gentle popup on first hitting zero for this query,
           plus the same combined offer left inline below so it's still
           visible if the popup gets dismissed. */}
-      {!loading && !error && searched && results.length === 0 && (
+      {/* PEI deliberately not queried on this fire: say so, and do NOT run the
+          "can't find it?" offer — nothing has been searched to come up empty. */}
+      {!loading && !error && searched && results.length === 0 && peiDeferred && (
+        <div
+          style={{
+            textAlign: "left", padding: "1.1rem 1.25rem",
+            background: "var(--card)", border: "1px solid var(--border)",
+            borderRadius: "var(--radius-card)", fontSize: "0.9rem",
+            color: "var(--text-muted)", lineHeight: 1.6,
+          }}
+        >
+          Press <strong style={{ color: "var(--text)" }}>Search</strong> to query the Prince Edward
+          Island registry — we don&rsquo;t call it while you type, to stay within the limits its
+          operators ask of us.
+        </div>
+      )}
+
+      {!loading && !error && searched && results.length === 0 && !peiDeferred && (
         <>
           {zeroModalDismissedFor !== `${query.trim().toLowerCase()}|${province}` && (
             <RegistrySearchZeroResultsModal

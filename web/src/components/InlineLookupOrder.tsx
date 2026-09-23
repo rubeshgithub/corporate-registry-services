@@ -163,7 +163,11 @@ export default function InlineLookupOrder({
     setPick(null);
     try {
       const prov = provinceKey ?? "all";
-      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}`);
+      /* deep=1 only on an explicit Find. A debounced keystroke must not reach
+         the PEI upstream — one call per character is what got that
+         integration blocked (see lib/pei-budget.ts). */
+      const deep = opts?.silent ? "" : "&deep=1";
+      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}${deep}`);
       const data = await res.json();
       const hits: RegistryHit[] = data.results ?? [];
       setResults(hits);
@@ -183,9 +187,14 @@ export default function InlineLookupOrder({
            host), and fetch doesn't throw on it — so without this check the
            visitor is told their corporation has no record when in fact we
            never reached the registry. */
-        setSearchErr(data?.error
-          ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
-          : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+        setSearchErr(
+          data?.error
+            ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
+            : data?.deferred || data?.peiSkipped
+              /* We deliberately didn't query PEI on this fire. Saying "no
+                 matching records" here would be a straight falsehood. */
+              ? "Press Find to search the Prince Edward Island registry — we don't query it while you type."
+              : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
         setZeroHelpFor(q);
       } else if (hits.length) {
         setZeroHelpFor(null);

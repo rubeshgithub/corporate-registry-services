@@ -125,6 +125,10 @@ export type SearchOpts = {
   page?:        number;
   pageSize?:    number;
   forceRefresh?: boolean;
+  /** Serve from cache or not at all — never call the upstream. Used for
+   *  typeahead: a query we have already fetched is free to return, but a
+   *  miss must not become a request. See lib/pei-budget.ts for why. */
+  cacheOnly?:   boolean;
 };
 
 /**
@@ -137,6 +141,10 @@ export async function searchPei(name: string, opts: SearchOpts = {}): Promise<{
   totalHint: number | null;
   cached: boolean;
   source: "pei";
+  /** True when cacheOnly was set and the query wasn't cached — meaning we
+   *  deliberately did not search, which is NOT the same as "no such
+   *  corporation" and must never be reported to a visitor as one. */
+  deferred?: boolean;
 }> {
   const bn = opts.businessNumber?.trim() || null;
   const cacheKeyPart = bn ? `bn:${bn}` : normKey(name);
@@ -145,6 +153,13 @@ export async function searchPei(name: string, opts: SearchOpts = {}): Promise<{
   if (!opts.forceRefresh) {
     const cached = await readCache<{ results: PeiSearchResult[]; totalHint: number | null }>(key);
     if (cached) return { ...cached, cached: true, source: "pei" };
+  }
+
+  /* Typeahead stops here. A cache miss is answered with "we didn't look",
+     not with an upstream request — that request, once per keystroke, is
+     what got this integration blocked. */
+  if (opts.cacheOnly) {
+    return { results: [], totalHint: null, cached: false, source: "pei", deferred: true };
   }
 
   const body = buildBody({

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { companies } from "@/lib/registrar-mongo";
 import { searchPei } from "@/lib/pei-registry";
+import { takePeiBudget, PEI_MIN_QUERY } from "@/lib/pei-budget";
+import { ipHashFrom } from "@/lib/public-form-guard";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
 
@@ -175,14 +177,44 @@ function looksLikePeiBusinessNumber(q: string): boolean {
   return /^\d{9}(?:-?\d{4,6}|[A-Z]{2}\d{4})?$/i.test(compact);
 }
 
-async function searchPEI(q: string, status: StatusFilter) {
+/**
+ * PEI is opt-in, not automatic.
+ *
+ * `deep` is set only by a caller that knows the visitor has finished typing
+ * — a submitted form, an explicit Find. Every other call site (and there are
+ * twenty-odd, most of them debounced typeaheads) gets cache-only behaviour
+ * without having to know this rule exists. That default is the point: the
+ * previous arrangement made every new search widget a fresh way to hammer
+ * PEI, and one of them eventually did.
+ *
+ * Returns `deferred: true` when we chose not to look, so callers can say so
+ * rather than reporting "no matching records" for a corporation that is
+ * sitting in the registry.
+ */
+async function searchPEIGuarded(
+  q: string,
+  status: StatusFilter,
+  opts: { deep: boolean; callerKey: string },
+) {
+  if (!opts.deep) return { ...(await searchPEI(q, status, { cacheOnly: true })), guarded: "typeahead" as const };
+
+  const verdict = takePeiBudget(q, opts.callerKey);
+  if (!verdict.ok) {
+    /* Over budget or too vague: still answer from cache if we happen to
+       have it, but do not reach upstream. */
+    return { ...(await searchPEI(q, status, { cacheOnly: true })), guarded: verdict.reason };
+  }
+  return { ...(await searchPEI(q, status)), guarded: null };
+}
+
+async function searchPEI(q: string, status: StatusFilter, peiOpts: { cacheOnly?: boolean } = {}) {
   /* If the query looks like a BN, route to PEI's business_number field
    *  instead of the name field. PEI's fuzzy name matcher doesn't hit BN
    *  columns, so a BN passed as a name returns no matches. */
   const isBN = looksLikePeiBusinessNumber(q);
-  const { results: raw, totalHint } = isBN
-    ? await searchPei("", { businessNumber: q.trim() })
-    : await searchPei(q);
+  const { results: raw, totalHint, deferred } = isBN
+    ? await searchPei("", { businessNumber: q.trim(), ...peiOpts })
+    : await searchPei(q, peiOpts);
 
   const mapped: ResultShape[] = raw.map((r) => {
     const rawStatus = r.status ?? "";
@@ -207,6 +239,7 @@ async function searchPEI(q: string, status: StatusFilter) {
     total:  status === "all" ? (totalHint ?? filtered.length) : filtered.length,
     source: "pei",
     results: filtered.slice(0, 12),
+    deferred,
   };
 }
 
@@ -483,6 +516,14 @@ export async function GET(request: Request) {
   const status: StatusFilter =
     rawStatus === "active" || rawStatus === "pending" || rawStatus === "struck" ? rawStatus : "all";
 
+  /* `deep` marks a deliberate, finished search — a submitted form or an
+     explicit Find — as opposed to a debounced keystroke. Only a deep search
+     may reach the PEI upstream. Absent the flag we behave as typeahead,
+     which is the safe default for the twenty-odd callers that never pass
+     it. See lib/pei-budget.ts. */
+  const deep      = searchParams.get("deep") === "1";
+  const callerKey = ipHashFrom(request) || "anon";
+
   if (q.length < 2) return NextResponse.json({ results: [], total: 0 });
 
   try {
@@ -499,7 +540,7 @@ export async function GET(request: Request) {
          and status in the response body: no secrets, no request internals,
          just enough to tell a 403 from a timeout from the catch-all string. */
       try {
-        return NextResponse.json(await searchPEI(q, status));
+        return NextResponse.json(await searchPEIGuarded(q, status, { deep, callerKey }));
       } catch (e) {
         const err = e as { name?: string; message?: string; status?: number };
         console.error("[CRS] PEI search failed:", err?.name, err?.status, err?.message);
@@ -535,17 +576,21 @@ export async function GET(request: Request) {
         console.warn("[CRS] local AB search failed (non-fatal):", e);
         return [] as ResultShape[];
       }) : Promise.resolve([] as ResultShape[]),
-      includePEI ? searchPEI(q, status).catch((e) => {
+      includePEI ? searchPEIGuarded(q, status, { deep, callerKey }).catch((e) => {
         console.warn("[CRS] parallel PEI search failed (non-fatal):", e);
-        return { total: 0, source: "pei", results: [] as ResultShape[] };
-      }) : Promise.resolve({ total: 0, source: "pei", results: [] as ResultShape[] }),
+        return { total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: "error" as const };
+      }) : Promise.resolve({ total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: null }),
     ]);
 
     const hasLocalAB = includeLocalAB && localAB.length > 0;
     const hasPEI     = includePEI     && peiResp.results.length > 0;
+    /* Whether PEI was consulted at all. Reported so the gap is never silent
+       again: PEI failing was invisible for weeks precisely because the
+       all-province path swallows its errors and returns CBR as if complete. */
+    const peiSkipped = includePEI && (peiResp.deferred || peiResp.guarded) ? peiResp.guarded ?? "deferred" : undefined;
 
     if (!hasLocalAB && !hasPEI) {
-      return NextResponse.json(cbrResp);
+      return NextResponse.json({ ...cbrResp, peiSkipped });
     }
 
     let merged = cbrResp.results;
@@ -563,6 +608,7 @@ export async function GET(request: Request) {
       source:       sourceParts.join("+"),
       localMatches: hasLocalAB ? localAB.length : undefined,
       peiMatches:   hasPEI ? peiResp.results.length : undefined,
+      peiSkipped,
     });
   } catch (err) {
     console.error("[CRS] company-search error:", err);
