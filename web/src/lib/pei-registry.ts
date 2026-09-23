@@ -249,7 +249,16 @@ async function postWorkflow(body: unknown): Promise<unknown> {
       lastErr = e;
     }
   }
-  throw new PeiRegistryError("upstream unreachable", { cause: lastErr });
+  /* Carry the last attempt's failure in the message itself. On production
+     this error surfaces as a 503 body read from outside, where `cause` is
+     invisible — and "unreachable" alone can't distinguish a WAF 500 with an
+     empty body (the TLS-fingerprint rejection documented above for undici)
+     from a reset connection or a DNS failure. Those need different fixes. */
+  const last = lastErr instanceof Error ? lastErr.message : String(lastErr ?? "no response");
+  throw new PeiRegistryError(
+    `upstream unreachable after ${MAX_RETRIES + 1} attempts — last: ${last.slice(0, 200)}`,
+    { cause: lastErr },
+  );
 }
 
 /** POST helper using Node's built-in https module — matches curl's HTTP/1.1
