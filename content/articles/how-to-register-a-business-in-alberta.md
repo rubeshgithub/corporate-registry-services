@@ -82,7 +82,7 @@ Physicians, lawyers, accountants and other regulated professionals have an extra
 
 ## What happens after you register?
 
-The part nobody mentions at the point of sale: an Alberta corporation owes an **annual return every year**, due **within one month of the incorporation anniversary** — one of the tightest windows in Canada. The government fee is $47.
+The part nobody mentions at the point of sale: an Alberta corporation owes an **annual return every year**, due **within one month of the incorporation anniversary** — one of the tightest windows in Canada. A government fee applies, set by Service Alberta and last increased on 2 July 2026.
 
 Miss it repeatedly and the registrar strikes the corporation from the register. It ceases to exist, bank accounts become a problem, and getting it back means a revival plus every missed return.
 
@@ -120,7 +120,7 @@ No. Alberta has no Canadian residency requirement for directors, which distingui
 
 ### What do I have to do after registering a business in Alberta?
 
-A corporation must file an annual return within one month of its incorporation anniversary, every year, with a $47 government fee. A trade name must be renewed every five years. Neither is a tax filing, and neither replaces municipal business licensing or GST registration where those apply.
+A corporation must file an annual return within one month of its incorporation anniversary, every year, with a government fee set by Service Alberta. A trade name must be renewed every five years. Neither is a tax filing, and neither replaces municipal business licensing or GST registration where those apply.
 
 ---
 

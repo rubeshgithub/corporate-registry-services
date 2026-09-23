@@ -3,10 +3,10 @@ title: "OBR Ontario Annual Return | Filing Agent | {{price:annual-return}} All-I
 h1: "Ontario Annual Return: Filed with the OBR in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
-description: "Ontario annual return filed with the OBR in 1 business day — {{price:annual-return}} all-in, government fee included. No ONe-key login needed. Beat the 6-month deadline."
+description: "Ontario annual return filed with the Ontario Business Registry in 1 business day — {{price:annual-return}} all-in. No account or company key needed. Beat the 6-month deadline."
 ---
 
-**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed through the Ontario Business Registry by an authorized filing agent — no ONe-key account required.
+**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed through the Ontario Business Registry by an authorized filing agent — no account and no company key required.
 
 Every Ontario corporation incorporated under the *Business Corporations Act (Ontario)* (OBCA) must file an annual return each year to remain in good standing with the Ontario Business Registry. Missing this filing can result in a notice of intent to dissolve — and ultimately, administrative dissolution of your corporation.
 
@@ -45,17 +45,16 @@ The Ontario annual return requires:
 Ontario annual returns are filed through the **Ontario Business Registry** at [Ontario.ca/businessregistry](https://www.ontario.ca/page/ontario-business-registry).
 
 **Steps:**
-1. Log in or create an account on the Ontario Business Registry
+1. Sign in with your **Ontario.ca Login** and Ontario Business Account
 2. Search for your corporation using your Ontario Corporation Number
-3. Claim or confirm access to your corporation's profile
+3. Claim access to the corporation's profile using its **9-digit company key** — mailed to the registered office; without it you cannot file
 4. Select "File Annual Return" from the dashboard
 5. Review and update your corporation's information
-6. Pay the $22 government filing fee (online payment)
-7. Receive confirmation of filing
+6. Submit and receive confirmation of filing
 
 ## Ontario Annual Return Government Fee
 
-The Ontario government fee for filing an annual return is **$22** (filed online). This fee is payable to the province regardless of whether you file yourself or use a service provider.
+**There is no government fee.** Ontario charges **$0** to file a corporation's annual return through the Ontario Business Registry, whether you file it yourself or through a filing agent. What the filing costs you is the time to get an account, obtain the company key, and complete the return correctly — not a registry fee.
 
 ## What Happens If You Miss the Filing?
 
@@ -73,9 +72,9 @@ If your Ontario corporation is also registered as an extra-provincial corporatio
 
 ## File Your Ontario Annual Return Through an OBR Filing Agent
 
-CRS is an authorized filing agent that submits Ontario annual returns directly through the Ontario Business Registry on your behalf. You don't need a ONe-key login, and you don't need to navigate the OBR portal yourself — we prepare the return, file it before your 6-month deadline, and email you the OBR confirmation for your records.
+CRS is an authorized filing agent that submits Ontario annual returns directly through the Ontario Business Registry on your behalf. You don't need an Ontario Business Account, you don't need to hunt for your company key, and you don't need to navigate the OBR portal yourself — we prepare the return, file it before your 6-month deadline, and email you the OBR confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $22 government fee.
+**Price:** {{price:annual-return}} + applicable tax, all-in. Ontario charges no registry fee for an annual return; you are paying for the filing to be prepared and submitted correctly, on time, without an account.
 
 [File your Ontario annual return now →](/order/annual-return)

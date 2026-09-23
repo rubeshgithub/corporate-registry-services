@@ -33,7 +33,7 @@ Ontario has one of the simplest fee schedules in Canada. Every business corporat
 
 The $300 filing fee is set out in the Ministry's own [Articles of Incorporation instructions](https://forms.mgcs.gov.on.ca/dataset/5351) and has not changed since the Ontario Business Registry (OBR) launched in October 2021. Ontario does not sell an "expedited" tier the way some provinces do — online filings through the OBR are processed automatically, usually the same business day, and mailed applications go into a manual queue.
 
-Two things stand out compared with other provinces. First, Ontario does not charge a name-reservation fee: your NUANS report *is* your name clearance, and you file the Articles with the report's reference number. Second, Ontario's annual return is free. Alberta charges $47 a year, BC $43 and the federal registry $12 — so an Ontario corporation's ongoing registry cost is genuinely $0 if you file on time yourself.
+Two things stand out compared with other provinces. First, Ontario does not charge a name-reservation fee: your NUANS report *is* your name clearance, and you file the Articles with the report's reference number. Second, Ontario's annual return is free. Alberta and BC both charge an annual registry fee and the federal registry charges $12 — so an Ontario corporation's ongoing registry cost is genuinely $0 if you file on time yourself.
 
 ## What does an Ontario NUANS report cost?
 

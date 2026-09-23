@@ -3,16 +3,18 @@ title: "File Your Saskatchewan Annual Return — ISC · {{price:annual-return}} 
 h1: "File Your Saskatchewan Annual Return (ISC)"
 slug: "How-to-File-Your-Annual-Return-in-Saskatchewan"
 section: "articles"
-description: "File your Saskatchewan annual return with ISC (Information Services Corporation) in 1 business day. {{price:annual-return}} all-in, government fee included. Deadline is 3 months from your anniversary — skip the ISC portal and file same day."
+description: "File your Saskatchewan annual return with ISC (Information Services Corporation) in 1 business day. {{price:annual-return}} all-in, government fee included. Due the month after your anniversary — skip the ISC portal and file same day."
 ---
 
 **Deadline coming up?** [File your Saskatchewan annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through ISC on your behalf — no ISC Online login required.
 
-Saskatchewan corporations incorporated under *The Business Corporations Act (Saskatchewan)* must file an annual return with ISC (Information Services Corporation) — Saskatchewan's corporate registry — every year within 3 months of the corporation's anniversary date.
+Saskatchewan corporations incorporated under *The Business Corporations Act, 2021 (Saskatchewan)* must file an annual return with ISC (Information Services Corporation) — Saskatchewan's corporate registry — every year, by the end of the month following the corporation's anniversary month.
 
 ## When Is the Saskatchewan Annual Return Due?
 
-Saskatchewan annual returns are due **within 3 months of the corporation's anniversary date** (the date of incorporation). For example, if your corporation was incorporated on June 10, your annual return is due by September 10 each year.
+Saskatchewan annual returns are due **one month after the anniversary of incorporation** — in practice, the last day of the month following your anniversary month. ISC's own example: a corporation incorporated on 15 July is due every year by **31 August**.
+
+This is a much shorter window than many owners expect, and shorter than several other provinces. If you have been working to a three-month assumption, check your anniversary date now.
 
 ## Who Must File?
 
@@ -34,12 +36,12 @@ Saskatchewan annual returns are filed through **ISC Online** at [isc.ca](https:/
 2. Search for and access your corporation
 3. Select "File Annual Return"
 4. Update director and address information if needed
-5. Pay the $45 government fee
+5. Pay ISC's filing fee
 6. Receive confirmation
 
 ## Government Fee
 
-The Saskatchewan government fee is **$45**.
+ISC sets the Saskatchewan annual return fee and publishes it in its Corporate Registry fee schedule, which it revises periodically — most recently with effect from 15 April 2026. **Late annual returns attract an additional late fee.** We quote one all-in price that includes whatever ISC currently charges, so you are not exposed to a schedule change between reading this and filing.
 
 ## Consequences of Non-Compliance
 
@@ -47,9 +49,9 @@ Failure to file results in non-compliance status, followed by notice of intent t
 
 ## File Your Saskatchewan Annual Return Without an ISC Online Login
 
-CRS files Saskatchewan annual returns directly through ISC (Information Services Corporation) on your behalf. You don't need an ISC Online account, and you don't need to navigate the ISC portal yourself — we prepare the return, file it before your 3-month anniversary deadline, and email you the ISC confirmation for your records.
+CRS files Saskatchewan annual returns directly through ISC (Information Services Corporation) on your behalf. You don't need an ISC Online account, and you don't need to navigate the ISC portal yourself — we prepare the return, file it before your deadline at the end of the month following your anniversary month, and email you the ISC confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $45 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including ISC's filing fee.
 
 [File your Saskatchewan annual return now →](/order/annual-return)

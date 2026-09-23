@@ -12,7 +12,7 @@ faq:
   - q: "Can I get my own CORES account?"
     a: "Not as an ordinary business owner. Direct CORES access is limited to accredited registry agents, Alberta law firms in public practice, and high-volume subscribers processing 50+ transactions per month with an accredited person on staff. Everyone else files through an authorized registry agent."
   - q: "How much does a CORES filing cost?"
-    a: "The government fee depends on the transaction — an Alberta annual return carries a $47 government fee, for example — and the registry agent filing it adds a service fee they set independently. CRS charges {{price:annual-return}} all-in + GST for an Alberta annual return, including the $47 government fee, filed within 1 business day."
+    a: "Two amounts are involved: the government fee for the transaction, set by Service Alberta and revised from time to time (registry fees rose on 2 July 2026), and the registry agent's own service fee, which each agent sets independently. CRS charges {{price:annual-return}} all-in + GST for an Alberta annual return — the government fee included, filed within 1 business day — so a change to the registry's schedule doesn't change what you pay."
   - q: "Do other provinces use CORES?"
     a: "No. CORES is Alberta-specific. Other jurisdictions run their own systems — Ontario uses the Ontario Business Registry, BC uses BC Registry Services, and federal corporations file through Corporations Canada's Online Filing Centre — and most of those allow direct public filing, unlike Alberta."
 ---
@@ -27,7 +27,7 @@ This guide covers what CORES does, who's allowed to use it, what the accreditati
 
 Most people who search for CORES aren't curious about the system — they have a filing to get done and have just discovered they can't log in to do it. Pick the one that brought you here. Each is filed through our CORES-certified agents, most within 1 business day, no account needed:
 
-- **Annual return due — or already overdue?** [File your Alberta annual return](/file-annual-return/alberta) · {{price:annual-return}} all-in, $47 government fee included
+- **Annual return due — or already overdue?** [File your Alberta annual return](/file-annual-return/alberta) · {{price:annual-return}} all-in, government fee included
 - **Need proof of your corporation for a bank, lawyer or buyer?** [Order an Alberta corporate profile report](/profile-reports/alberta-corporate-profile-report) · {{price:profile-report}}
 - **Struck off or dissolved for missed returns?** [Revive your Alberta corporation](/order/revival) · {{price:revival}}
 - **Starting a new corporation?** [Incorporate in Alberta](/incorporation/alberta-incorporation-service) · from {{price:incorporation-numbered}} all-in
@@ -78,7 +78,7 @@ Your Alberta annual return is due within one month of your incorporation anniver
 
 1. Send us your corporation's legal name or Corporate Access Number
 2. Confirm your directors and registered office are current
-3. We file directly through CORES — within 1 business day, {{price:annual-return}} all-in + GST, including the $47 government fee
+3. We file directly through CORES — within 1 business day, {{price:annual-return}} all-in + GST, government fee included
 
 No account, no portal, no in-person visit. The same applies to incorporations, amendments, and [corporate searches](/canada-corporations-search).
 
@@ -91,6 +91,6 @@ Miss your annual returns for long enough and Alberta dissolves the corporation �
 CRS is a Certified Registry Agent filing directly through CORES — annual returns, incorporations, amendments, and searches, most completed within 1 business day.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $47 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta) · or [search your corporation first](/canada-corporations-search).

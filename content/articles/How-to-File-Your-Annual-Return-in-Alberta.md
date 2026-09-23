@@ -47,14 +47,14 @@ Alberta annual returns are filed through the **Alberta Corporate Registry** usin
 2. Search for your corporation using your Corporate Access Number
 3. Select "File Annual Return" from your corporation's profile
 4. Confirm or update director and address information
-5. Pay the $47 government filing fee
+5. Pay the government filing fee
 6. Receive confirmation of filing
 
 Prefer to skip CORES entirely? CRS files your Alberta annual return directly with the Alberta Corporate Registry on your behalf — [start on our fast-file page](/file-annual-return/alberta).
 
 ## How much is the Alberta annual return fee? (CORES fee)
 
-The Alberta government charges a **$47 CORES filing fee** for an Alberta corporate annual return, payable online at the time of filing. There is no separate CORES surcharge on top — the $47 is the total government fee. Alberta societies and non-profits pay the same $47 government fee. The all-in CRS fee — including the $47 government fee and professional preparation — is {{price:annual-return}} + GST. There is no volume discount for filing multiple corporations at once.
+Service Alberta sets the government filing fee for an Alberta corporate annual return, payable at the time of filing; it was increased on 2 July 2026, and registry agents add their own service fee on top. Because CRS quotes one all-in price — {{price:annual-return}} + GST, government fee and professional preparation included — a change to the registry's schedule doesn't change what you pay. There is no volume discount for filing multiple corporations at once.
 
 ## Alberta's Strict 1-Month Deadline
 
@@ -66,7 +66,7 @@ Alberta corporations have **no Canadian residency requirement for directors**. A
 
 ## Annual returns for Alberta societies and non-profits
 
-Alberta societies (registered under the *Societies Act*) and non-profit corporations must also file annual returns — but under different statutes and with slightly different information requirements. Alberta societies file annually with the Alberta Corporate Registry, disclosing directors, registered office, and (for non-profits) a summary of activities. The government fee remains the same ($47). CRS files annual returns for Alberta societies and non-profits under the same {{price:annual-return}} all-in service — the process differs from a standard corporate annual return, so mention "society" or "non-profit" when you contact us.
+Alberta societies (registered under the *Societies Act*) and non-profit corporations must also file annual returns — but under different statutes and with slightly different information requirements. Alberta societies file annually with the Alberta Corporate Registry, disclosing directors, registered office, and (for non-profits) a summary of activities. Societies file their annual return **directly with Corporate Registry** on form REG3185 rather than through a registry agent, and on a different deadline — the last day of the month following the society's anniversary month. If you need a society or non-profit return filed, contact us and say so: it is a different process from a corporate annual return, and we will confirm the current fee and what has to accompany the filing before you pay anything.
 
 ## What happens if my Alberta annual return is late?
 
@@ -86,6 +86,6 @@ Setting up a second company, or helping someone start out? See [how to register 
 CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $47 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta)

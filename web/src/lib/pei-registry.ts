@@ -242,7 +242,19 @@ async function postWorkflow(body: unknown): Promise<unknown> {
       try {
         return JSON.parse(res.body);
       } catch (e) {
-        throw new PeiRegistryError("upstream returned non-JSON body", { cause: e });
+        /* A 2xx that isn't JSON means the WAF answered instead of the API —
+           on production this is what happens (dev machines get real JSON for
+           the identical request), so it is almost certainly a bot-challenge
+           interstitial served to the datacentre IP. Carry a short, collapsed
+           preview and the content-type: that is what identifies WHICH product
+           is blocking, which is what PEI needs in order to allow-list us.
+           The body is a public error page, not data — nothing sensitive. */
+        const preview = res.body.replace(/\s+/g, " ").trim().slice(0, 140);
+        console.warn(`[pei] 2xx non-JSON (${res.contentType || "no content-type"}):`, res.body.slice(0, 400));
+        throw new PeiRegistryError(
+          `non-JSON ${res.status} from upstream (${res.contentType || "no content-type"}): ${preview}`,
+          { cause: e },
+        );
       }
     } catch (e) {
       if (e instanceof PeiRegistryError && e.status && e.status < 500) throw e;
@@ -264,7 +276,7 @@ async function postWorkflow(body: unknown): Promise<unknown> {
 /** POST helper using Node's built-in https module — matches curl's HTTP/1.1
  *  behaviour and TLS fingerprint more closely than undici, avoiding PEI's
  *  WAF false-positive on undici requests. */
-function httpsPost(url: string, body: string): Promise<{ status: number; body: string }> {
+function httpsPost(url: string, body: string): Promise<{ status: number; body: string; contentType: string }> {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const req = httpsRequest(
@@ -285,7 +297,11 @@ function httpsPost(url: string, body: string): Promise<{ status: number; body: s
       (res) => {
         const chunks: Buffer[] = [];
         res.on("data", (c) => chunks.push(Buffer.isBuffer(c) ? c : Buffer.from(c)));
-        res.on("end",  () => resolve({ status: res.statusCode ?? 0, body: Buffer.concat(chunks).toString("utf8") }));
+        res.on("end",  () => resolve({
+          status:      res.statusCode ?? 0,
+          body:        Buffer.concat(chunks).toString("utf8"),
+          contentType: String(res.headers["content-type"] ?? ""),
+        }));
         res.on("error", reject);
       },
     );

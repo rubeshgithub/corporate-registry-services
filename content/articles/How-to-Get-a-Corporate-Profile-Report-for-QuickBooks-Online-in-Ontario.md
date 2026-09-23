@@ -9,7 +9,7 @@ widgetTitle: "Get the Corporate Profile Report QuickBooks accepts"
 widgetSub: "The exact PDF Intuit needs for FINTRAC, payroll, and QuickBooks Payments verification. Delivered by email in one business hour — upload directly to your QuickBooks Online account."
 ---
 
-QuickBooks Online asks for a Corporate Profile Report when you're setting up payroll, enabling QuickBooks Payments, or completing FINTRAC verification. Intuit needs a current, government-issued record proving your Ontario corporation is real and active. This page will get you that PDF in one business hour — no ONe-key login for the Ontario Business Registry, no ServiceOntario visits.
+QuickBooks Online asks for a Corporate Profile Report when you're setting up payroll, enabling QuickBooks Payments, or completing FINTRAC verification. Intuit needs a current, government-issued record proving your Ontario corporation is real and active. This page will get you that PDF in one business hour — no Ontario Business Registry account or company key, no ServiceOntario visits.
 
 ## Why You Need a Corporate Profile Report for QuickBooks Online
 

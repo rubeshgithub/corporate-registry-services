@@ -52,7 +52,7 @@ For commercial loans above $500,000, expect the bank to also ask for a **Corpora
 
 If your bank asked for it today, you're looking at three options:
 
-1. **Direct from the provincial or federal registry** — cheapest at $30–$60, but you'll need an account on the government portal (ONE-key for Ontario, CORES for Alberta, etc.), you're on their business hours, and the certificate arrives without any of the formatting most credit teams expect.
+1. **Direct from the provincial or federal registry** — cheapest at $30–$60, but you'll need access to the government portal (an Ontario Business Account plus your corporation's company key for Ontario; Alberta doesn't let you file at all — CORES is agents only), you're on their business hours, and the certificate arrives without any of the formatting most credit teams expect.
 2. **Order through CRS** — {{price:good-standing}} all-in + GST, PDF delivered by email within one business hour for most jurisdictions. Government fee included. No portal signup, no waiting on registry business hours.
 3. **Through your lawyer or accountant** — reliable but adds a professional fee on top and rarely faster than option 2.
 
