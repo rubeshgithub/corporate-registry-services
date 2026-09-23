@@ -1,5 +1,6 @@
 ﻿---
 title: "Nunavut Corporate Minute Book"
+description: "Nunavut corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Nunavut-corporate-minute-books"
 section: "minute-books"
 ---

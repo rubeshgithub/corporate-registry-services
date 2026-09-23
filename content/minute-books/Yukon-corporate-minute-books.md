@@ -1,5 +1,6 @@
 ﻿---
 title: "Yukon Corporate Minute Book"
+description: "Yukon corporate minute book prepared from incorporation or brought up to date — registers, share certificates, by-laws and resolutions. From {{price:minute-book-new}}."
 slug: "Yukon-corporate-minute-books"
 section: "minute-books"
 ---

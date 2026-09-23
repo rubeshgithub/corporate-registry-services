@@ -1,5 +1,6 @@
 ﻿---
 title: "Quebec Corporate Annual Return"
+description: "File your Quebec corporate annual return (annual updating declaration) with the Registraire des entreprises du Québec — {{price:annual-return}} all-in, fee included."
 slug: "Quebec-corporate-annual-return"
 section: "annual-return"
 ---

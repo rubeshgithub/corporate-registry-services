@@ -1,5 +1,6 @@
 ﻿---
 title: "Northwest Territories Corporate Annual Return"
+description: "File your Northwest Territories corporate annual return with the NWT Corporate Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Northwest-Territories-corporate-annual-return"
 section: "annual-return"
 ---

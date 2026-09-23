@@ -1,5 +1,6 @@
 ﻿---
 title: "Canada Federal Corporate Annual Return"
+description: "File your federal (CBCA) corporate annual return with Corporations Canada — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Canada-federal-corporate-annual-return"
 section: "annual-return"
 ---

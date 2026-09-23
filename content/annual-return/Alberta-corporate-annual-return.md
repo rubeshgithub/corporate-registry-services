@@ -1,5 +1,6 @@
 ﻿---
 title: "Alberta Corporate Annual Return"
+description: "File your Alberta corporate annual return through the Alberta Corporate Registry (CORES) — {{price:annual-return}} all-in, government fee included. Stay in good standing."
 slug: "Alberta-corporate-annual-return"
 section: "annual-return"
 ---
