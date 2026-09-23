@@ -32,6 +32,29 @@ import { lookups, ensureLookupsIndex } from "./registrar-mongo";
  * 5. Legacy registry (LegacyBusiness) is behind Radware BotDefend — do NOT
  *    query it programmatically. Current registry (BusinessAPI) is the only
  *    supported target.
+ * 6. No ID enumeration, and no bulk harvesting. Entity IDs are sequential and
+ *    BusinessView accepts any of them, but sweeping the range conflicts with
+ *    the registry's terms of use and trips the WAF.
+ *
+ * ── If we need PEI data in bulk, ASK FOR IT ─────────────────────────────
+ * PEI Corporate Registry will supply a bulk extract on request:
+ *     askcorporateregistry@apps.gov.pe.ca · 902-368-4550
+ * This is the sanctioned route and the one to take if live search keeps
+ * failing — the same shape as the Alberta gazette corpus in crs.companies,
+ * which searchLocalAB already merges into results. (This contact came from
+ * the original peiRegistry.js brief and was lost in the port; it is the most
+ * operationally useful line in that document, so it lives here now.)
+ *
+ * ── Known failure mode on production (Sept 2026) ────────────────────────
+ * The upstream returns HTTP 2xx with a non-JSON body to our Render host
+ * while the identical request succeeds from a developer machine — i.e. a WAF
+ * challenge served to the datacentre IP. Do not try to defeat it. Note that
+ * this module already survived one escalation: the original used fetch, and
+ * undici's TLS fingerprint drew 500s, which is why httpsPost below uses
+ * Node's https module. Note also that the original sent NO custom User-Agent;
+ * the `CRS-PEI/1.0` identifier below was added as a courtesy and may itself
+ * be what a bot rule matches. Raise that with PEI rather than quietly
+ * swapping in a browser UA.
  */
 
 const API_URL      = "https://wdf.princeedwardisland.ca/api/workflow";
