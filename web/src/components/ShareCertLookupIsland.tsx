@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
+import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
 
 /**
@@ -195,7 +196,17 @@ export default function ShareCertLookupIsland({ src = "article-share-certificate
       </div>
 
       {searchErr && !dropdownOpen && (
-        <p style={{ fontSize: "0.8rem", color: "#B91C1C", margin: "0.5rem 0 0" }}>{searchErr}</p>
+        <div style={{ margin: "0.5rem 0 0" }}>
+          <p style={{ fontSize: "0.8rem", color: "#B91C1C", margin: 0 }}>{searchErr}</p>
+          {/* Offer a human once the query has settled — this island searches on
+              every keystroke, so a length gate keeps the card from firing at
+              "ro". Keyed to q: updates as they type, gone when a match appears. */}
+          {searchErr.startsWith("No matches") && q.trim().length >= 6 && (
+            <div style={{ marginTop: "0.9rem", paddingTop: "0.9rem", borderTop: "1px dashed var(--border)" }}>
+              <RegistrySearchZeroResultsHelp query={q.trim()} province={province} />
+            </div>
+          )}
+        </div>
       )}
 
       <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.75rem 0 0", lineHeight: 1.5 }}>

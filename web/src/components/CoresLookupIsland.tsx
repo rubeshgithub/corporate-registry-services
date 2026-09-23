@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2, ArrowRight, Building2 } from "lucide-react";
+import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 
 /**
  * Inline corporation lookup widget for the
@@ -129,7 +130,7 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
               marginBottom: "0.25rem",
             }}
           >
-            Search the Alberta Registry
+            Alberta corporation search
           </div>
           <div
             style={{
@@ -140,7 +141,7 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
               lineHeight: 1.3,
             }}
           >
-            Check your corporation's status
+            Find your Alberta corporation
           </div>
         </div>
       </div>
@@ -243,9 +244,20 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
       </div>
 
       {searchErr && !dropdownOpen && (
-        <p style={{ fontSize: "0.85rem", color: "#B91C1C", margin: "0.75rem 0 0" }}>
-          {searchErr}
-        </p>
+        <div style={{ margin: "0.75rem 0 0" }}>
+          <p style={{ fontSize: "0.85rem", color: "#B91C1C", margin: 0 }}>
+            {searchErr}
+          </p>
+          {/* Offer a human once the query has settled into something real.
+              This island searches on every keystroke, so a length gate keeps
+              the card from firing at "ro"; keyed to q, it updates as they type
+              and disappears the moment a match appears. */}
+          {searchErr.startsWith("No matches") && q.trim().length >= 6 && (
+            <div style={{ marginTop: "0.9rem", paddingTop: "0.9rem", borderTop: "1px dashed var(--border)" }}>
+              <RegistrySearchZeroResultsHelp query={q.trim()} province={province} />
+            </div>
+          )}
+        </div>
       )}
 
       <p
@@ -256,8 +268,8 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
           lineHeight: 1.5,
         }}
       >
-        Check the incorporation status, directors, address, and more. Results are pulled directly
-        from the Alberta Registry and updated in real-time.
+        Pick your corporation from the list and choose what it needs — annual return, profile report,
+        revival or amendments — filed through CORES by our certified agents, most within 1 business day.
       </p>
     </div>
   );
