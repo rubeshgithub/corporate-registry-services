@@ -318,7 +318,29 @@ export default async function ContentPage({
               ctx.serviceKey === "profile-report" ||
               ctx.serviceKey === "good-standing"
             );
-            if (!generic || !ctx) return null;
+            /* Standing rule (owner, 2026-09-23): EVERY article page carries a
+               corporation-search widget. Articles whose slug maps to a
+               lookup-first service keep their tailored widget below; anything
+               else — cost guides, incorporation walk-throughs, document
+               explainers — falls back to the generic Canada-wide corporation
+               search. CUSTOM_ISLANDS still overrides per-slug (checked above),
+               so a page can never render two widgets. */
+            if (!generic || !ctx) {
+              if (page.section === "articles") {
+                return (
+                  <InlineLookupOrder
+                    service="profile-report"
+                    provinceKey={null}
+                    priceCents={prices["profile-report"]}
+                    srcTag={`inline-article-${page.slug}`}
+                    eyebrowOverride="Corporation search"
+                    titleOverride="Look up any Canadian corporation"
+                    subOverride="Search by company name, corporation number, or Business Number to pull its registry record."
+                  />
+                );
+              }
+              return null;
+            }
             return (
               <InlineLookupOrder
                 service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
