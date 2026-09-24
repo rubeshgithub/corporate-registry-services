@@ -287,10 +287,11 @@ async function postWorkflow(body: unknown): Promise<unknown> {
            preview and the content-type: that is what identifies WHICH product
            is blocking, which is what PEI needs in order to allow-list us.
            The body is a public error page, not data — nothing sensitive. */
-        const preview = res.body.replace(/\s+/g, " ").trim().slice(0, 140);
-        console.warn(`[pei] 2xx non-JSON (${res.contentType || "no content-type"}):`, res.body.slice(0, 400));
+        const preview = res.body.replace(/\s+/g, " ").trim().slice(0, 120);
+        const where   = res.location ? ` → ${res.location.slice(0, 120)}` : "";
+        console.warn(`[pei] non-JSON ${res.status} (${res.contentType}) location=${res.location}:`, res.body.slice(0, 400));
         throw new PeiRegistryError(
-          `non-JSON ${res.status} from upstream (${res.contentType || "no content-type"}): ${preview}`,
+          `non-JSON ${res.status} from upstream (${res.contentType || "no content-type"})${where}: ${preview}`,
           { cause: e },
         );
       }
@@ -314,7 +315,7 @@ async function postWorkflow(body: unknown): Promise<unknown> {
 /** POST helper using Node's built-in https module — matches curl's HTTP/1.1
  *  behaviour and TLS fingerprint more closely than undici, avoiding PEI's
  *  WAF false-positive on undici requests. */
-function httpsPost(url: string, body: string): Promise<{ status: number; body: string; contentType: string }> {
+function httpsPost(url: string, body: string): Promise<{ status: number; body: string; contentType: string; location: string }> {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const req = httpsRequest(
@@ -339,6 +340,13 @@ function httpsPost(url: string, body: string): Promise<{ status: number; body: s
           status:      res.statusCode ?? 0,
           body:        Buffer.concat(chunks).toString("utf8"),
           contentType: String(res.headers["content-type"] ?? ""),
+          /* Deliberately NOT followed. Node's https doesn't chase redirects,
+             and that is what let us see that the block is a 302 rather than a
+             refusal — the original client used fetch, which would have
+             followed it and reported only the challenge page. The target
+             names whatever is doing the blocking, which is the detail PEI's
+             operators need. */
+          location:    String(res.headers["location"] ?? ""),
         }));
         res.on("error", reject);
       },
