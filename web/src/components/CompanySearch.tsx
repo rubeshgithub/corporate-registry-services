@@ -142,6 +142,9 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
      query it while someone types). An empty result set then means "not
      searched", so the "can't find it?" offer must not fire yet. */
   const [peiDeferred, setPeiDeferred]  = useState(false);
+  /* Registry name when the chosen jurisdiction has no searchable index —
+     PEI, NL, NB, NWT, Yukon, Nunavut. Null means the search was real. */
+  const [noLiveSearch, setNoLiveSearch] = useState<string | null>(null);
 
   /* Email gate for "View full profile" clicks — first click in a session
      opens the modal, subsequent clicks pass through (session storage flag). */
@@ -261,6 +264,9 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       /* PEI not consulted on this fire — so an empty result set is "we
          didn't look", and must not be presented as "doesn't exist". */
       setPeiDeferred(Boolean(data.deferred || data.peiSkipped));
+      /* Six jurisdictions have no searchable index at all. The server says so
+         rather than returning a confident zero. */
+      setNoLiveSearch(data.noLiveSearch ? (data.registryName ?? "that registry") : null);
       if (opts.track) trackSearch(q, prov, data.total ?? data.results?.length ?? 0);
     } catch {
       setError("Search temporarily unavailable. Please try again.");
@@ -271,15 +277,22 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
     }
   }
 
+  /* Typing no longer searches. Every settled keystroke used to fire a query,
+     so "2682736 alberta inc" ran nine times and each partial returned its own
+     fuzzy list — the visitor watched results churn into noise before they had
+     finished the name. It also meant a search per character against every
+     upstream, which is what PEI's WAF blocked us for. Results now come from
+     Find (or Enter), once, against the whole query. */
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
     setQuery(val);
     if (debounce.current) clearTimeout(debounce.current);
-    if (val.trim().length >= 2) {
-      debounce.current = setTimeout(() => doSearch(val, province), 450);
-    } else {
+    /* Clear stale results so nothing on screen claims to describe what is
+       now in the box. */
+    if (searched) {
       setSearched(false);
       setResults([]);
+      setPeiDeferred(false);
     }
   }
 
@@ -789,9 +802,31 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       {/* No results — a gentle popup on first hitting zero for this query,
           plus the same combined offer left inline below so it's still
           visible if the popup gets dismissed. */}
+      {/* No searchable index for this jurisdiction. Don't stage a failed
+          search — go straight to the offer we would have to make anyway. */}
+      {!loading && !error && searched && noLiveSearch && (
+        <div
+          style={{
+            textAlign: "left", padding: "1.5rem",
+            background: "var(--card)", border: "1px solid var(--border)",
+            borderRadius: "var(--radius-card)", boxShadow: "var(--shadow-card)",
+          }}
+        >
+          <div style={{ fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.5rem", fontWeight: 600 }}>
+            {noLiveSearch} isn&rsquo;t searchable online
+          </div>
+          <p style={{ fontSize: "0.86rem", color: "var(--text-muted)", margin: "0 0 1rem", lineHeight: 1.6 }}>
+            That registry doesn&rsquo;t publish a search we can query — so rather than show you an
+            empty result that means nothing, tell us the corporation and we&rsquo;ll look it up there
+            by hand.
+          </p>
+          <RegistrySearchZeroResultsHelp query={query} province={province} />
+        </div>
+      )}
+
       {/* PEI deliberately not queried on this fire: say so, and do NOT run the
           "can't find it?" offer — nothing has been searched to come up empty. */}
-      {!loading && !error && searched && results.length === 0 && peiDeferred && (
+      {!loading && !error && searched && !noLiveSearch && results.length === 0 && peiDeferred && (
         <div
           style={{
             textAlign: "left", padding: "1.1rem 1.25rem",
@@ -806,7 +841,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
         </div>
       )}
 
-      {!loading && !error && searched && results.length === 0 && !peiDeferred && (
+      {!loading && !error && searched && !noLiveSearch && results.length === 0 && !peiDeferred && (
         <>
           {zeroModalDismissedFor !== `${query.trim().toLowerCase()}|${province}` && (
             <RegistrySearchZeroResultsModal

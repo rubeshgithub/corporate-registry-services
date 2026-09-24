@@ -35,6 +35,37 @@ const WINDOW_MS  = 60_000;
  *  PEI's matcher is fuzzy and short strings return the 20-row page cap. */
 export const PEI_MIN_QUERY = 4;
 
+/**
+ * Jurisdictions no live search can answer, so we don't pretend to try.
+ *
+ * Canada Business Registries holds ZERO records for any of these — verified
+ * by sampling a dozen generic terms across the corpus, which returns only
+ * ON, AB, QC, CC, MB, BC, SK, NS. Each of the six runs its own registry that
+ * we cannot query: PEI's is blocked to our host (see pei-registry.ts),
+ * Newfoundland's CADO and Yukon's YCOR both forbid commercial reuse without
+ * written permission, and New Brunswick, NWT and Nunavut have no route at all.
+ *
+ * Searching them produced the worst experience on the site: a visitor who
+ * knew their corporation's exact name and number retyped it twelve times in
+ * 57 seconds against an empty index, concluded our search was fussy about
+ * punctuation, and left. For these six the honest move is to skip the search
+ * and offer the manual lookup we would have to do anyway.
+ *
+ * Remove an entry the moment that jurisdiction becomes searchable — PEI is
+ * the likely first, if its operators unblock us or supply a bulk extract.
+ */
+export const NO_LIVE_SEARCH = new Set(["pe", "nl", "nb", "nt", "yt", "nu"]);
+
+/** Human name for the registry a person will actually check by hand. */
+export const MANUAL_REGISTRY_NAME: Record<string, string> = {
+  pe: "PEI Corporate Registry",
+  nl: "Newfoundland and Labrador Registry of Companies",
+  nb: "New Brunswick Corporate Registry",
+  nt: "Northwest Territories Corporate Registry",
+  yt: "Yukon Corporate Online Registry",
+  nu: "Nunavut Corporate Registry",
+};
+
 const perCaller = new Map<string, number[]>();
 let globalHits: number[] = [];
 

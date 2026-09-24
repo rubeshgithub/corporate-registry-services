@@ -110,6 +110,8 @@ export default function InlineLookupOrder({
      runSearch. Keyed to the query that produced it so it clears the moment
      the visitor edits the box. */
   const [zeroHelpFor, setZeroHelpFor] = useState<string | null>(null);
+  /* Registry name when this jurisdiction cannot be searched at all. */
+  const [noLiveRegistry, setNoLiveRegistry] = useState<string | null>(null);
 
   const [pick, setPick]           = useState<RegistryHit | null>(null);
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
@@ -172,6 +174,17 @@ export default function InlineLookupOrder({
       const hits: RegistryHit[] = data.results ?? [];
       setResults(hits);
       trackSearch(q, prov, data.total ?? hits.length);
+
+      /* This jurisdiction has no searchable index at all (PEI, NL, NB, NWT,
+         Yukon, Nunavut). Go straight to the manual-lookup offer rather than
+         dressing an impossible search up as a failed one. */
+      if (data?.noLiveSearch) {
+        setSearchErr("");
+        setNoLiveRegistry(String(data.registryName ?? "that registry"));
+        setZeroHelpFor(q);
+        return;
+      }
+      setNoLiveRegistry(null);
       // Silent (debounced) fires don't surface the "no matches" copy — that
       // fires only when the user explicitly clicks Find, so we're not
       // chastising them mid-type when they're still assembling the query.
@@ -217,11 +230,14 @@ export default function InlineLookupOrder({
       short. */
   useEffect(() => {
     if (pick) return;                          // frozen once a company is picked
-    const q = query.trim();
-    if (q.length < 2) return;                  // wait for a real query
-    if (q === lastFiredRef.current) return;    // avoid re-firing the same query
-    const t = setTimeout(() => { void runSearch({ silent: true }); }, 450);
-    return () => clearTimeout(t);
+    /* Editing the box invalidates whatever is on screen: clear the results
+       and any message, so nothing claims to describe a query that has since
+       changed. The search itself waits for Find. */
+    if (query.trim() !== lastFiredRef.current && (results.length || searchErr)) {
+      setResults([]);
+      setSearchErr("");
+      setZeroHelpFor(null);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pick]);
 
@@ -384,6 +400,12 @@ export default function InlineLookupOrder({
                 borderTop:    "1px dashed var(--border)",
               }}
             >
+              {noLiveRegistry && (
+                <p style={{ fontSize: "0.85rem", color: "var(--text)", margin: "0 0 0.7rem", lineHeight: 1.6, fontWeight: 500 }}>
+                  {noLiveRegistry} doesn&rsquo;t publish a search we can query — so an empty result here
+                  would tell you nothing. Leave the details and we&rsquo;ll check it by hand.
+                </p>
+              )}
               <RegistrySearchZeroResultsHelp
                 query={zeroHelpFor}
                 province={provinceKey ?? "all"}

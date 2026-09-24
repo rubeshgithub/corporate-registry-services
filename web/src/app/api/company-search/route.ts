@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { companies } from "@/lib/registrar-mongo";
 import { searchPei } from "@/lib/pei-registry";
-import { takePeiBudget, PEI_MIN_QUERY } from "@/lib/pei-budget";
+import { takePeiBudget, NO_LIVE_SEARCH, MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
 import { ipHashFrom } from "@/lib/public-form-guard";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
@@ -491,6 +491,31 @@ async function searchLocalAB(q: string, status: StatusFilter, limit = 20): Promi
   return rows.slice(0, limit);
 }
 
+/**
+ * Keep only the rows that actually contain the number the visitor typed.
+ *
+ * Searching "2682736 alberta inc" returned eleven rows: the right company
+ * first, then "1003534 ALBERTA LIMITED", "ALBERTA INC.", "ALBERTA'S OWN
+ * INC." and seven more — CBR matching the word "alberta" and ignoring the
+ * number that identifies precisely one corporation. The exact hit was there,
+ * buried in noise, which reads as a broken search.
+ *
+ * So when a query carries a registry-number-shaped token (6+ digits) and any
+ * row contains it, that subset IS the answer. If nothing matches the number
+ * we return the fuzzy list untouched — the number may be a typo, or from a
+ * jurisdiction we don't hold, and a wrong list beats an empty one.
+ */
+function preferNumberMatches(q: string, rows: ResultShape[]): ResultShape[] {
+  const tokens = q.match(/\d{6,}/g);
+  if (!tokens?.length || rows.length <= 1) return rows;
+
+  const hits = rows.filter((r) => {
+    const hay = `${r.name} ${r.registryId} ${r.businessNumber}`.replace(/[^0-9]/g, " ");
+    return tokens.some((t) => hay.includes(t));
+  });
+  return hits.length > 0 ? hits : rows;
+}
+
 /** Merge local Mongo results into CBR results. CBR is the source of truth
  *  for corporations (fresher status), so we keep CBR docs when both sources
  *  have the same registryId. Local-only hits (societies + brand-new corps
@@ -525,6 +550,18 @@ export async function GET(request: Request) {
   const callerKey = ipHashFrom(request) || "anon";
 
   if (q.length < 2) return NextResponse.json({ results: [], total: 0 });
+
+  /* Six jurisdictions no live search can answer. Say so instead of running a
+     query against an index that cannot contain them — see NO_LIVE_SEARCH. */
+  if (NO_LIVE_SEARCH.has(province)) {
+    return NextResponse.json({
+      results:      [],
+      total:        0,
+      source:       "none",
+      noLiveSearch: true,
+      registryName: MANUAL_REGISTRY_NAME[province] ?? "that registry",
+    });
+  }
 
   try {
     if (province === "bc") {
@@ -590,12 +627,19 @@ export async function GET(request: Request) {
     const peiSkipped = includePEI && (peiResp.deferred || peiResp.guarded) ? peiResp.guarded ?? "deferred" : undefined;
 
     if (!hasLocalAB && !hasPEI) {
-      return NextResponse.json({ ...cbrResp, peiSkipped });
+      const only = preferNumberMatches(q, cbrResp.results);
+      return NextResponse.json({
+        ...cbrResp,
+        results: only,
+        total:   only.length === cbrResp.results.length ? cbrResp.total : only.length,
+        peiSkipped,
+      });
     }
 
     let merged = cbrResp.results;
     if (hasLocalAB) merged = mergeResults(merged, localAB, 20);
     if (hasPEI)     merged = mergeResults(merged, peiResp.results, 20);
+    merged = preferNumberMatches(q, merged);
 
     const sourceParts: string[] = ["cbr"];
     if (hasLocalAB) sourceParts.push("gazette");
