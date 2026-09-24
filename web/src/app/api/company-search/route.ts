@@ -551,23 +551,28 @@ export async function GET(request: Request) {
 
   if (q.length < 2) return NextResponse.json({ results: [], total: 0 });
 
-  /* Six jurisdictions no live search can answer. Say so instead of running a
-     query against an index that cannot contain them — see NO_LIVE_SEARCH. */
-  if (NO_LIVE_SEARCH.has(province)) {
-    return NextResponse.json({
-      results:      [],
-      total:        0,
-      source:       "none",
-      noLiveSearch: true,
-      registryName: MANUAL_REGISTRY_NAME[province] ?? "that registry",
-    });
-  }
+  /* Six jurisdictions have no searchable index (see NO_LIVE_SEARCH). Don't
+     refuse outright, though: we do NOT know the corporation is from there.
+     The province is either a dropdown choice or — on a jurisdiction service
+     page — an assumption the page made, and a visitor reading the
+     Newfoundland good-standing page may well be looking up an Ontario
+     company. Narrowing to an empty index would hide a corporation we can
+     actually find.
+     So widen to all of Canada and search for real. If something comes back,
+     it is their company and the jurisdiction question was moot. If nothing
+     does, `noLiveSearch` tells the client to explain which registry we
+     cannot reach, rather than implying no such corporation exists. */
+  const noLiveIndex = NO_LIVE_SEARCH.has(province);
+  const searchProvince = noLiveIndex ? "all" : province;
+  const noLiveExtras = noLiveIndex
+    ? { noLiveSearch: true, registryName: MANUAL_REGISTRY_NAME[province] ?? "that registry" }
+    : {};
 
   try {
-    if (province === "bc") {
+    if (searchProvince === "bc") {
       return NextResponse.json(await searchBC(q, status));
     }
-    if (province === "pe") {
+    if (searchProvince === "pe") {
       /* PEI has its own upstream (wdf.princeedwardisland.ca). In Sep 2026 this
          path 502'd on production while the identical request — same body,
          same headers, same Node https client — succeeded from a dev machine,
@@ -597,7 +602,7 @@ export async function GET(request: Request) {
         );
       }
     }
-    const cbrCode = province === "all" ? undefined : PROVINCE_CBR[province];
+    const cbrCode = searchProvince === "all" ? undefined : PROVINCE_CBR[searchProvince];
 
     /* For Alberta and all-province searches, merge local gazette DB results
        in so Alberta Societies (and other entity types CBR doesn't expose)
@@ -605,8 +610,8 @@ export async function GET(request: Request) {
        cover PEI at all, so without this the "All Canada" scope would
        silently exclude PEI corps. Both extras run in parallel with the
        CBR fetch. Added latency: ~50-150ms Atlas + ~200-400ms PEI. */
-    const includeLocalAB = province === "ab" || province === "all";
-    const includePEI     = province === "all";
+    const includeLocalAB = searchProvince === "ab" || searchProvince === "all";
+    const includePEI     = searchProvince === "all";
     const [cbrResp, localAB, peiResp] = await Promise.all([
       searchCBR(q, status, cbrCode),
       includeLocalAB ? searchLocalAB(q, status, 12).catch((e) => {
@@ -633,6 +638,7 @@ export async function GET(request: Request) {
         results: only,
         total:   only.length === cbrResp.results.length ? cbrResp.total : only.length,
         peiSkipped,
+        ...noLiveExtras,
       });
     }
 
@@ -653,6 +659,7 @@ export async function GET(request: Request) {
       localMatches: hasLocalAB ? localAB.length : undefined,
       peiMatches:   hasPEI ? peiResp.results.length : undefined,
       peiSkipped,
+      ...noLiveExtras,
     });
   } catch (err) {
     console.error("[CRS] company-search error:", err);

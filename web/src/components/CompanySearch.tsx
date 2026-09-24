@@ -264,9 +264,10 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       /* PEI not consulted on this fire — so an empty result set is "we
          didn't look", and must not be presented as "doesn't exist". */
       setPeiDeferred(Boolean(data.deferred || data.peiSkipped));
-      /* Six jurisdictions have no searchable index at all. The server says so
-         rather than returning a confident zero. */
-      setNoLiveSearch(data.noLiveSearch ? (data.registryName ?? "that registry") : null);
+      /* The server widened the search to all of Canada because this
+         jurisdiction has no index of its own. Only name the unreachable
+         registry if that widened search still found nothing. */
+      setNoLiveSearch(data.noLiveSearch && !(data.results ?? []).length ? (data.registryName ?? "that registry") : null);
       if (opts.track) trackSearch(q, prov, data.total ?? data.results?.length ?? 0);
     } catch {
       setError("Search temporarily unavailable. Please try again.");

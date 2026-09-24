@@ -175,16 +175,12 @@ export default function InlineLookupOrder({
       setResults(hits);
       trackSearch(q, prov, data.total ?? hits.length);
 
-      /* This jurisdiction has no searchable index at all (PEI, NL, NB, NWT,
-         Yukon, Nunavut). Go straight to the manual-lookup offer rather than
-         dressing an impossible search up as a failed one. */
-      if (data?.noLiveSearch) {
-        setSearchErr("");
-        setNoLiveRegistry(String(data.registryName ?? "that registry"));
-        setZeroHelpFor(q);
-        return;
-      }
-      setNoLiveRegistry(null);
+      /* This jurisdiction has no searchable index of its own (PEI, NL, NB,
+         NWT, Yukon, Nunavut), so the server widened the search to all of
+         Canada. Only mention the unreachable registry if that STILL found
+         nothing — otherwise we found their company and the jurisdiction
+         question never mattered. */
+      setNoLiveRegistry(data?.noLiveSearch && !hits.length ? String(data.registryName ?? "that registry") : null);
       // Silent (debounced) fires don't surface the "no matches" copy — that
       // fires only when the user explicitly clicks Find, so we're not
       // chastising them mid-type when they're still assembling the query.
