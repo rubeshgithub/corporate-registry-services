@@ -505,15 +505,19 @@ async function searchLocalAB(q: string, status: StatusFilter, limit = 20): Promi
  * we return the fuzzy list untouched — the number may be a typo, or from a
  * jurisdiction we don't hold, and a wrong list beats an empty one.
  */
-function preferNumberMatches(q: string, rows: ResultShape[]): ResultShape[] {
+function preferNumberMatches(q: string, rows: ResultShape[]): { rows: ResultShape[]; hadNumber: boolean; matchedNumber: boolean } {
   const tokens = q.match(/\d{6,}/g);
-  if (!tokens?.length || rows.length <= 1) return rows;
+  if (!tokens?.length) return { rows, hadNumber: false, matchedNumber: false };
 
   const hits = rows.filter((r) => {
     const hay = `${r.name} ${r.registryId} ${r.businessNumber}`.replace(/[^0-9]/g, " ");
     return tokens.some((t) => hay.includes(t));
   });
-  return hits.length > 0 ? hits : rows;
+  return {
+    rows: hits.length > 0 ? hits : rows,
+    hadNumber: true,
+    matchedNumber: hits.length > 0,
+  };
 }
 
 /** Merge local Mongo results into CBR results. CBR is the source of truth
@@ -620,7 +624,12 @@ export async function GET(request: Request) {
       }) : Promise.resolve([] as ResultShape[]),
       includePEI ? searchPEIGuarded(q, status, { deep, callerKey }).catch((e) => {
         console.warn("[CRS] parallel PEI search failed (non-fatal):", e);
-        return { total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: "error" as const };
+        /* Carry the message. This path swallows PEI errors by design, which
+           is exactly why the outage went unnoticed for weeks — and now that
+           a PEI-scoped search widens to all-Canada, this is the ONLY place
+           the failure is still observable. */
+        const m = e instanceof Error ? e.message : String(e);
+        return { total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: "error" as const, peiError: m.slice(0, 220) };
       }) : Promise.resolve({ total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: null }),
     ]);
 
@@ -632,7 +641,14 @@ export async function GET(request: Request) {
     const peiSkipped = includePEI && (peiResp.deferred || peiResp.guarded) ? peiResp.guarded ?? "deferred" : undefined;
 
     if (!hasLocalAB && !hasPEI) {
-      const only = preferNumberMatches(q, cbrResp.results);
+      const ranked = preferNumberMatches(q, cbrResp.results);
+      /* Widened off a no-index jurisdiction, the query named a specific
+         corporation by number, and nothing carries that number: these rows
+         merely share a word with the query ("newfoundland and labrador"
+         matched eleven companies that were not the one asked for). Report
+         nothing found, so the offer to look it up by hand is what shows. */
+      const missed = noLiveIndex && ranked.hadNumber && !ranked.matchedNumber;
+      const only   = missed ? [] : ranked.rows;
       return NextResponse.json({
         ...cbrResp,
         results: only,
@@ -645,7 +661,8 @@ export async function GET(request: Request) {
     let merged = cbrResp.results;
     if (hasLocalAB) merged = mergeResults(merged, localAB, 20);
     if (hasPEI)     merged = mergeResults(merged, peiResp.results, 20);
-    merged = preferNumberMatches(q, merged);
+    const rankedMerged = preferNumberMatches(q, merged);
+    merged = (noLiveIndex && rankedMerged.hadNumber && !rankedMerged.matchedNumber) ? [] : rankedMerged.rows;
 
     const sourceParts: string[] = ["cbr"];
     if (hasLocalAB) sourceParts.push("gazette");
@@ -659,6 +676,7 @@ export async function GET(request: Request) {
       localMatches: hasLocalAB ? localAB.length : undefined,
       peiMatches:   hasPEI ? peiResp.results.length : undefined,
       peiSkipped,
+      peiError: (peiResp as { peiError?: string }).peiError,
       ...noLiveExtras,
     });
   } catch (err) {
