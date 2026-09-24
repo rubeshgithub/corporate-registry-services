@@ -16,6 +16,7 @@ import { ArrowLeft, ArrowRight, Zap, AlertTriangle, ExternalLink } from "lucide-
 import CoresLookupIsland from "@/components/CoresLookupIsland";
 import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
 import ProCorpNameCheckIsland from "@/components/ProCorpNameCheckIsland";
+import MedProCorpHeroIsland from "@/components/MedProCorpHeroIsland";
 import AvailabilityCheckIsland from "@/app/incorporation/nuans-name-search-canada/AvailabilityCheckIsland";
 
 /* The CTA strip and lookup widget quote catalogue prices — 60s ISR so a
@@ -114,6 +115,11 @@ const CUSTOM_ISLANDS: Record<
   ),
   "professional-corporation/alberta": ({ slug }) => (
     <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="ab" profession="professional" />
+  ),
+  /* Medical Alberta: dual-intent hero (owner request 2026-09-24) — a new-PC
+     name check AND an existing-PC registry lookup behind tabs, one island. */
+  "professional-corporation/medical-alberta": ({ slug }) => (
+    <MedProCorpHeroIsland src={`pc-${slug}`} />
   ),
   "professional-corporation/medical-ontario": ({ slug }) => (
     <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="all" profession="physician" />
