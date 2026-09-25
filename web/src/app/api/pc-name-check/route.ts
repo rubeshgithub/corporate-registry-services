@@ -37,7 +37,7 @@ const MAX_NAME  = 200;
 const DEDUPE_MS = 24 * 60 * 60 * 1000;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.corporateregistryservices.ca";
-const VALID_SCOPES: Scope[] = ["all", "federal", "ab", "bc", "on", "sk", "ns"];
+const VALID_SCOPES: Scope[] = ["all", "federal", "ab", "bc", "mb", "on", "sk", "ns"];
 
 type Body = {
   proposedName?: string;

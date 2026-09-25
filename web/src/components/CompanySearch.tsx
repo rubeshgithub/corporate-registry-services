@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck, ChevronDown } from "lucide-react";
 import RegistrySearchZeroResultsModal from "./RegistrySearchZeroResultsModal";
+import SnapshotCapture from "./SnapshotCapture";
 import RegistrySearchZeroResultsHelp from "./RegistrySearchZeroResultsHelp";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
@@ -630,6 +631,15 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
                       <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.15rem" }} />
                     </a>
                   ))}
+                </div>
+
+                <div style={{ marginTop: "0.75rem" }}>
+                  <SnapshotCapture
+                    registryId={r.registryId}
+                    provinceKey={r.provinceKey}
+                    name={r.name}
+                    src="corp-search"
+                  />
                 </div>
 
                 {/* Professional corporations get a route to the dedicated PC

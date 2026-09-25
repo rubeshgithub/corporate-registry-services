@@ -8,6 +8,7 @@ import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import SnapshotCapture from "@/components/SnapshotCapture";
+import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResultsModal";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
 
@@ -164,6 +165,10 @@ export default function InlineLookupOrder({
   const [zeroHelpFor, setZeroHelpFor] = useState<string | null>(null);
   /* Registry name when this jurisdiction cannot be searched at all. */
   const [noLiveRegistry, setNoLiveRegistry] = useState<string | null>(null);
+  /* Registries we can't search (PEI, NL, Yukon, NB, NWT, Nunavut): a
+     zero-result Find opens a popup offering a free hand-searched snapshot.
+     Once closed for a query it stays closed; the inline offer remains. */
+  const [popupDismissedFor, setPopupDismissedFor] = useState<string | null>(null);
   /* The results on screen came from the federal fallback, not this page's
      province — drives the "is this your company?" notice. */
   const [federalFallback, setFederalFallback] = useState(false);
@@ -551,7 +556,9 @@ export default function InlineLookupOrder({
                     setPick(hit);
                   }}
                   extra={
-                    (thirdParty || (hit.provinceKey === "ab" && hit.registryId && service !== "annual-return")) ? (
+                    /* Every card, every province: the optional snapshot. Good
+                       standing + documents only on third-party pages. */
+                    (
                       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.5rem", paddingTop: "0.5rem", borderTop: "1px dashed var(--border)" }}>
                         {thirdParty && service !== "good-standing" && (
                           <button
@@ -584,7 +591,7 @@ export default function InlineLookupOrder({
                           />
                         </div>
                       </div>
-                    ) : null
+                    )
                   }
                 />
               ))}
@@ -759,6 +766,15 @@ export default function InlineLookupOrder({
             Card processed securely by Stripe. {HEADLINES[activeService].ctaSubline} {REGISTRY_CLOSURE_NOTE}
           </p>
         </>
+      )}
+
+      {!pick && noLiveRegistry && provinceKey && zeroHelpFor && zeroHelpFor === query.trim()
+        && results.length === 0 && popupDismissedFor !== zeroHelpFor && (
+        <RegistrySearchZeroResultsModal
+          query={zeroHelpFor}
+          province={provinceKey}
+          onClose={() => setPopupDismissedFor(zeroHelpFor)}
+        />
       )}
     </div>
   );

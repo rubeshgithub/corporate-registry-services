@@ -58,6 +58,9 @@ export default function RegistrySearchZeroResultsHelp({
 
   const registry = MANUAL_REGISTRY[province] ?? "registry";
   const registryPhrase = MANUAL_REGISTRY[province] ? `the ${registry}` : "the registry";
+  /* No searchable index (PEI, NL, Yukon, NB, NWT, Nunavut): the offer is a
+     free snapshot, looked up by hand, within a few business hours. */
+  const manual = !!MANUAL_REGISTRY[province];
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -102,8 +105,13 @@ export default function RegistrySearchZeroResultsHelp({
         <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", fontSize: "0.88rem", color: "var(--secondary)", fontWeight: 500, lineHeight: 1.55 }}>
           <CheckCircle2 size={17} style={{ flexShrink: 0, marginTop: "0.1rem" }} />
           <span>
-            Thanks — a confirmation is on its way to your inbox. We&rsquo;ll search {registryPhrase} for
-            &ldquo;{query}&rdquo; by hand and email you what we find within 24 hours.
+            {manual ? (
+              <>Thanks — we&rsquo;ll look up &ldquo;{query}&rdquo; in {registryPhrase} by hand and email you a
+              free snapshot within a few business hours.</>
+            ) : (
+              <>Thanks — a confirmation is on its way to your inbox. We&rsquo;ll search {registryPhrase} for
+              &ldquo;{query}&rdquo; by hand and email you what we find within 24 hours.</>
+            )}
           </span>
         </div>
         <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.7rem 0 0", lineHeight: 1.5 }}>
@@ -117,8 +125,14 @@ export default function RegistrySearchZeroResultsHelp({
   return (
     <div>
       <p style={{ fontSize: "0.88rem", color: "var(--text)", margin: "0 0 0.85rem", lineHeight: 1.6 }}>
-        If you believe this corporation exists, leave your email and we&rsquo;ll look it up in {registryPhrase} by
-        hand — and send you what we find within 24 hours.
+        {manual ? (
+          <>The {registry} doesn&rsquo;t offer a database we can search instantly. Enter your email and
+          we&rsquo;ll look up &ldquo;{query}&rdquo; by hand and send you a <strong>free snapshot</strong> of the
+          corporation within a few business hours.</>
+        ) : (
+          <>If you believe this corporation exists, leave your email and we&rsquo;ll look it up in {registryPhrase} by
+          hand — and send you what we find within 24 hours.</>
+        )}
       </p>
 
       <form onSubmit={submit} style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
@@ -145,7 +159,7 @@ export default function RegistrySearchZeroResultsHelp({
         >
           {state === "sending"
             ? <><Loader2 size={14} className="crs-spin" /> Sending…</>
-            : <><Mail size={14} /> Email me what you find <ArrowRight size={13} /></>}
+            : <><Mail size={14} /> {manual ? "Email me the free snapshot" : "Email me what you find"} <ArrowRight size={13} /></>}
         </button>
       </form>
       {state === "error" && (

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { inboundMessages, ensureInboundMessageIndexes } from "@/lib/inbound-messages-mongo";
+import { searchLeads, ensureSearchLeadIndexes } from "@/lib/search-leads-mongo";
 import {
   DAY, HOUR, admit, ipHashFrom, isEmail, oneLine, readJsonObject, savedCounts, text, tooManyRequests,
 } from "@/lib/public-form-guard";
@@ -107,6 +108,10 @@ export async function POST(request: Request) {
   const toEmail   = process.env.NOTIFY_EMAIL ?? process.env.OWNER_EMAIL ?? "support@corporateregistryservices.ca";
   const fromEmail = process.env.SES_FROM     ?? process.env.FROM_EMAIL  ?? "support@corporateregistryservices.ca";
   const provLabel = PROV_LABEL[province] ?? province;
+  /* Jurisdictions with no searchable index: the visitor was promised a free
+     snapshot within a few business hours, not a 24-hour reply. */
+  const manual  = ["pe", "nl", "yt", "nb", "nt", "nu"].includes(province);
+  const promise = manual ? "a free snapshot within a few business hours" : "a reply within 24 hours";
 
   const ownerBody = `
 Registry search returned NO RESULTS — visitor wants a manual search
@@ -114,7 +119,7 @@ Registry search returned NO RESULTS — visitor wants a manual search
 Searched for:  ${query}
 Jurisdiction:  ${provLabel}
 Reply to:      ${email}
-Promised:      reply within 24 hours
+Promised:      ${promise}
 Auto-reply:    ${sendAck ? "sent" : "not sent (auto-reply limit reached for this address or site-wide)"}
 =====================================
 The visitor believes this corporation exists but our search did not find it.
@@ -132,7 +137,7 @@ Thank you for contacting CRS — Corporate Registry Services.
 
 We've received your request about a corporation our registry search
 couldn't find. A specialist will run a manual search and get back to
-you within 24 hours.
+you with ${manual ? "a free snapshot of the corporation within a few business hours" : "what we find within 24 hours"}.
 
 If you'd rather talk it through sooner, call or text us at
 (778) 949-2055 during business hours.
@@ -162,6 +167,24 @@ support@corporateregistryservices.ca
         autoReplySent: sendAck,
         createdAt:     new Date(now),
       });
+      /* Manual-registry snapshot requests also join the lead list (admin →
+         Search leads), alongside the automated snapshot requests. */
+      if (manual) {
+        await ensureSearchLeadIndexes();
+        const leads = await searchLeads();
+        await leads.insertOne({
+          email:       emailKey,
+          query,
+          province,
+          resultCount: 0,
+          path:        text(body.path).slice(0, 200),
+          ipHash:      ipHash || undefined,
+          userAgent:   (request.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
+          createdAt:   new Date(now),
+          intent:      "snapshot",
+          jurisdiction: provLabel,
+        });
+      }
     } catch (e) {
       console.error("[CRS] search-help Mongo save failed:", e instanceof Error ? e.message : e);
     }

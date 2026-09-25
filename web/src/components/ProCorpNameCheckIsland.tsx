@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Search, Loader2, CheckCircle2, AlertTriangle, ArrowRight, Mail } from "lucide-react";
 
-type Scope = "all" | "ab" | "bc" | "on" | "sk" | "ns" | "federal";
+type Scope = "all" | "ab" | "bc" | "mb" | "on" | "sk" | "ns" | "federal";
 type Match = { name: string; jurisdiction?: string; status?: string };
 type Result = {
   strength:      "strong" | "moderate" | "weak";
@@ -16,6 +16,7 @@ type Result = {
 const SCOPES: { key: Scope; label: string }[] = [
   { key: "ab",      label: "Alberta" },
   { key: "bc",      label: "British Columbia" },
+  { key: "mb",      label: "Manitoba" },
   { key: "on",      label: "Ontario" },
   { key: "sk",      label: "Saskatchewan" },
   { key: "ns",      label: "Nova Scotia" },

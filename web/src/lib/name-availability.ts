@@ -25,7 +25,7 @@ const REQUEST_TIMEOUT_MS = 8_000;
 /** Strength classification threshold — flip to weak when we cross this. */
 const WEAK_THRESHOLD = 5;
 
-export type Scope = "all" | "federal" | "ab" | "bc" | "on" | "sk" | "ns";
+export type Scope = "all" | "federal" | "ab" | "bc" | "mb" | "on" | "sk" | "ns";
 
 export type NameMatch = {
   name:         string;
@@ -134,6 +134,7 @@ function scopeToCbrRegistrySources(scope: Scope): string[] | null {
     case "federal": return ["CC", "CA"];
     case "ab":      return ["AB"];
     case "bc":      return ["BC"];
+    case "mb":      return ["MB"];
     case "on":      return ["ON"];
     case "sk":      return ["SK"];
     case "ns":      return ["NS"];
@@ -168,6 +169,7 @@ function scopeToLabel(scope: Scope): string {
     case "federal": return "Federal (Corporations Canada)";
     case "ab":      return "Alberta";
     case "bc":      return "British Columbia";
+    case "mb":      return "Manitoba";
     case "on":      return "Ontario";
     case "sk":      return "Saskatchewan";
     case "ns":      return "Nova Scotia";

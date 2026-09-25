@@ -35,7 +35,7 @@ const GRACE_DAYS: Record<string, number | "fiscal"> = {
   nt:      60,
   ns:      30,      // 30-day window
   nu:      60,
-  on:     "fiscal", // filed with the T2 corporate tax return
+  on:     "fiscal", // within 6 months of fiscal year-end, via the Ontario Business Registry
   pe:      60,
   qc:     "fiscal", // filed with the tax return
   sk:      90,      // 3 months
@@ -54,6 +54,17 @@ export function calculateAnnualReturnDeadline(
 
   if (grace === undefined) {
     return { dueDate: null, daysUntilDue: null, status: "unknown", label: "Deadline varies — check jurisdiction rules" };
+  }
+  if (grace === "fiscal" && provinceKey === "on") {
+    /* Since Oct 2021 Ontario annual returns are filed on their own through
+       the Ontario Business Registry — no longer with the T2. */
+    return {
+      dueDate:      null,
+      daysUntilDue: null,
+      status:       "unknown",
+      label:        "Due within 6 months of the fiscal year-end",
+      explanation:  "Ontario annual returns are filed through the Ontario Business Registry within six months after the corporation's fiscal year-end.",
+    };
   }
   if (grace === "fiscal") {
     return {

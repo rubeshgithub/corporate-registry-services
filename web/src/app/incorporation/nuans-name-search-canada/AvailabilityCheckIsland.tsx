@@ -20,7 +20,7 @@ import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
  * The name is pre-filled in the existing NUANS order wizard.
  */
 
-type Scope = "all" | "federal" | "ab" | "bc" | "on" | "sk" | "ns";
+type Scope = "all" | "federal" | "ab" | "bc" | "mb" | "on" | "sk" | "ns";
 
 type Match = {
   name:         string;
@@ -42,6 +42,7 @@ const SCOPES: Array<{ key: Scope; label: string; help: string }> = [
   { key: "federal", label: "Federal (CBCA)",     help: "Corporations Canada only" },
   { key: "ab",      label: "Alberta",            help: "Alberta Corporate Registry" },
   { key: "bc",      label: "British Columbia",   help: "BC Registry Services" },
+  { key: "mb",      label: "Manitoba",           help: "Manitoba Companies Office" },
   { key: "on",      label: "Ontario",            help: "Ontario Business Registry" },
   { key: "sk",      label: "Saskatchewan",       help: "Saskatchewan Corporate Registry (ISC)" },
   { key: "ns",      label: "Nova Scotia",        help: "Registry of Joint Stock Companies" },
