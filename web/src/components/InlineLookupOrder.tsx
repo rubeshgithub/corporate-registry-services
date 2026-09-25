@@ -250,7 +250,7 @@ export default function InlineLookupOrder({
       if (
         !hits.length && !opts?.silent &&
         provinceKey && provinceKey !== "federal" &&
-        !data?.noLiveSearch && !data?.error && !data?.deferred && !data?.peiSkipped
+        !data?.noLiveSearch && !data?.error
       ) {
         try {
           const fres  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=federal&deep=1`);
@@ -287,11 +287,7 @@ export default function InlineLookupOrder({
         setSearchErr(
           data?.error
             ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
-            : data?.deferred || data?.peiSkipped
-              /* We deliberately didn't query PEI on this fire. Saying "no
-                 matching records" here would be a straight falsehood. */
-              ? "Press Find to search the Prince Edward Island registry — we don't query it while you type."
-              : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+            : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
         setZeroHelpFor(q);
       } else if (hits.length) {
         setZeroHelpFor(null);

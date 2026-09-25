@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { companies } from "@/lib/registrar-mongo";
-import { searchPei } from "@/lib/pei-registry";
-import { takePeiBudget, NO_LIVE_SEARCH, MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
-import { ipHashFrom } from "@/lib/public-form-guard";
+import { NO_LIVE_SEARCH, MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
 
@@ -153,95 +151,12 @@ async function searchBC(q: string, status: StatusFilter) {
 }
 
 // ── PEI (Prince Edward Island) ──────────────────────────────────────────────
-//
-// PEI publishes a public JSON API at wdf.princeedwardisland.ca/api/workflow
-// that fronts its OCBR corporate registry. Preflight confirms it as unsecured
-// (see web/src/lib/pei-registry.ts for the full contract). Different upstream
-// shape than CBR/OrgBook, so we normalize the response to the shared
-// ResultShape.
-//
-// PEI status codes come as words ("Active", "Inactive", etc.) — we normalize
-// to the "Active"/"Inactive" pair the shared filter expects.
-
-const PEI_ACTIVE_STATUSES = new Set([
-  "Active", "Reserved", "Pending Dissolution", "Transitioning",
-]);
-
-/** PEI BN formats:
- *   - Bare 9-digit BN                  e.g. 759372865
- *   - 9-digit BN + '-' + 6-digit reg   e.g. 832815864-141006
- *   - 9-digit BN + program identifier  e.g. 832815864RC0001 (rare in PEI but tolerated)
- *  Whitespace/dash tolerant on input. */
-function looksLikePeiBusinessNumber(q: string): boolean {
-  const compact = q.trim().replace(/\s/g, "");
-  return /^\d{9}(?:-?\d{4,6}|[A-Z]{2}\d{4})?$/i.test(compact);
-}
-
-/**
- * PEI is opt-in, not automatic.
- *
- * `deep` is set only by a caller that knows the visitor has finished typing
- * — a submitted form, an explicit Find. Every other call site (and there are
- * twenty-odd, most of them debounced typeaheads) gets cache-only behaviour
- * without having to know this rule exists. That default is the point: the
- * previous arrangement made every new search widget a fresh way to hammer
- * PEI, and one of them eventually did.
- *
- * Returns `deferred: true` when we chose not to look, so callers can say so
- * rather than reporting "no matching records" for a corporation that is
- * sitting in the registry.
- */
-async function searchPEIGuarded(
-  q: string,
-  status: StatusFilter,
-  opts: { deep: boolean; callerKey: string },
-) {
-  if (!opts.deep) return { ...(await searchPEI(q, status, { cacheOnly: true })), guarded: "typeahead" as const };
-
-  const verdict = takePeiBudget(q, opts.callerKey);
-  if (!verdict.ok) {
-    /* Over budget or too vague: still answer from cache if we happen to
-       have it, but do not reach upstream. */
-    return { ...(await searchPEI(q, status, { cacheOnly: true })), guarded: verdict.reason };
-  }
-  return { ...(await searchPEI(q, status)), guarded: null };
-}
-
-async function searchPEI(q: string, status: StatusFilter, peiOpts: { cacheOnly?: boolean } = {}) {
-  /* If the query looks like a BN, route to PEI's business_number field
-   *  instead of the name field. PEI's fuzzy name matcher doesn't hit BN
-   *  columns, so a BN passed as a name returns no matches. */
-  const isBN = looksLikePeiBusinessNumber(q);
-  const { results: raw, totalHint, deferred } = isBN
-    ? await searchPei("", { businessNumber: q.trim(), ...peiOpts })
-    : await searchPei(q, peiOpts);
-
-  const mapped: ResultShape[] = raw.map((r) => {
-    const rawStatus = r.status ?? "";
-    const normalized = PEI_ACTIVE_STATUSES.has(rawStatus) ? "Active" : "Inactive";
-    return {
-      name:             r.name ?? "Unknown",
-      businessNumber:   r.businessNumber ?? "",
-      registryId:       r.entityId ?? "",   // PEI's internal entity ID
-      location:         "Prince Edward Island",
-      status:           normalized,
-      statusNotes:      rawStatus,
-      entityType:       r.companyType ?? "",
-      registrationDate: "",                 // only in getEntity, not search
-      jurisdiction:     "Prince Edward Island",
-      provinceKey:      "pe",
-    };
-  });
-
-  const filtered = mapped.filter((r) => matchesStatus(r.status, r.statusNotes, status));
-
-  return {
-    total:  status === "all" ? (totalHint ?? filtered.length) : filtered.length,
-    source: "pei",
-    results: filtered.slice(0, 12),
-    deferred,
-  };
-}
+// Removed from search 2026-09-25. PEI's API (wdf.princeedwardisland.ca) sits
+// behind Radware Bot Manager, which answers our server with a 302 to a
+// captcha page (validate.perfdrive.com) on every call — three retries per
+// explicit Find, all failing, filling the logs. PEI is now handled like the
+// other registries we cannot query: a PEI-scoped search widens to the
+// national data, and a miss offers the free hand-searched snapshot.
 
 // ── Canada Business Registries (all other provinces) ────────────────────────
 
@@ -545,13 +460,6 @@ export async function GET(request: Request) {
   const status: StatusFilter =
     rawStatus === "active" || rawStatus === "pending" || rawStatus === "struck" ? rawStatus : "all";
 
-  /* `deep` marks a deliberate, finished search — a submitted form or an
-     explicit Find — as opposed to a debounced keystroke. Only a deep search
-     may reach the PEI upstream. Absent the flag we behave as typeahead,
-     which is the safe default for the twenty-odd callers that never pass
-     it. See lib/pei-budget.ts. */
-  const deep      = searchParams.get("deep") === "1";
-  const callerKey = ipHashFrom(request) || "anon";
 
   if (q.length < 2) return NextResponse.json({ results: [], total: 0 });
 
@@ -576,71 +484,23 @@ export async function GET(request: Request) {
     if (searchProvince === "bc") {
       return NextResponse.json(await searchBC(q, status));
     }
-    if (searchProvince === "pe") {
-      /* PEI has its own upstream (wdf.princeedwardisland.ca). In Sep 2026 this
-         path 502'd on production while the identical request — same body,
-         same headers, same Node https client — succeeded from a dev machine,
-         which points at the environment (PEI's WAF vs Render's egress IP, or
-         the runtime's TLS fingerprint) rather than the code. Render's logs
-         aren't reachable from the CLI, so surface the upstream failure class
-         and status in the response body: no secrets, no request internals,
-         just enough to tell a 403 from a timeout from the catch-all string. */
-      try {
-        return NextResponse.json(await searchPEIGuarded(q, status, { deep, callerKey }));
-      } catch (e) {
-        const err = e as { name?: string; message?: string; status?: number };
-        console.error("[CRS] PEI search failed:", err?.name, err?.status, err?.message);
-        /* 503, not 502, on purpose. The site sits behind Cloudflare, which
-           replaces an origin 502/504 with its own error page ("error code:
-           502", text/plain, no x-render-origin-server header) — so a JSON
-           diagnostic on a 502 is never visible from outside. Cloudflare
-           passes a 503 body through unchanged. Semantically it is also the
-           right code: our service is up, the upstream it depends on isn't. */
-        return NextResponse.json(
-          {
-            error:    "Search temporarily unavailable",
-            source:   "pei",
-            peiError: `${err?.name ?? "Error"}${err?.status ? ` ${err.status}` : ""}: ${String(err?.message ?? "").slice(0, 160)}`,
-          },
-          { status: 503, headers: { "Cache-Control": "no-store" } },
-        );
-      }
-    }
     const cbrCode = searchProvince === "all" ? undefined : PROVINCE_CBR[searchProvince];
 
     /* For Alberta and all-province searches, merge local gazette DB results
        in so Alberta Societies (and other entity types CBR doesn't expose)
-       surface. For all-province searches, also fold in PEI — CBR doesn't
-       cover PEI at all, so without this the "All Canada" scope would
-       silently exclude PEI corps. Both extras run in parallel with the
-       CBR fetch. Added latency: ~50-150ms Atlas + ~200-400ms PEI. */
+       surface. Runs in parallel with the CBR fetch (~50-150ms Atlas).
+       CBR has no PEI records and PEI's own API is not queried (see above). */
     const includeLocalAB = searchProvince === "ab" || searchProvince === "all";
-    const includePEI     = searchProvince === "all";
-    const [cbrResp, localAB, peiResp] = await Promise.all([
+    const [cbrResp, localAB] = await Promise.all([
       searchCBR(q, status, cbrCode),
       includeLocalAB ? searchLocalAB(q, status, 12).catch((e) => {
         console.warn("[CRS] local AB search failed (non-fatal):", e);
         return [] as ResultShape[];
       }) : Promise.resolve([] as ResultShape[]),
-      includePEI ? searchPEIGuarded(q, status, { deep, callerKey }).catch((e) => {
-        console.warn("[CRS] parallel PEI search failed (non-fatal):", e);
-        /* Carry the message. This path swallows PEI errors by design, which
-           is exactly why the outage went unnoticed for weeks — and now that
-           a PEI-scoped search widens to all-Canada, this is the ONLY place
-           the failure is still observable. */
-        const m = e instanceof Error ? e.message : String(e);
-        return { total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: "error" as const, peiError: m.slice(0, 220) };
-      }) : Promise.resolve({ total: 0, source: "pei", results: [] as ResultShape[], deferred: undefined, guarded: null }),
     ]);
 
     const hasLocalAB = includeLocalAB && localAB.length > 0;
-    const hasPEI     = includePEI     && peiResp.results.length > 0;
-    /* Whether PEI was consulted at all. Reported so the gap is never silent
-       again: PEI failing was invisible for weeks precisely because the
-       all-province path swallows its errors and returns CBR as if complete. */
-    const peiSkipped = includePEI && (peiResp.deferred || peiResp.guarded) ? peiResp.guarded ?? "deferred" : undefined;
-
-    if (!hasLocalAB && !hasPEI) {
+    if (!hasLocalAB) {
       const ranked = preferNumberMatches(q, cbrResp.results);
       /* Widened off a no-index jurisdiction, the query named a specific
          corporation by number, and nothing carries that number: these rows
@@ -653,20 +513,17 @@ export async function GET(request: Request) {
         ...cbrResp,
         results: only,
         total:   only.length === cbrResp.results.length ? cbrResp.total : only.length,
-        peiSkipped,
         ...noLiveExtras,
       });
     }
 
     let merged = cbrResp.results;
     if (hasLocalAB) merged = mergeResults(merged, localAB, 20);
-    if (hasPEI)     merged = mergeResults(merged, peiResp.results, 20);
     const rankedMerged = preferNumberMatches(q, merged);
     merged = (noLiveIndex && rankedMerged.hadNumber && !rankedMerged.matchedNumber) ? [] : rankedMerged.rows;
 
     const sourceParts: string[] = ["cbr"];
     if (hasLocalAB) sourceParts.push("gazette");
-    if (hasPEI)     sourceParts.push("pei");
 
     return NextResponse.json({
       ...cbrResp,
@@ -674,9 +531,6 @@ export async function GET(request: Request) {
       total:        merged.length,
       source:       sourceParts.join("+"),
       localMatches: hasLocalAB ? localAB.length : undefined,
-      peiMatches:   hasPEI ? peiResp.results.length : undefined,
-      peiSkipped,
-      peiError: (peiResp as { peiError?: string }).peiError,
       ...noLiveExtras,
     });
   } catch (err) {
