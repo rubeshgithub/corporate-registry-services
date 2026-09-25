@@ -1,6 +1,7 @@
 ---
-title: "Pharmacy Professional Corporation Ontario: OCP Guide 2026"
-metaDescription: "Set up a pharmacy professional corporation in Ontario — OCP certificate of authorization, shareholder rules, March 10 renewal. Book a free consultation."
+title: "Pharmacy Professional Corporation Ontario: OCP Fees"
+h1: "Pharmacy Professional Corporation Ontario: OCP Guide 2026"
+metaDescription: "OCP certificate: $1,709.53 to apply, $512.90 to renew by March 10 (2026, HST incl.). We set up your pharmacy PC for {{price:pc-setup}} + gov't fees."
 slug: "/professional-corporation/pharmacy-ontario"
 primaryKeyword: "pharmacy professional corporation Ontario"
 secondaryKeywords: ["OCP certificate of authorization", "pharmacist health profession corporation", "incorporate a pharmacy in Ontario", "health profession corporation Ontario", "pharmacist professional corporation renewal"]

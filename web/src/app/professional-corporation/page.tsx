@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Professional Corporation Services in Canada — CRS",
     description:
-      `Set up a professional corporation for ${formatCents(cents)} all-in including government and regulator fees, or file annual returns, changes, profile reports and revivals at professional-corporation rates.`,
+      `Set up a professional corporation for a flat ${formatCents(cents)} + government and regulator fees at cost, or file annual returns, changes, profile reports and revivals at professional-corporation rates.`,
     alternates: { canonical: "/professional-corporation" },
   };
 }
@@ -126,7 +126,7 @@ export default async function ProfessionalCorporationHub() {
           </div>
         </section>
 
-        {/* Free preliminary name check — the piece the $1,699 setup path was
+        {/* Free preliminary name check — the piece the setup path was
             missing. A physician lands here to set up; before we send them to a
             consultation, let them check the name their college will require and
             capture the lead. Sits right under the hero CTAs. */}
@@ -140,7 +140,7 @@ export default async function ProfessionalCorporationHub() {
             What we do, and what it costs
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", margin: "0 0 1.75rem", lineHeight: 1.6 }}>
-            All prices are all-in plus GST. Every service except new setup starts with a registry
+            Prices are all-in plus GST, except new setup: a flat service fee plus government and regulator fees at cost. Every service except new setup starts with a registry
             lookup so we work from your corporation&rsquo;s actual record.
           </p>
 

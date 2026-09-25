@@ -216,9 +216,9 @@ export default function ProCorpOrderFlow({ prices }: { prices?: Record<string, n
             Starting a <strong>new</strong> professional corporation? There is nothing to look up yet
             — see{" "}
             <a href={PRO_CORP_SERVICES.setup.href} style={{ color: "var(--text)", borderBottom: "1px solid var(--gold)", textDecoration: "none" }}>
-              new PC setup at {priceOf("setup", PRO_CORP_SERVICES.setup.priceCents)} all-in + GST
+              new PC setup at {priceOf("setup", PRO_CORP_SERVICES.setup.priceCents)} + GST
             </a>
-            , which includes all government and regulator fees.
+            , plus government and regulator fees at cost.
           </div>
         </div>
 

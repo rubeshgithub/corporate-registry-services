@@ -1,6 +1,7 @@
 ---
-title: "Medicine Professional Corporation Ontario: CPSO Guide 2026"
-metaDescription: "Set up a medicine professional corporation in Ontario — CPSO certificate of authorization, $400 fee, naming rules, and the anniversary renewal date. Book a free consult."
+title: "Medical Professional Corp Ontario — {{price:pc-setup}} + Fees"
+h1: "Medicine Professional Corporation Ontario: CPSO Guide 2026"
+metaDescription: "CPSO certificate: $400 to apply, $175 yearly on your issue date. CPSO-compliant name and articles for {{price:pc-setup}} + gov't fees, no hourly billing."
 slug: "/professional-corporation/medical-ontario"
 primaryKeyword: "medicine professional corporation Ontario"
 secondaryKeywords: ["medical professional corporation Ontario", "CPSO certificate of authorization", "physician incorporation Ontario", "medicine professional corporation naming rules", "CPSO certificate of authorization renewal date", "incorporation for doctors Ontario", "can my spouse own shares in my medical corporation"]

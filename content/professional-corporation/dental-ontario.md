@@ -1,6 +1,7 @@
 ---
-title: "Dentistry Professional Corporation Ontario: RCDSO Guide"
-metaDescription: "Set up a dentistry professional corporation in Ontario: RCDSO certificate of authorization, $750 application, naming rules and August 31 renewal. Start now."
+title: "Dentistry Professional Corp Ontario — {{price:pc-setup}} + Fees"
+h1: "Dentistry Professional Corporation Ontario: RCDSO Guide"
+metaDescription: "Ontario dentists: $750 RCDSO application, Aug 31 renewal, no grace period. We set up your PC for {{price:pc-setup}} + gov't fees — no hourly billing."
 slug: "/professional-corporation/dental-ontario"
 primaryKeyword: "dentistry professional corporation Ontario"
 secondaryKeywords: ["RCDSO certificate of authorization", "dental corporation Ontario", "incorporate dental practice Ontario", "dentistry professional corporation name rules", "RCDSO certificate of authorization renewal"]

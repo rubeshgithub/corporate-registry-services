@@ -1,9 +1,9 @@
 ﻿---
-title: "CBCA Annual Return | Corporations Canada | {{price:annual-return}} All-In"
+title: "Federal Annual Return: How to File, $12 Fee & Deadline"
 h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
-description: "CBCA annual return filed with Corporations Canada in 1 business day — {{price:annual-return}} all-in, government fee included. It's not your CRA T2. Beat the 60-day deadline."
+description: "Missed your federal annual return? Unfiled corporations can be dissolved. We file CBCA returns + ISC info: {{price:annual-return}} all-in, gov't fee included."
 ---
 
 **Deadline coming up?** [File your federal (CBCA) annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed with Corporations Canada — not your CRA T2 return.

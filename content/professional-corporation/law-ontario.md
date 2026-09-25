@@ -1,6 +1,7 @@
 ---
-title: "Law Professional Corporation Ontario: LSO Guide 2026"
-metaDescription: "Set up a law professional corporation in Ontario — LSO certificate of authorization, shareholder rules, Dec 31 renewals. Book a free consultation."
+title: "Law Professional Corporation Ontario: LSO Fees & Steps"
+h1: "Law Professional Corporation Ontario: LSO Guide 2026"
+metaDescription: "LSO certificate of authorization: $395.50 to apply, $226 to renew Oct 1–Dec 31 (2026). We set up your law PC for {{price:pc-setup}} + gov't fees."
 slug: "/professional-corporation/law-ontario"
 primaryKeyword: "law professional corporation Ontario"
 secondaryKeywords: ["LSO certificate of authorization", "lawyer incorporation Ontario", "Law Society of Ontario professional corporation", "can a lawyer incorporate in Ontario", "law professional corporation shareholders"]
