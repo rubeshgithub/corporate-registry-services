@@ -541,7 +541,7 @@ export default function InlineLookupOrder({
               <strong style={{ color: "var(--text)" }}>
                 {results.length > 3 ? `Top 3 of ${results.length} matches` : `${results.length} corporations match`}
               </strong>{" "}
-              for &ldquo;{lastFiredRef.current}&rdquo;. Check the name and registry details to pick the right one.
+              for &ldquo;{query.trim()}&rdquo;. Check the name and registry details to pick the right one.
             </div>
           )}
 
