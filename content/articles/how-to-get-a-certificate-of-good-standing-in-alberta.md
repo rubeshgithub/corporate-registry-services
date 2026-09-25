@@ -1,0 +1,102 @@
+---
+title: "Certificate of Good Standing in Alberta: How to Get One"
+h1: "How to Get a Certificate of Good Standing in Alberta"
+slug: "how-to-get-a-certificate-of-good-standing-in-alberta"
+section: "articles"
+description: "How to get a certificate of good standing (Certificate of Status) in Alberta: registry-agent costs, turnaround, and a 3-hour PDF option from CRS."
+faq:
+  - q: "Is a Certificate of Status the same as a certificate of good standing in Alberta?"
+    a: "Yes. Certificate of Status is Alberta's official name for the document; certificate of good standing is the generic name used across Canada. Banks, lawyers and other provinces' registries treat them as the same thing, and Alberta's certificate satisfies a request worded either way."
+  - q: "How much does an Alberta Certificate of Status cost?"
+    a: "There's no single government retail price — registry agents combine the government fee with their own service charge, so walk-in and online prices typically run $25–$40 as of late 2026. CRS supplies it for {{price:good-standing}} all-in + tax, government charges included, delivered as a PDF in about 3 hours."
+  - q: "How fast can I get a certificate of good standing in Alberta?"
+    a: "Through CRS, about 3 hours as a PDF. Walk-in registry agents can often produce one same-day; online search houses typically quote same day to 2–3 business days. Most banks and lawyers want a certificate issued within the last 30 to 60 days, so order fresh when a transaction needs it."
+  - q: "Can I get a Certificate of Status if my annual returns are overdue?"
+    a: "You can order one, but it will show the corporation's actual status, not good standing. File the outstanding annual returns first (about $53 government fee each since July 2026, through any registry agent), then order the certificate once the registry shows the corporation Active. A struck or dissolved corporation must be revived before any certificate will show good standing."
+  - q: "Can a sole proprietorship or partnership get a certificate of good standing in Alberta?"
+    a: "No. Alberta issues Certificates of Status only for corporations and incorporated non-profit organizations. Trade names and partnerships aren't incorporated entities, so there's no registry status to certify — the closest equivalent for a sole proprietor is proof of trade name registration."
+---
+
+**Bank, lawyer or lender asking for proof of standing?** [Order your Alberta Certificate of Status →](/order/good-standing?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:good-standing}} all-in + tax, delivered as a PDF in about 3 hours.
+
+In Alberta, the document everyone calls a "certificate of good standing" is officially a **Certificate of Status** — and you can't get it directly from the government. Alberta's Corporate Registry issues it only through authorized registry agents, who charge a government fee plus their own service fee. This guide covers what the certificate proves, the ways to order one, what it typically costs, and what to do first if your corporation has fallen behind on its filings.
+
+## What Is a Certificate of Good Standing Called in Alberta?
+
+Alberta officially calls it a **Certificate of Status**. It's the same document other jurisdictions call a [certificate of good standing](/guides/what-is-a-certificate-of-good-standing-canada) — Ontario also uses [Certificate of Status](/articles/certificate-of-status-ontario), while the federal registry issues a certificate of compliance. Whoever asked you for "proof of good standing" will accept Alberta's Certificate of Status; the names are interchangeable in practice.
+
+The certificate is issued by the Alberta Corporate Registry and confirms a corporation's status as of the moment it's produced. It's available for Alberta corporations and incorporated non-profit organizations only — [not for trade names or partnerships](https://www.alberta.ca/find-corporation-details), because sole proprietorships and partnerships aren't incorporated entities with a registry status to certify.
+
+## What Does an Alberta Certificate of Status Confirm?
+
+A current Certificate of Status confirms four things as of its issue date:
+
+- The corporation legally exists and is registered in Alberta
+- Its legal name and incorporation date, exactly as they appear on the registry
+- Its current status — **Active** being the one banks and lawyers want to see
+- That it has not been dissolved, struck, or amalgamated out of existence
+
+An Active status means the corporation is up to date with its filing obligations — above all its annual returns. Miss those and the registry moves the corporation toward being struck, at which point no certificate will show good standing.
+
+Alberta also distinguishes between a **current** certificate (status right now) and a **historical** certificate (status on a specific past date). Almost every routine request — banking, financing, contracts — wants the current one; historical certificates come up mainly in litigation and due diligence on past transactions.
+
+Common situations that trigger a request: opening or renewing business bank accounts and credit facilities, lawyers closing a purchase, sale or real-estate transaction, registering the corporation extra-provincially in BC, Saskatchewan or elsewhere, landlord and lender due diligence, and grant or licensing applications. If you only need to *check* a company's status rather than formally prove it, a [free corporation search](/canada-corporations-search) will tell you whether it's active before you pay for anything.
+
+## How Do You Get a Certificate of Status in Alberta?
+
+Through an authorized registry agent — that's the only route. Unlike Ontario or the federal registry, Alberta has no public online portal where a business owner can pull their own certificate; the province delivers registry services through its network of [authorized agents connected to CORES](/articles/what-is-cores-alberta), the Corporate Registry's electronic system. The [Alberta government's own guidance](https://www.alberta.ca/find-corporation-details) is simply to contact a registry agent.
+
+You have three practical options:
+
+**1. Walk into a local registry agent.** Any authorized registry agent office in Alberta can produce the certificate while you wait or within a few business days, depending on the office. Bring the corporation's legal name or its corporate access number (it appears on your incorporation documents and annual return reminders).
+
+**2. Order from an online search house.** Several Alberta registry agents take certificate orders through their websites, with turnaround typically ranging from same day to 2–3 business days.
+
+**3. Order through CRS.** As a Certified CORES Registry Agent, CRS retrieves the certificate directly from the Alberta Corporate Registry and delivers it as a PDF in about 3 hours — [{{price:good-standing}} all-in + tax](/good-standing/alberta-certificate-of-good-standing), government charges included, with no account setup and nothing to look up beyond your corporation's name.
+
+Whichever route you choose, the certificate is the same government-issued document; what varies is the price, the turnaround, and how much of the legwork is yours.
+
+## How Much Does a Certificate of Status Cost in Alberta?
+
+Alberta doesn't publish a single retail price. Registry agents pay the government fee and add their own service charge, so the total varies by agent — typically **$25 to $40** at walk-in registry offices and online search houses as of late 2026 (some quote 2–3 business days at that price, and the government's fee schedule changed July 2, 2026, so quotes are worth confirming). CRS charges {{price:good-standing}} all-in + tax with the government fee included and roughly 3-hour PDF delivery.
+
+Budget-wise, the certificate itself is rarely the expensive part. If the corporation is behind on annual returns, bringing those current — each outstanding return carries its own government fee of about $53 since July 2026, plus agent service charges — is what actually costs money and time. Which leads to the question that catches most people out:
+
+## What If Your Corporation Isn't in Good Standing?
+
+File the outstanding annual returns first — a certificate ordered while returns are overdue will simply document that the corporation isn't in the shape your bank or lawyer wants to see.
+
+Alberta corporations file an annual return every year, due within one month of the incorporation anniversary. Fall behind and the consequences escalate: the registry flags the corporation, and after two consecutive missed returns it can be struck from the register — Alberta sends an [intent-to-dissolve notice](/articles/intent-to-dissolve-notice-alberta) before that happens. A struck or dissolved corporation can't get a certificate showing good standing at all; it needs [revival](/order/revival?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) first, which is a bigger filing with more documents and higher fees.
+
+The fix is usually fast. CRS can [file your outstanding Alberta annual returns](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return}} all-in + GST per return, 1 business day — and then pull the certificate once the registry shows you Active. If you're not sure where you stand, our [guide to Alberta annual returns](/articles/how-to-file-your-annual-return-in-alberta) explains the deadline and what happens at each stage of falling behind.
+
+## Frequently Asked Questions
+
+### Is a Certificate of Status the same as a certificate of good standing in Alberta?
+
+Yes. Certificate of Status is Alberta's official name for the document; certificate of good standing is the generic name used across Canada. Banks, lawyers and other provinces' registries treat them as the same thing, and Alberta's certificate satisfies a request worded either way.
+
+### How much does an Alberta Certificate of Status cost?
+
+There's no single government retail price — registry agents combine the government fee with their own service charge, so walk-in and online prices typically run $25–$40 as of late 2026. CRS supplies it for {{price:good-standing}} all-in + tax, government charges included, delivered as a PDF in about 3 hours.
+
+### How fast can I get a certificate of good standing in Alberta?
+
+Through CRS, about 3 hours as a PDF. Walk-in registry agents can often produce one same-day; online search houses typically quote same day to 2–3 business days. Order fresh when a transaction needs it — most banks and lawyers want a certificate issued within the last 30 to 60 days.
+
+### Can I get a Certificate of Status if my annual returns are overdue?
+
+You can order one, but it won't help you — it will show the corporation's actual status, not good standing. File the outstanding annual returns first (about $53 government fee each since July 2026, through any registry agent), then order the certificate once the registry shows the corporation Active. If the corporation has already been struck or dissolved, it must be revived before any certificate will show good standing.
+
+### Can a sole proprietorship or partnership get a certificate of good standing in Alberta?
+
+No. Alberta issues Certificates of Status only for corporations and incorporated non-profit organizations. Trade names and partnerships aren't incorporated entities, so there's no registry status to certify — if a bank asks a sole proprietor for one, the closest equivalent is proof of trade name registration.
+
+---
+
+**Need your Alberta Certificate of Status today?** [Order it now →](/order/good-standing?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) and CRS will retrieve it directly from the Alberta Corporate Registry.
+
+**Turnaround:** about 3 hours, delivered as a PDF
+**Price:** {{price:good-standing}} all-in + tax — government charges included
+
+Behind on filings? [File your annual return first →](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return}} all-in + GST, 1 business day.
