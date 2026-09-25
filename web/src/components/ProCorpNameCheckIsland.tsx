@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Search, Loader2, CheckCircle2, AlertTriangle, ArrowRight, Mail } from "lucide-react";
 
-type Scope = "all" | "ab" | "bc" | "federal";
+type Scope = "all" | "ab" | "bc" | "on" | "sk" | "ns" | "federal";
 type Match = { name: string; jurisdiction?: string; status?: string };
 type Result = {
   strength:      "strong" | "moderate" | "weak";
@@ -16,6 +16,9 @@ type Result = {
 const SCOPES: { key: Scope; label: string }[] = [
   { key: "ab",      label: "Alberta" },
   { key: "bc",      label: "British Columbia" },
+  { key: "on",      label: "Ontario" },
+  { key: "sk",      label: "Saskatchewan" },
+  { key: "ns",      label: "Nova Scotia" },
   { key: "federal", label: "Federal" },
   { key: "all",     label: "All we cover" },
 ];
@@ -54,9 +57,17 @@ export default function ProCorpNameCheckIsland({
   const [sending, setSending] = useState(false);
   const [sent, setSent]       = useState(false);
 
+  /* Ontario (O. Reg. 665/05): surname with optional given names/initials,
+     then "Medicine Professional Corporation" for physicians — no "Dr.", which
+     CPSO says takes the name offside. Alberta (CPSA Bylaw 42.1) allows
+     "Dr. Jane A. Smith Professional Corporation". */
+  const ontario = scope === "on";
+  const suffix  = ontario && profession === "physician"
+    ? " Medicine Professional Corporation"
+    : " Professional Corporation";
   const proposedName =
-    [title.trim(), first.trim(), middle.trim(), last.trim()].filter(Boolean).join(" ") +
-    (last.trim() ? " Professional Corporation" : "");
+    [ontario ? "" : title.trim(), first.trim(), middle.trim(), last.trim()].filter(Boolean).join(" ") +
+    (last.trim() ? suffix : "");
 
   const canCheck = first.trim().length > 0 && last.trim().length > 0 && !checking;
   const canSend =
@@ -131,8 +142,10 @@ export default function ProCorpNameCheckIsland({
         registration and we&rsquo;ll check the registry for conflicts &mdash; then email you the result.
       </p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "5rem 1fr 5rem 1fr", gap: "0.5rem", marginBottom: "0.6rem" }}>
-        <input value={title}  onChange={(e) => setTitle(e.target.value)}  placeholder="Dr."     aria-label="Title"          style={inputStyle} />
+      <div style={{ display: "grid", gridTemplateColumns: ontario ? "1fr 5rem 1fr" : "5rem 1fr 5rem 1fr", gap: "0.5rem", marginBottom: "0.6rem" }}>
+        {!ontario && (
+          <input value={title}  onChange={(e) => setTitle(e.target.value)}  placeholder="Dr."     aria-label="Title"          style={inputStyle} />
+        )}
         <input value={first}  onChange={(e) => setFirst(e.target.value)}  placeholder="First"   aria-label="First name"     style={inputStyle} />
         <input value={middle} onChange={(e) => setMiddle(e.target.value)} placeholder="Initial" aria-label="Middle initial" style={inputStyle} />
         <input value={last}   onChange={(e) => setLast(e.target.value)}   placeholder="Surname" aria-label="Surname"        style={inputStyle} />

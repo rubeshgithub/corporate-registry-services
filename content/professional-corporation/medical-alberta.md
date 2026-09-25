@@ -101,7 +101,7 @@ Three structural cautions:
 | CPSA annual renewal (every year after) | $200 + GST per physician shareholder |
 | Corporate annual return (every year after) | government fee + agent service fee — {{price:pc-annual-return}} all-in via CRS |
 
-Beyond the filings, budget for legal and accounting advice on the share structure — typically $1,500–3,500 as a market estimate — because the share classes have to fit both CPSA's restrictions and your family's tax plan the first time. CRS's all-in [professional corporation setup](/professional-corporation/book-free-consultation) is **{{price:pc-setup}}**, including the government registry fee, the regulator fee, the NUANS report, CPSA-compliant articles prepared for endorsement, the certified certificate for the permit application, and the complete minute book.
+Beyond the filings, budget for legal and accounting advice on the share structure — typically $1,500–3,500 as a market estimate — because the share classes have to fit both CPSA's restrictions and your family's tax plan the first time. CRS sets up the corporation for a flat **{{price:pc-setup}} + GST** service fee through our [professional corporation setup](/professional-corporation/book-free-consultation) — CPSA-compliant articles prepared for endorsement, the certified certificate for the permit application, and the complete minute book — with the government registry fee, CPSA fee and NUANS report passed through at cost.
 
 ## Keeping it alive: annual renewals
 
@@ -131,7 +131,7 @@ Yes. CPSA must endorse your Articles of Incorporation before you file them at th
 
 ### How much does a CPSA professional corporation cost?
 
-CPSA charges $500 + GST per physician shareholder to register a professional corporation and $200 + GST per physician shareholder for each annual renewal (2025–2026 fee schedule). The Alberta registry's incorporation fee is $291.75 (since July 2, 2026) plus the agent's service fee, and a named PC needs a NUANS report. CRS's all-in setup, including government and regulator fees, is {{price:pc-setup}}.
+CPSA charges $500 + GST per physician shareholder to register a professional corporation and $200 + GST per physician shareholder for each annual renewal (2025–2026 fee schedule). The Alberta registry's incorporation fee is $291.75 (since July 2, 2026) plus the agent's service fee, and a named PC needs a NUANS report. CRS's setup service is {{price:pc-setup}} + GST, with those government and regulator fees passed through at cost.
 
 ### What do I have to call my professional corporation?
 

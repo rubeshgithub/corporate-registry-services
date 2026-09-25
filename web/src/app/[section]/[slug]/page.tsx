@@ -122,7 +122,7 @@ const CUSTOM_ISLANDS: Record<
     <MedProCorpHeroIsland src={`pc-${slug}`} />
   ),
   "professional-corporation/medical-ontario": ({ slug }) => (
-    <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="all" profession="physician" />
+    <ProCorpNameCheckIsland src={`pc-${slug}`} defaultScope="on" profession="physician" />
   ),
   /* Share certs need shareholder + share details after the corp is picked, so
      this island only handles the search and hands off to

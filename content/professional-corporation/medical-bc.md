@@ -1,6 +1,7 @@
 ---
-title: "Health Profession Corporation BC: CPSBC Permit Guide 2026"
-metaDescription: "Get your BC health profession corporation permit under the HPOA: CPSBC name approval, application, fees and renewals. Start your incorporation today."
+title: "Medical Professional Corporation BC — {{price:pc-setup}} + Fees"
+h1: "Health Profession Corporation BC: CPSBC Permit Guide 2026"
+metaDescription: "CPSBC permit: C$350 per physician to apply, C$135 a year, renew by March 1 — name approval first. We set up your corporation for {{price:pc-setup}} + gov't fees."
 slug: "/professional-corporation/medical-bc"
 primaryKeyword: "health profession corporation BC"
 secondaryKeywords: ["CPSBC corporation permit", "doctor incorporation BC", "medical professional corporation British Columbia", "HPOA health profession corporation", "CPSBC permit renewal"]
@@ -82,7 +83,7 @@ The corporation's appeal is almost entirely tax mechanics. Active practice incom
 
 ### How much does a health profession corporation cost in BC?
 
-Government and college fees total roughly $865 in year one for a single physician: $30 name request and $350 incorporation at BC Registries, then C$350 per licensee to apply for the CPSBC permit plus the C$135 annual permit fee. Ongoing years cost C$135 plus the $43.39 BC annual report, before professional fees.
+Government and college fees total roughly $865 in year one for a single physician: $30 name request and $350 incorporation at BC Registries, then C$350 per licensee to apply for the CPSBC permit plus the C$135 annual permit fee. Ongoing years cost C$135 plus the $43.39 BC annual report. CRS's setup service is {{price:pc-setup}} + GST on top of those fees, which are passed through at cost.
 
 ### Do I need CPSBC approval before incorporating?
 
