@@ -105,6 +105,11 @@ export default async function CorporationProfilePage({
      that earned it was invisible in the admin dashboard. */
   const rawSrc     = (await searchParams).src;
   const inboundSrc = typeof rawSrc === "string" && /^[a-z0-9._-]{1,120}$/i.test(rawSrc) ? rawSrc : undefined;
+  /* What the visitor came to buy ("View free company details" on a
+     profile-report card passes intent=profile-report), so the main button
+     matches it instead of defaulting to the annual return. */
+  const rawIntent = (await searchParams).intent;
+  const intent    = rawIntent === "profile-report" || rawIntent === "good-standing" ? rawIntent : undefined;
   const data = await getProfileData(slug);
   if (!data) notFound();
 
@@ -207,7 +212,7 @@ export default async function CorporationProfilePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
       />
       <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 1.5rem" }}>
-        <ProfileView data={serialized} prices={await getPrices()} inboundSrc={inboundSrc} />
+        <ProfileView data={serialized} prices={await getPrices()} inboundSrc={inboundSrc} intent={intent} />
       </main>
       <Footer />
     </>

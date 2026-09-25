@@ -124,6 +124,8 @@ export default function InlineLookupOrder({
   titleOverride,
   subOverride,
   priceCents,
+  thirdParty = false,
+  prices,
 }: {
   service:     Service;
   provinceKey: string | null;   // from inferServiceContext.jurisdictionKey
@@ -133,6 +135,12 @@ export default function InlineLookupOrder({
   titleOverride?:   string | null;   // per-article headline override
   subOverride?:     string | null;   // per-article sub-line override
   priceCents?:      number;          // live catalogue price — swaps the "$X" in the pay button
+  /* Pages where visitors look up SOMEONE ELSE'S company (registry search,
+     verification, due diligence): each result offers the three things such
+     a visitor buys — profile report, good standing, document copies — plus a
+     line explaining what the paid report adds over the free search. */
+  thirdParty?:      boolean;
+  prices?:          Record<string, number>;   // live catalogue, needed when thirdParty
 }) {
   const base = HEADLINES[service];
   const copy = {
@@ -160,6 +168,14 @@ export default function InlineLookupOrder({
   const [federalFallback, setFederalFallback] = useState(false);
 
   const [pick, setPick]           = useState<RegistryHit | null>(null);
+  /* Which product the visitor chose on the card. Defaults to the page's own
+     service; a third-party card can switch it to good standing. */
+  const [activeService, setActiveService] = useState<Service>(service);
+  const activeCents = activeService === service ? priceCents : prices?.[activeService];
+  const payLabel    = activeCents != null
+    ? swapPrice(HEADLINES[activeService].buttonLabel, activeCents)
+    : HEADLINES[activeService].buttonLabel;
+  const fmtPrice    = (key: string, fallback: number) => `$${Math.round((prices?.[key] ?? fallback) / 100).toLocaleString()}`;
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [hasChanges, setHasChanges]   = useState(false);
   const [changesNote, setChangesNote] = useState("");
@@ -325,9 +341,9 @@ export default function InlineLookupOrder({
       // annual-return has its own dedicated endpoint (multi-year, changes
       // payload). profile-report and good-standing share /api/order/report
       // and are differentiated by the `service` field in the body.
-      const endpoint = service === "annual-return" ? "/api/order/annual-return" : "/api/order/report";
+      const endpoint = activeService === "annual-return" ? "/api/order/annual-return" : "/api/order/report";
       const body =
-        service === "annual-return"
+        activeService === "annual-return"
           ? {
               hit:     pick,
               years:   1,
@@ -347,7 +363,7 @@ export default function InlineLookupOrder({
               src: orderSrc,
             }
           : {
-              service, // "profile-report" | "good-standing"
+              service: activeService, // "profile-report" | "good-standing"
               hit:     pick,
               contact,
               src:     orderSrc,
@@ -505,6 +521,14 @@ export default function InlineLookupOrder({
             </div>
           )}
 
+          {thirdParty && results.length > 0 && !federalFallback && (
+            <p style={{ margin: "0.85rem 0 0", fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.55 }}>
+              <strong style={{ color: "var(--text)" }}>The free search shows status.</strong>{" "}
+              The official profile report adds directors, registered office and filing history — a PDF
+              from the government registry, accepted by banks and QuickBooks.
+            </p>
+          )}
+
           {results.length > 0 && (
             <div style={{ marginTop: "0.85rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               {results.slice(0, 3).map((hit, i) => (
@@ -513,16 +537,51 @@ export default function InlineLookupOrder({
                   hit={hit}
                   service={service}
                   onSelect={() => {
-                    /* Alberta corps go straight to the enriched profile page —
-                       it owns the CTA + shows live status + history, no reason
-                       to duplicate the mini form. Other provinces still get
-                       the inline mini-form flow. */
-                    if (hit.provinceKey === "ab" && hit.registryId) {
+                    /* Alberta annual returns go to the enriched profile page —
+                       its main button IS the annual return, with live status
+                       and history. Every other service orders right here: a
+                       visitor who clicked "Order Profile Report" must not land
+                       on a page selling an annual return. */
+                    if (service === "annual-return" && hit.provinceKey === "ab" && hit.registryId) {
                       window.location.href = `/corporation/${hit.registryId}?src=article-${srcTag}`;
                       return;
                     }
+                    setActiveService(service);
                     setPick(hit);
                   }}
+                  extra={
+                    (thirdParty || (hit.provinceKey === "ab" && hit.registryId && service !== "annual-return")) ? (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.5rem", paddingTop: "0.5rem", borderTop: "1px dashed var(--border)" }}>
+                        {thirdParty && service !== "good-standing" && (
+                          <button
+                            type="button"
+                            onClick={() => { setActiveService("good-standing"); setPick(hit); }}
+                            style={secondaryBtn}
+                          >
+                            Certificate of Good Standing · {fmtPrice("good-standing", 10900)}
+                          </button>
+                        )}
+                        {thirdParty && (
+                          <a
+                            href={`/order/corporate-documents?${new URLSearchParams({
+                              q: hit.name, jurisdiction: hit.provinceKey, registryId: hit.registryId || "", src: srcTag,
+                            }).toString()}`}
+                            style={secondaryBtn}
+                          >
+                            Copies of documents · from {fmtPrice("corporate-document-single", 8900)}
+                          </a>
+                        )}
+                        {hit.provinceKey === "ab" && hit.registryId && service !== "annual-return" && (
+                          <a
+                            href={`/corporation/${hit.registryId}?src=${srcTag}&intent=${service}`}
+                            style={{ ...secondaryBtn, border: "none", background: "none", textDecoration: "underline", color: "var(--text-muted)" }}
+                          >
+                            View free company details
+                          </a>
+                        )}
+                      </div>
+                    ) : null
+                  }
                 />
               ))}
             </div>
@@ -554,10 +613,12 @@ export default function InlineLookupOrder({
                 </div>
               </div>
             </div>
-            {/* Alberta corps skip this panel entirely — the ResultCard onSelect
-                redirects them to /corporation/[slug] directly. So this panel
-                only renders for non-Alberta jurisdictions where the mini-form
-                order flow is still the fastest path. */}
+            <div style={{ fontSize: "0.74rem", color: "var(--text-muted)", marginTop: "0.45rem" }}>
+              Ordering: <strong style={{ color: "var(--text)" }}>
+                {activeService === "good-standing" ? "Certificate of Good Standing"
+                  : activeService === "annual-return" ? "Annual return filing" : "Corporate Profile Report"}
+              </strong>
+            </div>
             <button
               type="button"
               onClick={() => setPick(null)}
@@ -567,13 +628,13 @@ export default function InlineLookupOrder({
             </button>
           </div>
 
-          {service === "profile-report" && pick.status !== "Active" && (
+          {activeService === "profile-report" && pick.status !== "Active" && (
             <div style={{ padding: "0.6rem 0.85rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.78rem", borderRadius: "0.4rem", marginBottom: "0.75rem" }}>
               Heads-up — this corporation is not currently active. The profile report will reflect its actual registry status.
             </div>
           )}
 
-          {service === "good-standing" && pick.status !== "Active" && (
+          {activeService === "good-standing" && pick.status !== "Active" && (
             <div style={{ padding: "0.6rem 0.85rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.78rem", borderRadius: "0.4rem", marginBottom: "0.75rem" }}>
               Heads-up — this corporation is not currently active. The registry generally will not issue a Certificate of Good Standing for an inactive corporation. Consider filing missing annual returns first, or order a Corporate Profile Report instead to see the current status.
             </div>
@@ -612,7 +673,7 @@ export default function InlineLookupOrder({
               stays on the dedicated /order/annual-return page); a
               freeform note is enough for the fulfillment team to know
               they need to follow up before filing. */}
-          {service === "annual-return" && (
+          {activeService === "annual-return" && (
             <div style={{ marginTop: "0.5rem", padding: "0.55rem 0.75rem", border: "1px solid var(--border)", borderRadius: "0.4rem", background: "var(--bg-deep)" }}>
               <label style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", cursor: "pointer" }}>
                 <input
@@ -650,7 +711,7 @@ export default function InlineLookupOrder({
           )}
 
           <RegistryAccessField
-            service={service}
+            service={activeService}
             provinceKey={pick?.provinceKey ?? provinceKey}
             jurisdictionLabel={pick?.jurisdiction}
             value={registryAccess}
@@ -687,11 +748,11 @@ export default function InlineLookupOrder({
             {paying ? (
               <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</>
             ) : (
-              <>{copy.buttonLabel} <ArrowRight size={16} /></>
+              <>{payLabel} <ArrowRight size={16} /></>
             )}
           </button>
           <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
-            Card processed securely by Stripe. {copy.ctaSubline} {REGISTRY_CLOSURE_NOTE}
+            Card processed securely by Stripe. {HEADLINES[activeService].ctaSubline} {REGISTRY_CLOSURE_NOTE}
           </p>
         </>
       )}
@@ -705,10 +766,12 @@ function ResultCard({
   hit,
   service,
   onSelect,
+  extra,
 }: {
   hit:     RegistryHit;
   service: Service;
   onSelect: () => void;
+  extra?:  React.ReactNode;
 }) {
   const isAnnualReturn = service === "annual-return";
   const deadline = isAnnualReturn
@@ -799,9 +862,23 @@ function ResultCard({
           {buttonLabel} <ArrowRight size={13} />
         </button>
       </div>
+      {extra}
     </div>
   );
 }
+
+const secondaryBtn: React.CSSProperties = {
+  padding:        "0.35rem 0.65rem",
+  background:     "var(--bg)",
+  color:          "var(--text)",
+  border:         "1px solid var(--border)",
+  borderRadius:   "0.4rem",
+  fontSize:       "0.74rem",
+  fontWeight:     600,
+  cursor:         "pointer",
+  textDecoration: "none",
+  whiteSpace:     "nowrap",
+};
 
 function deadlineColorText(status: DueStatus): string {
   if (status === "overdue")  return "#B91C1C";

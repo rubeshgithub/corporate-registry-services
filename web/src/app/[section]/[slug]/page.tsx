@@ -47,7 +47,7 @@ const CUSTOM_ISLANDS: Record<
       subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
   ),
   "guides/how-to-verify-a-canadian-company": ({ slug, prices }) => (
-    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
       titleOverride="Verify any Canadian corporation"
       subOverride="Search by company name, corporation number, or Business Number to confirm it exists and pull its registry record." />
@@ -77,13 +77,13 @@ const CUSTOM_ISLANDS: Record<
      "how do I search a Canadian business registry" could read about searching
      but not search — every one of those impressions was a dead end. */
   "articles/how-to-search-canadian-business-registries": ({ slug, prices }) => (
-    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
       titleOverride="Search Canadian business registries"
       subOverride="Search by company name, corporation number, or Business Number across every registry we cover — and order the official profile report if you need the record." />
   ),
   "guides/corporate-search-for-due-diligence": ({ slug, prices }) => (
-    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
       titleOverride="Search the corporation you're diligencing"
       subOverride="Search by company name, corporation number, or Business Number to pull its registry record and order a profile report." />

@@ -22,7 +22,7 @@ import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
  *   - CTA sits ABOVE the details so a decided visitor doesn't scroll past it.
  */
 
-export default function ProfileView({ data, prices, inboundSrc }: { data: SerializedProfileData; prices?: Record<string, number>; inboundSrc?: string }) {
+export default function ProfileView({ data, prices, inboundSrc, intent }: { data: SerializedProfileData; prices?: Record<string, number>; inboundSrc?: string; intent?: string }) {
   const { company, events, live } = data;
 
   const livePresent = !!live?.found;
@@ -30,7 +30,7 @@ export default function ProfileView({ data, prices, inboundSrc }: { data: Serial
   const dbStatus    = company.status.derived;
   const currentStatus = livePresent ? liveStatus : dbStatus;
 
-  const cta = ctaConfig(liveStatus, dbStatus, company, prices ?? DEFAULT_PRICES, inboundSrc);
+  const cta = promoteIntent(ctaConfig(liveStatus, dbStatus, company, prices ?? DEFAULT_PRICES, inboundSrc), intent);
 
   /* Compliance signal detection — CBR sometimes puts actionable text in
      status.Notes that isn't captured in status.State. E.g., "Active -
@@ -416,6 +416,20 @@ function ProminentCta({ cta }: { cta: CtaConfig }) {
 }
 
 /* ═══════════════════════════ CTA config ═══════════════════════════ */
+
+/** Put the product the visitor came for in the main button, when the card
+    offers it; the previous main action drops to the first secondary. */
+function promoteIntent(cta: CtaConfig, intent?: string): CtaConfig {
+  if (!intent || !cta.primary || cta.primary.href.includes(`/order/${intent}?`)) return cta;
+  const i = cta.secondary.findIndex((s) => s.href.includes(`/order/${intent}?`));
+  if (i < 0) return cta;
+  const wanted = cta.secondary[i];
+  return {
+    ...cta,
+    primary:   wanted,
+    secondary: [cta.primary, ...cta.secondary.filter((_, k) => k !== i)],
+  };
+}
 
 type CtaConfig = {
   accentColor: string;
