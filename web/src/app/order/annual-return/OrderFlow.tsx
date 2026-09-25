@@ -585,14 +585,6 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
       {/* What changed? */}
       <ChangesSection years={years} changes={changes} setChanges={setChanges} error={changeErr} />
 
-      <RegistryAccessField
-        service={"annual-return"}
-        provinceKey={pick?.provinceKey}
-        jurisdictionLabel={pick?.jurisdiction}
-        value={registryAccess}
-        onChange={setRegistryAccess}
-      />
-
       {/* Contact */}
       <div
         style={{
@@ -633,6 +625,15 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
           </div>
         ))}
       </div>
+
+      {/* After contact, just above pay: a quiet reassurance, not a hurdle. */}
+      <RegistryAccessField
+        service={"annual-return"}
+        provinceKey={pick?.provinceKey}
+        jurisdictionLabel={pick?.jurisdiction}
+        value={registryAccess}
+        onChange={setRegistryAccess}
+      />
 
       {payErr && (
         <div style={{ padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.85rem", marginBottom: "1rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>

@@ -1,6 +1,7 @@
 "use client";
 
-import { KeyRound, Check, Info } from "lucide-react";
+import { useState } from "react";
+import { KeyRound, Check, Info, ChevronDown } from "lucide-react";
 import {
   registryAccessFor,
   needsRegistryAccess,
@@ -27,6 +28,10 @@ import {
  *  - A third option for "I can't reach the registered address either",
  *    because every registry mails the replacement to the corporation's own
  *    address. Surfacing it here beats discovering it three emails later.
+ *  - Collapsed to one quiet line by default (Sep 2026). The old full panel
+ *    opened with "<Province> needs your <credential>", which read as a
+ *    requirement at the exact moment of paying even though nothing was
+ *    required. The options only open for someone who has the code.
  */
 
 export default function RegistryAccessField({
@@ -42,6 +47,7 @@ export default function RegistryAccessField({
   value:              RegistryAccessState;
   onChange:           (next: RegistryAccessState) => void;
 }) {
+  const [expanded, setExpanded] = useState(value.status !== "retrieve" || !!value.code);
   if (!needsRegistryAccess(service, provinceKey)) return null;
   const access = registryAccessFor(provinceKey);
   if (!access) return null;
@@ -62,6 +68,31 @@ export default function RegistryAccessField({
     width: "100%",
   });
 
+  if (!expanded) {
+    return (
+      <div
+        style={{
+          display: "flex", gap: "0.55rem", alignItems: "flex-start",
+          padding: "0.7rem 0.9rem", marginBottom: "1.25rem",
+          border: "1px dashed var(--border)", borderRadius: "0.5rem",
+          fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.5,
+        }}
+      >
+        <Check size={15} style={{ color: "var(--secondary)", flexShrink: 0, marginTop: "0.15rem" }} />
+        <span>
+          We&rsquo;ll get the {access.term} from the registry for you — you don&rsquo;t need it to order.{" "}
+          <button
+            type="button"
+            onClick={() => { set({ status: "have" }); setExpanded(true); }}
+            style={{ background: "none", border: "none", padding: 0, font: "inherit", color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "2px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.15rem" }}
+          >
+            Have it handy? Add it (optional) <ChevronDown size={13} />
+          </button>
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -77,7 +108,7 @@ export default function RegistryAccessField({
         <KeyRound size={17} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.15rem" }} />
         <div>
           <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>
-            {where} needs your {access.term}
+            Your {where} {access.term} <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>(optional)</span>
           </div>
           <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: "0.25rem 0 0", lineHeight: 1.55 }}>
             {access.whatItIs}
