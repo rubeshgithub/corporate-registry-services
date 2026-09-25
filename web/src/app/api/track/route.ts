@@ -119,8 +119,19 @@ export async function POST(req: Request) {
             path:      { $regex: "^/order/" },
             ts:        { $gte: oneHourAgo },
           });
-          if (prior <= 1) {
-            void sendAlertSms(`CRS: Visitor on ${path} - session ${sid.slice(0, 6)}`);
+          const ua = trunc(body.userAgent, 200);
+          /* Crawlers and headless browsers run the tracker too — each used
+             to text the owner as a "visitor". */
+          if (prior <= 1 && !/bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget/i.test(ua)) {
+            /* Say where they came from, so the text is actionable: the page
+               they were on just before, else the external referrer. */
+            const prev = await pv.find({ sessionId: sid, path: { $ne: path } }).sort({ ts: -1 }).limit(1).toArray();
+            let from = prev[0]?.path ?? "";
+            if (!from) {
+              try { from = body.referrer ? new URL(body.referrer).host.replace(/^www\./, "") : "direct"; } catch { from = "direct"; }
+            }
+            const dev = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
+            void sendAlertSms(`CRS: Visitor on ${path} from ${from} (${dev}) - session ${sid.slice(0, 6)}`.slice(0, 155));
           }
         } catch { /* SMS is fire-and-forget; failure never affects the pageview */ }
       })();
