@@ -75,7 +75,7 @@ export async function GET(req: Request) {
     const ua = first?.userAgent ?? "";
 
     const events = [
-      ...v.map((r)  => ({ ts: r.ts.getTime(), kind: "view",   detail: r.path + (r.referrer && r === first ? `  ← ${host(r.referrer)}` : "") })),
+      ...v.map((r)  => ({ ts: r.ts.getTime(), kind: "view",   detail: r.path + (r.src ? ` [src ${r.src}]` : "") + (r.referrer && r === first ? `  ← ${host(r.referrer)}` : "") })),
       ...c.map((r)  => ({ ts: r.ts.getTime(), kind: "click",  detail: `${r.label || "(no label)"} → ${r.target}`.slice(0, 160) })),
       ...sr.map((r) => ({ ts: r.ts.getTime(), kind: "search", detail: `"${r.query}" [${r.province}] → ${r.resultCount} result${r.resultCount === 1 ? "" : "s"} on ${r.path}` })),
     ].sort((a, b) => a.ts - b.ts).map((e) => ({ at: elapsed(e.ts - t0), kind: e.kind, detail: e.detail }));
@@ -98,8 +98,9 @@ export async function GET(req: Request) {
       lastTouch:   x.updatedAt,
     }));
 
-    const dev = device(ua);
+    const dev = v.some((r) => r.admin) ? "you (admin)" : device(ua);
     const verdict =
+      dev === "you (admin)"                                          ? "you — logged in to admin" :
       dev === "bot"                                                  ? "bot / crawler (fired the SMS, not a person)" :
       paid                                                           ? "paid" :
       draft.some((x) => x.typedEmail || x.typedPhone || x.typedName) ? "typed contact details, did not pay" :
@@ -118,6 +119,7 @@ export async function GET(req: Request) {
         referrer:  host(first?.referrer ?? ""),
         utm:       [first?.utmSource, first?.utmMedium, first?.utmCampaign].filter(Boolean).join(" / ") || null,
         adClick:   first?.gclid ? "google-ads" : first?.msclkid ? "bing-ads" : first?.fbclid ? "facebook" : null,
+        src:       first?.src ?? null,
       },
       cameToOrderFrom: cameFrom,
       orderPageViews:  orderViews.length,

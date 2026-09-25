@@ -41,6 +41,8 @@ export type PageviewDoc = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  src?:        string;       // our ?src= tag on the landing URL
+  admin?:      boolean;      // viewed with the admin cookie present (the owner)
   fbclid?:    string;       // Facebook / Instagram click ID
   gclid?:     string;       // Google Ads click ID
   msclkid?:   string;       // Microsoft (Bing) Ads click ID

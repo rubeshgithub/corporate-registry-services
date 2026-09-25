@@ -80,6 +80,10 @@ export default function Analytics() {
       fbclid:       search.get("fbclid")       ?? undefined,
       gclid:        search.get("gclid")        ?? undefined,
       msclkid:      search.get("msclkid")      ?? undefined,
+      /* Our own attribution tag on order links (article-…, email-snapshot…,
+         corp-search). Non-personal; tells the journey report which button
+         or email a direct landing came from. */
+      src:          search.get("src")          ?? undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, search.toString()]);

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 import { pageviews, clicks, searches, ensureIndexes } from "@/lib/mongo";
 import { sendAlertSms } from "@/lib/sms-infobip";
 
@@ -32,6 +33,7 @@ type PageviewBody = {
   fbclid?:     string;   // Facebook / Instagram click ID
   gclid?:      string;   // Google Ads click ID
   msclkid?:    string;   // Microsoft (Bing) Ads click ID
+  src?:        string;   // our own ?src= attribution tag on order links
 };
 
 type ClickBody = {
@@ -90,6 +92,7 @@ export async function POST(req: Request) {
   await ensureIndexes();
 
   if (body.type === "pageview") {
+    const isAdminBrowser = !!req.headers.get("cookie")?.includes(`${ADMIN_COOKIE_NAME}=`);
     const pv   = await pageviews();
     const path = normalizePath(trunc(body.path));
     const sid  = trunc(body.sessionId, 64);
@@ -104,6 +107,10 @@ export async function POST(req: Request) {
       fbclid:      trunc(body.fbclid,     200),
       gclid:       trunc(body.gclid,      200),
       msclkid:     trunc(body.msclkid,    200),
+      src:         trunc(body.src, 100).replace(/[^a-z0-9._-]/gi, "") || undefined,
+      /* The owner browsing his own site while logged in to admin — marked so
+         the journey report can set those sessions aside and they don't text. */
+      admin:       isAdminBrowser || undefined,
       ts:          new Date(),
     });
     /* Order-page arrival alert. Fires once per session per order path
@@ -122,7 +129,7 @@ export async function POST(req: Request) {
           const ua = trunc(body.userAgent, 200);
           /* Crawlers and headless browsers run the tracker too — each used
              to text the owner as a "visitor". */
-          if (prior <= 1 && !/bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget/i.test(ua)) {
+          if (prior <= 1 && !isAdminBrowser && !/bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget/i.test(ua)) {
             /* Say where they came from, so the text is actionable: the page
                they were on just before, else the external referrer. */
             const prev = await pv.find({ sessionId: sid, path: { $ne: path } }).sort({ ts: -1 }).limit(1).toArray();
