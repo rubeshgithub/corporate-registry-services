@@ -556,43 +556,43 @@ export default function InlineLookupOrder({
                     setActiveService(service);
                     setPick(hit);
                   }}
-                  extra={
-                    /* Every card, every province: the optional snapshot. Good
-                       standing + documents only on third-party pages. */
-                    (
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.5rem", paddingTop: "0.5rem", borderTop: "1px dashed var(--border)" }}>
-                        {thirdParty && service !== "good-standing" && (
-                          <button
-                            type="button"
-                            onClick={() => { setActiveService("good-standing"); setPick(hit); }}
-                            style={secondaryBtn}
-                          >
-                            Certificate of Good Standing · {fmtPrice("good-standing", 10900)}
-                          </button>
-                        )}
-                        {thirdParty && (
-                          <a
-                            href={`/order/corporate-documents?${new URLSearchParams({
-                              q: hit.name, jurisdiction: hit.provinceKey, registryId: hit.registryId || "", src: srcTag,
-                            }).toString()}`}
-                            style={secondaryBtn}
-                          >
-                            Copies of documents · from {fmtPrice("corporate-document-single", 8900)}
-                          </a>
-                        )}
-                        <div style={{ flexBasis: "100%" }}>
-                          <SnapshotCapture
-                            registryId={hit.registryId}
-                            provinceKey={hit.provinceKey}
-                            name={hit.name}
-                            src={srcTag}
-                            detailsHref={hit.provinceKey === "ab" && hit.registryId && service !== "annual-return"
-                              ? `/corporation/${hit.registryId}?src=${srcTag}&intent=${service}`
-                              : undefined}
-                          />
-                        </div>
-                      </div>
-                    )
+                  offers={thirdParty ? [
+                    {
+                      key:     "profile-report",
+                      title:   "Profile report",
+                      price:   fmtPrice("profile-report", priceCents ?? 6900),
+                      blurb:   "Directors, registered office and filing history. PDF within one business hour.",
+                      primary: true,
+                      onClick: () => { setActiveService("profile-report"); setPick(hit); },
+                    },
+                    {
+                      key:     "good-standing",
+                      title:   "Certificate of good standing",
+                      price:   fmtPrice("good-standing", 10900),
+                      blurb:   "Government proof the corporation is active, for banks, lenders and contracts.",
+                      onClick: () => { setActiveService("good-standing"); setPick(hit); },
+                    },
+                    {
+                      key:     "documents",
+                      title:   "Copies of documents",
+                      price:   `from ${fmtPrice("corporate-document-single", 8900)}`,
+                      blurb:   "Articles, certificate of incorporation, annual returns. Priced per document.",
+                      href:    `/order/corporate-documents?${new URLSearchParams({
+                        q: hit.name, jurisdiction: hit.provinceKey, registryId: hit.registryId || "", src: srcTag,
+                      }).toString()}`,
+                    },
+                  ] : undefined}
+                  snapshot={
+                    <SnapshotCapture
+                      variant="strip"
+                      registryId={hit.registryId}
+                      provinceKey={hit.provinceKey}
+                      name={hit.name}
+                      src={srcTag}
+                      detailsHref={hit.provinceKey === "ab" && hit.registryId && service !== "annual-return"
+                        ? `/corporation/${hit.registryId}?src=${srcTag}&intent=${service}`
+                        : undefined}
+                    />
                   }
                 />
               ))}
@@ -783,16 +783,28 @@ export default function InlineLookupOrder({
 
 /* ─────────────────────── Enriched result card ─────────────────────── */
 
+type Offer = {
+  key:      string;
+  title:    string;
+  price:    string;
+  blurb:    string;
+  primary?: boolean;
+  onClick?: () => void;
+  href?:    string;
+};
+
 function ResultCard({
   hit,
   service,
   onSelect,
-  extra,
+  offers,
+  snapshot,
 }: {
-  hit:     RegistryHit;
-  service: Service;
-  onSelect: () => void;
-  extra?:  React.ReactNode;
+  hit:       RegistryHit;
+  service:   Service;
+  onSelect:  () => void;
+  offers?:   Offer[];
+  snapshot?: React.ReactNode;
 }) {
   const isAnnualReturn = service === "annual-return";
   const deadline = isAnnualReturn
@@ -804,41 +816,40 @@ function ResultCard({
     : null;
 
   const buttonLabel =
-    service === "annual-return"  ? "File Annual Return" :
-    service === "good-standing"  ? "Order Certificate" :
-                                   "Order Profile Report";
+    service === "annual-return"  ? "File annual return" :
+    service === "good-standing"  ? "Order certificate" :
+                                   "Order profile report";
+
+  const active = hit.status === "Active";
 
   return (
     <div
       style={{
-        background:   "var(--bg-deep)",
+        background:   "var(--card)",
         border:       `1px solid ${deadline?.status === "overdue" ? "rgba(220, 38, 38, 0.55)" : "var(--border)"}`,
-        borderRadius: "0.5rem",
-        padding:      "0.75rem 0.9rem",
-        display:      "flex",
-        flexDirection: "column",
-        gap:          "0.35rem",
+        borderRadius: "0.6rem",
+        overflow:     "hidden",
       }}
     >
-      <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", justifyContent: "space-between" }}>
-        <div style={{ minWidth: 0, flex: "1 1 auto" }}>
-          <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.92rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+      {/* The record: who the corporation is, as the registry has it. */}
+      <div style={{ padding: "0.95rem 1.05rem 0.85rem", display: "flex", gap: "0.9rem", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ minWidth: 0, flex: "1 1 16rem" }}>
+          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontWeight: 700, fontSize: "1.08rem", color: "var(--text)", lineHeight: 1.25, overflowWrap: "anywhere" }}>
             {hit.name}
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", marginTop: "0.35rem" }}>
-            <MetaPill label="Registry ID"  value={hit.registryId}     tone="teal"  />
-            <MetaPill label="Business #"   value={hit.businessNumber} tone="slate" />
-            <MetaPill label="Type"         value={hit.entityType}     tone="gold"  />
-            <MetaPill label="Jurisdiction" value={hit.jurisdiction}   tone="navy"  />
+          <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            {[hit.entityType, hit.jurisdiction].filter(Boolean).join(", ")}
           </div>
-          <div style={{ color: "var(--text-muted)", fontSize: "0.73rem", marginTop: "0.4rem" }}>
-            {incorpLabel ? `Incorporated ${incorpLabel} · ` : ""}Status: {hit.status}
-          </div>
+          <dl style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem 1.25rem", margin: "0.6rem 0 0", fontSize: "0.78rem" }}>
+            <Fact label="Registry ID"   value={hit.registryId} />
+            <Fact label="Business no."  value={hit.businessNumber} />
+            <Fact label="Incorporated"  value={incorpLabel ?? ""} />
+          </dl>
           {deadline && deadline.status !== "unknown" && (
             <div
               style={{
-                fontSize:    "0.78rem",
-                marginTop:   "0.35rem",
+                fontSize:    "0.8rem",
+                marginTop:   "0.5rem",
                 display:     "flex",
                 alignItems:  "center",
                 gap:         "0.45rem",
@@ -851,55 +862,121 @@ function ResultCard({
             </div>
           )}
           {deadline?.explanation && deadline.status !== "unknown" && (
-            <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
               {deadline.explanation}
             </div>
           )}
           {deadline && deadline.status === "unknown" && (
-            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.35rem", fontStyle: "italic" }}>
+            <div style={{ fontSize: "0.74rem", color: "var(--text-muted)", marginTop: "0.45rem" }}>
               {deadline.label}
             </div>
           )}
         </div>
-        <button
-          onClick={onSelect}
-          style={{
-            flexShrink:   0,
-            padding:      "0.5rem 0.85rem",
-            background:   "var(--primary)",
-            color:        "#FFFFFF",
-            fontWeight:   700,
-            fontSize:     "0.78rem",
-            border:       "none",
-            borderRadius: "0.4rem",
-            cursor:       "pointer",
-            display:      "inline-flex",
-            alignItems:   "center",
-            gap:          "0.3rem",
-            whiteSpace:   "nowrap",
-            alignSelf:    "flex-start",
-          }}
-        >
-          {buttonLabel} <ArrowRight size={13} />
-        </button>
+
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.6rem", flexShrink: 0 }}>
+          <span
+            style={{
+              display: "inline-flex", alignItems: "center", gap: "0.35rem",
+              padding: "0.2rem 0.6rem", borderRadius: "9999px",
+              fontSize: "0.74rem", fontWeight: 700,
+              color:      active ? "#15803D" : "#B45309",
+              background: active ? "rgba(22,163,74,0.10)" : "rgba(180,83,9,0.10)",
+            }}
+          >
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: active ? "#16A34A" : "#D97706" }} />
+            {hit.status}{!active && hit.statusNotes ? ` (${hit.statusNotes})` : ""}
+          </span>
+          {!offers && (
+            <button type="button" onClick={onSelect} className="crs-card-cta">
+              {buttonLabel} <ArrowRight size={14} />
+            </button>
+          )}
+        </div>
       </div>
-      {extra}
+
+      {/* What you can get: one joined row, the profile report leading. */}
+      {offers && (
+        <div style={{ padding: "0 1.05rem 1rem" }}>
+          <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)", margin: "0 0 0.5rem" }}>
+            Official records for this corporation
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(11.5rem, 1fr))",
+              gap: "1px",
+              background: "var(--border)",
+              border: "1px solid var(--border)",
+              borderRadius: "0.55rem",
+              overflow: "hidden",
+            }}
+          >
+            {offers.map((o) => {
+              const inner = (
+                <>
+                  <span style={{ display: "block", fontSize: "0.84rem", fontWeight: 700, lineHeight: 1.3 }}>{o.title}</span>
+                  <span style={{ display: "block", fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.35rem", fontWeight: 700, lineHeight: 1.15, margin: "0.3rem 0 0.25rem", color: o.primary ? "var(--gold)" : "var(--text)" }}>
+                    {o.price}
+                  </span>
+                  <span style={{ display: "block", fontSize: "0.74rem", lineHeight: 1.45, opacity: o.primary ? 0.85 : 1, color: o.primary ? "#FFFFFF" : "var(--text-muted)" }}>
+                    {o.blurb}
+                  </span>
+                  <span style={{ display: "inline-block", marginTop: "0.6rem", fontSize: "0.78rem", fontWeight: 700, color: o.primary ? "var(--gold)" : "var(--primary)", borderBottom: `1.5px solid ${o.primary ? "var(--gold)" : "var(--primary)"}` }}>
+                    {o.href ? "Choose documents" : "Order now"}
+                  </span>
+                </>
+              );
+              const cls = `crs-offer${o.primary ? " crs-offer--primary" : ""}`;
+              return o.href ? (
+                <a key={o.key} href={o.href} className={cls}>{inner}</a>
+              ) : (
+                <button key={o.key} type="button" onClick={o.onClick} className={cls}>{inner}</button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {snapshot && (
+        <div style={{ background: "var(--bg-deep)", borderTop: "1px solid var(--border)", padding: "0.8rem 1.05rem" }}>
+          {snapshot}
+        </div>
+      )}
+
+      <style>{`
+        .crs-offer {
+          display: block; text-align: left; padding: 0.85rem 0.95rem 0.9rem;
+          background: var(--card); color: var(--text); border: none; margin: 0;
+          font: inherit; cursor: pointer; text-decoration: none;
+          transition: background-color 0.15s ease;
+        }
+        .crs-offer:hover { background: var(--bg-deep); }
+        .crs-offer--primary { background: var(--primary); color: #FFFFFF; }
+        .crs-offer--primary:hover { background: var(--primary); filter: brightness(1.12); }
+        .crs-offer:focus-visible, .crs-card-cta:focus-visible {
+          outline: 2px solid var(--gold); outline-offset: -2px;
+        }
+        .crs-card-cta {
+          display: inline-flex; align-items: center; gap: 0.35rem;
+          padding: 0.6rem 1rem; border: none; border-radius: 0.45rem;
+          background: var(--primary); color: #FFFFFF; font-weight: 700; font-size: 0.86rem;
+          cursor: pointer; white-space: nowrap; font-family: inherit;
+        }
+        @media (prefers-reduced-motion: reduce) { .crs-offer { transition: none; } }
+      `}</style>
     </div>
   );
 }
 
-const secondaryBtn: React.CSSProperties = {
-  padding:        "0.35rem 0.65rem",
-  background:     "var(--bg)",
-  color:          "var(--text)",
-  border:         "1px solid var(--border)",
-  borderRadius:   "0.4rem",
-  fontSize:       "0.74rem",
-  fontWeight:     600,
-  cursor:         "pointer",
-  textDecoration: "none",
-  whiteSpace:     "nowrap",
-};
+function Fact({ label, value }: { label: string; value: string }) {
+  if (!value) return null;
+  return (
+    <div style={{ display: "flex", gap: "0.35rem", alignItems: "baseline" }}>
+      <dt style={{ color: "var(--text-muted)" }}>{label}</dt>
+      <dd style={{ margin: 0, color: "var(--text)", fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{value}</dd>
+    </div>
+  );
+}
 
 function deadlineColorText(status: DueStatus): string {
   if (status === "overdue")  return "#B91C1C";
