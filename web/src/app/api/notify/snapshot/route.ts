@@ -95,8 +95,12 @@ export async function POST(req: Request) {
   if (!EMAIL_RE.test(email))       return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
   if (!registryId && !nameIn)      return NextResponse.json({ error: "Which corporation?" }, { status: 400 });
 
-  /* Same success shape for suppressed addresses — no signal to bots. */
-  if (await isSuppressed(email)) return NextResponse.json({ ok: true });
+  /* An unsubscribed address that asks for a snapshot still gets THAT
+     snapshot — it is a reply to their own request (CASL exempts responses
+     to a request), and silently dropping it made the form claim success
+     while nothing arrived. The suppression itself is left in place, so no
+     outreach or follow-up marketing goes to them. */
+  const suppressed = await isSuppressed(email);
 
   await ensureSearchLeadIndexes();
   const col  = await searchLeads();
@@ -135,9 +139,9 @@ export async function POST(req: Request) {
     registryId:   hit.registryId || undefined,
     jurisdiction: hit.jurisdiction,
     src:          src || undefined,
-    marketingConsent: consent,
-    consentAt:        consent ? now : undefined,
-    consentText:      consent ? SNAPSHOT_CONSENT_TEXT : undefined,
+    marketingConsent: consent && !suppressed,
+    consentAt:        consent && !suppressed ? now : undefined,
+    consentText:      consent && !suppressed ? SNAPSHOT_CONSENT_TEXT : undefined,
   });
 
   const sent = await sendSnapshotEmail(email, hit, src);

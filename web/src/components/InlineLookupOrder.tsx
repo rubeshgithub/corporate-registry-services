@@ -536,8 +536,17 @@ export default function InlineLookupOrder({
             </p>
           )}
 
+          {results.length > 1 && (
+            <div style={{ marginTop: "1rem", fontSize: "0.82rem", color: "var(--text-muted)" }}>
+              <strong style={{ color: "var(--text)" }}>
+                {results.length > 3 ? `Top 3 of ${results.length} matches` : `${results.length} corporations match`}
+              </strong>{" "}
+              for &ldquo;{lastFiredRef.current}&rdquo;. Check the name and registry details to pick the right one.
+            </div>
+          )}
+
           {results.length > 0 && (
-            <div style={{ marginTop: "0.85rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div style={{ marginTop: results.length > 1 ? "0.6rem" : "0.85rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {results.slice(0, 3).map((hit, i) => (
                 <ResultCard
                   key={`${hit.provinceKey}-${hit.registryId}-${i}`}
@@ -829,6 +838,8 @@ function ResultCard({
         border:       `1px solid ${deadline?.status === "overdue" ? "rgba(220, 38, 38, 0.55)" : "var(--border)"}`,
         borderRadius: "0.6rem",
         overflow:     "hidden",
+        boxShadow:    "0 1px 2px rgba(0,61,91,0.06), 0 6px 18px rgba(0,61,91,0.07)",
+        borderTop:    "3px solid var(--primary)",
       }}
     >
       {/* The record: who the corporation is, as the registry has it. */}
