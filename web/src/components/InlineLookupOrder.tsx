@@ -8,6 +8,7 @@ import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import { type RegistryAccessState } from "@/lib/registry-access";
+import { JURISDICTIONS } from "@/lib/service-config";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -67,6 +68,48 @@ const HEADLINES: Record<Service, { eyebrow: string; title: string; sub: string; 
   },
 };
 
+/* ── Federal fallback on provincial pages ────────────────────────────────
+   A visitor on a provincial page who finds nothing is often not mistyping —
+   they have a FEDERAL corporation and assume it belongs to the province it
+   operates in (a Vancouver CBCA company on the BC annual-report page). When
+   the provincial search comes back empty we re-check Corporations Canada
+   only, and show a hit only if it is plainly the company they typed: every
+   significant word of the query in the name, or — for a number query — the
+   number itself. A widened search that returns lookalikes reads as an answer
+   and is not (see 7773621), so near-misses stay out. */
+const FEDERAL_NOTE: Record<Service, string> = {
+  "annual-return":  "Federally incorporated companies file their annual return with Corporations Canada, not the provincial registry — pick it below and we'll file the federal return instead.",
+  "profile-report": "A federal corporation's profile report comes from Corporations Canada — pick it below and we'll order that one instead.",
+  "good-standing":  "A federal corporation's certificate is issued by Corporations Canada — pick it below and we'll order that one instead.",
+};
+
+const NAME_NOISE = new Set([
+  "inc", "incorporated", "ltd", "limited", "corp", "corporation", "co", "company",
+  "ltee", "limitee", "the", "and", "et",
+]);
+
+function nameTokens(s: string): string[] {
+  return s
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(" ")
+    .filter((t) => t && !NAME_NOISE.has(t));
+}
+
+/** True only when the federal hit is the corporation the visitor typed. */
+function isFederalMatch(q: string, hit: RegistryHit): boolean {
+  const numbers = q.match(/\d{6,}/g);
+  if (numbers) {
+    const hay = [hit.registryId, hit.businessNumber, hit.name].map((v) => (v ?? "").replace(/\s+/g, ""));
+    return numbers.some((n) => hay.some((h) => h.includes(n)));
+  }
+  const want = nameTokens(q);
+  if (!want.length) return false;
+  const have = new Set(nameTokens(hit.name));
+  return want.every((t) => have.has(t));
+}
+
 export type InlineUrgency = {
   headline: string;
   body:     string;
@@ -112,6 +155,9 @@ export default function InlineLookupOrder({
   const [zeroHelpFor, setZeroHelpFor] = useState<string | null>(null);
   /* Registry name when this jurisdiction cannot be searched at all. */
   const [noLiveRegistry, setNoLiveRegistry] = useState<string | null>(null);
+  /* The results on screen came from the federal fallback, not this page's
+     province — drives the "is this your company?" notice. */
+  const [federalFallback, setFederalFallback] = useState(false);
 
   const [pick, setPick]           = useState<RegistryHit | null>(null);
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
@@ -171,9 +217,28 @@ export default function InlineLookupOrder({
       const deep = opts?.silent ? "" : "&deep=1";
       const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}${deep}`);
       const data = await res.json();
-      const hits: RegistryHit[] = data.results ?? [];
-      setResults(hits);
+      let hits: RegistryHit[] = data.results ?? [];
       trackSearch(q, prov, data.total ?? hits.length);
+
+      /* Provincial page, explicit Find, a real empty answer (not a registry
+         we couldn't reach, not one the server already widened to all of
+         Canada — that widening includes federal) → check Corporations Canada. */
+      let fellBack = false;
+      if (
+        !hits.length && !opts?.silent &&
+        provinceKey && provinceKey !== "federal" &&
+        !data?.noLiveSearch && !data?.error && !data?.deferred && !data?.peiSkipped
+      ) {
+        try {
+          const fres  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=federal&deep=1`);
+          const fdata = await fres.json();
+          const fhits = ((fdata.results ?? []) as RegistryHit[])
+            .filter((h) => h.provinceKey === "federal" && isFederalMatch(q, h));
+          if (fhits.length) { hits = fhits; fellBack = true; }
+        } catch { /* the fallback is a bonus — the zero-result path below still runs */ }
+      }
+      setResults(hits);
+      setFederalFallback(fellBack);
 
       /* This jurisdiction has no searchable index of its own (PEI, NL, NB,
          NWT, Yukon, Nunavut), so the server widened the search to all of
@@ -213,6 +278,7 @@ export default function InlineLookupOrder({
         setSearchErr("Search is temporarily unavailable. Please try again.");
       }
       setResults([]);
+      setFederalFallback(false);
       trackSearch(q, provinceKey ?? "all", 0);
     } finally {
       setSearching(false);
@@ -233,6 +299,7 @@ export default function InlineLookupOrder({
       setResults([]);
       setSearchErr("");
       setZeroHelpFor(null);
+      setFederalFallback(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pick]);
@@ -242,6 +309,13 @@ export default function InlineLookupOrder({
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     !!contact.phone.trim();
+
+  /* Orders that came through the federal fallback are tagged so the admin
+     dashboard can tell whether this path earns its keep. */
+  const orderSrc =
+    pick?.provinceKey === "federal" && provinceKey && provinceKey !== "federal"
+      ? `${srcTag}-federal-fallback`
+      : srcTag;
 
   const submit = async () => {
     if (!pick || !canPay) return;
@@ -270,13 +344,13 @@ export default function InlineLookupOrder({
               },
               contact,
               registryAccess,
-              src: srcTag,
+              src: orderSrc,
             }
           : {
               service, // "profile-report" | "good-standing"
               hit:     pick,
               contact,
-              src:     srcTag,
+              src:     orderSrc,
             };
       const res = await fetch(endpoint, {
         method:  "POST",
@@ -406,6 +480,28 @@ export default function InlineLookupOrder({
                 query={zeroHelpFor}
                 province={provinceKey ?? "all"}
               />
+            </div>
+          )}
+
+          {federalFallback && results.length > 0 && (
+            <div
+              style={{
+                marginTop:    "0.85rem",
+                padding:      "0.75rem 0.9rem",
+                border:       "1px solid var(--gold)",
+                borderRadius: "0.5rem",
+                background:   "var(--bg-deep)",
+                fontSize:     "0.84rem",
+                lineHeight:   1.55,
+                color:        "var(--text)",
+              }}
+            >
+              <strong>
+                No {JURISDICTIONS.find((j) => j.key === provinceKey)?.label ?? "provincial"} corporation matched
+                {" "}&mdash; but we found {results.length > 1 ? "federal corporations" : "a federal corporation"} with
+                {" "}this name. Is {results.length > 1 ? "one of these" : "this"} your company?
+              </strong>{" "}
+              <span style={{ color: "var(--text-muted)" }}>{FEDERAL_NOTE[service]}</span>
             </div>
           )}
 
