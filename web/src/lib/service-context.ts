@@ -41,7 +41,13 @@ const JURISDICTION_ALIASES: Record<string, string> = {
   yukon:                     "yt",
   federal:                   "federal",
   "canada-federal":          "federal",
-  canada:                    "federal",
+  /* No bare `canada` alias. It used to map to "federal", so every national
+     page whose slug merely ends in "-canada" (corporate-profile-report-canada,
+     annual-return-filing-deadlines-canada, what-is-a-certificate-of-good-
+     standing-canada) scoped its search widget to Corporations Canada only —
+     "Saskatchewan Software Services Inc." returned 0 there while the same
+     query on /canada-corporations-search found it. "Canada" in a slug means
+     Canada-wide (province=all); federal pages all carry "federal". */
 };
 
 function jurisdictionFromSlug(slug: string): string | null {
