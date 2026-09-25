@@ -91,8 +91,20 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
-export default async function CorporationProfilePage({ params }: { params: Promise<Params> }) {
+export default async function CorporationProfilePage({
+  params,
+  searchParams,
+}: {
+  params:       Promise<Params>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const { slug } = await params;
+  /* Visitors arrive here from the inline search widgets carrying the
+     article's src tag. Without passing it through, every Alberta order that
+     started on an article was credited to "profile-<id>" and the article
+     that earned it was invisible in the admin dashboard. */
+  const rawSrc     = (await searchParams).src;
+  const inboundSrc = typeof rawSrc === "string" && /^[a-z0-9._-]{1,120}$/i.test(rawSrc) ? rawSrc : undefined;
   const data = await getProfileData(slug);
   if (!data) notFound();
 
@@ -195,7 +207,7 @@ export default async function CorporationProfilePage({ params }: { params: Promi
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
       />
       <main style={{ flex: 1, background: "var(--bg)", padding: "2rem 1.5rem" }}>
-        <ProfileView data={serialized} prices={await getPrices()} />
+        <ProfileView data={serialized} prices={await getPrices()} inboundSrc={inboundSrc} />
       </main>
       <Footer />
     </>

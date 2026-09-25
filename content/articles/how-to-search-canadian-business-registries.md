@@ -1,9 +1,9 @@
 ---
-title: "How to Search Canadian Business Registries by Name"
+title: "Canada Business Registry Search: How to Search All 14"
 h1: "How to Search Canadian Business Registries: Find Any Company in Canada"
 slug: "how-to-search-canadian-business-registries"
 section: "articles"
-description: "Canada has no single business registry — it has 14. How to find a company by name, number, or Business Number across every provincial and federal registry."
+description: "Canada has no single business registry — it has 14, and no one government search covers them all. Search every registry free here, by name or number."
 lastUpdated: "2026-09"
 ---
 

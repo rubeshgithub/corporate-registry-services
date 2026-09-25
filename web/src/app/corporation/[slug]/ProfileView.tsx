@@ -22,7 +22,7 @@ import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
  *   - CTA sits ABOVE the details so a decided visitor doesn't scroll past it.
  */
 
-export default function ProfileView({ data, prices }: { data: SerializedProfileData; prices?: Record<string, number> }) {
+export default function ProfileView({ data, prices, inboundSrc }: { data: SerializedProfileData; prices?: Record<string, number>; inboundSrc?: string }) {
   const { company, events, live } = data;
 
   const livePresent = !!live?.found;
@@ -30,7 +30,7 @@ export default function ProfileView({ data, prices }: { data: SerializedProfileD
   const dbStatus    = company.status.derived;
   const currentStatus = livePresent ? liveStatus : dbStatus;
 
-  const cta = ctaConfig(liveStatus, dbStatus, company, prices ?? DEFAULT_PRICES);
+  const cta = ctaConfig(liveStatus, dbStatus, company, prices ?? DEFAULT_PRICES, inboundSrc);
 
   /* Compliance signal detection — CBR sometimes puts actionable text in
      status.Notes that isn't captured in status.State. E.g., "Active -
@@ -64,7 +64,7 @@ export default function ProfileView({ data, prices }: { data: SerializedProfileD
               Alberta registrar note: <em>&ldquo;{complianceAlert.message}&rdquo;</em>. This typically means an annual return is outstanding — file now to avoid strike-off.
             </p>
           </div>
-          <a href={`/order/annual-return?q=${encodeURIComponent(company.name)}&jurisdiction=ab${company._id.startsWith("name:") ? "" : `&registryId=${company._id}`}&src=profile-compliance-${company._id}`} style={{
+          <a href={`/order/annual-return?q=${encodeURIComponent(company.name)}&jurisdiction=ab${company._id.startsWith("name:") ? "" : `&registryId=${company._id}`}&src=${inboundSrc ? `${inboundSrc}.profile-compliance` : `profile-compliance-${company._id}`}`} style={{
             display: "inline-flex", alignItems: "center", gap: "0.35rem",
             padding: "0.6rem 1rem",
             background: "#B45309", color: "#fff",
@@ -154,7 +154,7 @@ export default function ProfileView({ data, prices }: { data: SerializedProfileD
                     {live.statusNotes}
                   </div>
                 )}
-                <InlineLiveCta liveStatus={liveStatus} company={company} />
+                <InlineLiveCta liveStatus={liveStatus} company={company} inboundSrc={inboundSrc} />
               </div>
             )}
           </InfoCard>
@@ -425,12 +425,13 @@ type CtaConfig = {
   secondary:   Array<{ label: string; href: string }>;
 };
 
-function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProfileData["company"], prices: Record<string, number>): CtaConfig {
+function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProfileData["company"], prices: Record<string, number>, inboundSrc?: string): CtaConfig {
   /* CTA labels quote the catalogue price the server page handed down. */
   const price = (key: string) => formatCents(prices[key] ?? DEFAULT_PRICES[key]);
   const s = normalize(liveStatus || dbStatus);
   const dbNorm = normalize(dbStatus);
-  const src = `profile-${company._id}`;
+  /* Keep the article that sent the visitor; ".profile" marks the hop. */
+  const src = inboundSrc ? `${inboundSrc}.profile` : `profile-${company._id}`;
   const q = (path: string) => `${path}?q=${encodeURIComponent(company.name)}&jurisdiction=ab${company._id.startsWith("name:") ? "" : `&registryId=${company._id}`}&src=${src}`;
 
   /* Liable: highest urgency */
@@ -540,9 +541,9 @@ function LiveDot({ status, size = 8 }: { status: string; size?: number }) {
 /** Inline CTA rendered inside the Key Dates card when the live status is
  *  non-Active. Small red/amber link takes the visitor straight into the
  *  right order flow without needing to scroll back up to the main CTA card. */
-function InlineLiveCta({ liveStatus, company }: { liveStatus: string; company: SerializedProfileData["company"] }) {
+function InlineLiveCta({ liveStatus, company, inboundSrc }: { liveStatus: string; company: SerializedProfileData["company"]; inboundSrc?: string }) {
   const s = normalize(liveStatus);
-  const src = `profile-inline-${company._id}`;
+  const src = inboundSrc ? `${inboundSrc}.profile-inline` : `profile-inline-${company._id}`;
   const q = (path: string) => `${path}?q=${encodeURIComponent(company.name)}&jurisdiction=ab${company._id.startsWith("name:") ? "" : `&registryId=${company._id}`}&src=${src}`;
 
   let label = "", href = "", color = "";

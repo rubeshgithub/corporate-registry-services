@@ -1,9 +1,9 @@
 ﻿---
-title: "File Your NS Annual Return — RJSC (Joint Stock) · {{price:annual-return}} all-in"
+title: "Registry of Joint Stocks NS (RJSC): Annual Return"
 h1: "File Your Nova Scotia Annual Return (RJSC)"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
-description: "File your Nova Scotia annual return with the Registry of Joint Stock Companies (RJSC) in 1 business day. {{price:annual-return}} all-in, government fee included. Nova Scotia's 30-day anniversary deadline is one of Canada's tightest — miss it and dissolution starts."
+description: "Nova Scotia's Registry of Joint Stock Companies (RJSC) annual return, filed for you in 1 business day — {{price:annual-return}} all-in, government fee included."
 ---
 
 **30-day deadline?** [File your Nova Scotia annual return in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through the RJSC — beat one of Canada's tightest windows.

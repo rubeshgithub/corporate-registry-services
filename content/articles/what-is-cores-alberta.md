@@ -1,9 +1,9 @@
 ---
-title: "What Is CORES in Alberta? Corporate Registry Explained"
+title: "CORES Alberta: Can't Log In? How to File Without It"
 h1: "What Is CORES in Alberta?"
 slug: "what-is-cores-alberta"
 section: "articles"
-description: "CORES is Alberta's Corporate Registry system. Learn who can access it, what Levels 1–3 mean, and how to file without a CORES account — in 1 business day."
+description: "Only registry agents can log in to CORES, Alberta's corporate registry. Search your corporation free here — our certified agents file in 1 business day."
 faq:
   - q: "What does CORES stand for?"
     a: "CORES is Alberta's Corporate Registry System — the electronic platform Service Alberta uses to process all corporate filings and searches in the province, from incorporations and annual returns to amendments and dissolutions."

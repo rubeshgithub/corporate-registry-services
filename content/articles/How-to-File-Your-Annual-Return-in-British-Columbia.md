@@ -1,9 +1,9 @@
 ﻿---
-title: "File Your BC Annual Report — BC Registries · {{price:annual-return}} all-in"
-h1: "File Your BC Annual Report"
+title: "BC Annual Report: How to File, Fee & Due Date (2026)"
+h1: "How to File a BC Annual Report — and When It's Due"
 slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
-description: "File your BC Annual Report with BC Registries in minutes — {{price:annual-return}} all-in, GST included, filed within 1 business day. Skip the BCeID login and confusing forms."
+description: "File with BC Registries yourself for $43.39 — or skip the BCeID login and access code and we file it for {{price:annual-return}} all-in, within 1 business day."
 ---
 
 **Deadline coming up?** [File your BC Annual Report in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through BC Registry Services — no BCeID login, no portal navigation required.
@@ -49,7 +49,7 @@ BC Annual Reports are filed through **BC Registry Services** at [bcregistry.gov.
 3. Select "File Annual Report" when the filing becomes due
 4. Confirm or update your company's information (directors, registered office)
 5. Review and submit
-6. Pay the $43 government filing fee
+6. Pay the $43.39 government filing fee
 
 Getting a BCeID is not always the quick step it sounds like — registering with only a Business Number means [attending a BCeID Point of Service in person](/articles/business-bceid-bc-registry-account) with original identification.
 
@@ -57,7 +57,7 @@ Prefer to skip the BCeID login and the portal entirely? CRS files your BC Annual
 
 ## BC Annual Report Filing Fee
 
-The BC government charges **$43** to file a BC Annual Report, payable online through the BC Registry Services portal at the time of filing. There is no separate BC Registry Services surcharge on top — the $43 is the total government fee. Corporations that file more than 60 days after their anniversary date incur no late filing fee, but continued non-compliance leads to dissolution (see below).
+The BC government charges **$43.39** to file a BC Annual Report, payable online through the BC Registry Services portal at the time of filing. There is no separate BC Registry Services surcharge on top — the $43.39 is the total government fee. Corporations that file more than 60 days after their anniversary date incur no late filing fee, but continued non-compliance leads to dissolution (see below).
 
 ## Consequences of Not Filing
 
@@ -87,6 +87,6 @@ If your BC company also carries on business in Ontario, Alberta, or any other pr
 CRS files BC Annual Reports directly through BC Registry Services on your behalf. You don't need a BC Services Card, a BCeID, or a Registry Services account — we prepare the report, submit it before your 2-month anniversary deadline, and email you the confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $43 government fee.
+**Price:** {{price:annual-return}} + applicable tax — all-in, including the $43.39 government fee.
 
 [File your BC Annual Report now →](/order/annual-return)
