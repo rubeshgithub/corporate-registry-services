@@ -835,22 +835,22 @@ function ResultCard({
         borderRadius: "0.6rem",
         overflow:     "hidden",
         boxShadow:    "0 1px 2px rgba(0,61,91,0.06), 0 6px 18px rgba(0,61,91,0.07)",
-        borderTop:    "3px solid var(--primary)",
       }}
     >
-      {/* The record: who the corporation is, as the registry has it. */}
-      <div style={{ padding: "0.95rem 1.05rem 0.85rem", display: "flex", gap: "0.9rem", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
+      {/* The record: who the corporation is, as the registry has it — set on
+          the navy band so each result reads as its own record at a glance. */}
+      <div style={{ padding: "0.95rem 1.05rem 0.9rem", display: "flex", gap: "0.9rem", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", background: "var(--primary)", color: "#FFFFFF" }}>
         <div style={{ minWidth: 0, flex: "1 1 16rem" }}>
-          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontWeight: 700, fontSize: "1.08rem", color: "var(--text)", lineHeight: 1.25, overflowWrap: "anywhere" }}>
+          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontWeight: 700, fontSize: "1.2rem", color: "#FFFFFF", lineHeight: 1.25, overflowWrap: "anywhere", letterSpacing: "0.005em" }}>
             {hit.name}
           </div>
-          <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+          <div style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.72)", marginTop: "0.2rem" }}>
             {[hit.entityType, hit.jurisdiction].filter(Boolean).join(", ")}
           </div>
           <dl style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem 1.25rem", margin: "0.6rem 0 0", fontSize: "0.78rem" }}>
-            <Fact label="Registry ID"   value={hit.registryId} />
-            <Fact label="Business no."  value={hit.businessNumber} />
-            <Fact label="Incorporated"  value={incorpLabel ?? ""} />
+            <Fact onDark label="Registry ID"   value={hit.registryId} />
+            <Fact onDark label="Business no."  value={hit.businessNumber} />
+            <Fact onDark label="Incorporated"  value={incorpLabel ?? ""} />
           </dl>
           {deadline && deadline.status !== "unknown" && (
             <div
@@ -860,7 +860,7 @@ function ResultCard({
                 display:     "flex",
                 alignItems:  "center",
                 gap:         "0.45rem",
-                color:       deadlineColorText(deadline.status),
+                color:       deadlineColorOnDark(deadline.status),
                 fontWeight:  deadline.status === "overdue" ? 700 : 500,
               }}
             >
@@ -869,12 +869,12 @@ function ResultCard({
             </div>
           )}
           {deadline?.explanation && deadline.status !== "unknown" && (
-            <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+            <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.68)", marginTop: "0.2rem" }}>
               {deadline.explanation}
             </div>
           )}
           {deadline && deadline.status === "unknown" && (
-            <div style={{ fontSize: "0.74rem", color: "var(--text-muted)", marginTop: "0.45rem" }}>
+            <div style={{ fontSize: "0.74rem", color: "rgba(255,255,255,0.72)", marginTop: "0.45rem" }}>
               {deadline.label}
             </div>
           )}
@@ -886,11 +886,12 @@ function ResultCard({
               display: "inline-flex", alignItems: "center", gap: "0.35rem",
               padding: "0.2rem 0.6rem", borderRadius: "9999px",
               fontSize: "0.74rem", fontWeight: 700,
-              color:      active ? "#15803D" : "#B45309",
-              background: active ? "rgba(22,163,74,0.10)" : "rgba(180,83,9,0.10)",
+              color:      active ? "#BBF7D0" : "#FDE68A",
+              background: active ? "rgba(34,197,94,0.20)" : "rgba(245,158,11,0.22)",
+              border:     `1px solid ${active ? "rgba(134,239,172,0.45)" : "rgba(253,230,138,0.45)"}`,
             }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: active ? "#16A34A" : "#D97706" }} />
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: active ? "#4ADE80" : "#FBBF24" }} />
             {hit.status}{!active && hit.statusNotes ? ` (${hit.statusNotes})` : ""}
           </span>
           {!offers && (
@@ -904,7 +905,7 @@ function ResultCard({
       {/* What you can get: one joined row, the profile report leading. */}
       {offers && (
         <div style={{ padding: "0 1.05rem 1rem" }}>
-          <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)", margin: "0 0 0.5rem" }}>
+          <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)", margin: "0.9rem 0 0.5rem" }}>
             Official records for this corporation
           </div>
           <div
@@ -960,13 +961,12 @@ function ResultCard({
         .crs-offer:hover { background: var(--bg-deep); }
         .crs-offer--primary { background: var(--primary); color: #FFFFFF; }
         .crs-offer--primary:hover { background: var(--primary); filter: brightness(1.12); }
-        .crs-offer:focus-visible, .crs-card-cta:focus-visible {
-          outline: 2px solid var(--gold); outline-offset: -2px;
-        }
+        .crs-offer:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+        .crs-card-cta:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
         .crs-card-cta {
           display: inline-flex; align-items: center; gap: 0.35rem;
           padding: 0.6rem 1rem; border: none; border-radius: 0.45rem;
-          background: var(--primary); color: #FFFFFF; font-weight: 700; font-size: 0.86rem;
+          background: var(--gold); color: var(--primary); font-weight: 700; font-size: 0.86rem;
           cursor: pointer; white-space: nowrap; font-family: inherit;
         }
         @media (prefers-reduced-motion: reduce) { .crs-offer { transition: none; } }
@@ -975,22 +975,23 @@ function ResultCard({
   );
 }
 
-function Fact({ label, value }: { label: string; value: string }) {
+function Fact({ label, value, onDark = false }: { label: string; value: string; onDark?: boolean }) {
   if (!value) return null;
   return (
     <div style={{ display: "flex", gap: "0.35rem", alignItems: "baseline" }}>
-      <dt style={{ color: "var(--text-muted)" }}>{label}</dt>
-      <dd style={{ margin: 0, color: "var(--text)", fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{value}</dd>
+      <dt style={{ color: onDark ? "rgba(255,255,255,0.62)" : "var(--text-muted)" }}>{label}</dt>
+      <dd style={{ margin: 0, color: onDark ? "#FFFFFF" : "var(--text)", fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{value}</dd>
     </div>
   );
 }
 
-function deadlineColorText(status: DueStatus): string {
-  if (status === "overdue")  return "#B91C1C";
-  if (status === "due_soon") return "#B45309";
-  if (status === "on_track") return "var(--text)";
-  return "var(--text-muted)";
+/* Same meaning as deadlineColorText, readable on the navy record band. */
+function deadlineColorOnDark(status: DueStatus): string {
+  if (status === "overdue")  return "#FCA5A5";
+  if (status === "due_soon") return "#FCD34D";
+  return "#FFFFFF";
 }
+
 
 type PillTone = "teal" | "gold" | "navy" | "slate";
 const PILL_TONES: Record<PillTone, { bg: string; color: string; border: string }> = {

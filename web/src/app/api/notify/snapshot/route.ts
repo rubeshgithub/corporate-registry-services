@@ -9,6 +9,7 @@ import { getPrices, formatCents } from "@/lib/pricing";
 import { calculateAnnualReturnDeadline } from "@/lib/annual-return-deadlines";
 import { SITE_PHONE_DISPLAY } from "@/lib/contact";
 import { SNAPSHOT_CONSENT_TEXT } from "@/lib/snapshot";
+import { GET as companySearch } from "@/app/api/company-search/route";
 import { parseRegistryDate } from "@/lib/dates";
 
 /**
@@ -63,11 +64,18 @@ function ipHash(req: Request): string {
   return raw ? crypto.createHash("sha256").update(raw).digest("hex").slice(0, 24) : "";
 }
 
-async function verifyCorporation(origin: string, registryId: string, province: string, name: string): Promise<Hit | null> {
+/* Calls the company-search handler in-process. It used to fetch our own
+   public URL, which failed in production (the request never got a JSON
+   answer back from behind the proxy) and every snapshot showed "We couldn't
+   confirm that corporation". The handler only reads the query string, so a
+   synthetic Request is all it needs. */
+async function verifyCorporation(registryId: string, province: string, name: string): Promise<Hit | null> {
   const q = registryId || name;
   if (!q) return null;
   try {
-    const res  = await fetch(`${origin}/api/company-search?q=${encodeURIComponent(q)}&province=${encodeURIComponent(province || "all")}`, { cache: "no-store" });
+    const res  = await companySearch(new Request(
+      `http://internal/api/company-search?q=${encodeURIComponent(q)}&province=${encodeURIComponent(province || "all")}`,
+    ));
     const data = await res.json() as { results?: Hit[] };
     const hits = data.results ?? [];
     const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -120,7 +128,11 @@ export async function POST(req: Request) {
   });
   if (dupe) return NextResponse.json({ ok: true, duplicate: true });
 
-  const hit = await verifyCorporation(new URL(req.url).origin, registryId, province, nameIn);
+  let hit = await verifyCorporation(registryId, province, nameIn);
+  /* A registry number that exists under one province can be listed with a
+     different province key by the source (federal corps extra-provincially
+     registered, gazette vs CBR) — retry nationally before giving up. */
+  if (!hit && province !== "all") hit = await verifyCorporation(registryId, "all", nameIn);
   if (!hit) {
     return NextResponse.json({ error: "We couldn't confirm that corporation just now — please try again." }, { status: 404 });
   }
