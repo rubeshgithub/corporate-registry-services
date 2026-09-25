@@ -33,19 +33,29 @@ type Screen = "lookup" | "confirm" | "success";
 
 const DOCUMENTS: { key: string; label: string; hint: string }[] = [
   {
-    key:   "original",
-    label: "Original / copy of the Incorporation Document",
-    hint:  "The certificate issued by the registry at the time of incorporation.",
+    key:   "certificate",
+    label: "Certificate of Incorporation",
+    hint:  "The certificate the registry issued when the corporation was formed.",
   },
   {
     key:   "articles",
     label: "Articles of Incorporation",
-    hint:  "Foundational governing document — share classes, restrictions, other provisions.",
+    hint:  "The governing document — share classes, restrictions and other provisions.",
   },
   {
-    key:   "proof-filings",
-    label: "Proof of filings on record",
-    hint:  "Annual returns, changes to directors, shareholders, registered office, name changes — anything filed since incorporation.",
+    key:   "annual-returns",
+    label: "Annual returns",
+    hint:  "Annual returns filed with the registry. Say which years in the notes if you need specific ones.",
+  },
+  {
+    key:   "change-of-information",
+    label: "Change of information",
+    hint:  "Notices of change — directors, shareholders, registered office or address.",
+  },
+  {
+    key:   "other",
+    label: "Other document",
+    hint:  "Amendments, name change, amalgamation, anything else on file — tell us which in the notes below.",
   },
   {
     key:   "full-set",
@@ -142,6 +152,7 @@ export default function CorporateDocumentsFlow({ priceCents = 48900, perDocCents
   const canSubmit =
     !!hit &&
     selected.size > 0 &&
+    (!selected.has("other") || notes.trim().length > 0) &&
     contact.name.trim().length > 0 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     contact.phone.trim().length > 0;
@@ -404,7 +415,8 @@ function ConfirmScreen({
 
         <div style={{ marginTop: "1.15rem" }}>
           <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", marginBottom: "0.35rem" }}>
-            Anything else we should know? <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>(optional)</span>
+            {selected.has("other") ? "Which other document do you need?" : "Anything else we should know?"}{" "}
+            <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>{selected.has("other") ? "(required)" : "(optional)"}</span>
           </label>
           <textarea
             value={notes}

@@ -24,10 +24,12 @@ import { quoteDocuments } from "@/lib/corporate-documents-pricing";
 export const runtime = "nodejs";
 
 const DOC_LABELS: Record<string, string> = {
-  "original":      "Original / copy of Incorporation Document",
-  "articles":      "Articles of Incorporation",
-  "proof-filings": "Proof of filings (Annual Returns, changes to directors/shareholders/address, etc.)",
-  "full-set":      "Full set of documents — everything on file, up to date",
+  "certificate":           "Certificate of Incorporation",
+  "articles":              "Articles of Incorporation",
+  "annual-returns":        "Annual returns",
+  "change-of-information": "Change of information filings (directors, shareholders, address)",
+  "other":                 "Other document (see notes)",
+  "full-set":              "Full set of documents — everything on file, up to date",
 };
 
 type Hit = {
@@ -63,6 +65,9 @@ function isValid(body: Body): string | null {
   if (!body?.contact?.phone?.trim()) return "Missing phone number.";
   for (const key of body.documents ?? []) {
     if (!(key in DOC_LABELS))        return `Unknown document: ${key}`;
+  }
+  if ((body.documents ?? []).includes("other") && !body.notes?.trim()) {
+    return "Tell us which other document you need.";
   }
   return null;
 }

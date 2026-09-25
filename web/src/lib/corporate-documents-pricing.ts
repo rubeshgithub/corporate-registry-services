@@ -8,7 +8,9 @@
  *     customer gets the full set at the full-set price instead.
  */
 
-export const SINGLE_DOC_KEYS = ["original", "articles", "proof-filings"] as const;
+/* Each of these is one priced selection. "annual-returns" and
+   "change-of-information" cover that category of filing on the file. */
+export const SINGLE_DOC_KEYS = ["certificate", "articles", "annual-returns", "change-of-information", "other"] as const;
 
 export type DocsQuote = {
   mode:       "per-document" | "full-set";
