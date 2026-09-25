@@ -11,9 +11,9 @@ import { getPrices } from "@/lib/pricing";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Canada Corporations Search — Search Canadian Business Registries | CRS",
+  title: "Canada Business Search — Free Lookup by Name or Number | CRS",
   description:
-    "Free Canada corporations search. Find any business registered in Alberta, British Columbia, Manitoba, Nova Scotia, Ontario, Québec, Saskatchewan, or federal — by company name or registration number.",
+    "Free Canada business search: look up a company by name or registration number across Alberta, BC, Ontario, Québec, Manitoba, Saskatchewan, NS and federal.",
   keywords: [
     "Canada corporations search",
     "Canadian business registry search",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "Corporations Canada search",
   ],
   openGraph: {
-    title: "Canada Corporations Search | CRS",
+    title: "Canada Business Search — Free Company Lookup | CRS",
     description:
       "Search Canadian business registries — Alberta, BC, Ontario, federal, and more — by company name or registration number.",
     type: "website",
@@ -92,10 +92,10 @@ export default async function CanadaCorporationsSearchPage() {
                 margin: 0,
               }}
             >
-              Canada Corporations Search
+              Canada Business Search
             </h1>
             <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-              Search Canadian business registries by name or registration number
+              Look up a Canadian company by name or registration number — free
             </span>
           </div>
         </div>
