@@ -24,8 +24,20 @@ import { openCrispChat } from "@/lib/crisp";
 
 const SESSION_KEY = "crs_chat_opened_at_payment";
 
+/* OFF since 2026-09-25. Once c28942b (Sep 21, 01:43) made this actually open
+   Crisp, paid orders through /order/* flows went to zero: none Sep 21–24,
+   against ~2.5/day in early September, while unpaid carts jumped to 17 in
+   four days (40 in the whole prior 90). The only orders in that stretch came
+   from the inline article widget, which never mounted this nudge. Crisp's
+   chat:open is maximized — full-screen on a phone — so it lands on top of
+   the pay button at the exact moment the visitor is about to pay. The chat
+   launcher stays on every page; flip this back on only behind a test that
+   shows it doesn't cost checkouts. */
+const AUTO_OPEN_AT_PAYMENT = false;
+
 export default function PaymentStepChatNudge() {
   useEffect(() => {
+    if (!AUTO_OPEN_AT_PAYMENT) return;
     if (typeof window === "undefined") return;
 
     try {
