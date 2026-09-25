@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 
 type Body = { name?: string; scope?: Scope };
 
-const VALID_SCOPES: Scope[] = ["all", "federal", "bc", "ab"];
+const VALID_SCOPES: Scope[] = ["all", "federal", "ab", "bc", "on", "sk", "ns"];
 
 export async function POST(req: Request) {
   let body: Body;

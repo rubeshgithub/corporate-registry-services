@@ -1,5 +1,4 @@
 import { companies } from "./registrar-mongo";
-import { searchPei } from "./pei-registry";
 
 /**
  * Free "Instant Availability Check" — best-effort search across the
@@ -26,7 +25,7 @@ const REQUEST_TIMEOUT_MS = 8_000;
 /** Strength classification threshold — flip to weak when we cross this. */
 const WEAK_THRESHOLD = 5;
 
-export type Scope = "all" | "federal" | "bc" | "ab" | "pe";
+export type Scope = "all" | "federal" | "ab" | "bc" | "on" | "sk" | "ns";
 
 export type NameMatch = {
   name:         string;
@@ -51,20 +50,17 @@ export async function checkNameAvailability(name: string, scope: Scope): Promise
     return { strength: "strong", matchCount: 0, matches: [], scopeLabel: scopeToLabel(scope) };
   }
 
-  const [cbrHits, abHits, peiHits] = await Promise.all([
-    /* CBR doesn't include PE — skip when scope is pe-only. */
-    scope === "pe"
-      ? Promise.resolve([] as NameMatch[])
-      : fetchCbr(name, scope).catch(() => [] as NameMatch[]),
+  /* PEI dropped 2026-09-25: its upstream is blocked from our host and runs
+     on a small request budget (lib/pei-budget.ts) — a free name check must
+     not spend it, and it was returning nothing anyway. */
+  const [cbrHits, abHits] = await Promise.all([
+    fetchCbr(name, scope).catch(() => [] as NameMatch[]),
     (scope === "all" || scope === "ab")
       ? fetchLocalAlberta(name).catch(() => [] as NameMatch[])
       : Promise.resolve([] as NameMatch[]),
-    (scope === "all" || scope === "pe")
-      ? fetchPei(name).catch(() => [] as NameMatch[])
-      : Promise.resolve([] as NameMatch[]),
   ]);
 
-  const relevant = dedupe([...cbrHits, ...abHits, ...peiHits])
+  const relevant = dedupe([...cbrHits, ...abHits])
     .filter((m) => isDistinctiveOverlap(m.name, norm));
 
   const matchCount = relevant.length;
@@ -92,8 +88,10 @@ async function fetchCbr(name: string, scope: Scope): Promise<NameMatch[]> {
     rows:        String(CBR_ROWS),
     start:       "0",
   });
-  const src = scopeToCbrRegistrySource(scope);
-  if (src) params.append("fq", `Registry_Source:${src}`);
+  /* CBR silently ignores an fq=Registry_Source filter (verified in
+     api/company-search), so a scoped check used to return — and count as
+     conflicts — names from every province. Filter the rows here instead. */
+  const allowed = scopeToCbrRegistrySources(scope);
 
   const url = `${CBR_SEARCH_URL}?${params.toString()}`;
 
@@ -108,7 +106,10 @@ async function fetchCbr(name: string, scope: Scope): Promise<NameMatch[]> {
     if (!res.ok) return [];
     const data = (await res.json()) as { docs?: Array<Record<string, unknown>> };
     const docs = Array.isArray(data.docs) ? data.docs : [];
-    return docs.map(cbrDocToMatch).filter((m) => !!m.name);
+    return docs
+      .filter((d) => !allowed || allowed.includes(String(d.Registry_Source ?? "")))
+      .map(cbrDocToMatch)
+      .filter((m) => !!m.name);
   } catch {
     return [];
   } finally {
@@ -126,18 +127,23 @@ function cbrDocToMatch(d: Record<string, unknown>): NameMatch {
   };
 }
 
-function scopeToCbrRegistrySource(scope: Scope): string | null {
+/* CBR's Registry_Source codes. Federal records carry "CC" (not "CD"). */
+function scopeToCbrRegistrySources(scope: Scope): string[] | null {
   switch (scope) {
     case "all":     return null;
-    case "federal": return "CD";
-    case "bc":      return "BC";
-    case "ab":      return "AB";
-    case "pe":      return null;    // CBR doesn't include PE — this branch is guarded upstream and never called
+    case "federal": return ["CC", "CA"];
+    case "ab":      return ["AB"];
+    case "bc":      return ["BC"];
+    case "on":      return ["ON"];
+    case "sk":      return ["SK"];
+    case "ns":      return ["NS"];
   }
 }
 
 function registrySourceToLabel(src: string): string {
   const map: Record<string, string> = {
+    CC: "Federal",
+    CA: "Federal",
     CD: "Federal",
     AB: "Alberta",
     BC: "British Columbia",
@@ -160,33 +166,17 @@ function scopeToLabel(scope: Scope): string {
   switch (scope) {
     case "all":     return "Canada (federal + participating provinces)";
     case "federal": return "Federal (Corporations Canada)";
-    case "bc":      return "British Columbia";
     case "ab":      return "Alberta";
-    case "pe":      return "Prince Edward Island";
+    case "bc":      return "British Columbia";
+    case "on":      return "Ontario";
+    case "sk":      return "Saskatchewan";
+    case "ns":      return "Nova Scotia";
   }
 }
 
 function coverageNoteFor(scope: Scope): string | undefined {
   if (scope !== "all") return undefined;
-  return "Instant check covers federal + BC + Alberta + PEI live registries. For the full national coverage (all 13 provinces + territories + trademarks + phonetic similarity), order the paid NUANS report below.";
-}
-
-/* ═══════════════════════════ PEI search ═══════════════════════════ */
-
-async function fetchPei(name: string): Promise<NameMatch[]> {
-  try {
-    const { results } = await searchPei(name);
-    return results
-      .filter((r) => !!r.name)
-      .map((r) => ({
-        name:         r.name ?? "",
-        jurisdiction: "Prince Edward Island",
-        registryId:   r.entityId ?? "",
-        status:       r.status ?? "",
-      }));
-  } catch {
-    return [];
-  }
+  return "Instant check covers federal, Alberta, BC, Ontario, Saskatchewan, Nova Scotia, Manitoba and Québec registry records. For full national coverage (all 13 provinces + territories + trademarks + phonetic similarity), order the paid NUANS report below.";
 }
 
 /* ═══════════════════════════ Local AB search ═══════════════════════════ */

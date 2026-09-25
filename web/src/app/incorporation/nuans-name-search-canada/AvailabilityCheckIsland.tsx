@@ -20,7 +20,7 @@ import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
  * The name is pre-filled in the existing NUANS order wizard.
  */
 
-type Scope = "all" | "federal" | "bc" | "ab" | "pe";
+type Scope = "all" | "federal" | "ab" | "bc" | "on" | "sk" | "ns";
 
 type Match = {
   name:         string;
@@ -38,11 +38,13 @@ type Result = {
 };
 
 const SCOPES: Array<{ key: Scope; label: string; help: string }> = [
-  { key: "all",     label: "All Canada",         help: "Federal + BC + Alberta + PEI live registries" },
+  { key: "all",     label: "All Canada",         help: "Federal + AB, BC, ON, SK, NS, MB, QC records" },
   { key: "federal", label: "Federal (CBCA)",     help: "Corporations Canada only" },
+  { key: "ab",      label: "Alberta",            help: "Alberta Corporate Registry" },
   { key: "bc",      label: "British Columbia",   help: "BC Registry Services" },
-  { key: "ab",      label: "Alberta",            help: "Alberta Registry" },
-  { key: "pe",      label: "Prince Edward Island", help: "PEI Corporate Registry" },
+  { key: "on",      label: "Ontario",            help: "Ontario Business Registry" },
+  { key: "sk",      label: "Saskatchewan",       help: "Saskatchewan Corporate Registry (ISC)" },
+  { key: "ns",      label: "Nova Scotia",        help: "Registry of Joint Stock Companies" },
 ];
 
 export default function AvailabilityCheckIsland({ priceCents }: { priceCents?: number } = {}) {
