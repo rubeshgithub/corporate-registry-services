@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { findService } from "@/lib/service-config";
 import { getPriceCents } from "@/lib/pricing";
+import { quoteDocuments } from "@/lib/corporate-documents-pricing";
 
 /**
  * POST /api/order/corporate-documents
@@ -83,7 +84,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Service is not priced." }, { status: 500 });
   }
 
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents("corporate-documents");
+  /* Per-document pricing (government fee included) with the full set as a
+     cap — resolved server-side from the catalogue, never from the client. */
+  const quote = quoteDocuments(
+    body.documents ?? [],
+    await getPriceCents("corporate-document-single"),
+    await getPriceCents("corporate-documents"),
+  );
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : quote.unitCents;
+  const quantity   = USE_TEST_PRICE ? 1 : quote.quantity;
   const wanted     = (body.documents ?? []).map((k) => DOC_LABELS[k]).filter(Boolean);
   const stripe     = new Stripe(secret);
   const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
@@ -102,11 +111,15 @@ export async function POST(req: Request) {
             unit_amount:  unitAmount,
             tax_behavior: "exclusive",
             product_data: {
-              name:        `Copies of Corporation Documents — ${body.hit.jurisdiction}`,
-              description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Full set on file from the date of incorporation to date.`.slice(0, 500),
+              name:        quote.mode === "full-set"
+                             ? `Corporate Documents — Full Set — ${body.hit.jurisdiction}`
+                             : `Corporate Document Copy — ${body.hit.jurisdiction}`,
+              description: (quote.mode === "full-set"
+                             ? `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Full set on file from the date of incorporation to date. Government fees included.`
+                             : `${body.hit.name} · Registry ID ${body.hit.registryId || "—"}. Per document, government fee included.`).slice(0, 500),
             },
           },
-          quantity: 1,
+          quantity,
         },
       ],
       metadata: {
@@ -126,6 +139,8 @@ export async function POST(req: Request) {
         contact_phone:   body.contact.phone.slice(0, 40),
         // Scope hints for fulfillment — not price-affecting.
         docs_requested:  wanted.join(" · ").slice(0, 480) || "Full set",
+        pricing_mode:    quote.mode,
+        doc_count:       String(quote.count),
         notes:           (body.notes ?? "").slice(0, 480),
       },
       success_url: `${origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,

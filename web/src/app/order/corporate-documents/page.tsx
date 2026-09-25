@@ -11,9 +11,9 @@ import { getPriceCents } from "@/lib/pricing";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Order Corporate Documents — Articles + Historical Filings — CRS",
+  title: "Order Corporate Documents — Articles, Certificates, Filings — CRS",
   description:
-    "Order the full set of corporate documents on file — articles of incorporation, historical filings, annual returns, director/address changes. Government-direct retrieval. Quote in a few hours, delivered within 1 business day of approval.",
+    "Order copies of articles of incorporation, the certificate of incorporation, or past filings — priced per document with the government fee included, or the full set on file. Delivered by email within 1 business day.",
   robots: { index: false, follow: false },
 };
 
@@ -23,7 +23,10 @@ export default async function CorporateDocumentsOrderPage() {
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
         <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
-          <CorporateDocumentsFlow priceCents={await getPriceCents("corporate-documents")} />
+          <CorporateDocumentsFlow
+            priceCents={await getPriceCents("corporate-documents")}
+            perDocCents={await getPriceCents("corporate-document-single")}
+          />
         </Suspense>
       </main>
       <Footer />

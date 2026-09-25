@@ -6,6 +6,7 @@ import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail } from "lucide-react";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import { quoteDocuments } from "@/lib/corporate-documents-pricing";
 
 /**
  * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
@@ -49,16 +50,19 @@ const DOCUMENTS: { key: string; label: string; hint: string }[] = [
   {
     key:   "full-set",
     label: "Full set of documents — everything on file, up to date",
-    hint:  "Every corporate document available from the registry, from Day 1 through today. Best value.",
+    hint:  "Every corporate document available from the registry, from Day 1 through today.",
   },
 ];
 
 const DEBOUNCE_MS = 400;
 const MIN_QUERY   = 2;
 
-export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCents?: number }) {
-  /* Price from the admin-editable catalogue via the server page. */
-  const price = `$${Math.round(priceCents / 100).toLocaleString()}`;
+export default function CorporateDocumentsFlow({ priceCents = 48900, perDocCents = 8900 }: { priceCents?: number; perDocCents?: number }) {
+  /* Prices from the admin-editable catalogue via the server page:
+     priceCents = full set, perDocCents = one document (gov't fee included). */
+  const fmt       = (c: number) => `$${Math.round(c / 100).toLocaleString()}`;
+  const fullPrice = fmt(priceCents);
+  const perDoc    = fmt(perDocCents);
   const params = useSearchParams();
   const initialQuery    = params.get("q") ?? "";
   const initialProvince = params.get("jurisdiction") ?? "all";
@@ -76,7 +80,8 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
 
   /* Confirm-screen state */
   const [hit, setHit]                 = useState<RegistryHit | null>(null);
-  const [selected, setSelected]       = useState<Set<string>>(new Set(["full-set"]));
+  /* Most visitors want one document (the articles), not the whole file. */
+  const [selected, setSelected]       = useState<Set<string>>(new Set(["articles"]));
   const [notes, setNotes]             = useState("");
   const [contact, setContact]         = useState({ name: "", email: "", phone: "" });
   const [submitting, setSubmitting]   = useState(false);
@@ -119,14 +124,20 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
     setScreen("confirm");
   };
 
+  /* "Full set" and individual documents are alternatives, not add-ons. */
   const toggleDoc = (key: string) => {
     setSelected((prev) => {
+      if (key === "full-set") return prev.has("full-set") ? new Set<string>() : new Set(["full-set"]);
       const next = new Set(prev);
+      next.delete("full-set");
       if (next.has(key)) next.delete(key);
       else               next.add(key);
       return next;
     });
   };
+
+  const quote = quoteDocuments([...selected], perDocCents, priceCents);
+  const price = fmt(quote.totalCents);
 
   const canSubmit =
     !!hit &&
@@ -183,7 +194,7 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          Corporate Documents · {price} all-in + GST
+          Corporate Documents · {perDoc} per document + GST · gov&apos;t fee included
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
           Order corporate documents on file
@@ -210,7 +221,14 @@ export default function CorporateDocumentsFlow({ priceCents = 48900 }: { priceCe
           notes={notes} setNotes={setNotes}
           contact={contact} setContact={setContact}
           onBack={() => setScreen("lookup")}
-          onSubmit={submit} price={price} priceCents={priceCents} src={src}
+          onSubmit={submit} price={price} priceCents={quote.totalCents} src={src}
+          perDoc={perDoc} fullPrice={fullPrice} quoteNote={
+            quote.mode === "full-set" && quote.count > 0
+              ? `Your picks would cost more than the full set, so you get the full set for ${fullPrice}.`
+              : quote.mode === "full-set"
+                ? `Full set on file: ${fullPrice} + GST.`
+                : `${quote.count} document${quote.count > 1 ? "s" : ""} × ${perDoc} = ${price} + GST.`
+          }
           submitting={submitting} submitErr={submitErr}
           canSubmit={canSubmit}
         />
@@ -309,7 +327,7 @@ function LookupScreen({
 function ConfirmScreen({
   hit, selected, toggleDoc, notes, setNotes,
   contact, setContact, onBack, onSubmit, price, priceCents, src,
-  submitting, submitErr, canSubmit,
+  submitting, submitErr, canSubmit, perDoc, fullPrice, quoteNote,
 }: {
   hit: RegistryHit;
   selected: Set<string>; toggleDoc: (k: string) => void;
@@ -318,6 +336,7 @@ function ConfirmScreen({
   setContact: (v: { name: string; email: string; phone: string }) => void;
   onBack: () => void; onSubmit: () => void; price: string; priceCents: number; src: string;
   submitting: boolean; submitErr: string; canSubmit: boolean;
+  perDoc: string; fullPrice: string; quoteNote: string;
 }) {
   return (
     <>
@@ -349,7 +368,7 @@ function ConfirmScreen({
             Which documents do you need?
           </label>
           <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: 0 }}>
-            Tell us what you&apos;re chasing so we prioritise it. The price covers the full set on file either way.
+            {perDoc} + GST per document, government fee included. Or take the full set on file for {fullPrice} — if your picks would cost more, we charge the full-set price.
           </p>
         </div>
 
@@ -444,6 +463,7 @@ function ConfirmScreen({
         {submitting ? <Loader2 size={16} className="crs-spin" /> : <Mail size={16} />}
         {submitting ? "Redirecting to secure payment…" : `Pay ${price} + GST and order`}
       </button>
+      <p style={{ fontSize: "0.8rem", color: "var(--text)", textAlign: "center", margin: "0.6rem 0 0" }}>{quoteNote}</p>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>
         Card processed securely by Stripe. All government fees included — documents delivered by email within 1 business day. {REGISTRY_CLOSURE_NOTE}
@@ -452,7 +472,7 @@ function ConfirmScreen({
       <ETransferCapture
         service="corporate-documents"
         serviceLabel="Copies of Corporation Documents"
-        priceLabel={`${price} all-in + GST`}
+        priceLabel={`${price} + GST, government fees included`}
         priceCents={priceCents}
         company={{
           name:           hit.name,

@@ -1,15 +1,15 @@
 ---
-title: "Get a Copy of Your Articles of Incorporation in Canada"
+title: "Copy of Articles of Incorporation: Fees & How to Order"
 h1: "How to Get a Copy of Articles of Incorporation and Corporate Documents in Canada"
 slug: "how-to-get-corporate-documents-in-canada"
 section: "articles"
-description: "Bank asking for articles of incorporation? Lawyer needs the full corporate file? Here's exactly how to get a copy of every registered corporate document in Canada — federal, Alberta, BC, Ontario, and every other province."
+description: "Need a copy of your articles or certificate of incorporation? We get it from Corporations Canada or any province: {{price:corporate-document-single}} + GST per document, gov't fee incl."
 lastUpdated: "2026-08-01"
 faq:
   - q: "How do I get a copy of my articles of incorporation in Canada?"
     a: "You order them from the corporate registry that holds the corporation's file. For federally incorporated companies, that's Corporations Canada. For a provincial corporation, it's the registry of the province where the corporation was incorporated (e.g., Corporate Registry of Alberta, Ontario's Ministry of Public and Business Service Delivery, BC Registry Services). You can order directly through the government portal — or, if you want a single point of contact across all 13 jurisdictions plus a proofread PDF, use a retrieval service like CRS."
   - q: "Can I download my articles of incorporation online for free?"
-    a: "No jurisdiction in Canada offers free download of full articles of incorporation. Some registries make basic company data (name, status, address) free to view, but the actual PDF of the articles is a paid retrieval — typically $20-$40 in government fees plus an administrative fee if you use an agent. Older filings (pre-digitization) may require the registry to pull a paper file, which takes longer."
+    a: "For a federal corporation, yes: Corporations Canada provides uncertified copies free online, and certified copies cost $40 per document. Provincial registries charge per document (Ontario copies start at $3), and older paper-era filings take longer to pull. If you need a certified copy, a pre-2021 Ontario record, or you're not sure which registry holds the file, we order it for you at {{price:corporate-document-single}} + GST per document, government fee included."
   - q: "What's the difference between articles of incorporation and a certificate of incorporation?"
     a: "The articles of incorporation are the substantive founding document — the share structure, share classes, restrictions, name, registered office, first directors. The certificate of incorporation is the one-page government stamp confirming the corporation legally exists — a birth certificate for the company. Banks and lenders usually want both. In Quebec, the equivalent documents are the déclaration d'immatriculation and constating documents held by the REQ."
   - q: "What if I lost my articles of incorporation?"
@@ -102,9 +102,9 @@ You can also order a **narrower set** — for example, just articles + certifica
 
 ## How much does it cost?
 
-Pricing has two components: government retrieval fees and a service fee. Both depend on how many documents you need and which jurisdictions you're pulling from. Government fees typically run $20-$40 per document; a full historical set for a single-jurisdiction corporation is usually $200-$500 all-in. Multi-jurisdiction, older corporations with dozens of filings run higher.
+Government fees vary by registry: Corporations Canada gives uncertified copies free online and charges $40 for a certified copy; Ontario copies start at $3; other provinces charge per document.
 
-Rather than publish a fixed price for a variable-length package, we send a formal quote after checking what's actually on file for your corporation. Quote comes back the same business day (usually within a few hours). Once approved, documents are delivered to your email within 1 business day.
+Through CRS, each document is **{{price:corporate-document-single}} + GST, government fee included** — the articles, the certificate of incorporation, or a specific past filing. Need everything on file from incorporation to date? The **full set is {{price:corporate-documents}} + GST**, and if the documents you pick would cost more than that, you're charged the full-set price instead. You pay when you order; documents arrive by email within 1 business day.
 
 ## How long does it take?
 

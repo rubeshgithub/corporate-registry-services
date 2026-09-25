@@ -203,8 +203,8 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       {
         key:   "corporate-documents",
         label: "Copies of Corporation Documents",
-        sub:   "Full set from the date of incorporation to date",
-        price: priceOf("corporate-documents", 48900),
+        sub:   "Articles, certificate or past filings — per document, gov't fee included",
+        price: `from ${priceOf("corporate-document-single", 8900)}`,
         href:  pathHref("/order/corporate-documents", r),
       },
     ];

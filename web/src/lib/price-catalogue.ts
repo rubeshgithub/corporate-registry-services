@@ -36,6 +36,7 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   { key: "corporate-search",      label: "Name Availability - NUANS - Pre-Screen Name Search", group: "Reports & searches", defaultCents: 4900,  unit: "once" },
   { key: "nuans-search",          label: "NUANS Name Search Report",          group: "Reports & searches", defaultCents: 7900,  unit: "once" },
   { key: "corporate-documents",   label: "Copies of Corporation Documents",   group: "Reports & searches", defaultCents: 48900, unit: "once", note: "Full set from date of incorporation to date" },
+  { key: "corporate-document-single", label: "Copy of a Corporate Document (each)", group: "Reports & searches", defaultCents: 8900,  unit: "once", note: "Per document, government fee included. Picks that add up to the full-set price are charged as the full set" },
 
   /* ── Filings & changes ──────────────────────────────────────────── */
   { key: "annual-return",         label: "Annual Return",                     group: "Filings & changes", defaultCents: 9900,  unit: "per-year", note: "Charged per year filed" },
@@ -68,7 +69,7 @@ export const PRICE_CATALOGUE: PriceItem[] = [
 
   /* ── Professional corporations ──────────────────────────────────── */
   { key: "pc-profile-report",        label: "PC — Corporate Profile Report",  group: "Professional corporations", defaultCents: 6900,   unit: "once" },
-  { key: "pc-setup",                 label: "PC — New setup (all-in)",        group: "Professional corporations", defaultCents: 169900, unit: "once", note: "Includes government registry and regulator fees" },
+  { key: "pc-setup",                 label: "PC — New setup (service fee)",   group: "Professional corporations", defaultCents: 49900,  unit: "once", note: "CRS service fee only — government registry and regulator fees are extra, at cost" },
   { key: "pc-annual-return",         label: "PC — Annual Return",             group: "Professional corporations", defaultCents: 13900,  unit: "per-year" },
   { key: "pc-change-of-information", label: "PC — Change of Information",     group: "Professional corporations", defaultCents: 16900,  unit: "once" },
   { key: "pc-revival",               label: "PC — Revival",                   group: "Professional corporations", defaultCents: 48900,  unit: "once" },
