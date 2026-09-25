@@ -1,5 +1,7 @@
 "use client";
 
+import SnapshotCapture from "@/components/SnapshotCapture";
+
 import { useEffect, useState } from "react";
 import { MapPin, Phone, Globe, Mail, ArrowRight } from "lucide-react";
 import type { SerializedProfileData } from "./page";
@@ -128,6 +130,17 @@ export default function ProfileView({ data, prices, inboundSrc, intent }: { data
 
       {/* CTA strip — moved up, more prominent */}
       <ProminentCta cta={cta} />
+
+      {/* Optional email capture — never gates the free details below. */}
+      <div style={{ marginTop: "1rem" }}>
+        <SnapshotCapture
+          variant="card"
+          registryId={company._id.startsWith("name:") ? "" : company._id}
+          provinceKey="ab"
+          name={company.name}
+          src={inboundSrc ? `${inboundSrc}.profile` : `profile-${company._id}`}
+        />
+      </div>
 
       {/* Main two-column area */}
       <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 340px) minmax(0, 1fr)", gap: "1rem", alignItems: "start", marginTop: "1rem" }}>

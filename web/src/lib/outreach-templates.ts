@@ -19,7 +19,7 @@ import { DEFAULT_PRICES, formatCents } from "./price-catalogue";
  */
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://corporateregistryservices.ca";
-const MAILING  = process.env.CRS_MAILING_ADDRESS  ?? "2618 Hopewell Pl NE, Calgary, AB T1Y 7J7";
+export const MAILING  = process.env.CRS_MAILING_ADDRESS  ?? "2618 Hopewell Pl NE, Calgary, AB T1Y 7J7";
 const PERSONA_NAME  = process.env.OUTREACH_PERSONA_NAME  ?? "Alex Morgan";
 const PERSONA_TITLE = process.env.OUTREACH_PERSONA_TITLE ?? "Registry Specialist";
 

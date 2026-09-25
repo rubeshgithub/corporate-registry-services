@@ -31,7 +31,7 @@ export type SearchLeadDoc = {
                         article and gave name/email/phone for the free
                         preliminary report. The highest-intent lead the site
                         produces, and the one an operator should call. */
-  intent?:      "save-search" | "unlock-profile" | "pc-name-check";
+  intent?:      "save-search" | "unlock-profile" | "pc-name-check" | "snapshot";
   registryId?:  string;  // corp # if they identified a specific corp
   jurisdiction?: string; // human-readable ("Alberta", "Federal", …)
 
@@ -41,6 +41,13 @@ export type SearchLeadDoc = {
   contactPhone?: string;
   profession?:   string;  // free text, e.g. "physician"
   src?:          string;  // article attribution
+
+  /* "snapshot" — asked for a free emailed snapshot of one corporation.
+     marketingConsent is the unticked opt-in box (CASL express consent);
+     without it the lead only carries the implied consent of the request. */
+  marketingConsent?: boolean;
+  consentAt?:        Date;
+  consentText?:      string;
 };
 
 export async function searchLeads(): Promise<Collection<SearchLeadDoc>> {

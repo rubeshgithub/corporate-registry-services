@@ -7,6 +7,7 @@ import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
+import SnapshotCapture from "@/components/SnapshotCapture";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
 
@@ -571,14 +572,17 @@ export default function InlineLookupOrder({
                             Copies of documents · from {fmtPrice("corporate-document-single", 8900)}
                           </a>
                         )}
-                        {hit.provinceKey === "ab" && hit.registryId && service !== "annual-return" && (
-                          <a
-                            href={`/corporation/${hit.registryId}?src=${srcTag}&intent=${service}`}
-                            style={{ ...secondaryBtn, border: "none", background: "none", textDecoration: "underline", color: "var(--text-muted)" }}
-                          >
-                            View free company details
-                          </a>
-                        )}
+                        <div style={{ flexBasis: "100%" }}>
+                          <SnapshotCapture
+                            registryId={hit.registryId}
+                            provinceKey={hit.provinceKey}
+                            name={hit.name}
+                            src={srcTag}
+                            detailsHref={hit.provinceKey === "ab" && hit.registryId && service !== "annual-return"
+                              ? `/corporation/${hit.registryId}?src=${srcTag}&intent=${service}`
+                              : undefined}
+                          />
+                        </div>
                       </div>
                     ) : null
                   }
