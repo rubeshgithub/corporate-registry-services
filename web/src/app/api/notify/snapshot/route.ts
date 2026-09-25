@@ -9,6 +9,7 @@ import { getPrices, formatCents } from "@/lib/pricing";
 import { calculateAnnualReturnDeadline } from "@/lib/annual-return-deadlines";
 import { SITE_PHONE_DISPLAY } from "@/lib/contact";
 import { SNAPSHOT_CONSENT_TEXT } from "@/lib/snapshot";
+import { parseRegistryDate } from "@/lib/dates";
 
 /**
  * POST /api/notify/snapshot
@@ -160,7 +161,7 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
   };
 
   const incorporated = hit.registrationDate
-    ? new Date(hit.registrationDate).toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" })
+    ? (parseRegistryDate(hit.registrationDate)?.toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" }) ?? "")
     : "";
   const due = hit.status === "Active" ? calculateAnnualReturnDeadline(hit.registrationDate, hit.provinceKey) : null;
   const dueLine = due && due.status !== "unknown" ? due.label : "";

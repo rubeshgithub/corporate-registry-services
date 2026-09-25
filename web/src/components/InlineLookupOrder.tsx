@@ -11,6 +11,7 @@ import SnapshotCapture from "@/components/SnapshotCapture";
 import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResultsModal";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
+import { parseRegistryDate } from "@/lib/dates";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -799,7 +800,7 @@ function ResultCard({
     : null;
 
   const incorpLabel = hit.registrationDate
-    ? new Date(hit.registrationDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })
+    ? parseRegistryDate(hit.registrationDate)?.toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })
     : null;
 
   const buttonLabel =

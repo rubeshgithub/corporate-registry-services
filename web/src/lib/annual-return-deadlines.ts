@@ -1,3 +1,5 @@
+import { parseRegistryDate } from "./dates";
+
 /**
  * Jurisdiction-aware annual-return deadline calculator.
  *
@@ -79,7 +81,7 @@ export function calculateAnnualReturnDeadline(
     return { dueDate: null, daysUntilDue: null, status: "unknown", label: "Unknown incorporation date" };
   }
 
-  const incorp = new Date(incorporationDateISO);
+  const incorp = parseRegistryDate(incorporationDateISO) ?? new Date(NaN);
   if (isNaN(incorp.getTime())) {
     return { dueDate: null, daysUntilDue: null, status: "unknown", label: "Unknown incorporation date" };
   }
