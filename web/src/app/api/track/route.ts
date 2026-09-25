@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
+import { ipHashFrom } from "@/lib/public-form-guard";
 import { pageviews, clicks, searches, ensureIndexes } from "@/lib/mongo";
 import { sendAlertSms } from "@/lib/sms-infobip";
 
@@ -111,6 +112,12 @@ export async function POST(req: Request) {
       /* The owner browsing his own site while logged in to admin — marked so
          the journey report can set those sessions aside and they don't text. */
       admin:       isAdminBrowser || undefined,
+      /* Where the request physically came from — Cloudflare's country code
+         and a salted hash of the IP (never the IP itself). Two sessions
+         from one hash a second apart, or a burst from one country at once,
+         is a link scanner rather than two customers. */
+      country:     trunc(req.headers.get("cf-ipcountry") ?? "", 4) || undefined,
+      ipHash:      ipHashFrom(req) || undefined,
       ts:          new Date(),
     });
     /* Order-page arrival alert. Fires once per session per order path

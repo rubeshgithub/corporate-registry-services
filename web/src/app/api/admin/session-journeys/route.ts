@@ -24,6 +24,15 @@ export const dynamic = "force-dynamic";
 
 const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly|python|curl|wget|axios|node-fetch|go-http|java\/|phantom|puppeteer|playwright|selenium|scrapy|monitor|uptime|pingdom/i;
 
+/* Browser versions no current person is running (Sept 2026: Chrome ~150):
+   frozen or stale UA strings are the signature of link scanners and
+   preview fetchers that execute JavaScript but aren't people. */
+function staleBrowser(ua: string): boolean {
+  if (/Firefox\/109\.0/.test(ua) || /Edge\/1[2-8]\./.test(ua)) return true;
+  const chrome = /(?:Chrome|CriOS)\/(\d+)/.exec(ua);
+  return !!chrome && Number(chrome[1]) < 135;
+}
+
 function device(ua: string): string {
   if (!ua) return "unknown";
   if (BOT_UA.test(ua)) return "bot";
@@ -102,6 +111,8 @@ export async function GET(req: Request) {
     const verdict =
       dev === "you (admin)"                                          ? "you — logged in to admin" :
       dev === "bot"                                                  ? "bot / crawler (fired the SMS, not a person)" :
+      (v.length === 1 && !first?.referrer?.includes("google.") && staleBrowser(ua) && !c.length && !sr.length)
+                                                                     ? "likely link scanner (outdated browser, one hit, no interaction)" :
       paid                                                           ? "paid" :
       draft.some((x) => x.typedEmail || x.typedPhone || x.typedName) ? "typed contact details, did not pay" :
       draft.some((x) => x.company)                                   ? "picked a company, typed nothing, left" :
@@ -113,6 +124,8 @@ export async function GET(req: Request) {
       session:   sid.slice(0, 6),
       firstSeen: first?.ts ?? null,
       device:    dev,
+      country:   first?.country ?? null,
+      ipHash:    first?.ipHash ? first.ipHash.slice(0, 8) : null,
       userAgent: ua.slice(0, 140),
       landing: {
         path:      first?.path ?? null,
