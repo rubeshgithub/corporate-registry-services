@@ -136,7 +136,13 @@ export async function POST(req: Request) {
           const ua = trunc(body.userAgent, 200);
           /* Crawlers and headless browsers run the tracker too — each used
              to text the owner as a "visitor". */
-          if (prior <= 1 && !isAdminBrowser && !/bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget/i.test(ua)) {
+          /* Link scanners and AI/preview fetchers that run JavaScript report
+             stale browser versions (Firefox 109, Chrome < 135, "Edge/12") —
+             no customer runs those in 2026. They don't text either. */
+          const chromeMajor = Number(/(?:Chrome|CriOS)\/(\d+)/.exec(ua)?.[1] ?? "999");
+          const staleUa = /Firefox\/109\.0/.test(ua) || /Edge\/1[2-8]\./.test(ua) || chromeMajor < 135;
+          const aiOrBot = /bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget|gptbot|chatgpt|openai|oai-searchbot|perplexity|claude|anthropic|bytespider|ccbot|google-extended|applebot|amazonbot|meta-externalagent|cohere/i.test(ua);
+          if (prior <= 1 && !isAdminBrowser && !aiOrBot && !staleUa) {
             /* Say where they came from, so the text is actionable: the page
                they were on just before, else the external referrer. */
             const prev = await pv.find({ sessionId: sid, path: { $ne: path } }).sort({ ts: -1 }).limit(1).toArray();

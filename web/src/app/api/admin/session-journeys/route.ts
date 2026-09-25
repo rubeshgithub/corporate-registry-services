@@ -22,7 +22,7 @@ import { orderDrafts } from "@/lib/order-drafts-mongo";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly|python|curl|wget|axios|node-fetch|go-http|java\/|phantom|puppeteer|playwright|selenium|scrapy|monitor|uptime|pingdom/i;
+const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly|python|curl|wget|axios|node-fetch|go-http|java\/|phantom|puppeteer|playwright|selenium|scrapy|monitor|uptime|pingdom|gptbot|chatgpt|openai|oai-searchbot|perplexity|claude|anthropic|bytespider|ccbot|applebot|amazonbot|meta-externalagent|cohere/i;
 
 /* Browser versions no current person is running (Sept 2026: Chrome ~150):
    frozen or stale UA strings are the signature of link scanners and

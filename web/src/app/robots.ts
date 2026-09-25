@@ -20,9 +20,11 @@ export default function robots(): MetadataRoute.Robots {
         disallow:  [
           "/admin/",
           "/api/",
-          "/order/thanks",
-          "/order/status",
-          "/order/company-status-check-canada",
+          /* All checkout pages. They are noindex already, but search and AI
+             crawlers kept loading them (every article links to one), which
+             fired order-page SMS alerts and inflated order-page analytics.
+             Polite crawlers stop here; scanners are filtered in /api/track. */
+          "/order/",
           "/unsubscribed",
           "/o/",            // outreach deep-link tokens — should never be indexed
         ],
