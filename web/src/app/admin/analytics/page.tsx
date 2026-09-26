@@ -22,7 +22,8 @@ export default async function AnalyticsPage({
   if (!authed) redirect("/admin/login?next=/admin/analytics");
 
   const params      = await searchParams;
-  const token       = parseWindowToken(params.window);
+  /* Opens on today; the tabs switch to longer windows. */
+  const token       = parseWindowToken(params.window ?? "today");
   const [data, traffic, secondary, inbound] = await Promise.all([
     getAnalyticsData(token),
     getTrafficData(token),
