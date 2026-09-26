@@ -172,7 +172,7 @@ export function parseWindowToken(raw: string | null | undefined): WindowToken {
 
 /** Get every paid Stripe checkout session in the window. Paginates until
  *  we hit a session older than the window (Stripe returns newest-first). */
-async function listPaidSessions(stripe: Stripe, sinceUnix: number): Promise<Stripe.Checkout.Session[]> {
+export async function listPaidSessions(stripe: Stripe, sinceUnix: number): Promise<Stripe.Checkout.Session[]> {
   const out: Stripe.Checkout.Session[] = [];
   let startingAfter: string | undefined;
   for (let page = 0; page < 20; page++) {  // hard cap ~2,000 sessions
