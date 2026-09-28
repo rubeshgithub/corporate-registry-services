@@ -10,9 +10,9 @@ name: Abandoned order sweep
 #
 # Secret required: ADMIN_SWEEP_TOKEN (must match the env var on Render).
 
+# Schedule removed 2026-09-25: replaced by the once-a-day lead summary
+# (daily-leads.yml). Kept for manual runs only.
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       dry:

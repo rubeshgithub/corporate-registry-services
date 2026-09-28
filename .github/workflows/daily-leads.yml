@@ -1,0 +1,50 @@
+name: Daily lead summary
+
+# One email a day to support@ at 9:00 am Mountain (replaces the abandoned-order
+# emails). Fires at 15:00 and 16:00 UTC so 9 am is covered in both MDT and MST;
+# the endpoint sends only at local 9 am and once per day.
+
+on:
+  schedule:
+    - cron: "0 15,16 * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Dry run — build the summary without sending"
+        required: false
+        default: "0"
+      force:
+        description: "Send now, ignoring the 9 am check"
+        required: false
+        default: "0"
+
+concurrency:
+  group: daily-leads
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger daily lead summary
+        env:
+          TOKEN: ${{ secrets.ADMIN_SWEEP_TOKEN }}
+          BASE: https://www.corporateregistryservices.ca
+          DRY: ${{ github.event.inputs.dry || '0' }}
+          FORCE: ${{ github.event.inputs.force || '0' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TOKEN:-}" ]; then
+            echo "::error::ADMIN_SWEEP_TOKEN secret is not set — summary skipped."
+            exit 1
+          fi
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            "$BASE/api/admin/daily-leads?dry=$DRY&force=$FORCE")
+          code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | sed '$d')
+          echo "$body"
+          if [ "$code" != "200" ]; then
+            echo "::error::daily-leads returned HTTP $code"
+            exit 1
+          fi
