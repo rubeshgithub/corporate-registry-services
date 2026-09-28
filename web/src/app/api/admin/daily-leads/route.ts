@@ -193,17 +193,19 @@ async function build(now: Date): Promise<Digest> {
   }
 
   if (withContact.length) {
-    parts.push(section("📋 2. Started an order, didn’t pay — left contact details", "", table(
+    parts.push(section("📋 2. Started an order, didn’t pay — left contact details", "Phone first: an unfinished order form isn’t a request, so don’t email these under the anti-spam rules.", table(
       ["When", "Company", "Service", "Name · Email · Phone", "Came from", "Got as far as", ""],
       withContact.map((d) => {
         const j = journeyOf(d.sessionId, d.path);
         const typed = [d.contact?.name, d.contact?.email, d.contact?.phone].filter(Boolean).length;
         const far = (d.etransferRequestedAt ? "Chose e-transfer, not received" : typed === 3 ? "Typed everything" : "Typed some details")
           + (j.trust.length ? `. Then read ${j.trust.join(", ")}` : "");
-        const actions = [
-          d.contact?.email ? link(`mailto:${d.contact.email}?subject=${encodeURIComponent(`Your ${SERVICE[d.service] ?? d.service} order — ${d.company?.name ?? ""}`)}`, "Email") : "",
-          d.contact?.phone ? link(`tel:${d.contact.phone.replace(/[^\d+]/g, "")}`, "Call") : "",
-        ].filter(Boolean).join(" · ");
+        /* Phone only. Typing into an order form and leaving is not a request
+           under the anti-spam law (CRTC), so these details are not emailed —
+           docu10 applies the same rule. */
+        const actions = d.contact?.phone
+          ? link(`tel:${d.contact.phone.replace(/[^\d+]/g, "")}`, "Call")
+          : `<span style="color:#8A99A8;">No phone — don't email</span>`;
         return [time(d.updatedAt), `<strong>${esc(d.company?.name ?? "—")}</strong>${d.company?.jurisdiction ? ` <span style="color:#5B6B7A">(${esc(d.company.jurisdiction)})</span>` : ""}`,
           esc(svc(d.service)), `${tick(!!d.contact?.name)} · ${tick(!!d.contact?.email)} · ${tick(!!d.contact?.phone)}`,
           esc(j.cameFrom), esc(far), actions];
