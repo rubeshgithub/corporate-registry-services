@@ -9,6 +9,7 @@ import RegistryAccessField from "@/components/order/RegistryAccessField";
 import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import SnapshotCapture from "@/components/SnapshotCapture";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
+import { BC_ANNUAL_RETURN_NOTE } from "@/lib/annual-return-price";
 import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResultsModal";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
@@ -179,7 +180,9 @@ export default function InlineLookupOrder({
   /* Which product the visitor chose on the card. Defaults to the page's own
      service; a third-party card can switch it to good standing. */
   const [activeService, setActiveService] = useState<Service>(service);
-  const activeCents = activeService === service ? priceCents : prices?.[activeService];
+  /* British Columbia annual returns have their own price (lib/annual-return-price). */
+  const bcAnnual    = activeService === "annual-return" && pick?.provinceKey === "bc" && prices?.["annual-return-bc"] != null;
+  const activeCents = bcAnnual ? prices!["annual-return-bc"] : activeService === service ? priceCents : prices?.[activeService];
   const payLabel    = activeCents != null
     ? swapPrice(HEADLINES[activeService].buttonLabel, activeCents)
     : HEADLINES[activeService].buttonLabel;
@@ -789,7 +792,7 @@ export default function InlineLookupOrder({
             )}
           </button>
           <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
-            Card processed securely by Stripe. {HEADLINES[activeService].ctaSubline} {REGISTRY_CLOSURE_NOTE}
+            Card processed securely by Stripe. {bcAnnual ? BC_ANNUAL_RETURN_NOTE : HEADLINES[activeService].ctaSubline} {REGISTRY_CLOSURE_NOTE}
           </p>
         </>
       )}

@@ -7,7 +7,7 @@ description: "How to register for a Business BCeID, how it differs from a BC Ser
 lastUpdated: "2026-09"
 ---
 
-**Just need the filing done?** [File your B.C. annual report →](/order/annual-return?src=article-business-bceid-bc-registry-account) · {{price:annual-return}} all-in + GST, no BCeID or BC Registry account required.
+**Just need the filing done?** [File your B.C. annual report →](/order/annual-return?src=article-business-bceid-bc-registry-account) · {{price:annual-return-bc}} + GST including the BC Registries fee — no BCeID or BC Services Card app, just your company password.
 
 A Business BCeID is a login credential. It proves two things to a B.C. government service: who you are, and which business you are associated with. You need one — or an equivalent login — before you can get into a BC Registry account and file anything online yourself.
 
@@ -76,7 +76,7 @@ But run the arithmetic for a single corporation filing once a year:
 - A BC Registry account to create
 - A company passcode to find, or a recovery process to start if you can't
 
-…to file one annual report. For most one-corporation owners the login is not the product; the filing is. A B.C. annual report through CRS is {{price:annual-return}} all-in + GST, and you need none of the above — we file it as your agent.
+…to file one annual report. For most one-corporation owners the login is not the product; the filing is. A B.C. annual report through CRS is {{price:annual-return-bc}} all-in + GST, and you need none of the above — just the company password; we file it as your agent.
 
 The same is true of the other B.C. filings people assume require a portal login: a [certificate of good standing](/good-standing/british-columbia-certificate-of-good-standing), a [corporate profile report](/profile-reports/british-columbia-corporate-profile-report), or a [new incorporation](/incorporation/british-columbia-incorporation-service).
 
@@ -109,7 +109,7 @@ Accounts are typically authorized within three business days of submission, and 
 
 ### Do I need a BCeID to file my B.C. annual report?
 
-Only if you intend to file it yourself through the registry. CRS files B.C. annual reports as your agent for {{price:annual-return}} all-in + GST, which requires no BCeID, no BC Registry account, and no portal login on your side. For filings the registry gates behind a company passcode, we will ask you for it, or help you recover it.
+Only if you intend to file it yourself through the registry. CRS files B.C. annual reports as your agent for {{price:annual-return-bc}} all-in + GST, which requires no BCeID, no BC Registry account, and no portal login on your side. For filings the registry gates behind a company passcode, we will ask you for it, or help you recover it.
 
 ### I have a BCeID but still can't file — why?
 
@@ -118,6 +118,6 @@ Because a login is not authorisation over a specific company. The business must 
 ---
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the government fee.
+**Price:** {{price:annual-return-bc}} + applicable tax — all-in, including the government fee.
 
 **Skip the setup.** [File your B.C. annual report →](/order/annual-return?src=article-business-bceid-bc-registry-account) or [look up your corporation first](/canada-corporations-search).

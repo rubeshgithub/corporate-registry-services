@@ -193,7 +193,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
         key:   "annual-return",
         label: pc ? "Professional Corporation Annual Return" : "Annual Returns",
         sub:   "Keeps the corporation in good standing",
-        price: pc ? `from ${priceOf("pc-annual-return", 13900)}/yr` : `from ${priceOf("annual-return", 9900)}/yr`,
+        price: pc ? `from ${priceOf("pc-annual-return", 13900)}/yr` : `from ${priceOf(r.provinceKey === "bc" ? "annual-return-bc" : "annual-return", 9900)}/yr`,
         href:  orderHref("annual-return", r),
       },
       {

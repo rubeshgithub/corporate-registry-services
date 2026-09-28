@@ -80,7 +80,12 @@ export default function RegistryAccessField({
       >
         <Check size={15} style={{ color: "var(--secondary)", flexShrink: 0, marginTop: "0.15rem" }} />
         <span>
-          We&rsquo;ll get the {access.term} from the registry for you — you don&rsquo;t need it to order.{" "}
+          {provinceKey === "bc" ? (
+            /* BC's price assumes the company password (owner, Sep 2026). */
+            <>We file with your company&rsquo;s {access.term} — no BCeID or BC Services Card app needed. You can add it now or send it after you order.{" "}</>
+          ) : (
+            <>We&rsquo;ll get the {access.term} from the registry for you — you don&rsquo;t need it to order.{" "}</>
+          )}
           <button
             type="button"
             onClick={() => { set({ status: "have" }); setExpanded(true); }}

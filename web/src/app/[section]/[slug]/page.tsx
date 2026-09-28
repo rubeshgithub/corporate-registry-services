@@ -351,7 +351,8 @@ export default async function ContentPage({
               <InlineLookupOrder
                 service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
                 provinceKey={ctx.jurisdictionKey}
-                priceCents={prices[ctx.serviceKey]}
+                priceCents={prices[ctx.serviceKey === "annual-return" && ctx.jurisdictionKey === "bc" ? "annual-return-bc" : ctx.serviceKey]}
+                prices={prices}
                 srcTag={`inline-article-${page.slug}`}
                 urgency={ctx.urgency ?? null}
                 eyebrowOverride={page.widgetEyebrow ?? null}

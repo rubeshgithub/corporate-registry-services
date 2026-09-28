@@ -9,6 +9,7 @@ import PlacesInput from "@/components/PlacesInput";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
+import { BC_ANNUAL_RETURN_NOTE } from "@/lib/annual-return-price";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
@@ -135,10 +136,11 @@ function nextAnniversary(incorpISO: string) {
   return { date: label, away, daysAway };
 }
 
-export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: number }) {
-  /* Per-year price comes from the admin-editable pricing catalogue via the
-     server page, so the figures shown here always match what Stripe charges. */
-  const perYear = Math.round(perYearCents / 100);
+export default function OrderFlow({ perYearCents = 9900, bcPerYearCents }: { perYearCents?: number; bcPerYearCents?: number }) {
+  /* Per-year prices come from the admin-editable pricing catalogue via the
+     server page, so the figures shown here always match what Stripe charges.
+     British Columbia has its own price (lib/annual-return-price). */
+  const fromPerYear = Math.round(Math.min(perYearCents, bcPerYearCents ?? perYearCents) / 100);
   const params = useSearchParams();
   const initialJurisdiction = params.get("jurisdiction") ?? "all";
   const attributionSrc      = params.get("src") ?? "direct";
@@ -161,6 +163,10 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
   const [paying, setPaying]       = useState(false);
   const [payErr, setPayErr]       = useState("");
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
+
+  const bcPick   = pick?.provinceKey === "bc" && bcPerYearCents != null;
+  const effCents = bcPick ? bcPerYearCents! : perYearCents;
+  const perYear  = Math.round(effCents / 100);
 
   /* Cart-abandonment beacon. Debounced upsert of the current contact + company
      selection into order_drafts. Disabled once we've fired the Stripe redirect
@@ -300,7 +306,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
               color: "var(--gold)",
             }}
           >
-            Annual Return · from {`$${perYear}`} all-in + GST
+            Annual Return · from {`$${fromPerYear}`} all-in + GST
           </span>
           <h1
             style={{
@@ -634,6 +640,11 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
         value={registryAccess}
         onChange={setRegistryAccess}
       />
+      {bcPick && (
+        <p style={{ margin: "0 0 1rem", fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+          <strong style={{ color: "var(--text)" }}>{`$${perYear} + GST, British Columbia.`}</strong> {BC_ANNUAL_RETURN_NOTE}
+        </p>
+      )}
 
       {payErr && (
         <div style={{ padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.85rem", marginBottom: "1rem", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
@@ -679,7 +690,7 @@ export default function OrderFlow({ perYearCents = 9900 }: { perYearCents?: numb
         service="annual-return"
         serviceLabel={years === 1 ? "Annual Return" : `Annual Return (${years} years)`}
         priceLabel={priceLabel}
-        priceCents={perYearCents * years}
+        priceCents={effCents * years}
         company={pick ? {
           name:           pick.name,
           registryId:     pick.registryId,

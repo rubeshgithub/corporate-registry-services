@@ -41,7 +41,7 @@ export default async function AnnualReturnOrderPage() {
             </div>
           }
         >
-          <OrderFlow perYearCents={await getPriceCents("annual-return")} />
+          <OrderFlow perYearCents={await getPriceCents("annual-return")} bcPerYearCents={await getPriceCents("annual-return-bc")} />
         </Suspense>
       </main>
       <Footer />

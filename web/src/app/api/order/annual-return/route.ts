@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { isProfessionalCorporation } from "@/lib/professional-corp";
 import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
+import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import { registryAccessFor, summarizeRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
 
 /**
@@ -147,10 +148,18 @@ export async function POST(req: Request) {
      accordingly. Derived server-side from the registry hit — a client-sent
      flag would let the customer pick the cheaper standard rate. */
   const isPC       = isProfessionalCorporation(body.hit);
+  /* The BC price only for a hit that looks like a BC corporation — the hit
+     comes from the browser, so a provinceKey alone is not enough. BC registry
+     numbers start with letters (BC, C, A, FM, S, LP…); OrgBook/CBR label the
+     jurisdiction "British Columbia". */
+  function isBcHit(h: Hit | undefined): boolean {
+    if (!h || String(h.provinceKey).toLowerCase() !== "bc") return false;
+    return /^(BC|C|A|FM|S|LP|GP|LL|XP|XS|MF|CP)\d/i.test(String(h.registryId ?? "")) || /british columbia/i.test(String(h.jurisdiction ?? ""));
+  }
   const pcPerYear  = await proCorpPriceCentsLive(isPC, "annual-return");
   const perYearCents = USE_TEST_PRICE
     ? PRICE_PER_YEAR_CAD_CENTS
-    : (pcPerYear ?? await getPriceCents("annual-return"));
+    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : body.hit?.provinceKey === "bc" ? "" : body.hit?.provinceKey)));
 
   try {
     const session = await stripe.checkout.sessions.create({

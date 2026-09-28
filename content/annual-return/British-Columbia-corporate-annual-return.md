@@ -1,11 +1,11 @@
 ﻿---
 title: "British Columbia Corporate Annual Return"
-description: "File your BC Annual Report (British Columbia's corporate annual return) with BC Registries — {{price:annual-return}} all-in, government fee included. Stay in good standing."
+description: "File your BC Annual Report with BC Registries — {{price:annual-return-bc}} + GST, BC Registries fee included. No BCeID or BC Services Card app, just your company password."
 slug: "British-Columbia-corporate-annual-return"
 section: "annual-return"
 ---
 
-British Columbia Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
+British Columbia Annual Return Filing — {{price:annual-return-bc}} + GST, all-in (including the BC Registries fee). No BCeID or BC Services Card app needed — we file with your company password (access code).
 
 Every British Columbia corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

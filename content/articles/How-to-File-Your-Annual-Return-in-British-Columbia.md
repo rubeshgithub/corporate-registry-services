@@ -3,10 +3,10 @@ title: "BC Annual Report: How to File, Fee & Due Date (2026)"
 h1: "How to File a BC Annual Report — and When It's Due"
 slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
-description: "File with BC Registries yourself for $43.39 — or skip the BCeID login and access code and we file it for {{price:annual-return}} all-in, within 1 business day."
+description: "File with BC Registries yourself for $43.39, or we file it for {{price:annual-return-bc}} + GST, fee included. No BCeID or BC Services Card app — just your company password."
 ---
 
-**Deadline coming up?** [File your BC Annual Report in 1 business day →](/order/annual-return) · {{price:annual-return}} all-in, filed directly through BC Registry Services — no BCeID login, no portal navigation required.
+**Deadline coming up?** [File your BC Annual Report in 1 business day →](/order/annual-return) · {{price:annual-return-bc}} + GST including the BC Registries fee, filed with your company password — no BCeID login, no portal navigation required.
 
 Every corporation incorporated under British Columbia's *Business Corporations Act* (BCA) must file an annual report each year to maintain its good standing with BC Registry Services. In British Columbia, the annual filing is called an **Annual Report** (not an "annual return" as in other provinces), but the requirement and purpose are the same.
 
@@ -84,9 +84,9 @@ If your BC company also carries on business in Ontario, Alberta, or any other pr
 
 ## File Your BC Annual Report Without the BC Registry Portal
 
-CRS files BC Annual Reports directly through BC Registry Services on your behalf. You don't need a BC Services Card, a BCeID, or a Registry Services account — we prepare the report, submit it before your 2-month anniversary deadline, and email you the confirmation for your records.
+CRS files BC Annual Reports directly through BC Registry Services on your behalf. You don't need a BC Services Card app, a BCeID, or a Registry Services account — just the company's password (access code) — and we prepare the report, submit it before your 2-month anniversary deadline, and email you the confirmation for your records.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the $43.39 government fee.
+**Price:** {{price:annual-return-bc}} + GST — all-in, including the $43.39 BC Registries fee. All we need is the company's password (its access code); if it's been lost, we'll help you reset it.
 
 [File your BC Annual Report now →](/order/annual-return)
