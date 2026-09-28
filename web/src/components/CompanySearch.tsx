@@ -146,6 +146,8 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
   /* Registry name when the chosen jurisdiction has no searchable index —
      PEI, NL, NB, NWT, Yukon, Nunavut. Null means the search was real. */
   const [noLiveSearch, setNoLiveSearch] = useState<string | null>(null);
+  /* Set when the query was a Business Number that found nothing: why a BN can come back empty. */
+  const [searchHint, setSearchHint] = useState<string | null>(null);
 
   /* Email gate for "View full profile" clicks — first click in a session
      opens the modal, subsequent clicks pass through (session storage flag). */
@@ -269,6 +271,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
          jurisdiction has no index of its own. Only name the unreachable
          registry if that widened search still found nothing. */
       setNoLiveSearch(data.noLiveSearch && !(data.results ?? []).length ? (data.registryName ?? "that registry") : null);
+      setSearchHint(typeof data.hint === "string" && !(data.results ?? []).length ? data.hint : null);
       if (opts.track) trackSearch(q, prov, data.total ?? data.results?.length ?? 0);
     } catch {
       setError("Search temporarily unavailable. Please try again.");
@@ -854,6 +857,9 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
 
       {!loading && !error && searched && !noLiveSearch && results.length === 0 && !peiDeferred && (
         <>
+          {searchHint && (
+            <p style={{ margin: "0.75rem 0 0", fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.55 }}>{searchHint}</p>
+          )}
           {zeroModalDismissedFor !== `${query.trim().toLowerCase()}|${province}` && (
             <RegistrySearchZeroResultsModal
               query={query}

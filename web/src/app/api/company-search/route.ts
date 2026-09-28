@@ -450,11 +450,38 @@ function mergeResults(cbr: ResultShape[], local: ResultShape[], cap: number): Re
   return merged;
 }
 
+/**
+ * A CRA Business Number in any of the ways people type one: "710428731",
+ * "710 428 731", "710428731RC0001" (the corporate-tax program account),
+ * "BC710428731". Returns the 9 digits, or null when it isn't BN-shaped.
+ * A bare 9-digit number is left alone by the caller's query — Saskatchewan
+ * registry numbers are 9 digits too, and CBR matches either on the plain
+ * digits. BC incorporation numbers ("BC1267124") have 7 digits and never match.
+ */
+function businessNumberOf(raw: string): string | null {
+  const s = raw.replace(/[\s.-]/g, "");
+  const m = /^(?:[A-Za-z]{2})?(\d{9})(?:(?:RC|RT|RP|RR|RZ|RM)\d{4})?$/i.exec(s);
+  return m ? m[1] : null;
+}
+
+function bnHint(bn: string): string {
+  return `No registered corporation lists Business Number ${bn} in the national registry index. `
+    + "A Business Number can also belong to a sole proprietorship, partnership or charity, or to a company "
+    + "in a registry that doesn't share it (PEI, Newfoundland, New Brunswick, the territories). "
+    + "Try the company name or its registry number instead — or ask us to look it up.";
+}
+
 // ── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const q        = searchParams.get("q")?.trim() ?? "";
+  const rawQ     = searchParams.get("q")?.trim() ?? "";
+  /* Business Numbers are searched as their 9 digits: CBR indexes the BN
+     (verified: 840810600 → WINNIPEG PATTERN HOLDINGS, 710428731 → ACTIVE
+     ARCHITECTURE), but "710428731RC0001", "BC710428731" or "710 428 731"
+     found nothing. */
+  const bn       = businessNumberOf(rawQ);
+  const q        = bn ?? rawQ;
   const province = searchParams.get("province") ?? "all";
   const rawStatus = searchParams.get("status") ?? "all";
   const status: StatusFilter =
@@ -480,8 +507,17 @@ export async function GET(request: Request) {
     ? { noLiveSearch: true, registryName: MANUAL_REGISTRY_NAME[province] ?? "that registry" }
     : {};
 
+  /* Every answer says which BN was searched, and an empty one explains why a
+     BN can come back empty instead of implying the company doesn't exist. */
+  const respond = (body: Record<string, unknown>) => {
+    if (!bn) return NextResponse.json(body);
+    const empty = !Array.isArray(body.results) || body.results.length === 0;
+    return NextResponse.json({ ...body, businessNumber: bn, ...(empty ? { hint: bnHint(bn) } : {}) });
+  };
+
   try {
-    if (searchProvince === "bc") {
+    /* OrgBook doesn't index Business Numbers; CBR carries BC's. */
+    if (searchProvince === "bc" && !bn) {
       return NextResponse.json(await searchBC(q, status));
     }
     const cbrCode = searchProvince === "all" ? undefined : PROVINCE_CBR[searchProvince];
@@ -509,7 +545,7 @@ export async function GET(request: Request) {
          nothing found, so the offer to look it up by hand is what shows. */
       const missed = noLiveIndex && ranked.hadNumber && !ranked.matchedNumber;
       const only   = missed ? [] : ranked.rows;
-      return NextResponse.json({
+      return respond({
         ...cbrResp,
         results: only,
         total:   only.length === cbrResp.results.length ? cbrResp.total : only.length,
@@ -525,7 +561,7 @@ export async function GET(request: Request) {
     const sourceParts: string[] = ["cbr"];
     if (hasLocalAB) sourceParts.push("gazette");
 
-    return NextResponse.json({
+    return respond({
       ...cbrResp,
       results:      merged,
       total:        merged.length,

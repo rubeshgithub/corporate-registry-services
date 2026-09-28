@@ -287,7 +287,8 @@ export default function InlineLookupOrder({
         setSearchErr(
           data?.error
             ? "We couldn't reach that registry just now — so this is a search problem, not a missing corporation."
-            : "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
+            : (typeof data?.hint === "string" && data.hint)
+              || "No matching records. Try the exact registered name, or scroll down to search all of Canada.");
         setZeroHelpFor(q);
       } else if (hits.length) {
         setZeroHelpFor(null);
