@@ -8,6 +8,7 @@ import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import SnapshotCapture from "@/components/SnapshotCapture";
+import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResultsModal";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
@@ -187,11 +188,28 @@ export default function InlineLookupOrder({
   const [hasChanges, setHasChanges]   = useState(false);
   const [changesNote, setChangesNote] = useState("");
   const [paying, setPaying]       = useState(false);
+  /* Set just before the Stripe redirect so the paid session isn't written
+     as an abandoned cart by a late beacon. */
+  const [redirecting, setRedirecting] = useState(false);
   const [payErr, setPayErr]       = useState("");
   /* The credential the registry needs before it will accept the filing.
      The field renders itself only where the jurisdiction requires one, so
      it is safe to mount unconditionally. */
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
+
+  /* Same abandoned-cart record the /order/* pages write: picking a company
+     here is this widget's checkout. Without it, a visitor who picked a
+     company and typed their details in an article's search box, then left,
+     was invisible — no cart abandonment, no lead, no funnel step. */
+  useOrderDraftBeacon({
+    service:  activeService,
+    contact:  pick ? contact : undefined,
+    company:  pick ? {
+      name: pick.name, registryId: pick.registryId, businessNumber: pick.businessNumber,
+      jurisdiction: pick.jurisdiction, provinceKey: pick.provinceKey,
+    } : undefined,
+    disabled: redirecting,
+  });
 
   /** Fire the same search tracking beacon the standalone CompanySearch uses.
       Feeds the admin dashboard's "search intent" section regardless of
@@ -379,6 +397,7 @@ export default function InlineLookupOrder({
       });
       const data = await res.json();
       if (res.ok && data.url) {
+        setRedirecting(true);
         window.location.href = data.url;
       } else {
         setPayErr(data.error || "Could not start payment. Please try again.");
