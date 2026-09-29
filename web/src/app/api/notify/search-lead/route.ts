@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { searchLeads, ensureSearchLeadIndexes } from "@/lib/search-leads-mongo";
 import { isSuppressed } from "@/lib/outreach-mongo";
 import { sendOutreach } from "@/lib/outreach-ses";
+import { brandedEmail, signatureText, footerText, button, p, C, FONT, esc } from "@/lib/email-brand";
 import { getPrices, formatCents } from "@/lib/pricing";
 
 /**
@@ -112,64 +113,80 @@ async function sendConfirmationEmail(args: {
 }) {
   const provLabel = PROV_LABEL[args.province] ?? args.province;
   /* Prices come from the catalogue — this email used to hard-code $49/$79/$99
-     and kept quoting them after the catalogue moved. */
+     and kept quoting them after the catalogue moved. Annual returns quote the
+     lowest (British Columbia has its own price). */
   const prices = await getPrices();
   const price  = (key: string) => formatCents(prices[key]);
+  const arFrom = formatCents(Math.min(prices["annual-return"] ?? Infinity, prices["annual-return-bc"] ?? Infinity));
+  const changeFrom = formatCents(Math.min(prices["change-directors"] ?? Infinity, prices["change-address"] ?? Infinity));
+  const mbFrom = formatCents(Math.min(prices["minute-book-new"] ?? Infinity, prices["minute-book-update"] ?? Infinity));
+
   const searchQs  = new URLSearchParams();
   searchQs.set("q", args.query);
   if (args.province && args.province !== "all") searchQs.set("province", args.province);
   const searchUrl = `${SITE_URL}/canada-corporations-search?${searchQs.toString()}`;
+  const orderQs = new URLSearchParams({ q: args.query, src: "email-saved-search" });
+  if (args.province && args.province !== "all") orderQs.set("jurisdiction", args.province);
+  const profileUrl = `${SITE_URL}/order/profile-report?${orderQs.toString()}`;
 
-  const subject = `Your CRS search: "${args.query.slice(0, 60)}"`;
-  const countLine = args.resultCount > 0
-    ? `That returned ${args.resultCount} result${args.resultCount === 1 ? "" : "s"}.`
-    : `That returned no direct match — reply to this email with the corporation name and our team will run a deeper search.`;
+  const subject = `Your saved search: "${args.query.slice(0, 60)}"`;
+  const found = args.resultCount > 0
+    ? `That returned <strong>${args.resultCount} result${args.resultCount === 1 ? "" : "s"}</strong>.`
+    : "That returned no direct match — reply to this email with the corporation name and our team will run a deeper search for you.";
+  const why = "You're receiving this because you saved a search on corporateregistryservices.ca.";
 
+  const services = [
+    ["Certificate of Status / Good Standing", `${price("good-standing")} + GST`],
+    ["Annual Return / Annual Report filing", `from ${arFrom} + GST`],
+    ["Changes to the corporation's information (directors, addresses, shareholders)", `from ${changeFrom} + GST`],
+    ["Minute book services", `from ${mbFrom} + GST`],
+    ["Incorporations, NUANS name searches, amendments and more", ""],
+  ];
+
+  const bodyHtml = [
+    p("Hi,"),
+    p("Thank you for using Corporate Registry Services. You saved this search:"),
+    `<p style="margin:0 0 14px;padding:10px 14px;background:${C.box};border-left:3px solid ${C.navy};font-family:${FONT};font-size:14px;color:${C.text};"><strong>${esc(args.query)}</strong> &middot; ${esc(provLabel)}</p>`,
+    p(found),
+    `<p style="margin:0 0 18px;">${button(searchUrl, "Re-run this search")}</p>`,
+    p(`<strong>Need the official record?</strong> A full Corporate Profile Report — <strong>${esc(price("profile-report"))} + GST</strong> — is the up-to-date record from the corporate registry: the directors, the shareholders where the registry records them, and the registered office and mailing addresses. The official PDF, by email within one business hour.`),
+    `<p style="margin:0 0 18px;">${button(profileUrl, "Order a profile report", false)}</p>`,
+    p("We can also help with:", "margin-bottom:6px;"),
+    `<ul style="margin:0 0 16px;padding-left:20px;font-family:${FONT};font-size:15px;line-height:1.7;color:${C.text};">${services
+      .map(([what, cost]) => `<li>${esc(what)}${cost ? ` — <strong>${esc(cost)}</strong>` : ""}</li>`).join("")}</ul>`,
+    p("Just reply to this email with any questions — a specialist watches this inbox during business hours."),
+  ].join("\n");
+
+  const html = brandedEmail({
+    subject, preheader: `Your saved search for ${args.query} — re-run it any time.`,
+    eyebrow: "Your saved search", title: "", bodyHtml, to: args.email, why,
+  });
   const text = [
     `Hi,`,
     ``,
-    `You saved this search on Corporate Registry Services:`,
+    `Thank you for using Corporate Registry Services. You saved this search:`,
     `  "${args.query}" — ${provLabel}`,
     ``,
-    countLine,
+    args.resultCount > 0
+      ? `That returned ${args.resultCount} result${args.resultCount === 1 ? "" : "s"}.`
+      : `That returned no direct match — reply to this email with the corporation name and our team will run a deeper search for you.`,
     ``,
     `Re-run the search any time:`,
     `  ${searchUrl}`,
     ``,
-    `When you're ready to file, we handle the paperwork in 1 business day:`,
-    `  • Corporate Profile Report — ${price("profile-report")} all-in`,
-    `  • Certificate of Good Standing — ${price("good-standing")} all-in`,
-    `  • Annual Return Filing — from ${price("annual-return")}/yr`,
+    `Need the official record? A full Corporate Profile Report — ${price("profile-report")} + GST — is the up-to-date record from the corporate registry: the directors, the shareholders where the registry records them, and the registered office and mailing addresses. The official PDF, by email within one business hour:`,
+    `  ${profileUrl}`,
     ``,
-    `Reply to this email with any questions — a specialist watches this inbox during business hours.`,
+    `We can also help with:`,
+    ...services.map(([what, cost]) => `  • ${what}${cost ? ` — ${cost}` : ""}`),
     ``,
-    `— Corporate Registry Services`,
-    SITE_URL,
+    `Just reply to this email with any questions — a specialist watches this inbox during business hours.`,
+    ``,
+    ...signatureText(),
+    ``,
+    ...footerText(args.email, why),
   ].join("\n");
-
-  const html = `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#1D2A35;">
-    <p>Hi,</p>
-    <p>You saved this search on <strong>Corporate Registry Services</strong>:</p>
-    <p style="padding:0.5rem 0.85rem;background:#f4f7fa;border-left:3px solid #2a7d8f;font-family:monospace;font-size:13px;">
-      <strong>${escapeHtml(args.query)}</strong> &middot; ${escapeHtml(provLabel)}
-    </p>
-    <p>${args.resultCount > 0
-        ? `That returned <strong>${args.resultCount} result${args.resultCount === 1 ? "" : "s"}</strong>.`
-        : `That returned no direct match — reply to this email with the corporation name and our team will run a deeper search.`}</p>
-    <p><a href="${searchUrl}" style="display:inline-block;padding:0.55rem 1rem;background:#003d5b;color:#fff;text-decoration:none;border-radius:0.4rem;font-weight:600;">Re-run this search →</a></p>
-    <p>When you're ready to file, we handle the paperwork in <strong>1 business day</strong>:</p>
-    <ul>
-      <li>Corporate Profile Report — <strong>${price("profile-report")} all-in</strong></li>
-      <li>Certificate of Good Standing — <strong>${price("good-standing")} all-in</strong></li>
-      <li>Annual Return Filing — <strong>from ${price("annual-return")}/yr</strong></li>
-    </ul>
-    <p>Reply to this email with any questions — a specialist watches this inbox during business hours.</p>
-    <p style="color:#8A99A8;">— Corporate Registry Services · <a href="${SITE_URL}">${SITE_URL}</a></p>
-  </body></html>`;
-
   await sendOutreach({ to: [args.email], cc: [], bcc: [], subject, html, text });
 }
 
-function escapeHtml(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
+
