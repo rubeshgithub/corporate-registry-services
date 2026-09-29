@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck, ChevronDown } from "lucide-react";
 import RegistrySearchZeroResultsModal from "./RegistrySearchZeroResultsModal";
 import SnapshotCapture from "./SnapshotCapture";
+import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import RegistrySearchZeroResultsHelp from "./RegistrySearchZeroResultsHelp";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
@@ -193,7 +194,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
         key:   "annual-return",
         label: pc ? "Professional Corporation Annual Return" : "Annual Returns",
         sub:   "Keeps the corporation in good standing",
-        price: pc ? `from ${priceOf("pc-annual-return", 13900)}/yr` : `from ${priceOf(r.provinceKey === "bc" ? "annual-return-bc" : "annual-return", 9900)}/yr`,
+        price: pc ? `from ${priceOf("pc-annual-return", 13900)}/yr` : `from ${priceOf(annualReturnPriceKey(r.provinceKey), 9900)}/yr`,
         href:  orderHref("annual-return", r),
       },
       {

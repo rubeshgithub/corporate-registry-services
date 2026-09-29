@@ -86,7 +86,7 @@ The part nobody mentions at the point of sale: an Alberta corporation owes an **
 
 Miss it repeatedly and the registrar strikes the corporation from the register. It ceases to exist, bank accounts become a problem, and getting it back means a revival plus every missed return.
 
-There is no account for the registry to email, because Alberta filings run through agents. That is precisely why it gets forgotten. See [how to file your Alberta annual return](/articles/how-to-file-your-annual-return-in-alberta), or [file it now](/file-annual-return/alberta) at {{price:annual-return}} all-in + GST.
+There is no account for the registry to email, because Alberta filings run through agents. That is precisely why it gets forgotten. See [how to file your Alberta annual return](/articles/how-to-file-your-annual-return-in-alberta), or [file it now](/file-annual-return/alberta) at {{price:annual-return-ab}} all-in + GST.
 
 ## Related guides
 

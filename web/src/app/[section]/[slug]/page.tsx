@@ -7,6 +7,7 @@ import { inferServiceContext, withLivePrices, wizardHref } from "@/lib/service-c
 import { getPrices } from "@/lib/pricing";
 import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
+import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
 import MinuteBookLookupIsland from "@/components/MinuteBookLookupIsland";
 import NfpConsultationCTA from "@/components/NfpConsultationCTA";
@@ -145,7 +146,7 @@ const CUSTOM_ISLANDS: Record<
     <InlineLookupOrder
       service="annual-return"
       provinceKey="ab"
-      priceCents={prices["annual-return"]}
+      priceCents={prices["annual-return-ab"]}
       srcTag={`inline-article-${slug}`}
       urgency={{
         headline: "Your notice has a deadline on it.",
@@ -351,7 +352,7 @@ export default async function ContentPage({
               <InlineLookupOrder
                 service={ctx.serviceKey as "annual-return" | "profile-report" | "good-standing"}
                 provinceKey={ctx.jurisdictionKey}
-                priceCents={prices[ctx.serviceKey === "annual-return" && ctx.jurisdictionKey === "bc" ? "annual-return-bc" : ctx.serviceKey]}
+                priceCents={prices[ctx.serviceKey === "annual-return" ? annualReturnPriceKey(ctx.jurisdictionKey) : ctx.serviceKey]}
                 prices={prices}
                 srcTag={`inline-article-${page.slug}`}
                 urgency={ctx.urgency ?? null}

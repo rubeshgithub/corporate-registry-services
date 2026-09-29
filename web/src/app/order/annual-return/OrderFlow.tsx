@@ -9,7 +9,7 @@ import PlacesInput from "@/components/PlacesInput";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
-import { BC_ANNUAL_RETURN_NOTE } from "@/lib/annual-return-price";
+import { annualReturnNote } from "@/lib/annual-return-price";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 
@@ -136,11 +136,11 @@ function nextAnniversary(incorpISO: string) {
   return { date: label, away, daysAway };
 }
 
-export default function OrderFlow({ perYearCents = 9900, bcPerYearCents }: { perYearCents?: number; bcPerYearCents?: number }) {
+export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = {} }: { perYearCents?: number; provincePerYearCents?: Record<string, number> }) {
   /* Per-year prices come from the admin-editable pricing catalogue via the
      server page, so the figures shown here always match what Stripe charges.
      British Columbia has its own price (lib/annual-return-price). */
-  const fromPerYear = Math.round(Math.min(perYearCents, bcPerYearCents ?? perYearCents) / 100);
+  const fromPerYear = Math.round(Math.min(perYearCents, ...Object.values(provincePerYearCents)) / 100);
   const params = useSearchParams();
   const initialJurisdiction = params.get("jurisdiction") ?? "all";
   const attributionSrc      = params.get("src") ?? "direct";
@@ -164,8 +164,9 @@ export default function OrderFlow({ perYearCents = 9900, bcPerYearCents }: { per
   const [payErr, setPayErr]       = useState("");
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
-  const bcPick   = pick?.provinceKey === "bc" && bcPerYearCents != null;
-  const effCents = bcPick ? bcPerYearCents! : perYearCents;
+  const provCents = pick?.provinceKey ? provincePerYearCents[pick.provinceKey] : undefined;
+  const bcPick   = provCents != null;          // a province with its own annual-return price (BC, Alberta)
+  const effCents = provCents ?? perYearCents;
   const perYear  = Math.round(effCents / 100);
 
   /* Cart-abandonment beacon. Debounced upsert of the current contact + company
@@ -642,7 +643,7 @@ export default function OrderFlow({ perYearCents = 9900, bcPerYearCents }: { per
       />
       {bcPick && (
         <p style={{ margin: "0 0 1rem", fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
-          <strong style={{ color: "var(--text)" }}>{`$${perYear} + GST, British Columbia.`}</strong> {BC_ANNUAL_RETURN_NOTE}
+          <strong style={{ color: "var(--text)" }}>{`$${perYear} + GST, ${pick?.jurisdiction ?? ""}.`}</strong> {annualReturnNote(pick?.provinceKey)}
         </p>
       )}
 

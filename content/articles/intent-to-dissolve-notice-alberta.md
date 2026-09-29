@@ -12,7 +12,7 @@ faq:
   - q: "Can a struck Alberta corporation be revived?"
     a: "Yes. An interested person — a director, shareholder, or creditor — can revive an Alberta corporation within 10 years of dissolution by filing Articles of Revival plus every outstanding annual return, and an Alberta NUANS report if the corporation has been dissolved 3 or more years. CRS prepares and files the full revival package for {{price:revival}} + GST."
   - q: "Does filing the overdue annual return stop the dissolution?"
-    a: "Yes. If the corporation has not yet been struck, filing every outstanding annual return before the deadline on the notice fully resolves the default and the dissolution does not proceed. CRS files Alberta annual returns within 1 business day for {{price:annual-return}} all-in + GST."
+    a: "Yes. If the corporation has not yet been struck, filing every outstanding annual return before the deadline on the notice fully resolves the default and the dissolution does not proceed. CRS files Alberta annual returns within 1 business day for {{price:annual-return-ab}} all-in + GST."
 ---
 
 **Holding an intent to dissolve notice?** [File your overdue annual return now →](/order/annual-return?jurisdiction=ab&src=article-intent-to-dissolve-notice-alberta) — filed within 1 business day, and the dissolution stops.
@@ -48,7 +48,7 @@ File every outstanding annual return before the deadline on the notice. That's t
 
 1. **Confirm what's outstanding.** Your notice usually says which year(s) are missing. The registry record shows the rest.
 2. **Gather your shareholder details.** An Alberta annual return (Form REG3062) confirms the corporation's address and its top 5 voting shareholders with their percentages.
-3. **File through an authorized service provider.** Alberta annual returns can't be mailed to the government directly — they're filed through [authorized Corporate Registry service providers](https://www.alberta.ca/corporations-cooperatives-organizations-annual-returns). CRS is a Certified CORES Registry Agent: [file your Alberta annual return online](/file-annual-return/alberta) for {{price:annual-return}} all-in + GST, filed within 1 business day, no CORES account required. Multiple years behind? Each outstanding year is filed as its own return.
+3. **File through an authorized service provider.** Alberta annual returns can't be mailed to the government directly — they're filed through [authorized Corporate Registry service providers](https://www.alberta.ca/corporations-cooperatives-organizations-annual-returns). CRS is a Certified CORES Registry Agent: [file your Alberta annual return online](/file-annual-return/alberta) for {{price:annual-return-ab}} all-in + GST, filed within 1 business day, no CORES account required. Multiple years behind? Each outstanding year is filed as its own return.
 4. **Fix the root cause.** If the notice reached you late — or by luck — your registered office address is probably stale. Update your address and directors at the same time so next year's reminder actually reaches you.
 
 If your deadline is days away, don't wait on a walk-in registry queue. [Start your filing now](/order/annual-return?jurisdiction=ab&src=article-intent-to-dissolve-notice-alberta) and it's typically at the registry the next business day.
@@ -103,13 +103,13 @@ Yes. An interested person — a director, shareholder, or creditor — can reviv
 
 ### Does filing the overdue annual return stop the dissolution?
 
-Yes. If the corporation has not yet been struck, filing every outstanding annual return before the deadline on the notice fully resolves the default and the dissolution does not proceed. CRS files Alberta annual returns within 1 business day for {{price:annual-return}} all-in + GST.
+Yes. If the corporation has not yet been struck, filing every outstanding annual return before the deadline on the notice fully resolves the default and the dissolution does not proceed. CRS files Alberta annual returns within 1 business day for {{price:annual-return-ab}} all-in + GST.
 
 ---
 
-**Beat the deadline on your notice.** CRS files Alberta annual returns for {{price:annual-return}} all-in + GST — government fee included, filed by a Certified CORES Registry Agent, no CORES account required. Already struck? [Corporate Revival](/order/revival?src=article-intent-to-dissolve-notice-alberta) restores your corporation, outstanding returns included.
+**Beat the deadline on your notice.** CRS files Alberta annual returns for {{price:annual-return-ab}} all-in + GST — government fee included, filed by a Certified CORES Registry Agent, no CORES account required. Already struck? [Corporate Revival](/order/revival?src=article-intent-to-dissolve-notice-alberta) restores your corporation, outstanding returns included.
 
 **Turnaround:** filed within 1 business day of your order.
-**Price:** {{price:annual-return}} all-in + GST (annual return) · {{price:revival}} + GST (revival).
+**Price:** {{price:annual-return-ab}} all-in + GST (annual return) · {{price:revival}} + GST (revival).
 
 [File my annual return →](/order/annual-return?jurisdiction=ab&src=article-intent-to-dissolve-notice-alberta)

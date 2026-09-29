@@ -1,11 +1,11 @@
 ﻿---
 title: "Alberta Corporate Annual Return"
-description: "File your Alberta corporate annual return through the Alberta Corporate Registry (CORES) — {{price:annual-return}} all-in, government fee included. Stay in good standing."
+description: "File your Alberta corporate annual return through the Alberta Corporate Registry (CORES) — {{price:annual-return-ab}} all-in, government fee included. Stay in good standing."
 slug: "Alberta-corporate-annual-return"
 section: "annual-return"
 ---
 
-Alberta Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
+Alberta Annual Return Filing — {{price:annual-return-ab}} + applicable tax, all-in (including government fees).
 
 Every Alberta corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

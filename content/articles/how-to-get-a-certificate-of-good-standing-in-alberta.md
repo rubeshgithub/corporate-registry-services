@@ -68,7 +68,7 @@ File the outstanding annual returns first — a certificate ordered while return
 
 Alberta corporations file an annual return every year, due within one month of the incorporation anniversary. Fall behind and the consequences escalate: the registry flags the corporation, and after two consecutive missed returns it can be struck from the register — Alberta sends an [intent-to-dissolve notice](/articles/intent-to-dissolve-notice-alberta) before that happens. A struck or dissolved corporation can't get a certificate showing good standing at all; it needs [revival](/order/revival?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) first, which is a bigger filing with more documents and higher fees.
 
-The fix is usually fast. CRS can [file your outstanding Alberta annual returns](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return}} all-in + GST per return, 1 business day — and then pull the certificate once the registry shows you Active. If you're not sure where you stand, our [guide to Alberta annual returns](/articles/how-to-file-your-annual-return-in-alberta) explains the deadline and what happens at each stage of falling behind.
+The fix is usually fast. CRS can [file your outstanding Alberta annual returns](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return-ab}} all-in + GST per return, 1 business day — and then pull the certificate once the registry shows you Active. If you're not sure where you stand, our [guide to Alberta annual returns](/articles/how-to-file-your-annual-return-in-alberta) explains the deadline and what happens at each stage of falling behind.
 
 ## Frequently Asked Questions
 
@@ -99,4 +99,4 @@ No. Alberta issues Certificates of Status only for corporations and incorporated
 **Turnaround:** about 3 hours, delivered as a PDF
 **Price:** {{price:good-standing}} all-in + tax — government charges included
 
-Behind on filings? [File your annual return first →](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return}} all-in + GST, 1 business day.
+Behind on filings? [File your annual return first →](/order/annual-return?src=article-how-to-get-a-certificate-of-good-standing-in-alberta) — {{price:annual-return-ab}} all-in + GST, 1 business day.

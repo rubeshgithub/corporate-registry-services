@@ -41,6 +41,7 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   /* ── Filings & changes ──────────────────────────────────────────── */
   { key: "annual-return",         label: "Annual Return",                     group: "Filings & changes", defaultCents: 9900,  unit: "per-year", note: "Charged per year filed" },
   { key: "annual-return-bc",      label: "Annual Return — British Columbia", group: "Filings & changes", defaultCents: 9900,  unit: "per-year", note: "BC only (owner, Sep 2026): includes the BC Registries fee; filed with the company password — no BCeID or BC Services Card app" },
+  { key: "annual-return-ab",      label: "Annual Return — Alberta",         group: "Filings & changes", defaultCents: 15900, unit: "per-year", note: "Alberta only (owner, Sep 2026): includes the Alberta government fee; filed by a CORES-certified agent" },
   { key: "change-directors",      label: "Director / Officer Change",         group: "Filings & changes", defaultCents: 9900,  unit: "once" },
   { key: "change-address",        label: "Registered Office Address Change",  group: "Filings & changes", defaultCents: 9900,  unit: "once" },
   { key: "change-name",           label: "Corporate Name Change",             group: "Filings & changes", defaultCents: 29900, unit: "once" },

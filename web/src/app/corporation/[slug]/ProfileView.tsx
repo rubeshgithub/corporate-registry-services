@@ -467,7 +467,7 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
       accentColor: "#B45309",
       title:       "⚠ Urgent — file this Annual Return now",
       subtitle:    "This corporation is on Alberta's Liable-for-Dissolution list. If not filed within 4 months of the gazetted date, the registrar will strike it off — freezing bank accounts, financing, and contracts.",
-      primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
+      primary:     { label: `File Annual Return — ${price("annual-return-ab")} + gst`, href: q("/order/annual-return") },
       secondary: [
         { label: `Certificate of Good Standing — ${price("good-standing")}`, href: q("/order/good-standing") },
       ],
@@ -504,8 +504,8 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
     return {
       accentColor: "var(--secondary)",
       title:       "File your Annual Return in minutes",
-      subtitle:    `This corporation is active. Let CRS file your annual return with the Alberta registrar — ${price("annual-return")} + gst, filed within 1 business day. We pre-fill your details from the registry so you can review and submit in about 2 minutes.`,
-      primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
+      subtitle:    `This corporation is active. Let CRS file your annual return with the Alberta registrar — ${price("annual-return-ab")} + gst, filed within 1 business day. We pre-fill your details from the registry so you can review and submit in about 2 minutes.`,
+      primary:     { label: `File Annual Return — ${price("annual-return-ab")} + gst`, href: q("/order/annual-return") },
       secondary: [
         { label: `Profile Report — ${price("profile-report")}`,             href: q("/order/profile-report") },
         { label: `Certificate of Good Standing — ${price("good-standing")}`, href: q("/order/good-standing") },
@@ -520,7 +520,7 @@ function ctaConfig(liveStatus: string, dbStatus: string, company: SerializedProf
   return {
     accentColor: "var(--gold)",
     title:       "Services available for this corporation",
-    primary:     { label: `File Annual Return — ${price("annual-return")} + gst`, href: q("/order/annual-return") },
+    primary:     { label: `File Annual Return — ${price("annual-return-ab")} + gst`, href: q("/order/annual-return") },
     secondary: [
       { label: `Order Profile Report — ${price("profile-report")}`, href: q("/order/profile-report") },
     ],

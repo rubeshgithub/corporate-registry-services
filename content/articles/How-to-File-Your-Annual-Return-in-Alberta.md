@@ -1,12 +1,12 @@
 ﻿---
-title: "CORES Alberta Annual Return | Certified Agent | {{price:annual-return}}"
+title: "CORES Alberta Annual Return | Certified Agent | {{price:annual-return-ab}}"
 h1: "Alberta Annual Return: Filed via CORES in 1 Business Day"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
-description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — {{price:annual-return}} all-in, no CORES account needed. Beat your 1-month deadline."
+description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — {{price:annual-return-ab}} all-in, no CORES account needed. Beat your 1-month deadline."
 ---
 
-**Deadline coming up?** [File your Alberta annual return in 1 business day →](/file-annual-return/alberta) · {{price:annual-return}} all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
+**Deadline coming up?** [File your Alberta annual return in 1 business day →](/file-annual-return/alberta) · {{price:annual-return-ab}} all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
 
 Alberta corporations incorporated under the *Business Corporations Act (Alberta)* (ABCA) must file an annual return every year with the Alberta Corporate Registry to maintain their good standing. Alberta has one of the shortest filing windows in Canada — annual returns are due within just one month of the corporation's anniversary date. This guide covers the rules, deadlines, fees, forms, and late-filing consequences — with a jump-off point to file when you're ready.
 
@@ -54,7 +54,7 @@ Prefer to skip CORES entirely? CRS files your Alberta annual return directly wit
 
 ## How much is the Alberta annual return fee? (CORES fee)
 
-Service Alberta sets the government filing fee for an Alberta corporate annual return, payable at the time of filing; it was increased on 2 July 2026, and registry agents add their own service fee on top. Because CRS quotes one all-in price — {{price:annual-return}} + GST, government fee and professional preparation included — a change to the registry's schedule doesn't change what you pay. There is no volume discount for filing multiple corporations at once.
+Service Alberta sets the government filing fee for an Alberta corporate annual return, payable at the time of filing; it was increased on 2 July 2026, and registry agents add their own service fee on top. Because CRS quotes one all-in price — {{price:annual-return-ab}} + GST, government fee and professional preparation included — a change to the registry's schedule doesn't change what you pay. There is no volume discount for filing multiple corporations at once.
 
 ## Alberta's Strict 1-Month Deadline
 
@@ -86,6 +86,6 @@ Setting up a second company, or helping someone start out? See [how to register 
 CRS is a Certified Registry Agent authorized to file directly through CORES on your behalf. You don't need a CORES account, and you don't need to navigate the Alberta Corporate Registry yourself — we prepare the return, file it before your deadline, and email you the registry confirmation.
 
 **Turnaround:** 1 business day from order.
-**Price:** {{price:annual-return}} + applicable tax — all-in, including the government fee.
+**Price:** {{price:annual-return-ab}} + applicable tax — all-in, including the government fee.
 
 [File your Alberta annual return now →](/file-annual-return/alberta)

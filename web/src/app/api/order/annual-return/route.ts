@@ -156,10 +156,15 @@ export async function POST(req: Request) {
     if (!h || String(h.provinceKey).toLowerCase() !== "bc") return false;
     return /^(BC|C|A|FM|S|LP|GP|LL|XP|XS|MF|CP)\d/i.test(String(h.registryId ?? "")) || /british columbia/i.test(String(h.jurisdiction ?? ""));
   }
+  /* Alberta corporate access numbers are 10 digits; OrgBook/CBR/gazette label it "Alberta". */
+  function isAbHit(h: Hit | undefined): boolean {
+    if (!h || String(h.provinceKey).toLowerCase() !== "ab") return false;
+    return /^\d{10}$/.test(String(h.registryId ?? "")) || /alberta/i.test(String(h.jurisdiction ?? ""));
+  }
   const pcPerYear  = await proCorpPriceCentsLive(isPC, "annual-return");
   const perYearCents = USE_TEST_PRICE
     ? PRICE_PER_YEAR_CAD_CENTS
-    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : body.hit?.provinceKey === "bc" ? "" : body.hit?.provinceKey)));
+    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : isAbHit(body.hit) ? "ab" : "")));
 
   try {
     const session = await stripe.checkout.sessions.create({

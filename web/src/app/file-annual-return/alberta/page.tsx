@@ -14,12 +14,12 @@ const BASE_METADATA: Metadata = {
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cents = (await getPrices())["annual-return"];
+  const cents = (await getPrices())["annual-return-ab"];
   return { ...BASE_METADATA, description: swapPrice(String(BASE_METADATA.description), cents) };
 }
 
 export default async function FileAlbertaAnnualReturnPage() {
-  const price = formatCents((await getPrices())["annual-return"]);
+  const price = formatCents((await getPrices())["annual-return-ab"]);
   return (
     <>
       <Header />
