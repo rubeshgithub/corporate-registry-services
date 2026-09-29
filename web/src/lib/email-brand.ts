@@ -33,8 +33,14 @@ export const button = (href: string, label: string, primary = true) =>
     ? `background:${C.navy};color:#ffffff;`
     : `background:#ffffff;color:${C.navy};border:1px solid ${C.navy};`}">${esc(label)} &rarr;</a>`;
 
-export function unsubscribeUrl(email: string): string {
-  return `${SITE_URL}/o/unsubscribe?e=${encodeURIComponent(email)}&s=${signUnsubscribe(email)}&t=${newToken()}`;
+/**
+ * `kind` names the automated email the link sits in ("saved-search",
+ * "snapshot"…). It rides in the `t` token, which the unsubscribe handler
+ * stores as the suppression's sourceToken — so docu10 can say which email
+ * people unsubscribe from. Outreach sends keep their own 12-character tokens.
+ */
+export function unsubscribeUrl(email: string, kind = "auto"): string {
+  return `${SITE_URL}/o/unsubscribe?e=${encodeURIComponent(email)}&s=${signUnsubscribe(email)}&t=${encodeURIComponent(`${kind}-${newToken()}`)}`;
 }
 
 function signatureHtml(): string {
@@ -61,8 +67,8 @@ export function signatureText(): string[] {
 }
 
 /** The whole document. `bodyHtml` must already be escaped. `why` says why they got it. */
-export function brandedEmail(args: { subject: string; preheader: string; eyebrow: string; title: string; bodyHtml: string; to: string; why: string }): string {
-  const unsub = unsubscribeUrl(args.to);
+export function brandedEmail(args: { subject: string; preheader: string; eyebrow: string; title: string; bodyHtml: string; to: string; why: string; kind?: string }): string {
+  const unsub = unsubscribeUrl(args.to, args.kind);
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(args.subject)}</title></head>
 <body style="margin:0;padding:0;background:${C.page};">
 <div style="display:none;max-height:0;overflow:hidden;">${esc(args.preheader)}</div>
@@ -86,6 +92,6 @@ export function brandedEmail(args: { subject: string; preheader: string; eyebrow
 </body></html>`;
 }
 
-export function footerText(to: string, why: string): string[] {
-  return [`Corporate Registry Services · ${MAILING}`, `${why} Unsubscribe: ${unsubscribeUrl(to)}`];
+export function footerText(to: string, why: string, kind?: string): string[] {
+  return [`Corporate Registry Services · ${MAILING}`, `${why} Unsubscribe: ${unsubscribeUrl(to, kind)}`];
 }

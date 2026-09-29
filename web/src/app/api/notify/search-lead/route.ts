@@ -159,7 +159,7 @@ async function sendConfirmationEmail(args: {
 
   const html = brandedEmail({
     subject, preheader: `Your saved search for ${args.query} — re-run it any time.`,
-    eyebrow: "Your saved search", title: "", bodyHtml, to: args.email, why,
+    eyebrow: "Your saved search", title: "", bodyHtml, to: args.email, why, kind: "saved-search",
   });
   const text = [
     `Hi,`,
@@ -184,7 +184,7 @@ async function sendConfirmationEmail(args: {
     ``,
     ...signatureText(),
     ``,
-    ...footerText(args.email, why),
+    ...footerText(args.email, why, "saved-search"),
   ].join("\n");
   await sendOutreach({ to: [args.email], cc: [], bcc: [], subject, html, text });
 }

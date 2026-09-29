@@ -203,7 +203,8 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
     offers.push({ label: `Is this your company? File its annual return — ${price("annual-return")}`, sub: "Filed within 1 business day, government fee included.", href: orderUrl("/order/annual-return") });
   }
 
-  const token          = newToken();
+  /* "snapshot-…" tells docu10 which email an unsubscribe came from. */
+  const token          = `snapshot-${newToken()}`;
   const unsubscribeUrl = `${SITE_URL}/o/unsubscribe?e=${encodeURIComponent(email)}&s=${signUnsubscribe(email)}&t=${token}`;
   const today          = new Date().toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" });
   const subject        = `Corporation snapshot: ${hit.name}`.slice(0, 120);
