@@ -41,6 +41,21 @@ const nextConfig: NextConfig = {
         destination: "/articles/federal-vs-provincial-incorporation-canada",
         permanent: true,
       },
+
+      /* The flat-price minute book packages were replaced by age-based
+       * pricing at /order/minute-book (Sep 2026). Links to the old checkout
+       * carry ?q=&registryId=&jurisdiction=&src=, which the new order page
+       * reads, so a visitor lands with their corporation already selected. */
+      {
+        source: "/order/service/minute-book-new",
+        destination: "/order/minute-book",
+        permanent: true,
+      },
+      {
+        source: "/order/service/minute-book-update",
+        destination: "/order/minute-book",
+        permanent: true,
+      },
     ];
   },
 };

@@ -111,13 +111,14 @@ CRS prices minute books based on the age of the corporation, because older corpo
 
 | Package | Company Age | What's Included | Price |
 |---|---|---|---|
-| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and organizational documents | {{price:minute-book-new}} + applicable tax |
-| **Established** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | {{price:incorporation-named}} + applicable tax |
-| **Legacy** | 5+ years | Full corporate history retrieval from government registries + comprehensive minute book reconstruction covering all years of activity | $1,399 + applicable tax |
+| **Standard** | Up to 2 years | Document preparation from incorporation — registers, share certificates, by-laws, resolutions, and organizational documents | {{price:minute-book-young-self}} self-serve · {{price:minute-book-young-crs}} built by CRS + applicable tax |
+| **Growing** | 2 to 5 years | Government document retrieval for all filings since incorporation + full minute book preparation and compilation | {{price:minute-book-growing-self}} self-serve · {{price:minute-book-growing-crs}} built by CRS + applicable tax |
+| **Established** | 5 to 10 years | Deep history rebuild — registers, resolutions and share certificates reconstructed for every year of activity | {{price:minute-book-established-self}} self-serve · {{price:minute-book-established-crs}} built by CRS + applicable tax |
+| **Legacy** | 10+ years | Full corporate history retrieval from government registries + comprehensive minute book reconstruction covering all years of activity | {{price:minute-book-legacy-self}} self-serve · {{price:minute-book-legacy-crs}} built by CRS + applicable tax |
 
 All packages include: retrieval of all available corporate filings from the relevant government registry, preparation of all required registers and share documents, director and officer resolutions, share certificates, and delivery in both Word and PDF formats.
 
-**Have some documents already?** If you can provide any filed corporate records — incorporation certificate, annual returns, director or officer change filings, share issuance documents, etc. — we can apply a discount to the Established or Legacy package. Contact us with what you have and we will provide a custom quote.
+**Have some documents already?** If you can provide any filed corporate records — incorporation certificate, annual returns, director or officer change filings, share issuance documents, etc. — we can apply a discount to the Growing, Established or Legacy package. Contact us with what you have and we will provide a custom quote.
 
 ## Order Your Corporate Minute Book
 

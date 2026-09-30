@@ -61,8 +61,6 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   { key: "director-resolution",    label: "Director Resolution",              group: "Documents", defaultCents: 7900,  unit: "once" },
   { key: "shareholder-resolution", label: "Shareholder Resolution",           group: "Documents", defaultCents: 7900,  unit: "once" },
   { key: "bylaws",                 label: "Corporate By-Laws",                group: "Documents", defaultCents: 9900,  unit: "once" },
-  { key: "minute-book-new",        label: "New Minute Book Package",          group: "Documents", defaultCents: 29900, unit: "once" },
-  { key: "minute-book-update",     label: "Minute Book Update",               group: "Documents", defaultCents: 29900, unit: "once" },
   /* /order/minute-book: priced by the corporation's age, self-serve or built by CRS. */
   { key: "minute-book-young-self",       label: "Minute Book, up to 2 years — self-serve",   group: "Documents", defaultCents: 28900,  unit: "once", note: "Current profile report included" },
   { key: "minute-book-young-crs",        label: "Minute Book, up to 2 years — built by CRS", group: "Documents", defaultCents: 38900,  unit: "once", note: "Current profile report included" },
@@ -106,6 +104,10 @@ export const DEFAULT_PRICES: Record<string, number> = Object.fromEntries(
 const SERVICE_KEY_ALIASES: Record<string, string> = {
   "not-for-profit":         "incorporation-nfp",
   "annual-return-multiple": "annual-return",
+  /* Both minute-book services order through /order/minute-book, priced by
+     the corporation's age; they quote the entry tier. */
+  "minute-book-new":        "minute-book-young-self",
+  "minute-book-update":     "minute-book-young-self",
 };
 
 export function priceKeyForService(serviceKey: string): string {

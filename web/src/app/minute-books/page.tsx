@@ -4,17 +4,17 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MinuteBookPilotWidget from "@/components/MinuteBookPilotWidget";
 import { faqLd, jsonLdScript } from "@/lib/structured-data";
-import { formatCents, getPrices } from "@/lib/pricing";
+import { formatCents, getPrices, swapPrice } from "@/lib/pricing";
 import { minuteBookPrices } from "@/lib/minute-book-config";
 import {
   BookOpen, ShieldCheck, Clock, FileText, CheckCircle2,
   ArrowRight, Building2, AlertCircle, Users, Scale,
 } from "lucide-react";
 
-export const metadata: Metadata = {
+const BASE_METADATA: Metadata = {
   title: "Digital Minute Book · Virtual Minute Book · AI Generator — Free 30-Day Pilot",
   description:
-    "Generate a complete Canadian corporate minute book with AI — articles, by-laws, resolutions, registers, share certificates. Digital and virtual minute book, free 30-day pilot, no credit card. Also available done-for-you from $299.",
+    "Generate a complete Canadian corporate minute book with AI — articles, by-laws, resolutions, registers, share certificates. Digital and virtual minute book, free 30-day pilot, no credit card. Also available done-for-you from $389.",
   keywords: [
     "digital minute book",
     "virtual minute book",
@@ -32,7 +32,13 @@ export const metadata: Metadata = {
   ],
 };
 
-const MINUTE_BOOK_FAQ = [
+export async function generateMetadata(): Promise<Metadata> {
+  const crsFrom = (await getPrices())["minute-book-young-crs"];
+  return { ...BASE_METADATA, description: swapPrice(String(BASE_METADATA.description ?? ""), crsFrom) };
+}
+
+/* The done-for-you answer quotes the built-by-CRS entry price. */
+const minuteBookFaq = (crsFrom: string) => [
   {
     q: "Is a virtual minute book legal in Canada?",
     a: "Yes. The Canada Business Corporations Act and every provincial corporate statute permit electronic minute books, provided the records are organized, accessible, and can be produced in readable form for inspection at the registered office.",
@@ -43,7 +49,7 @@ const MINUTE_BOOK_FAQ = [
   },
   {
     q: "What's the difference between the AI minute book generator and the done-for-you service?",
-    a: "The AI generator produces your full minute book automatically from your registry record — you self-serve inside the MinuteBook app. The done-for-you service ($299 all-in) has a CRS specialist prepare, review, and deliver the minute book to your email, with human sign-off.",
+    a: `The AI generator produces your full minute book automatically from your registry record — you self-serve inside the MinuteBook app. The done-for-you service (from ${crsFrom} all-in) has a CRS specialist prepare, review, and deliver the minute book to your email, with human sign-off.`,
   },
   {
     q: "Do I need to be an Alberta corporation for the pilot?",
@@ -113,9 +119,10 @@ export const revalidate = 60;
 
 export default async function MinuteBooksPage() {
   const prices = minuteBookPrices(await getPrices());
+  const faq    = minuteBookFaq(formatCents(prices.young.crs));
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(MINUTE_BOOK_FAQ))} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(faq))} />
       <Header />
       <main style={{ flex: 1 }}>
 
@@ -497,7 +504,7 @@ export default async function MinuteBooksPage() {
               Common questions about the free pilot + AI generator
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              {MINUTE_BOOK_FAQ.map((item, i) => (
+              {faq.map((item, i) => (
                 <div key={i}>
                   <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.4rem" }}>{item.q}</h3>
                   <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: 1.65, margin: 0 }}>{item.a}</p>
@@ -536,7 +543,7 @@ export default async function MinuteBooksPage() {
               Start free 30-day pilot <ArrowRight size={18} />
             </a>
             <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "1rem" }}>
-              Prefer done-for-you? <a href="/minute-books/digital-minute-book-canada" style={{ color: "var(--gold)", textDecoration: "none" }}>See our $299 all-in service</a>.
+              Prefer done-for-you? <a href="/minute-books/digital-minute-book-canada" style={{ color: "var(--gold)", textDecoration: "none" }}>See our {formatCents(prices.young.crs)} all-in service</a>.
             </p>
           </div>
         </section>

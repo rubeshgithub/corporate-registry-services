@@ -119,7 +119,7 @@ async function sendConfirmationEmail(args: {
   const price  = (key: string) => formatCents(prices[key]);
   const arFrom = formatCents(Math.min(prices["annual-return"] ?? Infinity, prices["annual-return-bc"] ?? Infinity));
   const changeFrom = formatCents(Math.min(prices["change-directors"] ?? Infinity, prices["change-address"] ?? Infinity));
-  const mbFrom = formatCents(Math.min(prices["minute-book-new"] ?? Infinity, prices["minute-book-update"] ?? Infinity));
+  const mbFrom = formatCents(prices["minute-book-young-self"]);
 
   const searchQs  = new URLSearchParams();
   searchQs.set("q", args.query);

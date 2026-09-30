@@ -11,7 +11,7 @@ import { minuteBookPrices } from "@/lib/minute-book-config";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title:       "Order a Corporate Minute Book — Alberta, BC, Ontario & Federal",
+  title:       "Order a Corporate Minute Book — Every Province & Federal",
   description: "Rebuild your corporation's minute book from the official registry record. Age-based all-inclusive pricing, profile report included.",
   robots:      { index: false, follow: false },
 };

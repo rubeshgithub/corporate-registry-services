@@ -28,7 +28,7 @@ Not every situation needs a full corporate diligence pack. Match the tool to the
 |---|---|---|---|
 | **Sanity check** | Vendor invoice, low-stakes contact | Free registry name search | Free |
 | **Standard verification** | Contract signing, extended credit, customer onboarding | [Corporate Profile Report](/profile-reports) | {{price:profile-report}} all-in |
-| **High-stakes verification** | Purchase, financing, litigation, deep KYC | Profile Report + Certificate of Good Standing + Minute Book review | {{price:profile-report}} + {{price:good-standing}} + {{price:minute-book-new}}+ |
+| **High-stakes verification** | Purchase, financing, litigation, deep KYC | Profile Report + Certificate of Good Standing + Minute Book review | {{price:profile-report}} + {{price:good-standing}} + {{price:minute-book-young-self}}+ |
 
 Do the free search first. If any red flag surfaces (name doesn't match, no results, status looks wrong), don't proceed on the free data — that's the moment to order the certified document.
 
@@ -95,7 +95,7 @@ Order a Profile Report and specifically watch for:
 - **Quick check?** — [Free Canada-wide search](/canada-corporations-search)
 - **Standard verification?** — [Corporate Profile Report ({{price:profile-report}} all-in)](/profile-reports)
 - **Prove compliance for financing?** — [Certificate of Good Standing ({{price:good-standing}} all-in)](/good-standing)
-- **Full corporate history?** — [Minute Book (from {{price:minute-book-new}})](/minute-books)
+- **Full corporate history?** — [Minute Book (from {{price:minute-book-young-self}})](/minute-books)
 
 Not sure which registry holds the company? [How to search Canadian business registries](/articles/how-to-search-canadian-business-registries) explains why Canada has fourteen of them and how to find a company across all of them.
 

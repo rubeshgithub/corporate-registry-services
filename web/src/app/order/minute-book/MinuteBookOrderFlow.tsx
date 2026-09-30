@@ -7,13 +7,14 @@ import {
   ShieldCheck, Lock, FileText, BookOpen,
 } from "lucide-react";
 import {
-  MINUTE_BOOK_COPY, MINUTE_BOOK_TIERS, tierForIncorpDate, isSupportedProvince,
+  MINUTE_BOOK_COPY, MINUTE_BOOK_TIERS, SELF_SERVE_NOTE, tierForIncorpDate, selfServeAvailable,
   type MinuteBookPath, type MinuteBookPrices, type ReportSource,
 } from "@/lib/minute-book-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import PaymentStepChatNudge from "@/components/order/PaymentStepChatNudge";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { formatCents } from "@/lib/price-catalogue";
+import { JURISDICTIONS } from "@/lib/service-config";
 
 /**
  * The Minute Book order funnel: Find (search + instant price reveal) →
@@ -37,13 +38,7 @@ type RegistryHit = {
 
 const STEPS = ["Find", "Details", "Report", "Review & Pay"] as const;
 
-const PROVINCE_OPTIONS = [
-  { key: "all",     label: "All supported" },
-  { key: "ab",      label: "Alberta" },
-  { key: "bc",      label: "British Columbia" },
-  { key: "on",      label: "Ontario" },
-  { key: "federal", label: "Federal (Canada)" },
-];
+const PROVINCE_OPTIONS = [{ key: "all", label: "All jurisdictions" }, ...JURISDICTIONS];
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "0.6rem 0.85rem", border: "1px solid var(--border)",
@@ -148,9 +143,12 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
 
   const effectiveIncorpDate = pick?.registrationDate?.slice(0, 10) || manualDate;
   const tier      = useMemo(() => tierForIncorpDate(effectiveIncorpDate || null), [effectiveIncorpDate]);
-  const supported = pick ? isSupportedProvince(pick.provinceKey) : true;
+  /* Self-serve only where the MinuteBook app reads the profile report;
+     everywhere else the book is built by CRS. */
+  const selfOk  = pick ? selfServeAvailable(pick.provinceKey) : true;
+  const effPath: MinuteBookPath = selfOk ? path : "crs";
 
-  const canFind    = !!pick && supported && !!tier;
+  const canFind    = !!pick && !!tier;
   const canDetails =
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
@@ -166,7 +164,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({
-          hit: pick, contact, path, reportSource,
+          hit: pick, contact, path: effPath, reportSource,
           manualIncorpDate: pick.registrationDate ? undefined : manualDate,
           src: attributionSrc,
         }),
@@ -189,7 +187,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          {MINUTE_BOOK_COPY.label} · Alberta · BC · Ontario · Federal
+          {MINUTE_BOOK_COPY.label} · Every province · Federal
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
           {MINUTE_BOOK_COPY.headline}
@@ -290,13 +288,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                   </button>
                 </div>
 
-                {!supported && (
-                  <div style={{ marginTop: "0.9rem", padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.85rem" }}>
-                    Minute books are currently available for Alberta, British Columbia, Ontario, and federal corporations. More jurisdictions are coming.
-                  </div>
-                )}
-
-                {supported && !pick.registrationDate && (
+                {!pick.registrationDate && (
                   <div style={{ marginTop: "0.9rem" }}>
                     <label style={labelStyle}>
                       The registry didn&apos;t return an incorporation date — enter it to see your price (we verify it against your profile report)
@@ -306,7 +298,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 )}
               </div>
 
-              {supported && tier && (
+              {tier && (
                 <>
                   <p style={{ textAlign: "center", margin: "1.25rem 0 0.75rem", fontSize: "0.95rem", color: "var(--text)" }}>
                     Incorporated {effectiveIncorpDate} — your book covers every year since. Your price, revealed before you pay:
@@ -327,8 +319,8 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                             </span>
                           )}
                           <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{t.label}</div>
-                          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.5rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0" }}>{formatCents(prices[t.key].self)}</div>
-                          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>self-serve · {formatCents(prices[t.key].crs)} built by CRS</div>
+                          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.5rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0" }}>{formatCents(prices[t.key][selfOk ? "self" : "crs"])}</div>
+                          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{selfOk ? <>self-serve · {formatCents(prices[t.key].crs)} built by CRS</> : "built by CRS"}</div>
                         </div>
                       );
                     })}
@@ -444,12 +436,14 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
           {/* Path choice */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0.9rem", marginBottom: "1.1rem" }}>
             <button
-              onClick={() => setPath("self")}
+              onClick={() => selfOk && setPath("self")}
+              disabled={!selfOk}
               style={{
                 textAlign: "left", padding: "1.25rem",
-                background: path === "self" ? "var(--gold-dim)" : "var(--card)",
-                border: path === "self" ? "1.5px solid var(--gold)" : "1px solid var(--border)",
-                borderRadius: "var(--radius-card)", cursor: "pointer",
+                background: effPath === "self" ? "var(--gold-dim)" : "var(--card)",
+                border: effPath === "self" ? "1.5px solid var(--gold)" : "1px solid var(--border)",
+                borderRadius: "var(--radius-card)", cursor: selfOk ? "pointer" : "not-allowed",
+                opacity: selfOk ? 1 : 0.55,
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.4rem" }}>
@@ -457,15 +451,17 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{formatCents(prices[tier.key].self)}</span>
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
-                A guided interview (about 20 minutes) collects the few details no registry records. Your book assembles the moment you finish, with a clear checklist of who signs what.
+                {selfOk
+                  ? "A guided interview (about 20 minutes) collects the few details no registry records. Your book assembles the moment you finish, with a clear checklist of who signs what."
+                  : `Not available for ${pick.jurisdiction} corporations yet. ${SELF_SERVE_NOTE}`}
               </div>
             </button>
             <button
               onClick={() => setPath("crs")}
               style={{
                 textAlign: "left", padding: "1.25rem",
-                background: path === "crs" ? "var(--gold-dim)" : "var(--card)",
-                border: path === "crs" ? "1.5px solid var(--gold)" : "1px solid var(--border)",
+                background: effPath === "crs" ? "var(--gold-dim)" : "var(--card)",
+                border: effPath === "crs" ? "1.5px solid var(--gold)" : "1px solid var(--border)",
                 borderRadius: "var(--radius-card)", cursor: "pointer",
               }}
             >
@@ -491,8 +487,8 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 <span style={{ color: "var(--secondary)", fontWeight: 600 }}>Included</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span>Minute Book — {tier.label} · {path === "crs" ? "Built by CRS" : "Self-serve"}</span>
-                <span style={{ fontWeight: 600, color: "var(--text)" }}>{formatCents(prices[tier.key][path])}</span>
+                <span>Minute Book — {tier.label} · {effPath === "crs" ? "Built by CRS" : "Self-serve"}</span>
+                <span style={{ fontWeight: 600, color: "var(--text)" }}>{formatCents(prices[tier.key][effPath])}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Every register, resolution &amp; certificate</span>
@@ -506,7 +502,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", borderTop: "1px solid var(--gold)", marginTop: "0.85rem", paddingTop: "0.85rem" }}>
               <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Total</span>
               <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.6rem", fontWeight: 700, color: "var(--text)" }}>
-                {formatCents(prices[tier.key][path])} <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 400 }}>+ tax, CAD</span>
+                {formatCents(prices[tier.key][effPath])} <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 400 }}>+ tax, CAD</span>
               </span>
             </div>
           </div>
@@ -533,7 +529,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
             disabled={paying}
             style={{ width: "100%", padding: "0.85rem 1rem", background: "var(--primary)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: paying ? "not-allowed" : "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
           >
-            {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {formatCents(prices[tier.key][path])} + tax securely <ArrowRight size={16} /></>}
+            {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {formatCents(prices[tier.key][effPath])} + tax securely <ArrowRight size={16} /></>}
           </button>
           <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
             Card processed securely by Stripe. {MINUTE_BOOK_COPY.deliveryPromise}
@@ -541,9 +537,9 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
 
           <ETransferCapture
             service="minute-book"
-            serviceLabel={`${MINUTE_BOOK_COPY.productName} — ${tier.label} (${path === "crs" ? "Built by CRS" : "Self-serve"})`}
-            priceLabel={`${formatCents(prices[tier.key][path])} + tax`}
-            priceCents={prices[tier.key][path]}
+            serviceLabel={`${MINUTE_BOOK_COPY.productName} — ${tier.label} (${effPath === "crs" ? "Built by CRS" : "Self-serve"})`}
+            priceLabel={`${formatCents(prices[tier.key][effPath])} + tax`}
+            priceCents={prices[tier.key][effPath]}
             company={{
               name:           pick.name,
               registryId:     pick.registryId,

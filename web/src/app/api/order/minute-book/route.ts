@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import {
   MINUTE_BOOK_COPY,
-  isSupportedProvince,
+  SELF_SERVE_NOTE,
   minuteBookPriceKey,
+  selfServeAvailable,
   tierForIncorpDate,
   type MinuteBookPath,
   type ReportSource,
@@ -43,11 +44,12 @@ type Body = {
 
 function isValid(body: Body): string | null {
   if (!body?.hit?.name?.trim())                       return "Pick your corporation first.";
-  if (!isSupportedProvince(body.hit.provinceKey))     return "Minute books are currently available for Alberta, British Columbia, Ontario, and federal corporations.";
+  if (!body.hit.provinceKey)                          return "Pick your corporation first.";
   if (!body.contact?.name?.trim())                    return "Please provide your full name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.contact?.email?.trim() ?? "")) return "Please provide a valid email address.";
   if (!body.contact?.phone?.trim())                   return "Please provide a phone number.";
   if (body.path !== "self" && body.path !== "crs")    return "Choose how you'd like the book built.";
+  if (body.path === "self" && !selfServeAvailable(body.hit.provinceKey)) return `${SELF_SERVE_NOTE} Choose Built by CRS for this corporation.`;
   if (body.reportSource !== "crs_pull" && body.reportSource !== "customer_upload") return "Choose how we get your profile report.";
   return null;
 }

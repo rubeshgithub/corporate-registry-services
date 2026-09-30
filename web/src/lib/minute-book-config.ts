@@ -67,12 +67,16 @@ export function minuteBookPrices(prices: Record<string, number>): MinuteBookPric
   return out;
 }
 
-/* Phase 1 jurisdictions. provinceKey values as used by /api/company-search. */
-export const MINUTE_BOOK_PROVINCES = ["ab", "bc", "on", "federal"] as const;
+/* Built by CRS is offered in every jurisdiction. Self-serve needs the
+   MinuteBook app to read the corporation's profile report, which it does for
+   these registries. provinceKey values as used by /api/company-search. */
+export const SELF_SERVE_PROVINCES = ["ab", "bc", "on", "sk", "federal"] as const;
 
-export function isSupportedProvince(provinceKey: string | null | undefined): boolean {
-  return !!provinceKey && (MINUTE_BOOK_PROVINCES as readonly string[]).includes(provinceKey);
+export function selfServeAvailable(provinceKey: string | null | undefined): boolean {
+  return !!provinceKey && (SELF_SERVE_PROVINCES as readonly string[]).includes(provinceKey);
 }
+
+export const SELF_SERVE_NOTE = "Self-serve is available for Alberta, British Columbia, Ontario, Saskatchewan and federal corporations.";
 
 /* How the customer supplies the mandatory Corporate Profile Report. */
 export type ReportSource = "crs_pull" | "customer_upload";

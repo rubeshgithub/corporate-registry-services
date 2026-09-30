@@ -1,5 +1,5 @@
 import type { Section } from "./content";
-import { swapPrice } from "./price-catalogue";
+import { priceKeyForService, swapPrice } from "./price-catalogue";
 
 /**
  * Apply catalogue prices to a context's copy. The dollar figures in
@@ -8,7 +8,7 @@ import { swapPrice } from "./price-catalogue";
  * so the CTA strip can never advertise a price the checkout won't charge.
  */
 export function withLivePrices(ctx: ServiceContext, prices: Record<string, number>): ServiceContext {
-  const cents = prices[ctx.serviceKey];
+  const cents = prices[priceKeyForService(ctx.serviceKey)];
   if (cents == null) return ctx;
   return {
     ...ctx,
@@ -164,11 +164,11 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
     return {
       serviceKey:     "minute-book-new",
       jurisdictionKey,
-      price:          "from $299 + GST",
-      ctaHeadline:    "Complete minute book, compliance-ready — from $299.",
-      ctaSubline:     "Articles, by-laws, registers, share certificates, and resolutions. Delivered as a single PDF.",
+      price:          "from $289 + GST",
+      ctaHeadline:    "Complete minute book, compliance-ready — from $289.",
+      ctaSubline:     "Priced by your corporation's age, with its current profile report included. Articles, by-laws, registers, share certificates, and resolutions.",
       ctaButton:      "Get my minute book",
-      stickyLabel:    "From $299 · Get my minute book",
+      stickyLabel:    "From $289 · Get my minute book",
     };
   }
 
@@ -208,6 +208,9 @@ export function wizardHref(ctx: ServiceContext, src: string): string {
     ctx.serviceKey === "revival"
   ) {
     return `/order/${ctx.serviceKey}?${params.toString()}`;
+  }
+  if (ctx.serviceKey === "minute-book-new" || ctx.serviceKey === "minute-book-update") {
+    return `/order/minute-book?${params.toString()}`;
   }
   if (ctx.serviceKey.startsWith("incorporation-")) {
     // All incorporation subtypes route to the same page; the type is a query param.

@@ -110,4 +110,4 @@ Corporate Registry Services prepares professionally formatted, sequentially numb
 
 **[Search your corporation now →](/order/share-certificate?src=article-share-certificates-in-canada)** · See your share classes on-screen, confirm the shareholder details, pay {{price:share-certificate}} + GST — signable PDFs back in 1 business day.
 
-Need certificates as part of a complete minute book? See the [Digital Minute Book service](/minute-books/digital-minute-book-canada) — {{price:minute-book-new}} all-in for a fresh minute book with all documents included, or [start a free 30-day pilot](/minute-books) of the MinuteBook app to self-serve.
+Need certificates as part of a complete minute book? See the [Digital Minute Book service](/minute-books/digital-minute-book-canada) — from {{price:minute-book-young-self}} all-in for a fresh minute book with all documents included, or [start a free 30-day pilot](/minute-books) of the MinuteBook app to self-serve.
