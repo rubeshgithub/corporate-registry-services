@@ -38,10 +38,10 @@ type SectionOverride = {
 
 const SECTION_OVERRIDES: Partial<Record<Section, SectionOverride>> = {
   "annual-return": {
-    title:       "Canadian Annual Return Filing — $99 All-In, All Jurisdictions | CRS",
-    description: "File your Canadian corporate annual return through the government registry — $99 all-in, government fee included. Federal + all 13 provinces/territories. Filed within 1 business day.",
+    title:       "Canadian Annual Return Filing — From $99 All-In, All Jurisdictions | CRS",
+    description: "File your Canadian corporate annual return through the government registry — from $99 all-in, government fee included. Federal + all 13 provinces/territories. Filed within 1 business day.",
     orderStrip: {
-      headline: "Ready to file? $99 all-in + GST, any jurisdiction.",
+      headline: "Ready to file? From $99 all-in + GST, any jurisdiction.",
       sub:      "Government fee included. Filed within 1 business day.",
       href:     "/order/annual-return?src=section-annual-return",
       cta:      "Order now",
@@ -61,8 +61,13 @@ const SECTION_OVERRIDES: Partial<Record<Section, SectionOverride>> = {
 async function liveOverride(section: Section): Promise<SectionOverride | undefined> {
   const o = SECTION_OVERRIDES[section];
   if (!o) return o;
-  const cents = (await getPrices())[section];
-  if (cents == null) return o;
+  const prices = await getPrices();
+  /* Annual returns are priced by province (BC and Ontario lower), so the hub
+     quotes "from" the lowest of them rather than the general price. */
+  const cents = section === "annual-return"
+    ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
+    : prices[section];
+  if (cents == null || !Number.isFinite(cents)) return o;
   return {
     ...o,
     title:       swapPrice(o.title, cents),

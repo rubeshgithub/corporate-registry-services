@@ -11,7 +11,7 @@ import { getPriceCents, swapPrice } from "@/lib/pricing";
 export const revalidate = 60;
 
 const BASE_METADATA: Metadata = {
-  title: "File your Annual Return — $99 all-in + GST — CRS",
+  title: "File your Annual Return — from $99 all-in + GST — CRS",
   description:
     "File your Canadian corporate annual return through CRS. Look up your company, confirm what changed, pay $99 all-in + GST. Filed within 1 business day.",
   robots: { index: false, follow: false }, // checkout page; keep out of the index
@@ -21,7 +21,8 @@ const BASE_METADATA: Metadata = {
    request from the pricing catalogue rather than baked in at build.
    Keeps the tab title honest when an operator changes a price. */
 export async function generateMetadata(): Promise<Metadata> {
-  const cents = await getPriceCents("annual-return");
+  /* "From" the lowest province price (BC and Ontario are lower). */
+  const cents = Math.min(...await Promise.all(["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => getPriceCents(k))));
   return {
     ...BASE_METADATA,
     title:       swapPrice(String(BASE_METADATA.title ?? ""), cents),

@@ -9,6 +9,7 @@ import { getPrices, formatCents } from "@/lib/pricing";
 import { calculateAnnualReturnDeadline } from "@/lib/annual-return-deadlines";
 import { SITE_PHONE_DISPLAY } from "@/lib/contact";
 import { SNAPSHOT_CONSENT_TEXT } from "@/lib/snapshot";
+import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import { GET as companySearch } from "@/app/api/company-search/route";
 import { parseRegistryDate } from "@/lib/dates";
 
@@ -200,7 +201,7 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
     { label: `Copies of corporate documents — from ${price("corporate-document-single")}`, sub: "Articles, certificate of incorporation, annual returns — per document, government fee included.", href: orderUrl("/order/corporate-documents") },
   ];
   if (hit.status === "Active") {
-    offers.push({ label: `Is this your company? File its annual return — ${price("annual-return")}`, sub: "Filed within 1 business day, government fee included.", href: orderUrl("/order/annual-return") });
+    offers.push({ label: `Is this your company? File its annual return — ${price(annualReturnPriceKey(hit.provinceKey))}`, sub: "Filed within 1 business day, government fee included.", href: orderUrl("/order/annual-return") });
   }
 
   /* "snapshot-…" tells docu10 which email an unsubscribe came from. */

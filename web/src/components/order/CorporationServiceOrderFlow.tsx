@@ -33,7 +33,7 @@ const REDIRECT_SERVICES = new Set([
 ]);
 
 const BASE_SERVICES = [
-  { key: "annual-return", label: "Annual Return", price: "$99 all-in + GST" },
+  { key: "annual-return", label: "Annual Return", price: "From $99 all-in + GST" },
   { key: "profile-report", label: "Corporate Profile Report", price: "$49 all-in + GST" },
   { key: "good-standing", label: "Certificate of Good Standing", price: "$79 all-in + GST" },
   { key: "change-directors", label: "Director / Officer Change", price: "Starting at $199 + GST" },
@@ -46,7 +46,10 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   /* Price labels follow the catalogue map the page hands down; the literals
      in BASE_SERVICES are code defaults. */
   const services = BASE_SERVICES.map((s) => {
-    const cents = prices?.[s.key];
+    /* Annual returns: "from" the lowest province price (BC and Ontario are lower). */
+    const cents = s.key === "annual-return" && prices
+      ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
+      : prices?.[s.key];
     return cents == null ? s : { ...s, price: swapPrice(s.price, cents) };
   });
   const params = useSearchParams();

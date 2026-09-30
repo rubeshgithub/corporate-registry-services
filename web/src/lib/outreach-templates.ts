@@ -1,4 +1,5 @@
 import { calculateAnnualReturnDeadline } from "./annual-return-deadlines";
+import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import type { OutreachCompany, OutreachService } from "./outreach-mongo";
 import { DEFAULT_PRICES, formatCents } from "./price-catalogue";
 
@@ -286,7 +287,7 @@ const annualReturnTemplate: TemplateDef = {
             <td align="center" style="padding:4px 0 8px;">
               <a href="${url}"
                  style="display:inline-block;background-color:#0C3D61;color:#FFFFFF;font-size:16px;font-weight:bold;text-decoration:none;padding:14px 40px;border-radius:6px;">
-                Review &amp; File Now &mdash; ${livePrice(ctx, "annual-return")}<span style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:4px;">+ gst</span>
+                Review &amp; File Now &mdash; ${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))}<span style="font-size:11px;font-weight:normal;opacity:0.85;margin-left:4px;">+ gst</span>
               </a>
             </td>
           </tr>
@@ -303,7 +304,7 @@ const annualReturnTemplate: TemplateDef = {
             <td style="padding:16px 20px;">
               <p style="margin:0 0 10px;font-size:12px;font-weight:bold;color:#0C3D61;text-transform:uppercase;letter-spacing:1px;">How it works</p>
               <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">1. Confirm the information above &mdash; or tell us what changed (directors, address)</p>
-              <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">2. Pay ${livePrice(ctx, "annual-return")}<span style="font-size:11px;color:#5A6B7A;margin-left:3px;">+ gst</span> &mdash; no hidden fees, government fee included</p>
+              <p style="margin:0 0 6px;font-size:13px;color:#1A2B3A;">2. Pay ${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))}<span style="font-size:11px;color:#5A6B7A;margin-left:3px;">+ gst</span> &mdash; no hidden fees, government fee included</p>
               <p style="margin:0;font-size:13px;color:#1A2B3A;">3. We file with the ${esc(registryName)} within 1 business day and monitor your deadline every year after</p>
             </td>
           </tr>
@@ -350,12 +351,12 @@ It is NOT your tax return — filing your T2 does not file your annual return.
 Corporations that miss it can be dissolved by the registry, freezing bank
 accounts, financing, and contracts.
 
-Review & File Now — ${livePrice(ctx, "annual-return")} + gst (government fee included, filed within 1 business day):
+Review & File Now — ${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))} + gst (government fee included, filed within 1 business day):
   ${url}
 
 How it works:
   1. Confirm the information above — or tell us what changed
-  2. Pay ${livePrice(ctx, "annual-return")} + gst — no hidden fees, government fee included
+  2. Pay ${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))} + gst — no hidden fees, government fee included
   3. We file with the ${registryName} within 1 business day
 
 Prefer to file it yourself? Our free step-by-step guide:
@@ -507,7 +508,7 @@ const generalTemplate: TemplateDef = {
       {
         href:  tokenUrl("annual-return"),
         title: "Annual Return Filing",
-        price: `${livePrice(ctx, "annual-return")} all-in + gst`,
+        price: `${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))} all-in + gst`,
         blurb: "Mandatory every year, even if the corporation had no activity. Miss it and the registry can dissolve you.",
         cta:   "File annual return",
       },
@@ -602,7 +603,7 @@ On file:
 
 Services:
 
-* Annual Return Filing — ${livePrice(ctx, "annual-return")} all-in + gst
+* Annual Return Filing — ${livePrice(ctx, annualReturnPriceKey(ctx.company.provinceKey))} all-in + gst
     Mandatory every year, even if inactive. Miss it → registry dissolution.
     File: ${tokenUrl("annual-return")}
 
