@@ -63,6 +63,15 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   { key: "bylaws",                 label: "Corporate By-Laws",                group: "Documents", defaultCents: 9900,  unit: "once" },
   { key: "minute-book-new",        label: "New Minute Book Package",          group: "Documents", defaultCents: 29900, unit: "once" },
   { key: "minute-book-update",     label: "Minute Book Update",               group: "Documents", defaultCents: 29900, unit: "once" },
+  /* /order/minute-book: priced by the corporation's age, self-serve or built by CRS. */
+  { key: "minute-book-young-self",       label: "Minute Book, up to 2 years — self-serve",   group: "Documents", defaultCents: 28900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-young-crs",        label: "Minute Book, up to 2 years — built by CRS", group: "Documents", defaultCents: 38900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-growing-self",     label: "Minute Book, 2–5 years — self-serve",       group: "Documents", defaultCents: 58900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-growing-crs",      label: "Minute Book, 2–5 years — built by CRS",     group: "Documents", defaultCents: 68900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-established-self", label: "Minute Book, 5–10 years — self-serve",      group: "Documents", defaultCents: 88900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-established-crs",  label: "Minute Book, 5–10 years — built by CRS",    group: "Documents", defaultCents: 99900,  unit: "once", note: "Current profile report included" },
+  { key: "minute-book-legacy-self",      label: "Minute Book, 10+ years — self-serve",       group: "Documents", defaultCents: 139900, unit: "once", note: "Current profile report included" },
+  { key: "minute-book-legacy-crs",       label: "Minute Book, 10+ years — built by CRS",     group: "Documents", defaultCents: 159900, unit: "once", note: "Current profile report included" },
 
   /* ── Incorporation ──────────────────────────────────────────────── */
   { key: "incorporation-numbered", label: "Numbered Company Incorporation",   group: "Incorporation", defaultCents: 69900, unit: "once" },

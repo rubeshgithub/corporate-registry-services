@@ -3,6 +3,12 @@ import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MinuteBookOrderFlow from "./MinuteBookOrderFlow";
+import { getPrices } from "@/lib/pricing";
+import { minuteBookPrices } from "@/lib/minute-book-config";
+
+/* Prices are resolved from the catalogue at render — 60s ISR, same as the
+   other price-quoting pages, so an operator's change shows within a minute. */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title:       "Order a Corporate Minute Book — Alberta, BC, Ontario & Federal",
@@ -10,7 +16,8 @@ export const metadata: Metadata = {
   robots:      { index: false, follow: false },
 };
 
-export default function MinuteBookOrderPage() {
+export default async function MinuteBookOrderPage() {
+  const prices = minuteBookPrices(await getPrices());
   return (
     <>
       <Header />
@@ -22,7 +29,7 @@ export default function MinuteBookOrderPage() {
             </div>
           }
         >
-          <MinuteBookOrderFlow />
+          <MinuteBookOrderFlow prices={prices} />
         </Suspense>
       </main>
       <Footer />

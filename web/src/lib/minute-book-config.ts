@@ -3,47 +3,29 @@
  *
  * Pricing is age-tiered: the corporation's incorporation date (from the
  * registry search hit, or customer-supplied when the registry omits it)
- * determines the tier, and each tier has two prices — self-serve online
- * or built by the CRS team. The API route re-derives the tier server-side
- * from the incorporation date so a client can never send its own price.
+ * determines the tier, and each tier has two prices — self-serve online or
+ * built by the CRS team. The amounts live in the price catalogue under
+ * `minute-book-<tier>-<path>`, so operators set them from /admin/analytics.
+ * The API route re-derives the tier server-side from the incorporation date
+ * so a client can never send its own price.
  */
 
 export type MinuteBookTierKey = "young" | "growing" | "established" | "legacy";
 export type MinuteBookPath    = "self" | "crs";
 
 export type MinuteBookTier = {
-  key:        MinuteBookTierKey;
-  label:      string;        // "Up to 2 years"
-  maxYears:   number | null; // upper age bound in years; null = no cap
-  selfCents:  number;        // self-serve price, pre-tax
-  crsCents:   number;        // built-by-CRS price, pre-tax
-  selfLabel:  string;        // "$289"
-  crsLabel:   string;        // "$389"
-  blurb:      string;        // one line under the tier in the reveal grid
+  key:      MinuteBookTierKey;
+  label:    string;        // "Up to 2 years"
+  maxYears: number | null; // upper age bound in years; null = no cap
+  blurb:    string;        // one line under the tier in the reveal grid
 };
 
 /* Display order matters — the reveal grid renders these left to right. */
 export const MINUTE_BOOK_TIERS: MinuteBookTier[] = [
-  {
-    key: "young",       label: "Up to 2 years",  maxYears: 2,
-    selfCents: 28900,  crsCents: 38900,  selfLabel: "$289",   crsLabel: "$389",
-    blurb: "Organization documents plus every year since incorporation.",
-  },
-  {
-    key: "growing",     label: "2 – 5 years",    maxYears: 5,
-    selfCents: 58900,  crsCents: 68900,  selfLabel: "$589",   crsLabel: "$689",
-    blurb: "Full reconstruction with annual resolutions for each year.",
-  },
-  {
-    key: "established", label: "5 – 10 years",   maxYears: 10,
-    selfCents: 88900,  crsCents: 99900,  selfLabel: "$889",   crsLabel: "$999",
-    blurb: "Deep history rebuild — registers, resolutions, certificates.",
-  },
-  {
-    key: "legacy",      label: "10+ years",      maxYears: null,
-    selfCents: 139900, crsCents: 159900, selfLabel: "$1,399", crsLabel: "$1,599",
-    blurb: "A decade or more of records, brought fully current.",
-  },
+  { key: "young",       label: "Up to 2 years", maxYears: 2,    blurb: "Organization documents plus every year since incorporation." },
+  { key: "growing",     label: "2 – 5 years",   maxYears: 5,    blurb: "Full reconstruction with annual resolutions for each year." },
+  { key: "established", label: "5 – 10 years",  maxYears: 10,   blurb: "Deep history rebuild — registers, resolutions, certificates." },
+  { key: "legacy",      label: "10+ years",     maxYears: null, blurb: "A decade or more of records, brought fully current." },
 ];
 
 export function tierByKey(key: string | null | undefined): MinuteBookTier | null {
@@ -66,12 +48,23 @@ export function tierForIncorpDate(iso: string | null | undefined, now: Date = ne
   return MINUTE_BOOK_TIERS[MINUTE_BOOK_TIERS.length - 1];
 }
 
-export function priceCentsFor(tier: MinuteBookTier, path: MinuteBookPath): number {
-  return path === "crs" ? tier.crsCents : tier.selfCents;
+/** Price-catalogue key for a tier and path. */
+export function minuteBookPriceKey(tier: MinuteBookTierKey, path: MinuteBookPath): string {
+  return `minute-book-${tier}-${path}`;
 }
 
-export function priceLabelFor(tier: MinuteBookTier, path: MinuteBookPath): string {
-  return path === "crs" ? tier.crsLabel : tier.selfLabel;
+/** Every tier's two prices, in cents — what the order and pricing pages are handed. */
+export type MinuteBookPrices = Record<MinuteBookTierKey, Record<MinuteBookPath, number>>;
+
+export function minuteBookPrices(prices: Record<string, number>): MinuteBookPrices {
+  const out = {} as MinuteBookPrices;
+  for (const t of MINUTE_BOOK_TIERS) {
+    out[t.key] = {
+      self: prices[minuteBookPriceKey(t.key, "self")],
+      crs:  prices[minuteBookPriceKey(t.key, "crs")],
+    };
+  }
+  return out;
 }
 
 /* Phase 1 jurisdictions. provinceKey values as used by /api/company-search. */

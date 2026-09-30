@@ -266,20 +266,10 @@ function buildMbPayload(session: Stripe.Checkout.Session): MbFeedPayload | null 
   }
 
   if (service === "minute-book") {
-    // Lets MB provision the customer's workspace directly instead of via
-    // the manual pilot-request ops email.
-    base.events!.push({
-      type:          "minute_book_ordered",
-      effectiveDate: today,
-      data: {
-        tier:             m.mb_tier,
-        path:             m.mb_path,             // "self" | "crs"
-        reportSource:     m.mb_report_source,    // "crs_pull" | "customer_upload"
-        incorpDateSource: m.mb_incorp_source,    // "registry" | "customer"
-        contactRole:      m.mb_contact_role,
-        contactPhone:     m.contact_phone,
-      },
-    });
+    // No events: MinuteBook accepts only corporate events and rejects the
+    // whole payload on an unknown type. The bare payload still provisions the
+    // customer's account and a claimable company; tier and path go to ops
+    // in the fulfillment email.
     return base;
   }
 

@@ -8,9 +8,12 @@ import {
 } from "lucide-react";
 import {
   MINUTE_BOOK_COPY, MINUTE_BOOK_TIERS, tierForIncorpDate, isSupportedProvince,
-  priceLabelFor, type MinuteBookPath, type ReportSource,
+  type MinuteBookPath, type MinuteBookPrices, type ReportSource,
 } from "@/lib/minute-book-config";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
+import PaymentStepChatNudge from "@/components/order/PaymentStepChatNudge";
+import ETransferCapture from "@/components/order/ETransferCapture";
+import { formatCents } from "@/lib/price-catalogue";
 
 /**
  * The Minute Book order funnel: Find (search + instant price reveal) →
@@ -57,17 +60,17 @@ const cardStyle: React.CSSProperties = {
   borderRadius: "var(--radius-card)", padding: "1.5rem", boxShadow: "var(--shadow-card)",
 };
 
-export default function MinuteBookOrderFlow() {
+export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPrices }) {
   const params         = useSearchParams();
   const attributionSrc = params.get("src") ?? "direct";
 
   const [step, setStep] = useState(0);
 
   // Find state
-  const [query, setQuery]         = useState("");
+  const [query, setQuery]         = useState(() => params.get("q") ?? "");
   const [province, setProvince]   = useState("all");
   const [results, setResults]     = useState<RegistryHit[]>([]);
-  const [searching, setSearching] = useState(false);
+  const [searching, setSearching] = useState(() => !!params.get("q"));
   const [searchErr, setSearchErr] = useState("");
   const [pick, setPick]           = useState<RegistryHit | null>(null);
   const [manualDate, setManualDate] = useState("");
@@ -103,10 +106,8 @@ export default function MinuteBookOrderFlow() {
   useEffect(() => {
     const q = params.get("q");
     if (!q) return;
-    setQuery(q);
     const wantedRegistryId = params.get("registryId") ?? "";
     (async () => {
-      setSearching(true);
       try {
         const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${params.get("jurisdiction") ?? "all"}`);
         const data = await res.json();
@@ -326,8 +327,8 @@ export default function MinuteBookOrderFlow() {
                             </span>
                           )}
                           <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>{t.label}</div>
-                          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.5rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0" }}>{t.selfLabel}</div>
-                          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>self-serve · {t.crsLabel} built by CRS</div>
+                          <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.5rem", fontWeight: 700, color: "var(--text)", margin: "0.2rem 0" }}>{formatCents(prices[t.key].self)}</div>
+                          <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>self-serve · {formatCents(prices[t.key].crs)} built by CRS</div>
                         </div>
                       );
                     })}
@@ -453,7 +454,7 @@ export default function MinuteBookOrderFlow() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.4rem" }}>
                 <span style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.95rem" }}>Self-serve online</span>
-                <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{tier.selfLabel}</span>
+                <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{formatCents(prices[tier.key].self)}</span>
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
                 A guided interview (about 20 minutes) collects the few details no registry records. Your book assembles the moment you finish, with a clear checklist of who signs what.
@@ -470,7 +471,7 @@ export default function MinuteBookOrderFlow() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.4rem" }}>
                 <span style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.95rem" }}>Built by CRS</span>
-                <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{tier.crsLabel}</span>
+                <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{formatCents(prices[tier.key].crs)}</span>
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
                 One 15-minute call — we ask, you answer. Our specialists build and quality-check your signature-ready book, delivered within 5 business days.
@@ -491,7 +492,7 @@ export default function MinuteBookOrderFlow() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Minute Book — {tier.label} · {path === "crs" ? "Built by CRS" : "Self-serve"}</span>
-                <span style={{ fontWeight: 600, color: "var(--text)" }}>{priceLabelFor(tier, path)}</span>
+                <span style={{ fontWeight: 600, color: "var(--text)" }}>{formatCents(prices[tier.key][path])}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Every register, resolution &amp; certificate</span>
@@ -505,7 +506,7 @@ export default function MinuteBookOrderFlow() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", borderTop: "1px solid var(--gold)", marginTop: "0.85rem", paddingTop: "0.85rem" }}>
               <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>Total</span>
               <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.6rem", fontWeight: 700, color: "var(--text)" }}>
-                {priceLabelFor(tier, path)} <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 400 }}>+ tax, CAD</span>
+                {formatCents(prices[tier.key][path])} <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: 400 }}>+ tax, CAD</span>
               </span>
             </div>
           </div>
@@ -526,16 +527,33 @@ export default function MinuteBookOrderFlow() {
             </div>
           )}
 
+          <PaymentStepChatNudge />
           <button
             onClick={goToPayment}
             disabled={paying}
             style={{ width: "100%", padding: "0.85rem 1rem", background: "var(--primary)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: paying ? "not-allowed" : "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
           >
-            {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {priceLabelFor(tier, path)} + tax securely <ArrowRight size={16} /></>}
+            {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {formatCents(prices[tier.key][path])} + tax securely <ArrowRight size={16} /></>}
           </button>
           <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
             Card processed securely by Stripe. {MINUTE_BOOK_COPY.deliveryPromise}
           </p>
+
+          <ETransferCapture
+            service="minute-book"
+            serviceLabel={`${MINUTE_BOOK_COPY.productName} — ${tier.label} (${path === "crs" ? "Built by CRS" : "Self-serve"})`}
+            priceLabel={`${formatCents(prices[tier.key][path])} + tax`}
+            priceCents={prices[tier.key][path]}
+            company={{
+              name:           pick.name,
+              registryId:     pick.registryId,
+              businessNumber: pick.businessNumber,
+              jurisdiction:   pick.jurisdiction,
+              provinceKey:    pick.provinceKey,
+            }}
+            contact={contact}
+            src={attributionSrc}
+          />
         </div>
       )}
 

@@ -3,12 +3,12 @@ import Stripe from "stripe";
 import {
   MINUTE_BOOK_COPY,
   isSupportedProvince,
-  priceCentsFor,
-  priceLabelFor,
+  minuteBookPriceKey,
   tierForIncorpDate,
   type MinuteBookPath,
   type ReportSource,
 } from "@/lib/minute-book-config";
+import { formatCents, getPriceCents } from "@/lib/pricing";
 
 /**
  * Creates the Stripe Checkout session for a minute book order.
@@ -70,7 +70,8 @@ export async function POST(req: Request) {
   const tier          = tierForIncorpDate(incorpDate);
   if (!tier) return NextResponse.json({ error: "We need your incorporation date to price the book. Please enter it." }, { status: 400 });
 
-  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : priceCentsFor(tier, body.path);
+  const priceCents = await getPriceCents(minuteBookPriceKey(tier.key, body.path));
+  const unitAmount = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : priceCents;
   const stripe     = new Stripe(secret);
   const origin     = req.headers.get("origin") ?? new URL(req.url).origin;
 
@@ -90,7 +91,7 @@ export async function POST(req: Request) {
           tax_behavior: "exclusive",
           product_data: {
             name:        `${MINUTE_BOOK_COPY.productName} — ${tier.label} (${pathLabel})`,
-            description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"} · ${body.hit.jurisdiction}. Current Corporate Profile Report included. All-inclusive — ${priceLabelFor(tier, body.path)} + tax.`,
+            description: `${body.hit.name} · Registry ID ${body.hit.registryId || "—"} · ${body.hit.jurisdiction}. Current Corporate Profile Report included. All-inclusive — ${formatCents(priceCents)} + tax.`,
           },
         },
         quantity: 1,

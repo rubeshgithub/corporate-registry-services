@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MinuteBookPilotWidget from "@/components/MinuteBookPilotWidget";
 import { faqLd, jsonLdScript } from "@/lib/structured-data";
+import { formatCents, getPrices } from "@/lib/pricing";
+import { minuteBookPrices } from "@/lib/minute-book-config";
 import {
   BookOpen, ShieldCheck, Clock, FileText, CheckCircle2,
   ArrowRight, Building2, AlertCircle, Users, Scale,
@@ -78,38 +81,38 @@ const PACKAGES = [
   {
     name: "Standard",
     age: "Corporations up to 2 years old",
-    price: "$289",
-    crsPrice: "$389",
+    tier: "young" as const,
     description: "Full minute book prepared from your incorporation documents — all registers, share certificates, by-laws, and organizational resolutions.",
     highlight: false,
   },
   {
     name: "Growing",
     age: "Corporations 2 – 5 years old",
-    price: "$589",
-    crsPrice: "$689",
+    tier: "growing" as const,
     description: "Government document retrieval for all filings since incorporation, plus complete minute book preparation and compilation.",
     highlight: true,
   },
   {
     name: "Established",
     age: "Corporations 5 – 10 years old",
-    price: "$889",
-    crsPrice: "$999",
+    tier: "established" as const,
     description: "Deep history rebuild — registers, resolutions, and certificates reconstructed for every year of activity.",
     highlight: false,
   },
   {
     name: "Legacy",
     age: "Corporations 10+ years old",
-    price: "$1,399",
-    crsPrice: "$1,599",
+    tier: "legacy" as const,
     description: "Full corporate history retrieval from government registries and comprehensive minute book reconstruction covering all years of activity.",
     highlight: false,
   },
 ];
 
-export default function MinuteBooksPage() {
+/* The pricing grid quotes catalogue prices, so the page re-renders every 60s like the order pages. */
+export const revalidate = 60;
+
+export default async function MinuteBooksPage() {
+  const prices = minuteBookPrices(await getPrices());
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(MINUTE_BOOK_FAQ))} />
@@ -435,7 +438,7 @@ export default function MinuteBooksPage() {
                       marginBottom: "0.75rem",
                     }}
                   >
-                    {pkg.price} <span style={{ fontSize: "0.85rem", fontWeight: 400, opacity: 0.75 }}>+ tax</span>
+                    {formatCents(prices[pkg.tier].self)} <span style={{ fontSize: "0.85rem", fontWeight: 400, opacity: 0.75 }}>+ tax</span>
                   </div>
                   <div
                     style={{
@@ -444,7 +447,7 @@ export default function MinuteBooksPage() {
                       marginTop: "-0.5rem", marginBottom: "0.75rem",
                     }}
                   >
-                    self-serve · {pkg.crsPrice} built by CRS
+                    self-serve · {formatCents(prices[pkg.tier].crs)} built by CRS
                   </div>
                   <p style={{ fontSize: "0.82rem", lineHeight: 1.65, color: pkg.highlight ? "rgba(255,255,255,0.85)" : "var(--text-muted)", margin: 0 }}>
                     {pkg.description}
@@ -453,7 +456,7 @@ export default function MinuteBooksPage() {
               ))}
             </div>
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
-              <a
+              <Link
                 href="/order/minute-book?src=minute-books-pricing"
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "0.5rem",
@@ -462,7 +465,7 @@ export default function MinuteBooksPage() {
                 }}
               >
                 Find your corporation — see your exact price →
-              </a>
+              </Link>
               <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.6rem" }}>
                 Your current Corporate Profile Report is included. No payment until you see your price.
               </p>
