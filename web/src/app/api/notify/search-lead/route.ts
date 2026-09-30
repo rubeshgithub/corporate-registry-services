@@ -117,7 +117,7 @@ async function sendConfirmationEmail(args: {
      lowest (British Columbia has its own price). */
   const prices = await getPrices();
   const price  = (key: string) => formatCents(prices[key]);
-  const arFrom = formatCents(Math.min(prices["annual-return"] ?? Infinity, prices["annual-return-bc"] ?? Infinity));
+  const arFrom = formatCents(Math.min(prices["annual-return"] ?? Infinity, prices["annual-return-bc"] ?? Infinity, prices["annual-return-on"] ?? Infinity));
   const changeFrom = formatCents(Math.min(prices["change-directors"] ?? Infinity, prices["change-address"] ?? Infinity));
   const mbFrom = formatCents(Math.min(prices["minute-book-new"] ?? Infinity, prices["minute-book-update"] ?? Infinity));
 

@@ -40,7 +40,7 @@ function buildNav(p: Prices): NavItem[] {
       kind:  "dropdown",
       label: "Services",
       items: [
-        { label: "Annual Returns",              href: "/annual-return",             hint: priced("Filed within 1 business day", p["annual-return"], " all-in") },
+        { label: "Annual Returns",              href: "/annual-return",             hint: fromPriced("Filed within 1 business day", Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => p[k]).filter((c): c is number => c != null))) },
         { label: "Corporate Profile Reports",   href: "/profile-reports",           hint: priced("For FINTRAC, QuickBooks, banking", p["profile-report"]) },
         { label: "Incorporation",               href: "/incorporation",             hint: fromPriced("Federal + all 13 provinces", p["incorporation-numbered"]) },
         { label: "Not-for-Profit Incorporation", href: "/not-for-profit",           hint: "Free consultation · all 14 jurisdictions" },

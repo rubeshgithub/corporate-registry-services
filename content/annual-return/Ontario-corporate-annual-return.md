@@ -1,11 +1,11 @@
 ﻿---
 title: "Ontario Corporate Annual Return"
-description: "File your Ontario corporate annual return with the Ontario Business Registry — {{price:annual-return}} all-in, government fee included. Stay in good standing."
+description: "File your Ontario corporate annual return with the Ontario Business Registry — {{price:annual-return-on}} all-in, government fee included. Stay in good standing."
 slug: "Ontario-corporate-annual-return"
 section: "annual-return"
 ---
 
-Ontario Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
+Ontario Annual Return Filing — {{price:annual-return-on}} + applicable tax, all-in (including government fees).
 
 Every Ontario corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 
