@@ -2,7 +2,7 @@
 
 ## What this repo is
 
-CRS (corporateregistryservices.ca) — Canadian corporate registry services: annual return filings ($129 all-in + GST), incorporations (from $699 numbered / $749 named, all-in + GST), corporate profile reports ($69), certificates of good standing ($109), NUANS name search report ($79) and pre-screen name search ($49), corporate revival ($599), minute books (from $299). Those figures are the LIVE values on 2026-09-22 (code defaults + operator overrides — see Pricing below) and are here for orientation only; never copy them into content or code. Companion product: MinuteBook app at minutebook.corporateregistryservices.ca (separate repo).
+CRS (corporateregistryservices.ca) — Canadian corporate registry services: annual return filings ($129 all-in + GST), incorporations (from $699 numbered / $749 named, all-in + GST), corporate profile reports ($69), certificates of good standing ($109), NUANS name search report ($79) and pre-screen name search ($49), corporate revival ($599), minute books (priced by the corporation's age, from $289 self-serve / $389 built by CRS — see `minute-book-*` keys). Those figures are the LIVE values on 2026-09-22 (code defaults + operator overrides — see Pricing below) and are here for orientation only; never copy them into content or code. Companion product: MinuteBook app at minutebook.corporateregistryservices.ca (separate repo).
 
 - `web/` — **Next.js 16 App Router** site (TypeScript, Tailwind 4). This is the live website.
 - `content/` — ~103 markdown files, the copy for every content page. Rendered by `web/src/app/[section]/[slug]/page.tsx` via `web/src/lib/content.ts`. Slugs = lowercased filenames; `web/src/middleware.ts` 301s TitleCase URLs to lowercase.

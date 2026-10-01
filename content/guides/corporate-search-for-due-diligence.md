@@ -55,7 +55,7 @@ For most Canadian transactions, this is the minimum evidence file:
 |---|---|---|
 | [Corporate Profile Report](/profile-reports) | {{price:profile-report}} all-in | Current legal existence, status, directors, address |
 | [Certificate of Good Standing / Status](/good-standing) | {{price:good-standing}} all-in | Corporation is compliant with all filings |
-| [Minute Book](/minute-books) (buyer's counsel review) | {{price:minute-book-new}}+ | Full history: resolutions, share transfers, past directors, articles amendments |
+| [Minute Book](/minute-books) (buyer's counsel review) | {{price:minute-book-young-self}}+ | Full history: resolutions, share transfers, past directors, articles amendments |
 | PPSA / RPMRR lien search | Varies by province | Registered security interests against corporate assets |
 | CRA arrears letter | Free (owner-requested) | No outstanding taxes owing |
 
@@ -87,7 +87,7 @@ If you're doing due diligence at scale (vetting suppliers, running KYC, extendin
 
 **Need to prove the corporation is compliant for financing or a closing?** [Order a Certificate of Good Standing](/good-standing) — {{price:good-standing}} all-in.
 
-**Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from {{price:minute-book-new}}.
+**Need the corporation's full history for share purchase or buyout?** [Order a Minute Book](/minute-books) — from {{price:minute-book-young-self}}.
 
 Start by locating the corporation: [how to search Canadian business registries](/articles/how-to-search-canadian-business-registries) walks through finding a company across all fourteen registries before you pull its record.
 

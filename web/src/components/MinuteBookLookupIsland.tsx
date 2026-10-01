@@ -9,8 +9,8 @@ import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResult
  *
  * Anyone reading a minute-book page wants their OWN corporation's book, so
  * lead with the search: type the corporation, pick it, and land on
- * /order/service/minute-book-new with the corporation pre-filled and the
- * details step auto-verified on arrival. Same trust-first styling as the
+ * /order/minute-book with the corporation pre-selected and its age-based
+ * price revealed on arrival. Same trust-first styling as the
  * corporate-documents island.
  */
 
@@ -87,7 +87,7 @@ export default function MinuteBookLookupIsland({
     if (hit.registryId)  params.set("registryId",   hit.registryId);
     if (hit.provinceKey) params.set("jurisdiction", hit.provinceKey);
     params.set("src", src);
-    window.location.href = `/order/service/minute-book-new?${params.toString()}`;
+    window.location.href = `/order/minute-book?${params.toString()}`;
   };
 
   return (

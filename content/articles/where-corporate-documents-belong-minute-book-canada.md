@@ -65,7 +65,7 @@ Issuing shares generates more minute book paperwork than any other routine event
 3. **Share certificate** — issued to the shareholder, numbered sequentially, signed. The shareholder keeps the original; a copy (and the certificate stub) stays in the minute book.
 4. **Register updates** — the register of shareholders, the **securities register** (the running record of every issuance and transfer by certificate number), and, where shares change who controls the corporation, the **register of individuals with significant control (ISC register)** must all be updated.
 
-If any link in that chain is missing, the share issuance is legally questionable — which is precisely what due-diligence lawyers look for. Our [Share Certificates service](/articles/share-certificates-in-canada) prepares professionally formatted certificates for {{price:share-certificate}} + GST, and a [Minute Book Update](/#services) (from {{price:minute-book-update}} + GST) reconstructs missing subscriptions, resolutions, and registers.
+If any link in that chain is missing, the share issuance is legally questionable — which is precisely what due-diligence lawyers look for. Our [Share Certificates service](/articles/share-certificates-in-canada) prepares professionally formatted certificates for {{price:share-certificate}} + GST, and a [minute book rebuild](/order/minute-book?src=article-where-corporate-documents-belong) (from {{price:minute-book-young-self}} + GST, priced by the corporation's age) reconstructs missing subscriptions, resolutions, and registers.
 
 ## Registers: the part of the minute book that must always be current
 
@@ -89,4 +89,4 @@ Nothing in the CBCA or provincial statutes requires a red leather binder. Record
 
 ## Keep it current — or let us do it
 
-Every document above belongs in one organized, up-to-date minute book. Corporate Registry Services prepares complete digital minute books for corporations in every Canadian jurisdiction — from {{price:minute-book-new}} all-in + GST — and prepares individual resolutions, share certificates, and by-laws on demand. Prefer to manage it yourself? Our [MinuteBook app](https://minutebook.corporateregistryservices.ca) keeps your resolutions, registers, and certificates organized online.
+Every document above belongs in one organized, up-to-date minute book. Corporate Registry Services prepares complete digital minute books for corporations in every Canadian jurisdiction — from {{price:minute-book-young-self}} all-in + GST — and prepares individual resolutions, share certificates, and by-laws on demand. Prefer to manage it yourself? Our [MinuteBook app](https://minutebook.corporateregistryservices.ca) keeps your resolutions, registers, and certificates organized online.

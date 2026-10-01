@@ -315,7 +315,7 @@ export default async function ContentPage({
             }
             // Minute-book province pages lead with a corporation search — the
             // reader wants their own company's book — handing off to
-            // /order/service/minute-book-new pre-filled. Matches every
+            // /order/minute-book pre-filled. Matches every
             // "<province>-corporate-minute-books" page, not the general guide.
             if (page.section === "minute-books" && page.slug.endsWith("-corporate-minute-books")) {
               return <MinuteBookLookupIsland src={`minute-books-${page.slug}`} />;

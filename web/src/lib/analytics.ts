@@ -25,6 +25,7 @@ const SERVICE_LABELS: Record<string, string> = {
   "change-address":         "Registered Address Change",
   "voluntary-dissolution":  "Voluntary Dissolution",
   "revival":                "Corporate Revival",
+  "minute-book":            "Corporate Minute Book",
 };
 
 export type OrderRow = {

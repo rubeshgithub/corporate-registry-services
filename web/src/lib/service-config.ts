@@ -197,8 +197,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         label: "New Minute Book Package",
         description: "Complete digital minute book: articles, by-laws, registers, share certificates, and organizational resolutions.",
         needsJurisdiction: true,
-        estimatedFee: "from $299 + GST",
-        priceCents: 29900,
+        estimatedFee: "from $289 + GST",
+        priceCents: 28900,
+        orderPath: "/order/minute-book",
         existingCorp: true,
       },
       {
@@ -206,8 +207,9 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
         label: "Minute Book Update",
         description: "Bring an existing minute book up to date with missing resolutions and registers.",
         needsJurisdiction: false,
-        estimatedFee: "from $299 + GST",
-        priceCents: 29900,
+        estimatedFee: "from $289 + GST",
+        priceCents: 28900,
+        orderPath: "/order/minute-book",
         existingCorp: true,
       },
       {
