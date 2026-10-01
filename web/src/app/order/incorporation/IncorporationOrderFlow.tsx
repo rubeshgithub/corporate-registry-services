@@ -8,6 +8,7 @@ import { JURISDICTIONS } from "@/lib/service-config";
 import PlacesInput, { type ParsedAddress } from "@/components/PlacesInput";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { DEFAULT_PRICES, priceKeyForService, formatCents } from "@/lib/price-catalogue";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /* ────────────────────────── Types ────────────────────────── */
 
@@ -119,6 +120,7 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
     restrictions:      "",
   });
   const [paying, setPaying] = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
   const price = centsFor(state.companyType);   // cents
@@ -313,10 +315,11 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
         ) : (
           <>
             <PaymentStepChatNudge />
+            <TermsAgreement checked={agreed} onChange={setAgreed} />
             <button
               type="button"
               onClick={submit}
-              disabled={paying}
+              disabled={paying || !agreed}
               style={{
                 padding: "0.7rem 1.25rem",
                 background: "var(--primary)",

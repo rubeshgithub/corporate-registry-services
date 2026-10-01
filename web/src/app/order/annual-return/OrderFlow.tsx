@@ -12,6 +12,7 @@ import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { annualReturnNote } from "@/lib/annual-return-price";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -161,6 +162,7 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
   const [changes, setChanges]     = useState<Changes>(emptyChanges());
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]       = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr]       = useState("");
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
@@ -655,9 +657,10 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={goToPayment}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{
           width: "100%",
           padding: "0.85rem 1rem",

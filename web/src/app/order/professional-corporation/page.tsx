@@ -28,7 +28,7 @@ export default async function ProCorpOrderPage() {
     <>
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
-        <Suspense fallback={<div style={{ maxWidth: 680, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
+        <Suspense fallback={<div style={{ maxWidth: 680, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)", minHeight: "75vh" }}>Loading…</div>}>
           <ProCorpOrderFlow prices={await getPrices()} />
         </Suspense>
       </main>

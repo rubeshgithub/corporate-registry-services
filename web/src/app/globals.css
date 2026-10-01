@@ -500,3 +500,6 @@ h1, h2, h3, h4, h5 {
 .prose tr:last-child td { border-bottom: none; }
 
 .prose tr:hover td { background: var(--card-hover); }
+
+/* In-page links land below the sticky header instead of under it. */
+h2[id], h3[id], h4[id], #crs-inline-lookup { scroll-margin-top: 96px; }

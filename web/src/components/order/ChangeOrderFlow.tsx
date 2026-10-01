@@ -11,6 +11,7 @@ import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Shared checkout for the four form-based change services:
@@ -91,6 +92,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
   const [details, setDetails]     = useState<Details>(() => defaultDetailsFor(config.key));
   const [contact, setContact]     = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]       = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr]       = useState("");
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" });
 
@@ -355,9 +357,10 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={submit}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{ width: "100%", padding: "0.85rem 1rem", background: canPay ? "var(--primary)" : "var(--border)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: canPay && !paying ? "pointer" : "not-allowed", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
       >
         {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{config.buttonLabel} <ArrowRight size={16} /></>}

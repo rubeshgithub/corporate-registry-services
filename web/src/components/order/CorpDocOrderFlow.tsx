@@ -16,6 +16,7 @@ import type {
   BylawsDetails,
   BylawsFlavour,
 } from "@/lib/corp-doc-config";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Shared checkout for the four "corporate document" services:
@@ -275,6 +276,7 @@ function DetailsScreen(props: {
   payErr: string;
   onSubmit: () => void;
 }) {
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const { config, pick, onChangeCorp, details, setDetails, contact, setContact, canPay, paying, payErr, onSubmit } = props;
 
   return (
@@ -350,9 +352,10 @@ function DetailsScreen(props: {
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={onSubmit}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{
           width: "100%",
           marginTop: "1rem",

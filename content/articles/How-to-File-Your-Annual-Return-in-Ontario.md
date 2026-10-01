@@ -3,10 +3,10 @@ title: "OBR Ontario Annual Return | Filing Agent | {{price:annual-return-on}} Al
 h1: "Ontario Annual Return: Filed with the OBR in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
-description: "Ontario annual return filed with the Ontario Business Registry in 1 business day — {{price:annual-return-on}} all-in. No account or company key needed. Beat the 6-month deadline."
+description: "Ontario annual return filed with the Ontario Business Registry in 1 business day — {{price:annual-return-on}} all-in. No OBR account needed — just your company key."
 ---
 
-**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · {{price:annual-return-on}} all-in, filed through the Ontario Business Registry by an authorized filing agent — no account and no company key required.
+**Deadline coming up?** [File your Ontario annual return in 1 business day →](/order/annual-return) · {{price:annual-return-on}} all-in, filed through the Ontario Business Registry by an authorized filing agent — no Ontario Business Registry account needed. Have your company key handy, or we'll help you request a new one.
 
 Every Ontario corporation incorporated under the *Business Corporations Act (Ontario)* (OBCA) must file an annual return each year to remain in good standing with the Ontario Business Registry. Missing this filing can result in a notice of intent to dissolve — and ultimately, administrative dissolution of your corporation.
 
@@ -72,7 +72,7 @@ If your Ontario corporation is also registered as an extra-provincial corporatio
 
 ## File Your Ontario Annual Return Through an OBR Filing Agent
 
-CRS is an authorized filing agent that submits Ontario annual returns directly through the Ontario Business Registry on your behalf. You don't need an Ontario Business Account, you don't need to hunt for your company key, and you don't need to navigate the OBR portal yourself — we prepare the return, file it before your 6-month deadline, and email you the OBR confirmation for your records.
+CRS is an authorized filing agent that submits Ontario annual returns directly through the Ontario Business Registry on your behalf. You don't need an Ontario Business Account or to navigate the OBR portal yourself. Filing still needs the corporation's company key: add it when you order, or send it later — and if it has been lost, we'll help you request a replacement (Ontario mails it to the registered office). We prepare the return, file it before your 6-month deadline, and email you the OBR confirmation for your records.
 
 **Turnaround:** 1 business day from order.
 **Price:** {{price:annual-return-on}} + applicable tax, all-in. Ontario charges no registry fee for an annual return; you are paying for the filing to be prepared and submitted correctly, on time, without an account.

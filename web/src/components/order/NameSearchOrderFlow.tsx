@@ -7,6 +7,7 @@ import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { JURISDICTIONS } from "@/lib/service-config";
 import type { NameSearchServiceConfig } from "@/lib/name-search-config";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Simple "propose a name → pay" order flow shared by the Name Availability
@@ -24,6 +25,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
   const [jurisdiction, setJurisdiction]   = useState(initialJurisdiction);
   const [contact, setContact]             = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying]               = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr]               = useState("");
 
   useEffect(() => {
@@ -164,9 +166,10 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={submit}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{ width: "100%", padding: "0.85rem 1rem", background: canPay ? "var(--primary)" : "var(--border)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: canPay && !paying ? "pointer" : "not-allowed", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
       >
         {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{config.buttonLabel} <ArrowRight size={16} /></>}

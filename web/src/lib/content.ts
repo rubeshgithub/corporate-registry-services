@@ -93,6 +93,24 @@ function firstParagraphPlain(md: string, maxLen = 155): string {
   return cleaned.length > maxLen ? cleaned.slice(0, maxLen - 1).trimEnd() + "…" : cleaned;
 }
 
+/**
+ * Give every h2–h4 an id so in-page links ("#what-crs-covers") and "jump to
+ * section" links land. remark-html emits bare headings, which is why those
+ * links did nothing. Ids follow GitHub's rule (lowercase, punctuation
+ * dropped, spaces → hyphens) and repeats get -1, -2…; a heading that already
+ * has an id is left alone.
+ */
+export function withHeadingIds(html: string): string {
+  const used = new Map<string, number>();
+  return html.replace(/<h([2-4])>([\s\S]*?)<\/h\1>/g, (_m, level: string, inner: string) => {
+    const text = inner.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&#x27;|&#39;|&rsquo;/g, "'").replace(/&[a-z#0-9]+;/gi, " ");
+    const base = text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s-]/gu, "").replace(/\s+/g, "-") || "section";
+    const n = used.get(base) ?? 0;
+    used.set(base, n + 1);
+    return `<h${level} id="${n ? `${base}-${n}` : base}">${inner}</h${level}>`;
+  });
+}
+
 function slugify(filename: string) {
   return filename.replace(/\.md$/, "").toLowerCase();
 }
@@ -231,7 +249,7 @@ export async function getPillar(section: Section): Promise<ContentPage | null> {
   const { data, content } = matter(raw);
   const rebranded = stripLeadingH1(rebrand(content));
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
-  const contentHtml = processed.toString();
+  const contentHtml = withHeadingIds(processed.toString());
 
   const description = ((data.description as string | undefined) ?? (data.metaDescription as string | undefined))?.trim()
     || firstParagraphPlain(content);
@@ -272,7 +290,7 @@ export async function getPage(
   const rebranded = stripLeadingH1(rebrand(content));
 
   const processed = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(rebranded);
-  const contentHtml = processed.toString();
+  const contentHtml = withHeadingIds(processed.toString());
 
   // NFP cluster uses `metaDescription` in frontmatter; existing content uses
   // `description`. Accept either — the field feeds the same <meta> tag.

@@ -16,6 +16,7 @@ import {
 } from "@/lib/professional-corp";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -58,6 +59,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
   const [pick, setPick]     = useState<RegistryHit | null>(null);
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
   const [paying, setPaying] = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
   /* Cart-abandonment beacon — same shape as OrderFlow. Only ships when
@@ -453,9 +455,10 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={goToPayment}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{ width: "100%", padding: "0.85rem 1rem", background: canPay ? "var(--primary)" : "var(--border)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: canPay && !paying ? "pointer" : "not-allowed", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
       >
         {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{shownButtonLabel} <ArrowRight size={16} /></>}
