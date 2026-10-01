@@ -113,6 +113,11 @@ const CUSTOM_ISLANDS: Record<
   "articles/business-name-search-canada": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
+  /* Federal cost article: incorporation intent, so the proposed-name check
+     beats the generic lookup fallback (added with the 2026-10-01 relay push). */
+  "articles/cost-to-incorporate-federally-in-canada": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
   "incorporation/canada-federal-incorporation-service": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
