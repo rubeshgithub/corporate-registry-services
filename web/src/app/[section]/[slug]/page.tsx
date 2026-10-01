@@ -108,6 +108,11 @@ const CUSTOM_ISLANDS: Record<
   "articles/how-to-incorporate-in-alberta": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
+  /* Name-availability intent: the free check + NUANS order island is the
+     exact match for this article (added with the 2026-10-01 relay push). */
+  "articles/business-name-search-canada": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
   "incorporation/canada-federal-incorporation-service": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
