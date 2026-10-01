@@ -15,6 +15,7 @@ import PaymentStepChatNudge from "@/components/order/PaymentStepChatNudge";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { formatCents } from "@/lib/price-catalogue";
 import { JURISDICTIONS } from "@/lib/service-config";
+import { homeJurisdictionOf, homeRecordsFor, isExtraProvincial } from "@/lib/registry-home";
 
 /**
  * The Minute Book order funnel: Find (search + instant price reveal) →
@@ -48,6 +49,11 @@ const inputStyle: React.CSSProperties = {
 const labelStyle: React.CSSProperties = {
   display: "block", fontSize: "0.75rem", fontWeight: 500,
   color: "var(--text-muted)", marginBottom: "0.25rem",
+};
+
+const resultStyle: React.CSSProperties = {
+  textAlign: "left", background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.5rem",
+  padding: "0.9rem 1rem", cursor: "pointer", display: "flex", gap: "0.75rem", alignItems: "center", justifyContent: "space-between",
 };
 
 const cardStyle: React.CSSProperties = {
@@ -119,8 +125,9 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const runSearch = async () => {
-    const q = query.trim();
+  const runSearch = () => search(query.trim(), province);
+
+  const search = async (q: string, prov: string) => {
     if (q.length < 2) {
       setSearchErr("Enter at least 2 characters — a company name, corporate number, or Business Number.");
       return;
@@ -129,7 +136,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
     setSearching(true);
     setPick(null);
     try {
-      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${province}`);
+      const res  = await fetch(`/api/company-search?q=${encodeURIComponent(q)}&province=${prov}`);
       const data = await res.json();
       setResults(data.results ?? []);
       if (!data.results?.length) setSearchErr("No matching records. Try the exact registered name, or change jurisdiction.");
@@ -148,7 +155,19 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
   const selfOk  = pick ? selfServeAvailable(pick.provinceKey) : true;
   const effPath: MinuteBookPath = selfOk ? path : "crs";
 
-  const canFind    = !!pick && !!tier;
+  /* A minute book follows the corporation's home jurisdiction, so an
+     extra-provincial registration can't be ordered; steer to the home record. */
+  const extra = pick ? isExtraProvincial(pick) : false;
+  const homes = pick && extra ? homeRecordsFor(pick, results) : [];
+  const searchHome = () => {
+    if (!pick) return;
+    const home = homeJurisdictionOf(pick) ?? "all";
+    setQuery(pick.name);
+    setProvince(home);
+    search(pick.name, home);
+  };
+
+  const canFind    = !!pick && !!tier && !extra;
   const canDetails =
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
@@ -255,7 +274,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 <button
                   key={`${hit.provinceKey}-${hit.registryId}-${i}`}
                   onClick={() => setPick(hit)}
-                  style={{ textAlign: "left", background: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.5rem", padding: "0.9rem 1rem", cursor: "pointer", display: "flex", gap: "0.75rem", alignItems: "center", justifyContent: "space-between" }}
+                  style={resultStyle}
                 >
                   <div>
                     <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.95rem" }}>{hit.name}</div>
@@ -263,6 +282,9 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                       {hit.jurisdiction} · {hit.registryId || "—"} · {hit.status}
                       {hit.registrationDate ? ` · Incorporated ${hit.registrationDate.slice(0, 10)}` : ""}
                     </div>
+                    {isExtraProvincial(hit) && (
+                      <div style={{ color: "#B45309", fontSize: "0.72rem", marginTop: "0.2rem" }}>Extra-provincial registration — not the home record</div>
+                    )}
                   </div>
                   <ArrowRight size={16} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
                 </button>
@@ -288,7 +310,41 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                   </button>
                 </div>
 
-                {!pick.registrationDate && (
+                {extra && (
+                  <div style={{ marginTop: "0.9rem", padding: "0.9rem 1rem", borderRadius: "0.5rem", background: "rgba(180,83,9,0.08)" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.88rem", color: "var(--text)", marginBottom: "0.3rem" }}>
+                      This is an extra-provincial registration
+                    </div>
+                    <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>
+                      {pick.jurisdiction} keeps this record because the corporation does business there, but it was formed{" "}
+                      {homeJurisdictionOf(pick) === "federal" ? "federally, under the Canada Business Corporations Act" : "in another jurisdiction"}.
+                      Its minute book follows the law of that home jurisdiction, so it&apos;s ordered against the home registration.
+                    </p>
+                    {homes.length > 0 ? (
+                      <div style={{ marginTop: "0.75rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                        <div style={labelStyle}>{homeJurisdictionOf(pick) ? "Its home registration" : "Possible home registrations"}</div>
+                        {homes.map((h, i) => (
+                          <button key={`${h.provinceKey}-${h.registryId}-${i}`} onClick={() => { setPick(h); setManualDate(""); }} style={resultStyle}>
+                            <div>
+                              <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9rem" }}>{h.name}</div>
+                              <div style={{ color: "var(--text-muted)", fontSize: "0.78rem", marginTop: "0.15rem" }}>
+                                {h.jurisdiction} · {h.registryId || "—"} · {h.status}
+                                {h.registrationDate ? ` · Incorporated ${h.registrationDate.slice(0, 10)}` : ""}
+                              </div>
+                            </div>
+                            <ArrowRight size={16} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <button onClick={searchHome} style={{ marginTop: "0.75rem", padding: "0.55rem 1rem", background: "var(--primary)", color: "#FFFFFF", fontWeight: 600, fontSize: "0.85rem", border: "none", borderRadius: "0.5rem", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.375rem" }}>
+                        <Search size={14} /> Find its home registration
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {!extra && !pick.registrationDate && (
                   <div style={{ marginTop: "0.9rem" }}>
                     <label style={labelStyle}>
                       The registry didn&apos;t return an incorporation date — enter it to see your price (we verify it against your profile report)
@@ -298,7 +354,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 )}
               </div>
 
-              {tier && (
+              {!extra && tier && (
                 <>
                   <p style={{ textAlign: "center", margin: "1.25rem 0 0.75rem", fontSize: "0.95rem", color: "var(--text)" }}>
                     Incorporated {effectiveIncorpDate} — your book covers every year since. Your price, revealed before you pay:
@@ -470,7 +526,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
                 <span style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)" }}>{formatCents(prices[tier.key].crs)}</span>
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
-                One 15-minute call — we ask, you answer. Our specialists build and quality-check your signature-ready book, delivered within 5 business days.
+                One 15-minute call — we ask, you answer. Our specialists build and quality-check your signature-ready book, typically delivered within 2 business days.
               </div>
             </button>
           </div>
