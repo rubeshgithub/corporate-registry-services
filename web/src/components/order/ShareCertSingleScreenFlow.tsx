@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, Edit2, Mail, MessageCircle } from "lucide-react";
 import type { CorpDocServiceConfig, ShareCertificateDetails } from "@/lib/corp-doc-config";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Single-screen share certificate order flow.
@@ -73,6 +74,7 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
 
   /* Payment */
   const [paying, setPaying] = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
   /* Consume the sessionStorage handoff from the article-page lookup widget.
@@ -494,9 +496,10 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
         </Field>
 
         <PaymentStepChatNudge />
+        <TermsAgreement checked={agreed} onChange={setAgreed} />
         <button
           onClick={submit}
-          disabled={!canPay || paying}
+          disabled={!canPay || paying || !agreed}
           style={{
             marginTop: "1.25rem",
             padding: "0.85rem 1.5rem",

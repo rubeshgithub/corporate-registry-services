@@ -8,6 +8,7 @@ import { JURISDICTIONS } from "@/lib/service-config";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState } from "@/lib/registry-access";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Order flow for visitors who searched and found a specific corporation
@@ -63,6 +64,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
   const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
   const [paying, setPaying] = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
   // Search for corporation on mount
@@ -459,9 +461,10 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
 
       {/* Submit Button */}
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         onClick={submit}
-        disabled={!canPay || paying}
+        disabled={!canPay || paying || !agreed}
         style={{
           width: "100%",
           padding: "1rem",

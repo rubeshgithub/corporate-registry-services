@@ -14,6 +14,7 @@ import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResul
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { parseRegistryDate } from "@/lib/dates";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -192,6 +193,7 @@ export default function InlineLookupOrder({
   const [hasChanges, setHasChanges]   = useState(false);
   const [changesNote, setChangesNote] = useState("");
   const [paying, setPaying]       = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   /* Set just before the Stripe redirect so the paid session isn't written
      as an abandoned cart by a late beacon. */
   const [redirecting, setRedirecting] = useState(false);
@@ -766,9 +768,10 @@ export default function InlineLookupOrder({
             </div>
           )}
 
+          <TermsAgreement checked={agreed} onChange={setAgreed} />
           <button
             onClick={submit}
-            disabled={!canPay || paying}
+            disabled={!canPay || paying || !agreed}
             style={{
               width:        "100%",
               marginTop:    "0.85rem",

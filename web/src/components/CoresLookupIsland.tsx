@@ -43,6 +43,19 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
 
   const searchToken = useRef(0);
 
+  function trackSearch(text: string, prov: string, resultCount: number) {
+    try {
+      const sessionId = document.cookie.match(/(?:^|; )crs_session_id=([^;]+)/)?.[1] ?? "";
+      if (!sessionId || text.trim().length < 2) return;
+      const body = JSON.stringify({
+        type: "search", query: text.trim(), province: prov, resultCount,
+        path: window.location.pathname, sessionId: decodeURIComponent(sessionId),
+      });
+      if (navigator.sendBeacon) navigator.sendBeacon("/api/track", new Blob([body], { type: "application/json" }));
+      else fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body, keepalive: true }).catch(() => {});
+    } catch { /* analytics never breaks the box */ }
+  }
+
   useEffect(() => {
     const query = q.trim();
     if (query.length < MIN_QUERY) {
@@ -63,6 +76,10 @@ export default function CoresLookupIsland({ src = "article-what-is-cores-alberta
         if (myToken !== searchToken.current) return;
         const hits: RegistryHit[] = data.results ?? [];
         setResults(hits);
+        /* Record the search like every other search box — this one never did,
+           so CORES-page searches were missing from Insights. A failed lookup
+           (data.error) is not a search result and isn't recorded. */
+        if (!data?.error) trackSearch(query, province, hits.length);
         /* Only open the dropdown when there is something to show. It used to open
            unconditionally, which meant a zero-result search rendered neither the
            dropdown (no rows) NOR the error (gated on !dropdownOpen) — so "No

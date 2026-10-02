@@ -22,6 +22,6 @@ The Quebec report is a key document that verifies a company's existence, status,
 
 The Quebec Corporate Profile Report is retrieved directly from the Quebec Enterprise Register (REQ) to ensure accuracy and authenticity.
 
-**Processing Time:** 3 Hours
+**Processing Time:** 1 Business Hour
 **Delivery Method:** Electronically in PDF format
 **Method of Payment:** Interac E-transfer, Debit Card, Credit Card

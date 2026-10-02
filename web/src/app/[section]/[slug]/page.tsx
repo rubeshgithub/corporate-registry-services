@@ -89,6 +89,14 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search the corporation you're diligencing"
       subOverride="Search by company name, corporation number, or Business Number to pull its registry record and order a profile report." />
   ),
+  /* RJSC navigational cluster: searchers typing the registry's name want to
+     look a company up — NS-scoped lookup, profile report as the paid step. */
+  "articles/registry-of-joint-stock-companies-nova-scotia": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="ns" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Registry of Joint Stocks search"
+      titleOverride="Search the Nova Scotia registry"
+      subOverride="Look up any Nova Scotia company, business name or society free — and order its official RJSC profile report if you need the record." />
+  ),
   "articles/certificate-of-status-ontario": ({ slug, prices }) => (
     <InlineLookupOrder service="good-standing" provinceKey="on" priceCents={prices["good-standing"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
@@ -106,6 +114,16 @@ const CUSTOM_ISLANDS: Record<
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
   "articles/how-to-incorporate-in-alberta": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  /* Name-availability intent: the free check + NUANS order island is the
+     exact match for this article (added with the 2026-10-01 relay push). */
+  "articles/business-name-search-canada": ({ prices }) => (
+    <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
+  ),
+  /* Federal cost article: incorporation intent, so the proposed-name check
+     beats the generic lookup fallback (added with the 2026-10-01 relay push). */
+  "articles/cost-to-incorporate-federally-in-canada": ({ prices }) => (
     <AvailabilityCheckIsland priceCents={prices["nuans-search"]} />
   ),
   "incorporation/canada-federal-incorporation-service": ({ prices }) => (

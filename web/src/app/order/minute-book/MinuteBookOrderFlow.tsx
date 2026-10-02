@@ -16,6 +16,7 @@ import ETransferCapture from "@/components/order/ETransferCapture";
 import { formatCents } from "@/lib/price-catalogue";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { homeJurisdictionOf, homeRecordsFor, isExtraProvincial } from "@/lib/registry-home";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * The Minute Book order funnel: Find (search + instant price reveal) →
@@ -85,6 +86,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
   // Review state
   const [path, setPath]     = useState<MinuteBookPath>("self");
   const [paying, setPaying] = useState(false);
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
   useOrderDraftBeacon({
@@ -580,9 +582,10 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
           )}
 
           <PaymentStepChatNudge />
+          <TermsAgreement checked={agreed} onChange={setAgreed} />
           <button
             onClick={goToPayment}
-            disabled={paying}
+            disabled={paying || !agreed}
             style={{ width: "100%", padding: "0.85rem 1rem", background: "var(--primary)", color: "#FFFFFF", fontWeight: 700, fontSize: "1rem", border: "none", borderRadius: "0.5rem", cursor: paying ? "not-allowed" : "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
           >
             {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {formatCents(prices[tier.key][effPath])} + tax securely <ArrowRight size={16} /></>}

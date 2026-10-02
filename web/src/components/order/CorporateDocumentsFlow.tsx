@@ -7,6 +7,7 @@ import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, FileText, Mail 
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { quoteDocuments } from "@/lib/corporate-documents-pricing";
+import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
  * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
@@ -349,6 +350,7 @@ function ConfirmScreen({
   submitting: boolean; submitErr: string; canSubmit: boolean;
   perDoc: string; fullPrice: string; quoteNote: string;
 }) {
+  const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   return (
     <>
       {/* Selected company */}
@@ -458,10 +460,11 @@ function ConfirmScreen({
       )}
 
       <PaymentStepChatNudge />
+      <TermsAgreement checked={agreed} onChange={setAgreed} />
       <button
         type="button"
         onClick={onSubmit}
-        disabled={!canSubmit || submitting}
+        disabled={!canSubmit || submitting || !agreed}
         style={{
           width: "100%", padding: "0.95rem",
           borderRadius: "0.5rem",

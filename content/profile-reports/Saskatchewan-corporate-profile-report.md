@@ -23,6 +23,6 @@ A Saskatchewan Corporate Profile Report provides complete, current public record
 | | |
 |---|---|
 | **Price** | {{price:profile-report}} + applicable tax — all government charges included |
-| **Processing Time** | 3 Hours |
+| **Processing Time** | 1 Business Hour |
 | **Delivery** | PDF |
 | **Payment** | Interac E-transfer, Debit, Credit |

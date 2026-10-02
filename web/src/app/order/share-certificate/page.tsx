@@ -35,7 +35,7 @@ export default async function ShareCertificateOrderPage() {
     <>
       <Header />
       <main style={{ flex: 1, background: "var(--bg)" }}>
-        <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)" }}>Loading…</div>}>
+        <Suspense fallback={<div style={{ maxWidth: 620, margin: "0 auto", padding: "3rem 1.5rem", textAlign: "center", color: "var(--text-muted)", minHeight: "75vh" }}>Loading…</div>}>
           <ShareCertSingleScreenFlow config={await withLivePrice(CORP_DOC_CONFIGS["share-certificate"], "share-certificate")} />
         </Suspense>
       </main>
