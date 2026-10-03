@@ -1,5 +1,6 @@
 import type { Section } from "./content";
 import { priceKeyForService, swapPrice } from "./price-catalogue";
+import { annualReturnPriceKey } from "./annual-return-price";
 
 /**
  * Apply catalogue prices to a context's copy. The dollar figures in
@@ -8,7 +9,11 @@ import { priceKeyForService, swapPrice } from "./price-catalogue";
  * so the CTA strip can never advertise a price the checkout won't charge.
  */
 export function withLivePrices(ctx: ServiceContext, prices: Record<string, number>): ServiceContext {
-  const cents = prices[priceKeyForService(ctx.serviceKey)];
+  /* Annual returns are priced by province (BC/Ontario $99, Nova Scotia $239,
+     Alberta and others $159): a province page's strip, closing CTA and sticky
+     button quote that province's price, like its checkout. */
+  const key = ctx.serviceKey === "annual-return" ? annualReturnPriceKey(ctx.jurisdictionKey) : priceKeyForService(ctx.serviceKey);
+  const cents = prices[key] ?? prices[priceKeyForService(ctx.serviceKey)];
   if (cents == null) return ctx;
   return {
     ...ctx,
