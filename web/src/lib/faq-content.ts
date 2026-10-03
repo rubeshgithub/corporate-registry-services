@@ -22,7 +22,7 @@ export type PriceOf = (key: string) => string;
 
 export function buildFaqCategories(price: PriceOf): FaqCategory[] {
   const annual  = price("annual-return");
-  const annualBc = price("annual-return-bc"), annualOn = price("annual-return-on"), annualAb = price("annual-return-ab");
+  const annualBc = price("annual-return-bc"), annualOn = price("annual-return-on"), annualAb = price("annual-return-ab"), annualNs = price("annual-return-ns");
   const profile = price("profile-report");
   const goodSt  = price("good-standing");
 
@@ -33,7 +33,7 @@ export function buildFaqCategories(price: PriceOf): FaqCategory[] {
       items: [
         {
           q: "How much does CRS charge to file an annual return?",
-          a: `Per year filed, plus GST/HST: ${annualBc} for British Columbia, ${annualOn} for Ontario, ${annualAb} for Alberta, and ${annual} for other provinces, territories and federal corporations. Government registry fees are included — there are no surprise add-ons at checkout. Behind on filings? Each additional year is billed at the same per-year rate.`,
+          a: `Per year filed, plus GST/HST: ${annualBc} for British Columbia, ${annualOn} for Ontario, ${annualAb} for Alberta, ${annualNs} for Nova Scotia, and ${annual} for other provinces, territories and federal corporations. Government registry fees are included — there are no surprise add-ons at checkout. Behind on filings? Each additional year is billed at the same per-year rate.`,
           href: "/order/annual-return",
         },
         {

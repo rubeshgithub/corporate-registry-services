@@ -64,7 +64,7 @@ Renewal fees vary by legal structure — business names, partnerships, societies
 
 Your renewal is due in the **anniversary month** of your original registration or incorporation — one of the tighter windows in Canada — and the RJSC sends a notice about a month ahead. Companies must also keep a recognized agent in the province and keep their registered office, directors and officers current on the registry; letting the renewal lapse starts the road to being struck off the registry.
 
-The mechanics, deadline math and what happens if you miss it are covered in our guide to [filing your Nova Scotia annual return](/articles/how-to-file-your-annual-return-in-nova-scotia) — or skip the portal entirely and [have CRS file it](/order/annual-return?src=article-registry-of-joint-stock-companies-nova-scotia) for {{price:annual-return}} all-in + tax, government fee included, with the deadline tracked for you every year.
+The mechanics, deadline math and what happens if you miss it are covered in our guide to [filing your Nova Scotia annual return](/articles/how-to-file-your-annual-return-in-nova-scotia) — or skip the portal entirely and [have CRS file it](/order/annual-return?src=article-registry-of-joint-stock-companies-nova-scotia) for {{price:annual-return-ns}} all-in + tax, government fee included, with the deadline tracked for you every year.
 
 ## What Documents Can You Get From the RJSC?
 
@@ -103,4 +103,4 @@ Filings made through RJSC Connect are the fastest route; paper forms submitted b
 **Anything you need from Joint Stocks, in one order.** Profile reports in about 1 business hour, certificates of status in about 3, and annual renewals filed with the deadline tracked — start with a [free search](/canada-corporations-search) or [order your document →](/order/profile-report?src=article-registry-of-joint-stock-companies-nova-scotia).
 
 **Turnaround:** profile report ~1 business hour · certificate of status ~3 hours · annual renewal filed in 1 business day.
-**Price:** profile report {{price:profile-report}} · certificate of status {{price:good-standing}} · annual renewal {{price:annual-return}} — all + tax, government fees included.
+**Price:** profile report {{price:profile-report}} · certificate of status {{price:good-standing}} · annual renewal {{price:annual-return-ns}} — all + tax, government fees included.

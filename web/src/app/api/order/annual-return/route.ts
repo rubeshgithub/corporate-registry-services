@@ -161,6 +161,11 @@ export async function POST(req: Request) {
     if (!h || String(h.provinceKey).toLowerCase() !== "on") return false;
     return /^\d{7,10}$/.test(String(h.registryId ?? "")) || /ontario/i.test(String(h.jurisdiction ?? ""));
   }
+  /* Nova Scotia registry ids are numeric; CBR labels the jurisdiction "Nova Scotia". */
+  function isNsHit(h: Hit | undefined): boolean {
+    if (!h || String(h.provinceKey).toLowerCase() !== "ns") return false;
+    return /^\d{5,10}$/.test(String(h.registryId ?? "")) || /nova scotia/i.test(String(h.jurisdiction ?? ""));
+  }
   /* Alberta corporate access numbers are 10 digits; OrgBook/CBR/gazette label it "Alberta". */
   function isAbHit(h: Hit | undefined): boolean {
     if (!h || String(h.provinceKey).toLowerCase() !== "ab") return false;
@@ -169,7 +174,7 @@ export async function POST(req: Request) {
   const pcPerYear  = await proCorpPriceCentsLive(isPC, "annual-return");
   const perYearCents = USE_TEST_PRICE
     ? PRICE_PER_YEAR_CAD_CENTS
-    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : isAbHit(body.hit) ? "ab" : isOnHit(body.hit) ? "on" : "")));
+    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : isAbHit(body.hit) ? "ab" : isOnHit(body.hit) ? "on" : isNsHit(body.hit) ? "ns" : "")));
 
   try {
     const session = await stripe.checkout.sessions.create({

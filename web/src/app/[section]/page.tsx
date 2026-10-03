@@ -65,7 +65,7 @@ async function liveOverride(section: Section): Promise<SectionOverride | undefin
   /* Annual returns are priced by province (BC and Ontario lower), so the hub
      quotes "from" the lowest of them rather than the general price. */
   const cents = section === "annual-return"
-    ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
+    ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ns", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
     : prices[section];
   if (cents == null || !Number.isFinite(cents)) return o;
   return {

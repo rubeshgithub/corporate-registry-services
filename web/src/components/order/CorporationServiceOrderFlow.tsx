@@ -49,7 +49,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const services = BASE_SERVICES.map((s) => {
     /* Annual returns: "from" the lowest province price (BC and Ontario are lower). */
     const cents = s.key === "annual-return" && prices
-      ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
+      ? Math.min(...["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ns", "annual-return-ab"].map((k) => prices[k]).filter((c): c is number => c != null))
       : prices?.[s.key];
     return cents == null ? s : { ...s, price: swapPrice(s.price, cents) };
   });

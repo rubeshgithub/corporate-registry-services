@@ -22,7 +22,7 @@ const BASE_METADATA: Metadata = {
    Keeps the tab title honest when an operator changes a price. */
 export async function generateMetadata(): Promise<Metadata> {
   /* "From" the lowest province price (BC and Ontario are lower). */
-  const cents = Math.min(...await Promise.all(["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ab"].map((k) => getPriceCents(k))));
+  const cents = Math.min(...await Promise.all(["annual-return", "annual-return-bc", "annual-return-on", "annual-return-ns", "annual-return-ab"].map((k) => getPriceCents(k))));
   return {
     ...BASE_METADATA,
     title:       swapPrice(String(BASE_METADATA.title ?? ""), cents),
@@ -42,7 +42,7 @@ export default async function AnnualReturnOrderPage() {
             </div>
           }
         >
-          <OrderFlow perYearCents={await getPriceCents("annual-return")} provincePerYearCents={{ bc: await getPriceCents("annual-return-bc"), on: await getPriceCents("annual-return-on"), ab: await getPriceCents("annual-return-ab") }} />
+          <OrderFlow perYearCents={await getPriceCents("annual-return")} provincePerYearCents={{ bc: await getPriceCents("annual-return-bc"), on: await getPriceCents("annual-return-on"), ns: await getPriceCents("annual-return-ns"), ab: await getPriceCents("annual-return-ab") }} />
         </Suspense>
       </main>
       <Footer />

@@ -1,11 +1,11 @@
 ﻿---
 title: "Nova Scotia Corporate Annual Return"
-description: "File your Nova Scotia corporate annual return with the Registry of Joint Stock Companies — {{price:annual-return}} all-in, government fee included. Stay in good standing."
+description: "File your Nova Scotia corporate annual return with the Registry of Joint Stock Companies — {{price:annual-return-ns}} all-in, government fee included. Stay in good standing."
 slug: "Nova-Scotia-corporate-annual-return"
 section: "annual-return"
 ---
 
-Nova Scotia Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
+Nova Scotia Annual Return Filing — {{price:annual-return-ns}} + applicable tax, all-in (including government fees).
 
 Every Nova Scotia corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 
