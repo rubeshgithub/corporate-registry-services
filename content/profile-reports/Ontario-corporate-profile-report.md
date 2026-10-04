@@ -29,3 +29,7 @@ The Ontario Corporate Profile Report is retrieved directly from the Ontario Busi
 | **Processing Time** | 1 Business Hour |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |
+
+## Need it for QuickBooks Online?
+
+This is the Profile Report QuickBooks lists for Ontario for Payments and Payroll direct deposit verification. Our [Ontario guide for QuickBooks Online](/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-ontario) explains what Intuit checks, what to update before you upload, and how to submit it.

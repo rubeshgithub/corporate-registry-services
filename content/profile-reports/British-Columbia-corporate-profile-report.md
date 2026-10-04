@@ -28,3 +28,7 @@ The British Columbia Corporate Profile Report is retrieved directly from the BC 
 | **Processing Time** | 1 Business Hour |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |
+
+## Need it for QuickBooks Online?
+
+This is the BC Company Summary QuickBooks lists for British Columbia for Payments and Payroll direct deposit verification. Our [BC guide for QuickBooks Online](/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-british-columbia) explains what Intuit checks, what to update before you upload, and how to submit it.

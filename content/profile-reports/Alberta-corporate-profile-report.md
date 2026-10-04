@@ -29,3 +29,7 @@ The Alberta Corporate Profile Report is retrieved directly from the Alberta Corp
 | **Processing Time** | 1 Business Hour |
 | **Delivery** | Electronically in PDF format |
 | **Payment** | Interac E-transfer, Debit Card, Credit Card |
+
+## Need it for QuickBooks Online?
+
+This is the Corporation/Non-Profit Search QuickBooks lists for Alberta for Payments and Payroll direct deposit verification. Our [Alberta guide for QuickBooks Online](/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-alberta) explains what Intuit checks, what to update before you upload, and how to submit it.

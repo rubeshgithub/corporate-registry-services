@@ -9,6 +9,61 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      /* Oct 2026: the ten thin, near-identical QuickBooks profile-report
+       * articles for the smaller provinces and territories (Google had stopped
+       * indexing that template) were merged into one guide covering every
+       * jurisdiction. 301 so their links and history pass to it. */
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-manitoba",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-saskatchewan",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-quebec",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-nova-scotia",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-new-brunswick",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-prince-edward-island",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-newfoundland",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-yukon",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-northwest-territories",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+      {
+        source: "/articles/how-to-get-a-corporate-profile-report-for-quickbooks-online-in-nunavut",
+        destination: "/articles/corporate-profile-report-for-quickbooks-online-canada",
+        permanent: true,
+      },
+
       /* Two internal SEO strategy documents were filed into routed content
        * directories by mistake and went live as public articles — they set
        * out target keywords, conversion reasoning and competitor analysis.
