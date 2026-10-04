@@ -1,0 +1,87 @@
+---
+title: "PEI Corporate Registry Search: Look Up Any Island Company"
+h1: "How to Search the PEI Corporate Registry"
+slug: "pei-corporate-registry-search"
+section: "articles"
+description: "How to search the PEI Business / Corporate Registry free — names, numbers, status — and get profile reports or certificates of status in hours."
+faq:
+  - q: "Is the PEI corporate registry search free?"
+    a: "Yes. The PEI Business / Corporate Registry's public search on princeedwardisland.ca is free and needs no account — you can filter by business name, business number, entity type and status. Only official documents cost money: the registry's own certificates and copies are priced by the Financial and Consumer Services Division, or CRS pulls a full corporate profile report for {{price:profile-report}} + tax in about 1 business hour."
+  - q: "Do I need a login for the PEI corporate registry?"
+    a: "Not to search. A login on the Online Corporate and Business Names Registry (OCBR) is only needed to file — registering a business name, renewing a registration or updating a corporation's record. If you'd rather not create and manage a portal account, CRS files PEI annual returns and retrieves registry documents on your behalf with no login needed on your end."
+  - q: "Why doesn't a PEI company show up in Canada's Business Registries search?"
+    a: "Prince Edward Island is not one of the jurisdictions aggregated by the federal Canada's Business Registries search, so a perfectly active PEI corporation can return nothing there. Search PEI's own Business / Corporate Registry directly, or use the CRS Canada-wide corporation search, which queries PEI's registry alongside the other provinces."
+  - q: "How do I prove a PEI corporation is in good standing?"
+    a: "Order a Certificate of Status (also called a certificate of good standing) — formal, dated proof from the PEI Corporate Registry that the corporation exists and is current on its filings. PEI doesn't publish an online retail fee schedule; document services typically charge around $110 for it. CRS delivers it for {{price:good-standing}} all-in + tax, government charges included, in about 3 hours."
+---
+
+**Need the full picture on a PEI company?** [Order a corporate profile report — {{price:profile-report}} + tax, ~1 business hour →](/order/profile-report?src=article-pei-corporate-registry-search) · Status, directors, registered office and filing history, pulled directly from the PEI registry.
+
+Prince Edward Island company lookups run through the **PEI Business / Corporate Registry**, the province's free public search on princeedwardisland.ca — no account, no login, no fee to search. It covers incorporated companies, sole proprietorships, partnerships, business names, co-operatives and non-profits registered on the Island. This guide covers where to search, what the free result actually tells you, why PEI companies don't appear in the federal Canada-wide search, and how to turn a search hit into a document a bank or lawyer will accept.
+
+## What Is the PEI Business / Corporate Registry?
+
+The PEI Business / Corporate Registry is the province's official register of every corporation and registered business operating in Prince Edward Island, maintained by the Financial and Consumer Services Division of the Department of Justice and Public Safety. It records each entity's legal name, business number, type, status and registered particulars, and it is the authoritative source — if a company claims to be incorporated in PEI, this is where you verify it.
+
+The registry has two faces, and mixing them up is the single most common point of confusion:
+
+- **The public search** — the [PEI Business / Corporate Registry search](https://www.princeedwardisland.ca/en/feature/pei-business-corporate-registry) on princeedwardisland.ca. Free, open to anyone, no account required.
+- **The filing portal** — the Online Corporate and Business Names Registry (OCBR), the logged-in system where businesses register names, renew registrations and keep their corporate records current.
+
+If you just want to look a company up, you never need the login. If you're trying to *file* something, see the filing section below.
+
+## How Do You Search the PEI Corporate Registry for Free?
+
+Go to the registry's search page on princeedwardisland.ca and type the business name or business number. The search is free and unlimited, and you can narrow results with two filters that do a lot of work:
+
+- **Type** — incorporated company, sole proprietorship, partnership, business name, co-operative and similar categories, so you can tell a numbered corporation from a trade name it operates under.
+- **Status** — active, inactive, expired and related states, so you can see at a glance whether the registration is current.
+
+Practical search tips, learned the hard way:
+
+1. **Search the shortest distinctive word** in the name first. "Red Soil Holdings Inc." is best found with *red soil*, not the full legal styling — punctuation and corporate endings (Inc., Ltd., Limited) vary between what's registered and what's on the sign.
+2. **Try the business number if you have it.** A number match is exact and skips every spelling problem.
+3. **Check the type field** before concluding anything. A hit on a business *name* may be a registration owned by a corporation with a completely different legal name — the record will point you to the owner.
+
+If the company should exist but nothing comes up, widen the status filter — an expired or inactive registration is itself an answer, and often the one that matters for a deal.
+
+## Do You Need a Login for the PEI Corporate Registry?
+
+Not to search — searching is free and anonymous. The OCBR login exists for *filing*: registering a business name, renewing it, registering a non-profit or co-operative, and keeping a corporation's information current.
+
+That distinction matters because a large share of people hunting for a "PEI corporate registry login" are actually corporation owners with a deadline — typically the annual return that keeps the corporation in good standing. If that's you, two routes:
+
+- **Do it yourself** through the government portal — create the account, locate your corporation, file and pay the government fee.
+- **Have CRS file it** — we [file your PEI annual return](/order/annual-return?src=article-pei-corporate-registry-search) directly with the PEI Corporate Registry for {{price:annual-return}} all-in + tax, government fee included, in 1 business day. No portal account needed on your end, and we track the deadline every year after. (Full walkthrough: [how to file your PEI annual return](/articles/How-to-File-Your-Annual-Return-in-Prince-Edward-Island).)
+
+## Why Isn't PEI in Canada's Business Registries Search?
+
+Because Prince Edward Island doesn't participate in the federal aggregator. [Canada's Business Registries](https://ised-isde.canada.ca/cbr-rec/) — the Government of Canada's multi-registry search — pulls from Corporations Canada and a subset of provincial registries, and PEI is not among them. The practical consequence: a PEI corporation can be fully active and in perfect standing and still return *nothing* in the federal search.
+
+So never treat an empty federal result as proof a PEI company doesn't exist. Search the Island's own registry directly, or use the [CRS Canada-wide corporation search](/canada-corporations-search), which queries PEI's registry alongside the federal and other provincial databases in one pass. For the national picture — which registry covers what, and where the gaps are — see our guide to [searching Canadian business registries](/articles/how-to-search-canadian-business-registries). Looking next door? New Brunswick's registry works differently (paid name search); we've covered it in the [New Brunswick corporate registry search guide](/articles/new-brunswick-corporate-registry-search).
+
+## What Does the Free Search Tell You — and What Doesn't It?
+
+The free result is a screen summary: name, number, type, status. That answers "does this company exist and is its registration current?" — which is often all you need before signing a small contract or chasing an invoice.
+
+What it *doesn't* give you is the official record. For anything with money or liability attached — lending, leasing, litigation, closing a purchase — you'll want the company's full registry profile or formal proof of standing:
+
+- **Corporate profile report** — the company's registry record in full: legal name and number, status, registered office, directors and filing particulars. This is what accountants, lenders and lawyers usually mean by "pull the company's registry record." CRS delivers the [PEI corporate profile report](/profile-reports/Prince-Edward-Island-corporate-profile-report) for {{price:profile-report}} + tax in about 1 business hour.
+- **Certificate of Status (good standing)** — formal, dated government proof that the corporation exists and is current on its filings. Required for financing, real-estate closings and bids. CRS retrieves the [PEI certificate of good standing](/good-standing/Prince-Edward-Island-certificate-of-good-standing) for {{price:good-standing}} all-in + tax in about 3 hours — [order it here](/order/good-standing?src=article-pei-corporate-registry-search).
+
+Not sure which of the two a bank or lawyer is asking for? The [profile report vs. certificate of good standing guide](/guides/corporate-profile-report-vs-certificate-of-good-standing) settles it in two minutes, and the [company verification guide](/guides/how-to-verify-a-canadian-company) covers the full due-diligence checklist.
+
+One caution on fees: PEI doesn't publish an online retail price list for registry documents — official copies and certificates are ordered through the Financial and Consumer Services Division (902-368-4550), and third-party document services typically charge around $110 for a PEI certificate of status. CRS prices are all-in, with government charges included, so there's no surprise on top.
+
+## How Do You Keep Your Own PEI Corporation Searchable and in Good Standing?
+
+Everything above cuts both ways: your customers, lenders and partners are searching *you* in the same registry. A PEI corporation stays clean in the search results by keeping its filings current — above all the annual return, due within 30 days of the corporation's anniversary date, one of the tighter windows in Canada. Fall behind and the status field stops saying "active"; stay behind and the corporation risks administrative dissolution, which is expensive to reverse and visible to everyone who searches you.
+
+If the anniversary has a habit of sneaking up, [CRS files the PEI annual return](/articles/How-to-File-Your-Annual-Return-in-Prince-Edward-Island) for {{price:annual-return}} all-in + tax and monitors the deadline every year after — your record stays "active" without you touching the portal.
+
+## Search Free, Then Get the Document That Counts
+
+**Anything you need from the PEI registry, in one order.** Profile reports in about 1 business hour, certificates of status in about 3, and annual returns filed in 1 business day with the deadline tracked — start with a [free search](/canada-corporations-search) or [order your document →](/order/profile-report?src=article-pei-corporate-registry-search).
+
+**Turnaround:** profile report ~1 business hour · certificate of status ~3 hours · annual return filed in 1 business day.
+**Price:** profile report {{price:profile-report}} + tax · certificate of status {{price:good-standing}} all-in + tax · annual return {{price:annual-return}} all-in + tax, government fee included.
