@@ -91,6 +91,12 @@ const CUSTOM_ISLANDS: Record<
   ),
   /* RJSC navigational cluster: searchers typing the registry's name want to
      look a company up — NS-scoped lookup, profile report as the paid step. */
+  "articles/pei-corporate-registry-search": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="pe" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="PEI corporate registry search"
+      titleOverride="Search the PEI registry"
+      subOverride="Look up any Prince Edward Island company or business name free — and order its official registry profile report if you need the record." />
+  ),
   "articles/registry-of-joint-stock-companies-nova-scotia": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="ns" priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Registry of Joint Stocks search"
