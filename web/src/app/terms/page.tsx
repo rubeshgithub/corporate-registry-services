@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "CRS — Corporate Registry Services terms of service — the agreement that governs your use of our corporate registry services.",
 };
 
-const LAST_UPDATED = "June 10, 2026";
+const LAST_UPDATED = "October 5, 2026";
 
 export default function TermsPage() {
   return (
@@ -61,11 +61,12 @@ export default function TermsPage() {
             <h2>5. Accuracy of Information</h2>
             <p>You are responsible for ensuring that all information provided to CRS — Corporate Registry Services is accurate, complete, and current. CRS — Corporate Registry Services is not liable for errors, rejections, or additional costs arising from inaccurate or incomplete information provided by you.</p>
 
-            <h2>6. Refunds and Cancellations</h2>
+            <h2 id="refunds">6. Refunds and Cancellations</h2>
+            <p>To cancel, reply to your order confirmation or email support@corporateregistryservices.ca. Refunds go back to the card or account you paid with.</p>
             <ul>
-              <li>Orders cancelled before work has commenced are eligible for a full refund.</li>
-              <li>Orders cancelled after work has commenced may be subject to a partial refund at our discretion.</li>
-              <li>Government fees that have already been submitted to a registry are non-refundable.</li>
+              <li><strong>Within 24 hours of payment</strong>, if we have not yet submitted anything to a registry or government office: a full refund.</li>
+              <li><strong>More than 24 hours after payment</strong>, if we have not yet submitted anything to a registry or government office: a refund of the amount paid less a non-refundable payment processing fee of 3%.</li>
+              <li><strong>Once your order has been submitted to, filed with, or retrieved from a registry or government office</strong> — including searches, reports, certificates and document copies — it is non-refundable, as government fees and the work have been incurred.</li>
               <li>Completed orders are non-refundable.</li>
             </ul>
 

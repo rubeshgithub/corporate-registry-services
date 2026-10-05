@@ -25,6 +25,8 @@ export default function TermsAgreement({ checked, onChange }: { checked: boolean
         <a href="/terms" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>Terms and Conditions</a>
         {" "}and{" "}
         <a href="/privacy" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>Privacy Policy</a>
+        , including the{" "}
+        <a href="/terms#refunds" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>refund policy</a>
         . Corporate Registry Services is an independent filing agent, not a government office; government fees are included in the price.
       </span>
     </label>
