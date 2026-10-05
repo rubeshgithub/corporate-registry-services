@@ -25,11 +25,12 @@ const DEFAULT_TO    = "+15878396909";
 
 export type SmsResult = { ok: true; messageId?: string } | { ok: false; error: string };
 
-export async function sendAlertSms(text: string, opts?: { to?: string }): Promise<SmsResult> {
-  /* Every alert also goes to Teams when TEAMS_WEBHOOK_URL is set — even with
-     SMS switched off, so Teams can replace the texts entirely. Only alerts
-     for the owner's own number are mirrored (not texts to other people). */
-  if (!opts?.to) void sendTeamsAlert(text);
+export async function sendAlertSms(text: string, opts?: { to?: string; teams?: boolean }): Promise<SmsResult> {
+  /* Teams gets only the alerts that ask for it (owner, Oct 2026: paid orders
+     only — visitor and other alerts were too many for the channel). Sent
+     whenever TEAMS_WEBHOOK_URL is set, even with SMS switched off. Texts to
+     other people's numbers are never mirrored. */
+  if (opts?.teams && !opts.to) void sendTeamsAlert(text);
   if (process.env.SMS_ENABLED === "0" || process.env.SMS_ENABLED === "false") {
     return { ok: false, error: "SMS disabled via SMS_ENABLED env." };
   }

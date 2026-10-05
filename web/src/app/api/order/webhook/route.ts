@@ -671,7 +671,8 @@ async function fulfill(session: Stripe.Checkout.Session) {
   // Fire-and-forget — Infobip must never fail a Stripe fulfillment.
   void sendAlertSms(
     `CRS PAID: ${fmtAmount(session)} - ${session.metadata?.service ?? "order"} - `
-    + `${session.metadata?.company_name ?? "-"} - ${session.metadata?.jurisdiction ?? "-"}`
+    + `${session.metadata?.company_name ?? "-"} - ${session.metadata?.jurisdiction ?? "-"}`,
+    { teams: true },   // the one alert that also goes to Teams
   );
 
   if (service === "annual-return" || service === "annual-return-multiple") {
