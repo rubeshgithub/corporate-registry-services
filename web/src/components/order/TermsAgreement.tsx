@@ -7,6 +7,13 @@
  */
 export default function TermsAgreement({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
+    <>
+    {/* Collection notice (PIPEDA / Alberta PIPA s.13): why we take the details on this form, before they pay. */}
+    <p style={{ margin: "0 0 0.6rem", fontSize: "0.76rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+      We use your details to complete this order and contact you about it. They are saved as you type, so we can help
+      you finish if you leave — including by phone. Questions: support@corporateregistryservices.ca ·{" "}
+      <a href="/privacy" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>Privacy Policy</a>
+    </p>
     <label
       style={{
         display: "flex", gap: "0.55rem", alignItems: "flex-start", margin: "0 0 0.75rem",
@@ -30,5 +37,6 @@ export default function TermsAgreement({ checked, onChange }: { checked: boolean
         . Corporate Registry Services is an independent filing agent, not a government office; government fees are included in the price.
       </span>
     </label>
+    </>
   );
 }

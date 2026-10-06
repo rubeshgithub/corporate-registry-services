@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "CRS — Corporate Registry Services privacy policy — how we collect, use, and protect your personal information.",
 };
 
-const LAST_UPDATED = "June 10, 2026";
+const LAST_UPDATED = "October 6, 2026";
 
 export default function PrivacyPage() {
   return (
@@ -25,70 +25,92 @@ export default function PrivacyPage() {
         <article style={{ maxWidth: "760px", margin: "0 auto", padding: "3rem 1.5rem 5rem" }}>
           <div className="prose">
 
-            <p>CRS — Corporate Registry Services (&ldquo;we&rdquo;, &ldquo;our&rdquo;, &ldquo;us&rdquo;) is committed to protecting your personal information. This Privacy Policy explains what information we collect when you use <strong>corporateregistryservices.ca</strong>, how we use it, and the choices you have.</p>
+            <p>CRS — Corporate Registry Services (&ldquo;CRS&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is an independent filing agent based in Calgary, Alberta. This policy explains what personal information we collect when you use <strong>corporateregistryservices.ca</strong> or order from us, why, who we share it with, how long we keep it, and your rights. We follow Canada&rsquo;s <em>Personal Information Protection and Electronic Documents Act</em> (PIPEDA), Alberta&rsquo;s <em>Personal Information Protection Act</em>, and, for clients in Qu&eacute;bec, Qu&eacute;bec&rsquo;s private-sector privacy law.</p>
 
-            <h2>1. Information We Collect</h2>
-            <p>We collect information you provide directly when placing an order or contacting us:</p>
+            <h2 id="officer">1. Who is responsible</h2>
+            <p>Our Privacy Officer is accountable for how we handle personal information and answers every privacy question and request:</p>
             <ul>
-              <li><strong>Contact details</strong> — full name, email address, phone number, and company name.</li>
-              <li><strong>Order information</strong> — the services requested, jurisdiction, and any details you provide to fulfil your order.</li>
-              <li><strong>Communications</strong> — messages, emails, or notes you send us.</li>
-            </ul>
-            <p>We also collect limited technical data automatically:</p>
-            <ul>
-              <li>Browser type, IP address, referring URL, and pages visited (via standard server logs).</li>
-              <li>We do <strong>not</strong> use persistent tracking cookies or third-party advertising pixels.</li>
+              <li><strong>Privacy Officer, CRS — Corporate Registry Services</strong></li>
+              <li><strong>Email:</strong> <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a> (please put &ldquo;Privacy&rdquo; in the subject)</li>
+              <li><strong>Mail:</strong> 2618 Hopewell Pl NE, Calgary, AB T1Y 7J7</li>
             </ul>
 
-            <h2>2. How We Use Your Information</h2>
-            <p>We use your information solely to:</p>
+            <h2>2. What we collect</h2>
             <ul>
-              <li>Fulfil the corporate registry service you requested.</li>
-              <li>Send you a quote, order confirmation, and delivery of completed documents.</li>
-              <li>Respond to your questions and support requests.</li>
-              <li>Comply with legal and regulatory obligations.</li>
-            </ul>
-            <p>We do <strong>not</strong> sell, rent, or share your personal information with third parties for marketing purposes.</p>
-
-            <h2>3. How We Share Your Information</h2>
-            <p>Your information may be shared only in these limited circumstances:</p>
-            <ul>
-              <li><strong>Government registries</strong> — we submit the information required to file or retrieve documents on your behalf (e.g., director names, addresses).</li>
-              <li><strong>Email service providers</strong> — we use Amazon Web Services (AWS SES) to send transactional emails. AWS does not use your data for any other purpose.</li>
-              <li><strong>Legal requirements</strong> — if required by law, court order, or regulatory authority.</li>
+              <li><strong>Contact details</strong> — your name, email address and phone number.</li>
+              <li><strong>Order details</strong> — the corporation, the service, and the information a registry needs to file for you (for example directors, addresses, share details). Much of this is already on the public corporate register.</li>
+              <li><strong>Registry access codes</strong> — if you give us a corporation&rsquo;s registry password or key (such as an Ontario Company Key or a BC company password). It is encrypted before it leaves our website and is stored encrypted; only the staff filing your order can open it.</li>
+              <li><strong>Payment</strong> — handled by Stripe. We see that you paid, the amount, the tax and your billing province or country; we never see or store your full card number.</li>
+              <li><strong>Messages</strong> — emails, form messages and notes of phone calls with you.</li>
+              <li><strong>Order forms you start but don&rsquo;t finish</strong> — our order forms save your contact details and the corporation you picked as you type, so that we can help you finish, including by phone. We don&rsquo;t send marketing email on the strength of an unfinished form.</li>
+              <li><strong>Searches</strong> — the company names or numbers you search for on our site.</li>
+              <li><strong>How you use the site</strong> — pages visited, the page you came from, the device and browser type, your country, and a scrambled (hashed) form of your IP address, recorded by our own analytics under a random session identifier.</li>
             </ul>
 
-            <h2>4. Data Retention</h2>
-            <p>We retain your order information for a minimum of seven (7) years to comply with Canadian tax and corporate law record-keeping requirements. Contact information is retained for as long as necessary to provide ongoing support.</p>
-
-            <h2>5. Your Rights</h2>
-            <p>Under Canadian privacy law (PIPEDA and applicable provincial legislation), you have the right to:</p>
+            <h2 id="cookies">3. Cookies and analytics</h2>
             <ul>
-              <li>Access the personal information we hold about you.</li>
-              <li>Request correction of inaccurate information.</li>
-              <li>Withdraw consent for non-essential communications.</li>
-              <li>Request deletion of your information, subject to our legal retention obligations.</li>
+              <li><strong><code>crs_session_id</code></strong> — our own cookie, kept for 30 days. It holds a random identifier that links the pages you view in a visit so we can see how people find and use the site. It does not identify you by name.</li>
+              <li><strong>Google Analytics</strong> — Google&rsquo;s cookies measure visits and pages in aggregate. Google processes this data in the United States. You can opt out with Google&rsquo;s <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">opt-out browser add-on</a> or by blocking cookies in your browser; the site still works.</li>
+              <li>We do not use advertising or retargeting cookies, and we do not sell personal information.</li>
             </ul>
-            <p>To exercise any of these rights, contact us at <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a>.</p>
 
-            <h2>6. Security</h2>
-            <p>We use industry-standard security practices including encrypted data transmission (TLS/HTTPS), access controls, and secure cloud infrastructure. No method of transmission over the internet is 100% secure, but we take reasonable precautions to protect your information.</p>
-
-            <h2>7. Third-Party Links</h2>
-            <p>Our website may contain links to government registries and other third-party sites. We are not responsible for the privacy practices of those sites and encourage you to review their policies.</p>
-
-            <h2>8. Children&apos;s Privacy</h2>
-            <p>Our services are intended for businesses and adults. We do not knowingly collect personal information from individuals under the age of 18.</p>
-
-            <h2>9. Changes to This Policy</h2>
-            <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated &ldquo;Last updated&rdquo; date. Continued use of our services after changes constitutes acceptance of the revised policy.</p>
-
-            <h2>10. Contact Us</h2>
-            <p>If you have questions or concerns about this Privacy Policy, please contact us:</p>
+            <h2>4. Why we use it</h2>
             <ul>
-              <li><strong>Email:</strong> <a href="mailto:support@corporateregistryservices.ca">support@corporateregistryservices.ca</a></li>
-              <li><strong>Website:</strong> <a href="https://www.corporateregistryservices.ca">www.corporateregistryservices.ca</a></li>
+              <li>To do what you asked: search, file, retrieve documents, deliver them, and invoice you.</li>
+              <li>To answer you and follow up on a request or an unfinished order (usually by phone).</li>
+              <li>To keep records the law requires (tax, accounting, and proof of what we filed).</li>
+              <li>To send filing reminders and offers <strong>only</strong> where Canada&rsquo;s anti-spam law allows: when you ticked a box asking for them, or as a client or someone who asked us for something, within the time the law permits. Every such email says who we are and lets you unsubscribe in one step.</li>
+              <li>To keep the site secure and understand how it is used, so we can improve it.</li>
             </ul>
+            <p>We ask for your consent when we collect information, and you can withdraw it at any time (see section 8), subject to legal or contractual limits.</p>
+
+            <h2 id="sharing">5. Who we share it with</h2>
+            <p>We share personal information only to deliver our services, with organizations bound to protect it and to use it only for us:</p>
+            <ul>
+              <li><strong>Government registries and registry agents</strong> — to file or retrieve records for you (for example Alberta&rsquo;s registry agents, BC Registries, the Ontario Business Registry, Corporations Canada).</li>
+              <li><strong>Stripe</strong> — payments and invoices.</li>
+              <li><strong>Amazon Web Services</strong> — sending email and storing documents.</li>
+              <li><strong>MongoDB Atlas</strong> — our database.</li>
+              <li><strong>Render and OVHcloud</strong> — hosting our website and our internal order system.</li>
+              <li><strong>Cloudflare</strong> — website security and delivery.</li>
+              <li><strong>Microsoft 365</strong> — our email and business communications.</li>
+              <li><strong>Google</strong> — website analytics (section 3).</li>
+              <li><strong>Our accountant</strong> — financial records, as needed for tax filings.</li>
+              <li><strong>Legal requirements</strong> — when the law, a court order or a regulator requires it.</li>
+            </ul>
+            <p id="outside-canada"><strong>Outside Canada.</strong> Some of these providers store or process information outside Canada, mainly in the United States. While it is there, it may be accessible to that country&rsquo;s courts, law enforcement and national security authorities. We choose providers with strong security and contractual protections.</p>
+
+            <h2 id="retention">6. How long we keep it</h2>
+            <ul>
+              <li><strong>Orders, invoices and what we filed</strong> — seven years after the order, for tax and record-keeping.</li>
+              <li><strong>Registry access codes</strong> — kept encrypted with the order they were given for; you can ask us to delete one at any time.</li>
+              <li><strong>Enquiries and unfinished order forms that never became an order</strong> — up to 24 months after the last contact.</li>
+              <li><strong>Website analytics</strong> — up to 24 months.</li>
+              <li><strong>Unsubscribe requests</strong> — kept as long as needed to honour them.</li>
+            </ul>
+            <p>After that we delete or anonymize it. Backups are kept for up to 35 days.</p>
+
+            <h2>7. How we protect it</h2>
+            <p>Encrypted connections (HTTPS) everywhere; registry codes encrypted on our server before they are passed to anyone, and stored encrypted; staff access by individual sign-in, limited to what each person needs; encrypted, access-controlled storage; and daily backups. No system is perfect: if a breach creates a real risk of significant harm to you, we will tell you and the Privacy Commissioner as the law requires, and we keep a record of every breach.</p>
+
+            <h2 id="rights">8. Your rights</h2>
+            <ul>
+              <li>See the personal information we hold about you, and learn how it has been used and shared.</li>
+              <li>Have it corrected if it is wrong or incomplete.</li>
+              <li>Withdraw consent — for example, stop marketing email (use the unsubscribe link or reply &ldquo;unsubscribe&rdquo;).</li>
+              <li>Ask us to delete it, unless we must keep it by law (such as the seven-year tax record).</li>
+            </ul>
+            <p>Write to the Privacy Officer (section 1). We answer within 30 days and may need to confirm your identity first. There is no charge.</p>
+            <p><strong>Complaints.</strong> If you are not satisfied with our answer, you can contact the <a href="https://www.priv.gc.ca" target="_blank" rel="noopener">Office of the Privacy Commissioner of Canada</a>, Alberta&rsquo;s <a href="https://oipc.ab.ca" target="_blank" rel="noopener">Information and Privacy Commissioner</a>, or, in Qu&eacute;bec, the <a href="https://www.cai.gouv.qc.ca" target="_blank" rel="noopener">Commission d&rsquo;acc&egrave;s &agrave; l&rsquo;information</a>.</p>
+
+            <h2>9. Links to other sites</h2>
+            <p>Our pages link to government registries and other sites. Their privacy practices are their own; please read their policies.</p>
+
+            <h2>10. Children</h2>
+            <p>Our services are for businesses and adults. We do not knowingly collect information from anyone under 18.</p>
+
+            <h2>11. Changes to this policy</h2>
+            <p>We will post any change here with a new &ldquo;Last updated&rdquo; date, and tell clients directly about any significant change.</p>
 
           </div>
         </article>
