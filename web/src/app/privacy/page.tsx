@@ -40,7 +40,7 @@ export default function PrivacyPage() {
               <li><strong>Contact details</strong> — your name, email address and phone number.</li>
               <li><strong>Order details</strong> — the corporation, the service, and the information a registry needs to file for you (for example directors, addresses, share details). Much of this is already on the public corporate register.</li>
               <li><strong>Registry access codes</strong> — if you give us a corporation&rsquo;s registry password or key (such as an Ontario Company Key or a BC company password). It is encrypted before it leaves our website and is stored encrypted; only the staff filing your order can open it.</li>
-              <li><strong>Payment</strong> — handled by Stripe. We see that you paid, the amount, the tax and your billing province or country; we never see or store your full card number.</li>
+              <li><strong>Payment</strong> — handled by our secure payment processor. We see that you paid, the amount, the tax and your billing province or country; we never see or store your full card number.</li>
               <li><strong>Messages</strong> — emails, form messages and notes of phone calls with you.</li>
               <li><strong>Order forms you start but don&rsquo;t finish</strong> — our order forms save your contact details and the corporation you picked as you type, so that we can help you finish, including by phone. We don&rsquo;t send marketing email on the strength of an unfinished form.</li>
               <li><strong>Searches</strong> — the company names or numbers you search for on our site.</li>
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             <h2 id="cookies">3. Cookies and analytics</h2>
             <ul>
               <li><strong><code>crs_session_id</code></strong> — our own cookie, kept for 30 days. It holds a random identifier that links the pages you view in a visit so we can see how people find and use the site. It does not identify you by name.</li>
-              <li><strong>Google Analytics</strong> — Google&rsquo;s cookies measure visits and pages in aggregate. Google processes this data in the United States. You can opt out with Google&rsquo;s <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">opt-out browser add-on</a> or by blocking cookies in your browser; the site still works.</li>
+              <li><strong>Google Analytics</strong> — Google&rsquo;s cookies measure visits and pages in aggregate; this data is processed outside Canada. You can opt out with Google&rsquo;s <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">opt-out browser add-on</a> or by blocking cookies in your browser; the site still works.</li>
               <li>We do not use advertising or retargeting cookies, and we do not sell personal information.</li>
             </ul>
 
@@ -65,20 +65,14 @@ export default function PrivacyPage() {
             <p>We ask for your consent when we collect information, and you can withdraw it at any time (see section 8), subject to legal or contractual limits.</p>
 
             <h2 id="sharing">5. Who we share it with</h2>
-            <p>We share personal information only to deliver our services, with organizations bound to protect it and to use it only for us:</p>
+            <p>We share personal information only as needed to deliver our services:</p>
             <ul>
-              <li><strong>Government registries and registry agents</strong> — to file or retrieve records for you (for example Alberta&rsquo;s registry agents, BC Registries, the Ontario Business Registry, Corporations Canada).</li>
-              <li><strong>Stripe</strong> — payments and invoices.</li>
-              <li><strong>Amazon Web Services</strong> — sending email and storing documents.</li>
-              <li><strong>MongoDB Atlas</strong> — our database.</li>
-              <li><strong>Render and OVHcloud</strong> — hosting our website and our internal order system.</li>
-              <li><strong>Cloudflare</strong> — website security and delivery.</li>
-              <li><strong>Microsoft 365</strong> — our email and business communications.</li>
-              <li><strong>Google</strong> — website analytics (section 3).</li>
+              <li><strong>Government registries</strong> — to file or retrieve records for you.</li>
+              <li><strong>Trusted service providers</strong> who help us run the business — for example payment processing, email, secure hosting and filing support. They may use your information only to provide their service to us and must protect it.</li>
               <li><strong>Our accountant</strong> — financial records, as needed for tax filings.</li>
               <li><strong>Legal requirements</strong> — when the law, a court order or a regulator requires it.</li>
             </ul>
-            <p id="outside-canada"><strong>Outside Canada.</strong> Some of these providers store or process information outside Canada, mainly in the United States. While it is there, it may be accessible to that country&rsquo;s courts, law enforcement and national security authorities. We choose providers with strong security and contractual protections.</p>
+            <p id="where-stored"><strong>Where your information is stored.</strong> Our order records, documents and backups are stored on servers in Canada. Payment processing and website analytics are handled by providers that may process information outside Canada, mainly in the United States, where it may be accessible to that country&rsquo;s authorities.</p>
 
             <h2 id="retention">6. How long we keep it</h2>
             <ul>
