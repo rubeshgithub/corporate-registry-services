@@ -3,7 +3,8 @@ import Stripe from "stripe";
 import { isProfessionalCorporation } from "@/lib/professional-corp";
 import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
 import { annualReturnPriceKey } from "@/lib/annual-return-price";
-import { registryAccessFor, summarizeRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
+import { registryAccessFor, type RegistryAccessState } from "@/lib/registry-access";
+import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 
 /**
  * POST /api/order/annual-return
@@ -215,7 +216,7 @@ export async function POST(req: Request) {
         pro_corp:           isPC ? "yes" : "no",
         /* What the customer told us about their registry credential —
            the fulfillment team needs this before they can file. */
-        registry_access: summarizeRegistryAccess(body.registryAccess, registryAccessFor(body.hit.provinceKey)).slice(0, 480),
+        registry_access: (await summarizeRegistryAccessSealed(body.registryAccess, registryAccessFor(body.hit.provinceKey))).slice(0, 480),
         years_filed:        String(years),
         src:                body.src.slice(0, 100),
         outreach_ref:       (body.ref ?? "").slice(0, 32),

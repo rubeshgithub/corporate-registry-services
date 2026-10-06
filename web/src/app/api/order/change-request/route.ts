@@ -3,7 +3,8 @@ import Stripe from "stripe";
 import { CHANGE_CONFIGS, type ChangeServiceKey } from "@/lib/change-config";
 import { isProfessionalCorporation, PRO_CORP_SERVICES, type ProCorpServiceKey } from "@/lib/professional-corp";
 import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
-import { registryAccessFor, summarizeRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
+import { registryAccessFor, type RegistryAccessState } from "@/lib/registry-access";
+import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 
 /**
  * POST /api/order/change-request
@@ -118,7 +119,7 @@ export async function POST(req: Request) {
         pro_corp:        isPC ? "yes" : "no",
         /* What the customer told us about their registry credential —
            the fulfillment team needs this before they can file. */
-        registry_access: summarizeRegistryAccess(body.registryAccess, registryAccessFor(body.hit.provinceKey)).slice(0, 480),
+        registry_access: (await summarizeRegistryAccessSealed(body.registryAccess, registryAccessFor(body.hit.provinceKey))).slice(0, 480),
         src:             body.src.slice(0, 100),
         company_name:    body.hit.name.slice(0, 100),
         registry_id:     (body.hit.registryId || "").slice(0, 100),

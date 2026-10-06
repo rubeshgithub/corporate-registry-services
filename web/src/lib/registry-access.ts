@@ -151,6 +151,10 @@ export function registryAccessLine(
   serviceKey:  string,
   provinceKey: string | undefined | null,
 ): string {
+  /* An encrypted code (lib/registry-code-seal) is never printed, not even as ciphertext. */
+  if (summary && /enc:v1:/.test(summary)) {
+    return summary.replace(/:\s*enc:v1:\S+/, ": provided — stored encrypted; open the order in docu10 to see it.");
+  }
   if (summary && summary.trim()) return summary;
   if (!needsRegistryAccess(serviceKey, provinceKey)) {
     return "(not applicable for this jurisdiction)";

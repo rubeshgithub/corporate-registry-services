@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { findService, findBucketForService } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService } from "@/lib/pricing";
-import { registryAccessFor, summarizeRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
+import { registryAccessFor, type RegistryAccessState } from "@/lib/registry-access";
+import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 
 /**
  * POST /api/order/service
@@ -122,7 +123,7 @@ export async function POST(req: Request) {
         service_label:   service.label.slice(0, 100),
         /* What the customer told us about their registry credential —
            the fulfillment team needs this before they can file. */
-        registry_access: summarizeRegistryAccess(body.registryAccess, registryAccessFor(body.hit.provinceKey)).slice(0, 480),
+        registry_access: (await summarizeRegistryAccessSealed(body.registryAccess, registryAccessFor(body.hit.provinceKey))).slice(0, 480),
         bucket:          bucket?.key ?? "",
         src:             (body.src ?? "").slice(0, 100),
         company_name:    body.hit.name.slice(0, 100),
