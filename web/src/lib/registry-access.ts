@@ -185,8 +185,22 @@ export function needsRegistryAccess(serviceKey: string, provinceKey: string | un
   if (!FILING_SERVICES.has(serviceKey)) return false;
   if (!provinceKey) return false;
   if (NO_CREDENTIAL_JURISDICTIONS.has(provinceKey.toLowerCase())) return false;
+  const only = ONLY_FOR[provinceKey.toLowerCase()];
+  if (only && !only.has(serviceKey)) return false;
   return !!registryAccessFor(provinceKey);
 }
+
+/**
+ * Credentials that belong to ONE kind of filing. Manitoba's barcode is printed
+ * on the Annual Return and starts only that filing ("Enter the Barcode Number
+ * located in the top left corner of the Annual Return", Companies Office online
+ * guide, checked 7 Oct 2026). A change of directors or registered office needs
+ * no code: paper forms, or online by an account already authorised for the
+ * corporation. Mirrored in docu10's registry-access.ts.
+ */
+const ONLY_FOR: Record<string, Set<string>> = {
+  mb: new Set(["annual-return", "annual-return-multiple"]),
+};
 
 /** What the customer told us about their credential. */
 export type RegistryAccessState = {
