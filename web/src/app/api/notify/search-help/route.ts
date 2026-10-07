@@ -49,7 +49,7 @@ const PROV_LABEL: Record<string, string> = {
   all: "any Canadian jurisdiction", bc: "British Columbia", ab: "Alberta",
   on: "Ontario", federal: "Federal", mb: "Manitoba", sk: "Saskatchewan",
   ns: "Nova Scotia", nb: "New Brunswick", nl: "Newfoundland and Labrador",
-  pe: "Prince Edward Island", nt: "Northwest Territories", yt: "Yukon", nu: "Nunavut",
+  pe: "Prince Edward Island", nt: "Northwest Territories", yt: "Yukon", nu: "Nunavut", qc: "Quebec",
 };
 
 function makeSes() {
@@ -80,6 +80,21 @@ export async function POST(request: Request) {
   if (query.length < 2) {
     return NextResponse.json({ error: "Search query is missing." }, { status: 400 });
   }
+  /* Optional hints from the popup (Oct 2026): what else they know about the
+     corporation. One line each, length-capped; only support@ and docu10 see them. */
+  const d = (body.details && typeof body.details === "object" ? body.details : {}) as Record<string, unknown>;
+  const details = {
+    name:           oneLine(d.name).slice(0, 160),
+    corpNumber:     oneLine(d.corpNumber).slice(0, 40),
+    businessNumber: oneLine(d.businessNumber).replace(/[^0-9A-Za-z ]/g, "").slice(0, 20),
+    province:       (() => { const k = oneLine(d.province).toLowerCase().slice(0, 20); return k in PROV_LABEL ? k : ""; })(),
+  };
+  const detailLines = [
+    details.name           ? `Corporation:   ${details.name}` : "",
+    details.corpNumber     ? `Corp number:   ${details.corpNumber}` : "",
+    details.businessNumber ? `Business no.:  ${details.businessNumber}` : "",
+    details.province       ? `Province:      ${PROV_LABEL[details.province]}` : "",
+  ].filter(Boolean);
 
   const emailKey = email.toLowerCase();
   const ipHash   = ipHashFrom(request);
@@ -119,6 +134,7 @@ Registry search returned NO RESULTS — visitor wants a manual search
 Searched for:  ${query}
 Jurisdiction:  ${provLabel}
 Reply to:      ${email}
+${detailLines.length ? `--- What they told us ---\n${detailLines.join("\n")}\n` : ""}
 Promised:      ${promise}
 Auto-reply:    ${sendAck ? "sent" : "not sent (auto-reply limit reached for this address or site-wide)"}
 =====================================
@@ -160,8 +176,8 @@ support@corporateregistryservices.ca
         name:          "",              // this form only collects an email
         email:         emailKey,
         subject:       `No results: ${query}`.slice(0, 140),
-        message:       `Registry search for "${query}" (${provLabel}) returned no results. Visitor believes the corporation exists and asked for a manual search.`,
-        payload:       { query, province, path: text(body.path).slice(0, 200) },
+        message:       `Registry search for "${query}" (${provLabel}) returned no results. Visitor believes the corporation exists and asked for a manual search.${detailLines.length ? `\n\nWhat they told us:\n${detailLines.map((l) => l.replace(/\s{2,}/g, " ")).join("\n")}` : ""}`,
+        payload:       { query, province, path: text(body.path).slice(0, 200), details },
         ipHash,
         userAgent:     (request.headers.get("user-agent") ?? "").slice(0, 200) || undefined,
         autoReplySent: sendAck,

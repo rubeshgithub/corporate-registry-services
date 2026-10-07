@@ -6,11 +6,10 @@ import { calculateAnnualReturnDeadline, type DueStatus } from "@/lib/annual-retu
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
-import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
 import SnapshotCapture from "@/components/SnapshotCapture";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import { annualReturnPriceKey, annualReturnNote } from "@/lib/annual-return-price";
-import RegistrySearchZeroResultsModal from "@/components/RegistrySearchZeroResultsModal";
+import ZeroResultsPrompt from "@/components/ZeroResultsPrompt";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { parseRegistryDate } from "@/lib/dates";
@@ -169,10 +168,6 @@ export default function InlineLookupOrder({
   const [zeroHelpFor, setZeroHelpFor] = useState<string | null>(null);
   /* Registry name when this jurisdiction cannot be searched at all. */
   const [noLiveRegistry, setNoLiveRegistry] = useState<string | null>(null);
-  /* Registries we can't search (PEI, NL, Yukon, NB, NWT, Nunavut): a
-     zero-result Find opens a popup offering a free hand-searched snapshot.
-     Once closed for a query it stays closed; the inline offer remains. */
-  const [popupDismissedFor, setPopupDismissedFor] = useState<string | null>(null);
   /* The results on screen came from the federal fallback, not this page's
      province — drives the "is this your company?" notice. */
   const [federalFallback, setFederalFallback] = useState(false);
@@ -503,10 +498,10 @@ export default function InlineLookupOrder({
             </div>
           )}
 
-          {/* Inline only — no auto-opening modal. This widget sits mid-article,
-              and the reader hasn't asked for a dialog; the standalone search
-              page is the place for that. Rendered only while the failed query
-              is still in the box, so editing it dismisses the offer. */}
+          {/* Popup on an explicit Find that found nothing (owner, Oct 2026: the
+              inline email box was scrolled past), with a one-line prompt left
+              inline to reopen it. Rendered only while the failed query is still
+              in the box, so editing it dismisses the offer. */}
           {zeroHelpFor && zeroHelpFor === query.trim() && results.length === 0 && (
             <div
               style={{
@@ -515,15 +510,12 @@ export default function InlineLookupOrder({
                 borderTop:    "1px dashed var(--border)",
               }}
             >
-              {noLiveRegistry && (
-                <p style={{ fontSize: "0.85rem", color: "var(--text)", margin: "0 0 0.7rem", lineHeight: 1.6, fontWeight: 500 }}>
-                  {noLiveRegistry} doesn&rsquo;t publish a search we can query — so an empty result here
-                  would tell you nothing. Leave the details and we&rsquo;ll check it by hand.
-                </p>
-              )}
-              <RegistrySearchZeroResultsHelp
+              <ZeroResultsPrompt
                 query={zeroHelpFor}
                 province={provinceKey ?? "all"}
+                lead={noLiveRegistry
+                  ? <>{noLiveRegistry} doesn&rsquo;t publish a search we can query. Leave the details and we&rsquo;ll check it by hand.</>
+                  : undefined}
               />
             </div>
           )}
@@ -801,14 +793,6 @@ export default function InlineLookupOrder({
         </>
       )}
 
-      {!pick && noLiveRegistry && provinceKey && zeroHelpFor && zeroHelpFor === query.trim()
-        && results.length === 0 && popupDismissedFor !== zeroHelpFor && (
-        <RegistrySearchZeroResultsModal
-          query={zeroHelpFor}
-          province={provinceKey}
-          onClose={() => setPopupDismissedFor(zeroHelpFor)}
-        />
-      )}
     </div>
   );
 }

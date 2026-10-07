@@ -2,10 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Search, SlidersHorizontal, ArrowRight, CheckCircle2, Bookmark, Loader2, BadgeCheck, ChevronDown } from "lucide-react";
-import RegistrySearchZeroResultsModal from "./RegistrySearchZeroResultsModal";
 import SnapshotCapture from "./SnapshotCapture";
 import { annualReturnPriceKey } from "@/lib/annual-return-price";
-import RegistrySearchZeroResultsHelp from "./RegistrySearchZeroResultsHelp";
+import ZeroResultsPrompt from "./ZeroResultsPrompt";
 import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
 import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
@@ -136,10 +135,6 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
   const [leadMessage, setLeadMessage] = useState("");
   const savedSearchesRef = useRef<Set<string>>(new Set());
 
-  /* Which (query, province) the zero-results popup has already been shown
-     and dismissed for — so it doesn't reopen on every debounced re-search
-     of the same failed query, but does show again for a genuinely new one. */
-  const [zeroModalDismissedFor, setZeroModalDismissedFor] = useState<string | null>(null);
   /* True when the last search deliberately skipped the PEI upstream (we don't
      query it while someone types). An empty result set then means "not
      searched", so the "can't find it?" offer must not fire yet. */
@@ -835,7 +830,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
             empty result that means nothing, tell us the corporation and we&rsquo;ll look it up there
             by hand.
           </p>
-          <RegistrySearchZeroResultsHelp query={query} province={province} />
+          <ZeroResultsPrompt query={query} province={province} autoOpenAfterMs={2500} />
         </div>
       )}
 
@@ -861,13 +856,6 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
           {searchHint && (
             <p style={{ margin: "0.75rem 0 0", fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.55 }}>{searchHint}</p>
           )}
-          {zeroModalDismissedFor !== `${query.trim().toLowerCase()}|${province}` && (
-            <RegistrySearchZeroResultsModal
-              query={query}
-              province={province}
-              onClose={() => setZeroModalDismissedFor(`${query.trim().toLowerCase()}|${province}`)}
-            />
-          )}
           <div
             style={{
               textAlign: "left", padding: "1.5rem",
@@ -879,7 +867,7 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
             <div style={{ fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.75rem", fontWeight: 500 }}>
               No results found for &ldquo;{query}&rdquo;
             </div>
-            <RegistrySearchZeroResultsHelp query={query} province={province} />
+            <ZeroResultsPrompt query={query} province={province} autoOpenAfterMs={2500} />
           </div>
         </>
       )}

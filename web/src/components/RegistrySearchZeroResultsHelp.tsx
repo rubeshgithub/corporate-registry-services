@@ -55,6 +55,10 @@ export default function RegistrySearchZeroResultsHelp({
   const [email, setEmail]     = useState("");
   const [state, setState]     = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState("");
+  /* What else they know (owner, Oct 2026): the search box got one guess; the
+     person usually knows more. Prefilled from what they searched. */
+  const [details, setDetails] = useState(() => prefill(query, province));
+  const patch = (p: Partial<Details>) => setDetails((d) => ({ ...d, ...p }));
 
   const registry = MANUAL_REGISTRY[province] ?? "registry";
   const registryPhrase = MANUAL_REGISTRY[province] ? `the ${registry}` : "the registry";
@@ -82,6 +86,7 @@ export default function RegistrySearchZeroResultsHelp({
           email: trimmed,
           query,
           province,
+          details,
           path:      typeof window !== "undefined" ? window.location.pathname : "",
           sessionId: sessionId ? decodeURIComponent(sessionId) : undefined,
         }),
@@ -109,7 +114,7 @@ export default function RegistrySearchZeroResultsHelp({
               <>Thanks — we&rsquo;ll look up &ldquo;{query}&rdquo; in {registryPhrase} by hand and email you a
               free snapshot within a few business hours.</>
             ) : (
-              <>Thanks — a confirmation is on its way to your inbox. We&rsquo;ll search {registryPhrase} for
+              <>Thanks — a confirmation is on its way to your inbox. We&rsquo;ll search {registryPhrase}{" "}for
               &ldquo;{query}&rdquo; by hand and email you what we find within 24 hours.</>
             )}
           </span>
@@ -135,8 +140,10 @@ export default function RegistrySearchZeroResultsHelp({
         )}
       </p>
 
-      <form onSubmit={submit} style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+      <form onSubmit={submit}>
+        <label style={labelStyle} htmlFor="zr-email">Your email <span style={{ color: "var(--gold)" }}>*</span></label>
         <input
+          id="zr-email"
           type="email"
           inputMode="email"
           autoComplete="email"
@@ -144,22 +151,48 @@ export default function RegistrySearchZeroResultsHelp({
           onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
           placeholder="you@company.ca"
           className="field-input"
-          style={{ flex: "1 1 220px", minWidth: "180px", height: "2.6rem", fontSize: "0.9rem" }}
+          style={{ width: "100%", height: "2.6rem", fontSize: "0.9rem" }}
           required
         />
+
+        <div style={{ margin: "0.85rem 0 0.35rem", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)" }}>
+          Help us find it <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>— anything you know (optional)</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "0.5rem" }}>
+          <div>
+            <label style={labelStyle} htmlFor="zr-name">Corporation name</label>
+            <input id="zr-name" value={details.name} onChange={(e) => patch({ name: e.target.value })} placeholder="e.g. Maple Holdings Ltd." className="field-input" style={fieldStyle} maxLength={160} />
+          </div>
+          <div>
+            <label style={labelStyle} htmlFor="zr-prov">Province</label>
+            <select id="zr-prov" value={details.province} onChange={(e) => patch({ province: e.target.value })} className="field-input" style={fieldStyle}>
+              <option value="">Not sure</option>
+              {PROVINCES.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select>
+          </div>
+          <div>
+            <label style={labelStyle} htmlFor="zr-corp">Corporation / registry number</label>
+            <input id="zr-corp" value={details.corpNumber} onChange={(e) => patch({ corpNumber: e.target.value })} placeholder="e.g. BC1234567 or 2012345678" className="field-input" style={fieldStyle} maxLength={40} />
+          </div>
+          <div>
+            <label style={labelStyle} htmlFor="zr-bn">Business number (CRA)</label>
+            <input id="zr-bn" value={details.businessNumber} onChange={(e) => patch({ businessNumber: e.target.value })} placeholder="9 digits" inputMode="numeric" className="field-input" style={fieldStyle} maxLength={20} />
+          </div>
+        </div>
+
         <button
           type="submit"
           disabled={state === "sending"}
           className="btn-primary"
           style={{
-            height: "2.6rem", fontSize: "0.86rem", padding: "0 1rem",
-            display: "inline-flex", alignItems: "center", gap: "0.4rem",
+            marginTop: "0.9rem", width: "100%", height: "2.75rem", fontSize: "0.9rem",
+            display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
             opacity: state === "sending" ? 0.7 : 1,
           }}
         >
           {state === "sending"
             ? <><Loader2 size={14} className="crs-spin" /> Sending…</>
-            : <><Mail size={14} /> {manual ? "Email me the free snapshot" : "Email me what you find"} <ArrowRight size={13} /></>}
+            : <><Mail size={14} /> {manual ? "Email me the free snapshot" : "Find it for me"} <ArrowRight size={13} /></>}
         </button>
       </form>
       {state === "error" && (
@@ -177,3 +210,27 @@ export default function RegistrySearchZeroResultsHelp({
     </div>
   );
 }
+
+type Details = { name: string; corpNumber: string; businessNumber: string; province: string };
+
+const PROVINCES: [string, string][] = [
+  ["ab", "Alberta"], ["bc", "British Columbia"], ["mb", "Manitoba"], ["nb", "New Brunswick"],
+  ["nl", "Newfoundland and Labrador"], ["ns", "Nova Scotia"], ["nt", "Northwest Territories"],
+  ["nu", "Nunavut"], ["on", "Ontario"], ["pe", "Prince Edward Island"], ["qc", "Quebec"],
+  ["sk", "Saskatchewan"], ["yt", "Yukon"], ["federal", "Federal (Canada)"],
+];
+
+/** Put what they searched in the field it most likely belongs to. */
+function prefill(query: string, province: string): Details {
+  const q = query.trim();
+  const compact = q.replace(/\s+/g, "");
+  const d: Details = { name: "", corpNumber: "", businessNumber: "", province: PROVINCES.some(([k]) => k === province) ? province : "" };
+  const bn = /^(?:[A-Za-z]{2})?(\d{9})(?:[A-Za-z]{2}\d{4})?$/.exec(compact);
+  if (bn) d.businessNumber = bn[1];
+  else if (/^[A-Za-z]{0,3}-?\d{4,12}$/.test(compact)) d.corpNumber = q;
+  else d.name = q;
+  return d;
+}
+
+const labelStyle: React.CSSProperties = { display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" };
+const fieldStyle: React.CSSProperties = { width: "100%", height: "2.5rem", fontSize: "0.88rem" };

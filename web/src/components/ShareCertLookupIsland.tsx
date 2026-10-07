@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
-import RegistrySearchZeroResultsHelp from "@/components/RegistrySearchZeroResultsHelp";
+import ZeroResultsPrompt from "@/components/ZeroResultsPrompt";
 import { DEFAULT_PRICES, formatCents } from "@/lib/price-catalogue";
 
 /**
@@ -209,7 +209,7 @@ export default function ShareCertLookupIsland({ src = "article-share-certificate
               "ro". Keyed to q: updates as they type, gone when a match appears. */}
           {q.trim().length >= 6 && (
             <div style={{ marginTop: "0.9rem", paddingTop: "0.9rem", borderTop: "1px dashed var(--border)" }}>
-              <RegistrySearchZeroResultsHelp query={q.trim()} province={province} />
+              <ZeroResultsPrompt query={q.trim()} province={province} autoOpenAfterMs={4000} />
             </div>
           )}
         </div>

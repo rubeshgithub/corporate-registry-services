@@ -32,6 +32,9 @@ export default function RegistrySearchZeroResultsModal({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Can't find your corporation?"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       style={{
         position: "fixed", inset: 0, zIndex: 200,
@@ -43,7 +46,8 @@ export default function RegistrySearchZeroResultsModal({
     >
       <div
         style={{
-          position: "relative", width: "100%", maxWidth: "440px",
+          position: "relative", width: "100%", maxWidth: "480px",
+          maxHeight: "calc(100vh - 2rem)", overflowY: "auto",
           background: "var(--card)", borderRadius: "var(--radius-card)",
           boxShadow: "var(--shadow-card)", border: "1px solid var(--border)",
           padding: "1.5rem",
@@ -77,8 +81,8 @@ export default function RegistrySearchZeroResultsModal({
             <div style={{ fontSize: "0.68rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--gold)", marginBottom: "0.2rem" }}>
               No results
             </div>
-            <div className="card-heading" style={{ fontSize: "1.05rem" }}>
-              Can&rsquo;t find &ldquo;{query}&rdquo;?
+            <div className="card-heading" style={{ fontSize: "1.05rem", overflowWrap: "anywhere" }}>
+              We couldn&rsquo;t find &ldquo;{query}&rdquo; — let us look it up for you
             </div>
           </div>
         </div>
