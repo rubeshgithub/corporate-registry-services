@@ -95,6 +95,56 @@ export const REGISTRY_ACCESS: Record<string, RegistryAccess> = {
     question:    "Do you have the barcode number?",
     registryName: "the Manitoba Companies Office",
   },
+
+  /* Federal, PEI, Yukon and Quebec: terms as docu10's registry-access.ts,
+     checked against each registry's own pages on 15 Sep 2026. */
+  federal: {
+    term:        "corporation key",
+    fieldLabel:  "Corporation key",
+    placeholder: "Corporation key",
+    whatItIs:
+      "Corporations Canada asks for the corporation key, a password-like number shown after the corporation number on the Corporation Information Sheet emailed at incorporation.",
+    ifMissing:
+      "We'll request a new key for you. Corporations Canada mails it to the registered office by the end of the next business day.",
+    question:    "Do you have the corporation key?",
+    registryName: "Corporations Canada",
+  },
+
+  pe: {
+    term:        "Company Key",
+    fieldLabel:  "Company Key",
+    placeholder: "Company Key from your renewal notice",
+    whatItIs:
+      "Prince Edward Island prints the Company Key on the corporation's annual return or renewal notice; newer corporations also received it by email with their Company PIN.",
+    ifMissing:
+      "We'll ask the PEI Corporate Registry for a new Company Key. It is emailed to the contacts on the corporation's registry file.",
+    question:    "Do you have the Company Key?",
+    registryName: "the PEI Corporate Registry",
+  },
+
+  yt: {
+    term:        "private filing key",
+    fieldLabel:  "Private filing key (PFK)",
+    placeholder: "Private filing key",
+    whatItIs:
+      "Yukon issues a private filing key (PFK) that links the corporation to an online registry account so filings can be made.",
+    ifMissing:
+      "We'll request a key for the corporation. Yukon mails it in a confidential letter to the registered office — forward it to us when it arrives.",
+    question:    "Do you have the private filing key?",
+    registryName: "Yukon Corporate Affairs",
+  },
+
+  qc: {
+    term:        "clicSÉQUR access code",
+    fieldLabel:  "clicSÉQUR express access code",
+    placeholder: "8-character access code",
+    whatItIs:
+      "Quebec's online filings use the business's NEQ and its clicSÉQUR express access code, a permanent 8-character code mailed to every registered business.",
+    ifMissing:
+      "A new access code can be requested from clicSÉQUR customer service, and we'll guide you through it.",
+    question:    "Do you have the clicSÉQUR access code?",
+    registryName: "the Quebec Enterprise Register",
+  },
 };
 
 /**
