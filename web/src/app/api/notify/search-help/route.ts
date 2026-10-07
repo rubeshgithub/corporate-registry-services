@@ -52,6 +52,14 @@ const PROV_LABEL: Record<string, string> = {
   pe: "Prince Edward Island", nt: "Northwest Territories", yt: "Yukon", nu: "Nunavut", qc: "Quebec",
 };
 
+/** The CRA program account says what kind of holder it is — only RR (charity) and RC (a corporation) tell anything. */
+function bnKind(bn: string): string {
+  const m = /^\d{9}([A-Z]{2})\d{4}$/i.exec(bn.replace(/\s+/g, ""));
+  const k = m?.[1].toUpperCase();
+  return k === "RR" ? " (RR — registered charity)" : k === "RC" ? " (RC — a corporation, profit or not-for-profit)"
+    : k ? ` (${k} program account — any business type)` : "";
+}
+
 function makeSes() {
   return new SESClient({
     region: process.env.AWS_REGION ?? "us-east-1",
@@ -92,7 +100,7 @@ export async function POST(request: Request) {
   const detailLines = [
     details.name           ? `Corporation:   ${details.name}` : "",
     details.corpNumber     ? `Corp number:   ${details.corpNumber}` : "",
-    details.businessNumber ? `Business no.:  ${details.businessNumber}` : "",
+    details.businessNumber ? `Business no.:  ${details.businessNumber}${bnKind(details.businessNumber)}` : "",
     details.province       ? `Province:      ${PROV_LABEL[details.province]}` : "",
   ].filter(Boolean);
 

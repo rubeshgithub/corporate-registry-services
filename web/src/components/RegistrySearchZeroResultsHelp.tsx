@@ -155,6 +155,15 @@ export default function RegistrySearchZeroResultsHelp({
           required
         />
 
+        {(() => {
+          const note = bnNote(details.businessNumber || query);
+          return note && (
+            <div style={{ margin: "0.85rem 0 0", padding: "0.6rem 0.75rem", borderRadius: "0.5rem", background: "var(--gold-dim)", fontSize: "0.8rem", color: "var(--text)", lineHeight: 1.5 }}>
+              <strong>{note.title}</strong> {note.body}
+            </div>
+          );
+        })()}
+
         <div style={{ margin: "0.85rem 0 0.35rem", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)" }}>
           Help us find it <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>— anything you know (optional)</span>
         </div>
@@ -176,7 +185,7 @@ export default function RegistrySearchZeroResultsHelp({
           </div>
           <div>
             <label style={labelStyle} htmlFor="zr-bn">Business number (CRA)</label>
-            <input id="zr-bn" value={details.businessNumber} onChange={(e) => patch({ businessNumber: e.target.value })} placeholder="9 digits" inputMode="numeric" className="field-input" style={fieldStyle} maxLength={20} />
+            <input id="zr-bn" value={details.businessNumber} onChange={(e) => patch({ businessNumber: e.target.value })} placeholder="9 digits, e.g. 123456789RC0001" className="field-input" style={fieldStyle} maxLength={20} />
           </div>
         </div>
 
@@ -225,8 +234,8 @@ function prefill(query: string, province: string): Details {
   const q = query.trim();
   const compact = q.replace(/\s+/g, "");
   const d: Details = { name: "", corpNumber: "", businessNumber: "", province: PROVINCES.some(([k]) => k === province) ? province : "" };
-  const bn = /^(?:[A-Za-z]{2})?(\d{9})(?:[A-Za-z]{2}\d{4})?$/.exec(compact);
-  if (bn) d.businessNumber = bn[1];
+  const bn = /^(?:[A-Za-z]{2})?(\d{9}(?:[A-Za-z]{2}\d{4})?)$/.exec(compact);
+  if (bn) d.businessNumber = bn[1].toUpperCase();
   else if (/^[A-Za-z]{0,3}-?\d{4,12}$/.test(compact)) d.corpNumber = q;
   else d.name = q;
   return d;
@@ -234,3 +243,32 @@ function prefill(query: string, province: string): Details {
 
 const labelStyle: React.CSSProperties = { display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" };
 const fieldStyle: React.CSSProperties = { width: "100%", height: "2.5rem", fontSize: "0.88rem" };
+
+/**
+ * What a CRA business number says about who holds it. Only the 2-letter
+ * program account (the "RR" in 822347258RR0001) carries meaning — the 9
+ * digits alone say nothing — and only RR (registered charity) and RC
+ * (corporate income tax: a corporation, profit or not-for-profit) say anything
+ * about the kind of organization. RT, RP, RM and RZ accounts are opened by
+ * every kind of business. No program code distinguishes for-profit from
+ * not-for-profit, so we never claim that.
+ */
+export function bnNote(value: string): { title: string; body: string } | null {
+  const m = /^(?:[A-Za-z]{2})?\d{9}([A-Za-z]{2})\d{4}$/.exec(value.replace(/\s+/g, ""));
+  if (!m) return null;
+  switch (m[1].toUpperCase()) {
+    case "RR": return {
+      title: "This is a registered charity's number (RR).",
+      body:  "Charities are registered with the CRA, and only appear in a corporate registry if they're also incorporated — usually as a not-for-profit corporation or society. Add the charity's legal name and province, and we'll check both.",
+    };
+    case "RC": return {
+      title: "This is a corporation's tax account (RC).",
+      body:  "It belongs to an incorporated company — for-profit or not-for-profit. The corporation's name or its registry number finds it fastest.",
+    };
+    case "RT": case "RP": case "RM": case "RZ": return {
+      title: `This is a ${{ RT: "GST/HST", RP: "payroll", RM: "import/export", RZ: "information-return" }[m[1].toUpperCase()]} account (${m[1].toUpperCase()}).`,
+      body:  "Any kind of business can hold one — a corporation, a sole proprietorship, a partnership or a non-profit — so the number alone doesn't tell us which. The registered name helps most.",
+    };
+    default: return null;
+  }
+}
