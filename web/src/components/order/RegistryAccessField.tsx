@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { KeyRound, Check, Info, ChevronDown } from "lucide-react";
+import { KeyRound, Check, Info } from "lucide-react";
+import YesNo from "@/components/order/YesNo";
 import {
   registryAccessFor,
   needsRegistryAccess,
@@ -19,25 +20,26 @@ import {
  * Consequences of that framing, all deliberate:
  *  - Never blocks payment. The order goes through whichever option is picked,
  *    including "I don't have it".
- *  - "We'll get it for you" is pre-selected. The default assumption is that
- *    we do the work, so a customer without the code feels served rather than
- *    turned away.
+ *  - Until they answer, the order is treated as "we'll get it for you". The
+ *    default assumption is that we do the work, so a customer without the
+ *    code feels served rather than turned away.
  *  - The province's own vocabulary throughout. Ontario says Company Key, BC
  *    says access code or company password, Manitoba says barcode. Using a
  *    generic "password" reads as not knowing their registry.
  *  - A third option for "I can't reach the registered address either",
  *    because every registry mails the replacement to the corporation's own
  *    address. Surfacing it here beats discovering it three emails later.
- *  - Collapsed to one quiet line by default (Sep 2026). The old full panel
- *    opened with "<Province> needs your <credential>", which read as a
- *    requirement at the exact moment of paying even though nothing was
- *    required. The options only open for someone who has the code.
+ *  - One plain question (owner, Oct 2026): "Do you have the company
+ *    password?" Yes → the field to enter it. No → "we'll retrieve it from the
+ *    BC Registry", with a quiet note that having it makes the filing faster.
+ *    Unanswered counts as No ("retrieve"), so it never blocks checkout. The
+ *    "can't reach the registered email or address" case is a small checkbox
+ *    under No.
  */
 
 export default function RegistryAccessField({
   service,
   provinceKey,
-  jurisdictionLabel,
   value,
   onChange,
 }: {
@@ -47,56 +49,20 @@ export default function RegistryAccessField({
   value:              RegistryAccessState;
   onChange:           (next: RegistryAccessState) => void;
 }) {
-  const [expanded, setExpanded] = useState(value.status !== "retrieve" || !!value.code);
+  /* Null until they answer; a code already typed (back navigation) means Yes. */
+  const [answer, setAnswer] = useState<boolean | null>(
+    value.status === "have" || !!value.code ? true : value.status === "no-access" ? false : null,
+  );
   if (!needsRegistryAccess(service, provinceKey)) return null;
   const access = registryAccessFor(provinceKey);
   if (!access) return null;
 
-  const where = jurisdictionLabel || "your province";
   const set = (patch: Partial<RegistryAccessState>) => onChange({ ...value, ...patch });
-
-  const optionStyle = (active: boolean): React.CSSProperties => ({
-    display: "flex",
-    alignItems: "flex-start",
-    gap: "0.55rem",
-    padding: "0.65rem 0.8rem",
-    border: `1px solid ${active ? "var(--gold)" : "var(--border)"}`,
-    background: active ? "var(--gold-dim)" : "var(--bg)",
-    borderRadius: "0.5rem",
-    cursor: "pointer",
-    textAlign: "left",
-    width: "100%",
-  });
-
-  if (!expanded) {
-    return (
-      <div
-        style={{
-          display: "flex", gap: "0.55rem", alignItems: "flex-start",
-          padding: "0.7rem 0.9rem", marginBottom: "1.25rem",
-          border: "1px dashed var(--border)", borderRadius: "0.5rem",
-          fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.5,
-        }}
-      >
-        <Check size={15} style={{ color: "var(--secondary)", flexShrink: 0, marginTop: "0.15rem" }} />
-        <span>
-          {provinceKey === "bc" ? (
-            /* BC's price assumes the company password (owner, Sep 2026). */
-            <>We file with your company&rsquo;s {access.term} — no BCeID or BC Services Card app needed. You can add it now or send it after you order.{" "}</>
-          ) : (
-            <>We&rsquo;ll get the {access.term} from the registry for you — you don&rsquo;t need it to order.{" "}</>
-          )}
-          <button
-            type="button"
-            onClick={() => { set({ status: "have" }); setExpanded(true); }}
-            style={{ background: "none", border: "none", padding: 0, font: "inherit", color: "var(--text)", textDecoration: "underline", textUnderlineOffset: "2px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "0.15rem" }}
-          >
-            Have it handy? Add it (optional) <ChevronDown size={13} />
-          </button>
-        </span>
-      </div>
-    );
-  }
+  const choose = (yes: boolean) => {
+    setAnswer(yes);
+    set(yes ? { status: "have" } : { status: "retrieve", code: "" });
+  };
+  const muted: React.CSSProperties = { fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.55 };
 
   return (
     <div
@@ -104,121 +70,78 @@ export default function RegistryAccessField({
         background: "var(--card)",
         border: "1px solid var(--border)",
         borderRadius: "var(--radius-card)",
-        padding: "1.25rem 1.5rem",
+        padding: "1.1rem 1.35rem",
         marginBottom: "1.25rem",
         boxShadow: "var(--shadow-card)",
       }}
     >
-      <div style={{ display: "flex", gap: "0.6rem", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-        <KeyRound size={17} style={{ color: "var(--gold)", flexShrink: 0, marginTop: "0.15rem" }} />
-        <div>
-          <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>
-            Your {where} {access.term} <span style={{ fontWeight: 400, color: "var(--text-muted)" }}>(optional)</span>
-          </div>
-          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", margin: "0.25rem 0 0", lineHeight: 1.55 }}>
-            {access.whatItIs}
-          </p>
+      <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.55rem", alignItems: "center" }}>
+          <KeyRound size={17} style={{ color: "var(--gold)", flexShrink: 0 }} />
+          <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>{access.question}</span>
         </div>
+        <YesNo value={answer} onChange={choose} name={access.question} />
       </div>
 
-      <p style={{ fontSize: "0.82rem", color: "var(--text)", margin: "0.6rem 0 0.75rem", lineHeight: 1.55 }}>
-        <strong>Don&rsquo;t have it? That&rsquo;s fine — order anyway.</strong> Retrieving it is part of
-        the service, at no extra charge.
-      </p>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.45rem" }}>
-        <button type="button" onClick={() => set({ status: "retrieve" })} style={optionStyle(value.status === "retrieve")}>
-          <Radio on={value.status === "retrieve"} />
-          <span>
-            <span style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>
-              Get it for me
-            </span>
-            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-              {access.ifMissing}{access.turnaround ? ` Typically ${access.turnaround}.` : ""}
-            </span>
-          </span>
-        </button>
-
-        <button type="button" onClick={() => set({ status: "have" })} style={optionStyle(value.status === "have")}>
-          <Radio on={value.status === "have"} />
-          <span>
-            <span style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>
-              I have it — file faster
-            </span>
-            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-              Enter it below and we can file without waiting on the registry.
-            </span>
-          </span>
-        </button>
-
-        {value.status === "have" && (
-          <div style={{ paddingLeft: "1.9rem" }}>
-            <label style={{ display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" }}>
-              {access.fieldLabel} <span style={{ color: "var(--text-muted)" }}>(optional — you can send it later)</span>
-            </label>
-            <input
-              value={value.code}
-              onChange={(e) => set({ code: e.target.value })}
-              placeholder={access.placeholder}
-              style={{
-                width: "100%",
-                maxWidth: 320,
-                padding: "0.5rem 0.7rem",
-                border: "1px solid var(--border)",
-                borderRadius: "0.4rem",
-                fontSize: "0.9rem",
-                background: "var(--bg)",
-                color: "var(--text)",
-                fontFamily: "var(--font-mono), monospace",
-              }}
-            />
-          </div>
-        )}
-
-        <button type="button" onClick={() => set({ status: "no-access" })} style={optionStyle(value.status === "no-access")}>
-          <Radio on={value.status === "no-access"} />
-          <span>
-            <span style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>
-              I can&rsquo;t access the registered email or address either
-            </span>
-            <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-              We&rsquo;ll sort the address out first, then the {access.term}. Still order — we&rsquo;ll
-              walk you through it.
-            </span>
-          </span>
-        </button>
-      </div>
-
-      {value.status === "no-access" && (
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginTop: "0.7rem", padding: "0.6rem 0.8rem", borderRadius: "0.5rem", background: "var(--bg-deep)" }}>
-          <Info size={14} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.1rem" }} />
-          <span style={{ fontSize: "0.76rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
-            Registries only ever send a replacement to the corporation&rsquo;s own registered email or
-            mailing address — never to an agent. If neither reaches you, updating the registered
-            address is the first step, and we&rsquo;ll quote that with your order.
-          </span>
+      {answer === true && (
+        <div style={{ marginTop: "0.85rem" }}>
+          <label style={{ display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" }}>
+            {access.fieldLabel}
+          </label>
+          <input
+            value={value.code}
+            onChange={(e) => set({ status: "have", code: e.target.value })}
+            placeholder={access.placeholder}
+            autoComplete="off"
+            style={{
+              width: "100%", maxWidth: 320, padding: "0.5rem 0.7rem",
+              border: "1px solid var(--border)", borderRadius: "0.4rem", fontSize: "0.9rem",
+              background: "var(--bg)", color: "var(--text)", fontFamily: "var(--font-mono), monospace",
+            }}
+          />
+          <p style={{ ...muted, margin: "0.35rem 0 0" }}>
+            Sent to us encrypted. Not handy right now? Leave it blank and reply to your order email with it.
+          </p>
         </div>
       )}
 
-      <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.7rem" }}>
-        Whichever you pick, your order goes through now — this never holds up checkout.
-      </div>
+      {answer === false && (
+        <div style={{ marginTop: "0.85rem" }}>
+          <p style={{ fontSize: "0.85rem", color: "var(--text)", margin: 0, lineHeight: 1.55, display: "flex", gap: "0.45rem" }}>
+            <Check size={15} style={{ color: "var(--secondary)", flexShrink: 0, marginTop: "0.2rem" }} />
+            <span>No problem — we&rsquo;ll retrieve it from {access.registryName} for you as part of your order.</span>
+          </p>
+          <p style={{ ...muted, margin: "0.35rem 0 0 1.4rem" }}>
+            Having the {access.term} on hand does make the filing faster{access.turnaround ? ` (retrieval is ${access.turnaround})` : ""} — if you find it later, just reply to your order email with it.
+          </p>
+          <label style={{ ...muted, display: "flex", gap: "0.45rem", alignItems: "flex-start", margin: "0.6rem 0 0 1.4rem", cursor: "pointer" }}>
+            <input
+              type="checkbox"
+              checked={value.status === "no-access"}
+              onChange={(e) => set({ status: e.target.checked ? "no-access" : "retrieve", code: "" })}
+              style={{ marginTop: "0.2rem" }}
+            />
+            <span>I can&rsquo;t access the company&rsquo;s registered email or mailing address either</span>
+          </label>
+          {value.status === "no-access" && (
+            <div style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", margin: "0.6rem 0 0 1.4rem", padding: "0.6rem 0.8rem", borderRadius: "0.5rem", background: "var(--bg-deep)" }}>
+              <Info size={14} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.1rem" }} />
+              <span style={{ fontSize: "0.76rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+                Registries only send a replacement to the corporation&rsquo;s own registered email or mailing
+                address. If neither reaches you, updating the registered address comes first — we&rsquo;ll walk
+                you through it. Your order still goes through now.
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {answer === null && (
+        <p style={{ ...muted, margin: "0.5rem 0 0" }}>
+          Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}.
+        </p>
+      )}
     </div>
   );
 }
 
-function Radio({ on }: { on: boolean }) {
-  return (
-    <span
-      style={{
-        width: 16, height: 16, borderRadius: "50%",
-        border: `1.5px solid ${on ? "var(--gold)" : "var(--border)"}`,
-        background: on ? "var(--gold)" : "transparent",
-        flexShrink: 0, marginTop: "0.12rem",
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-      }}
-    >
-      {on && <Check size={10} style={{ color: "#fff" }} />}
-    </span>
-  );
-}

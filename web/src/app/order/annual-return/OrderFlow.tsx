@@ -9,6 +9,7 @@ import PlacesInput from "@/components/PlacesInput";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
+import YesNo from "@/components/order/YesNo";
 import { annualReturnNote } from "@/lib/annual-return-price";
 import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
@@ -776,14 +777,31 @@ function ChangesSection({
   const removeShareholder = (id: string) => setChanges({ ...changes, shareholders: changes.shareholders.filter((s) => s.id !== id) });
   const addShareholder    = () => setChanges({ ...changes, shareholders: [...changes.shareholders, emptyShareholderChange()] });
 
+  /* Yes / No first (owner, Oct 2026): most annual returns change nothing, so the
+     detail only opens on Yes. No clears anything entered, so hidden changes are
+     never filed. Unanswered = no changes; it never blocks checkout. */
+  const question = years === 1 ? "Has anything changed since last year?" : "Has anything changed over these years?";
+  const [answer, setAnswer] = useState<boolean | null>(hasAnyChange(changes) ? true : null);
+  const choose = (yes: boolean) => {
+    setAnswer(yes);
+    if (!yes) setChanges(emptyChanges());
+  };
+
   return (
     <div style={cardStyle}>
-      <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)", marginBottom: "0.35rem" }}>
-        {years === 1 ? "Has anything changed since last year?" : "Any changes over these years?"}
+      <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
+        <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>{question}</div>
+        <YesNo value={answer} onChange={choose} name={question} />
       </div>
-      <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0 0 1rem" }}>
-        Leave any section empty if that area is unchanged. Most annual returns need nothing at all here.
+      <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", margin: "0.35rem 0 0" }}>
+        {answer === false
+          ? "Great — we'll file it exactly as it stands on the register."
+          : answer === true
+            ? "Add only what changed — directors, shareholders, addresses or the authorized agent. Leave the rest."
+            : "For example a new or departed director, a new address, or a new shareholder. Most annual returns have no changes."}
       </p>
+
+      {answer === true && (<div style={{ marginTop: "1rem" }}>
 
       {/* Directors */}
       <SectionTitle label="Director changes" />
@@ -961,6 +979,7 @@ function ChangesSection({
         rows={2}
         style={{ ...inputStyle, resize: "vertical", fontFamily: "inherit" }}
       />
+      </div>)}
 
       {error && (
         <div style={{ marginTop: "0.75rem", padding: "0.5rem 0.75rem", background: "rgba(180,83,9,0.08)", color: "#B45309", fontSize: "0.78rem", borderRadius: "0.4rem" }}>

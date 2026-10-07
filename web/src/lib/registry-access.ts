@@ -40,6 +40,10 @@ export type RegistryAccess = {
   ifMissing:   string;
   /** Roughly how long a replacement takes, when the registry publishes it. */
   turnaround?: string;
+  /** The yes/no question on the order form, in the customer's words. */
+  question:    string;
+  /** Who we retrieve it from, for "we'll retrieve it from …". */
+  registryName: string;
 };
 
 export const REGISTRY_ACCESS: Record<string, RegistryAccess> = {
@@ -52,16 +56,20 @@ export const REGISTRY_ACCESS: Record<string, RegistryAccess> = {
     ifMissing:
       "We'll submit the ServiceOntario request for you. The key is sent to the corporation's registered email address, or by mail if there is no email on file.",
     turnaround:  "usually about 3 business days",
+    question:    "Do you have the Company Key?",
+    registryName: "ServiceOntario",
   },
 
   bc: {
     term:        "access code or company password",
     fieldLabel:  "Access code or company password",
-    placeholder: "Access code from your reminder notice",
+    placeholder: "Company password or access code",
     whatItIs:
       "BC accepts either the access code printed on your annual report reminder notice, or the company password if one was set for the company.",
     ifMissing:
       "We'll recover it with you — BC Registries has a self-serve reset for the company password, and we can request the access code where it applies.",
+    question:    "Do you have the company password?",
+    registryName: "the BC Registry",
   },
 
   sk: {
@@ -72,6 +80,8 @@ export const REGISTRY_ACCESS: Record<string, RegistryAccess> = {
       "Saskatchewan issues an entity access code and emails it with your annual renewal notice. It's required to file annual returns and to update directors or addresses.",
     ifMissing:
       "We'll submit a Request Entity Access Code to the Corporate Registry for you. It's issued to the corporation's contact on record.",
+    question:    "Do you have the entity access code?",
+    registryName: "the Saskatchewan Corporate Registry",
   },
 
   mb: {
@@ -82,6 +92,8 @@ export const REGISTRY_ACCESS: Record<string, RegistryAccess> = {
       "Manitoba prints a barcode number in the top-left corner of the Annual Return notice mailed to the corporation. That number is what authorises the online filing.",
     ifMissing:
       "We'll arrange a new barcode. Where the corporation is authorised online we can obtain one directly; otherwise the Companies Office mails a fresh Annual Return to the address on record.",
+    question:    "Do you have the barcode number?",
+    registryName: "the Manitoba Companies Office",
   },
 };
 
