@@ -1,0 +1,39 @@
+name: Privacy retention sweep
+
+# Weekly: deletes unfinished order forms, enquiries and website analytics older
+# than 24 months, as the Privacy Policy promises (section 6). The endpoint does
+# the work; see web/src/app/api/admin/retention-sweep/route.ts.
+#
+# Secret required: ADMIN_SWEEP_TOKEN (same as the other admin sweeps; must
+# match the env var on Render). Run by hand with dry=1 to see counts only.
+
+on:
+  schedule:
+    - cron: "37 10 * * 0"      # Sundays ~4:37 am Calgary (GitHub may start it late; weekly, so that's fine)
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Dry run — count without deleting (1 or 0)"
+        required: false
+        default: "1"
+
+concurrency:
+  group: retention-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the sweep
+        env:
+          TOKEN: ${{ secrets.ADMIN_SWEEP_TOKEN }}
+          BASE: https://www.corporateregistryservices.ca
+          DRY: ${{ github.event.inputs.dry || '0' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TOKEN:-}" ]; then echo "::error::ADMIN_SWEEP_TOKEN secret is not set."; exit 1; fi
+          response=$(curl -sS --max-time 280 -w "\n%{http_code}" -X POST -H "Authorization: Bearer $TOKEN" "$BASE/api/admin/retention-sweep?dry=$DRY")
+          code=$(echo "$response" | tail -1); body=$(echo "$response" | sed '$d')
+          echo "$body"
+          if [ "$code" != "200" ]; then echo "::error::sweep returned HTTP $code"; exit 1; fi
