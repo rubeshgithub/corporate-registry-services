@@ -3,10 +3,12 @@ name: Daily lead summary
 # One email a day to support@ at 9:00 am Mountain (replaces the abandoned-order
 # emails). Fires at 15:00 and 16:00 UTC so 9 am is covered in both MDT and MST;
 # the endpoint sends only at local 9 am and once per day.
+#
+# Schedule removed 2026-10-09 (owner): docu10's 9 am briefing replaces this
+# email — it has the same leads plus staff actions, paid orders and refunds.
+# Kept for manual runs only.
 
 on:
-  schedule:
-    - cron: "0 15,16 * * *"
   workflow_dispatch:
     inputs:
       dry:
