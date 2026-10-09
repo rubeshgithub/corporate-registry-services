@@ -59,6 +59,15 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Look up any Canadian corporation"
       subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
   ),
+  /* Articles-vs-certificate article: these readers hold an existing
+     corporation and usually end up needing its documents — lookup first,
+     document retrieval / profile report as the paid step. */
+  "articles/articles-of-incorporation-vs-certificate-of-incorporation": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
+      titleOverride="Look up your corporation"
+      subOverride="Search by company name, corporation number, or Business Number to pull its registry record." />
+  ),
   "articles/corporate-by-laws-canada": ({ slug, prices }) => (
     <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"

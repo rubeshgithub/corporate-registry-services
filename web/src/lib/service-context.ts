@@ -129,6 +129,22 @@ export function inferServiceContext(section: Section, slug: string): ServiceCont
     };
   }
 
+  /* Corporate documents — "my articles / certificate of incorporation" intent.
+     These readers already OWN a corporation and want its paperwork, so the
+     incorporation strip below (which also matches on the "incorporation"
+     substring) would sell them the wrong product. Checked first on purpose. */
+  if (s.includes("corporate-documents") || s.includes("articles-of-incorporation")) {
+    return {
+      serviceKey:     "corporate-documents",
+      jurisdictionKey,
+      price:          "$489 all-in + GST",
+      ctaHeadline:    "Every document on your corporation's registry file — $489 all-in + GST.",
+      ctaSubline:     "Articles, certificates, amendments and every filing, retrieved from the registry as proofread PDFs. Single documents available too.",
+      ctaButton:      "Order documents",
+      stickyLabel:    "$489 · Order documents",
+    };
+  }
+
   if (section === "incorporation" || s.includes("incorporation")) {
     return {
       serviceKey:     "incorporation-numbered",
