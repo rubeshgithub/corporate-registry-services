@@ -1,9 +1,9 @@
 ---
-title: "Registry of Joint Stock Companies (RJSC) Nova Scotia Guide"
+title: "Registry of Joint Stocks Nova Scotia (RJSC): Search & Login"
 h1: "Nova Scotia's Registry of Joint Stock Companies (RJSC), Explained"
 slug: "registry-of-joint-stock-companies-nova-scotia"
 section: "articles"
-description: "What Nova Scotia's Registry of Joint Stock Companies is, how to search it free via RJSC Connect, renewal deadlines, fees, and the documents it issues."
+description: "Nova Scotia Registry of Joint Stocks (RJSC): where to search free and sign in to RJSC Connect, renewal fees and deadlines — or let us renew or order documents for you."
 faq:
   - q: "Is searching the Registry of Joint Stock Companies free?"
     a: "Yes. The RJSC's public search in RJSC Connect is free and doesn't require an account for a basic lookup — you'll see the entity's name, status, addresses and registration dates. Official documents like profile reports and certificates of status carry fees."

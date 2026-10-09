@@ -40,7 +40,7 @@ Because Nova Scotia uses the *Companies Act* rather than a modern BCA, the found
 - **At least one director** — must be 18+. No Canadian residency requirement.
 - **Corporate secretary appointment** — mandatory under the Companies Act. The secretary can be a director or a separate person, but the role must be filled.
 - **Registered office in Nova Scotia** — a physical address (not a PO box) where records can be inspected.
-- **Name reservation** — a name search through the Registry of Joint Stock Companies plus a NUANS report if the name has federal reach or cross-provincial similarity risk.
+- **Name reservation** — a name search through the [Registry of Joint Stock Companies](/articles/registry-of-joint-stock-companies-nova-scotia) plus a NUANS report if the name has federal reach or cross-provincial similarity risk.
 
 ## What's included in the {{price:incorporation-numbered}} all-in fee
 

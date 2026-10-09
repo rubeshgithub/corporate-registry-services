@@ -5,7 +5,7 @@ slug: "Nova-Scotia-corporate-profile-report"
 section: "profile-reports"
 ---
 
-A Nova Scotia Corporate Profile Report provides complete, current public record information on any corporation registered under the Nova Scotia Companies Act and recorded in the Registry of Joint Stock Companies.
+A Nova Scotia Corporate Profile Report provides complete, current public record information on any corporation registered under the Nova Scotia Companies Act and recorded in the [Registry of Joint Stock Companies](/articles/registry-of-joint-stock-companies-nova-scotia).
 
 ## What's Included
 

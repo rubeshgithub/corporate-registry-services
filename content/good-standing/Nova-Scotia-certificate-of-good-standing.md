@@ -7,7 +7,7 @@ section: "good-standing"
 
 Nova Scotia Certificate of Good Standing. Available for {{price:good-standing}} + applicable tax, all-in (including government charges).
 
-A Nova Scotia Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the Nova Scotia Registry of Joint Stock Companies confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Nova Scotia Companies Act.
+A Nova Scotia Certificate of Good Standing — also known as a Certificate of Status — is an official document issued by the Nova Scotia [Registry of Joint Stock Companies](/articles/registry-of-joint-stock-companies-nova-scotia) confirming that a corporation is legally registered, active, and compliant with all filing requirements under the Nova Scotia Companies Act.
 
 This certificate is formal proof that a company is in good legal standing and remains authorized to operate. It is commonly required for banking, financing, extra-provincial registration, mergers, acquisitions, and official government or investor due diligence.
 
