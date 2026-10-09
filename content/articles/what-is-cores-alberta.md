@@ -30,7 +30,7 @@ Most people who search for CORES aren't curious about the system — they have a
 - **Annual return due — or already overdue?** [File your Alberta annual return](/file-annual-return/alberta) · {{price:annual-return-ab}} all-in, government fee included
 - **Need proof of your corporation for a bank, lawyer or buyer?** [Order an Alberta corporate profile report](/profile-reports/alberta-corporate-profile-report) · {{price:profile-report}}
 - **Struck off or dissolved for missed returns?** [Revive your Alberta corporation](/order/revival) · {{price:revival}}
-- **Starting a new corporation?** [Incorporate in Alberta](/incorporation/alberta-incorporation-service) · from {{price:incorporation-numbered}} all-in
+- **Starting a new corporation?** [Incorporate in Alberta](/incorporation/alberta-incorporation-service) · from {{price:incorporation-numbered}} all-in · or read [how to incorporate in Alberta](/articles/how-to-incorporate-in-alberta) step by step
 
 Starting from scratch instead? [How to register a business in Alberta](/articles/how-to-register-a-business-in-alberta) covers the trade-name-vs-incorporation decision and what each costs through a registry agent.
 

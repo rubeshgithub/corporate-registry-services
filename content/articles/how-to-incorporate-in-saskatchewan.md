@@ -49,7 +49,7 @@ End to end, a do-it-yourself incorporation usually lands inside one to two weeks
 
 ## Do directors need to be Canadian residents?
 
-**No — not anymore.** *The Business Corporations Act, 2021*, in force since March 12, 2023, removed Saskatchewan's old rule that 25% of directors had to be resident Canadians. Today a Saskatchewan corporation's directors can live anywhere in the world — each director simply has to be at least 18. That puts Saskatchewan alongside British Columbia, Alberta, and Nova Scotia as jurisdictions fully open to non-resident founders, and in contrast to federal (CBCA) incorporation, which still requires 25% of directors to be Canadian residents.
+**No — not anymore.** *The Business Corporations Act, 2021*, in force since March 12, 2023, removed Saskatchewan's old rule that 25% of directors had to be resident Canadians. Today a Saskatchewan corporation's directors can live anywhere in the world — each director simply has to be at least 18. That puts Saskatchewan alongside British Columbia, [Alberta](/articles/how-to-incorporate-in-alberta), and Nova Scotia as jurisdictions fully open to non-resident founders, and in contrast to federal (CBCA) incorporation, which still requires 25% of directors to be Canadian residents.
 
 The trade-off: while your directors can live anywhere, your corporation needs a local footprint. Saskatchewan requires a **registered office inside the province** (a real street address where records can be served, not a P.O. box), and **if no director or officer resides in Saskatchewan, you must appoint an attorney in the province** by power of attorney — someone authorized to accept official communications on the corporation's behalf. Non-resident founders usually satisfy both through a service provider.
 

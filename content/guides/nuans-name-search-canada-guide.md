@@ -24,7 +24,7 @@ A NUANS Report is required whenever you want to incorporate or register a **name
 
 - **Federal incorporation (CBCA):** A NUANS Report is mandatory and must be less than 90 days old at the time of filing. The report must be submitted with your Articles of Incorporation.
 - **Ontario:** A NUANS Report is required for name approval.
-- **Alberta:** A NUANS Report is required.
+- **Alberta:** A NUANS Report is required (for a named corporation — see [how to incorporate in Alberta](/articles/how-to-incorporate-in-alberta)).
 - **Manitoba:** A NUANS Report is required.
 - **Saskatchewan:** A NUANS Report is required.
 - **New Brunswick, Nova Scotia, PEI:** Required.

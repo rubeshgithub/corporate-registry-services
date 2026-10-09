@@ -6,7 +6,7 @@ section: "incorporation"
 description: "Incorporate an Alberta corporation — {{price:incorporation-numbered}} all-in, NUANS + Articles + minute book + BN. Filed via CORES by a Certified Registry Agent. No Canadian resident director required."
 faq:
   - q: "Do I need Canadian resident directors to incorporate in Alberta?"
-    a: "No. Alberta removed the Canadian resident director requirement in 2022, joining British Columbia and Quebec as jurisdictions with no residency rule. Every director must be 18 or older, but there is no requirement that any of them be Canadian residents. Federal (CBCA) still requires 25% Canadian residents, so a fully non-resident founding team incorporating in Canada often chooses Alberta, BC, or (as of 2023) Ontario."
+    a: "No. Alberta removed the Canadian resident director requirement on March 29, 2021, joining British Columbia, Quebec and Nova Scotia as jurisdictions with no residency rule. Every director must be 18 or older, but there is no requirement that any of them be Canadian residents. Federal (CBCA) still requires 25% Canadian residents, so a fully non-resident founding team incorporating in Canada often chooses Alberta, BC, or (since July 2021) Ontario."
   - q: "What is CORES and why does it require a Certified Registry Agent?"
     a: "CORES (Corporate Registry Online Services) is Alberta's electronic filing system for corporate transactions — incorporations, annual returns, director changes, name searches. Unlike Ontario's OBR or BC Registry Services which anyone can access, CORES is only accessible through Alberta-authorized Certified Registry Agents. CRS is a Certified Registry Agent, so when you order through us your filing goes through the CORES channel directly — no personal account setup, no Registry Agent search on your end."
   - q: "Is Alberta a good jurisdiction for a tech or SaaS startup?"
@@ -19,11 +19,11 @@ faq:
 
 **Ready to incorporate in Alberta?** [Start your Alberta incorporation — {{price:incorporation-numbered}} all-in →](/order/incorporation) · Articles filed via CORES by a Certified Registry Agent, minute book delivered in 2–4 business days. **Not sure Alberta vs. federal?** [Book a free 15-min consultation →](/incorporation/book-free-consultation) — no obligation.
 
-Alberta is one of the most business-friendly and fastest Canadian jurisdictions to incorporate in. The *Alberta Business Corporations Act* (ABCA) is a modern statute with investor-friendly defaults; the CORES filing system routes through Certified Registry Agents (like CRS) for same-day or next-day processing; and since 2022 Alberta has had no Canadian resident director requirement — making it a natural choice for international founders alongside British Columbia.
+Alberta is one of the most business-friendly and fastest Canadian jurisdictions to incorporate in. The *Alberta Business Corporations Act* (ABCA) is a modern statute with investor-friendly defaults; the CORES filing system routes through Certified Registry Agents (like CRS) for same-day or next-day processing; and since March 2021 Alberta has had no Canadian resident director requirement — making it a natural choice for international founders alongside British Columbia. Want to see every form and fee first? Our step-by-step guide to [how to incorporate in Alberta](/articles/how-to-incorporate-in-alberta) walks through the whole process.
 
 ## Why incorporate in Alberta?
 
-**No Canadian resident director requirement.** Alberta dropped the 25% Canadian resident director rule in 2022, aligning with British Columbia and Quebec (and, as of 2023, Ontario and Nova Scotia). International founders can incorporate an Alberta corporation with 100% non-resident directors without appointing a token Canadian director. Federal (CBCA) still requires 25% Canadian residents.
+**No Canadian resident director requirement.** Alberta dropped the 25% Canadian resident director rule on March 29, 2021, aligning with British Columbia, Quebec and Nova Scotia (none of which has one); Ontario followed in July 2021. International founders can incorporate an Alberta corporation with 100% non-resident directors without appointing a token Canadian director. Federal (CBCA) still requires 25% Canadian residents.
 
 **One of Canada's fastest incorporation turnarounds.** The CORES system, accessed through Certified Registry Agents, is among the quickest registries in the country. Same-day or next-day filing is typical once name search clears — often faster than Ontario or federal.
 
@@ -41,7 +41,7 @@ Under the *Alberta Business Corporations Act*:
 - **Notice of Directors** — names and addresses of the initial board.
 - **Notice of Registered Office** — physical Alberta address (not a PO box).
 - **Alberta Name Search Report** — a NUANS report or an Alberta-only name search. Numbered corporations skip this entirely.
-- **At least one director** — must be 18+. No Canadian residency requirement (removed 2022).
+- **At least one director** — must be 18+. No Canadian residency requirement (removed March 29, 2021).
 - **Filing through a Certified Registry Agent** — CORES access is not available to the general public. Your incorporation must be filed either through a Certified Registry Agent (like CRS) or in person at a Registry Agent office.
 
 Not sure incorporation is the right structure yet? [How to register a business in Alberta](/articles/how-to-register-a-business-in-alberta) compares a trade name against a corporation, with the real costs of each.

@@ -76,7 +76,7 @@ On the filing fee alone, federal wins: Corporations Canada charges **$200** to i
 
 - A federal corporation carrying on business in BC must also **register extra-provincially in BC** — another registration to set up and keep current.
 - The ongoing fees flip the comparison's direction depending on the year: BC's Annual Report is **$43.39**; the federal annual return is **$12** but comes on top of the BC extra-provincial registration.
-- Federal corporations must have **25% Canadian-resident directors**. BC has **no residency requirement at all** — for a fully non-resident founding team, BC (like Alberta and Ontario) is open where federal is not.
+- Federal corporations must have **25% Canadian-resident directors**. BC has **no residency requirement at all** — for a fully non-resident founding team, BC (like [Alberta](/articles/how-to-incorporate-in-alberta) and Ontario) is open where federal is not.
 - Federal incorporation gives you **Canada-wide name protection** — the real reason to choose it if you plan to operate in several provinces.
 
 For most owner-operated BC businesses, incorporating provincially is simpler and the five-year cost is comparable. Choose on strategy, not the $150 gap — our [federal vs. provincial incorporation guide](/articles/federal-vs-provincial-incorporation-canada) walks through the decision, and CRS files either for the same all-in price.

@@ -49,7 +49,7 @@ End to end, a do-it-yourself incorporation usually lands inside one to two weeks
 
 ## Do directors need to be Canadian residents?
 
-**No.** Nova Scotia has no Canadian-residency requirement for directors — every director simply has to be at least 18. That puts NS alongside British Columbia, Alberta, and Quebec as one of the few Canadian jurisdictions fully open to non-resident founders and boards. By contrast, federal (CBCA) incorporation requires at least 25% of directors to be Canadian residents, so a US- or internationally-owned company incorporating federally must add a Canadian director.
+**No.** Nova Scotia has no Canadian-residency requirement for directors — every director simply has to be at least 18. That puts NS alongside British Columbia, [Alberta](/articles/how-to-incorporate-in-alberta), and Quebec as one of the few Canadian jurisdictions fully open to non-resident founders and boards. By contrast, federal (CBCA) incorporation requires at least 25% of directors to be Canadian residents, so a US- or internationally-owned company incorporating federally must add a Canadian director.
 
 The trade-off: while your directors can live anywhere, your corporation cannot. Nova Scotia requires a **registered office inside the province** (a real address where records are kept, not a PO box) and a **recognized agent resident in Nova Scotia** who can accept official communications. Non-resident founders usually satisfy both through a service provider.
 

@@ -69,7 +69,7 @@ This is often the deciding factor for non-Canadian founders:
 - **Alberta (ABCA):** No Canadian residency requirement for directors.
 - **Québec:** No Canadian residency requirement for directors.
 
-If your founding team has no Canadian residents, incorporating in BC or Alberta may be more practical than incorporating federally.
+If your founding team has no Canadian residents, incorporating in BC or Alberta may be more practical than incorporating federally — see [how to incorporate in Alberta](/articles/how-to-incorporate-in-alberta).
 
 ## Annual Compliance Comparison
 

@@ -13,6 +13,8 @@ faq:
     a: "Yes. Alberta removed its Canadian-resident-director requirement on March 29, 2021, so all directors can live outside Canada. You still need a registered office at a physical Alberta address and an agent for service — an individual located in Alberta — which non-resident founders usually arrange through a service provider."
   - q: "Do you need a NUANS report to incorporate in Alberta?"
     a: "Only for a named corporation. The Alberta NUANS report reserves your proposed name for 90 days and must be under 91 days old when you file. A numbered corporation skips the name search entirely — Corporate Registry assigns the number — and you can add a name later by Articles of Amendment."
+  - q: "Can you incorporate in Alberta online?"
+    a: "Yes, through an online registry agent. Alberta has no government portal for the public, but any authorized registry agent can file your incorporation through CORES without you visiting an office in Calgary, Edmonton or anywhere else. CRS, a Certified Registry Agent based in Calgary, files the whole incorporation online and emails the Certificate of Incorporation as a PDF."
   - q: "How long does it take to incorporate in Alberta?"
     a: "Alberta is one of Canada's fastest jurisdictions. Once the name is cleared, Service Alberta typically issues the Certificate of Incorporation same-day or next-day after a clean CORES filing. CRS-filed incorporations deliver the certificate and complete minute book in 2–4 business days end to end."
 ---
@@ -54,7 +56,7 @@ Alberta.ca's own checklist runs seven steps; here is the practical version:
 4. **Record your registered office (Notice of Address, REG3016).** A physical street address in Alberta where documents can be served — not a P.O. box.
 5. **Elect your directors (Notice of Directors, REG3017).** At least one director, 18 or older. There is no Canadian-residency requirement (more below).
 6. **Appoint an agent for service (Notice of Agent for Service, REG3037).** An individual located in Alberta who can receive legal documents on the corporation's behalf, in person or by mail.
-7. **Submit the package to a registry agent and pay.** The agent files through CORES; Service Alberta issues the Certificate of Incorporation, typically same-day or next-day once the filing is clean.
+7. **Submit the package to a registry agent and pay.** The agent files through CORES; Service Alberta issues the Certificate of Incorporation, typically same-day or next-day once the filing is clean. (The certificate and your Articles are different documents — [here's the difference](/articles/articles-of-incorporation-vs-certificate-of-incorporation).)
 
 End to end, Alberta is one of the fastest jurisdictions in Canada. CRS-filed incorporations run the name search on day 1, file the Articles on day 1–2, and deliver the certificate plus complete minute book in **2–4 business days**.
 
@@ -64,9 +66,9 @@ End to end, Alberta is one of the fastest jurisdictions in Canada. CRS-filed inc
 
 The counterweight: while your directors can be anywhere, your corporation's footprint cannot. You need a **registered office at a physical Alberta address** and an **agent for service who is an individual located in Alberta**. Non-resident founders usually satisfy both through a service provider — mention it when you order and CRS will walk you through the options.
 
-## Do you have to visit a registry office in Calgary, Edmonton or your local town?
+## Can you incorporate in Alberta online?
 
-**No.** Any authorized registry agent can file an Alberta incorporation, wherever you — or they — happen to be. The Alberta Corporate Registry is a single provincial system: a filing submitted through an online registry agent lands in exactly the same CORES queue as one walked into a counter in Calgary, Edmonton, Red Deer or Strathmore. Founders outside Alberta's cities (or outside Alberta entirely) don't need to find a local office, book an appointment, or mail anything: CRS handles the entire filing online, and the Certificate of Incorporation arrives as a PDF the moment Service Alberta issues it.
+**Yes — through an online registry agent.** You can't file on alberta.ca yourself, but you don't have to visit a registry office in Calgary, Edmonton or your local town either. Any authorized registry agent can file an Alberta incorporation, wherever you — or they — happen to be. The Alberta Corporate Registry is a single provincial system: a filing submitted through an online registry agent lands in exactly the same CORES queue as one walked into a counter in Calgary, Edmonton, Red Deer or Strathmore. Founders outside Alberta's cities (or outside Alberta entirely) don't need to find a local office, book an appointment, or mail anything: CRS — a Certified Registry Agent based in Calgary — handles the entire filing online, and the Certificate of Incorporation arrives as a PDF the moment Service Alberta issues it.
 
 The walk-in option still exists and suits people who want to hand over paper forms. Just remember the quote you get at any counter is that agent's own service fee plus the same $291.75 government charge.
 
@@ -104,6 +106,10 @@ Yes. Alberta removed its Canadian-resident-director requirement on March 29, 202
 ### Do you need a NUANS report to incorporate in Alberta?
 
 Only for a named corporation. The Alberta NUANS report reserves your proposed name for 90 days and must be under 91 days old when you file. A numbered corporation skips the name search entirely — Corporate Registry assigns the number — and you can add a name later by Articles of Amendment.
+
+### Can you incorporate in Alberta online?
+
+Yes, through an online registry agent. Alberta has no government portal for the public, but any authorized registry agent can file your incorporation through CORES without you visiting an office in Calgary, Edmonton or anywhere else. CRS, a Certified Registry Agent based in Calgary, files the whole incorporation online and emails the Certificate of Incorporation as a PDF.
 
 ### How long does it take to incorporate in Alberta?
 

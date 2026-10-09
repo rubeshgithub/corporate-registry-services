@@ -47,7 +47,7 @@ Two components, always: the **government fee**, which is fixed, and the **regist
 
 **Trade name (sole proprietorship).** The government fee is **$10**. The agent's fee sits on top, and published examples bring the total to roughly $60–$90. Registration must be renewed every 5 years.
 
-**Incorporation.** Alberta does not publish a consumer-facing incorporation fee on alberta.ca — it points you to the registry agent product catalogue, because the agent's fee is part of the total. A **NUANS report** is also required for a named corporation, though not for a numbered one.
+**Incorporation.** Alberta does not publish a consumer-facing incorporation fee on alberta.ca — it points you to the registry agent product catalogue, because the agent's fee is part of the total. A **NUANS report** is also required for a named corporation, though not for a numbered one. Our guide to [incorporating in Alberta](/articles/how-to-incorporate-in-alberta) breaks down the government fee, the forms and each step.
 
 Through CRS, an Alberta incorporation is **{{price:incorporation-numbered}} all-in + GST** for a numbered company and **{{price:incorporation-named}} all-in + GST** for a named one, including the NUANS. All-in means government fees and agent fees included — the number you see is the number you pay.
 

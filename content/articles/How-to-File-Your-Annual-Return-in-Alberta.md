@@ -62,7 +62,7 @@ The 1-month deadline is often overlooked by Alberta corporations, particularly t
 
 ## Director Residency Requirements
 
-Alberta corporations have **no Canadian residency requirement for directors**. All directors may be non-Canadian residents, making Alberta a popular jurisdiction for incorporation by international entrepreneurs.
+Alberta corporations have **no Canadian residency requirement for directors**. All directors may be non-Canadian residents, making Alberta a popular jurisdiction for incorporation by international entrepreneurs. (Starting a new one? See [how to incorporate in Alberta](/articles/how-to-incorporate-in-alberta).)
 
 ## Annual returns for Alberta societies and non-profits
 
