@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-10-09T16:28:27.111037Z",
+ "generated_at": "2026-10-10T15:31:51.690175Z",
  "window": {
-  "start": "2026-09-10",
-  "end": "2026-10-07"
+  "start": "2026-09-11",
+  "end": "2026-10-08"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 45,
+ "count": 46,
  "opportunities": [
   {
    "query": "company profile report",
@@ -18,21 +18,12 @@
   },
   {
    "query": "annual report filing",
-   "impressions": 35,
-   "position": 22.1,
+   "impressions": 32,
+   "position": 23.2,
    "clicks": 0,
-   "score": 22.13,
+   "score": 19.65,
    "suggested_slug": "annual-report-filing",
    "suggested_section": "articles"
-  },
-  {
-   "query": "alberta non profit incorporating",
-   "impressions": 24,
-   "position": 17.3,
-   "clicks": 0,
-   "score": 17.08,
-   "suggested_slug": "alberta-non-profit-incorporating",
-   "suggested_section": "incorporation"
   },
   {
    "query": "business database canada",
@@ -42,6 +33,15 @@
    "score": 16.72,
    "suggested_slug": "business-database-canada",
    "suggested_section": "articles"
+  },
+  {
+   "query": "alberta non profit incorporating",
+   "impressions": 23,
+   "position": 17.2,
+   "clicks": 0,
+   "score": 16.4,
+   "suggested_slug": "alberta-non-profit-incorporating",
+   "suggested_section": "incorporation"
   },
   {
    "query": "canada business database",
@@ -116,15 +116,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "canada not for profit incorporations",
-   "impressions": 16,
-   "position": 34.3,
-   "clicks": 0,
-   "score": 6.85,
-   "suggested_slug": "canada-not-for-profit-incorporations",
-   "suggested_section": "incorporation"
-  },
-  {
    "query": "company name search",
    "impressions": 11,
    "position": 23,
@@ -134,40 +125,40 @@
    "suggested_section": "articles"
   },
   {
-   "query": "alberta corporate registry filing",
-   "impressions": 11,
-   "position": 23.6,
+   "query": "canada not for profit incorporations",
+   "impressions": 15,
+   "position": 34.4,
    "clicks": 0,
-   "score": 6.67,
-   "suggested_slug": "alberta-corporate-registry-filing",
-   "suggested_section": "articles"
+   "score": 6.4,
+   "suggested_slug": "canada-not-for-profit-incorporations",
+   "suggested_section": "incorporation"
   },
   {
    "query": "annual business returns alberta",
-   "impressions": 13,
-   "position": 29.8,
+   "impressions": 12,
+   "position": 29.6,
    "clicks": 0,
-   "score": 6.53,
+   "score": 6.08,
    "suggested_slug": "annual-business-returns-alberta",
    "suggested_section": "articles"
   },
   {
-   "query": "annual return calgary",
-   "impressions": 15,
-   "position": 38.3,
+   "query": "alberta corporate registry filing",
+   "impressions": 10,
+   "position": 24.3,
    "clicks": 0,
-   "score": 5.43,
-   "suggested_slug": "annual-return-calgary",
+   "score": 5.95,
+   "suggested_slug": "alberta-corporate-registry-filing",
    "suggested_section": "articles"
   },
   {
-   "query": "business incorporation new brunswick",
-   "impressions": 10,
-   "position": 29.2,
+   "query": "annual return calgary",
+   "impressions": 14,
+   "position": 38.1,
    "clicks": 0,
-   "score": 5.13,
-   "suggested_slug": "business-incorporation-new-brunswick",
-   "suggested_section": "incorporation"
+   "score": 5.12,
+   "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
   },
   {
    "query": "central securities register",
@@ -213,6 +204,15 @@
    "score": 4.38,
    "suggested_slug": "check-business-name-canada",
    "suggested_section": "articles"
+  },
+  {
+   "query": "business incorporation new brunswick",
+   "impressions": 8,
+   "position": 28.5,
+   "clicks": 0,
+   "score": 4.2,
+   "suggested_slug": "business-incorporation-new-brunswick",
+   "suggested_section": "incorporation"
   },
   {
    "query": "business search report",
@@ -269,13 +269,13 @@
    "suggested_section": "articles"
   },
   {
-   "query": "canada not for profit organization",
-   "impressions": 12,
-   "position": 43.6,
+   "query": "annual return alberta online",
+   "impressions": 5,
+   "position": 22.2,
    "clicks": 0,
-   "score": 3.28,
-   "suggested_slug": "canada-not-for-profit-organization",
-   "suggested_section": "not-for-profit"
+   "score": 3.15,
+   "suggested_slug": "annual-return-alberta-online",
+   "suggested_section": "articles"
   }
  ]
 }
