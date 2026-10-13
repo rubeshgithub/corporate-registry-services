@@ -10,8 +10,9 @@
  *                           dashboard if the default returns 401 / 404.
  *   SMS_ALERT_TO_NUMBER   — optional. Where CRS alerts (paid order, order-page
  *                           arrival) go. Defaults to +15878396909.
- *   SMS_ENABLED           — optional. Set to "0" or "false" to short-circuit
- *                           every send (useful during testing).
+ *   SMS_ENABLED           — OFF unless set to "1" or "true" (owner, Oct 2026: texts
+ *                           cost money; Teams carries the alerts). Teams still
+ *                           gets every alert whatever this says.
  *
  * Never throws — every call returns { ok, error? } so callers can fire-and-
  * forget without wrapping in try/catch. SMS delivery is never allowed to
@@ -30,8 +31,9 @@ export async function sendAlertSms(text: string, opts?: { to?: string }): Promis
      SMS switched off, so Teams can replace the texts entirely. Only alerts
      for the owner's own number are mirrored (not texts to other people). */
   if (!opts?.to) void sendTeamsAlert(text);
-  if (process.env.SMS_ENABLED === "0" || process.env.SMS_ENABLED === "false") {
-    return { ok: false, error: "SMS disabled via SMS_ENABLED env." };
+  const sms = (process.env.SMS_ENABLED ?? "").trim().toLowerCase();
+  if (sms !== "1" && sms !== "true") {
+    return { ok: false, error: "SMS is off (set SMS_ENABLED=1 to turn it back on)." };
   }
   const apiKey = process.env.INFOBIP_API_KEY?.trim();
   const from   = process.env.INFOBIP_NUMBER?.trim();
