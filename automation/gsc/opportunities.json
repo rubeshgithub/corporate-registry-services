@@ -1,18 +1,18 @@
 {
- "generated_at": "2026-10-12T19:15:01.002087Z",
+ "generated_at": "2026-10-13T17:04:30.423695Z",
  "window": {
-  "start": "2026-09-13",
-  "end": "2026-10-10"
+  "start": "2026-09-14",
+  "end": "2026-10-11"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 48,
+ "count": 46,
  "opportunities": [
   {
    "query": "company profile report",
-   "impressions": 41,
-   "position": 20.1,
+   "impressions": 42,
+   "position": 20.4,
    "clicks": 1,
-   "score": 27.28,
+   "score": 27.73,
    "suggested_slug": "company-profile-report",
    "suggested_section": "profile-reports"
   },
@@ -27,55 +27,46 @@
   },
   {
    "query": "business database canada",
-   "impressions": 39,
-   "position": 28.1,
+   "impressions": 38,
+   "position": 27.7,
    "clicks": 0,
-   "score": 20.77,
+   "score": 20.43,
    "suggested_slug": "business-database-canada",
    "suggested_section": "articles"
   },
   {
    "query": "canada business database",
-   "impressions": 43,
-   "position": 35.3,
+   "impressions": 47,
+   "position": 35,
    "clicks": 0,
-   "score": 17.67,
+   "score": 19.58,
    "suggested_slug": "canada-business-database",
    "suggested_section": "articles"
   },
   {
    "query": "alberta non profit incorporating",
-   "impressions": 22,
-   "position": 17,
+   "impressions": 20,
+   "position": 16.8,
    "clicks": 0,
-   "score": 15.77,
+   "score": 14.4,
    "suggested_slug": "alberta-non-profit-incorporating",
-   "suggested_section": "incorporation"
-  },
-  {
-   "query": "certificate of incorporation",
-   "impressions": 15,
-   "position": 16.3,
-   "clicks": 0,
-   "score": 10.93,
-   "suggested_slug": "certificate-of-incorporation",
    "suggested_section": "incorporation"
   },
   {
    "query": "business registration report",
    "impressions": 16,
-   "position": 19.8,
+   "position": 20.1,
    "clicks": 0,
-   "score": 10.73,
+   "score": 10.65,
    "suggested_slug": "business-registration-report",
    "suggested_section": "articles"
   },
   {
    "query": "company name search",
-   "impressions": 15,
-   "position": 21.4,
+   "impressions": 16,
+   "position": 21.7,
    "clicks": 0,
-   "score": 9.65,
+   "score": 10.22,
    "suggested_slug": "company-name-search",
    "suggested_section": "articles"
   },
@@ -109,10 +100,19 @@
   {
    "query": "alberta corporate registry filing",
    "impressions": 12,
-   "position": 22.1,
+   "position": 21.2,
    "clicks": 0,
-   "score": 7.58,
+   "score": 7.77,
    "suggested_slug": "alberta-corporate-registry-filing",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "annual return calgary",
+   "impressions": 18,
+   "position": 34.3,
+   "clicks": 0,
+   "score": 7.72,
+   "suggested_slug": "annual-return-calgary",
    "suggested_section": "articles"
   },
   {
@@ -134,15 +134,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "annual return calgary",
-   "impressions": 16,
-   "position": 34.6,
-   "clicks": 0,
-   "score": 6.77,
-   "suggested_slug": "annual-return-calgary",
-   "suggested_section": "articles"
-  },
-  {
    "query": "annual business returns alberta",
    "impressions": 13,
    "position": 30.5,
@@ -158,15 +149,6 @@
    "clicks": 0,
    "score": 6.27,
    "suggested_slug": "company-name-search-ontario",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business corporations act transparency register",
-   "impressions": 8,
-   "position": 15.4,
-   "clicks": 0,
-   "score": 5.95,
-   "suggested_slug": "business-corporations-act-transparency-register",
    "suggested_section": "articles"
   },
   {
@@ -188,13 +170,13 @@
    "suggested_section": "articles"
   },
   {
-   "query": "canada not for profit incorporations",
-   "impressions": 13,
-   "position": 35.2,
+   "query": "business corporations act transparency register",
+   "impressions": 7,
+   "position": 15.6,
    "clicks": 0,
-   "score": 5.37,
-   "suggested_slug": "canada-not-for-profit-incorporations",
-   "suggested_section": "incorporation"
+   "score": 5.18,
+   "suggested_slug": "business-corporations-act-transparency-register",
+   "suggested_section": "articles"
   },
   {
    "query": "check business name canada",
@@ -234,10 +216,10 @@
   },
   {
    "query": "canada not for profit application",
-   "impressions": 14,
-   "position": 39.6,
+   "impressions": 13,
+   "position": 39.8,
    "clicks": 0,
-   "score": 4.77,
+   "score": 4.37,
    "suggested_slug": "canada-not-for-profit-application",
    "suggested_section": "not-for-profit"
   },
@@ -249,6 +231,15 @@
    "score": 4.2,
    "suggested_slug": "canada-find-a-business",
    "suggested_section": "articles"
+  },
+  {
+   "query": "canada not for profit incorporations",
+   "impressions": 10,
+   "position": 35.4,
+   "clicks": 0,
+   "score": 4.1,
+   "suggested_slug": "canada-not-for-profit-incorporations",
+   "suggested_section": "incorporation"
   },
   {
    "query": "british columbia business registry search",
@@ -275,6 +266,15 @@
    "clicks": 0,
    "score": 3.77,
    "suggested_slug": "annual-return-alberta-online",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "business name search windsor",
+   "impressions": 9,
+   "position": 35.2,
+   "clicks": 0,
+   "score": 3.72,
+   "suggested_slug": "business-name-search-windsor",
    "suggested_section": "articles"
   }
  ]
