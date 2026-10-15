@@ -196,7 +196,7 @@ export default function InlineLookupOrder({
   /* The credential the registry needs before it will accept the filing.
      The field renders itself only where the jurisdiction requires one, so
      it is safe to mount unconditionally. */
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" }); /* unanswered = we retrieve it (RegistryAccessField) */
 
   /* Same abandoned-cart record the /order/* pages write: picking a company
      here is this widget's checkout. Without it, a visitor who picked a

@@ -248,7 +248,14 @@ export function summarizeRegistryAccess(
   state: RegistryAccessState | undefined,
   access: RegistryAccess | null,
 ): string {
-  if (!access || !state?.status) return "";
+  if (!access) return "";
+  /* The question was on the form but left unanswered. RegistryAccessField's
+     rule is "unanswered = we retrieve it"; say so plainly instead of letting
+     the fulfillment email claim the form never asked (Oct 2026: two paid
+     annual returns, BC and federal, reported "did not ask for it"). */
+  if (!state?.status) {
+    return `NOT ANSWERED — the customer skipped the ${access.term} question. Treat it as "we retrieve it": ask them first, then request it from the registry.`;
+  }
   const term = access.term;
   if (state.status === "have") {
     return state.code.trim()

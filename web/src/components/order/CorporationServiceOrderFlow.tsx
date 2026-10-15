@@ -62,7 +62,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const [searchErr, setSearchErr] = useState("");
   const [selectedService, setSelectedService] = useState("annual-return");
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" });
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" }); /* unanswered = we retrieve it (RegistryAccessField) */
   const [paying, setPaying] = useState(false);
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
