@@ -961,7 +961,7 @@ Phone:         ${m.contact_phone ?? "—"}
 Action:
 1. Pull the current Corporate Profile Report${m.mb_report_source === "customer_upload" ? " (unless the customer's own report arrives and is <30 days old)" : ""} and email it to the customer within 1 business day.
 2. If the report shows an amalgamation, revival, or continuance, PAUSE and confirm a revised quote before any work (Complete-Book Guarantee).
-3. ${m.mb_path === "crs" ? "Book the 15-minute intake call, then build and QC the book (5-business-day SLA)." : "Confirm the customer's MinuteBook workspace is provisioned for the guided interview."}
+3. ${m.mb_path === "crs" ? "Book the 15-minute intake call, then build and QC the book (typically within 2 business days)." : "Confirm the customer's MinuteBook workspace is provisioned for the guided interview."}
 Stripe: https://dashboard.stripe.com/payments/${session.payment_intent}
 `.trim();
 
@@ -977,7 +977,7 @@ Here's what happens next:
      attached. If it's older than 30 days we'll pull a fresh one, included.)` : ""}
   2. You review it at your pace.
   3. ${m.mb_path === "crs"
-    ? "We call you for a short 15-minute intake, then build and quality-check\n     your signature-ready book — delivered within 5 business days."
+    ? "We call you for a short 15-minute intake, then build and quality-check\n     your signature-ready book — typically delivered within 2 business days."
     : "You complete the guided online interview (about 20 minutes) and your\n     book assembles from the official record, with a clear signing checklist."}
 
 Our Complete-Book Guarantee: if your registry record reveals events outside

@@ -10,6 +10,7 @@ import {
   type ReportSource,
 } from "@/lib/minute-book-config";
 import { formatCents, getPriceCents } from "@/lib/pricing";
+import { isExtraProvincial } from "@/lib/registry-home";
 
 /**
  * Creates the Stripe Checkout session for a minute book order.
@@ -31,6 +32,7 @@ type Hit = {
   registrationDate: string;
   jurisdiction:     string;
   provinceKey:      string;
+  statusNotes?:     string;
 };
 
 type Body = {
@@ -45,6 +47,7 @@ type Body = {
 function isValid(body: Body): string | null {
   if (!body?.hit?.name?.trim())                       return "Pick your corporation first.";
   if (!body.hit.provinceKey)                          return "Pick your corporation first.";
+  if (isExtraProvincial(body.hit))                    return "That is an extra-provincial registration. A minute book follows the corporation's home jurisdiction — choose its home registration instead.";
   if (!body.contact?.name?.trim())                    return "Please provide your full name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.contact?.email?.trim() ?? "")) return "Please provide a valid email address.";
   if (!body.contact?.phone?.trim())                   return "Please provide a phone number.";
