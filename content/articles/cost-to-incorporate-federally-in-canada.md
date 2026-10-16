@@ -32,6 +32,8 @@ Two numbers cover almost everyone: $200 to file, and $13.80 for the name search 
 | Nuans name search (named corporations) | $13.80 | Run inside the online application — don't buy a report beforehand |
 | Numbered corporation (e.g. 12345678 Canada Inc.) | $0 extra | Registry assigns the name; no search needed |
 
+(These are the fees for a business corporation under the CBCA. A federal **not-for-profit** incorporates under a different statute at the same $200 online fee — see [incorporating under the Canada Not-for-profit Corporations Act](/not-for-profit/federal).)
+
 Two things worth knowing before you file. First, federal incorporation is **online-only** — Corporations Canada no longer accepts paper applications for standard incorporations. Second, you no longer order a standalone NUANS report for a federal incorporation: the name search is built into the application for $13.80, and Corporations Canada specifically advises against pre-ordering one. (Provinces like Ontario and Alberta still require pre-filed reports — our guide to [business name searches in Canada](/articles/business-name-search-canada) covers which rules apply where.)
 
 ## Do You Still Have to Register in Your Province?

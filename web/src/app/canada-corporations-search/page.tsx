@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CompanySearch from "@/components/CompanySearch";
 import { getPrices } from "@/lib/pricing";
+import { faqLd, jsonLdScript } from "@/lib/structured-data";
 
 /* Statically generated, but the service card quotes live prices — revalidate
    so an admin price change reaches the page within a minute instead of
@@ -68,9 +69,36 @@ const REGISTRIES = [
   "Corporations Canada",
 ];
 
+/* FAQ — rendered at the bottom of the page and emitted as FAQPage JSON-LD.
+   Answers are plain text (no links) per the faqLd guidance, and must stay
+   consistent with the coverage notes above (no PEI/NB/NL/territory claims). */
+const FAQ = [
+  {
+    q: "Is there one official business registry for all of Canada?",
+    a: "No. Each province and territory keeps its own corporate registry, and Corporations Canada keeps a separate register for federally incorporated companies. This search queries the searchable official registries — Alberta, BC, Manitoba, Nova Scotia, Ontario, Québec, Saskatchewan and Corporations Canada — in one place.",
+  },
+  {
+    q: "Can I look up a company by its CRA business number?",
+    a: "Yes — enter the nine-digit business number on its own. Leave off the program suffix such as RT0001 or RC0001, which identifies a tax account rather than the corporation. Note the reverse is not possible: the CRA's own GST/HST Registry requires a business number and cannot search by name alone.",
+  },
+  {
+    q: "Is this Canada business search free?",
+    a: "Yes. Searching by company name or registration number is free with no account required. Registry-issued documents are separate paid services: a corporate profile report when you need the company's registered details on paper, or a certificate of good standing when a bank or lawyer asks for proof of status.",
+  },
+  {
+    q: "Why can't I find a company I know exists?",
+    a: "It may be registered in a jurisdiction this search doesn't reach — Prince Edward Island, New Brunswick, Newfoundland and Labrador and the territories keep registries that aren't searchable here. It may also be registered under a legal name that differs from its trade name, or be a society or not-for-profit held in a separate register. Tell us the name and province and we'll check by hand within one business day.",
+  },
+  {
+    q: "What does the company's status mean?",
+    a: "Status wording varies by registry: Active generally means the company exists and is filing as required, while Struck, Dissolved, Cancelled or Inactive mean it has lost that standing, often for missed annual returns. For a decision that matters, confirm with a registry-issued document rather than a search result.",
+  },
+];
+
 export default async function CanadaCorporationsSearchPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqLd(FAQ))} />
       <Header />
       <main style={{ flex: 1 }}>
 
@@ -186,6 +214,23 @@ export default async function CanadaCorporationsSearchPage() {
               province. We&rsquo;ll look it up by hand — including the registries above that aren&rsquo;t searchable
               here — and come back to you within one business day.
             </p>
+
+            <h2 style={H2}>Frequently asked questions</h2>
+            {FAQ.map((item) => (
+              <div key={item.q}>
+                <h3
+                  style={{
+                    fontSize: "0.875rem",
+                    fontWeight: 600,
+                    color: "var(--text)",
+                    margin: "1.1rem 0 0.35rem",
+                  }}
+                >
+                  {item.q}
+                </h3>
+                <p style={P}>{item.a}</p>
+              </div>
+            ))}
 
             <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "1.75rem", lineHeight: 1.65 }}>
               For complete details on data accuracy and limitations, see our{" "}

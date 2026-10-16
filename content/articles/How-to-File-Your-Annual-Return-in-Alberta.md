@@ -4,6 +4,15 @@ h1: "Alberta Annual Return: Filed via CORES in 1 Business Day"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
 description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — {{price:annual-return-ab}} all-in, no CORES account needed. Beat your 1-month deadline."
+faq:
+  - q: "When is the Alberta annual return due?"
+    a: "Within 1 month of your corporation's incorporation anniversary date — the shortest filing window in Canada. The registry mails a reminder to your registered office one month before the anniversary, so an out-of-date registered office address often means the reminder never arrives."
+  - q: "How much is the Alberta annual return fee?"
+    a: "Service Alberta sets the government filing fee (last increased July 2, 2026) and authorized registry agents add a service fee on top. CRS charges one all-in price — {{price:annual-return-ab}} + GST — that includes the government fee and professional preparation, filed in 1 business day."
+  - q: "Can I file my Alberta annual return in Calgary or Edmonton?"
+    a: "There is no direct government filing channel anywhere in Alberta — every corporate annual return goes through an authorized Corporate Registry service provider. You can visit a walk-in registry office in Calgary or Edmonton, or have CRS file through CORES remotely in 1 business day with no office visit."
+  - q: "What happens if my Alberta annual return is late?"
+    a: "The corporation enters non-compliance status, the registry issues a dissolution warning, and the corporation can be administratively dissolved — after which operating legally requires a revival application with additional fees. Filing the outstanding return promptly restores good standing."
 ---
 
 **Deadline coming up?** [File your Alberta annual return in 1 business day →](/file-annual-return/alberta) · {{price:annual-return-ab}} all-in, filed through CORES by a Certified Registry Agent — no CORES account required.
@@ -59,6 +68,17 @@ Service Alberta sets the government filing fee for an Alberta corporate annual r
 ## Alberta's Strict 1-Month Deadline
 
 The 1-month deadline is often overlooked by Alberta corporations, particularly those that have relocated their registered office or changed directors without updating the registry. Since CRS monitors your anniversary date and files well in advance of the deadline, you eliminate the risk of late filing entirely.
+
+## Can I file my Alberta annual return in Calgary or Edmonton?
+
+Yes — and the answer is the same wherever in Alberta your corporation is based, because [alberta.ca](https://www.alberta.ca/corporations-cooperatives-organizations-annual-returns) is explicit that there is no direct government filing channel: "You must submit an annual return to an authorized Corporate Registry service provider." That rule applies identically in Calgary, Edmonton, Red Deer, Lethbridge or Strathmore.
+
+That leaves two ways to file with the Alberta Corporate Registry:
+
+1. **Walk into a registry office.** Every Alberta city has authorized registry agents; bring the annual return form, valid ID and payment. The government fee plus that office's service charge applies, and you make the trip every year.
+2. **File remotely through CRS.** As a Certified CORES Registry Agent we file electronically with the Alberta Corporate Registry from anywhere — no office visit, no CORES account, {{price:annual-return-ab}} + GST all-in, done in 1 business day. Your registry confirmation arrives by email.
+
+Corporations in Calgary and Edmonton use the remote route for the same reason rural corporations do: the filing is identical in the registry's system either way, so the only difference is whether you spend the time.
 
 ## Director Residency Requirements
 

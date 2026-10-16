@@ -89,6 +89,8 @@ If your structure is one founder and one share class, and you're comfortable com
 
 Where founders come unstuck is everything the forms don't ask for: share provisions that can't accommodate a second shareholder or a family trust, no by-laws, shares never formally issued, no minute book when the bank asks. Fixing that later costs more than doing it once. CRS's **{{price:incorporation-numbered}} all-in** [Alberta incorporation](/incorporation/alberta-incorporation-service) covers the name search, custom-drafted Articles, CORES filing as a Certified Registry Agent, organizational resolutions, share certificates, by-laws, Business Number application, and the complete minute book. Not sure whether Alberta or federal fits better? [Book a free 15-minute consultation](/incorporation/book-free-consultation).
 
+One scope note: this guide covers business corporations under the ABCA. If you're starting a community organization, sports club or charity, Alberta incorporates those as *societies* under a different Act, with different forms and a $51.50 fee — see [how to incorporate a non-profit or society in Alberta](/not-for-profit/alberta).
+
 ## Frequently asked questions
 
 ### How much does it cost to incorporate in Alberta?
