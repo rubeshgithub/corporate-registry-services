@@ -1,18 +1,18 @@
 {
- "generated_at": "2026-10-15T14:19:48.824301Z",
+ "generated_at": "2026-10-16T14:08:01.518862Z",
  "window": {
-  "start": "2026-09-16",
-  "end": "2026-10-13"
+  "start": "2026-09-17",
+  "end": "2026-10-14"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 47,
+ "count": 46,
  "opportunities": [
   {
    "query": "company profile report",
-   "impressions": 42,
-   "position": 19.8,
+   "impressions": 40,
+   "position": 19.9,
    "clicks": 1,
-   "score": 28.13,
+   "score": 26.72,
    "suggested_slug": "company-profile-report",
    "suggested_section": "profile-reports"
   },
@@ -26,15 +26,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "annual report filing",
-   "impressions": 32,
-   "position": 21.5,
-   "clicks": 0,
-   "score": 20.55,
-   "suggested_slug": "annual-report-filing",
-   "suggested_section": "articles"
-  },
-  {
    "query": "business database canada",
    "impressions": 37,
    "position": 26.9,
@@ -44,11 +35,29 @@
    "suggested_section": "articles"
   },
   {
-   "query": "alberta non profit incorporating",
-   "impressions": 19,
-   "position": 16.3,
+   "query": "annual report filing",
+   "impressions": 28,
+   "position": 23.0,
    "clicks": 0,
-   "score": 13.85,
+   "score": 17.28,
+   "suggested_slug": "annual-report-filing",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "annual report",
+   "impressions": 26,
+   "position": 22.3,
+   "clicks": 0,
+   "score": 16.33,
+   "suggested_slug": "annual-report",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "alberta non profit incorporating",
+   "impressions": 18,
+   "position": 16.1,
+   "clicks": 0,
+   "score": 13.17,
    "suggested_slug": "alberta-non-profit-incorporating",
    "suggested_section": "incorporation"
   },
@@ -59,15 +68,6 @@
    "clicks": 0,
    "score": 10.22,
    "suggested_slug": "company-name-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business registration report",
-   "impressions": 14,
-   "position": 21.9,
-   "clicks": 0,
-   "score": 8.9,
-   "suggested_slug": "business-registration-report",
    "suggested_section": "articles"
   },
   {
@@ -89,33 +89,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "alberta corporate registry filing",
-   "impressions": 12,
-   "position": 20.6,
-   "clicks": 0,
-   "score": 7.88,
-   "suggested_slug": "alberta-corporate-registry-filing",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "company database canada",
-   "impressions": 11,
-   "position": 17.4,
-   "clicks": 0,
-   "score": 7.82,
-   "suggested_slug": "company-database-canada",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "annual return calgary",
-   "impressions": 17,
-   "position": 33,
-   "clicks": 0,
-   "score": 7.65,
-   "suggested_slug": "annual-return-calgary",
-   "suggested_section": "articles"
-  },
-  {
    "query": "business incorporation nova scotia",
    "impressions": 10,
    "position": 16,
@@ -125,12 +98,48 @@
    "suggested_section": "incorporation"
   },
   {
+   "query": "annual return calgary",
+   "impressions": 16,
+   "position": 32.6,
+   "clicks": 0,
+   "score": 7.3,
+   "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "alberta corporate registry filing",
+   "impressions": 11,
+   "position": 20.3,
+   "clicks": 0,
+   "score": 7.28,
+   "suggested_slug": "alberta-corporate-registry-filing",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "business registration report",
+   "impressions": 12,
+   "position": 23.8,
+   "clicks": 0,
+   "score": 7.25,
+   "suggested_slug": "business-registration-report",
+   "suggested_section": "articles"
+  },
+  {
    "query": "canadian company database",
    "impressions": 10,
    "position": 16.7,
    "clicks": 0,
    "score": 7.22,
    "suggested_slug": "canadian-company-database",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "company database canada",
+   "impressions": 10,
+   "position": 16.7,
+   "clicks": 0,
+   "score": 7.22,
+   "suggested_slug": "company-database-canada",
    "suggested_section": "articles"
   },
   {
@@ -198,10 +207,10 @@
   },
   {
    "query": "alberta incorporation online",
-   "impressions": 8,
-   "position": 25.2,
+   "impressions": 7,
+   "position": 22.4,
    "clicks": 0,
-   "score": 4.63,
+   "score": 4.38,
    "suggested_slug": "alberta-incorporation-online",
    "suggested_section": "incorporation"
   },
@@ -239,15 +248,6 @@
    "clicks": 0,
    "score": 3.77,
    "suggested_slug": "annual-return-alberta-online",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business corporations act transparency register",
-   "impressions": 5,
-   "position": 16.2,
-   "clicks": 0,
-   "score": 3.65,
-   "suggested_slug": "business-corporations-act-transparency-register",
    "suggested_section": "articles"
   },
   {
