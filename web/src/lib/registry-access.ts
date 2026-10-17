@@ -209,14 +209,14 @@ const ONLY_FOR: Record<string, Set<string>> = {
  */
 export function registryAccessReady(serviceKey: string | undefined | null, provinceKey: string | undefined | null, state: RegistryAccessState): boolean {
   if (!needsRegistryAccess(serviceKey, provinceKey)) return true;
-  if (state.status === "retrieve" || state.status === "no-access") return true;
+  if (state.status === "retrieve" || state.status === "no-access" || state.status === "call") return true;
   return state.status === "have" && !!state.code.trim();
 }
 
 /** What the customer told us about their credential. */
 export type RegistryAccessState = {
-  /** "have" | "retrieve" | "no-access" */
-  status: "have" | "retrieve" | "no-access" | "";
+  /** "have" | "call" | "retrieve" | "no-access" — "call": they have it and want us to phone them for it when we file. */
+  status: "have" | "call" | "retrieve" | "no-access" | "";
   code:   string;
 };
 
@@ -272,6 +272,9 @@ export function summarizeRegistryAccess(
     return state.code.trim()
       ? `PROVIDED — ${term}: ${state.code.trim()}`
       : `Customer says they have the ${term} but did not enter it — ask before filing.`;
+  }
+  if (state.status === "call") {
+    return `CALL FOR IT — the customer has the ${term} and asked us to phone them for it when we file (number on the order).`;
   }
   if (state.status === "retrieve") {
     return `NOT HELD — customer asked us to obtain the ${term}. Registered email/address is reachable.`;

@@ -52,7 +52,7 @@ export default function RegistryAccessField({
 }) {
   /* Null until they answer; a code already typed (back navigation) means Yes. */
   const [answer, setAnswer] = useState<boolean | null>(
-    value.status === "have" || !!value.code ? true : value.status === "no-access" || value.status === "retrieve" ? false : null,
+    value.status === "have" || value.status === "call" || !!value.code ? true : value.status === "no-access" || value.status === "retrieve" ? false : null,
   );
   if (!needsRegistryAccess(service, provinceKey)) return null;
   const access = registryAccessFor(provinceKey);
@@ -86,26 +86,54 @@ export default function RegistryAccessField({
 
       {answer === true && (
         <div style={{ marginTop: "0.85rem" }}>
-          <label style={{ display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" }}>
-            {access.fieldLabel}
-          </label>
-          <input
-            value={value.code}
-            onChange={(e) => set({ status: "have", code: e.target.value })}
-            placeholder={access.placeholder}
-            autoComplete="off"
-            style={{
-              width: "100%", maxWidth: 320, padding: "0.5rem 0.7rem",
-              border: "1px solid var(--border)", borderRadius: "0.4rem", fontSize: "0.9rem",
-              background: "var(--bg)", color: "var(--text)", fontFamily: "var(--font-mono), monospace",
-            }}
-          />
-          <p style={{ ...muted, margin: "0.35rem 0 0" }}>
-            Sent to us encrypted.{" "}
-            {value.code.trim()
-              ? "Thank you — this lets us file without waiting."
-              : <>Not handy right now? Choose <b>No</b> and we&rsquo;ll get it for you, or email it to us after you order.</>}
-          </p>
+          {/* Owner, Oct 2026: someone who has the key may not have it handy at checkout. Two ways to give it:
+              type it now (sent encrypted), or we phone them for it when we file. */}
+          <div role="radiogroup" aria-label={`How would you like to give us the ${access.term}?`} style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+            {([
+              ["have", `Enter the ${access.fieldLabel.toLowerCase()} now`],
+              ["call", "Not handy — call me for it when you file"],
+            ] as const).map(([v, label]) => (
+              <label key={v} style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontSize: "0.86rem", color: "var(--text)", cursor: "pointer" }}>
+                <input
+                  type="radio"
+                  name={`access-how-${service}`}
+                  checked={value.status === v}
+                  onChange={() => set(v === "call" ? { status: "call", code: "" } : { status: "have" })}
+                  style={{ accentColor: "var(--primary)" }}
+                />
+                {label}
+              </label>
+            ))}
+          </div>
+
+          {value.status === "have" && (
+            <div style={{ marginTop: "0.7rem" }}>
+              <label style={{ display: "block", fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)", marginBottom: "0.2rem" }}>
+                {access.fieldLabel}
+              </label>
+              <input
+                value={value.code}
+                onChange={(e) => set({ status: "have", code: e.target.value })}
+                placeholder={access.placeholder}
+                autoComplete="off"
+                style={{
+                  width: "100%", maxWidth: 320, padding: "0.5rem 0.7rem",
+                  border: "1px solid var(--border)", borderRadius: "0.4rem", fontSize: "0.9rem",
+                  background: "var(--bg)", color: "var(--text)", fontFamily: "var(--font-mono), monospace",
+                }}
+              />
+              <p style={{ ...muted, margin: "0.35rem 0 0" }}>
+                Sent to us encrypted — only our filing team can see it.
+              </p>
+            </div>
+          )}
+
+          {value.status === "call" && (
+            <p style={{ fontSize: "0.85rem", color: "var(--text)", margin: "0.6rem 0 0", lineHeight: 1.55, display: "flex", gap: "0.45rem" }}>
+              <Check size={15} style={{ color: "var(--secondary)", flexShrink: 0, marginTop: "0.2rem" }} />
+              <span>We&rsquo;ll call you on the phone number below when we&rsquo;re ready to file, so you can read it to us. Please keep the {access.term} nearby.</span>
+            </p>
+          )}
         </div>
       )}
 
