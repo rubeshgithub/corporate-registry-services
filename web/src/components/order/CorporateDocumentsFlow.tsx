@@ -166,7 +166,7 @@ export default function CorporateDocumentsFlow({ priceCents = 48900, perDocCents
       const res = await fetch("/api/order/corporate-documents", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: JSON.stringify({ termsAccepted: true /* the pay button below is disabled until the terms box is ticked */,
           hit,
           documents: [...selected],
           notes:     notes.trim(),

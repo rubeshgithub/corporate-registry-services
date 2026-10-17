@@ -1,6 +1,9 @@
 "use client";
 
-import type { WizardState } from "@/lib/wizard-types";
+import { wizardAccessService, type WizardState } from "@/lib/wizard-types";
+import type { RegistryAccessState } from "@/lib/registry-access";
+import RegistryAccessField from "@/components/order/RegistryAccessField";
+import TermsAgreement from "@/components/order/TermsAgreement";
 import type { ServiceBucket, ServiceItem } from "@/lib/service-config";
 import { priceKeyForService } from "@/lib/price-catalogue";
 import { JURISDICTIONS } from "@/lib/service-config";
@@ -9,12 +12,14 @@ type Props = {
   state: WizardState;
   bucket: ServiceBucket;
   onTermsChange: (v: boolean) => void;
+  onRegistryAccessChange: (v: RegistryAccessState) => void;
   submitting: boolean;
   /** Live catalogue prices from the server page; falls back to config defaults. */
   prices?: Record<string, number>;
 };
 
-export default function StepReview({ state, bucket, onTermsChange, submitting, prices }: Props) {
+export default function StepReview({ state, bucket, onTermsChange, onRegistryAccessChange, submitting, prices }: Props) {
+  const accessService = wizardAccessService(state);
   /* The checkout route resolves the same catalogue by key, so the total shown
      here is the total Stripe will charge. */
   const centsFor = (svc: ServiceItem) => prices?.[priceKeyForService(svc.key)] ?? svc.priceCents;
@@ -101,30 +106,18 @@ export default function StepReview({ state, bucket, onTermsChange, submitting, p
         </div>
       )}
 
-      {/* Terms */}
-      <label
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          gap: "0.625rem",
-          cursor: "pointer",
-          fontSize: "0.78rem",
-          color: "var(--text-muted)",
-          lineHeight: 1.5,
-        }}
-      >
-        <input
-          type="checkbox"
-          checked={state.consents.terms}
-          onChange={(e) => onTermsChange(e.target.checked)}
-          style={{ marginTop: "0.15rem", accentColor: "var(--gold)", flexShrink: 0 }}
+      {/* The registry credential, when a filing in the basket needs one (owner, Oct 2026). */}
+      {accessService && (
+        <RegistryAccessField
+          service={accessService}
+          provinceKey={state.jurisdictionKey}
+          value={state.registryAccess ?? { status: "", code: "" }}
+          onChange={onRegistryAccessChange}
         />
-        I agree to CRS&apos;s{" "}
-        <a href="/terms" style={{ color: "var(--gold)", textDecoration: "none" }}>
-          Terms of Service
-        </a>{" "}
-        and understand this is a request for a quote, not a completed purchase.
-      </label>
+      )}
+
+      {/* Terms — the same agreement every checkout uses; recorded on the order (lib/terms-consent). */}
+      <TermsAgreement checked={state.consents.terms} onChange={onTermsChange} />
 
       {submitting && (
         <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.75rem", textAlign: "center" }}>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "CRS — Corporate Registry Services terms of service — the agreement that governs your use of our corporate registry services.",
 };
 
-const LAST_UPDATED = "October 5, 2026";
+const LAST_UPDATED = "October 5, 2026"; // keep lib/terms-consent TERMS_VERSION in step
 
 export default function TermsPage() {
   return (

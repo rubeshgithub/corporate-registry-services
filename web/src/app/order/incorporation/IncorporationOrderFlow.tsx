@@ -193,7 +193,7 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
       const res = await fetch("/api/order/incorporation", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ form: state, src: attributionSrc }),
+        body:    JSON.stringify({ termsAccepted: agreed, form: state, src: attributionSrc }),
       });
       const data = await res.json();
       if (res.ok && data.url) {

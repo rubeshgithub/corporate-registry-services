@@ -49,7 +49,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       const res = await fetch("/api/order/name-search", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({
+        body:    JSON.stringify({ termsAccepted: agreed,
           service:      config.key,
           proposedName: proposedName.trim(),
           altName:      altName.trim(),

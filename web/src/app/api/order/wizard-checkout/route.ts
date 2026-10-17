@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
+import { registryAccessFor, needsRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
+import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 import Stripe from "stripe";
 import { findService, getBucket, JURISDICTIONS } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService } from "@/lib/pricing";
@@ -38,6 +41,8 @@ type Body = {
     preferredContact?: string;
   };
   src?: string;
+  termsAccepted?: boolean;
+  registryAccess?: RegistryAccessState;
 };
 
 const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
@@ -129,6 +134,11 @@ export async function POST(req: Request) {
         quantity: r.qty,
       })),
       metadata: {
+        ...termsMeta(body),
+        /* A filing in the basket that needs the corporation's credential: what the customer answered (sealed when typed). */
+        ...(keys.some((k) => needsRegistryAccess(k, body.jurisdictionKey))
+          ? { registry_access: (await summarizeRegistryAccessSealed(body.registryAccess, registryAccessFor(body.jurisdictionKey))).slice(0, 480) }
+          : {}),
         /* Multi-service basket — the webhook's generic branch handles it. */
         service:        resolved.length === 1 ? resolved[0].key : "wizard-multi",
         service_label:  resolved.map((r) => r.label).join(" · ").slice(0, 100),

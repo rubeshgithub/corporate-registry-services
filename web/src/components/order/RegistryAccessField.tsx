@@ -32,7 +32,8 @@ import {
  *  - One plain question (owner, Oct 2026): "Do you have the company
  *    password?" Yes → the field to enter it. No → "we'll retrieve it from the
  *    BC Registry", with a quiet note that having it makes the filing faster.
- *    Unanswered counts as No ("retrieve"), so it never blocks checkout. The
+ *    Oct 2026: the question must now be ANSWERED before paying (registryAccessReady) — "No" is a full answer,
+ *    "Yes" needs the credential typed. The
  *    "can't reach the registered email or address" case is a small checkbox
  *    under No.
  */
@@ -51,7 +52,7 @@ export default function RegistryAccessField({
 }) {
   /* Null until they answer; a code already typed (back navigation) means Yes. */
   const [answer, setAnswer] = useState<boolean | null>(
-    value.status === "have" || !!value.code ? true : value.status === "no-access" ? false : null,
+    value.status === "have" || !!value.code ? true : value.status === "no-access" || value.status === "retrieve" ? false : null,
   );
   if (!needsRegistryAccess(service, provinceKey)) return null;
   const access = registryAccessFor(provinceKey);
@@ -100,7 +101,10 @@ export default function RegistryAccessField({
             }}
           />
           <p style={{ ...muted, margin: "0.35rem 0 0" }}>
-            Sent to us encrypted. Not handy right now? Leave it blank and reply to your order email with it.
+            Sent to us encrypted.{" "}
+            {value.code.trim()
+              ? "Thank you — this lets us file without waiting."
+              : <>Not handy right now? Choose <b>No</b> and we&rsquo;ll get it for you, or email it to us after you order.</>}
           </p>
         </div>
       )}
@@ -137,8 +141,8 @@ export default function RegistryAccessField({
       )}
 
       {answer === null && (
-        <p style={{ ...muted, margin: "0.5rem 0 0" }}>
-          Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}.
+        <p style={{ fontSize: "0.8rem", color: "#B45309", margin: "0.5rem 0 0", lineHeight: 1.5 }}>
+          Please answer Yes or No to continue. Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}.
         </p>
       )}
     </div>

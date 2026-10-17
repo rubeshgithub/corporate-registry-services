@@ -1,3 +1,5 @@
+import { needsRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
+
 export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type WizardState = {
@@ -16,7 +18,14 @@ export type WizardState = {
   consents: {
     terms: boolean;
   };
+  /** The registry credential question, when a filing in the basket needs one (lib/registry-access). */
+  registryAccess?: RegistryAccessState;
 };
+
+/** The first service in the basket that files with a registry needing a credential, or null. */
+export function wizardAccessService(s: Pick<WizardState, "serviceKeys" | "jurisdictionKey">): string | null {
+  return s.serviceKeys.find((k) => needsRegistryAccess(k, s.jurisdictionKey)) ?? null;
+}
 
 export const INITIAL_STATE: WizardState = {
   step: 1,
@@ -32,4 +41,5 @@ export const INITIAL_STATE: WizardState = {
     preferredContact: "Email",
   },
   consents: { terms: false },
+  registryAccess: { status: "", code: "" },
 };

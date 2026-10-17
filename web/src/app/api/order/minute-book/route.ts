@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
 import Stripe from "stripe";
 import {
   MINUTE_BOOK_COPY,
@@ -99,6 +100,7 @@ export async function POST(req: Request) {
         quantity: 1,
       }],
       metadata: {
+        ...termsMeta(body),
         service:          "minute-book",
         src:              (body.src || "direct").slice(0, 40),
         company_name:     body.hit.name.slice(0, 200),

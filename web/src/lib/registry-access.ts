@@ -181,8 +181,8 @@ export const FILING_SERVICES = new Set([
   "extra-provincial",
 ]);
 
-export function needsRegistryAccess(serviceKey: string, provinceKey: string | undefined | null): boolean {
-  if (!FILING_SERVICES.has(serviceKey)) return false;
+export function needsRegistryAccess(serviceKey: string | undefined | null, provinceKey: string | undefined | null): boolean {
+  if (!serviceKey || !FILING_SERVICES.has(serviceKey)) return false;
   if (!provinceKey) return false;
   if (NO_CREDENTIAL_JURISDICTIONS.has(provinceKey.toLowerCase())) return false;
   const only = ONLY_FOR[provinceKey.toLowerCase()];
@@ -201,6 +201,17 @@ export function needsRegistryAccess(serviceKey: string, provinceKey: string | un
 const ONLY_FOR: Record<string, Set<string>> = {
   mb: new Set(["annual-return", "annual-return-multiple"]),
 };
+
+/**
+ * May the customer pay yet? (owner, Oct 2026: too many filings arrived with the question skipped, and staff had
+ * to chase the key after payment.) The question must be ANSWERED — it still never forces them to HAVE the
+ * credential: "No" ("we retrieve it") is a full answer. "Yes" needs the credential typed in.
+ */
+export function registryAccessReady(serviceKey: string | undefined | null, provinceKey: string | undefined | null, state: RegistryAccessState): boolean {
+  if (!needsRegistryAccess(serviceKey, provinceKey)) return true;
+  if (state.status === "retrieve" || state.status === "no-access") return true;
+  return state.status === "have" && !!state.code.trim();
+}
 
 /** What the customer told us about their credential. */
 export type RegistryAccessState = {

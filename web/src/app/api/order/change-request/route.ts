@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
 import Stripe from "stripe";
 import { CHANGE_CONFIGS, type ChangeServiceKey } from "@/lib/change-config";
 import { isProfessionalCorporation, PRO_CORP_SERVICES, type ProCorpServiceKey } from "@/lib/professional-corp";
@@ -115,6 +116,7 @@ export async function POST(req: Request) {
         },
       ],
       metadata: {
+        ...termsMeta(body),
         service:         config.key,
         pro_corp:        isPC ? "yes" : "no",
         /* What the customer told us about their registry credential —

@@ -7,7 +7,7 @@ import { ArrowRight, Loader2, AlertCircle, CheckCircle2, Building2 } from "lucid
 import { JURISDICTIONS } from "@/lib/service-config";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
-import { type RegistryAccessState } from "@/lib/registry-access";
+import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
 import TermsAgreement from "@/components/order/TermsAgreement";
 
 /**
@@ -62,7 +62,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const [searchErr, setSearchErr] = useState("");
   const [selectedService, setSelectedService] = useState("annual-return");
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "retrieve", code: "" }); /* unanswered = we retrieve it (RegistryAccessField) */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* must be answered before paying (registryAccessReady) */
   const [paying, setPaying] = useState(false);
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
@@ -113,7 +113,8 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
     selectedService &&
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
-    !!contact.phone.trim();
+    !!contact.phone.trim() &&
+    registryAccessReady(selectedService, corp?.provinceKey, registryAccess);
 
   const submit = async () => {
     if (!canPay || !corp) return;
@@ -171,7 +172,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ ...body, termsAccepted: agreed }),
       });
       const data = await res.json();
       if (res.ok && data.url) {

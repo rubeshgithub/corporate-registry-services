@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
 import Stripe from "stripe";
 import { REPORT_CONFIGS, type ReportServiceKey } from "@/lib/report-config";
 import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
@@ -103,6 +104,7 @@ export async function POST(req: Request) {
         },
       ],
       metadata: {
+        ...termsMeta(body),
         service:         config.key,
         // Flags the fulfillment inbox that this is a professional corporation
         // and was charged at the PC rate.

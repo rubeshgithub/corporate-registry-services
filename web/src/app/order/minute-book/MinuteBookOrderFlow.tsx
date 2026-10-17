@@ -165,7 +165,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
       const res = await fetch("/api/order/minute-book", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({
+        body:    JSON.stringify({ termsAccepted: agreed,
           hit: pick, contact, path: effPath, reportSource,
           manualIncorpDate: pick.registrationDate ? undefined : manualDate,
           src: attributionSrc,

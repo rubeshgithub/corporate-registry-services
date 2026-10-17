@@ -164,7 +164,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       const res = await fetch("/api/order/report", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({
+        body:    JSON.stringify({ termsAccepted: agreed,
           service: config.key,
           hit:     pick,
           contact,

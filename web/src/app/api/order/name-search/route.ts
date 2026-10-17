@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
 import Stripe from "stripe";
 import { NAME_SEARCH_CONFIGS, type NameSearchServiceKey } from "@/lib/name-search-config";
 import { JURISDICTIONS } from "@/lib/service-config";
@@ -84,6 +85,7 @@ export async function POST(req: Request) {
         },
       ],
       metadata: {
+        ...termsMeta(body),
         service:        config.key,
         src:            body.src.slice(0, 100),
         proposed_name:  body.proposedName.slice(0, 200),

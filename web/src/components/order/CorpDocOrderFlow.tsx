@@ -114,7 +114,7 @@ export default function CorpDocOrderFlow({ config }: { config: CorpDocServiceCon
       const res = await fetch("/api/order/corp-doc", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({
+        body:    JSON.stringify({ termsAccepted: true /* the pay button below is disabled until the terms box is ticked */,
           service: config.key,
           hit:     pick,
           details,

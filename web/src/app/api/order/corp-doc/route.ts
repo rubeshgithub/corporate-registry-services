@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { termsMeta } from "@/lib/terms-consent";
 import Stripe from "stripe";
 import { CORP_DOC_CONFIGS, type CorpDocServiceKey } from "@/lib/corp-doc-config";
 import { getPriceCents } from "@/lib/pricing";
@@ -102,6 +103,7 @@ export async function POST(req: Request) {
         },
       ],
       metadata: {
+        ...termsMeta(body),
         service:         config.key,
         src:             body.src.slice(0, 100),
         company_name:    body.hit.name.slice(0, 100),

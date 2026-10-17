@@ -162,7 +162,7 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
       const res = await fetch("/api/order/corp-doc", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({
+        body:    JSON.stringify({ termsAccepted: agreed,
           service: config.key,
           hit:     pick,
           details,
