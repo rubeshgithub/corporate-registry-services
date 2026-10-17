@@ -11,6 +11,7 @@ import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Checkout for catalogue services that don't warrant a bespoke flow —
@@ -357,6 +358,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={goToPayment}
         disabled={!canPay || paying || !agreed}
@@ -366,6 +368,7 @@ export default function GenericServiceOrderFlow({ service }: { service: ServiceI
           ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</>
           : <>Pay {priceOnly} + GST and order <ArrowRight size={16} /></>}
       </button>
+      </PayGate>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. All government fees included. {REGISTRY_CLOSURE_NOTE}

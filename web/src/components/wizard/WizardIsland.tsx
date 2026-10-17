@@ -15,6 +15,7 @@ import StepJurisdiction from "./steps/StepJurisdiction";
 import StepDetails from "./steps/StepDetails";
 import StepContact from "./steps/StepContact";
 import StepReview from "./steps/StepReview";
+import PayGate from "@/components/order/PayGate";
 
 const STORAGE_KEY = "docu10:wizard:v1";
 
@@ -476,6 +477,7 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
           {currentStepIndex + 1} / {steps.length}
         </span>
 
+        <PayGate blocked={isLast && !canAdvance}>
         <button
           className="btn-primary"
           onClick={goNext}
@@ -499,6 +501,7 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
             </>
           )}
         </button>
+        </PayGate>
       </div>
     </div>
   );

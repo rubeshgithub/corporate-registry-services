@@ -8,6 +8,7 @@ import { JURISDICTIONS } from "@/lib/service-config";
 import type { NameSearchServiceConfig } from "@/lib/name-search-config";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Simple "propose a name → pay" order flow shared by the Name Availability
@@ -167,6 +168,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={submit}
         disabled={!canPay || paying || !agreed}
@@ -174,6 +176,7 @@ export default function NameSearchOrderFlow({ config }: { config: NameSearchServ
       >
         {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{config.buttonLabel} <ArrowRight size={16} /></>}
       </button>
+      </PayGate>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}

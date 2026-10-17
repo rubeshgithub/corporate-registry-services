@@ -8,6 +8,7 @@ import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { quoteDocuments } from "@/lib/corporate-documents-pricing";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Corporate Documents order flow — flat $489 + GST, paid upfront via Stripe.
@@ -461,6 +462,7 @@ function ConfirmScreen({
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canSubmit || !agreed}>
       <button
         type="button"
         onClick={onSubmit}
@@ -478,6 +480,7 @@ function ConfirmScreen({
         {submitting ? <Loader2 size={16} className="crs-spin" /> : <Mail size={16} />}
         {submitting ? "Redirecting to secure payment…" : `Pay ${price} + GST and order`}
       </button>
+      </PayGate>
       <p style={{ fontSize: "0.8rem", color: "var(--text)", textAlign: "center", margin: "0.6rem 0 0" }}>{quoteNote}</p>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.85rem", lineHeight: 1.5 }}>

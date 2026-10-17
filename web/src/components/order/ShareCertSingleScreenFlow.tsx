@@ -6,6 +6,7 @@ import PaymentStepChatNudge from "./PaymentStepChatNudge";
 import { Search, CheckCircle2, ArrowRight, Loader2, AlertCircle, Edit2, Mail, MessageCircle } from "lucide-react";
 import type { CorpDocServiceConfig, ShareCertificateDetails } from "@/lib/corp-doc-config";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Single-screen share certificate order flow.
@@ -497,6 +498,7 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
 
         <PaymentStepChatNudge />
         <TermsAgreement checked={agreed} onChange={setAgreed} />
+        <PayGate blocked={!canPay || !agreed}>
         <button
           onClick={submit}
           disabled={!canPay || paying || !agreed}
@@ -517,6 +519,7 @@ export default function ShareCertSingleScreenFlow({ config }: { config: CorpDocS
         >
           {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to Stripe…</> : <>{config.buttonLabel} <ArrowRight size={16} /></>}
         </button>
+        </PayGate>
 
         {payErr && (
           <div style={{ marginTop: "0.9rem", padding: "0.6rem 0.8rem", background: "rgba(220,38,38,0.08)", color: "#B91C1C", fontSize: "0.85rem", borderRadius: "0.4rem", display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>

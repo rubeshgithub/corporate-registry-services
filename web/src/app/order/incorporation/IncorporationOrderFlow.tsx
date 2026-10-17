@@ -9,6 +9,7 @@ import PlacesInput, { type ParsedAddress } from "@/components/PlacesInput";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import { DEFAULT_PRICES, priceKeyForService, formatCents } from "@/lib/price-catalogue";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /* ────────────────────────── Types ────────────────────────── */
 
@@ -316,6 +317,7 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
           <>
             <PaymentStepChatNudge />
             <TermsAgreement checked={agreed} onChange={setAgreed} />
+            <PayGate blocked={!agreed}>
             <button
               type="button"
               onClick={submit}
@@ -340,6 +342,7 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
               <>Pay {formatCents(price)} + GST and file <ArrowRight size={16} /></>
             )}
             </button>
+            </PayGate>
           </>
         )}
       </div>

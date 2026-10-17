@@ -14,6 +14,7 @@ import { annualReturnNote } from "@/lib/annual-return-price";
 import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 // Shape returned by /api/company-search (already exists in this project).
 type RegistryHit = {
@@ -660,6 +661,7 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={goToPayment}
         disabled={!canPay || paying || !agreed}
@@ -687,6 +689,7 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
           <>{buttonLabel} <ArrowRight size={16} /></>
         )}
       </button>
+      </PayGate>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. We&apos;ll file within 1 business day and email a filing confirmation. {REGISTRY_CLOSURE_NOTE}

@@ -17,6 +17,7 @@ import {
 import ETransferCapture from "@/components/order/ETransferCapture";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Shared lookup-first checkout for both Profile Report and Good Standing.
@@ -456,6 +457,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={goToPayment}
         disabled={!canPay || paying || !agreed}
@@ -463,6 +465,7 @@ export default function ReportOrderFlow({ config }: { config: ReportServiceConfi
       >
         {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>{shownButtonLabel} <ArrowRight size={16} /></>}
       </button>
+      </PayGate>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
         Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}

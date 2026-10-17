@@ -14,6 +14,7 @@ import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-ac
 import { JURISDICTIONS } from "@/lib/service-config";
 import { parseRegistryDate } from "@/lib/dates";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Inline "look up your company + order right here" widget dropped into
@@ -762,6 +763,7 @@ export default function InlineLookupOrder({
           )}
 
           <TermsAgreement checked={agreed} onChange={setAgreed} />
+          <PayGate blocked={!canPay || !agreed}>
           <button
             onClick={submit}
             disabled={!canPay || paying || !agreed}
@@ -788,6 +790,7 @@ export default function InlineLookupOrder({
               <>{payLabel} <ArrowRight size={16} /></>
             )}
           </button>
+          </PayGate>
           <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
             Card processed securely by Stripe. {provAnnual ? annualReturnNote(pick?.provinceKey) : HEADLINES[activeService].ctaSubline} {REGISTRY_CLOSURE_NOTE}
           </p>

@@ -9,6 +9,7 @@ import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Order flow for visitors who searched and found a specific corporation
@@ -463,6 +464,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
       {/* Submit Button */}
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={submit}
         disabled={!canPay || paying || !agreed}
@@ -495,6 +497,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
           </>
         )}
       </button>
+      </PayGate>
 
       <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center", marginTop: "1rem" }}>
         All prices shown include government fees. You'll receive a quote within 1 business hour.

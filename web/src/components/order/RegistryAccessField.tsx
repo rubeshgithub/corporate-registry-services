@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { KeyRound, Check, Info } from "lucide-react";
 import YesNo from "@/components/order/YesNo";
+import { useAttention } from "@/components/order/PayGate";
 import {
   registryAccessFor,
   needsRegistryAccess,
+  registryAccessReady,
   type RegistryAccessState,
 } from "@/lib/registry-access";
 
@@ -54,7 +56,10 @@ export default function RegistryAccessField({
   const [answer, setAnswer] = useState<boolean | null>(
     value.status === "have" || value.status === "call" || !!value.code ? true : value.status === "no-access" || value.status === "retrieve" ? false : null,
   );
-  if (!needsRegistryAccess(service, provinceKey)) return null;
+  const needed = needsRegistryAccess(service, provinceKey);
+  const pending = needed && !registryAccessReady(service, provinceKey, value);
+  const { ref, attention } = useAttention(pending);
+  if (!needed) return null;
   const access = registryAccessFor(provinceKey);
   if (!access) return null;
 
@@ -65,11 +70,20 @@ export default function RegistryAccessField({
   };
   const muted: React.CSSProperties = { fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.55 };
 
+  const pendingLabel = answer === null
+    ? `Answer “${access.question}” (Yes or No)`
+    : `Enter the ${access.term}, or choose “call me for it”`;
+
   return (
     <div
+      ref={ref}
+      data-pending={pending ? "true" : "false"}
+      data-pending-label={pendingLabel}
       style={{
-        background: "var(--card)",
-        border: "1px solid var(--border)",
+        background: attention ? "#FFFBFB" : "var(--card)",
+        border: attention ? "2px solid #DC2626" : "1px solid var(--border)",
+        transition: "border-color 0.2s, background 0.2s",
+        scrollMarginTop: "6rem",
         borderRadius: "var(--radius-card)",
         padding: "1.1rem 1.35rem",
         marginBottom: "1.25rem",
@@ -79,7 +93,9 @@ export default function RegistryAccessField({
       <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }}>
         <div style={{ display: "flex", gap: "0.55rem", alignItems: "center" }}>
           <KeyRound size={17} style={{ color: "var(--gold)", flexShrink: 0 }} />
-          <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>{access.question}</span>
+          <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>
+            {access.question} <span aria-hidden="true" style={{ color: "#DC2626" }}>*</span>
+          </span>
         </div>
         <YesNo value={answer} onChange={choose} name={access.question} />
       </div>
@@ -169,7 +185,7 @@ export default function RegistryAccessField({
       )}
 
       {answer === null && (
-        <p style={{ fontSize: "0.8rem", color: "#B45309", margin: "0.5rem 0 0", lineHeight: 1.5 }}>
+        <p style={{ fontSize: "0.8rem", color: attention ? "#B91C1C" : "#B45309", fontWeight: attention ? 600 : 400, margin: "0.5rem 0 0", lineHeight: 1.5 }}>
           Please answer Yes or No to continue. Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}.
         </p>
       )}

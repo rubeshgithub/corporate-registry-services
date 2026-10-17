@@ -16,6 +16,7 @@ import ETransferCapture from "@/components/order/ETransferCapture";
 import { formatCents } from "@/lib/price-catalogue";
 import { JURISDICTIONS } from "@/lib/service-config";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * The Minute Book order funnel: Find (search + instant price reveal) →
@@ -527,6 +528,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
 
           <PaymentStepChatNudge />
           <TermsAgreement checked={agreed} onChange={setAgreed} />
+          <PayGate blocked={!agreed}>
           <button
             onClick={goToPayment}
             disabled={paying || !agreed}
@@ -534,6 +536,7 @@ export default function MinuteBookOrderFlow({ prices }: { prices: MinuteBookPric
           >
             {paying ? <><Loader2 size={16} className="crs-spin" /> Redirecting to secure payment…</> : <>Pay {formatCents(prices[tier.key][effPath])} + tax securely <ArrowRight size={16} /></>}
           </button>
+          </PayGate>
           <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
             Card processed securely by Stripe. {MINUTE_BOOK_COPY.deliveryPromise}
           </p>

@@ -17,6 +17,7 @@ import type {
   BylawsFlavour,
 } from "@/lib/corp-doc-config";
 import TermsAgreement from "@/components/order/TermsAgreement";
+import PayGate from "@/components/order/PayGate";
 
 /**
  * Shared checkout for the four "corporate document" services:
@@ -353,6 +354,7 @@ function DetailsScreen(props: {
 
       <PaymentStepChatNudge />
       <TermsAgreement checked={agreed} onChange={setAgreed} />
+      <PayGate blocked={!canPay || !agreed}>
       <button
         onClick={onSubmit}
         disabled={!canPay || paying || !agreed}
@@ -379,6 +381,7 @@ function DetailsScreen(props: {
           <>{config.buttonLabel} <ArrowRight size={16} /></>
         )}
       </button>
+      </PayGate>
       <p style={{ color: "var(--text-muted)", fontSize: "0.7rem", textAlign: "center", marginTop: "0.55rem" }}>
         Card processed securely by Stripe. {config.deliveryPromise} {REGISTRY_CLOSURE_NOTE}
       </p>

@@ -1,11 +1,15 @@
 "use client";
 
+import { useAttention } from "@/components/order/PayGate";
+
 /**
  * "I agree to the Terms and Conditions" — required before any checkout's pay
  * button works (owner, Sep 2026). Links open in a new tab so the order form
  * keeps what was typed. Unticked by default: agreement has to be given.
  */
 export default function TermsAgreement({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  /* PayGate (the pay button's wrapper) points here with a red outline when the box is still unticked. */
+  const { ref, attention } = useAttention(!checked);
   return (
     <>
     {/* Collection notice (PIPEDA / Alberta PIPA s.13): why we take the details on this form, before they pay. */}
@@ -14,6 +18,8 @@ export default function TermsAgreement({ checked, onChange }: { checked: boolean
       you finish if you leave — including by phone. Questions: support@corporateregistryservices.ca ·{" "}
       <a href="/privacy" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>Privacy Policy</a>
     </p>
+    <div ref={ref} data-pending={checked ? "false" : "true"} data-pending-label="Tick the box to agree to the Terms and Conditions"
+      style={{ scrollMarginTop: "6rem", borderRadius: "0.5rem", outline: attention ? "2px solid #DC2626" : "none", outlineOffset: "4px", background: attention ? "#FFFBFB" : undefined }}>
     <label
       style={{
         display: "flex", gap: "0.55rem", alignItems: "flex-start", margin: "0 0 0.75rem",
@@ -37,6 +43,7 @@ export default function TermsAgreement({ checked, onChange }: { checked: boolean
         . Corporate Registry Services is an independent filing agent, not a government office; government fees are included in the price.
       </span>
     </label>
+    </div>
     </>
   );
 }
