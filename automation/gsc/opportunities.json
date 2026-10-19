@@ -1,54 +1,54 @@
 {
- "generated_at": "2026-10-18T13:27:32.374463Z",
+ "generated_at": "2026-10-19T16:35:35.354555Z",
  "window": {
-  "start": "2026-09-19",
-  "end": "2026-10-16"
+  "start": "2026-09-20",
+  "end": "2026-10-17"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 48,
+ "count": 50,
  "opportunities": [
   {
    "query": "canada business database",
    "impressions": 55,
-   "position": 32.9,
+   "position": 32.0,
    "clicks": 0,
-   "score": 24.82,
+   "score": 25.63,
    "suggested_slug": "canada-business-database",
    "suggested_section": "articles"
   },
   {
    "query": "company profile report",
-   "impressions": 32,
-   "position": 21.4,
+   "impressions": 34,
+   "position": 22.9,
    "clicks": 1,
-   "score": 20.6,
+   "score": 21.03,
    "suggested_slug": "company-profile-report",
    "suggested_section": "profile-reports"
   },
   {
    "query": "business database canada",
-   "impressions": 36,
-   "position": 26.1,
+   "impressions": 34,
+   "position": 25.4,
    "clicks": 0,
-   "score": 20.35,
+   "score": 19.62,
    "suggested_slug": "business-database-canada",
    "suggested_section": "articles"
   },
   {
    "query": "annual report filing",
    "impressions": 29,
-   "position": 22.5,
+   "position": 23.3,
    "clicks": 0,
-   "score": 18.13,
+   "score": 17.75,
    "suggested_slug": "annual-report-filing",
    "suggested_section": "articles"
   },
   {
    "query": "annual report",
    "impressions": 26,
-   "position": 22.0,
+   "position": 21.6,
    "clicks": 0,
-   "score": 16.48,
+   "score": 16.63,
    "suggested_slug": "annual-report",
    "suggested_section": "articles"
   },
@@ -63,46 +63,46 @@
   },
   {
    "query": "company name search",
-   "impressions": 19,
-   "position": 20,
+   "impressions": 21,
+   "position": 21.2,
    "clicks": 0,
-   "score": 12.67,
+   "score": 13.58,
    "suggested_slug": "company-name-search",
    "suggested_section": "articles"
   },
   {
    "query": "canada business directory",
-   "impressions": 30,
-   "position": 38.6,
+   "impressions": 32,
+   "position": 39.0,
    "clicks": 1,
-   "score": 10.72,
+   "score": 11.18,
    "suggested_slug": "canada-business-directory",
    "suggested_section": "articles"
   },
   {
-   "query": "alberta incorporation calgary",
-   "impressions": 21,
-   "position": 32.5,
-   "clicks": 0,
-   "score": 9.62,
-   "suggested_slug": "alberta-incorporation-calgary",
-   "suggested_section": "incorporation"
-  },
-  {
    "query": "business incorporation nova scotia",
-   "impressions": 13,
+   "impressions": 14,
    "position": 16,
    "clicks": 0,
-   "score": 9.53,
+   "score": 10.27,
    "suggested_slug": "business-incorporation-nova-scotia",
    "suggested_section": "incorporation"
   },
   {
-   "query": "business registration report",
-   "impressions": 15,
-   "position": 24.9,
+   "query": "alberta incorporation calgary",
+   "impressions": 22,
+   "position": 32.8,
    "clicks": 0,
-   "score": 8.77,
+   "score": 9.97,
+   "suggested_slug": "alberta-incorporation-calgary",
+   "suggested_section": "incorporation"
+  },
+  {
+   "query": "business registration report",
+   "impressions": 16,
+   "position": 24.8,
+   "clicks": 0,
+   "score": 9.38,
    "suggested_slug": "business-registration-report",
    "suggested_section": "articles"
   },
@@ -116,6 +116,15 @@
    "suggested_section": "articles"
   },
   {
+   "query": "annual return calgary",
+   "impressions": 19,
+   "position": 33.2,
+   "clicks": 0,
+   "score": 8.48,
+   "suggested_slug": "annual-return-calgary",
+   "suggested_section": "articles"
+  },
+  {
    "query": "canadian business database",
    "impressions": 17,
    "position": 30.8,
@@ -125,48 +134,48 @@
    "suggested_section": "articles"
   },
   {
-   "query": "annual return calgary",
-   "impressions": 18,
-   "position": 33.6,
-   "clicks": 0,
-   "score": 7.93,
-   "suggested_slug": "annual-return-calgary",
-   "suggested_section": "articles"
-  },
-  {
    "query": "business search report",
-   "impressions": 14,
-   "position": 27,
+   "impressions": 15,
+   "position": 27.6,
    "clicks": 0,
-   "score": 7.7,
+   "score": 8.1,
    "suggested_slug": "business-search-report",
    "suggested_section": "articles"
   },
   {
    "query": "company database canada",
-   "impressions": 10,
-   "position": 16.7,
+   "impressions": 11,
+   "position": 16.5,
    "clicks": 0,
-   "score": 7.22,
+   "score": 7.97,
    "suggested_slug": "company-database-canada",
    "suggested_section": "articles"
   },
   {
-   "query": "annual business returns alberta",
-   "impressions": 14,
-   "position": 31.9,
+   "query": "british columbia corporate search",
+   "impressions": 13,
+   "position": 24.9,
    "clicks": 0,
-   "score": 6.55,
-   "suggested_slug": "annual-business-returns-alberta",
+   "score": 7.6,
+   "suggested_slug": "british-columbia-corporate-search",
    "suggested_section": "articles"
   },
   {
-   "query": "british columbia corporate search",
-   "impressions": 11,
-   "position": 24.7,
+   "query": "company name search ontario",
+   "impressions": 14,
+   "position": 29.8,
    "clicks": 0,
-   "score": 6.47,
-   "suggested_slug": "british-columbia-corporate-search",
+   "score": 7.05,
+   "suggested_slug": "company-name-search-ontario",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "annual return alberta online",
+   "impressions": 9,
+   "position": 15.6,
+   "clicks": 0,
+   "score": 6.67,
+   "suggested_slug": "annual-return-alberta-online",
    "suggested_section": "articles"
   },
   {
@@ -179,22 +188,22 @@
    "suggested_section": "articles"
   },
   {
-   "query": "business incorporation new brunswick",
-   "impressions": 11,
-   "position": 27.7,
+   "query": "annual business returns alberta",
+   "impressions": 14,
+   "position": 33.3,
    "clicks": 0,
-   "score": 5.92,
-   "suggested_slug": "business-incorporation-new-brunswick",
-   "suggested_section": "incorporation"
+   "score": 6.23,
+   "suggested_slug": "annual-business-returns-alberta",
+   "suggested_section": "articles"
   },
   {
-   "query": "annual return alberta online",
-   "impressions": 8,
-   "position": 17.2,
+   "query": "business incorporation new brunswick",
+   "impressions": 11,
+   "position": 27.5,
    "clicks": 0,
-   "score": 5.7,
-   "suggested_slug": "annual-return-alberta-online",
-   "suggested_section": "articles"
+   "score": 5.95,
+   "suggested_slug": "business-incorporation-new-brunswick",
+   "suggested_section": "incorporation"
   },
   {
    "query": "canadian companies database",
@@ -225,10 +234,10 @@
   },
   {
    "query": "[annual resolutions]",
-   "impressions": 13,
-   "position": 39.1,
+   "impressions": 14,
+   "position": 39.5,
    "clicks": 0,
-   "score": 4.53,
+   "score": 4.78,
    "suggested_slug": "annual-resolutions",
    "suggested_section": "articles"
   },
@@ -266,15 +275,6 @@
    "clicks": 0,
    "score": 3.97,
    "suggested_slug": "british-columbia-business-registry-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "business check",
-   "impressions": 5,
-   "position": 16,
-   "clicks": 0,
-   "score": 3.67,
-   "suggested_slug": "business-check",
    "suggested_section": "articles"
   }
  ]
