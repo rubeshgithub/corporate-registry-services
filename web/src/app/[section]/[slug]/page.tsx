@@ -53,6 +53,12 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Verify any Canadian corporation"
       subOverride="Search by company name, corporation number, or Business Number to confirm it exists and pull its registry record." />
   ),
+  "articles/non-resident-business-bank-account-canada": ({ slug, prices }) => (
+    <InlineLookupOrder service="good-standing" provinceKey={null} priceCents={prices["good-standing"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Before the bank appointment"
+      titleOverride="Check your corporation is active — and get the certificate banks ask for"
+      subOverride="Search by company name or corporation number to confirm your company's registry status, then order the certificate of status banks request when opening an account." />
+  ),
   "articles/business-bceid-bc-registry-account": ({ slug, prices }) => (
     <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Corporation search"
