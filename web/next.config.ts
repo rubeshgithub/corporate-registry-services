@@ -84,6 +84,18 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      /* Oct 2026: Google holds an indexed ghost URL with a misspelled slug
+       * ("conumbia") that shows in GSC at pos 2 for BC profile-report
+       * queries. The file never existed in this repo (no git history), so
+       * the URL 404s today — but a 404 leaves the SERP entry to linger and
+       * splits clicks with the real BC page. 301 it to the correctly
+       * spelled service page so anything it accrued lands there. */
+      {
+        source: "/profile-reports/british-conumbia-corporate-profile-report",
+        destination: "/profile-reports/british-columbia-corporate-profile-report",
+        permanent: true,
+      },
+
       /* Federal-vs-provincial moved from /guides to /articles. A slug is
        * normally untouchable because it carries ranking history — this one
        * had none to carry: 1,515 words, 22 inbound links, correctly indexed,
