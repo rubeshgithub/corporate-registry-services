@@ -1,11 +1,12 @@
 ﻿---
 title: "New Brunswick Corporate Profile Report"
+h1: "New Brunswick Corporate Profile Report — Emailed Within 1 Business Hour"
 description: "New Brunswick Corporate Profile Report from the New Brunswick Corporate Registry: legal name, status, registered office, directors and officers. {{price:profile-report}} all-in."
 slug: "New-Brunswick-corporate-profile-report"
 section: "profile-reports"
 ---
 
-A New Brunswick Corporate Profile Report provides complete, current public record information on any corporation registered under the Business Corporations Act and recorded in the New Brunswick Corporate Registry.
+The official New Brunswick Corporate Registry record for any NB corporation — directors, status, registered office and filing history — emailed to you as a PDF **within 1 business hour**. {{price:profile-report}} all-in + tax, no account or portal signup needed.
 
 The New Brunswick report is a key document that verifies a company's existence, status, and management structure. It is often required for due diligence, financial transactions, legal reviews, or cross-provincial registrations.
 
