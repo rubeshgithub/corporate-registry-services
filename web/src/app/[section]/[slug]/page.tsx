@@ -112,6 +112,12 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search the PEI registry"
       subOverride="Look up any Prince Edward Island company or business name free — and order its official registry profile report if you need the record." />
   ),
+  "articles/manitoba-companies-office-search": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="mb" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Manitoba Companies Office search"
+      titleOverride="Search the Manitoba registry"
+      subOverride="Look up any Manitoba corporation or business name free — no Companies Online account needed — and order its official registry profile report if you need the record." />
+  ),
   "articles/registry-of-joint-stock-companies-nova-scotia": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="ns" priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Registry of Joint Stocks search"
