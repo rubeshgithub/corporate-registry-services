@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { AlertCircle } from "lucide-react";
+import { trackClick } from "@/lib/track-click";
 
 /**
  * Tells a customer WHY the pay button is grey (owner, Oct 2026: people ticked the terms box and kept clicking the
@@ -18,7 +19,7 @@ import { AlertCircle } from "lucide-react";
  */
 export const ATTENTION_EVENT = "crs:attention";
 
-type Pending = { el: HTMLElement; label: string };
+type Pending = { el: HTMLElement; label: string; kind: string };
 
 function findPending(from: HTMLElement | null): Pending[] {
   /* The nearest ancestor that holds any marked question — the order form this button belongs to. */
@@ -26,7 +27,7 @@ function findPending(from: HTMLElement | null): Pending[] {
   while (scope && !scope.querySelector('[data-pending]')) scope = scope.parentElement;
   if (!scope) return [];
   return Array.from(scope.querySelectorAll<HTMLElement>('[data-pending="true"]'))
-    .map((el) => ({ el, label: el.dataset.pendingLabel ?? "" }));
+    .map((el) => ({ el, label: el.dataset.pendingLabel ?? "", kind: el.dataset.pendingKind ?? "" }));
 }
 
 export default function PayGate({ blocked, children }: { blocked: boolean; children: React.ReactNode }) {
@@ -42,6 +43,8 @@ export default function PayGate({ blocked, children }: { blocked: boolean; child
     const first = open[0]?.el;
     if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
     const labels = open.map((p) => p.label).filter(Boolean);
+    /* For docu10's Order-page visitors report: what stopped them ("registry-access", "terms", or "details"). */
+    trackClick("pay-blocked", open.map((p) => p.kind).filter(Boolean).join(",") || "details");
     setShown(labels.length ? labels : ["Fill in the details above (the company and your name, email and phone)."]);
   };
 

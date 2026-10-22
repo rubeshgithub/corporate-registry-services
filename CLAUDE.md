@@ -24,6 +24,12 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
 - Pricing display: show CRS all-in price; never break out the government fee separately in conversion copy. Standard phrasing: "{{price:annual-return}} all-in + GST", "from {{price:minute-book-new}}", etc. — always a `{{price:key}}` token in content, never a literal dollar figure (a literal drifts the moment an operator changes the override; twice a sync script missed lines and the SERP showed one price while Stripe charged another).
 - Design tokens: `web/src/app/globals.css` — brand colors as CSS custom properties (`--primary`, `--gold`, `--secondary`, plus `--radius-card`, `--shadow-card`, `--pad-card`). Cards should use `var(--radius-card)` (14px) and `var(--shadow-card)`. In-card headings use `.card-heading` (sans-serif); page-level H1s/hero titles stay on Playfair Display serif.
 
+## Order-form events (Oct 2026)
+
+- `lib/track-click.ts` `trackClick(target, label)` writes non-link events to `clicks` (same cookie/endpoint as Analytics.tsx):
+  `registry-access` (RegistryAccessField, label "<answer>|<province>|<service>", never the code) and `pay-blocked` (PayGate, label =
+  `data-pending-kind`s still open). docu10's Order-page visitors report reads them. Labels are fixed codes only — never typed text.
+
 ## Useful one-liners
 
 ```bash

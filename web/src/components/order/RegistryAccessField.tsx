@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { trackClick } from "@/lib/track-click";
 import { KeyRound, Check, Info } from "lucide-react";
 import YesNo from "@/components/order/YesNo";
 import { useAttention } from "@/components/order/PayGate";
@@ -59,6 +60,18 @@ export default function RegistryAccessField({
   const needed = needsRegistryAccess(service, provinceKey);
   const pending = needed && !registryAccessReady(service, provinceKey, value);
   const { ref, attention } = useAttention(pending);
+
+  /* Owner, Oct 2026: the Order-page visitors report in docu10 counts who answered this question and left without
+     paying. One event per change of answer — "have" (Yes, will type it), "have-entered" (Yes, something typed),
+     "call", "retrieve", "no-access" — with the province and service. Never the code itself. */
+  const hasCode = (value.code ?? "").trim().length > 0;
+  const answerCode = value.status === "have" ? (hasCode ? "have-entered" : "have") : value.status;
+  const lastSent = useRef<string>("");
+  useEffect(() => {
+    if (!needed || !answerCode || answerCode === lastSent.current) return;
+    lastSent.current = answerCode;
+    trackClick("registry-access", `${answerCode}|${provinceKey ?? ""}|${service}`);
+  }, [answerCode, needed, provinceKey, service]);
   if (!needed) return null;
   const access = registryAccessFor(provinceKey);
   if (!access) return null;
@@ -78,6 +91,7 @@ export default function RegistryAccessField({
     <div
       ref={ref}
       data-pending={pending ? "true" : "false"}
+      data-pending-kind="registry-access"
       data-pending-label={pendingLabel}
       style={{
         background: attention ? "#FFFBFB" : "var(--card)",

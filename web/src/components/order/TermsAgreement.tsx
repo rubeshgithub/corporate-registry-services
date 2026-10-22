@@ -18,7 +18,7 @@ export default function TermsAgreement({ checked, onChange }: { checked: boolean
       you finish if you leave — including by phone. Questions: support@corporateregistryservices.ca ·{" "}
       <a href="/privacy" target="_blank" rel="noopener" style={{ color: "var(--primary)", textDecoration: "underline" }}>Privacy Policy</a>
     </p>
-    <div ref={ref} data-pending={checked ? "false" : "true"} data-pending-label="Tick the box to agree to the Terms and Conditions"
+    <div ref={ref} data-pending={checked ? "false" : "true"} data-pending-kind="terms" data-pending-label="Tick the box to agree to the Terms and Conditions"
       style={{ scrollMarginTop: "6rem", borderRadius: "0.5rem", outline: attention ? "2px solid #DC2626" : "none", outlineOffset: "4px", background: attention ? "#FFFBFB" : undefined }}>
     <label
       style={{
