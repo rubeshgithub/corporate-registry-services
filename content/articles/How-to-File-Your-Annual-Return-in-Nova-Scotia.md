@@ -1,9 +1,9 @@
 ---
-title: "Registry of Joint Stocks NS (RJSC): Annual Return"
+title: "Nova Scotia Annual Return (RJSC) — Filed in 1 Business Day"
 h1: "File Your Nova Scotia Annual Return (RJSC)"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
-description: "Nova Scotia's Registry of Joint Stock Companies (RJSC) annual renewal, filed for you in 1 business day — {{price:annual-return-ns}} all-in, government fee included."
+description: "Nova Scotia annual return (RJSC renewal) filed for you in 1 business day — {{price:annual-return-ns}} all-in, government fee included. Due in your anniversary month."
 ---
 
 **Renewal month arrived?** [File your Nova Scotia annual return in 1 business day →](/order/annual-return) · {{price:annual-return-ns}} all-in, filed directly through the RJSC — beat one of Canada's tightest windows.
@@ -16,7 +16,7 @@ Your renewal is due **in the anniversary month that your business originally inc
 
 ## Who Must File?
 
-All corporations registered with the Nova Scotia Registry of Joint Stock Companies, including extra-provincial corporations carrying on business in Nova Scotia.
+All corporations registered with the provincial registry, including extra-provincial corporations carrying on business in Nova Scotia.
 
 ## What Information Is Required?
 
@@ -27,7 +27,7 @@ All corporations registered with the Nova Scotia Registry of Joint Stock Compani
 
 ## How to File
 
-Nova Scotia annual renewals are filed online through the RJSC's **RJSC Connect** portal — see the registry's [renewal page](https://www.novascotia.ca/renew-business-or-non-profit-registration-registry-joint-stock-companies) — or by mail or in person at Access Nova Scotia using the Renewal Notice Form (allow 1–2 weeks for processing).
+Nova Scotia annual renewals are filed online through the **RJSC Connect** portal — see the registry's [renewal page](https://www.novascotia.ca/renew-business-or-non-profit-registration-registry-joint-stock-companies) — or by mail or in person at Access Nova Scotia using the Renewal Notice Form (allow 1–2 weeks for processing).
 
 **Steps:**
 1. Sign in or create an account in RJSC Connect
@@ -38,7 +38,7 @@ Nova Scotia annual renewals are filed online through the RJSC's **RJSC Connect**
 
 ## Government Fee
 
-The renewal fee for a Nova Scotia **limited company is $118.35**. Renewal fees vary by legal structure — business names, partnerships, societies and co-operatives each have their own rates on the RJSC's fee schedule.
+The renewal fee for a Nova Scotia **limited company is $118.35**. Renewal fees vary by legal structure — business names, partnerships, societies and co-operatives each have their own rates on the registry's fee schedule.
 
 ## Consequences of Non-Compliance
 
@@ -46,7 +46,7 @@ Given the tight anniversary-month window, a missed renewal puts your corporation
 
 ## File Your Nova Scotia Annual Return Before the Window Closes
 
-CRS files Nova Scotia annual renewals directly through the Registry of Joint Stock Companies (RJSC) on your behalf. You don't need an RJSC Connect account or to navigate the portal — we prepare the filing, submit it within your anniversary-month deadline, and email you the RJSC confirmation.
+CRS files Nova Scotia annual renewals directly with the registry on your behalf. You don't need an RJSC Connect account or to navigate the portal — we prepare the filing, submit it within your anniversary-month deadline, and email you the registry confirmation.
 
 **Turnaround:** 1 business day from order.
 **Price:** {{price:annual-return-ns}} + applicable tax — all-in, including the $118.35 government fee.
