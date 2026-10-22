@@ -23,6 +23,12 @@ It's the document banks, lawyers and licensing bodies typically ask for when the
 
 The Manitoba Corporate Profile Report is retrieved directly from the Manitoba Companies Office to ensure accuracy and authenticity.
 
+## Need to search or verify a Manitoba company first?
+
+Start with a free Manitoba corporate search. Our [Canada-wide corporation search](/canada-corporations-search) covers Manitoba through the federal Business Registries network, and the province's own public database is run by the [Companies Office](https://companiesoffice.gov.mb.ca/), part of Entrepreneurship Manitoba. A free search confirms a company exists and shows its basic status.
+
+To verify a company in Manitoba before you sign a lease, extend credit or send a payment, the free result is rarely enough — the profile report above is the registry's full record: who the directors actually are, where the registered office is, and whether the corporation is active and current on its filings. Our guide to [verifying a Canadian company](/guides/how-to-verify-a-canadian-company) covers what to check before you commit.
+
 ## Service Details
 
 | | |
