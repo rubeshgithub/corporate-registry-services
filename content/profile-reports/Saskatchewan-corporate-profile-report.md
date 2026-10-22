@@ -1,6 +1,6 @@
 ﻿---
-title: "Saskatchewan Corporate Profile Report"
-description: "Saskatchewan Corporate Profile Report from the Saskatchewan Corporate Registry: names, registry number, registered office, directors and status. {{price:profile-report}} all-in."
+title: "Saskatchewan Corporate Profile Report — {{price:profile-report}}, 1-Hour PDF"
+description: "Official ISC Corporate Registry profile: names, registered office, directors, status. PDF in 1 business hour — {{price:profile-report}} all-in, no ISC account needed."
 slug: "Saskatchewan-corporate-profile-report"
 section: "profile-reports"
 ---

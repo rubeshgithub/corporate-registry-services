@@ -1,7 +1,7 @@
 ﻿---
-title: "Ontario Corporate Profile Report — Official PDF, {{price:profile-report}}"
+title: "Ontario Corporate Profile Report — {{price:profile-report}}, 1-Hour PDF"
 h1: "Ontario Corporate Profile Report"
-description: "Official Ontario Business Registry profile report: directors, status, registered office. Accepted by QuickBooks and banks. PDF in 1 business hour, {{price:profile-report}}."
+description: "Official Ontario Business Registry record: directors, status, registered office. PDF in 1 business hour — {{price:profile-report}} all-in. Accepted by banks and QuickBooks."
 slug: "Ontario-corporate-profile-report"
 section: "profile-reports"
 ---
