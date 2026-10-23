@@ -161,10 +161,10 @@ export const SERVICE_BUCKETS: ServiceBucket[] = [
       {
         key: "extra-provincial",
         label: "Extra-Provincial Registration",
-        description: "Register an existing corporation to operate in an additional province.",
+        description: "Register an existing corporation to operate in an additional province — all-in, government fees included.",
         needsJurisdiction: true,
-        estimatedFee: "$299 + GST",
-        priceCents: 29900,
+        estimatedFee: "$799 + GST",
+        priceCents: 79900,
         existingCorp: true,
         detailFields: [
           { key: "homeJurisdiction", label: "Home jurisdiction", type: "text", placeholder: "e.g. Ontario", required: true },

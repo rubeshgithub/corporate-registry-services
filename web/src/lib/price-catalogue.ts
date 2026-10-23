@@ -53,7 +53,10 @@ export const PRICE_CATALOGUE: PriceItem[] = [
   { key: "revival",               label: "Corporate Revival",                 group: "Filings & changes", defaultCents: 39900, unit: "once" },
   { key: "amalgamation",          label: "Amalgamation",                      group: "Filings & changes", defaultCents: 79900, unit: "once" },
   { key: "continuance",           label: "Continuance (jurisdiction transfer)", group: "Filings & changes", defaultCents: 49900, unit: "once" },
-  { key: "extra-provincial",      label: "Extra-Provincial Registration",     group: "Filings & changes", defaultCents: 29900, unit: "once" },
+  /* Owner, Oct 2026: $799 + GST ALL-IN, the same in every province (government fees, NUANS where needed, filing). The old
+     $299 left out Alberta's ~$585 of registry fees. Home-jurisdiction documents are the optional add-on below. */
+  { key: "extra-provincial",      label: "Extra-Provincial Registration",     group: "Filings & changes", defaultCents: 79900, unit: "once", note: "All-in, any province: government fees, NUANS (named corporations) and filing" },
+  { key: "extra-provincial-home-docs", label: "Extra-Provincial — home-jurisdiction documents (add-on)", group: "Filings & changes", defaultCents: 9900, unit: "once", note: "We order the certificate of status/existence and certified copies of the articles from the home registry" },
   { key: "registered-office",     label: "Registered Office Service",         group: "Filings & changes", defaultCents: 39900, unit: "per-year" },
   { key: "compliance-review",     label: "Corporate Compliance Review",       group: "Filings & changes", defaultCents: 49900, unit: "once" },
   { key: "transparency-register", label: "BC Transparency Register",          group: "Filings & changes", defaultCents: 29900, unit: "once", note: "Required of every private B.C. company since 1 Oct 2020" },

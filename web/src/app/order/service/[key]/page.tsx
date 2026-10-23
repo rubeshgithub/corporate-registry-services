@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GenericServiceOrderFlow from "@/components/order/GenericServiceOrderFlow";
+import ExtraProvincialRedirect from "@/components/order/ExtraProvincialRedirect";
 import { SERVICE_BUCKETS, findService, type ServiceItem } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService, swapPrice } from "@/lib/pricing";
 
@@ -52,6 +53,18 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function GenericServiceOrderPage({ params }: { params: Promise<Params> }) {
   const { key } = await params;
   const found = findService(key);
+
+  if (key === "extra-provincial") {
+    return (
+      <>
+        <Header />
+        <main style={{ flex: 1, background: "var(--bg)" }}>
+          <Suspense fallback={null}><ExtraProvincialRedirect /></Suspense>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   /* Only services without a dedicated flow are served here. Anything with
      its own orderPath belongs on that page, so 404 rather than offering a

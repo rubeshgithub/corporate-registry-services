@@ -598,7 +598,7 @@ Attribution:   ${m.src ?? "—"}
 
 --- Company ---
 ${m.incorporation_type === "named" ? `Name options:  ${m.name_options ?? "—"}` : ""}
-${m.incorporation_type === "extra-provincial" ? `Existing name: ${m.existing_corp_name ?? "—"}\nHome juris.:   ${m.home_jurisdiction ?? "—"}` : ""}
+${m.incorporation_type === "extra-provincial" ? `Existing name: ${m.existing_corp_name ?? "—"}\nHome juris.:   ${m.home_jurisdiction ?? "—"}\nHome docs:     ${m.home_docs ?? "—"}` : ""}
 Nature:        ${m.nature_of_business ?? "—"}
 Fiscal YE:     ${m.fiscal_year_end || "—"}
 Restrictions:  ${m.restrictions || "—"}

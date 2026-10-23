@@ -54,6 +54,9 @@ type FormState = {
   nameOptions:      [string, string, string]; // for "named"
   homeJurisdiction: string;                    // for "extra-provincial"
   existingCorpName: string;                    // for "extra-provincial"
+  /** Extra-provincial add-on (owner, Oct 2026): we order the certificate of status/existence and certified copies of
+   *  the articles from the home registry (price key "extra-provincial-home-docs"). */
+  homeDocs:         boolean;
 
   registeredAddress:      Address;
   recordsSameAsRegistered: boolean;
@@ -76,7 +79,7 @@ type FormState = {
 const COMPANY_TYPES: Record<CompanyType, { label: string; key: string; blurb: string }> = {
   "numbered":         { label: "Numbered Company",       key: "incorporation-numbered", blurb: "Government-assigned number name (e.g. 1234567 Ontario Inc.)." },
   "named":            { label: "Named Company",          key: "incorporation-named",    blurb: "Custom business name. Includes NUANS pre-search + filing." },
-  "extra-provincial": { label: "Extra-Provincial",       key: "extra-provincial",       blurb: "Register an existing corporation to operate in another province." },
+  "extra-provincial": { label: "Extra-Provincial",       key: "extra-provincial",       blurb: "Register an existing corporation in another province. All-in, any province." },
   "not-for-profit":   { label: "Not-for-Profit",         key: priceKeyForService("not-for-profit"), blurb: "Non-profit or charitable organization." },
 };
 
@@ -108,8 +111,10 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
     companyType:       typeParam && COMPANY_TYPES[typeParam] ? typeParam : "numbered",
     jurisdictionKey:   jurisdictionParam || "",
     nameOptions:       ["", "", ""],
-    homeJurisdiction:  "",
-    existingCorpName:  "",
+    /* From a registry search result (via /order/service/extra-provincial): the corporation and its home province. */
+    homeJurisdiction:  params.get("home") ?? "",
+    existingCorpName:  (params.get("corp") ?? "").slice(0, 200),
+    homeDocs:          false,
     registeredAddress: { ...EMPTY_ADDRESS },
     recordsSameAsRegistered: true,
     recordsAddress:    { ...EMPTY_ADDRESS },
@@ -124,7 +129,8 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
 
-  const price = centsFor(state.companyType);   // cents
+  const homeDocsCents = (prices ?? DEFAULT_PRICES)["extra-provincial-home-docs"] ?? DEFAULT_PRICES["extra-provincial-home-docs"];
+  const price = centsFor(state.companyType) + (state.companyType === "extra-provincial" && state.homeDocs ? homeDocsCents : 0);   // cents
 
   /* ─── Field patch helpers ─── */
   const patch = (p: Partial<FormState>) => setState((s) => ({ ...s, ...p }));
@@ -216,13 +222,17 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--gold)" }}>
-          Incorporation · from {formatCents(centsFor("numbered"))} all-in + GST
+          {state.companyType === "extra-provincial"
+            ? <>Extra-provincial registration · {formatCents(centsFor("extra-provincial"))} all-in + GST</>
+            : <>Incorporation · from {formatCents(centsFor("numbered"))} all-in + GST</>}
         </span>
         <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: "1.75rem", fontWeight: 700, color: "var(--text)", marginTop: "0.35rem", marginBottom: "0.5rem" }}>
-          Incorporate your company
+          {state.companyType === "extra-provincial" ? "Register your corporation in another province" : "Incorporate your company"}
         </h1>
         <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
-          Filed with the {state.jurisdictionKey ? (JURISDICTIONS.find((j) => j.key === state.jurisdictionKey)?.label ?? "chosen") : "chosen"} registry within 1 business day.
+          {state.companyType === "extra-provincial"
+            ? <>Filed with the {state.jurisdictionKey ? (JURISDICTIONS.find((j) => j.key === state.jurisdictionKey)?.label ?? "chosen") : "chosen"} registry within 1 business day of receiving the signed documents and your home-jurisdiction documents.</>
+            : <>Filed with the {state.jurisdictionKey ? (JURISDICTIONS.find((j) => j.key === state.jurisdictionKey)?.label ?? "chosen") : "chosen"} registry within 1 business day.</>}
         </p>
       </div>
 
@@ -348,7 +358,7 @@ export default function IncorporationOrderFlow({ prices }: { prices?: Record<str
       </div>
 
       <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", marginTop: "0.75rem" }}>
-        Card processed securely by Stripe. Filed with the government registry within 1 business day of payment. {REGISTRY_CLOSURE_NOTE}
+        Card processed securely by Stripe. {state.companyType === "extra-provincial" ? "Filed within 1 business day of receiving the signed documents and your home-jurisdiction documents." : "Filed with the government registry within 1 business day of payment."} {REGISTRY_CLOSURE_NOTE}
       </p>
     </div>
   );
@@ -430,7 +440,7 @@ function StepCompany({ state, patch, prices }: { state: FormState; patch: (p: Pa
         })}
       </div>
 
-      <Field label="Jurisdiction" required>
+      <Field label={state.companyType === "extra-provincial" ? "Province or territory to register in" : "Jurisdiction"} required>
         <select
           value={state.jurisdictionKey}
           onChange={(e) => patch({ jurisdictionKey: e.target.value })}
@@ -490,6 +500,29 @@ function StepCompany({ state, patch, prices }: { state: FormState; patch: (p: Pa
               ))}
             </select>
           </Field>
+
+          <div style={{ marginTop: "0.9rem", padding: "0.9rem 1rem", border: "1px solid var(--border)", borderRadius: "0.5rem", background: "var(--bg)" }}>
+            <div style={{ fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.55 }}>
+              The registry needs documents from your <b>home jurisdiction</b>: a current certificate of status
+              (certificate of existence or compliance) and certified copies of your articles and any amendments.
+            </div>
+            <label style={{ display: "flex", gap: "0.55rem", alignItems: "flex-start", marginTop: "0.65rem", cursor: "pointer", fontSize: "0.88rem", color: "var(--text)" }}>
+              <input
+                type="checkbox"
+                checked={state.homeDocs}
+                onChange={(e) => patch({ homeDocs: e.target.checked })}
+                style={{ marginTop: "0.2rem", accentColor: "var(--primary)" }}
+              />
+              <span>
+                <b>Get them for me</b> — we order them from the home registry (+{formatCents((prices ?? DEFAULT_PRICES)["extra-provincial-home-docs"] ?? DEFAULT_PRICES["extra-provincial-home-docs"])} + GST).
+                <span style={{ display: "block", fontSize: "0.78rem", color: "var(--text-muted)" }}>Leave it unticked if you will send us the documents yourself.</span>
+              </span>
+            </label>
+            <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "0.65rem", lineHeight: 1.5 }}>
+              We prepare the registration documents for a director to sign. The signing director provides valid
+              government-issued photo ID.
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -729,6 +762,7 @@ function StepReview({ state, price }: { state: FormState; price: number }) {   /
         <>
           <ReviewRow label="Existing name"     value={state.existingCorpName} />
           <ReviewRow label="Home jurisdiction" value={JURISDICTIONS.find((j) => j.key === state.homeJurisdiction)?.label ?? "—"} />
+          <ReviewRow label="Home-jurisdiction documents" value={state.homeDocs ? "CRS orders them (add-on included in the total)" : "You will send them to us"} />
         </>
       )}
       <ReviewRow label="Registered address"    value={fmtAddr(state.registeredAddress)} />

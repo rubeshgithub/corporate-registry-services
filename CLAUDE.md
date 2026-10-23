@@ -35,6 +35,17 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   payment] / Answer it now. Continue re-clicks the real button; the order's registry_access reads "NOT ANSWERED — …". Terms and
   contact details still grey the button (`data-pending`). `useAttention` uses a callback ref so a field that appears later still listens.
 
+## Extra-provincial registration (Oct 2026)
+
+- Owner: `extra-provincial` is $799 + GST ALL-IN, any province (registry fees, NUANS for named corporations, filing) — the
+  old $299 left out Alberta's ~$585 of registry fees. Optional add-on `extra-provincial-home-docs` ($99): CRS orders the
+  certificate of status/existence and certified articles from the home registry (own Stripe line, metadata `home_docs`).
+- Taken on /order/incorporation (type extra-provincial). /order/service/extra-provincial redirects there in the browser
+  (`ExtraProvincialRedirect`): a search-result link's q/jurisdiction become `corp`/`home`; an article link's jurisdiction is
+  the province to register in. Copy: we prepare the documents for a director to sign; the signer provides photo ID; filed
+  within 1 business day of receiving the signed and home-jurisdiction documents.
+- If `pricing_overrides` holds an `extra-provincial` row, it wins over the code default — check /admin/analytics.
+
 ## Useful one-liners
 
 ```bash

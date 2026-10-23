@@ -46,6 +46,7 @@ type Shareholder = Person & { sharePercent: string };
 type Body    = {
   form: {
     companyType:      "numbered" | "named" | "extra-provincial" | "not-for-profit";
+    homeDocs?:        boolean;
     jurisdictionKey:  string;
     nameOptions:      [string, string, string];
     homeJurisdiction: string;
@@ -122,6 +123,10 @@ export async function POST(req: Request) {
   const unitAmount = USE_TEST_PRICE
     ? TEST_OVERRIDE_CENTS
     : await getPriceCents(PRICE_KEY_FOR_TYPE[f.companyType]);
+  /* Owner, Oct 2026: extra-provincial add-on — we order the home-jurisdiction certificate of status and certified
+     articles. Its own line on the receipt. */
+  const homeDocs = f.companyType === "extra-provincial" && f.homeDocs === true;
+  const homeDocsCents = homeDocs ? (USE_TEST_PRICE ? 0 : await getPriceCents("extra-provincial-home-docs")) : 0;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -143,14 +148,29 @@ export async function POST(req: Request) {
               name: `Incorporation — ${LABEL[f.companyType]} — ${f.jurisdictionKey.toUpperCase()}`,
               description: f.companyType === "named"
                 ? `Proposed names: ${f.nameOptions.filter((n) => n.trim()).join(" · ")}. Filed by CRS within 1 business day.`
-                : `${LABEL[f.companyType]}. Filed by CRS within 1 business day.`,
+                : f.companyType === "extra-provincial"
+                  ? `Extra-Provincial Registration, all-in (registry fees included). Filed by CRS within 1 business day of receiving the signed documents and home-jurisdiction documents.`
+                  : `${LABEL[f.companyType]}. Filed by CRS within 1 business day.`,
             },
           },
           quantity: 1,
         },
+        ...(homeDocs && homeDocsCents > 0 ? [{
+          price_data: {
+            currency:     "cad",
+            unit_amount:  homeDocsCents,
+            tax_behavior: "exclusive" as const,
+            product_data: {
+              name:        "Home-jurisdiction documents",
+              description: "Certificate of status/existence and certified copies of the articles, ordered from the home registry by CRS.",
+            },
+          },
+          quantity: 1,
+        }] : []),
       ],
       metadata: {
         ...termsMeta(body),
+        ...(f.companyType === "extra-provincial" ? { home_docs: homeDocs ? "yes — CRS orders them" : "no — client sends them" } : {}),
         service:              "incorporation",
         incorporation_type:   f.companyType,
         src:                  body.src.slice(0, 100),
