@@ -54,6 +54,11 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
 - /o/unsubscribe records each open of a VALID signed link in `unsubscribe_views` {email, token, userAgent, ts}
   (`lib/unsubscribe-views.ts`) so docu10 can show who opened it; scanners open these too. Not an unsubscribe — only the
   button writes `outreach_suppression`. Swept after 24 months by the retention sweep.
+- Oct 23 2026 (owner): a PERSON opening /o/unsubscribe is unsubscribed at once (`lib/unsubscribe.ts` suppressEmail: suppression
+  row with note "opened the unsubscribe page", companies mirror, confirmation email) and sees "You've been unsubscribed" with a
+  "Keep me subscribed" undo (`/api/outreach/resubscribe`, signed; removes only a reason "unsubscribed" row). A link scanner
+  (`isLinkScanner`: bot words, stale browser versions, no UA, or opened < 2 min after the outreach send) gets the old confirm
+  button. If the write fails the page falls back to the button.
 
 ## Useful one-liners
 

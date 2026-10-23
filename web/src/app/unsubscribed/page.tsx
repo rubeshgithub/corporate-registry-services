@@ -10,9 +10,9 @@ export const metadata = {
 export default async function UnsubscribedPage({
   searchParams,
 }: {
-  searchParams: Promise<{ e?: string; err?: string }>;
+  searchParams: Promise<{ e?: string; err?: string; kept?: string }>;
 }) {
-  const { e, err } = await searchParams;
+  const { e, err, kept } = await searchParams;
   const email = e?.trim() ?? "";
 
   const invalid = err === "invalid";
@@ -32,6 +32,16 @@ export default async function UnsubscribedPage({
               <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", lineHeight: 1.6 }}>
                 The link may have been altered or truncated. Reply directly to any email you received from us
                 and we&apos;ll remove your address manually.
+              </p>
+            </>
+          ) : kept === "1" ? (
+            <>
+              <CheckCircle2 size={40} style={{ color: "var(--secondary)", margin: "0 auto 1rem", display: "block" }} />
+              <h1 className="card-heading" style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
+                You&apos;re still subscribed
+              </h1>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", lineHeight: 1.6 }}>
+                We&apos;ve kept you on our list. You can unsubscribe any time from the link in our emails.
               </p>
             </>
           ) : serverErr ? (
