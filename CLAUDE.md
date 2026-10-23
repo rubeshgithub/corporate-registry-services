@@ -29,6 +29,11 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
 - `lib/track-click.ts` `trackClick(target, label)` writes non-link events to `clicks` (same cookie/endpoint as Analytics.tsx):
   `registry-access` (RegistryAccessField, label "<answer>|<province>|<service>", never the code) and `pay-blocked` (PayGate, label =
   `data-pending-kind`s still open). docu10's Order-page visitors report reads them. Labels are fixed codes only — never typed text.
+- Oct 23 2026 (owner): the registry-key question no longer gates paying (removed from every flow's canPay and the wizard). RegistryAccessField
+  marks itself `data-soft-pending` (+ `data-soft-term`, `data-soft-track`); PayGate catches the first click on the ACTIVE pay button
+  while one is open and shows "You haven't given us the <term>. No problem — we'll contact you for it before we file." [Continue to
+  payment] / Answer it now. Continue re-clicks the real button; the order's registry_access reads "NOT ANSWERED — …". Terms and
+  contact details still grey the button (`data-pending`). `useAttention` uses a callback ref so a field that appears later still listens.
 
 ## Useful one-liners
 

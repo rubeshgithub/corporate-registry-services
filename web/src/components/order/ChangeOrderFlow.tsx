@@ -9,7 +9,7 @@ import type { ChangeServiceConfig } from "@/lib/change-config";
 import PlacesInput from "@/components/PlacesInput";
 import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
-import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
+import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
 import PayGate from "@/components/order/PayGate";
@@ -95,7 +95,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
   const [paying, setPaying]       = useState(false);
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr]       = useState("");
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* must be answered before paying (registryAccessReady) */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* asked; if skipped, PayGate checks once and we contact them */
 
   useEffect(() => {
     const q = params.get("q");
@@ -158,8 +158,7 @@ export default function ChangeOrderFlow({ config }: { config: ChangeServiceConfi
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     !!contact.phone.trim() &&
-    detailsErr === null &&
-    registryAccessReady(config.key, pick?.provinceKey, registryAccess);
+    detailsErr === null; /* the registry-key question no longer blocks paying (PayGate asks once) */
 
   const submit = async () => {
     if (!pick || !canPay) return;

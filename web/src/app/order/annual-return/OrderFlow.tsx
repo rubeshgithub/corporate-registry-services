@@ -11,7 +11,7 @@ import ETransferCapture from "@/components/order/ETransferCapture";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
 import YesNo from "@/components/order/YesNo";
 import { annualReturnNote } from "@/lib/annual-return-price";
-import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
+import { type RegistryAccessState } from "@/lib/registry-access";
 import { REGISTRY_CLOSURE_NOTE } from "@/lib/sla";
 import TermsAgreement from "@/components/order/TermsAgreement";
 import PayGate from "@/components/order/PayGate";
@@ -166,7 +166,7 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
   const [paying, setPaying]       = useState(false);
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr]       = useState("");
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* must be answered before paying (registryAccessReady) */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* asked; if skipped, PayGate checks once and we contact them */
 
   const provCents = pick?.provinceKey ? provincePerYearCents[pick.provinceKey] : undefined;
   const bcPick   = provCents != null;          // a province with its own annual-return price (BC, Alberta)
@@ -262,8 +262,7 @@ export default function OrderFlow({ perYearCents = 9900, provincePerYearCents = 
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
     !!contact.phone.trim() &&
-    changeErr === null &&
-    registryAccessReady("annual-return", pick?.provinceKey, registryAccess);
+    changeErr === null; /* the registry-key question no longer blocks paying (PayGate asks once) */
 
   const goToPayment = async () => {
     if (!pick || !canPay) return;

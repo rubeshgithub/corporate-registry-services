@@ -203,7 +203,8 @@ const ONLY_FOR: Record<string, Set<string>> = {
 };
 
 /**
- * May the customer pay yet? (owner, Oct 2026: too many filings arrived with the question skipped, and staff had
+ * Has the question been answered? (Oct 2026: no longer gates paying — RegistryAccessField uses it to mark itself
+ * "soft pending", and PayGate asks once before checkout. Was:) May the customer pay yet? (owner, Oct 2026: too many filings arrived with the question skipped, and staff had
  * to chase the key after payment.) The question must be ANSWERED — it still never forces them to HAVE the
  * credential: "No" ("we retrieve it") is a full answer. "Yes" needs the credential typed in.
  */
@@ -265,7 +266,7 @@ export function summarizeRegistryAccess(
      the fulfillment email claim the form never asked (Oct 2026: two paid
      annual returns, BC and federal, reported "did not ask for it"). */
   if (!state?.status) {
-    return `NOT ANSWERED — the customer skipped the ${access.term} question. Treat it as "we retrieve it": ask them first, then request it from the registry.`;
+    return `NOT ANSWERED — the customer went to payment without answering the ${access.term} question and was told we will contact them for it before filing. Ask them first; if they don't have it, request it from the registry.`;
   }
   const term = access.term;
   if (state.status === "have") {

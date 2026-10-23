@@ -7,8 +7,7 @@ import { ArrowLeft, ArrowRight, Send, ExternalLink, AlertCircle } from "lucide-r
 // our sister product MinuteBook rather than the CRS quote flow.
 const MINUTEBOOK_URL = "https://minutebook.corporateregistryservices.ca";
 import { SERVICE_BUCKETS, getBucket } from "@/lib/service-config";
-import { INITIAL_STATE, wizardAccessService, type WizardState } from "@/lib/wizard-types";
-import { registryAccessReady } from "@/lib/registry-access";
+import { INITIAL_STATE, type WizardState } from "@/lib/wizard-types";
 import StepBucket from "./steps/StepBucket";
 import StepServices from "./steps/StepServices";
 import StepJurisdiction from "./steps/StepJurisdiction";
@@ -199,8 +198,8 @@ export default function WizardIsland({ preload, prices }: { preload?: PreloadDat
         return required.every((f) => !!state.details[f.key]?.trim());
       }
       case 5: return !!(state.customer.fullName && state.customer.email && state.customer.phone);
-      case 6: return state.consents.terms &&
-        registryAccessReady(wizardAccessService(state), state.jurisdictionKey, state.registryAccess ?? { status: "", code: "" });
+      /* Oct 2026: the registry-key question no longer blocks paying — PayGate asks once and we contact them. */
+      case 6: return state.consents.terms;
       default: return false;
     }
   })();

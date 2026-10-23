@@ -35,8 +35,9 @@ import {
  *  - One plain question (owner, Oct 2026): "Do you have the company
  *    password?" Yes → the field to enter it. No → "we'll retrieve it from the
  *    BC Registry", with a quiet note that having it makes the filing faster.
- *    Oct 2026: the question must now be ANSWERED before paying (registryAccessReady) — "No" is a full answer,
- *    "Yes" needs the credential typed. The
+ *    Oct 2026 (later the same month): it no longer greys the pay button — people missed it and kept clicking
+ *    a dead button. Unanswered (or "Yes" with nothing typed) marks it data-soft-pending; PayGate then asks once
+ *    ("we'll contact you for it before we file") and lets them pay. The
  *    "can't reach the registered email or address" case is a small checkbox
  *    under No.
  */
@@ -83,16 +84,13 @@ export default function RegistryAccessField({
   };
   const muted: React.CSSProperties = { fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.55 };
 
-  const pendingLabel = answer === null
-    ? `Answer “${access.question}” (Yes or No)`
-    : `Enter the ${access.term}, or choose “call me for it”`;
 
   return (
     <div
       ref={ref}
-      data-pending={pending ? "true" : "false"}
-      data-pending-kind="registry-access"
-      data-pending-label={pendingLabel}
+      data-soft-pending={pending ? "true" : "false"}
+      data-soft-term={access.term}
+      data-soft-track={`${provinceKey ?? ""}|${service}`}
       style={{
         background: attention ? "#FFFBFB" : "var(--card)",
         border: attention ? "2px solid #DC2626" : "1px solid var(--border)",
@@ -108,7 +106,7 @@ export default function RegistryAccessField({
         <div style={{ display: "flex", gap: "0.55rem", alignItems: "center" }}>
           <KeyRound size={17} style={{ color: "var(--gold)", flexShrink: 0 }} />
           <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text)" }}>
-            {access.question} <span aria-hidden="true" style={{ color: "#DC2626" }}>*</span>
+            {access.question}
           </span>
         </div>
         <YesNo value={answer} onChange={choose} name={access.question} />
@@ -200,7 +198,7 @@ export default function RegistryAccessField({
 
       {answer === null && (
         <p style={{ fontSize: "0.8rem", color: attention ? "#B91C1C" : "#B45309", fontWeight: attention ? 600 : 400, margin: "0.5rem 0 0", lineHeight: 1.5 }}>
-          Please answer Yes or No to continue. Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}.
+          Please answer Yes or No. Either way you can order now — if you don&rsquo;t have it, we&rsquo;ll get it from {access.registryName}. If you skip it, we&rsquo;ll contact you for it before we file.
         </p>
       )}
     </div>

@@ -10,7 +10,7 @@ import SnapshotCapture from "@/components/SnapshotCapture";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import { annualReturnPriceKey, annualReturnNote } from "@/lib/annual-return-price";
 import ZeroResultsPrompt from "@/components/ZeroResultsPrompt";
-import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
+import { type RegistryAccessState } from "@/lib/registry-access";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { parseRegistryDate } from "@/lib/dates";
 import TermsAgreement from "@/components/order/TermsAgreement";
@@ -197,7 +197,7 @@ export default function InlineLookupOrder({
   /* The credential the registry needs before it will accept the filing.
      The field renders itself only where the jurisdiction requires one, so
      it is safe to mount unconditionally. */
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* must be answered before paying (registryAccessReady) */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* asked; if skipped, PayGate checks once and we contact them */
 
   /* Same abandoned-cart record the /order/* pages write: picking a company
      here is this widget's checkout. Without it, a visitor who picked a
@@ -348,8 +348,7 @@ export default function InlineLookupOrder({
     !!pick &&
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
-    !!contact.phone.trim() &&
-    registryAccessReady(activeService, pick?.provinceKey ?? provinceKey, registryAccess);
+    !!contact.phone.trim(); /* the registry-key question no longer blocks paying (PayGate asks once) */
 
   /* Orders that came through the federal fallback are tagged so the admin
      dashboard can tell whether this path earns its keep. */

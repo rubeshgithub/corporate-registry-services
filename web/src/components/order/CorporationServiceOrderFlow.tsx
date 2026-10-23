@@ -7,7 +7,7 @@ import { ArrowRight, Loader2, AlertCircle, CheckCircle2, Building2 } from "lucid
 import { JURISDICTIONS } from "@/lib/service-config";
 import { swapPrice } from "@/lib/price-catalogue";
 import RegistryAccessField from "@/components/order/RegistryAccessField";
-import { type RegistryAccessState, registryAccessReady } from "@/lib/registry-access";
+import { type RegistryAccessState } from "@/lib/registry-access";
 import TermsAgreement from "@/components/order/TermsAgreement";
 import PayGate from "@/components/order/PayGate";
 
@@ -63,7 +63,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
   const [searchErr, setSearchErr] = useState("");
   const [selectedService, setSelectedService] = useState("annual-return");
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
-  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* must be answered before paying (registryAccessReady) */
+  const [registryAccess, setRegistryAccess] = useState<RegistryAccessState>({ status: "", code: "" }); /* asked; if skipped, PayGate checks once and we contact them */
   const [paying, setPaying] = useState(false);
   const [agreed, setAgreed] = useState(false);   // Terms and Conditions (TermsAgreement)
   const [payErr, setPayErr] = useState("");
@@ -114,8 +114,7 @@ export default function CorporationServiceOrderFlow({ prices }: { prices?: Recor
     selectedService &&
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
-    !!contact.phone.trim() &&
-    registryAccessReady(selectedService, corp?.provinceKey, registryAccess);
+    !!contact.phone.trim(); /* the registry-key question no longer blocks paying (PayGate asks once) */
 
   const submit = async () => {
     if (!canPay || !corp) return;
