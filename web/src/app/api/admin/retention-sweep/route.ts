@@ -37,6 +37,7 @@ const RULES: [string, string][] = [
   ["minutebook_pilot_requests", "createdAt"],
   ["outreach_sends", "sentAt"],
   ["outreach_tokens", "createdAt"],
+  ["unsubscribe_views", "ts"],
 ];
 
 function authorized(req: Request): boolean {

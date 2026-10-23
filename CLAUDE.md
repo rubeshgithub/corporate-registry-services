@@ -46,6 +46,12 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   within 1 business day of receiving the signed and home-jurisdiction documents.
 - If `pricing_overrides` holds an `extra-provincial` row, it wins over the code default — check /admin/analytics.
 
+## Unsubscribe page views (Oct 2026)
+
+- /o/unsubscribe records each open of a VALID signed link in `unsubscribe_views` {email, token, userAgent, ts}
+  (`lib/unsubscribe-views.ts`) so docu10 can show who opened it; scanners open these too. Not an unsubscribe — only the
+  button writes `outreach_suppression`. Swept after 24 months by the retention sweep.
+
 ## Useful one-liners
 
 ```bash

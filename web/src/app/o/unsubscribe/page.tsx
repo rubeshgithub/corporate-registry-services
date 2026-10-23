@@ -1,7 +1,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { AlertCircle } from "lucide-react";
+import { headers } from "next/headers";
 import { verifyUnsubscribe } from "@/lib/outreach-token";
+import { recordUnsubscribeView } from "@/lib/unsubscribe-views";
 
 /**
  * Two-click unsubscribe confirmation page.
@@ -36,6 +38,10 @@ export default async function ConfirmUnsubscribePage({
   const token = (t ?? "").trim();
 
   const valid = !!email && !!sig && verifyUnsubscribe(email, sig);
+  if (valid) {
+    const ua = (await headers()).get("user-agent") ?? "";
+    await recordUnsubscribeView(email, token, ua).catch((err) => console.error("[unsubscribe] view not recorded:", err));
+  }
 
   return (
     <>
