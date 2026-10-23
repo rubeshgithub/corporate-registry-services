@@ -34,6 +34,9 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   while one is open and shows "You haven't given us the <term>. No problem — we'll contact you for it before we file." [Continue to
   payment] / Answer it now. Continue re-clicks the real button; the order's registry_access reads "NOT ANSWERED — …". Terms and
   contact details still grey the button (`data-pending`). `useAttention` uses a callback ref so a field that appears later still listens.
+- Same day, later (owner: the panel under the button went unseen, ~90% of customers are on desktop): it is now a centred DIALOG
+  (portal to body, backdrop, Esc/backdrop = answer). "Answer the question" (primary) scrolls to the card, which pulses red
+  three times (`el.animate` in useAttention) with the red border; "Skip — contact me before filing, continue to payment" goes on.
 
 ## Extra-provincial registration (Oct 2026)
 

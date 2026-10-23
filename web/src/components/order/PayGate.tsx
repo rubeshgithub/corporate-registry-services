@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { AlertCircle, KeyRound } from "lucide-react";
 import { trackClick } from "@/lib/track-click";
 
@@ -41,6 +42,16 @@ export default function PayGate({ blocked, children }: { blocked: boolean; child
   /* The registry-key prompt: the term to name, and the button that was clicked (to click again on Continue). */
   const [soft, setSoft] = useState<{ term: string; track: string; button: HTMLElement; el: HTMLElement } | null>(null);
   const confirmed = useRef(false);
+  const firstButton = useRef<HTMLButtonElement>(null);
+
+  /* The dialog: focus its first button, Esc = answer the question. */
+  useEffect(() => {
+    if (!soft) return;
+    firstButton.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { e.preventDefault(); answerNowRef.current(); } };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [soft]);
 
   /* Once everything is answered, the list goes away by itself. */
   useEffect(() => { if (!blocked) setShown(null); }, [blocked]);
@@ -79,10 +90,14 @@ export default function PayGate({ blocked, children }: { blocked: boolean; child
   };
   const answerNow = () => {
     if (!soft) return;
-    soft.el.dispatchEvent(new CustomEvent(ATTENTION_EVENT));
-    soft.el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const el = soft.el;
     setSoft(null);
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    /* After the scroll lands, so the pulse is seen. */
+    setTimeout(() => el.dispatchEvent(new CustomEvent(ATTENTION_EVENT)), 350);
   };
+  const answerNowRef = useRef(answerNow);
+  answerNowRef.current = answerNow;
 
   return (
     <div ref={ref}>
@@ -108,31 +123,49 @@ export default function PayGate({ blocked, children }: { blocked: boolean; child
           </div>
         </div>
       )}
-      {!blocked && soft && (
-        <div role="alert" style={{ display: "flex", gap: "0.55rem", marginTop: "0.6rem", padding: "0.75rem 0.9rem", borderRadius: "0.5rem", background: "var(--bg-deep, #F7F5F0)", border: "1px solid var(--border)", color: "var(--text)", fontSize: "0.85rem", lineHeight: 1.5 }}>
-          <KeyRound size={16} style={{ flexShrink: 0, marginTop: "0.15rem", color: "var(--gold)" }} />
-          <div>
-            <div>
-              You haven&rsquo;t given us the <b>{soft.term}</b>. No problem — we&rsquo;ll contact you for it before we file.
+      {!blocked && soft && typeof document !== "undefined" && createPortal(
+        /* A dialog in the middle of the screen (owner, Oct 2026: a note under the pay button went unseen — most
+           customers are on a desktop and look at the button, not below it). Esc or the backdrop = "Answer it now". */
+        <div
+          onClick={answerNow}
+          style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(10, 25, 41, 0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="paygate-key-title"
+            onClick={(e) => e.stopPropagation()}
+            style={{ width: "100%", maxWidth: 440, background: "var(--card, #fff)", borderRadius: "var(--radius-card, 14px)", boxShadow: "0 20px 50px rgba(0,0,0,0.25)", padding: "1.5rem 1.5rem 1.25rem", color: "var(--text)" }}
+          >
+            <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
+              <KeyRound size={22} style={{ color: "var(--gold)", flexShrink: 0 }} />
+              <h2 id="paygate-key-title" style={{ margin: 0, fontSize: "1.1rem", fontWeight: 700 }}>
+                Do you have the {soft.term}?
+              </h2>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.4rem 1rem", marginTop: "0.55rem" }}>
+            <p style={{ margin: "0.75rem 0 0", fontSize: "0.92rem", lineHeight: 1.55, color: "var(--text-muted)" }}>
+              {`You haven’t answered the ${soft.term} question. Answering now makes the filing faster — or continue, and we’ll contact you for it before we file.`}
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "1.2rem" }}>
+              <button
+                ref={firstButton}
+                type="button"
+                onClick={answerNow}
+                style={{ background: "var(--primary)", color: "#fff", border: "none", borderRadius: "0.5rem", padding: "0.75rem 1rem", fontWeight: 700, fontSize: "0.95rem", cursor: "pointer" }}
+              >
+                Answer the question
+              </button>
               <button
                 type="button"
                 onClick={proceed}
-                style={{ background: "var(--primary)", color: "#fff", border: "none", borderRadius: "0.4rem", padding: "0.5rem 1rem", fontWeight: 600, fontSize: "0.85rem", cursor: "pointer", minHeight: 40 }}
+                style={{ background: "transparent", color: "var(--text)", border: "1px solid var(--border)", borderRadius: "0.5rem", padding: "0.7rem 1rem", fontWeight: 600, fontSize: "0.9rem", cursor: "pointer" }}
               >
-                Continue to payment
-              </button>
-              <button
-                type="button"
-                onClick={answerNow}
-                style={{ background: "none", border: "none", padding: 0, color: "var(--primary)", textDecoration: "underline", fontSize: "0.85rem", cursor: "pointer" }}
-              >
-                Answer it now
+                Skip — contact me before filing, continue to payment
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
@@ -146,7 +179,16 @@ export function useAttention(pending: boolean) {
   const [attention, setAttention] = useState(false);
   useEffect(() => {
     if (!el) return;
-    const on = () => setAttention(true);
+    const on = () => {
+      setAttention(true);
+      /* A red pulse around the card, three times, so the eye lands on it. */
+      try {
+        el.animate(
+          [{ boxShadow: "0 0 0 0 rgba(220, 38, 38, 0.55)" }, { boxShadow: "0 0 0 10px rgba(220, 38, 38, 0)" }],
+          { duration: 900, iterations: 3, easing: "ease-out" },
+        );
+      } catch { /* old browser: the red border is enough */ }
+    };
     el.addEventListener(ATTENTION_EVENT, on);
     return () => el.removeEventListener(ATTENTION_EVENT, on);
   }, [el]);
