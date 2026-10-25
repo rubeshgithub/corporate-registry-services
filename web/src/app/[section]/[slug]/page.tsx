@@ -112,6 +112,12 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search the PEI registry"
       subOverride="Look up any Prince Edward Island company or business name free — and order its official registry profile report if you need the record." />
   ),
+  "articles/bc-corporate-registry-search": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="bc" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="BC corporate registry search"
+      titleOverride="Search the B.C. registry"
+      subOverride="Look up any British Columbia company free — no BC Registry account or BCeID needed — and order its official registry profile report if you need the record." />
+  ),
   "articles/manitoba-companies-office-search": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="mb" priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Manitoba Companies Office search"
