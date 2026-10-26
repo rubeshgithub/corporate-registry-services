@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { termsMeta } from "@/lib/terms-consent";
+import { visitMeta } from "@/lib/visit-meta";
 import Stripe from "stripe";
 import { isProfessionalCorporation } from "@/lib/professional-corp";
 import { getPriceCents, proCorpPriceCentsLive } from "@/lib/pricing";
@@ -214,6 +215,7 @@ export async function POST(req: Request) {
       // 500 chars and each key at 40 chars; metadata is capped at 50 keys.
       metadata: {
         ...termsMeta(body),
+        ...visitMeta(req),
         service:            years === 1 ? "annual-return" : "annual-return-multiple",
         pro_corp:           isPC ? "yes" : "no",
         /* What the customer told us about their registry credential —

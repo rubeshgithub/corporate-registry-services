@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { termsMeta } from "@/lib/terms-consent";
+import { visitMeta } from "@/lib/visit-meta";
 import Stripe from "stripe";
 import { findService, findBucketForService } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService } from "@/lib/pricing";
@@ -121,6 +122,7 @@ export async function POST(req: Request) {
       ],
       metadata: {
         ...termsMeta(body),
+        ...visitMeta(req),
         service:         service.key,
         service_label:   service.label.slice(0, 100),
         /* What the customer told us about their registry credential —

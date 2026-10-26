@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { termsMeta } from "@/lib/terms-consent";
+import { visitMeta } from "@/lib/visit-meta";
 import { registryAccessFor, needsRegistryAccess, type RegistryAccessState } from "@/lib/registry-access";
 import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 import Stripe from "stripe";
@@ -135,6 +136,7 @@ export async function POST(req: Request) {
       })),
       metadata: {
         ...termsMeta(body),
+        ...visitMeta(req),
         /* A filing in the basket that needs the corporation's credential: what the customer answered (sealed when typed). */
         ...(keys.some((k) => needsRegistryAccess(k, body.jurisdictionKey))
           ? { registry_access: (await summarizeRegistryAccessSealed(body.registryAccess, registryAccessFor(body.jurisdictionKey))).slice(0, 480) }

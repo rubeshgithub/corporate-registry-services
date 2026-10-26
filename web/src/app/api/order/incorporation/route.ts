@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { termsMeta } from "@/lib/terms-consent";
+import { visitMeta } from "@/lib/visit-meta";
 import Stripe from "stripe";
 import { getPriceCents } from "@/lib/pricing";
 
@@ -170,6 +171,7 @@ export async function POST(req: Request) {
       ],
       metadata: {
         ...termsMeta(body),
+        ...visitMeta(req),
         ...(f.companyType === "extra-provincial" ? { home_docs: homeDocs ? "yes — CRS orders them" : "no — client sends them" } : {}),
         service:              "incorporation",
         incorporation_type:   f.companyType,

@@ -60,6 +60,11 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   (`isLinkScanner`: bot words, stale browser versions, no UA, or opened < 2 min after the outreach send) gets the old confirm
   button. If the write fails the page falls back to the button.
 
+## Visit session on checkouts (Oct 2026)
+
+- Every website checkout route spreads `visitMeta(req)` (`lib/visit-meta.ts`): the crs_session_id cookie as Stripe metadata
+  `crs_session`, so docu10 can put a declined card or a paid order on the right Order-page visitors row.
+
 ## Useful one-liners
 
 ```bash
