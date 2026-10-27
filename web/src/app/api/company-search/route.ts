@@ -552,14 +552,31 @@ export async function GET(request: Request) {
 
   /* Every answer says which BN was searched, and an empty one explains why a
      BN can come back empty instead of implying the company doesn't exist. */
-  const respond = (body: Record<string, unknown>) => {
+  /* A Business Number searched for BC or all of Canada also asks OrgBook (Oct 2026): it DOES index BNs (checked:
+     841885668 → BC0864727) and has fresher BC status than CBR's mirror. Only rows carrying exactly that BN are
+     kept (a bare 9 digits can also be a Saskatchewan registry number), and they replace CBR's row for the same
+     corporation. Runs alongside the CBR call. */
+  const orgBookBn: Promise<ResultShape[]> = bn && (searchProvince === "bc" || searchProvince === "all")
+    ? searchOrgBookOnly(bn, status).then((r) => r.results.filter((x) => x.businessNumber === bn)).catch((e) => {
+        console.warn("[CRS] OrgBook BN search failed (non-fatal):", e);
+        return [] as ResultShape[];
+      })
+    : Promise.resolve([] as ResultShape[]);
+
+  const respond = async (body: Record<string, unknown>) => {
     if (!bn) return NextResponse.json(body);
+    const fromOrgBook = await orgBookBn;
+    if (fromOrgBook.length) {
+      const rest = (Array.isArray(body.results) ? body.results as ResultShape[] : [])
+        .filter((x) => !fromOrgBook.some((o) => o.registryId === x.registryId || (x.businessNumber && x.businessNumber.slice(0, 9) === bn && x.provinceKey === "bc")));
+      body = { ...body, results: [...fromOrgBook, ...rest], total: fromOrgBook.length + rest.length };
+    }
     const empty = !Array.isArray(body.results) || body.results.length === 0;
     return NextResponse.json({ ...body, businessNumber: bn, ...(empty ? { hint: bnHint(bn) } : {}) });
   };
 
   try {
-    /* OrgBook doesn't index Business Numbers; CBR carries BC's. */
+    /* Names and BC numbers go to OrgBook (+ CBR for number-like queries); a Business Number takes the path below. */
     if (searchProvince === "bc" && !bn) {
       return NextResponse.json(await searchBC(q, status));
     }

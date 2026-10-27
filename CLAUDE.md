@@ -80,6 +80,8 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   (BC0864727, STRUB SPORTS DESIGNS INC.). `searchOrgBookOnly` now groups by topic, uses the latest unrevoked registration
   credential, takes the BN from the BN credential and the name from `topic.local_name`; a BN-only hit is re-queried once by its
   BC number. Check the live JSON in a browser (the sandbox cannot reach orgbook.gov.bc.ca).
+- A Business Number searched with province BC or "all" also asks OrgBook (it does index BNs), keeps only rows with exactly
+  that BN, and puts them first in place of CBR's row for the same corporation (`orgBookBn` in the GET handler).
 
 ## Useful one-liners
 
