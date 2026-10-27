@@ -192,7 +192,7 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
     ["Entity type",       hit.entityType],
     ["Incorporated",      incorporated],
     ["Location on file",  hit.location],
-    ["Next annual return", dueLine],
+    [due?.status === "check" ? "Annual return" : "Next annual return", dueLine],
   ].filter(([, v]) => !!v) as Array<[string, string]>;
 
   const offers: Array<{ label: string; sub: string; href: string; primary?: boolean }> = [
@@ -216,6 +216,7 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
     ...rows.map(([k, v]) => `${k}: ${v}`),
     ``,
     `From public registry records as of ${today}. This is a summary, not an official registry document.`,
+    ...(due?.status === "check" && due.explanation ? [due.explanation] : []),
     ``,
     `Need more?`,
     ...offers.map((o) => `• ${o.label}\n  ${o.href}`),
@@ -252,6 +253,7 @@ async function sendSnapshotEmail(email: string, hit: Hit, src: string): Promise<
       <p style="margin:0 0 14px;font-size:13px;color:#5B6B7A;">Here is the snapshot you requested.</p>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #EEF2F5;border-radius:8px;">${rowHtml}</table>
       <p style="margin:10px 0 0;font-size:11px;color:#8A99A8;">From public registry records as of ${esc(today)}. A summary, not an official registry document.</p>
+      ${due?.status === "check" && due.explanation ? `<p style="margin:6px 0 0;font-size:12px;color:#5B6B7A;">${esc(due.explanation)}</p>` : ""}
     </td></tr>
     <tr><td style="padding:18px 24px 8px;">
       <p style="margin:0 0 10px;font-size:14px;font-weight:700;">Need the official record?</p>

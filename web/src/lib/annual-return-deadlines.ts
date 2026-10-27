@@ -10,12 +10,15 @@ import { parseRegistryDate } from "./dates";
  * which we can't derive from the registry lookup alone.
  *
  * For anniversary-based jurisdictions we compute the current period's
- * deadline. If today is past that deadline, we assume the corporation is
- * overdue (the registry doesn't tell us whether they've already filed —
- * the customer can decide whether to ignore the alert).
+ * deadline. Past it, the status is "check", NEVER "overdue": no Canadian
+ * registry feed we use says when a return was last filed, and calling a
+ * client who filed on time "OVERDUE by 135 days" (owner, Oct 2026 — LISEGA,
+ * INC., an emailed snapshot) confuses and alarms them. The wording says when
+ * this year's return was due, when the next one is if it has been filed, and
+ * that the Profile Report shows the filing history.
  */
 
-export type DueStatus = "overdue" | "due_soon" | "on_track" | "unknown";
+export type DueStatus = "check" | "due_soon" | "on_track" | "unknown";
 
 export type DueDateInfo = {
   dueDate:      Date | null;
@@ -96,17 +99,17 @@ export function calculateAnnualReturnDeadline(
   thisYearDeadline.setDate(thisYearDeadline.getDate() + grace);
 
   if (thisYearDeadline < today) {
-    // Past this year's window — assume overdue.
-    const daysOverdue = Math.floor((today.getTime() - thisYearDeadline.getTime()) / 86400000);
+    // Past this year's window. Whether it was filed is not in any public feed — say so, never "overdue".
+    const daysPast = Math.floor((today.getTime() - thisYearDeadline.getTime()) / 86400000);
     const nextAnniv = new Date(currentYear + 1, incorp.getMonth(), incorp.getDate());
     const nextDeadline = new Date(nextAnniv);
     nextDeadline.setDate(nextDeadline.getDate() + grace);
     return {
       dueDate:      thisYearDeadline,
-      daysUntilDue: -daysOverdue,
-      status:       "overdue",
-      label:        `OVERDUE by ${daysOverdue} day${daysOverdue === 1 ? "" : "s"} — was due ${fmt(thisYearDeadline)}`,
-      explanation:  `If already filed for this period, your next deadline is ${fmt(nextDeadline)}.`,
+      daysUntilDue: -daysPast,
+      status:       "check",
+      label:        `${currentYear} return was due ${fmt(thisYearDeadline)} · next due ${fmt(nextDeadline)} if filed`,
+      explanation:  "Public registry records don't show filing dates. Not sure it was filed? The Profile Report shows the corporation's filing history.",
     };
   }
 

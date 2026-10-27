@@ -186,10 +186,11 @@ const annualReturnTemplate: TemplateDef = {
     const registryName = REGISTRY_NAME[ctx.company.provinceKey] ?? `${ctx.company.jurisdiction} Corporate Registry`;
     const provinceSlug = PROVINCE_SLUG[ctx.company.provinceKey] ?? ctx.company.provinceKey.toLowerCase();
     const dueLabel     = info.dueDate ? fmtDate(info.dueDate) : "See jurisdiction rules";
+    /* Past the date we cannot know whether they filed (owner, Oct 2026): never "DAYS OVERDUE" to a business. */
     const daysLeftLabel = days !== null
-      ? (days > 0 ? `${days} DAYS REMAINING` : days === 0 ? "DUE TODAY" : `${Math.abs(days)} DAYS OVERDUE`)
+      ? (days > 0 ? `${days} DAYS REMAINING` : days === 0 ? "DUE TODAY" : "FILED YET? NOT SHOWN ON PUBLIC RECORDS")
       : "SEE JURISDICTION RULES";
-    const bannerColor  = days !== null && days < 0 ? "#B91C1C" : "#B7791F";
+    const bannerColor  = "#B7791F";
     const incorpLabel  = ctx.company.incorpDate
       ? new Date(ctx.company.incorpDate).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" })
       : "—";
@@ -197,7 +198,9 @@ const annualReturnTemplate: TemplateDef = {
     const statusVal    = ctx.company.status ?? "Active";
 
     const subject = info.dueDate
-      ? `${ctx.company.name} — ${ctx.company.jurisdiction} Annual Return by ${dueLabel}`
+      ? (days !== null && days < 0
+        ? `${ctx.company.name} — was the ${ctx.company.jurisdiction} Annual Return due ${dueLabel} filed?`
+        : `${ctx.company.name} — ${ctx.company.jurisdiction} Annual Return by ${dueLabel}`)
       : `${ctx.company.name} — ${ctx.company.jurisdiction} Annual Return reminder`;
 
     const customIntroHtml = ctx.customIntro?.trim()

@@ -845,7 +845,7 @@ function ResultCard({
     <div
       style={{
         background:   "var(--card)",
-        border:       `1px solid ${deadline?.status === "overdue" ? "rgba(220, 38, 38, 0.55)" : "var(--border)"}`,
+        border:       `1px solid ${deadline?.status === "check" ? "rgba(217, 119, 6, 0.55)" : "var(--border)"}`,
         borderRadius: "0.6rem",
         overflow:     "hidden",
         boxShadow:    "0 1px 2px rgba(0,61,91,0.06), 0 6px 18px rgba(0,61,91,0.07)",
@@ -875,7 +875,7 @@ function ResultCard({
                 alignItems:  "center",
                 gap:         "0.45rem",
                 color:       deadlineColorOnDark(deadline.status),
-                fontWeight:  deadline.status === "overdue" ? 700 : 500,
+                fontWeight:  deadline.status === "check" ? 600 : 500,
               }}
             >
               <StatusDot status={deadline.status} />
@@ -1001,7 +1001,7 @@ function Fact({ label, value, onDark = false }: { label: string; value: string; 
 
 /* Same meaning as deadlineColorText, readable on the navy record band. */
 function deadlineColorOnDark(status: DueStatus): string {
-  if (status === "overdue")  return "#FCA5A5";
+  if (status === "check")    return "#FCD34D";
   if (status === "due_soon") return "#FCD34D";
   return "#FFFFFF";
 }
@@ -1044,9 +1044,6 @@ function MetaPill({ label, value, tone }: { label: string; value: string; tone: 
 }
 
 function StatusDot({ status }: { status: DueStatus }) {
-  if (status === "overdue") {
-    return <span className="crs-pulse-red" style={{ width: 8, height: 8, borderRadius: "50%", background: "#DC2626", flexShrink: 0 }} />;
-  }
-  const color = status === "due_soon" ? "#B45309" : status === "on_track" ? "#16A34A" : "var(--text-muted)";
+  const color = status === "due_soon" || status === "check" ? "#B45309" : status === "on_track" ? "#16A34A" : "var(--text-muted)";
   return <span style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />;
 }

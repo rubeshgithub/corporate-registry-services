@@ -65,6 +65,14 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
 - Every website checkout route spreads `visitMeta(req)` (`lib/visit-meta.ts`): the crs_session_id cookie as Stripe metadata
   `crs_session`, so docu10 can put a declined card or a paid order on the right Order-page visitors row.
 
+## Annual-return due dates: never "overdue" (Oct 2026)
+
+- No registry feed we use says when a return was last filed. Owner, Oct 2026 (LISEGA, INC. snapshot said "OVERDUE by 135 days"
+  to a client who may have filed): past this year's deadline `calculateAnnualReturnDeadline` returns status "check" with
+  "<year> return was due <date> · next due <date> if filed" and an explanation pointing to the Profile Report (filing history).
+  Amber, not red, in InlineLookupOrder; the snapshot email shows the row as "Annual return" plus the explanation; the outreach
+  annual-return template no longer prints "DAYS OVERDUE" (asks "filed yet?").
+
 ## Useful one-liners
 
 ```bash
