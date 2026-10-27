@@ -6,9 +6,12 @@ import { NO_LIVE_SEARCH, MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
 
 interface OrgBookAttr { type: string; value: string }
 interface OrgBookCred {
-  names: Array<{ text: string }>;
-  topic: { source_id: string };
+  names: Array<{ text: string; type?: string }>;
+  topic: { id?: number; source_id: string; local_name?: { text: string } | null };
   attributes: OrgBookAttr[];
+  latest?: boolean;
+  revoked?: boolean;
+  credential_type?: { description?: string };
 }
 interface OrgBookResp { total: number; results: OrgBookCred[] }
 
@@ -86,29 +89,69 @@ function bnForCBRKeyword(q: string): string {
   return compact.length >= 9 ? compact.slice(0, 9) : compact;
 }
 
+/* OrgBook returns CREDENTIALS, not companies (checked Oct 27 2026 on BC0864727, STRUB SPORTS DESIGNS INC.):
+   one company has a "registration" credential (name, entity_status, type, date) AND a "business_number"
+   credential whose only name is the BN and which has no status. Mapping each credential as a company showed
+   the BN as the legal name and, with no entity_status, "Inactive" — on an Active company. So: one result per
+   company (topic), built from its latest, unrevoked registration credential; the BN comes from the
+   business_number credential; the name from the topic's own name. A BN search finds only the BN credential,
+   so a company without its registration credential in the response is looked up once more by its number. */
+const REGISTRATION = "registration.registries.ca";
+const BN_CRED      = "business_number.registries.ca";
+
+async function orgBookQuery(q: string, limit = 40): Promise<OrgBookCred[]> {
+  const url = `https://orgbook.gov.bc.ca/api/v4/search/credential?q=${encodeURIComponent(q)}&page=1&limit=${limit}&format=json`;
+  const res = await fetch(url, { next: { revalidate: 30 } });
+  if (!res.ok) throw new Error(`OrgBook ${res.status}`);
+  return ((await res.json()) as OrgBookResp).results ?? [];
+}
+
 async function searchOrgBookOnly(q: string, status: StatusFilter): Promise<{ results: ResultShape[]; source: string }> {
   // Bump upstream limit to widen the filterable window. OrgBook typically
   // returns what we ask for (unlike CBR which hard-caps at ~29).
-  const url = `https://orgbook.gov.bc.ca/api/v4/search/credential?q=${encodeURIComponent(q)}&page=1&limit=40&format=json`;
-  const res = await fetch(url, { next: { revalidate: 30 } });
-  if (!res.ok) throw new Error(`OrgBook ${res.status}`);
-  const data: OrgBookResp = await res.json();
-  const mapped: ResultShape[] = data.results.map((r) => {
-    const typeCode  = oAttr(r.attributes, "entity_type");
-    const rawStatus = oAttr(r.attributes, "entity_status");
-    return {
-      name:               r.names[0]?.text ?? "Unknown",
-      businessNumber:     "",
-      registryId:         r.topic?.source_id ?? "",
+  const creds = await orgBookQuery(q);
+
+  /* Group by company, keeping first-seen order (OrgBook's relevance). */
+  const order: string[] = [];
+  const byTopic = new Map<string, OrgBookCred[]>();
+  for (const c of creds) {
+    const id = c.topic?.source_id ?? "";
+    if (!id) continue;
+    if (!byTopic.has(id)) { byTopic.set(id, []); order.push(id); }
+    byTopic.get(id)!.push(c);
+  }
+  const isReg = (c: OrgBookCred) => (c.credential_type?.description ?? REGISTRATION) === REGISTRATION;
+  const current = (list: OrgBookCred[]) =>
+    list.filter(isReg).sort((a, b) => Number(b.latest && !b.revoked) - Number(a.latest && !a.revoked))[0];
+
+  /* Companies the response gave no registration credential for (a BN search): ask once more by number. */
+  const missing = order.filter((id) => !current(byTopic.get(id)!)).slice(0, 3);
+  await Promise.all(missing.map(async (id) => {
+    const more = await orgBookQuery(id, 10).catch(() => [] as OrgBookCred[]);
+    for (const c of more) if (c.topic?.source_id === id) byTopic.get(id)!.push(c);
+  }));
+
+  const mapped: ResultShape[] = [];
+  for (const id of order) {
+    const list = byTopic.get(id)!;
+    const reg  = current(list);
+    if (!reg) continue;  // still nothing to say about status or name: leave it to CBR rather than guess
+    const bnCred    = list.find((c) => c.credential_type?.description === BN_CRED);
+    const typeCode  = oAttr(reg.attributes, "entity_type");
+    const rawStatus = oAttr(reg.attributes, "entity_status");
+    mapped.push({
+      name:               reg.topic?.local_name?.text || reg.names.find((n) => !n.type || n.type === "entity_name")?.text || reg.names[0]?.text || "Unknown",
+      businessNumber:     bnCred ? oAttr(bnCred.attributes, "business_number") : "",
+      registryId:         id,
       location:           "British Columbia",
       status:             rawStatus === "ACT" ? "Active" : "Inactive",
       statusNotes:        rawStatus === "ACT" ? "Active" : rawStatus,
       entityType:         ENTITY_LABELS[typeCode] ?? typeCode,
-      registrationDate:   oAttr(r.attributes, "registration_date").slice(0, 10),
+      registrationDate:   oAttr(reg.attributes, "registration_date").slice(0, 10),
       jurisdiction:       "British Columbia",
       provinceKey:        "bc",
-    };
-  });
+    });
+  }
   const filtered = mapped.filter((r) => matchesStatus(r.status, r.statusNotes, status));
   return { source: "orgbook", results: filtered };
 }

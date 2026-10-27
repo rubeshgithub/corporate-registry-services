@@ -73,6 +73,14 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   Amber, not red, in InlineLookupOrder; the snapshot email shows the row as "Annual return" plus the explanation; the outreach
   annual-return template no longer prints "DAYS OVERDUE" (asks "filed yet?").
 
+## OrgBook (BC) returns credentials, not companies (Oct 2026)
+
+- A BC company has a "registration" credential (name, status, type, date) and a "business_number" credential (name = the BN,
+  no status). Mapped one-per-credential, a search showed "841885668" as the legal name and Inactive for an Active company
+  (BC0864727, STRUB SPORTS DESIGNS INC.). `searchOrgBookOnly` now groups by topic, uses the latest unrevoked registration
+  credential, takes the BN from the BN credential and the name from `topic.local_name`; a BN-only hit is re-queried once by its
+  BC number. Check the live JSON in a browser (the sandbox cannot reach orgbook.gov.bc.ca).
+
 ## Useful one-liners
 
 ```bash
