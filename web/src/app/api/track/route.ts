@@ -35,6 +35,7 @@ type PageviewBody = {
   gclid?:      string;   // Google Ads click ID
   msclkid?:    string;   // Microsoft (Bing) Ads click ID
   src?:        string;   // our own ?src= attribution tag on order links
+  thanks?:     string;   // on /order/thanks: "paid" | "quote" | "none"
 };
 
 type ClickBody = {
@@ -97,6 +98,9 @@ export async function POST(req: Request) {
     const pv   = await pageviews();
     const path = normalizePath(trunc(body.path));
     const sid  = trunc(body.sessionId, 64);
+    const thanksKind = path === "/order/thanks"
+      ? (["paid", "quote", "none"].includes(body.thanks ?? "") ? body.thanks : "none")
+      : undefined;
     await pv.insertOne({
       path,
       referrer:    trunc(body.referrer),
@@ -112,6 +116,7 @@ export async function POST(req: Request) {
       /* The owner browsing his own site while logged in to admin — marked so
          the journey report can set those sessions aside and they don't text. */
       admin:       isAdminBrowser || undefined,
+      thanks:      thanksKind,
       /* Where the request physically came from — Cloudflare's country code
          and a salted hash of the IP (never the IP itself). Two sessions
          from one hash a second apart, or a burst from one country at once,
@@ -124,7 +129,11 @@ export async function POST(req: Request) {
      *  per hour. Look for a prior pageview by the same session on any
      *  /order/* path within the last hour — the insert we just did counts,
      *  so >1 hits means this isn't the first. Fire-and-forget SMS. */
-    if (path.startsWith("/order/")) {
+    /* A thank-you page with neither Stripe's session_id nor a quote ref is
+       someone reopening the page (history, bookmark, a back button) — no
+       order. Oct 28 2026: "Visitor on /order/thanks from /terms" was a
+       visitor who read the terms and left. Those never alert. */
+    if (path.startsWith("/order/") && thanksKind !== "none") {
       void (async () => {
         try {
           const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
@@ -142,7 +151,10 @@ export async function POST(req: Request) {
           const chromeMajor = Number(/(?:Chrome|CriOS)\/(\d+)/.exec(ua)?.[1] ?? "999");
           const staleUa = /Firefox\/109\.0/.test(ua) || /Edge\/1[2-8]\./.test(ua) || chromeMajor < 135;
           const aiOrBot = /bot|crawl|spider|slurp|headless|lighthouse|preview|puppeteer|playwright|selenium|python|curl|wget|gptbot|chatgpt|openai|oai-searchbot|perplexity|claude|anthropic|bytespider|ccbot|google-extended|applebot|amazonbot|meta-externalagent|cohere/i.test(ua);
-          if (prior <= 1 && !isAdminBrowser && !aiOrBot && !staleUa) {
+          /* A real payment or quote request alerts even when the visitor was
+             on an order page minutes earlier — that is the news. */
+          const outcome = thanksKind === "paid" || thanksKind === "quote";
+          if ((prior <= 1 || outcome) && !isAdminBrowser && !aiOrBot && !staleUa) {
             /* Say where they came from, so the text is actionable: the page
                they were on just before, else the external referrer. */
             const prev = await pv.find({ sessionId: sid, path: { $ne: path } }).sort({ ts: -1 }).limit(1).toArray();
@@ -151,7 +163,10 @@ export async function POST(req: Request) {
               try { from = body.referrer ? new URL(body.referrer).host.replace(/^www\./, "") : "direct"; } catch { from = "direct"; }
             }
             const dev = /iPad|Tablet/i.test(ua) ? "tablet" : /Mobi|Android|iPhone/i.test(ua) ? "mobile" : "desktop";
-            void sendAlertSms(`CRS: Visitor on ${path} from ${from} (${dev}) - session ${sid.slice(0, 6)}`.slice(0, 155));
+            const what = thanksKind === "paid"  ? "Payment completed (back from Stripe)"
+                       : thanksKind === "quote" ? "Quote request sent"
+                       : `Visitor on ${path}`;
+            void sendAlertSms(`CRS: ${what} from ${from} (${dev}) - session ${sid.slice(0, 6)}`.slice(0, 155));
           }
         } catch { /* SMS is fire-and-forget; failure never affects the pageview */ }
       })();

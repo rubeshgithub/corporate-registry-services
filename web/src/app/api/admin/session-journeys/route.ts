@@ -93,7 +93,8 @@ export async function GET(req: Request) {
     const firstOrder   = orderViews[0]?.ts.getTime() ?? now;
     const afterOrder   = [...v, ...c, ...sr].map((r) => r.ts.getTime()).filter((t) => t > firstOrder);
     const secondsOnOrder = afterOrder.length ? Math.round((Math.max(...afterOrder) - firstOrder) / 1000) : 0;
-    const paid         = v.some((r) => r.path.startsWith("/order/thanks"));
+    /* Older rows have no `thanks` field (assumed paid); a reopened page ("none") or a quote request is not a sale. */
+    const paid         = v.some((r) => r.path.startsWith("/order/thanks") && (r.thanks ?? "paid") === "paid");
     const beforeOrder  = v.filter((r) => r.ts.getTime() < firstOrder);
     const cameFrom     = beforeOrder.length ? beforeOrder[beforeOrder.length - 1].path : "(landed directly on the order page)";
 

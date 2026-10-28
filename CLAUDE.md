@@ -83,6 +83,13 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
 - A Business Number searched with province BC or "all" also asks OrgBook (it does index BNs), keeps only rows with exactly
   that BN, and puts them first in place of CBR's row for the same corporation (`orgBookBn` in the GET handler).
 
+## Thank-you page visits (Oct 2026)
+
+- Analytics.tsx sends `thanks` on /order/thanks pageviews: "paid" (Stripe's `session_id`), "quote" (the wizard's `ref`) or
+  "none" (reopened from history/bookmark — no order). Stored on the pageview. Teams/SMS: "Payment completed" / "Quote request
+  sent" (always, even right after an order page), and nothing for "none" (Oct 28 2026: "Visitor on /order/thanks from /terms"
+  was someone who read the terms and left). Session journeys and docu10 count a sale only for "paid" (rows without the field = paid).
+
 ## Useful one-liners
 
 ```bash

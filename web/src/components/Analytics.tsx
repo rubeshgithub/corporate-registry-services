@@ -84,6 +84,12 @@ export default function Analytics() {
          corp-search). Non-personal; tells the journey report which button
          or email a direct landing came from. */
       src:          search.get("src")          ?? undefined,
+      /* What a thank-you visit actually was: Stripe's return (paid), the
+         wizard's quote request (quote), or a reopened/bookmarked page with
+         neither (none). The path alone made every one look like a sale. */
+      thanks:       pathname === "/order/thanks"
+        ? (search.get("session_id") ? "paid" : search.get("ref") ? "quote" : "none")
+        : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, search.toString()]);

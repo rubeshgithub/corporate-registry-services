@@ -43,6 +43,7 @@ export type PageviewDoc = {
   utmCampaign?: string;
   src?:        string;       // our ?src= tag on the landing URL
   admin?:      boolean;      // viewed with the admin cookie present (the owner)
+  thanks?:     string;       // on /order/thanks: "paid" (Stripe return) | "quote" | "none" (reopened, no order)
   country?:    string;       // Cloudflare CF-IPCountry
   ipHash?:     string;       // salted IP hash (public-form-guard) — never the raw IP
   fbclid?:    string;       // Facebook / Instagram click ID
