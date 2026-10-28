@@ -112,6 +112,16 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search the PEI registry"
       subOverride="Look up any Prince Edward Island company or business name free — and order its official registry profile report if you need the record." />
   ),
+  /* BC company-password article: the reader holds a company they can't get
+     into — lookup-first (owner request 2026-10-28: search widget on top), with
+     the annual-report filing as the paid step, since that is the deadline
+     driving the password hunt. */
+  "articles/bc-company-password": ({ slug, prices }) => (
+    <InlineLookupOrder service="annual-return" provinceKey="bc" priceCents={prices["annual-return-bc"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Find your company"
+      titleOverride="Look up your B.C. company"
+      subOverride="Search by company name or incorporation number to confirm its status — then file your annual report with or without the password; we recover it with you." />
+  ),
   "articles/bc-corporate-registry-search": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="bc" priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="BC corporate registry search"
