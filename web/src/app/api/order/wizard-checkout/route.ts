@@ -6,6 +6,7 @@ import { summarizeRegistryAccessSealed } from "@/lib/registry-code-seal";
 import Stripe from "stripe";
 import { findService, getBucket, JURISDICTIONS } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService } from "@/lib/pricing";
+import { annualReturnKeyForService } from "@/lib/annual-return-price";
 
 /**
  * POST /api/order/wizard-checkout
@@ -91,7 +92,8 @@ export async function POST(req: Request) {
     }
     let cents: number;
     try {
-      cents = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents(priceKeyForService(key));
+      /* Annual returns use the province's own price (BC, AB, ON, NS, QC), as the single-service order does. */
+      cents = USE_TEST_PRICE ? TEST_OVERRIDE_CENTS : await getPriceCents(annualReturnKeyForService(priceKeyForService(key), body.jurisdictionKey));
     } catch {
       return NextResponse.json({ error: "not-directly-purchasable", service: key }, { status: 409 });
     }

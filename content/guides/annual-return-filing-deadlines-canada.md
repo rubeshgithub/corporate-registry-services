@@ -30,13 +30,13 @@ Failure to file triggers a cascade of consequences:
 | Jurisdiction | Filing Due Date | Filing Portal | CRS Fee (incl. Govt. Fee) |
 |---|---|---|---|
 | **Federal (CBCA)** | Within 60 days of the corporation's anniversary month | Corporations Canada | {{price:annual-return}} + GST |
-| **Ontario** | Within 6 months of the corporation's fiscal year-end | Ontario Business Registry | {{price:annual-return}} + HST |
-| **British Columbia** | Within 2 months of the corporation's anniversary date | BC Registry Services | {{price:annual-return}} + GST |
-| **Alberta** | Within 1 month of the corporation's anniversary date | CORES (Alberta Corporate Registry) | {{price:annual-return}} + GST |
-| **Québec** | By March 31 each year (annual declaration) | Registraire des entreprises | {{price:annual-return}} + GST/QST |
+| **Ontario** | Within 6 months of the corporation's fiscal year-end | Ontario Business Registry | {{price:annual-return-on}} + HST |
+| **British Columbia** | Within 2 months of the corporation's anniversary date | BC Registry Services | {{price:annual-return-bc}} + GST |
+| **Alberta** | Within 1 month of the corporation's anniversary date | CORES (Alberta Corporate Registry) | {{price:annual-return-ab}} + GST |
+| **Québec** | By March 31 each year (annual declaration) | Registraire des entreprises | {{price:annual-return-qc}} + GST/QST |
 | **Saskatchewan** | Within 3 months of the corporation's anniversary date | ISC Saskatchewan | {{price:annual-return}} + GST |
 | **Manitoba** | By March 31 each year | Companies Office Manitoba | {{price:annual-return}} + GST |
-| **Nova Scotia** | Within 30 days of the corporation's anniversary date | Registry of Joint Stock Companies | {{price:annual-return}} + HST |
+| **Nova Scotia** | Within 30 days of the corporation's anniversary date | Registry of Joint Stock Companies | {{price:annual-return-ns}} + HST |
 | **New Brunswick** | By February 1, or within 30 days of anniversary | Service New Brunswick | {{price:annual-return}} + HST |
 | **Newfoundland & Labrador** | Within 3 months of the corporation's anniversary date | Registry of Companies | $149 + HST |
 | **Prince Edward Island** | Within 30 days of the corporation's anniversary date | PEI Corporate Registry | {{price:annual-return}} + HST |

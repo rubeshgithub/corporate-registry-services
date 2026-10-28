@@ -6,6 +6,7 @@ import RegistryAccessField from "@/components/order/RegistryAccessField";
 import TermsAgreement from "@/components/order/TermsAgreement";
 import type { ServiceBucket, ServiceItem } from "@/lib/service-config";
 import { priceKeyForService } from "@/lib/price-catalogue";
+import { annualReturnKeyForService } from "@/lib/annual-return-price";
 import { JURISDICTIONS } from "@/lib/service-config";
 
 type Props = {
@@ -22,7 +23,7 @@ export default function StepReview({ state, bucket, onTermsChange, onRegistryAcc
   const accessService = wizardAccessService(state);
   /* The checkout route resolves the same catalogue by key, so the total shown
      here is the total Stripe will charge. */
-  const centsFor = (svc: ServiceItem) => prices?.[priceKeyForService(svc.key)] ?? svc.priceCents;
+  const centsFor = (svc: ServiceItem) => prices?.[annualReturnKeyForService(priceKeyForService(svc.key), state.jurisdictionKey)] ?? prices?.[priceKeyForService(svc.key)] ?? svc.priceCents;
   const selectedServices = bucket.services.filter((s) =>
     state.serviceKeys.includes(s.key)
   );

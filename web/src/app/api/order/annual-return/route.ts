@@ -169,6 +169,10 @@ export async function POST(req: Request) {
     if (!h || String(h.provinceKey).toLowerCase() !== "ns") return false;
     return /^\d{5,10}$/.test(String(h.registryId ?? "")) || /nova scotia/i.test(String(h.jurisdiction ?? ""));
   }
+  /* Quebec: a higher price, so the province label is enough — no one gains by claiming it. */
+  function isQcHit(h: Hit | undefined): boolean {
+    return !!h && (String(h.provinceKey).toLowerCase() === "qc" || /qu[eé]bec/i.test(String(h.jurisdiction ?? "")));
+  }
   /* Alberta corporate access numbers are 10 digits; OrgBook/CBR/gazette label it "Alberta". */
   function isAbHit(h: Hit | undefined): boolean {
     if (!h || String(h.provinceKey).toLowerCase() !== "ab") return false;
@@ -177,7 +181,7 @@ export async function POST(req: Request) {
   const pcPerYear  = await proCorpPriceCentsLive(isPC, "annual-return");
   const perYearCents = USE_TEST_PRICE
     ? PRICE_PER_YEAR_CAD_CENTS
-    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : isAbHit(body.hit) ? "ab" : isOnHit(body.hit) ? "on" : isNsHit(body.hit) ? "ns" : "")));
+    : (pcPerYear ?? await getPriceCents(annualReturnPriceKey(isBcHit(body.hit) ? "bc" : isAbHit(body.hit) ? "ab" : isOnHit(body.hit) ? "on" : isNsHit(body.hit) ? "ns" : isQcHit(body.hit) ? "qc" : "")));
 
   try {
     const session = await stripe.checkout.sessions.create({

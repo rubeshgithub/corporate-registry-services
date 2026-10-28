@@ -1,11 +1,11 @@
 ﻿---
 title: "Quebec Corporate Annual Return"
-description: "File your Quebec corporate annual return (annual updating declaration) with the Registraire des entreprises du Québec — {{price:annual-return}} all-in, fee included."
+description: "File your Quebec corporate annual return (annual updating declaration) with the Registraire des entreprises du Québec — {{price:annual-return-qc}} all-in, fee included."
 slug: "Quebec-corporate-annual-return"
 section: "annual-return"
 ---
 
-Quebec Annual Return Filing — {{price:annual-return}} + applicable tax, all-in (including government fees).
+Quebec Annual Return Filing — {{price:annual-return-qc}} + applicable tax, all-in (including government fees).
 
 Every Quebec corporation has to file its annual return with the registry office every year. Filing an annual return avoids the potential administrative dissolution of a business.
 

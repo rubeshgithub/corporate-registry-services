@@ -90,6 +90,14 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   sent" (always, even right after an order page), and nothing for "none" (Oct 28 2026: "Visitor on /order/thanks from /terms"
   was someone who read the terms and left). Session journeys and docu10 count a sale only for "paid" (rows without the field = paid).
 
+## Quebec annual return price (Oct 2026)
+
+- Owner, Oct 28 2026: `annual-return-qc` $199 + GST all-in (Registraire des entreprises: $106 regular / $159 priority; filed via
+  clicSÉQUR). In `annualReturnPriceKey` (BY_PROVINCE qc), the annual-return route (`isQcHit`: provinceKey qc or "Québec"), the
+  order page's province prices, the FAQ, and Quebec content tokens. The wizard (StepReview + wizard-checkout) now prices annual
+  returns by jurisdiction too (`annualReturnKeyForService`) — before, a BC/ON/AB/NS/QC wizard order paid the general price.
+  docu10 mirrors the default in `lead-pricing.ts`.
+
 ## Google AdSense (Oct 2026)
 
 - Owner, Oct 28 2026: site verification meta `google-adsense-account` = ca-pub-9570755789026196 via `metadata.other` in
