@@ -83,7 +83,7 @@ For most owner-operated BC businesses, incorporating provincially is simpler and
 
 ## How long does it take to incorporate in BC?
 
-Cost and speed are related, because a slow filing costs you weeks of not being able to open the bank account:
+Cost and speed are related, because a slow filing costs you weeks of not being able to [open the business bank account](/articles/non-resident-business-bank-account-canada):
 
 - **Numbered company, filed online:** effectively immediate — no name examination, and BC Registries typically issues the Certificate of Incorporation the same or next business day.
 - **Named company, standard queue:** the $30 name request commonly takes one to two weeks to examine, then filing is fast. The $100 priority service compresses name examination to 1–2 business days.

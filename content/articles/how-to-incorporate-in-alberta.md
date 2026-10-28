@@ -80,6 +80,7 @@ The certificate is the start, not the finish. To be organized properly, a new Al
 - **Issued share certificates** — founders are shareholders only once shares are actually issued and certificated.
 - **A minute book** — the corporation's legal record book. Banks, buyers, and the CRA all eventually ask for it; a [digital minute book](/minute-books/digital-minute-book-canada) keeps it complete and signable from anywhere.
 - **A Business Number** from the CRA, plus GST registration once revenue crosses the threshold.
+- **A business bank account** — the bank will ask for the Certificate of Incorporation, the minute book's registers and often a certificate of status. Here's [how to open a business bank account in Canada](/articles/non-resident-business-bank-account-canada), including the extra documents non-resident owners are asked for.
 
 And one recurring obligation with an unusually tight window: an Alberta corporation must file an annual return **within one month of its incorporation anniversary**, every year, through a registry agent. Miss it two years running and the corporation can be struck from the registry — [here's how to file the Alberta annual return](/articles/how-to-file-your-annual-return-in-alberta), and what to do if you've already received a [notice of intent to dissolve](/articles/intent-to-dissolve-notice-alberta). Every CRS incorporation includes free deadline tracking, so the reminder reaches you before the window closes.
 
