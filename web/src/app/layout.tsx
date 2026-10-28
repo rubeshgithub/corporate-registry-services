@@ -46,6 +46,11 @@ export const metadata: Metadata = {
       "Fast, official corporate filings and searches across all Canadian provinces and territories.",
     siteName: "CRS — Corporate Registry Services",
   },
+  /* Google AdSense site verification (owner, Oct 28 2026). Pages that set
+     their own `other` would replace this — none do. */
+  other: {
+    "google-adsense-account": "ca-pub-9570755789026196",
+  },
 };
 
 export default function RootLayout({

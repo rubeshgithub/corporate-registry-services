@@ -90,6 +90,12 @@ CRS (corporateregistryservices.ca) — Canadian corporate registry services: ann
   sent" (always, even right after an order page), and nothing for "none" (Oct 28 2026: "Visitor on /order/thanks from /terms"
   was someone who read the terms and left). Session journeys and docu10 count a sale only for "paid" (rows without the field = paid).
 
+## Google AdSense (Oct 2026)
+
+- Owner, Oct 28 2026: site verification meta `google-adsense-account` = ca-pub-9570755789026196 via `metadata.other` in
+  `app/layout.tsx` (a page that sets its own `other` would drop it), and `public/ads.txt` with the Google seller line. No ad
+  script yet. When ads go in, keep them off /order/*, /admin, /o/* and checkout pages.
+
 ## Useful one-liners
 
 ```bash
