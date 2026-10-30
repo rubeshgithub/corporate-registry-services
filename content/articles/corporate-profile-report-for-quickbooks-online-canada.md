@@ -3,6 +3,7 @@ title: "QuickBooks Online Profile Report — Any Province · {{price:profile-rep
 h1: "Corporate Profile Report for QuickBooks Online — Every Province and Federal"
 slug: "corporate-profile-report-for-quickbooks-online-canada"
 section: "articles"
+date: "2026-10-04"
 description: "Which registry document QuickBooks Online accepts in each province and federally, what it shows, and how to get it emailed within one business hour."
 widgetEyebrow: "For QuickBooks Online verification"
 widgetTitle: "Get the profile report QuickBooks asks for"

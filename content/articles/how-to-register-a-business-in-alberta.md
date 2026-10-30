@@ -3,6 +3,7 @@ title: "How to Register a Business in Alberta: Costs & Steps"
 h1: "How to Register a Business in Alberta: Sole Proprietorship or Corporation?"
 slug: "how-to-register-a-business-in-alberta"
 section: "articles"
+date: "2026-09-13"
 description: "Trade name or incorporation? Why you can't file directly with the Alberta government, what each really costs, and the steps for both."
 lastUpdated: "2026-09"
 ---

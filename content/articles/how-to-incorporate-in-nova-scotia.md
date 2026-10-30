@@ -3,6 +3,7 @@ title: "How to Incorporate in Nova Scotia: Fees, Steps & Timelines"
 h1: "How to Incorporate a Business in Nova Scotia"
 slug: "how-to-incorporate-in-nova-scotia"
 section: "articles"
+date: "2026-08-01"
 description: "Incorporate in Nova Scotia: Canada's lowest Fees, RJSC filing steps, name reservation, timelines - CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in Nova Scotia?"

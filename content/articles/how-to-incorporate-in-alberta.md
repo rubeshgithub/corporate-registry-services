@@ -3,6 +3,7 @@ title: "How to Incorporate in Alberta: Fees, Steps & Costs (2026)"
 h1: "How to Incorporate a Business in Alberta"
 slug: "how-to-incorporate-in-alberta"
 section: "articles"
+date: "2026-09-22"
 description: "Incorporate in Alberta: $291.75 government fee, NUANS name search, and every ABCA step — or CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in Alberta?"

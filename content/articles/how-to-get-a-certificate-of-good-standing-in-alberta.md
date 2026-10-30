@@ -3,6 +3,7 @@ title: "Certificate of Good Standing in Alberta: How to Get One"
 h1: "How to Get a Certificate of Good Standing in Alberta"
 slug: "how-to-get-a-certificate-of-good-standing-in-alberta"
 section: "articles"
+date: "2026-09-25"
 description: "How to get a certificate of good standing (Certificate of Status) in Alberta: registry-agent costs, turnaround, and a 3-hour PDF option from CRS."
 faq:
   - q: "Is a Certificate of Status the same as a certificate of good standing in Alberta?"

@@ -3,6 +3,7 @@ title: "New Brunswick Corporate Registry Search: Free & Paid Options"
 h1: "How to Search the New Brunswick Corporate Registry"
 slug: "new-brunswick-corporate-registry-search"
 section: "articles"
+date: "2026-09-07"
 description: "How to search New Brunswick's Corporate Affairs Registry Database: free BN lookup, $3 name search, status codes — and full profile reports in 3 hours."
 faq:
   - q: "Is the New Brunswick corporate registry search free?"

@@ -3,6 +3,7 @@ title: "Business BCeID: How to Register & BC Registry Access"
 h1: "Business BCeID and BC Registry Accounts: What You Actually Need to File in B.C."
 slug: "business-bceid-bc-registry-account"
 section: "articles"
+date: "2026-09-10"
 description: "How to register for a Business BCeID, how it differs from a BC Services Card login, and when a one-a-year filer is better off not bothering at all."
 lastUpdated: "2026-09"
 ---

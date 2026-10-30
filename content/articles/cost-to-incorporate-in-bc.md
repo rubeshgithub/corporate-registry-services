@@ -3,6 +3,7 @@ title: "How Much Does It Cost to Incorporate in BC? (2026)"
 h1: "How Much Does It Cost to Incorporate in BC?"
 slug: "cost-to-incorporate-in-bc"
 section: "articles"
+date: "2026-08-25"
 description: "BC incorporation costs $350 in government fees plus a $30 name request — DIY vs. lawyer vs. CRS from {{price:incorporation-numbered}} all-in. Every fee and deadline, 2026."
 faq:
   - q: "How much does it cost to incorporate in BC?"

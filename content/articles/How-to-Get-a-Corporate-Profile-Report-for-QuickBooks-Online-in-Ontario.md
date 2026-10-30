@@ -3,6 +3,7 @@ title: "Ontario Profile Report for QuickBooks Online — {{price:profile-report}
 h1: "Ontario Profile Report for QuickBooks Online Verification"
 slug: "how-to-get-a-corporate-profile-report-for-quickbooks-online-in-ontario"
 section: "articles"
+date: "2026-05-28"
 description: "QuickBooks asks Ontario corporations for an Ontario Business Registry Profile Report. What it shows, what to fix first, and how to get it in one hour."
 widgetEyebrow: "For QuickBooks Online verification"
 widgetTitle: "Get your Ontario Profile Report"

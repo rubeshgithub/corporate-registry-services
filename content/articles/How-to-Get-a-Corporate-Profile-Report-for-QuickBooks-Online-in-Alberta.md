@@ -3,6 +3,7 @@ title: "Alberta Corporate Search for QuickBooks Online — {{price:profile-repor
 h1: "Alberta Corporate Search for QuickBooks Online Verification"
 slug: "how-to-get-a-corporate-profile-report-for-quickbooks-online-in-alberta"
 section: "articles"
+date: "2026-05-28"
 description: "QuickBooks asks Alberta corporations for a Corporation/Non-Profit Search. What it shows, what to check before uploading, and how to get it in 1 hour."
 widgetEyebrow: "For QuickBooks Online verification"
 widgetTitle: "Get your Alberta Corporation Search"

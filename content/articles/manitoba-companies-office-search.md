@@ -3,6 +3,7 @@ title: "Manitoba Companies Office Search: Free & Paid Options"
 h1: "How to Search the Manitoba Companies Office Registry"
 slug: "manitoba-companies-office-search"
 section: "articles"
+date: "2026-10-22"
 description: "Search Manitoba's Companies Office registry: free Companies Online search, $40 certificates, document copies — and profile reports in 1 business hour."
 faq:
   - q: "Is the Manitoba Companies Office search free?"

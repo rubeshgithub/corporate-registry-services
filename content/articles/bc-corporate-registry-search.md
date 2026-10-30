@@ -3,6 +3,7 @@ title: "BC Corporate Registry Search: Find Any B.C. Company"
 h1: "How to Search the B.C. Corporate Registry"
 slug: "bc-corporate-registry-search"
 section: "articles"
+date: "2026-10-25"
 description: "How to search BC's corporate registry free — Business Search, OrgBook BC, no-login routes — plus certificate fees and what each record shows."
 faq:
   - q: "Is searching the BC corporate registry free?"

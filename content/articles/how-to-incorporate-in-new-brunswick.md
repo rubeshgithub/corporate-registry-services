@@ -3,6 +3,7 @@ title: "How to Incorporate in New Brunswick: Fees, Steps & Timing"
 h1: "How to Incorporate a Business in New Brunswick"
 slug: "how-to-incorporate-in-new-brunswick"
 section: "articles"
+date: "2026-08-19"
 description: "Incorporate in New Brunswick: $262 govt fee, NUANS, Corporate Registry e-filing steps, timelines and annual return rules. CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in New Brunswick?"

@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { listSection, getPillar, primePrices, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
+import { listSection, listArticleCards, getPillar, primePrices, SECTION_LABELS, type Section, SECTIONS } from "@/lib/content";
+import ArticlesIndex from "@/components/ArticlesIndex";
 import { breadcrumbLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { ArrowRight } from "lucide-react";
 import { formatReviewedDate } from "@/lib/format-date";
@@ -197,6 +198,40 @@ export default async function SectionPage({
               </>
             )}
           </article>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  /* Articles get their own index (owner, Oct 30 2026): newest first with the published date, filters by topic and
+     province with counts, search. Every card is server-rendered; the filters only hide cards. */
+  if (section === "articles") {
+    const cards = listArticleCards("articles");
+    const latest = cards.find((c) => c.date)?.date;
+    const provinces = new Set(cards.map((c) => c.province)).size;
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(breadcrumb)} />
+        <Header />
+        <main style={{ flex: 1, background: "var(--bg)" }}>
+          <div className="ai-hero">
+            <div className="ai-hero-inner">
+              <a href="/" className="ai-crumb">← Home</a>
+              <div><span className="ai-eyebrow">Knowledge hub</span></div>
+              <h1>Articles &amp; guides for Canadian corporations</h1>
+              <p>
+                Annual returns, incorporation, profile reports, certificates and minute books — explained province by province,
+                checked against the government registries.
+              </p>
+              <div className="ai-stats">
+                <span><b>{cards.length}</b>articles</span>
+                <span><b>{provinces}</b>jurisdictions covered</span>
+                {latest && <span><b>{new Date(`${latest}T12:00:00Z`).toLocaleDateString("en-CA", { month: "short", day: "numeric", timeZone: "UTC" })}</b>latest article</span>}
+              </div>
+            </div>
+          </div>
+          <ArticlesIndex articles={cards} />
         </main>
         <Footer />
       </>

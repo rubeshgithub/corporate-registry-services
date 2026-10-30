@@ -3,6 +3,7 @@ title: "BC Transparency Register: Rules, Penalties, 2026 Filing"
 h1: "BC Transparency Register: What Every Private B.C. Company Must Record"
 slug: "bc-transparency-register"
 section: "articles"
+date: "2026-09-10"
 description: "Private B.C. companies have needed a transparency register since October 2020. Who's a significant individual, what to record, and the $100,000 penalty."
 lastUpdated: "2026-09"
 ---

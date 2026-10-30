@@ -3,6 +3,7 @@ title: "NB Annual Return — Service New Brunswick · {{price:annual-return}} al
 h1: "File Your New Brunswick Annual Return"
 slug: "How-to-File-Your-Annual-Return-in-New-Brunswick"
 section: "articles"
+date: "2026-05-28"
 description: "File your New Brunswick annual return with Service New Brunswick's Corporate Registry in 1 business day. {{price:annual-return}} all-in, government fee included. Missed anniversary or calendar deadline? File same day and stay in good standing."
 ---
 

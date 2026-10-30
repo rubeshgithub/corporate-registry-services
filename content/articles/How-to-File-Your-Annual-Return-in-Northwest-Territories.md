@@ -2,6 +2,7 @@
 title: "Northwest Territories Annual Return: How to File with NWT Corporate Registries — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Northwest-Territories"
 section: "articles"
+date: "2026-05-28"
 description: "File your Northwest Territories Annual Return through NWT Corporate Registries — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year."
 ---
 

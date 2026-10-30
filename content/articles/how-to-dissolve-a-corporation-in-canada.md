@@ -3,6 +3,7 @@ title: "How to Dissolve a Corporation in Canada (Step-by-Step)"
 h1: "How to Dissolve a Corporation in Canada"
 slug: "how-to-dissolve-a-corporation-in-canada"
 section: "articles"
+date: "2026-09-28"
 description: "How to dissolve a corporation in Canada: shareholder resolution, final taxes, articles of dissolution, plus government fees for federal, ON, BC and AB."
 faq:
   - q: "Do I need to file anything with the CRA before dissolving?"

@@ -3,6 +3,7 @@ title: "Federal Annual Return: How to File, $12 Fee & Deadline"
 h1: "Federal (CBCA) Annual Return: Filed with Corporations Canada in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-Federal-Canada"
 section: "articles"
+date: "2026-05-28"
 description: "Missed your federal annual return? Unfiled corporations can be dissolved. We file CBCA returns + ISC info: {{price:annual-return}} all-in, gov't fee included."
 ---
 

@@ -3,6 +3,7 @@ title: "How Much Does It Cost to Incorporate in Ontario? (2026)"
 h1: "How Much Does It Cost to Incorporate in Ontario?"
 slug: "cost-to-incorporate-in-ontario"
 section: "articles"
+date: "2026-08-16"
 description: "Ontario incorporation costs $300 in government fees plus a NUANS report — DIY vs. lawyer vs. CRS at {{price:incorporation-numbered}} all-in. Every fee, deadline and hidden cost, 2026."
 faq:
   - q: "How much does it cost to incorporate in Ontario?"

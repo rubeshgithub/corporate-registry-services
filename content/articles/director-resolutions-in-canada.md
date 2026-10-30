@@ -3,6 +3,7 @@ title: "Canada Director Resolutions | {{price:director-resolution}} per Set, 1 B
 h1: "Canada Director Resolutions: Prepared by CRS in 1 Business Day"
 slug: "director-resolutions-in-canada"
 section: "articles"
+date: "2026-07-17"
 description: "Search your Canada corporation → director resolutions + register updates in 1 business day. {{price:director-resolution}} all-in + GST. Annual package, ad-hoc, or catch-up sets."
 faq:
   - q: "Do director resolutions have to be filed with the government in Canada?"

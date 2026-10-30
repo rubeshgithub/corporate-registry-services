@@ -3,6 +3,7 @@ title: "Corporate Profile Report in Canada: What It Is & Cost"
 h1: "What Is a Corporate Profile Report in Canada (and How Do You Get One)?"
 slug: "corporate-profile-report-canada"
 section: "articles"
+date: "2026-08-31"
 description: "What a corporate profile report shows, what it costs in each province, and how to get one within 1 business hour — {{price:profile-report}} all-in from a certified registry agent."
 faq:
   - q: "Is a corporate profile report the same as a corporate search?"

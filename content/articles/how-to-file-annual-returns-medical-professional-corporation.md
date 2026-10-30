@@ -3,6 +3,7 @@ title: "Medical Professional Corporation Annual Return: How to File"
 h1: "How to File an Annual Return for a Medical Professional Corporation"
 slug: "how-to-file-annual-returns-medical-professional-corporation"
 section: "articles"
+date: "2026-09-11"
 description: "A medical PC runs on two clocks: the registry annual return and the college permit renewal. What each one is, when it's due, and what happens if you miss."
 lastUpdated: "2026-09"
 ---

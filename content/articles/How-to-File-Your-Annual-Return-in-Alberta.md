@@ -3,6 +3,7 @@ title: "CORES Alberta Annual Return | Certified Agent | {{price:annual-return-ab
 h1: "Alberta Annual Return: Filed via CORES in 1 Business Day"
 slug: "how-to-file-your-annual-return-in-alberta"
 section: "articles"
+date: "2026-05-28"
 description: "Certified CORES Registry Agent files your Alberta annual return in 1 business day — {{price:annual-return-ab}} all-in, no CORES account needed. Beat your 1-month deadline."
 faq:
   - q: "When is the Alberta annual return due?"

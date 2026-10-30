@@ -3,6 +3,7 @@ title: "Certificate of Status Ontario: What It Is & How to Get One"
 h1: "Certificate of Status in Ontario: Which Proof Do You Actually Need?"
 slug: "certificate-of-status-ontario"
 section: "articles"
+date: "2026-08-13"
 description: "Ontario Certificate of Status vs. TCV number: what each proves, the $26 government fee, and how to get your certificate in about 3 hours — {{price:good-standing}} all-in."
 faq:
   - q: "Is a TCV number the same as a Certificate of Status?"

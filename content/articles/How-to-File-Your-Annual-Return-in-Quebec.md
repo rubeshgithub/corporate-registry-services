@@ -2,6 +2,7 @@
 title: "Quebec Annual Return: How to File with Registraire des entreprises — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Quebec"
 section: "articles"
+date: "2026-05-28"
 description: "File your Quebec annual declaration through the Registraire des entreprises (REQ) — {{price:annual-return-qc}} all-in, government fee included. Filed within 1 business day, deadline monitored every year."
 ---
 

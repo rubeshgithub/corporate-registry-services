@@ -3,6 +3,7 @@ title: "Business Name Search Canada: Free Checks & NUANS Rules"
 h1: "How to Do a Business Name Search in Canada"
 slug: "business-name-search-canada"
 section: "articles"
+date: "2026-10-01"
 description: "How to check if a business name is taken in Canada — free registry searches, when a NUANS report is required, and how to reserve your name before filing."
 faq:
   - q: "Is there a free business name search in Canada?"

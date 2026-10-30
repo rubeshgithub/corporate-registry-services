@@ -59,6 +59,8 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     description: doc.description,
     body:        doc.body,
     faq:         doc.faq ?? null,
+    /* First publish date in Calgary, kept when the article is re-published. */
+    date:        (doc.publishedAt ?? new Date()).toLocaleDateString("en-CA", { timeZone: "America/Edmonton" }),
   });
 
   try {

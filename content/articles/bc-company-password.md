@@ -3,6 +3,7 @@ title: "BC Company Password: Find, Reset or Replace It (2026)"
 h1: "The BC Company Password: How to Find It, Reset It — or File Without It"
 slug: "bc-company-password"
 section: "articles"
+date: "2026-10-28"
 description: "Lost your BC company password? Where the access code hides, every reset route, and how to authorize an agent to file your annual report without it."
 faq:
   - q: "Is the BC company password the same as the access code?"

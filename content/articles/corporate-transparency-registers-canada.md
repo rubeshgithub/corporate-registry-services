@@ -3,6 +3,7 @@ title: "Corporate Transparency Registers in Canada: 2026 Rules"
 h1: "Corporate Transparency Registers in Canada: Who Must Keep What, and What's Now Public"
 slug: "corporate-transparency-registers-canada"
 section: "articles"
+date: "2026-10-13"
 description: "Every Canadian corporation must now track who really controls it. The federal ISC filing is public — see which register your corporation needs."
 faq:
   - q: "What is an individual with significant control (ISC)?"

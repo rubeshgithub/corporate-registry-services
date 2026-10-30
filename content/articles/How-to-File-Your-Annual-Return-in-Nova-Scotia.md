@@ -3,6 +3,7 @@ title: "Nova Scotia Annual Return (RJSC) — Filed in 1 Business Day"
 h1: "File Your Nova Scotia Annual Return (RJSC)"
 slug: "How-to-File-Your-Annual-Return-in-Nova-Scotia"
 section: "articles"
+date: "2026-05-28"
 description: "Nova Scotia annual return (RJSC renewal) filed for you in 1 business day — {{price:annual-return-ns}} all-in, government fee included. Due in your anniversary month."
 ---
 

@@ -3,6 +3,7 @@ title: "BC Annual Report: How to File, Fee & Due Date (2026)"
 h1: "How to File a BC Annual Report — and When It's Due"
 slug: "how-to-file-your-annual-return-in-british-columbia"
 section: "articles"
+date: "2026-05-28"
 description: "File with BC Registries yourself for $43.39, or we file it for {{price:annual-return-bc}} + GST, fee included. No BCeID or BC Services Card app — just your company password."
 ---
 

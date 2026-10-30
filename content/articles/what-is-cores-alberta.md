@@ -3,6 +3,7 @@ title: "CORES Alberta: Can't Log In? How to File Without It"
 h1: "What Is CORES in Alberta?"
 slug: "what-is-cores-alberta"
 section: "articles"
+date: "2026-07-27"
 description: "Only registry agents can log in to CORES, Alberta's corporate registry. Search your corporation free here — our certified agents file in 1 business day."
 faq:
   - q: "What does CORES stand for?"

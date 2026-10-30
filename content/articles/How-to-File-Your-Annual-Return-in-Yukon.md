@@ -3,6 +3,7 @@ title: "File Your Yukon Annual Return — Corporate Affairs Yukon · {{price:ann
 h1: "File Your Yukon Annual Return (Corporate Affairs Yukon)"
 slug: "How-to-File-Your-Annual-Return-in-Yukon"
 section: "articles"
+date: "2026-05-28"
 description: "File your Yukon annual return with Corporate Affairs Yukon in 1 business day. {{price:annual-return}} all-in, government fee included. Yukon has one of Canada's shortest deadlines — just 1 month from your anniversary. File same day, no login."
 ---
 

@@ -112,3 +112,14 @@ cd web && npm run build                     # production build (all ~103 content
 cd web && npx tsc --noEmit                  # type-check the whole app
 grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check against service-config.ts
 ```
+
+## Articles index (Oct 2026)
+
+- Owner, Oct 30 2026: /articles is its own index (`[section]/page.tsx` branch → `components/ArticlesIndex.tsx`, styles `.ai-*` in
+  globals.css): newest first with the published date, read time, topic + province on each card, search, sort, and filter chips by
+  TOPIC and PROVINCE with counts in brackets (each row counted within the other active filter). Every card is server-rendered; the
+  filters only hide cards; state is in the URL (`?topic=&province=&q=&sort=`).
+- `listArticleCards` (content.ts) reads frontmatter `date` (YYYY-MM-DD; backfilled for every article from its first git commit, and
+  written by the CMS publish route as the FIRST publish date in Calgary), else `lastUpdated`. Province and topic come from
+  `lib/article-taxonomy.ts` (slug, then title); an article can set `province: "ab"` / `topic: "profile-report"` in frontmatter to
+  override. A new topic or wrong guess → fix the rules there, not by renaming files.

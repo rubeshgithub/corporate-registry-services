@@ -3,6 +3,7 @@ title: "PEI Corporate Registry Search: Look Up Any Island Company"
 h1: "How to Search the PEI Corporate Registry"
 slug: "pei-corporate-registry-search"
 section: "articles"
+date: "2026-10-04"
 description: "How to search the PEI Business / Corporate Registry free — names, numbers, status — and get profile reports or certificates of status in hours."
 faq:
   - q: "Is the PEI corporate registry search free?"

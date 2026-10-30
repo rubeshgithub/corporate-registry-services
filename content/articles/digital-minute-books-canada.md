@@ -3,6 +3,7 @@ title: "Digital Minute Books in Canada: Legal? What the CBCA Says"
 h1: "Digital Minute Books in Canada: What the Law Requires"
 slug: "digital-minute-books-canada"
 section: "articles"
+date: "2026-08-05"
 description: "Digital minute books are fully legal in Canada — CBCA s.22 and every provincial act allow electronic records. What yours must contain, from {{price:minute-book-young-self}} all-in."
 faq:
   - q: "Can corporate resolutions be signed electronically in Canada?"

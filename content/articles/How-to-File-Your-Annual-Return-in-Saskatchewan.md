@@ -3,6 +3,7 @@ title: "File Your Saskatchewan Annual Return — ISC · {{price:annual-return}} 
 h1: "File Your Saskatchewan Annual Return (ISC)"
 slug: "How-to-File-Your-Annual-Return-in-Saskatchewan"
 section: "articles"
+date: "2026-05-28"
 description: "File your Saskatchewan annual return with ISC (Information Services Corporation) in 1 business day. {{price:annual-return}} all-in, government fee included. Due the month after your anniversary — skip the ISC portal and file same day."
 ---
 

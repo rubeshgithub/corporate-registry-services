@@ -3,6 +3,7 @@ title: "Certificate of Good Standing in Saskatchewan: How to Get It"
 h1: "How to Get a Certificate of Good Standing (Certificate of Status) in Saskatchewan"
 slug: "how-to-get-a-certificate-of-good-standing-in-saskatchewan"
 section: "articles"
+date: "2026-10-30"
 description: "Saskatchewan calls it a Certificate of Status. The $15 ISC fee, every ordering route, and how CRS delivers yours in about 3 business hours, all-in."
 faq:
   - q: "Is a certificate of good standing the same as a certificate of status in Saskatchewan?"

@@ -3,6 +3,7 @@ title: "OBR Ontario Annual Return | Filing Agent | {{price:annual-return-on}} Al
 h1: "Ontario Annual Return: Filed with the OBR in 1 Business Day"
 slug: "How-to-File-Your-Annual-Return-in-Ontario"
 section: "articles"
+date: "2026-05-28"
 description: "Ontario annual return filed with the Ontario Business Registry in 1 business day — {{price:annual-return-on}} all-in. No OBR account needed — just your company key."
 ---
 

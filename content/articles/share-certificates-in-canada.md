@@ -3,6 +3,7 @@ title: "Canada Share Certificate + Register Update | {{price:share-certificate}}
 h1: "Canada Share Certificate: Prepared by CRS in 1 Business Day"
 slug: "share-certificates-in-canada"
 section: "articles"
+date: "2026-07-17"
 description: "Search your Canada corporation → share certificate + register updates in 1 business day. {{price:share-certificate}} all-in + GST. Bundle banks, lawyers, and CRA auditors accept."
 faq:
   - q: "Are share certificates legally required in Canada?"

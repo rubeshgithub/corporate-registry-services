@@ -3,6 +3,7 @@ title: "How to Change Directors of a Corporation in Canada"
 h1: "How to Change the Directors of a Corporation (Federal, AB, BC, ON, MB)"
 slug: "how-to-change-directors-of-a-corporation"
 section: "articles"
+date: "2026-10-19"
 description: "Added or removed a director? You have 15 days to tell the registry. The form, fee and deadline for every province — and the fastest way to file it."
 faq:
   - q: "How long do I have to report a director change in Canada?"

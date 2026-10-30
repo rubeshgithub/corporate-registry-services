@@ -3,6 +3,7 @@ title: "How to Incorporate in Saskatchewan: Fees, Steps & Costs"
 h1: "How to Incorporate a Business in Saskatchewan"
 slug: "how-to-incorporate-in-saskatchewan"
 section: "articles"
+date: "2026-08-10"
 description: "Incorporate in Saskatchewan: $255 ISC fee, $50 name reservation, SBCA steps and timelines - CRS files it all for {{price:incorporation-numbered}} all-in."
 faq:
   - q: "How much does it cost to incorporate in Saskatchewan?"

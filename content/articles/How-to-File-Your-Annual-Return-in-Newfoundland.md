@@ -3,6 +3,7 @@ title: "Newfoundland & Labrador Annual Return: How to File"
 h1: "Newfoundland & Labrador Annual Return: How to File with the Registry of Companies — File it to avoid dissolution of your Corporation"
 slug: "How-to-File-Your-Annual-Return-in-Newfoundland"
 section: "articles"
+date: "2026-05-28"
 description: "File your Newfoundland & Labrador Annual Return through the Registry of Companies — {{price:annual-return}} all-in, government fee included. Filed within 1 business day, deadline monitored every year."
 ---
 

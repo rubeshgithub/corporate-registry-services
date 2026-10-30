@@ -3,6 +3,7 @@ title: "Copy of Articles of Incorporation: Fees & How to Order"
 h1: "How to Get a Copy of Articles of Incorporation and Corporate Documents in Canada"
 slug: "how-to-get-corporate-documents-in-canada"
 section: "articles"
+date: "2026-08-01"
 description: "Need a copy of your articles or certificate of incorporation? We get it from Corporations Canada or any province: {{price:corporate-document-single}} + GST per document, gov't fee incl."
 lastUpdated: "2026-08-01"
 faq:

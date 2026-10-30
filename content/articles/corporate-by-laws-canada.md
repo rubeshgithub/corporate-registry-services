@@ -3,6 +3,7 @@ title: "Corporate By-Laws in Canada: What Every Corporation Needs"
 h1: "Corporate By-Laws in Canada: A Complete Guide"
 slug: "corporate-by-laws-canada"
 section: "articles"
+date: "2026-07-17"
 description: "Everything about corporate by-laws in Canada — legal requirements, what to include, standard vs custom by-laws, how to enact and amend them, and the CRS {{price:bylaws}} professional service."
 faq:
   - q: "Are by-laws legally required for a Canadian corporation?"

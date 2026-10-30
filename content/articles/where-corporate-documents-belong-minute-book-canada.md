@@ -3,6 +3,7 @@ title: "Where Every Document Belongs in Your Corporate Minute Book — Canada"
 h1: "Director Resolutions, Shareholder Resolutions & Share Certificates: Where Every Document Belongs in Your Minute Book"
 slug: "where-corporate-documents-belong-minute-book-canada"
 section: "articles"
+date: "2026-07-16"
 description: "Where do signed director resolutions, shareholder resolutions, share subscriptions and share certificates actually go? A practical guide to organizing every document in a Canadian corporate minute book."
 faq:
   - q: "Do directors' resolutions get filed with the government in Canada?"

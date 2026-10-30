@@ -7,6 +7,7 @@ import remarkHtml from "remark-html";
 import type { FaqItem } from "./structured-data";
 import { DEFAULT_PRICES, formatCents } from "./price-catalogue";
 import { getPrices } from "./pricing";
+import { articleProvince, articleTopic, type ProvinceKey, type TopicKey } from "./article-taxonomy";
 
 // Content lives one level above the Next.js project root
 const CONTENT_DIR = path.join(process.cwd(), "..", "content");
@@ -234,6 +235,52 @@ export function listSection(section: Section): ContentMeta[] {
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** One card on the /articles index: what the filters and the card need, nothing more. */
+export type ArticleCard = {
+  section:     Section;
+  slug:        string;
+  title:       string;
+  description: string;
+  /** Published date, YYYY-MM-DD: frontmatter `date` (written by the CMS on first publish and backfilled from
+   *  git), else `lastUpdated`, else "" (sorted last). */
+  date:        string;
+  province:    ProvinceKey;
+  topic:       TopicKey;
+  readMins:    number;
+};
+
+function dayString(v: unknown): string {
+  if (v instanceof Date && !Number.isNaN(v.getTime())) return v.toISOString().slice(0, 10);
+  if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0, 10);
+  return "";
+}
+
+/** Every article in a section as index cards, newest first. Call primePrices() first (titles quote prices). */
+export function listArticleCards(section: Section): ArticleCard[] {
+  const dir = path.join(CONTENT_DIR, section);
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".md") && !f.startsWith("_"))
+    .map((filename) => {
+      const raw = applyPriceTokens(fs.readFileSync(path.join(dir, filename), "utf8"));
+      const { data, content } = matter(raw);
+      const slug = slugify(filename);
+      const title = rebrand((data.title as string) ?? filename.replace(".md", ""));
+      const description = ((data.description as string | undefined)?.trim() || (data.metaDescription as string | undefined)?.trim())
+        || firstParagraphPlain(content);
+      const words = content.split(/\s+/).filter(Boolean).length;
+      return {
+        section, slug, title, description: rebrand(description),
+        date: dayString(data.date) || dayString(data.lastUpdated),
+        province: articleProvince(slug, title, data.province),
+        topic: articleTopic(slug, title, data.topic),
+        readMins: Math.max(1, Math.round(words / 230)),
+      };
+    })
+    .sort((a, b) => (b.date || "0").localeCompare(a.date || "0") || a.title.localeCompare(b.title));
 }
 
 /** Read the pillar (section-index) content from `_index.md` if present.

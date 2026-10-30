@@ -3,6 +3,7 @@ title: "Articles of Incorporation vs Certificate: The Difference"
 h1: "Articles of Incorporation vs Certificate of Incorporation: What's the Difference?"
 slug: "articles-of-incorporation-vs-certificate-of-incorporation"
 section: "articles"
+date: "2026-10-09"
 description: "Articles of incorporation set your company's structure; the certificate proves it exists. What each is, who asks for which, and how to get a copy."
 faq:
   - q: "Is a certificate of incorporation the same as articles of incorporation?"

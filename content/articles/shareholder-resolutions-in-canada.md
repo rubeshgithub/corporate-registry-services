@@ -3,6 +3,7 @@ title: "Shareholder Resolutions in Canada: Ordinary vs Special"
 h1: "Shareholder Resolutions in Canada: A Complete Guide"
 slug: "shareholder-resolutions-in-canada"
 section: "articles"
+date: "2026-07-17"
 description: "Everything about shareholder resolutions in Canada — ordinary vs special resolutions, the annual package, unanimous written resolutions, and the CRS {{price:shareholder-resolution}} professional service."
 faq:
   - q: "What is the difference between an ordinary and a special shareholder resolution in Canada?"

@@ -3,6 +3,7 @@ title: "Intent to Dissolve Notice in Alberta? How to Stop It"
 h1: "Intent to Dissolve Notice From the Alberta Corporate Registry: What to Do"
 slug: "intent-to-dissolve-notice-alberta"
 section: "articles"
+date: "2026-09-16"
 description: "Got an intent to dissolve notice from Alberta Corporate Registry? Filing the overdue annual return stops it. Deadlines, costs, and revival explained."
 faq:
   - q: "What happens if I ignore an intent to dissolve notice from the Alberta Corporate Registry?"

@@ -3,6 +3,7 @@ title: "Non-Resident Business Bank Account in Canada: 2026 Guide"
 h1: "Can a Non-Resident Open a Business Bank Account in Canada?"
 slug: "non-resident-business-bank-account-canada"
 section: "articles"
+date: "2026-10-20"
 description: "Yes — with a Canadian corporation and the right documents. What banks require, the in-person rule, and how to get bank-ready before your appointment."
 faq:
   - q: "Can a foreigner open a business bank account in Canada?"

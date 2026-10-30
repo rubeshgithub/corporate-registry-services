@@ -3,6 +3,7 @@ title: "Annual Return vs. Corporate Tax Return in Canada"
 h1: "Annual Return vs. Corporate Tax Return: Two Different Filings"
 slug: "annual-return-vs-corporate-tax-return"
 section: "articles"
+date: "2026-10-10"
 description: "Your annual return is not your tax return. The registry filing vs. the CRA T2 — deadlines, penalties, and who files what, explained."
 faq:
   - q: "Is the annual return the same as the T2 corporate tax return?"

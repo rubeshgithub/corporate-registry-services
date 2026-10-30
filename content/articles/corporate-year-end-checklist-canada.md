@@ -3,6 +3,7 @@ title: "Corporate Year-End Checklist for Canadian Businesses"
 h1: "The Corporate Year-End Checklist Every Canadian Corporation Needs"
 slug: "corporate-year-end-checklist-canada"
 section: "articles"
+date: "2026-10-16"
 description: "Every filing your corporation owes at year-end: T2, T4/T5 slips, annual resolutions, minute book updates and the registry annual return — with deadlines."
 faq:
   - q: "Is the registry annual return the same as my corporate tax return?"

@@ -143,12 +143,15 @@ export function serializeArticleAsMarkdown(article: {
   description: string;
   body:        string;
   faq?:        { q: string; a: string }[] | null;
+  /** Published date (YYYY-MM-DD) shown on the /articles index; the first publish date, kept on later re-publishes. */
+  date?:       string | null;
 }): string {
   const fm: string[] = ["---"];
   fm.push(`title: ${jsonYaml(article.title)}`);
   if (article.h1 && article.h1.trim()) fm.push(`h1: ${jsonYaml(article.h1)}`);
   fm.push(`slug: ${jsonYaml(article.slug)}`);
   fm.push(`section: ${jsonYaml(article.section)}`);
+  if (article.date && /^\d{4}-\d{2}-\d{2}$/.test(article.date)) fm.push(`date: ${jsonYaml(article.date)}`);
   fm.push(`description: ${jsonYaml(article.description)}`);
   if (article.faq && article.faq.length > 0) {
     fm.push("faq:");

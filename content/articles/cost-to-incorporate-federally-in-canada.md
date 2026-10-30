@@ -3,6 +3,7 @@ title: "Cost to Incorporate Federally in Canada (2026 Fees)"
 h1: "How Much Does It Cost to Incorporate Federally in Canada?"
 slug: "cost-to-incorporate-federally-in-canada"
 section: "articles"
+date: "2026-10-01"
 description: "Federal incorporation costs $200 online plus a $13.80 name search. Full 2026 breakdown of government fees, provincial registration and ongoing costs."
 faq:
   - q: "How much does it cost to incorporate federally in Canada?"
