@@ -8,7 +8,7 @@ faq:
   - q: "What is ISC and why does Saskatchewan use it?"
     a: "ISC — Information Services Corporation — is the private company that operates Saskatchewan's corporate registry under contract with the provincial government. Unlike most provinces that run their own registry in-house, Saskatchewan outsourced this function to ISC, which handles incorporation, annual returns, and every other registry filing through its ISC Online portal. When CRS files your Saskatchewan incorporation, we submit directly to ISC on your behalf — you don't need an ISC Online account."
   - q: "Do I need Canadian resident directors for a Saskatchewan corporation?"
-    a: "Yes. Under The Business Corporations Act (Saskatchewan), at least 25% of your directors must be Canadian residents. For a small board of 1–3 directors, at least one director must be a Canadian resident. If your founding team has no Canadian residents, incorporating in a province with no residency requirement (BC, Alberta, Quebec, Ontario, Nova Scotia) may be simpler than appointing a resident director purely for compliance."
+    a: "No — not anymore. The Business Corporations Act, 2021, in force since March 12, 2023, removed Saskatchewan's old 25% Canadian-residency rule. Directors can live anywhere in the world; each simply has to be 18 or older. Two local-footprint rules remain: the corporation needs a registered office at a physical Saskatchewan address, and if no director or officer lives in the province, it must appoint a Saskatchewan resident as its attorney by power of attorney to accept official communications."
   - q: "Is Saskatchewan a good jurisdiction for agriculture, mining, or energy businesses?"
     a: "Yes — Saskatchewan is a natural fit for operations in agriculture, potash and uranium mining, oil and gas, and clean energy. Provincial incorporation aligns you with the SK regulatory environment, provincial programs, and the SK-specific licensing regimes some of these industries require. For businesses primarily operating in Saskatchewan, provincial SBCA incorporation is simpler and cheaper long-term than federal + extra-provincial registration."
   - q: "How long does Saskatchewan incorporation take?"
@@ -39,7 +39,7 @@ Under The Business Corporations Act (Saskatchewan):
 - **Notice of Directors** — names and addresses of the initial board.
 - **Notice of Registered Office** — physical Saskatchewan address (not a PO box).
 - **NUANS report or SK name search** — for named corporations. Numbered corporations skip this entirely.
-- **At least one director** — must be 18+. **At least 25% must be Canadian residents** (for a 1–3 director board, at least one Canadian resident).
+- **At least one director** — must be 18+. **No Canadian-residency requirement** (removed March 12, 2023 by *The Business Corporations Act, 2021*) — but if no director or officer lives in Saskatchewan, the corporation must appoint a Saskatchewan resident as its **attorney by power of attorney**.
 - **Filing through ISC Online** — accessible through Certified Registry Agents (like CRS) or by setting up your own ISC Online account.
 
 ## What's included in the {{price:incorporation-numbered}} all-in fee
@@ -73,7 +73,7 @@ Total: **typically 3–5 business days** end-to-end.
 
 Every Saskatchewan corporation has ongoing statutory obligations. In your first year:
 
-- **Annual return** — due within 3 months of your anniversary date, filed with ISC. $45 government fee, filed at {{price:annual-return}} all-in through CRS. See our [Saskatchewan annual return guide](/articles/how-to-file-your-annual-return-in-saskatchewan).
+- **Annual return** — due one month after your incorporation anniversary (in practice, the last day of the month following your anniversary month), filed with ISC. $60 government fee ($110 if filed late), filed at {{price:annual-return}} all-in through CRS. See our [Saskatchewan annual return guide](/articles/how-to-file-your-annual-return-in-saskatchewan).
 - **Directors' resolutions** — decisions about share issuances, dividends, officer appointments, and annual approval of financial statements must be documented in the minute book. See our [director resolutions guide](/articles/director-resolutions-in-canada). CRS prepares these at {{price:director-resolution}} per resolution set.
 - **CRA T2 corporate income tax return** — annually, due 6 months after fiscal year-end (handled by your accountant, separate from the ISC annual return).
 
