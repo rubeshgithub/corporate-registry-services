@@ -10,7 +10,7 @@ import { calculateAnnualReturnDeadline } from "@/lib/annual-return-deadlines";
 import { SITE_PHONE_DISPLAY } from "@/lib/contact";
 import { SNAPSHOT_CONSENT_TEXT } from "@/lib/snapshot";
 import { annualReturnPriceKey } from "@/lib/annual-return-price";
-import { GET as companySearch } from "@/app/api/company-search/route";
+import { searchCompanies as companySearch } from "@/lib/company-search-core";
 import { parseRegistryDate } from "@/lib/dates";
 
 /**

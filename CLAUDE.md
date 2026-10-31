@@ -123,3 +123,16 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   written by the CMS publish route as the FIRST publish date in Calgary), else `lastUpdated`. Province and topic come from
   `lib/article-taxonomy.ts` (slug, then title); an article can set `province: "ab"` / `topic: "profile-report"` in frontmatter to
   override. A new topic or wrong guess → fix the rules there, not by renaming files.
+
+## Company search abuse guard (Oct 2026)
+
+- Owner, Oct 31 2026 ("someone might use this API"): the search moved to `lib/company-search-core.ts` (`searchCompanies`, unguarded —
+  server code such as the snapshot email calls it directly); `app/api/company-search/route.ts` is the public door with
+  `lib/search-api-guard.ts` in front: (1) own pages only — `Sec-Fetch-Site` same-origin/same-site, else a Referer on our domain,
+  otherwise 403 (address bar, scripts, other sites); (2) per-connection limits in process: 20/min, 60/10 min, 300/day → 429 with
+  Retry-After; (3) wildcards stripped, at least 2 letters/digits, query ≤ 120 chars, at most 25 rows returned; (4) every refusal
+  logged to `crs_analytics.search_api_blocks` (one row per hashed IP per hour per reason, count, user agent, last query, `ipFrom`).
+- Connection = `cf-connecting-ip`, else `true-client-ip`, else first X-Forwarded-For hop. Check `ipFrom` on the first logged rows:
+  if it says "xff", a scraper can rotate fake X-Forwarded-For values past the limit — then put Cloudflare in front or key on Render's
+  own header.
+- Optional env `COMPANY_SEARCH_API_KEY`: a server sending `x-crs-search-key` skips (1) and (2). Unused today.
