@@ -134,6 +134,12 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search the Manitoba registry"
       subOverride="Look up any Manitoba corporation or business name free — no Companies Online account needed — and order its official registry profile report if you need the record." />
   ),
+  "articles/saskatchewan-corporate-registry-search": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="sk" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Saskatchewan corporate registry search"
+      titleOverride="Search the Saskatchewan registry"
+      subOverride="Look up any Saskatchewan corporation or business name free — no ISC account needed — and order its official registry profile report if you need the record." />
+  ),
   "articles/registry-of-joint-stock-companies-nova-scotia": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="ns" priceCents={prices["profile-report"]}
       srcTag={`inline-article-${slug}`} eyebrowOverride="Registry of Joint Stocks search"
