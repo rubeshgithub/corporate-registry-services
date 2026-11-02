@@ -19,6 +19,7 @@ import CorporateDocumentsIsland from "@/components/CorporateDocumentsIsland";
 import ProCorpNameCheckIsland from "@/components/ProCorpNameCheckIsland";
 import MedProCorpHeroIsland from "@/components/MedProCorpHeroIsland";
 import AvailabilityCheckIsland from "@/app/incorporation/nuans-name-search-canada/AvailabilityCheckIsland";
+import AlbertaAnnualReturnForm from "@/components/AlbertaAnnualReturnForm";
 
 /* The CTA strip and lookup widget quote catalogue prices — 60s ISR so a
    price change reaches every content page without a deploy. */
@@ -37,6 +38,25 @@ const CUSTOM_ISLANDS: Record<
   string,
   (a: { section: string; slug: string; prices: Record<string, number> }) => React.ReactNode
 > = {
+  /* ── Alberta annual return as an online form (owner, Nov 2026) ──
+     The page-one SERP for "alberta annual returns" is walk-in registry
+     offices and the bare REG3062 PDF — the searcher is holding the form in
+     their head. This island IS the form: the REG3062 sections in order, the
+     registry fields filled by search, ending on the order summary and
+     Stripe. Replaces the generic annual-return lookup widget on this page. */
+  "articles/how-to-file-your-annual-return-in-alberta": ({ slug, prices }) => (
+    <AlbertaAnnualReturnForm priceCents={prices["annual-return-ab"]} srcTag={`inline-article-form-${slug}`} />
+  ),
+  /* Society annual returns are filed directly with Corporate Registry, not
+     through an agent — so the corporate annual-return pay widget the slug
+     would otherwise infer (it contains "annual-return" + "alberta") would
+     sell a society a filing CRS cannot make. Generic lookup instead. */
+  "articles/alberta-society-annual-return": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Registry search"
+      titleOverride="Look up your society or corporation"
+      subOverride="Search by name or Corporate Access Number to confirm the organization's registry status before you file." />
+  ),
   /* ── Corporation-search widget (find/verify an existing corporation) ──
      These ranking pages asked for a lookup below the heading. Search -> the
      profile report, the flagship "I looked up a company" product; the Ontario
