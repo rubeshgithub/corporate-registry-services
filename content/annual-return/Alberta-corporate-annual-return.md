@@ -1,6 +1,6 @@
-﻿---
+---
 title: "Alberta Corporate Annual Return"
-description: "File your Alberta corporate annual return online — {{price:annual-return-ab}} + GST, government fee included, filed with the Alberta Corporate Registry in 1 business day."
+description: "File your Alberta corporate annual return online — {{price:annual-return-ab}} + GST, government fee included, filed with the Alberta registry in 1 business day."
 slug: "Alberta-corporate-annual-return"
 section: "annual-return"
 lastUpdated: "2026-11"
