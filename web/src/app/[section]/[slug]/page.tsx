@@ -57,6 +57,14 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Look up your society or corporation"
       subOverride="Search by name or Corporate Access Number to confirm the organization's registry status before you file." />
   ),
+  /* GST-account article: the reader's first job is finding their existing
+     Business Number before registering anything — the lookup answers that. */
+  "articles/how-to-set-up-a-cra-gst-account": ({ slug, prices }) => (
+    <InlineLookupOrder service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Find your Business Number"
+      titleOverride="Look up your corporation before you register"
+      subOverride="Search by company name or corporation number — registry records often show the Business Number your GST account attaches to." />
+  ),
   /* ── Corporation-search widget (find/verify an existing corporation) ──
      These ranking pages asked for a lookup below the heading. Search -> the
      profile report, the flagship "I looked up a company" product; the Ontario
