@@ -190,7 +190,7 @@ No, and confusing the two is the single most common reason Alberta corporations 
 
 ## What about Alberta societies and non-profits?
 
-Different statute, different form, different route. Societies registered under the *Societies Act* file their annual return on form **REG3185 directly with Corporate Registry** — not through a registry agent — by the last day of the month following the society's anniversary month, with their financial statements attached. Non-profit companies under the *Companies Act* have their own form too. Neither uses REG3062 and neither can be filed through the corporate annual return process on this page; if you run a society, see the annual-return section of our [Alberta society guide](/not-for-profit/alberta).
+Different statute, different form, different route. Societies registered under the *Societies Act* file their annual return on form **REG3185 directly with Corporate Registry** — not through a registry agent — by the last day of the month following the society's anniversary month, with their financial statements attached. Non-profit companies under the *Companies Act* have their own form too. Neither uses REG3062 and neither can be filed through the corporate annual return process on this page; if you run a society, see our guide to the [Alberta society annual return](/articles/alberta-society-annual-return).
 
 ## File your Alberta annual return online today
 
