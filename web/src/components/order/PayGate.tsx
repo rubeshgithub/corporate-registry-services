@@ -15,7 +15,11 @@ import { trackClick } from "@/lib/track-click";
  *      - lists what is left under the button ("Before you pay: …"), with a general line when the open item is an
  *        ordinary field (contact details, the company) that marks nothing.
  *
- * 2. The registry-key question does NOT grey the button any more (people missed it and kept clicking a dead
+ *    Nov 2026: it also finds empty/wrong CONTACT fields (findMissingFields), outlines them red, focuses the first and
+ *    names each ("Enter your email address."), so "details" is never a mystery.
+ *
+ * 2. (Dormant since Nov 6 2026: the registry key is now an optional field and never marks itself soft-pending.)
+ *    The registry-key question does NOT grey the button any more (people missed it and kept clicking a dead
  *    button). RegistryAccessField marks itself data-soft-pending="true" while unanswered. The first click on an
  *    ACTIVE pay button with that open is caught here and a small panel appears instead:
  *      "You haven't given us the <term>. No problem — we'll contact you for it before we file."
@@ -34,6 +38,41 @@ function findMarked(from: HTMLElement | null, selector: string): Marked[] {
   if (!scope) return [];
   return Array.from(scope.querySelectorAll<HTMLElement>(selector))
     .map((el) => ({ el, label: el.dataset.pendingLabel ?? "", kind: el.dataset.pendingKind ?? "" }));
+}
+
+/**
+ * Contact fields still empty or wrong (owner, Nov 6 2026: a visitor clicked the grey button twice with "details"
+ * missing and left — nothing showed WHICH field). Looks in the nearest ancestor holding an email field: an email
+ * field that is not a valid address, an empty phone field, an empty name field (autocomplete="name") or any empty
+ * `required` input. Inputs marked data-optional="true" (the registry key) are never flagged.
+ */
+type Missing = { el: HTMLInputElement; kind: string; message: string };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function findMissingFields(from: HTMLElement | null): Missing[] {
+  let scope: HTMLElement | null = from?.parentElement ?? null;
+  for (let i = 0; scope && i < 15 && !scope.querySelector('input[type="email"]'); i++) scope = scope.parentElement;
+  if (!scope || !scope.querySelector('input[type="email"]')) return [];
+  const out: Missing[] = [];
+  for (const el of Array.from(scope.querySelectorAll<HTMLInputElement>("input"))) {
+    if (el.disabled || el.type === "hidden" || el.dataset.optional === "true" || el.offsetParent === null) continue;
+    const v = el.value.trim();
+    const ac = (el.getAttribute("autocomplete") ?? "").toLowerCase();
+    if (el.type === "email") {
+      if (!EMAIL_RE.test(v)) out.push({ el, kind: "email", message: v ? "Check your email address — it looks incomplete." : "Enter your email address." });
+    } else if (el.type === "tel") {
+      if (!v) out.push({ el, kind: "phone", message: "Enter your phone number." });
+    } else if ((ac === "name" || el.required) && !v) {
+      out.push({ el, kind: "name", message: ac === "name" ? "Enter your full name." : `Fill in ${el.getAttribute("aria-label") || el.placeholder || "this field"}.` });
+    }
+  }
+  return out;
+}
+
+function markMissing(el: HTMLInputElement) {
+  el.classList.add("crs-missing");
+  const clear = () => { el.classList.remove("crs-missing"); el.removeEventListener("input", clear); };
+  el.addEventListener("input", clear);
 }
 
 export default function PayGate({ blocked, children }: { blocked: boolean; children: React.ReactNode }) {
@@ -58,12 +97,20 @@ export default function PayGate({ blocked, children }: { blocked: boolean; child
 
   const nudge = () => {
     const open = findMarked(ref.current, '[data-pending="true"]');
+    const fields = findMissingFields(ref.current);
     for (const p of open) p.el.dispatchEvent(new CustomEvent(ATTENTION_EVENT));
-    const first = open[0]?.el;
-    if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
-    const labels = open.map((p) => p.label).filter(Boolean);
-    /* For docu10's Order-page visitors report: what stopped them ("terms", or "details"). */
-    trackClick("pay-blocked", open.map((p) => p.kind).filter(Boolean).join(",") || "details");
+    for (const f of fields) markMissing(f.el);
+    /* Take them to the first thing to fix, top of the form first: a missing contact field sits above the terms box. */
+    const firstField = fields[0]?.el;
+    const first = firstField ?? open[0]?.el;
+    if (first) {
+      first.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (firstField) setTimeout(() => firstField.focus({ preventScroll: true }), 400);
+    }
+    const labels = [...fields.map((f) => f.message), ...open.map((p) => p.label).filter(Boolean)];
+    /* For docu10's Order-page visitors report: what stopped them ("email,phone", "terms", or "details" when unknown). */
+    const kinds = [...fields.map((f) => f.kind), ...open.map((p) => p.kind).filter(Boolean)];
+    trackClick("pay-blocked", kinds.join(",") || "details");
     setShown(labels.length ? labels : ["Fill in the details above (the company and your name, email and phone)."]);
   };
 

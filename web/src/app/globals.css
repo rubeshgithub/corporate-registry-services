@@ -572,3 +572,7 @@ h2[id], h3[id], h4[id], #crs-inline-lookup { scroll-margin-top: 96px; }
   .ai-grid { grid-template-columns: 1fr; }
   .ai-search input, .ai-sort select { font-size: 16px; }
 }
+
+
+/* A contact field PayGate found empty or wrong when the grey Pay button was clicked (Nov 2026). Beats inline styles. */
+.crs-missing { border-color: #DC2626 !important; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important; background: #FFFBFB !important; }

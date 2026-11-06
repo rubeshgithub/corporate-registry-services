@@ -266,7 +266,7 @@ export function summarizeRegistryAccess(
      the fulfillment email claim the form never asked (Oct 2026: two paid
      annual returns, BC and federal, reported "did not ask for it"). */
   if (!state?.status) {
-    return `NOT ANSWERED — the customer went to payment without answering the ${access.term} question and was told we will contact them for it before filing. Ask them first; if they don't have it, request it from the registry.`;
+    return `NOT ANSWERED — left blank (the ${access.term} is optional on the order form). The customer was told we will contact them by email or phone to get it, or retrieve a new one for them. Ask first; if they don't have it, request it from the registry.`;
   }
   const term = access.term;
   if (state.status === "have") {

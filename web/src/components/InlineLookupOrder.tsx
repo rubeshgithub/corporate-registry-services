@@ -348,7 +348,7 @@ export default function InlineLookupOrder({
     !!pick &&
     !!contact.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim()) &&
-    !!contact.phone.trim(); /* the registry-key question no longer blocks paying (PayGate asks once) */
+    !!contact.phone.trim(); /* the registry key is optional (Nov 2026) and never blocks paying */
 
   /* Orders that came through the federal fallback are tagged so the admin
      dashboard can tell whether this path earns its keep. */
@@ -678,16 +678,18 @@ export default function InlineLookupOrder({
 
           {/* Contact form */}
           {[
-            { key: "name",  label: "Full name",  type: "text",  placeholder: "Jane Doe" },
-            { key: "email", label: "Email",      type: "email", placeholder: "jane@company.ca" },
-            { key: "phone", label: "Phone",      type: "tel",   placeholder: "(403) 555-0123" },
-          ].map(({ key, label, type, placeholder }) => (
+            { key: "name",  label: "Full name",  type: "text",  placeholder: "Jane Doe",         autoComplete: "name" },
+            { key: "email", label: "Email",      type: "email", placeholder: "jane@company.ca",  autoComplete: "email" },
+            { key: "phone", label: "Phone",      type: "tel",   placeholder: "(403) 555-0123",   autoComplete: "tel" },
+          ].map(({ key, label, type, placeholder, autoComplete }) => (
             <div key={key} style={{ marginBottom: "0.55rem" }}>
               <label style={{ display: "block", fontSize: "0.72rem", fontWeight: 600, color: "var(--text-muted)", marginBottom: "0.2rem" }}>
                 {label}
               </label>
               <input
                 type={type}
+                autoComplete={autoComplete}
+                aria-label={label}
                 value={contact[key as keyof typeof contact]}
                 onChange={(e) => setContact({ ...contact, [key]: e.target.value })}
                 placeholder={placeholder}

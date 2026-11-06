@@ -136,3 +136,20 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   if it says "xff", a scraper can rotate fake X-Forwarded-For values past the limit — then put Cloudflare in front or key on Render's
   own header.
 - Optional env `COMPANY_SEARCH_API_KEY`: a server sending `x-crs-search-key` skips (1) and (2). Unused today.
+
+## Registry key optional; grey Pay button names the missing field (Nov 2026)
+
+- Owner, Nov 6 2026 (a BC visitor answered the key question, never filled name/email/phone, clicked the grey Pay button twice
+  — "pay-blocked: details" — and left): think of the visitor eager to pay. `RegistryAccessField` is now ONE optional input in
+  the province's words with an "Optional" pill and the reassurance "Have it handy? Enter it and we can file faster. Don't have
+  it? No problem — go ahead and pay. After your order we'll contact you by email or phone to get it, or retrieve a new one from
+  <registry> for you." Typed → status "have" (sealed as before); blank → status "" → `summarizeRegistryAccess` "NOT ANSWERED —
+  left blank (… optional …)" (docu10 matches the "NOT ANSWERED —" prefix and tells staff to contact them). No Yes/No, no
+  "call me", no "can't access the registered address" box; it never marks data-soft-pending, so PayGate's key dialog is dormant.
+  Tracking: only "registry-access" `have-entered|<prov>|<service>` when a code is first typed.
+- PayGate `findMissingFields`: on a grey-button click it also finds, in the nearest ancestor holding an email input, an invalid
+  email, an empty tel, an empty autocomplete="name" input or any empty `required` input (never data-optional="true" — the key
+  field and SnapshotCapture's emails), outlines them red (`.crs-missing` in globals.css, cleared on input), scrolls to and
+  focuses the first, and lists "Enter your full name." / "Enter your email address." / "Enter your phone number." The click is
+  logged as pay-blocked with the kinds ("name,email,phone", "terms", …; "details" only when nothing was identified).
+  InlineLookupOrder's contact inputs now carry autocomplete name/email/tel (browser autofill).

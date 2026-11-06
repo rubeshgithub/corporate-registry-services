@@ -108,6 +108,7 @@ export default function SnapshotCapture({
           <div style={{ display: "flex", gap: "0.4rem", flex: "2 1 18rem" }}>
             <input
               type="email"
+              data-optional="true"
               inputMode="email"
               autoComplete="email"
               value={email}
@@ -161,6 +162,7 @@ export default function SnapshotCapture({
       <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
         <input
           type="email"
+              data-optional="true"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); void send(); } }}
