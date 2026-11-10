@@ -250,14 +250,17 @@ const CBR_LABEL: Record<string, string> = {
 };
 
 async function searchCBR(q: string, status: StatusFilter, provinceCode?: string) {
-  // CBR hard-caps at ~29 regardless of what we ask for — asking for 40 doesn't
-  // hurt, and gives us the maximum filterable window.
+  /* Nov 10 2026: ISED changed this API without notice. The old `fq=keyword:{…}&queryaction=fieldquery` form now answers
+     400 "Search text (q) or a filter is required", which took down every search except BC's (OrgBook). It now wants
+     `q=` — names, corporation numbers and Business Numbers all go there — and ignores rows / start / sort / fq
+     (about 25–45 rows come back whatever is asked; `page=2` pages). `location=XX` narrows to a province's records
+     (checked for AB, ON, QC, MB, SK, NS, BC, NB; "CC" is refused with 400, so federal searches go unnarrowed). It
+     narrows loosely — other registries' rows still come back — so the Registry_Source filter below stays the rule. */
   let url =
     `https://ised-isde.canada.ca/cbr/srch/api/v1/search` +
-    `?fq=keyword:%7B${encodeURIComponent(q)}%7D` +
-    `&lang=en&queryaction=fieldquery&sortfield=score&sortorder=desc&rows=40&start=0`;
+    `?q=${encodeURIComponent(q)}&lang=en`;
 
-  if (provinceCode) url += `&fq=Registry_Source:${provinceCode}`;
+  if (provinceCode && provinceCode !== "CC") url += `&location=${encodeURIComponent(provinceCode)}`;
 
   const res = await fetch(url, { next: { revalidate: 30 } });
   if (!res.ok) throw new Error(`CBR API ${res.status}`);
@@ -287,11 +290,8 @@ async function searchCBR(q: string, status: StatusFilter, provinceCode?: string)
     };
   });
 
-  /* Province filtering happens HERE, not upstream. The `&fq=Registry_Source:XX`
-     appended to the query URL is silently ignored by CBR — verified: identical
-     totalResults, identical doc counts and an identical jurisdiction spread
-     with and without it. Left on the URL in case CBR ever honours it; it is
-     harmless, but it is not what narrows the results.
+  /* Province filtering happens HERE. Upstream `location=XX` only narrows
+     loosely (see above), and the older `fq=Registry_Source:XX` was ignored.
 
      Without this filter, picking a province returned that province's label on
      a list of other provinces' companies. Worst for the five jurisdictions CBR

@@ -153,3 +153,15 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   focuses the first, and lists "Enter your full name." / "Enter your email address." / "Enter your phone number." The click is
   logged as pay-blocked with the kinds ("name,email,phone", "terms", …; "details" only when nothing was identified).
   InlineLookupOrder's contact inputs now carry autocomplete name/email/tel (browser autofill).
+
+## Federal registry API changed its query form (Nov 10 2026)
+
+- Every search except BC's (OrgBook) answered 502: ISED's Canada Business Registries API
+  (`ised-isde.canada.ca/cbr/srch/api/v1/search`) began refusing the old `fq=keyword:{…}&queryaction=fieldquery` form with
+  400 "Search text (q) or a filter is required". No CRS push caused it. It now takes `q=<text>&lang=en` (names, corporation
+  numbers, Business Numbers) and optional `location=<province code>` (AB, ON, QC, MB, SK, NS, BC, NB checked; `CC` is refused
+  with 400, so federal searches go unnarrowed). `rows`, `start`, `sortfield`, `fq` are ignored; a page is about 25-45 rows,
+  `page=2` pages. The response shape (`docs`, the doc fields) is unchanged. `location` narrows loosely, so the in-code
+  `Registry_Source` filters stay the rule.
+- Three callers, all changed: `lib/company-search-core.ts` `searchCBR`, `lib/registrar-live.ts`, `lib/name-availability.ts`
+  `fetchCbr`. If search goes 502 again, open the API URL in a browser first (the sandbox cannot reach it) and read the error.

@@ -81,16 +81,11 @@ export async function checkNameAvailability(name: string, scope: Scope): Promise
 /* ═══════════════════════════ CBR search ═══════════════════════════ */
 
 async function fetchCbr(name: string, scope: Scope): Promise<NameMatch[]> {
-  const params = new URLSearchParams({
-    fq:          `keyword:{${name}}`,
-    lang:        "en",
-    queryaction: "fieldquery",
-    rows:        String(CBR_ROWS),
-    start:       "0",
-  });
-  /* CBR silently ignores an fq=Registry_Source filter (verified in
-     api/company-search), so a scoped check used to return — and count as
-     conflicts — names from every province. Filter the rows here instead. */
+  /* Nov 10 2026: ISED's API now wants `q=` — the old fq=keyword:{…}&queryaction=fieldquery form answers 400 — and
+     ignores rows/start (it returns roughly 25–45 rows; see lib/company-search-core.ts). */
+  const params = new URLSearchParams({ q: name, lang: "en" });
+  /* A scoped check must not count other provinces' names as conflicts, and the
+     API's own narrowing is loose, so the rows are filtered here. */
   const allowed = scopeToCbrRegistrySources(scope);
 
   const url = `${CBR_SEARCH_URL}?${params.toString()}`;

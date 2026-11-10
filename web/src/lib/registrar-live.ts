@@ -48,9 +48,9 @@ export async function fetchLiveCbrStatus(corpNumber: string): Promise<LiveCbrSta
 
   const url =
     `https://ised-isde.canada.ca/cbr/srch/api/v1/search` +
-    `?fq=keyword:%7B${encodeURIComponent(corpNumber)}%7D` +
-    `&fq=Registry_Source:AB` +
-    `&lang=en&queryaction=fieldquery&rows=3&start=0`;
+    /* Nov 10 2026: ISED's API now wants `q=` (the old fq=keyword:{…} form answers 400). A corporation number in
+       `q` returns that corporation; `location=AB` keeps it to Alberta records. The exact-number match below decides. */
+    `?q=${encodeURIComponent(corpNumber)}&location=AB&lang=en`;
 
   let payload: LiveCbrStatus;
   try {
