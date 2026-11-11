@@ -9,6 +9,8 @@ import { getRelatedGroups } from "@/lib/related-pages";
 import { breadcrumbLd, serviceLd, faqLd, jsonLdScript } from "@/lib/structured-data";
 import { annualReturnPriceKey } from "@/lib/annual-return-price";
 import InlineLookupOrder from "@/components/InlineLookupOrder";
+import NoSearchOrderForm from "@/components/NoSearchOrderForm";
+import { NO_LIVE_SEARCH } from "@/lib/pei-budget";
 import MinuteBookLookupIsland from "@/components/MinuteBookLookupIsland";
 import NfpConsultationCTA from "@/components/NfpConsultationCTA";
 import ShareCertLookupIsland from "@/components/ShareCertLookupIsland";
@@ -134,11 +136,12 @@ const CUSTOM_ISLANDS: Record<
   ),
   /* RJSC navigational cluster: searchers typing the registry's name want to
      look a company up — NS-scoped lookup, profile report as the paid step. */
+  /* PEI has no searchable index (NO_LIVE_SEARCH), so this page takes the order by form, with the free snapshot. */
   "articles/pei-corporate-registry-search": ({ slug, prices }) => (
-    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="pe" priceCents={prices["profile-report"]}
-      srcTag={`inline-article-${slug}`} eyebrowOverride="PEI corporate registry search"
-      titleOverride="Search the PEI registry"
-      subOverride="Look up any Prince Edward Island company or business name free — and order its official registry profile report if you need the record." />
+    <NoSearchOrderForm service="profile-report" provinceKey="pe" prices={prices} srcTag={`inline-article-${slug}`} />
+  ),
+  "articles/new-brunswick-corporate-registry-search": ({ slug, prices }) => (
+    <NoSearchOrderForm service="profile-report" provinceKey="nb" prices={prices} srcTag={`inline-article-${slug}`} />
   ),
   /* BC company-password article: the reader holds a company they can't get
      into — lookup-first (owner request 2026-10-28: search widget on top), with
@@ -442,6 +445,14 @@ export default async function ContentPage({
                 );
               }
               return null;
+            }
+            /* Owner, Nov 10 2026: a page for a jurisdiction we cannot search (PEI, NL, NB, the territories) shows
+               an order form, not a search box that cannot find the visitor's corporation. */
+            if (ctx.jurisdictionKey && NO_LIVE_SEARCH.has(ctx.jurisdictionKey)) {
+              return (
+                <NoSearchOrderForm service={ctx.serviceKey} provinceKey={ctx.jurisdictionKey} prices={prices}
+                  srcTag={`inline-article-${page.slug}`} />
+              );
             }
             return (
               <InlineLookupOrder

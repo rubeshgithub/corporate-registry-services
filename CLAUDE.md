@@ -165,3 +165,19 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   `Registry_Source` filters stay the rule.
 - Three callers, all changed: `lib/company-search-core.ts` `searchCBR`, `lib/registrar-live.ts`, `lib/name-availability.ts`
   `fetchCbr`. If search goes 502 again, open the API URL in a browser first (the sandbox cannot reach it) and read the error.
+
+## Order form instead of search for jurisdictions we cannot search (Nov 10 2026)
+
+- Owner: a search box that cannot find the visitor's corporation tells them it does not exist. Content pages whose jurisdiction
+  is in `NO_LIVE_SEARCH` (pe, nl, nb, nt, yt, nu) mount `components/NoSearchOrderForm.tsx` in place of `InlineLookupOrder`
+  (the generic branch of `[section]/[slug]/page.tsx`, plus CUSTOM_ISLANDS for the PEI and New Brunswick registry-search
+  articles): corporation name, optional registration number, service ticks (the page's service preselected; annual return,
+  profile report, corporate documents full set, good standing, each with its live price), name, email, phone, terms, pay.
+- One service -> that service's own route with a typed `hit` (`status: "Unverified"`, so the order shows nobody checked the
+  corporation); two or more, or document copies -> `/api/order/wizard-checkout` with `details.companyCheck` "NOT VERIFIED".
+  The copy promises a full refund if staff cannot locate the corporation.
+- "Send me a free snapshot first" posts to `/api/notify/search-help` (corporation name + email only) - the same hand-lookup
+  request as the zero-results popup, so docu10 files it as a `lookup_request` lead.
+- Not changed: minute-book pages for those provinces (MinuteBookLookupIsland), /order/* pages opened with one of those
+  jurisdictions, and the search page itself. Flow A (plain result card -> profile page with free snapshot and locked
+  report -> unlock) is approved and not built yet; shareholders are listed only for Alberta, Saskatchewan and Quebec reports.
