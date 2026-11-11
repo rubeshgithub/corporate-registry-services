@@ -7,6 +7,7 @@ import Stripe from "stripe";
 import { findService, getBucket, JURISDICTIONS } from "@/lib/service-config";
 import { getPriceCents, priceKeyForService } from "@/lib/pricing";
 import { annualReturnKeyForService } from "@/lib/annual-return-price";
+import { quoteDocuments, SINGLE_DOC_KEYS } from "@/lib/corporate-documents-pricing";
 
 /**
  * POST /api/order/wizard-checkout
@@ -45,6 +46,9 @@ type Body = {
   src?: string;
   termsAccepted?: boolean;
   registryAccess?: RegistryAccessState;
+  /* Which document copies (NoSearchOrderForm): SINGLE_DOC_KEYS and/or "full-set". Absent = the full set, as before. */
+  documents?: string[];
+  docNotes?:  string;
 };
 
 const TEST_OVERRIDE_CENTS = parseInt(process.env.ORDER_TEST_AMOUNT_CENTS ?? "", 10);
@@ -80,6 +84,7 @@ export async function POST(req: Request) {
   /* Resolve every service before charging anything. If any one of them can't
      be sold directly, bail entirely — a partial basket would bill the
      customer for some of what they asked for and silently drop the rest. */
+  const docsWanted = (body.documents ?? []).filter((k) => k === "full-set" || (SINGLE_DOC_KEYS as readonly string[]).includes(k));
   const resolved: Array<{ key: string; label: string; cents: number; qty: number }> = [];
   for (const key of keys) {
     const svc = findService(key);
@@ -106,7 +111,17 @@ export async function POST(req: Request) {
       qty = Number.isFinite(n) && n >= 2 && n <= 10 ? n : 2;
     }
 
-    resolved.push({ key, label: svc.label, cents, qty });
+    /* Document copies picked one by one are charged per document, the full set as the cap — the same quote
+       the corporate-documents order page uses. */
+    let label = svc.label;
+    if (key === "corporate-documents" && !USE_TEST_PRICE && docsWanted.length) {
+      const quote = quoteDocuments(docsWanted, await getPriceCents("corporate-document-single"), await getPriceCents("corporate-documents"));
+      cents = quote.unitCents;
+      qty   = quote.quantity;
+      label = quote.mode === "full-set" ? "Corporate Documents — Full Set" : "Corporate Document Copy";
+    }
+
+    resolved.push({ key, label, cents, qty });
   }
 
   const jurisdiction = JURISDICTIONS.find((j) => j.key === body.jurisdictionKey);
@@ -155,6 +170,7 @@ export async function POST(req: Request) {
         contact_phone:  (body.customer?.phone ?? "").slice(0, 40),
         services_count: String(resolved.length),
         services_list:  resolved.map((r) => `${r.key}${r.qty > 1 ? `×${r.qty}` : ""}`).join(",").slice(0, 480),
+        ...(docsWanted.length ? { docs_requested: docsWanted.join(" · ").slice(0, 480), notes: (body.docNotes ?? "").slice(0, 480) } : {}),
         ...chunkJson(body.details ?? {}, "details_json"),
       },
       success_url: `${origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,

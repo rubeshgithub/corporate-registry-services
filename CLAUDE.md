@@ -178,6 +178,28 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   The copy promises a full refund if staff cannot locate the corporation.
 - "Send me a free snapshot first" posts to `/api/notify/search-help` (corporation name + email only) - the same hand-lookup
   request as the zero-results popup, so docu10 files it as a `lookup_request` lead.
-- Not changed: minute-book pages for those provinces (MinuteBookLookupIsland), /order/* pages opened with one of those
-  jurisdictions, and the search page itself. Flow A (plain result card -> profile page with free snapshot and locked
-  report -> unlock) is approved and not built yet; shareholders are listed only for Alberta, Saskatchewan and Quebec reports.
+- Corporate documents on this form (owner, Nov 10 2026, later): ticking it opens "Which documents?" - the five single
+  documents and the full set, priced by `quoteDocuments` (per document, capped at the full-set price). Alone it posts to
+  `/api/order/corporate-documents`; in a basket `wizard-checkout` takes `documents` / `docNotes` and prices that line the same way.
+- Not changed: minute-book pages for those provinces (MinuteBookLookupIsland) and /order/* pages opened with one of those
+  jurisdictions.
+
+## Search -> company profile -> unlock the report (Flow A, Nov 10 2026)
+
+- Owner: a searcher wants to know "is this the right company, is it active" before shopping. On /canada-corporations-search a
+  result is now a plain card (name, jurisdiction) with ONE button, "View profile" -> `/company?p=<province>&id=<registry id>&n=<name>`
+  (`app/company/page.tsx`, `force-dynamic`, `robots: noindex` - built from a live search, never a stored page).
+- The page looks the corporation up again on the server (`searchCompanies`, matched by registry number, else exact name) and
+  shows: the free snapshot (registry ID, BN, incorporated, status, type, home jurisdiction) with the "Email me a free snapshot"
+  link, the Corporate Profile Report as a LOCKED placeholder (`components/CompanyProfileUnlock.tsx`), and "Other services for
+  this company" (annual return, good standing, document copies, minute book; PC services for a professional corporation).
+- The locked sections are grey blurred bars, never names: we do not hold the report until it is ordered. Sections come from
+  `reportSections(provinceKey)` - Shareholders only for Alberta, Saskatchewan and Quebec (owner confirmed); add a province
+  there only when its registry report really lists them.
+- "Unlock full report" swaps the lock for "Where should we send the report?" (name, email, OPTIONAL phone) -> `/api/order/report`
+  (`src: company-profile`). That route no longer requires a phone; the other forms posting to it still ask for one themselves.
+  Copy says emailed within a few business hours and a full refund if the report cannot be retrieved.
+- The unlock panel sends an order draft with the company as soon as the profile opens, so docu10's funnel still counts the
+  visit as "picked". `CompanySearch.tsx` keeps its old service-menu helpers (unused now) in case the card comes back.
+- Only the search page changed. Article and service pages keep `InlineLookupOrder`; an annual-return page still goes straight
+  to "File annual return".

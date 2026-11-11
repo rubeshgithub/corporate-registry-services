@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { formatCents } from "@/lib/price-catalogue";
 import { annualReturnPriceKey } from "@/lib/annual-return-price";
+import { quoteDocuments } from "@/lib/corporate-documents-pricing";
 import { JURISDICTIONS } from "@/lib/service-config";
 import { MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
@@ -31,8 +32,19 @@ type ServiceKey = "annual-return" | "profile-report" | "corporate-documents" | "
 const SERVICES: Array<{ key: ServiceKey; label: string; when: string }> = [
   { key: "annual-return",       label: "Annual return",                when: "Filed within 1 business day" },
   { key: "profile-report",      label: "Profile report",               when: "Emailed within a few business hours" },
-  { key: "corporate-documents", label: "Corporate documents (full set)", when: "Emailed within 1 business day" },
+  { key: "corporate-documents", label: "Corporate documents",          when: "Emailed within 1 business day" },
   { key: "good-standing",       label: "Certificate of good standing", when: "Emailed within 1 business day" },
+];
+
+/* The documents sold one by one, and the full set (owner, Nov 10 2026: not the full set only). Same keys and
+   pricing as /order/corporate-documents: per document, capped at the full-set price. */
+const DOCS: Array<{ key: string; label: string }> = [
+  { key: "certificate",           label: "Certificate of Incorporation" },
+  { key: "articles",              label: "Articles of Incorporation" },
+  { key: "annual-returns",        label: "Annual returns" },
+  { key: "change-of-information", label: "Change of information filings" },
+  { key: "other",                 label: "Another document" },
+  { key: "full-set",              label: "Full set — everything on file" },
 ];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,6 +71,8 @@ export default function NoSearchOrderForm({
   const first: ServiceKey = SERVICES.some((s) => s.key === service) ? (service as ServiceKey) : "profile-report";
 
   const [picked, setPicked]   = useState<ServiceKey[]>([first]);
+  const [docs, setDocs]       = useState<string[]>([]);
+  const [docNotes, setDocNotes] = useState("");
   const [corp, setCorp]       = useState("");
   const [regNo, setRegNo]     = useState("");
   const [contact, setContact] = useState({ name: "", email: "", phone: "" });
@@ -69,10 +83,16 @@ export default function NoSearchOrderForm({
   const [snap, setSnap]       = useState<"idle" | "sending" | "sent">("idle");
   const [snapErr, setSnapErr] = useState("");
 
-  const centsOf = (k: ServiceKey) => prices[k === "annual-return" ? annualReturnPriceKey(provinceKey) : k];
+  const perDoc   = prices["corporate-document-single"];
+  const fullSet  = prices["corporate-documents"];
+  const docQuote = perDoc != null && fullSet != null && docs.length ? quoteDocuments(docs, perDoc, fullSet) : null;
+  const wantDocs = picked.includes("corporate-documents");
+  const docsOk   = !wantDocs || (docs.length > 0 && (!docs.includes("other") || !!docNotes.trim()));
+  const centsOf = (k: ServiceKey) =>
+    k === "corporate-documents" ? docQuote?.totalCents : prices[k === "annual-return" ? annualReturnPriceKey(provinceKey) : k];
   const total   = picked.reduce((sum, k) => sum + (centsOf(k) ?? 0), 0);
   const emailOk = EMAIL_RE.test(contact.email.trim());
-  const canPay  = picked.length > 0 && corp.trim().length >= 2 && !!contact.name.trim() && emailOk && !!contact.phone.trim();
+  const canPay  = picked.length > 0 && docsOk && corp.trim().length >= 2 && !!contact.name.trim() && emailOk && !!contact.phone.trim();
   const src     = `${srcTag}-nosearch`;
 
   /* Unfinished forms are saved as drafts like every other order form (docu10's leads read them). */
@@ -112,10 +132,14 @@ export default function NoSearchOrderForm({
     } else if (only === "profile-report" || only === "good-standing") {
       endpoint = "/api/order/report";
       body = { service: only, hit, contact, src };
+    } else if (only === "corporate-documents") {
+      endpoint = "/api/order/corporate-documents";
+      body = { hit, documents: docs, notes: docNotes.trim(), contact, src };
     } else {
       endpoint = "/api/order/wizard-checkout";
       body = {
         serviceKeys: picked, jurisdictionKey: provinceKey, src,
+        ...(wantDocs ? { documents: docs, docNotes: docNotes.trim() } : {}),
         customer: { fullName: contact.name.trim(), email: contact.email.trim(), phone: contact.phone.trim(), company: corp.trim() },
         details: {
           corporationName:    corp.trim(),
@@ -217,7 +241,9 @@ export default function NoSearchOrderForm({
                     style={{ width: "1.1rem", height: "1.1rem", marginTop: "0.15rem", accentColor: "var(--primary)" }} />
                   <span style={{ fontSize: "0.92rem", lineHeight: 1.4 }}>
                     <span style={{ fontWeight: 600 }}>{s.label}</span>
-                    {cents != null && <span> · {formatCents(cents)} + GST</span>}
+                    {s.key === "corporate-documents"
+                      ? perDoc != null && <span> · from {formatCents(perDoc)} + GST each</span>
+                      : cents != null && <span> · {formatCents(cents)} + GST</span>}
                     <span style={{ display: "block", fontSize: "0.76rem", color: "var(--text-muted)" }}>{s.when}</span>
                   </span>
                 </label>
@@ -225,6 +251,35 @@ export default function NoSearchOrderForm({
             })}
           </div>
         </fieldset>
+
+        {wantDocs && (
+          <fieldset style={{ margin: 0, padding: "0.9rem 1rem", border: "1px solid var(--border)", borderRadius: "0.6rem" }}>
+            <legend style={{ ...labelStyle, padding: "0 0.35rem", marginBottom: 0 }}>Which documents?</legend>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(15rem, 1fr))", gap: "0.45rem 1rem" }}>
+              {DOCS.map((d) => (
+                <label key={d.key} style={{ display: "flex", gap: "0.55rem", alignItems: "center", minHeight: "2.2rem", fontSize: "0.9rem", cursor: "pointer" }}>
+                  <input type="checkbox" data-optional="true" checked={docs.includes(d.key)}
+                    onChange={() => setDocs((p) => (p.includes(d.key) ? p.filter((x) => x !== d.key) : [...p, d.key]))}
+                    style={{ width: "1.05rem", height: "1.05rem", accentColor: "var(--primary)" }} />
+                  {d.label}
+                </label>
+              ))}
+            </div>
+            {docs.includes("other") && (
+              <div style={{ marginTop: "0.6rem" }}>
+                <label htmlFor="ns-docnotes" style={labelStyle}>Which other document?</label>
+                <input id="ns-docnotes" required type="text" value={docNotes} onChange={(e) => setDocNotes(e.target.value)} maxLength={300} style={inputStyle} />
+              </div>
+            )}
+            <p style={{ margin: "0.6rem 0 0", fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+              {docQuote
+                ? docQuote.mode === "full-set"
+                  ? `Full set: ${formatCents(docQuote.totalCents)} + GST.${docQuote.count > 0 && !docs.includes("full-set") ? " That many single documents cost as much as the full set, so you get the full set." : ""}`
+                  : `${docQuote.count} document${docQuote.count === 1 ? "" : "s"}: ${formatCents(docQuote.totalCents)} + GST.`
+                : "Tick the documents you need, or the full set."}
+            </p>
+          </fieldset>
+        )}
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(13rem, 1fr))", gap: "0.9rem" }}>
           <div>

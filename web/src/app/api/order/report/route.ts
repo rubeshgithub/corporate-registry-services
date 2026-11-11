@@ -53,7 +53,8 @@ function isValid(body: Body): string | null {
   if (!body?.hit?.name)                     return "Missing company selection.";
   if (!body?.contact?.name?.trim())         return "Missing contact name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body?.contact?.email ?? "")) return "Invalid email.";
-  if (!body?.contact?.phone?.trim())        return "Missing phone number.";
+  /* Phone is optional here (Nov 10 2026): the profile page's unlock form asks only where to send the report.
+     The other forms that post here still require it themselves. */
   return null;
 }
 
@@ -122,7 +123,7 @@ export async function POST(req: Request) {
         registry_status: body.hit.status.slice(0, 20),
         incorp_date:     (body.hit.registrationDate || "").slice(0, 20),
         contact_name:    body.contact.name.slice(0, 200),
-        contact_phone:   body.contact.phone.slice(0, 40),
+        contact_phone:   (body.contact.phone ?? "").slice(0, 40),
       },
       success_url: `${origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${origin}/order/${config.key}?jurisdiction=${encodeURIComponent(body.hit.provinceKey)}&src=${encodeURIComponent(body.src)}`,

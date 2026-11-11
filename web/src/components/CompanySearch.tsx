@@ -159,6 +159,15 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
     return `/order/${service}?${params.toString()}`;
   }
 
+  /** The company profile page (free snapshot + locked profile report). `src` is not a query the page reads. */
+  function profileHref(r: Result) {
+    const params = new URLSearchParams();
+    if (r.provinceKey) params.set("p",  r.provinceKey);
+    if (r.registryId)  params.set("id", r.registryId);
+    if (r.name)        params.set("n",  r.name);
+    return `/company?${params.toString()}`;
+  }
+
   /** Same deep-link contract, but for any absolute checkout path. */
   function pathHref(path: string, r: Result) {
     const params = new URLSearchParams();
@@ -496,246 +505,32 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
       {/* Results */}
       {!loading && !error && searched && results.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          {/* Owner, Nov 10 2026 (Flow A): a plain card — name and jurisdiction — with ONE action. The snapshot,
+              the locked profile report and every other service live on /company, after the visitor has confirmed
+              it is the right corporation. The card used to carry the whole service menu. */}
           {results.map((r, i) => (
             <div
               key={i}
               style={{
-                background: "var(--card)",
-                border: "1px solid var(--border)",
-                borderLeft: `3px solid ${r.status === "Active" ? "var(--secondary)" : "var(--border)"}`,
-                borderRadius: "var(--radius-card)",
-                padding: "1.5rem 1.6rem",
-                boxShadow: "var(--shadow-card)",
+                background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-card)",
+                padding: "1.1rem 1.4rem", boxShadow: "var(--shadow-card)",
+                display: "flex", flexWrap: "wrap", gap: "1rem", alignItems: "center", justifyContent: "space-between",
               }}
             >
-              {/* Company name + status badge */}
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
-                <span
-                  className="card-heading"
-                  style={{
-                    fontSize: "1.1rem",
-                    color: "var(--primary)",
-                  }}
-                >
-                  {r.name}
-                </span>
-                <span
-                  style={{
-                    fontSize: "0.68rem", fontWeight: 600, padding: "0.15rem 0.5rem",
-                    borderRadius: "9999px", fontFamily: "var(--font-mono), monospace",
-                    background: r.status === "Active" ? "rgba(42,125,143,0.1)" : "rgba(0,0,0,0.05)",
-                    color: r.status === "Active" ? "var(--secondary)" : "var(--text-muted)",
-                    border: `1px solid ${r.status === "Active" ? "var(--secondary)" : "var(--border)"}`,
-                  }}
-                >
-                  {r.status}
-                </span>
+              <div style={{ flex: "1 1 18rem", minWidth: 0 }}>
+                <div className="card-heading" style={{ fontSize: "1.1rem", color: "var(--primary)", overflowWrap: "anywhere" }}>{r.name}</div>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{r.jurisdiction}</div>
               </div>
-
-              {/* Meta pills — Registry ID / Type / Jurisdiction */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "0.85rem" }}>
-                <MetaPill label="Registry ID"  value={r.registryId}   tone="teal" />
-                <MetaPill label="Type"         value={r.entityType}   tone="gold" />
-                <MetaPill label="Jurisdiction" value={r.jurisdiction} tone="navy" />
-              </div>
-
-              {/* Remaining details (long-form) */}
-              <div
+              <a
+                href={profileHref(r)}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                  gap: "0.25rem 2rem",
-                  marginBottom: "1rem",
+                  display: "inline-flex", alignItems: "center", gap: "0.45rem", minHeight: "2.75rem", padding: "0 1.2rem",
+                  borderRadius: "0.6rem", background: "var(--gold)", color: "var(--primary)",
+                  fontSize: "0.95rem", fontWeight: 700, textDecoration: "none",
                 }}
               >
-                <Field label="Business Number (BN)" value={r.businessNumber   || "—"} />
-                <Field label="Registered Office"    value={r.location         || "—"} />
-                <Field label="Created"              value={r.registrationDate || "—"} />
-                <Field label="Status Notes"         value={r.statusNotes      || "—"} />
-              </div>
-
-              {/* Alberta-only: link to the enriched profile page with full history + live status.
-                  First click in a session opens an email gate; subsequent clicks pass through. */}
-              {r.provinceKey === "ab" && r.registryId && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    const href = `/corporation/${r.registryId}`;
-                    if (isProfileUnlocked()) {
-                      window.open(href, "_blank", "noreferrer");
-                      return;
-                    }
-                    setGateFor({
-                      company: {
-                        name:         r.name,
-                        registryId:   r.registryId,
-                        provinceKey:  r.provinceKey,
-                        jurisdiction: r.jurisdiction,
-                      },
-                      href,
-                    });
-                  }}
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: "0.35rem",
-                    marginBottom: "0.75rem",
-                    padding: "0.5rem 0.85rem",
-                    background: "rgba(42,125,143,0.08)",
-                    color: "var(--secondary)",
-                    border: "1px solid var(--secondary)",
-                    borderRadius: "0.4rem",
-                    fontSize: "0.8rem", fontWeight: 600,
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  ✨ View full profile · timeline + live status →
-                </button>
-              )}
-
-              {/* Services — always visible. Previously hidden behind an
-                  "Order a service" toggle, which buried the whole catalogue
-                  one click deep on the page where intent is highest: the
-                  visitor has just found their corporation. Every tile goes
-                  straight to a checkout; nothing here raises a quote. */}
-              <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.85rem" }}>
-                <div style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono), monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "0.6rem" }}>
-                  Order for this corporation
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(232px, 1fr))", gap: "0.5rem" }}>
-                  {primaryServices(r).map((s) => (
-                    <a
-                      key={s.key}
-                      href={s.href}
-                      style={{
-                        display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.6rem",
-                        padding: "0.65rem 0.85rem",
-                        border: "1px solid var(--border)",
-                        background: "var(--card)",
-                        borderRadius: "0.5rem",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <span style={{ minWidth: 0 }}>
-                        <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)", lineHeight: 1.3 }}>
-                          {s.label}
-                        </span>
-                        <span style={{ display: "block", fontSize: "0.68rem", color: "var(--text-muted)", lineHeight: 1.4, marginTop: "0.12rem" }}>
-                          {s.sub}
-                        </span>
-                        <span style={{ display: "block", fontSize: "0.72rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace", marginTop: "0.2rem" }}>
-                          {s.price} all-in + GST
-                        </span>
-                      </span>
-                      <ArrowRight size={13} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.15rem" }} />
-                    </a>
-                  ))}
-                </div>
-
-                <div style={{ marginTop: "0.75rem" }}>
-                  <SnapshotCapture
-                    registryId={r.registryId}
-                    provinceKey={r.provinceKey}
-                    name={r.name}
-                    src="corp-search"
-                  />
-                </div>
-
-                {/* Professional corporations get a route to the dedicated PC
-                    surface, where change-of-information and revival are also
-                    priced at PC rates. */}
-                {isProfessionalCorporation(r) && (
-                  <a
-                    href={`/order/professional-corporation?q=${encodeURIComponent(r.name)}&jurisdiction=${encodeURIComponent(r.provinceKey)}${r.registryId ? `&registryId=${encodeURIComponent(r.registryId)}` : ""}&src=registry-search`}
-                    style={{
-                      display: "flex", alignItems: "center", justifyContent: "space-between",
-                      marginTop: "0.5rem",
-                      padding: "0.6rem 0.85rem",
-                      border: "1px solid var(--gold)",
-                      background: "var(--gold-dim)",
-                      borderRadius: "0.5rem",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <span>
-                      <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
-                        All professional corporation services
-                      </span>
-                      <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
-                        Changes {priceOf("pc-change-of-information", 16900)} · Revival {priceOf("pc-revival", 48900)}
-                      </span>
-                    </span>
-                    <ArrowRight size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
-                  </a>
-                )}
-
-                {/* Something else — expands to the rest of the priced
-                    catalogue rather than a quote form. */}
-                <button
-                  onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
-                  style={{
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    width: "100%",
-                    marginTop: "0.5rem",
-                    padding: "0.6rem 0.85rem",
-                    border: "1.5px dashed var(--border)",
-                    background: "transparent",
-                    borderRadius: "0.5rem",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
-                  <span>
-                    <span style={{ display: "block", fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
-                      Something else
-                    </span>
-                    <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
-                      {expandedIdx === i ? "Hide" : `${otherServices.length} more services, priced`}
-                    </span>
-                  </span>
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      color: "var(--text-muted)", flexShrink: 0,
-                      transform: expandedIdx === i ? "rotate(180deg)" : "none",
-                      transition: "transform 150ms ease",
-                    }}
-                  />
-                </button>
-
-                {expandedIdx === i && (
-                  <div style={{ marginTop: "0.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(232px, 1fr))", gap: "0.5rem" }}>
-                    {otherServices.map((s) => {
-                      const path = checkoutPathFor(s);
-                      if (!path) return null;
-                      return (
-                        <a
-                          key={s.key}
-                          href={pathHref(path, r)}
-                          style={{
-                            display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.6rem",
-                            padding: "0.6rem 0.85rem",
-                            border: "1px solid var(--border)",
-                            background: "var(--bg)",
-                            borderRadius: "0.5rem",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <span style={{ minWidth: 0 }}>
-                            <span style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--text)", lineHeight: 1.3 }}>
-                              {s.label}
-                            </span>
-                            <span style={{ display: "block", fontSize: "0.7rem", color: "var(--gold)", fontFamily: "var(--font-mono), monospace", marginTop: "0.15rem" }}>
-                              {priceOf(s.key, s.priceCents ?? 0)}{s.estimatedFee.includes("/year") ? "/year" : ""} all-in + GST
-                            </span>
-                          </span>
-                          <ArrowRight size={12} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "0.2rem" }} />
-                        </a>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+                View profile <ArrowRight size={16} />
+              </a>
             </div>
           ))}
         </div>
