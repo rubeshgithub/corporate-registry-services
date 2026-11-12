@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import ProfileEmailGate, { isProfileUnlocked, type GateCompany } from "./ProfileEmailGate";
 import { isProfessionalCorporation, PRO_CORP_SERVICES } from "@/lib/professional-corp";
 import { existingCorpServices, checkoutPathFor } from "@/lib/service-config";
+import { trackClick } from "@/lib/track-click";
 
 const WizardModal = dynamic(() => import("./WizardModal"), { ssr: false });
 
@@ -523,6 +524,8 @@ export default function CompanySearch({ prices }: { prices?: Record<string, numb
               </div>
               <a
                 href={profileHref(r)}
+                /* Which result was opened, by its place in the list (docu10's profile-flow funnel). Codes only. */
+                onClick={() => trackClick("view-profile", `${i + 1}|${r.provinceKey}|${r.registryId}`)}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "0.45rem", minHeight: "2.75rem", padding: "0 1.2rem",
                   borderRadius: "0.6rem", background: "var(--gold)", color: "var(--primary)",

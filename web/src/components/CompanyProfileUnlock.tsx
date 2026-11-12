@@ -6,6 +6,7 @@ import { formatCents } from "@/lib/price-catalogue";
 import { useOrderDraftBeacon } from "@/components/useOrderDraftBeacon";
 import TermsAgreement from "@/components/order/TermsAgreement";
 import PayGate from "@/components/order/PayGate";
+import { trackClick } from "@/lib/track-click";
 
 /**
  * The locked Corporate Profile Report on /company (owner, Nov 10 2026 — Flow A).
@@ -127,7 +128,7 @@ export default function CompanyProfileUnlock({
               {price && <div style={{ fontSize: "1.35rem", fontWeight: 700 }}>{price}</div>}
               <button
                 type="button"
-                onClick={() => setOpen(true)}
+                onClick={() => { trackClick("unlock-report", `${hit.provinceKey}|${hit.registryId}`); setOpen(true); }}
                 style={{
                   height: "3rem", border: 0, borderRadius: "0.6rem", background: "var(--gold)", color: "var(--primary)",
                   fontSize: "1rem", fontWeight: 700, cursor: "pointer",

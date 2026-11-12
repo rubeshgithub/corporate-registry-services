@@ -201,5 +201,8 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   Copy says emailed within a few business hours and a full refund if the report cannot be retrieved.
 - The unlock panel sends an order draft with the company as soon as the profile opens, so docu10's funnel still counts the
   visit as "picked". `CompanySearch.tsx` keeps its old service-menu helpers (unused now) in case the card comes back.
+- Clicks (Nov 12 2026, `trackClick`): "view-profile" on a result card, label `<position in the list>|<province>|<registry id>`,
+  and "unlock-report" on the lock card, label `<province>|<registry id>`. docu10's Searches -> orders page reads both
+  for its "Company profile flow". No Teams alert for either (owner).
 - Only the search page changed. Article and service pages keep `InlineLookupOrder`; an annual-return page still goes straight
   to "File annual return".
