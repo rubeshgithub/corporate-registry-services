@@ -128,6 +128,24 @@ const CUSTOM_ISLANDS: Record<
       titleOverride="Search Canadian business registries"
       subOverride="Search by company name, corporation number, or Business Number across every registry we cover — and order the official profile report if you need the record." />
   ),
+  /* BN-lookup article (queued 2026-11-12): the search handles Business
+     Numbers natively (9 digits, with or without an RT/RC/RP suffix), which
+     is the whole draw — a BN searcher gets an answer, not an explainer. */
+  "articles/business-number-lookup-canada": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Business number lookup"
+      titleOverride="Look up a Canadian business number"
+      subOverride="Enter a 9-digit Business Number — with or without the RT0001/RC0001 suffix — or search by company name to find a corporation's BN in its registry record." />
+  ),
+  /* Alberta society directory article (queued 2026-11-12): scoped to AB so
+     the monthly non-profit list (crs.nonprofits) merges into every search —
+     the one index where these 70k societies actually exist. */
+  "articles/alberta-society-search": ({ slug, prices }) => (
+    <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey="ab" priceCents={prices["profile-report"]}
+      srcTag={`inline-article-${slug}`} eyebrowOverride="Alberta society search"
+      titleOverride="Search Alberta societies & non-profits"
+      subOverride="Look up any of Alberta's 70,000+ registered societies and non-profit organizations by name — free — and order registry documents if you need the record." />
+  ),
   "guides/corporate-search-for-due-diligence": ({ slug, prices }) => (
     <InlineLookupOrder thirdParty prices={prices} service="profile-report" provinceKey={null} priceCents={prices["profile-report"]}
       srcTag={`inline-guide-${slug}`} eyebrowOverride="Corporation search"
