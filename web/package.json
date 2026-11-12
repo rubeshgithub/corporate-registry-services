@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.1065.0",
+    "exceljs": "^4.4.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.17.0",
     "mongodb": "^7.4.0",

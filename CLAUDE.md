@@ -206,3 +206,19 @@ grep -rn "\$[0-9]" content/ | grep -v 99    # find price mentions to check again
   for its "Company profile flow". No Teams alert for either (owner).
 - Only the search page changed. Article and service pages keep `InlineLookupOrder`; an annual-return page still goes straight
   to "File annual return".
+
+## Alberta non-profit directory in search (Nov 2026)
+
+- Owner, Nov 12 2026 ("searching for a society shows no data"): CBR carries only ABCA corporations and the gazette corpus only
+  the ~18k societies with a gazette event, so most of Alberta's societies were invisible to search. The complete monthly
+  "Non Profit Name list" export from Alberta's Open Data Portal (~70k rows: Alberta/Religious/Agricultural Societies,
+  non-profit companies, XP NPOs) now loads into `crs.nonprofits` (`lib/nonprofits-mongo.ts`) via /admin/nonprofits —
+  drag-and-drop the xlsx (or csv). The load is run-tagged: rows upsert under the new run id and older runs are deleted only
+  after the whole file lands, so a truncated upload never wipes the live directory; a file under 1,000 rows is refused.
+- `searchLocalABNonprofits` (company-search-core.ts) merges these rows into every ab/all search after CBR + gazette results,
+  deduped against them by normalized name (`appendByName` — the export carries NO corporate access numbers, so id-based dedup
+  can't catch an overlap). Directory rows ship `registryId: ""`; order flows already treat number-less hits as unverified
+  (the Nov 2026 NoSearchOrderForm pattern) and staff confirm by name at fulfilment. Society annual returns are still NOT a
+  CRS service (filed directly with Corporate Registry) — society-facing widgets sell profile-report, never annual-return.
+- Monthly routine: alberta.ca non-profit listing dashboard → download the name-list export → drop on /admin/nonprofits.
+  Search picks it up immediately; no deploy.

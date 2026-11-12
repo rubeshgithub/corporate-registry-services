@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { companies } from "@/lib/registrar-mongo";
+import { nonprofits, normalizeNonprofitName } from "@/lib/nonprofits-mongo";
 import { NO_LIVE_SEARCH, MANUAL_REGISTRY_NAME } from "@/lib/pei-budget";
 
 // ── OrgBook (BC) ────────────────────────────────────────────────────────────
@@ -449,6 +450,92 @@ async function searchLocalAB(q: string, status: StatusFilter, limit = 20): Promi
   return rows.slice(0, limit);
 }
 
+// ── Alberta non-profit directory (monthly open-data list) ──────────────────
+//
+// The complete register of Alberta societies and non-profits (~70k rows:
+// Alberta/Religious/Agricultural Societies, non-profit companies, XP NPOs)
+// from the monthly Open Data Portal export, loaded via /admin/nonprofits
+// into `crs.nonprofits`. Neither CBR (ABCA corps only) nor the gazette
+// corpus (event-driven, ~18k societies) covers most of these — before this
+// source, a society searching its own name was told it doesn't exist.
+//
+// The export carries NO corporate access numbers, so rows surface with an
+// empty registryId; the order flows already handle unverified hits (the
+// Nov 2026 NoSearchOrderForm pattern), and the operator confirms the
+// organization by name when fulfilling.
+
+const NP_ACTIVE_STATUSES = new Set([
+  "Active", "Start", "Pending Revival/Restoration", "Temporary Restore",
+  "Active, Limited Time, Court Order",
+]);
+
+async function searchLocalABNonprofits(q: string, status: StatusFilter, limit = 10): Promise<ResultShape[]> {
+  if (/^\d+$/.test(q.trim())) return [];          // the list has no numbers to match
+  const norm = normalizeNonprofitName(q);
+  if (norm.length < 3) return [];
+
+  const col = await nonprofits();
+  const projection = { name: 1, entityType: 1, status: 1, registrationDate: 1, city: 1 } as const;
+  const found = new Map<string, Record<string, unknown>>();
+
+  const prefix = await col.find(
+    { nameNorm: { $regex: `^${escRegex(norm)}` } },
+    { projection },
+  ).limit(limit).toArray();
+  for (const h of prefix) found.set(String(h._id), h);
+
+  if (found.size < limit) {
+    try {
+      const textHits = await col.find(
+        { $text: { $search: q } },
+        { projection: { ...projection, score: { $meta: "textScore" } } },
+      )
+        .sort({ score: { $meta: "textScore" } })
+        .limit(limit)
+        .toArray();
+      for (const h of textHits) if (!found.has(String(h._id))) found.set(String(h._id), h);
+    } catch {
+      /* text index not built yet — prefix hits stand alone */
+    }
+  }
+
+  const rows: ResultShape[] = [];
+  for (const doc of found.values()) {
+    const d = doc as { name?: string; entityType?: string; status?: string; registrationDate?: string; city?: string };
+    const raw = d.status ?? "";
+    const statusState = NP_ACTIVE_STATUSES.has(raw) ? "Active" : "Inactive";
+    if (!matchesStatus(statusState, raw, status)) continue;
+    rows.push({
+      name:             d.name ?? "Unknown",
+      businessNumber:   "",
+      registryId:       "",                        // the open-data list carries no access numbers
+      location:         d.city ?? "",
+      status:           statusState,
+      statusNotes:      raw,
+      entityType:       d.entityType ?? "",
+      registrationDate: d.registrationDate ?? "",
+      jurisdiction:     "Alberta",
+      provinceKey:      "ab",
+    });
+  }
+  return rows.slice(0, limit);
+}
+
+/** Append directory rows that aren't already present under the same
+ *  (normalized) name — directory rows have no registryId, so the id-based
+ *  dedup in mergeResults can't catch a society the gazette corpus or CBR
+ *  already returned. */
+function appendByName(merged: ResultShape[], extra: ResultShape[], cap: number): ResultShape[] {
+  const seen = new Set(merged.map((r) => normalizeNonprofitName(r.name)));
+  const out = [...merged];
+  for (const e of extra) {
+    if (seen.has(normalizeNonprofitName(e.name))) continue;
+    out.push(e);
+    if (out.length >= cap) break;
+  }
+  return out;
+}
+
 /**
  * Keep only the rows that actually contain the number the visitor typed.
  *
@@ -589,16 +676,21 @@ export async function searchCompanies(request: Request) {
        surface. Runs in parallel with the CBR fetch (~50-150ms Atlas).
        CBR has no PEI records and PEI's own API is not queried (see above). */
     const includeLocalAB = searchProvince === "ab" || searchProvince === "all";
-    const [cbrResp, localAB] = await Promise.all([
+    const [cbrResp, localAB, localNp] = await Promise.all([
       searchCBR(q, status, cbrCode),
       includeLocalAB ? searchLocalAB(q, status, 12).catch((e) => {
         console.warn("[CRS] local AB search failed (non-fatal):", e);
         return [] as ResultShape[];
       }) : Promise.resolve([] as ResultShape[]),
+      includeLocalAB ? searchLocalABNonprofits(q, status, 10).catch((e) => {
+        console.warn("[CRS] AB non-profit search failed (non-fatal):", e);
+        return [] as ResultShape[];
+      }) : Promise.resolve([] as ResultShape[]),
     ]);
 
     const hasLocalAB = includeLocalAB && localAB.length > 0;
-    if (!hasLocalAB) {
+    const hasLocalNp = includeLocalAB && localNp.length > 0;
+    if (!hasLocalAB && !hasLocalNp) {
       const ranked = preferNumberMatches(q, cbrResp.results);
       /* Widened off a no-index jurisdiction, the query named a specific
          corporation by number, and nothing carries that number: these rows
@@ -617,18 +709,23 @@ export async function searchCompanies(request: Request) {
 
     let merged = cbrResp.results;
     if (hasLocalAB) merged = mergeResults(merged, localAB, 20);
+    /* Directory rows last: CBR + gazette rows carry registry numbers (orders
+       can verify), directory rows are name-only — and appendByName drops a
+       directory row the richer sources already returned. */
+    if (hasLocalNp) merged = appendByName(merged, localNp, 24);
     const rankedMerged = preferNumberMatches(q, merged);
     merged = (noLiveIndex && rankedMerged.hadNumber && !rankedMerged.matchedNumber) ? [] : rankedMerged.rows;
 
     const sourceParts: string[] = ["cbr"];
     if (hasLocalAB) sourceParts.push("gazette");
+    if (hasLocalNp) sourceParts.push("ab-nonprofits");
 
     return respond({
       ...cbrResp,
       results:      merged,
       total:        merged.length,
       source:       sourceParts.join("+"),
-      localMatches: hasLocalAB ? localAB.length : undefined,
+      localMatches: hasLocalAB || hasLocalNp ? localAB.length + localNp.length : undefined,
       ...noLiveExtras,
     });
   } catch (err) {
