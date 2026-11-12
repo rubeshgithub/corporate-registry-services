@@ -1,0 +1,46 @@
+---
+title: "Outlook Outage: What It Means for Your Corporation's Filings"
+h1: "Outlook is down today. Here is what it means for your corporation's filings"
+slug: "microsoft-outlook-outage-corporate-filings"
+section: "articles"
+date: "2026-11-12"
+description: "Microsoft's Outlook outage on November 12, 2026: how it affects registry confirmations, annual return deadlines and reminders for Canadian corporations."
+faq:
+  - q: "Did my annual return go through if the confirmation email never arrived?"
+    a: "If the registry or your agent showed the filing as submitted, it went through. The confirmation is delayed in your mailbox. Check the registry's record or the junk folder once mail is back rather than filing a second time."
+  - q: "Does the Outlook outage extend my filing deadline?"
+    a: "No. Registry deadlines are fixed. File through the registry or your agent on time and keep your own copy of the receipt."
+  - q: "How do I check my corporation's status without email?"
+    a: "Use a free corporation search on the registry's own site or on ours. It shows the current status and, for most registries, whether an annual return is outstanding."
+---
+
+Microsoft confirmed on the afternoon of Thursday, November 12, 2026 that users across North America cannot reach Outlook and Exchange Online mailboxes, with Teams affected as well. More than 120,000 people had reported problems to Downdetector by 1:30 p.m. Eastern. Microsoft says a portion of its infrastructure is under elevated load across several regions and that it is redistributing traffic. It has not said what caused the outage or when it will be fixed.
+
+If your business runs on Microsoft 365, this touches your corporate paperwork in four ways.
+
+## 1. Registry confirmations arrive by email
+
+Corporations Canada, the Ontario Business Registry, BC Registries and provincial registry agents all send filing confirmations, certificates and receipts by email. A filing made today went through; the proof is simply stuck in a mailbox you cannot open. Do not file twice. Wait for the mailbox to recover, then check the junk folder, because delayed mail often lands there.
+
+## 2. Deadlines do not move
+
+An annual return is due on the date the registry set, outage or not. Federal corporations have 60 days from the anniversary of incorporation; provincial deadlines vary by province. If your return is due this week, file it through the registry or your agent now and keep your own copy of the receipt rather than relying on the email. Our guide to [annual returns across Canada](/annual-return) lists each registry's deadline.
+
+## 3. Reminders you never see
+
+Many annual-return reminders and notices of intent to dissolve come only by email. If you have been waiting on one, look up your corporation's status directly with a free [corporation search](/canada-corporations-search) instead of waiting for a message that may be sitting in a queue.
+
+## 4. Documents that live only in your inbox
+
+If your certificate of incorporation, articles or last profile report exist only as email attachments, today is the reminder to keep them in your minute book and in a second place. A fresh [copy of your corporate documents](/order/corporate-documents) can be ordered from the registry if the originals are lost.
+
+## What to do today
+
+- Check Microsoft's service status page before assuming a filing failed.
+- Use a backup address, or the phone, for anything urgent with your registry agent.
+- Keep a non-Microsoft contact address on your registry record so a notice can always reach you.
+- Once mail returns, search for messages from your registry and your agent before acting on anything.
+
+Our own support mailbox runs on Microsoft 365 too. If you emailed us this afternoon and heard nothing back, call us; orders placed through the website were not affected and are being processed as usual.
+
+*Facts about the outage are as reported by Microsoft and news outlets on November 12, 2026, and may change as Microsoft updates its status page.*
