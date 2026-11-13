@@ -1,18 +1,27 @@
 {
- "generated_at": "2026-11-12T17:42:21.829544Z",
+ "generated_at": "2026-11-13T17:19:37.299278Z",
  "window": {
-  "start": "2026-10-14",
-  "end": "2026-11-10"
+  "start": "2026-10-15",
+  "end": "2026-11-11"
  },
  "filter": "impressions >= 5, position in [15, 60], no URL semantic match",
- "count": 46,
+ "count": 45,
  "opportunities": [
   {
-   "query": "british columbia corporate search",
-   "impressions": 64,
-   "position": 18.0,
+   "query": "canada business database",
+   "impressions": 112,
+   "position": 18.1,
    "clicks": 0,
-   "score": 44.82,
+   "score": 78.3,
+   "suggested_slug": "canada-business-database",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "british columbia corporate search",
+   "impressions": 62,
+   "position": 17.7,
+   "clicks": 0,
+   "score": 43.68,
    "suggested_slug": "british-columbia-corporate-search",
    "suggested_section": "articles"
   },
@@ -27,46 +36,46 @@
   },
   {
    "query": "canada business directory",
-   "impressions": 75,
-   "position": 36.8,
-   "clicks": 1,
-   "score": 28.98,
+   "impressions": 72,
+   "position": 36.4,
+   "clicks": 0,
+   "score": 28.32,
    "suggested_slug": "canada-business-directory",
    "suggested_section": "articles"
   },
   {
    "query": "business incorporation nova scotia",
-   "impressions": 35,
+   "impressions": 34,
    "position": 15.1,
    "clicks": 0,
-   "score": 26.18,
+   "score": 25.45,
    "suggested_slug": "business-incorporation-nova-scotia",
    "suggested_section": "incorporation"
   },
   {
    "query": "annual report",
-   "impressions": 40,
-   "position": 21.6,
+   "impressions": 39,
+   "position": 21.7,
    "clicks": 0,
-   "score": 25.63,
+   "score": 24.9,
    "suggested_slug": "annual-report",
    "suggested_section": "articles"
   },
   {
    "query": "annual report filing",
-   "impressions": 38,
+   "impressions": 37,
    "position": 20.8,
    "clicks": 0,
-   "score": 24.85,
+   "score": 24.18,
    "suggested_slug": "annual-report-filing",
    "suggested_section": "articles"
   },
   {
    "query": "ontario corporation search",
-   "impressions": 30,
-   "position": 16.4,
+   "impressions": 26,
+   "position": 15.0,
    "clicks": 1,
-   "score": 21.82,
+   "score": 19.48,
    "suggested_slug": "ontario-corporation-search",
    "suggested_section": "articles"
   },
@@ -81,28 +90,28 @@
   },
   {
    "query": "business registration report",
-   "impressions": 23,
-   "position": 22.7,
+   "impressions": 22,
+   "position": 22.5,
    "clicks": 0,
-   "score": 14.3,
+   "score": 13.75,
    "suggested_slug": "business-registration-report",
    "suggested_section": "articles"
   },
   {
    "query": "annual return calgary",
-   "impressions": 32,
-   "position": 34.8,
+   "impressions": 31,
+   "position": 34.5,
    "clicks": 0,
-   "score": 13.42,
+   "score": 13.17,
    "suggested_slug": "annual-return-calgary",
    "suggested_section": "articles"
   },
   {
    "query": "alberta corporate registry filing",
-   "impressions": 18,
-   "position": 19.2,
+   "impressions": 17,
+   "position": 19.1,
    "clicks": 0,
-   "score": 12.25,
+   "score": 11.6,
    "suggested_slug": "alberta-corporate-registry-filing",
    "suggested_section": "articles"
   },
@@ -188,21 +197,21 @@
    "suggested_section": "incorporation"
   },
   {
-   "query": "federal corporation search",
-   "impressions": 12,
-   "position": 25.7,
-   "clicks": 1,
-   "score": 6.87,
-   "suggested_slug": "federal-corporation-search",
-   "suggested_section": "articles"
-  },
-  {
    "query": "business registration nova scotia",
    "impressions": 12,
    "position": 26.9,
    "clicks": 0,
    "score": 6.62,
    "suggested_slug": "business-registration-nova-scotia",
+   "suggested_section": "articles"
+  },
+  {
+   "query": "federal corporation search",
+   "impressions": 11,
+   "position": 25.4,
+   "clicks": 1,
+   "score": 6.35,
+   "suggested_slug": "federal-corporation-search",
    "suggested_section": "articles"
   },
   {
@@ -233,15 +242,6 @@
    "suggested_section": "articles"
   },
   {
-   "query": "business name search windsor",
-   "impressions": 12,
-   "position": 36.1,
-   "clicks": 0,
-   "score": 4.78,
-   "suggested_slug": "business-name-search-windsor",
-   "suggested_section": "articles"
-  },
-  {
    "query": "bc non profit",
    "impressions": 9,
    "position": 29.2,
@@ -260,21 +260,21 @@
    "suggested_section": "articles"
   },
   {
+   "query": "business name search windsor",
+   "impressions": 11,
+   "position": 35.2,
+   "clicks": 0,
+   "score": 4.55,
+   "suggested_slug": "business-name-search-windsor",
+   "suggested_section": "articles"
+  },
+  {
    "query": "alberta business registration search",
    "impressions": 7,
    "position": 22.4,
    "clicks": 0,
    "score": 4.38,
    "suggested_slug": "alberta-business-registration-search",
-   "suggested_section": "articles"
-  },
-  {
-   "query": "annual report services",
-   "impressions": 6,
-   "position": 17.3,
-   "clicks": 0,
-   "score": 4.27,
-   "suggested_slug": "annual-report-services",
    "suggested_section": "articles"
   }
  ]
